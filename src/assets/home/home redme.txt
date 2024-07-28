@@ -1,0 +1,33 @@
+(Stroke 000000 100% )
+
+color
+chimney-front D4DED8
+chimney-side-part D4DED8
+front-window-2a 919191
+frontwindow2b 000000
+front-window-2c 919191
+front-window-a 919191
+front-window-b 000000
+front-window-c 919191
+gate 000000
+roof-top 40B5A8
+roof-window-a 919191
+roof-window-b 000000
+roof-window-c 919191
+roof 40B5A8
+side window 1a D4DED8
+side window 1b 000000
+side window 1c D4DED8
+side window 2a D4DED8
+side window 2b 000000
+side window 2c D4DED8
+side window 3a D4DED8
+side window 3b 000000
+side window 3c D4DED8
+wall-1 D4DED8
+wall-2 D4DED8
+
+
+
+
+
