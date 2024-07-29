@@ -18,10 +18,10 @@ import { useEffect, useState } from "react";
     <div className="h-full">
       <div className="flex w-screen h-screen justify-center items-center">
         <div
-          className={`mx-8 w-full md:w-2/3 lg:w-full transition-all duration-1000 ease-in-out ${
+          className={`mx-8 w-full text-center md:w-2/3 lg:w-full duration-[2s] ease-in-out ${
             isScrolled
-              ? "sm:text-left opacity-100"
-              : "text-center opacity-100"
+              ? "-translate-x-[35%] opacity-100"
+              : " opacity-100"
           }`}
         >
           <h1 className="text-white sm:text-4xl text-2xl font-semibold mb-4">
@@ -31,7 +31,7 @@ import { useEffect, useState } from "react";
             NO BROKERAGE ON PGS | FLATS | HOUSES | OFFICES
           </h6>
           <div
-            className={`relative w-1/2 h-7 mt-5 max-w-md ${
+            className={`w-1/2 flex h-7 mt-5 max-w-md ${
               isScrolled
                 ? "opacity-100 transition-opacity duration-1000"
                 : "opacity-0 transition-opacity duration-1000"
@@ -44,7 +44,7 @@ import { useEffect, useState } from "react";
               aria-label="Search PG, Flats and Houses"
             />
             <button
-              className="absolute right-0 px-5 py-1 bg-teal-600 text-white rounded-r"
+              className="right-0 px-5 py-1 bg-teal-600 text-white rounded-r"
               onClick={() => console.log("connect")}
             >
               Search
