@@ -33,7 +33,7 @@ import { useEffect, useState } from "react";
           <div
             className={`w-1/2 flex justify-center h-7 mt-5 max-w-md ${
               isScrolled
-                ? "opacity-100 translate-x-[160%] transition-opacity duration-1000"
+                ? "opacity-100 md:translate-x-[160%] transition-opacity duration-1000"
                 : "opacity-0 flex justify-center transition-opacity duration-1000"
             }`}
           >
