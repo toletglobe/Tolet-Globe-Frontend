@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
     <div className="h-full">
       <div className="flex w-screen h-screen justify-center items-center">
         <div
-          className={`w-full text-center md:w-2/3 lg:w-full duration-[2s] ease-in-out ${
+          className={`mx-5 w-full text-center md:w-2/3 lg:w-full duration-[2s] ease-in-out ${
             isScrolled
               ? "md:-translate-x-[34%] opacity-100"
               : " opacity-100"

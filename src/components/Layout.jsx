@@ -8,7 +8,7 @@ const Layout = () => {
       <div className="nav fixed top-0 z-50">
         <NavBar />
       </div>
-      <div className="main flex-1 pt-16 px-4">
+      <div className="main flex-1 pt-16">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/contact" element={<Contact />} />
