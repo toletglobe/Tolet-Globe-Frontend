@@ -31,7 +31,7 @@ import { useEffect, useState } from "react";
             NO BROKERAGE ON PGS | FLATS | HOUSES | OFFICES
           </h6>
           <div
-            className={`w-1/2 flex justify-center h-7 mt-5 max-w-md ${
+            className={`w-full md:w-1/2 flex justify-center h-7 mt-5 max-w-md ${
               isScrolled
                 ? "opacity-100 md:translate-x-[160%] transition-opacity duration-1000"
                 : "opacity-0 flex justify-center transition-opacity duration-1000"
