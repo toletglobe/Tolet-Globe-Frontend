@@ -20,21 +20,21 @@ import { useEffect, useState } from "react";
         <div
           className={`mx-8 w-full text-center md:w-2/3 lg:w-full duration-[2s] ease-in-out ${
             isScrolled
-              ? "-translate-x-[35%] opacity-100"
+              ? "md:-translate-x-[34%] opacity-100"
               : " opacity-100"
           }`}
         >
           <h1 className="text-white sm:text-4xl text-2xl font-semibold mb-4">
             Welcome to To-Let Globe
           </h1>
-          <h6 className={`${isScrolled ? "text-yellow-400" : "text-teal-600"} sm:text-xl text-lg font-light`}>
+          <h6 className={`${isScrolled ? "text-yellow-400 ml-7" : "text-teal-600"} sm:text-xl text-lg font-light`}>
             NO BROKERAGE ON PGS | FLATS | HOUSES | OFFICES
           </h6>
           <div
-            className={`w-1/2 flex h-7 mt-5 max-w-md ${
+            className={`w-1/2 flex justify-center h-7 mt-5 max-w-md ${
               isScrolled
-                ? "opacity-100 transition-opacity duration-1000"
-                : "opacity-0 transition-opacity duration-1000"
+                ? "opacity-100 translate-x-[160%] transition-opacity duration-1000"
+                : "opacity-0 flex justify-center transition-opacity duration-1000"
             }`}
           >
             <input
@@ -44,7 +44,7 @@ import { useEffect, useState } from "react";
               aria-label="Search PG, Flats and Houses"
             />
             <button
-              className="right-0 px-5 py-1 bg-teal-600 text-white rounded-r"
+              className="right-0 px-5 py-1 h-8 bg-teal-600 text-white rounded-r"
               onClick={() => console.log("connect")}
             >
               Search
