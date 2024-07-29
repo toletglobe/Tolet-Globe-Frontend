@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
     <div className="h-full">
       <div className="flex w-screen h-screen justify-center items-center">
         <div
-          className={`mx-8 w-full text-center md:w-2/3 lg:w-full duration-[2s] ease-in-out ${
+          className={`w-full text-center md:w-2/3 lg:w-full duration-[2s] ease-in-out ${
             isScrolled
               ? "md:-translate-x-[34%] opacity-100"
               : " opacity-100"
@@ -27,7 +27,7 @@ import { useEffect, useState } from "react";
           <h1 className="text-white sm:text-4xl text-2xl font-semibold mb-4">
             Welcome to To-Let Globe
           </h1>
-          <h6 className={`${isScrolled ? "text-yellow-400 ml-7" : "text-teal-600"} sm:text-xl text-lg font-light`}>
+          <h6 className={`${isScrolled ? "text-yellow-400 md:ml-7" : "text-teal-600"} sm:text-xl text-lg font-light`}>
             NO BROKERAGE ON PGS | FLATS | HOUSES | OFFICES
           </h6>
           <div
