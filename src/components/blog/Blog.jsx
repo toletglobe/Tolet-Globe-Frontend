@@ -52,7 +52,7 @@ const Blog = () => {
                 <img
                   src={data?.image}
                   alt="image1"
-                  className="rounded-md w-full h-60 fit"
+                  className="rounded-md w-full h-60 object-cover"
                 />
               </div>
               <div className="p-2">
