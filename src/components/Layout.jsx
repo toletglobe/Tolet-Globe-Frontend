@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { NavBar, Contact, AboutUs, Service, Blog, Property, Footer } from "./index";
+import { NavBar, Contact, AboutUs, Service, Blog, Property, Footer, LoginLayout } from "./index";
 import Landing from "./Landing";
 
 const Layout = () => {
@@ -16,6 +16,7 @@ const Layout = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/property" element={<Property />} />
+          <Route path="/login" element={<LoginLayout />} />
         </Routes>
       </div>
       <div className="footer bottom-0 mt-5">

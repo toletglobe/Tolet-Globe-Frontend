@@ -131,6 +131,19 @@ const NavBar = () => {
                 Property Listing
               </Link>
             </li>
+            <li>
+              <Link
+                to="/login"
+                className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
+                  activeLink === "login"
+                    ? "text-white bg-teal-500 rounded-xl"
+                    : ""
+                } hover:bg-orange-500 hover:rounded-xl`}
+                onClick={() => handleNavLinkClick("login")}
+              >
+                Login
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
