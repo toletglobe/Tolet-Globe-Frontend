@@ -27,9 +27,9 @@ const BlogView = () => {
       <div className="mb-4">
         <img src={blog.image} alt={blog.title} className="rounded-md w-full h-60 object-cover" />
       </div>
-      <p className="text-gray-400">{blog.date}</p>
-      <p className="mt-4">{blog.content}</p> {/* Assuming `content` is the full blog content */}
-      {/* You can include additional information like author, category, etc. */}
+      <p className="text-gray-400">{new Date(blog.date).toDateString()}</p>
+      <div className="mt-4" dangerouslySetInnerHTML={{ __html: blog.content }}></div>
+      {/* Assuming `content` contains HTML formatted string */}
     </div>
   );
 };
