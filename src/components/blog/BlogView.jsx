@@ -22,13 +22,21 @@ const BlogView = () => {
   if (!blog) return <div>Loading...</div>;
 
   return (
-    <div className="bg-black text-white p-5">
-      <h1 className="text-3xl font-semibold mb-4">{blog.title}</h1>
-      <div className="mb-4">
-        <img src={blog.image} alt={blog.title} className="rounded-md w-full h-60 object-cover" />
+    <div className="bg-black text-white px-10">
+      <div className='mb-4 md:mx-10'>
+        <h1 className="text-6xl font-bold my-5">{blog.title}</h1>
+        <div className='flex flew-row justify-between items-center my-5'>
+          <p className="text-gray-400">{new Date(blog.date).toDateString()}</p>
+          <div className='text-white'>{blog.author}</div>
+        </div>
+        <div className=" mx-2">
+          <img src={blog.image} alt={blog.title} className="rounded-md w-full h-[50vh] object-cover" />
+        </div>
+
+        <div className=''>
+          <div className="my-5 text-xl" dangerouslySetInnerHTML={{ __html: blog.content }}></div>
+        </div>
       </div>
-      <p className="text-gray-400">{new Date(blog.date).toDateString()}</p>
-      <div className="mt-4" dangerouslySetInnerHTML={{ __html: blog.content }}></div>
       {/* Assuming `content` contains HTML formatted string */}
     </div>
   );
