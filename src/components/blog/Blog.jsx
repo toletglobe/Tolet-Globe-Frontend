@@ -45,9 +45,10 @@ const Blog = () => {
             <div className="">
               <div className="w-full ">
                 <img
+                  onClick={() => handleViewBlog(data._id)}
                   src={data?.image}
                   alt="image1"
-                  className="rounded-md w-full h-60 object-cover"
+                  className="cursor-pointer rounded-md w-full h-60 object-cover"
                 />
               </div>
               <div className="p-2">
