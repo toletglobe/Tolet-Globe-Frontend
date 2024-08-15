@@ -1,56 +1,62 @@
 //Fields Components
-import Button from './fields/Button'
-import Input from './fields/Input'
-import Select from './fields/Select'
+import Button from "./fields/Button";
+import Input from "./fields/Input";
+import Select from "./fields/Select";
 
 //Navabr and Footer components
-import Footer from './footer/Footer'
-import NavBar from './navbar/NavBar'
+import Footer from "./footer/Footer";
+import NavBar from "./navbar/NavBar";
 
 //Main Component Layout
-import Layout from './Layout'
-import Admin from './Admin.jsx'
-import LoginLayout from './LoginLayout.jsx'
+import Layout from "./Layout";
+import Admin from "./Admin.jsx";
 
 //Login Component
-import Login from './Login/Login'
+import Login from "./login/Login.jsx";
+
+// register component
+import Register from "./register/Register.jsx";
+
+// forgot password component
+import ForgotPassword from "./forgotpassword/ForgotPassword.jsx";
 
 //Dashboard components
-import BlogPost from './dashboard/BlogPost'
-import Main from './dashboard/Main'
-import PropertyListing from './dashboard/PropertyListing.jsx'
-import Sidebar from './dashboard/Sidebar.jsx'
+import BlogPost from "./dashboard/BlogPost";
+import Main from "./dashboard/Main";
+import PropertyListing from "./dashboard/PropertyListing.jsx";
+import Sidebar from "./dashboard/Sidebar.jsx";
 
 //Main Home Landingpage component
-import Homepage from './landingpage/Homepage'
-import BottomBg from './landingpage/home/BottomBg'
+import Homepage from "./landingpage/Homepage";
+import BottomBg from "./landingpage/home/BottomBg";
 // import HomeDown from './landingpage/home/HomeDown'
-import HomeUp from './landingpage/home/HomeUp'
-import TopBg from './landingpage/home/TopBg'
+import HomeUp from "./landingpage/home/HomeUp";
+import TopBg from "./landingpage/home/TopBg";
 
 //Blog Components
-import Blog from './blog/Blog'
-import BlogView from './blog/BlogView.jsx'
+import Blog from "./blog/Blog";
+import BlogView from "./blog/BlogView.jsx";
 
 //Property Component
-import Property from './property/Property'
+import Property from "./property/Property";
 
 //Contact Us page component
-import Contact from './contact/Contact'
+import Contact from "./contact/Contact";
 
 //Service Component
-import Service from './service/Service'
+import Service from "./service/Service";
 
 //About us page component
-import AboutUs from './About/AboutUs'
+import AboutUs from "./About/AboutUs";
 
 export {
   Button,
   Input,
   Select,
   Login,
+  Register,
+  ForgotPassword,
   Layout,
-  LoginLayout,
   Admin,
   NavBar,
   Footer,
@@ -68,4 +74,4 @@ export {
   TopBg,
   Property,
   Service,
-}
+};
