@@ -1,32 +1,57 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Service from '../../config/config';
-import { Button } from '../index';
-import { FaLongArrowAltRight, FaRegHeart } from 'react-icons/fa';
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Service from '../../config/config'
+import { Button } from '../index'
+import { FaLongArrowAltRight, FaRegHeart } from 'react-icons/fa'
+import { MdOutlineRemoveRedEye } from 'react-icons/md'
 
 const Blog = () => {
-  const [blogs, setBlogs] = useState([]);
-  const navigate = useNavigate(); // Use useNavigate for navigation
+  const [blogs, setBlogs] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [blogsPerPage] = useState(6) // Number of blogs per page
+  const [totalBlogs, setTotalBlogs] = useState(0)
+  const navigate = useNavigate() // Use useNavigate for navigation
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const blogData = await Service.fetchblog();
-        setBlogs(blogData);
-        console.log(blogData);
+        const allBlogs = await Service.fetchblog()
+        // Sort blogs by date in descending order
+        const sortedBlogs = allBlogs.sort(
+          (a, b) => new Date(b.date) - new Date(a.date),
+        )
+        setBlogs(sortedBlogs)
+        setTotalBlogs(sortedBlogs.length) // Set the total number of blogs
       } catch (error) {
-        console.log(error);
-        throw error;
+        console.log(error)
+        throw error
       }
-    };
+    }
 
-    fetchBlog();
-  }, []);
+    fetchBlog()
+  }, [])
+
+  // Pagination logic
+  const indexOfLastBlog = currentPage * blogsPerPage
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage
+  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog)
+  const totalPages = Math.ceil(totalBlogs / blogsPerPage)
 
   const handleViewBlog = (blogId) => {
-    navigate(`/blog/${blogId}`); // Navigate to the detailed blog view page
-  };
+    navigate(`/blog/${blogId}`) // Navigate to the detailed blog view page
+  }
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1)
+    }
+  }
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1)
+    }
+  }
 
   return (
     <div className="bg-black my-5">
@@ -36,8 +61,14 @@ const Blog = () => {
       <h1 className="text-center mt-2 text-[#6CC1B6]">
         Dive into a Sea of Endless Stories and Insights
       </h1>
+      <div className="my-8 flex justify-center">
+        <div className="bg-white/20 p-3 text-white rounded-lg flex flex-row gap-5">
+          <button>Latest</button>
+          <button>Trending</button>
+        </div>
+      </div>
       <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:mx-20 mt-10 overflow-x-auto">
-        {blogs?.map((data, index) => (
+        {currentBlogs.map((data, index) => (
           <div
             key={index}
             className="text-white rounded-xl m-5 h-fit flex flex-col justify-center pb-2 border-b-4 border-stone-500 hover:border-[#6CC1B6]"
@@ -97,8 +128,35 @@ const Blog = () => {
           </div>
         ))}
       </div>
+      <div className="flex justify-center mt-5 mx-20">
+        <div className="bg-white/20 rounded-md px-2 py-1 flex justify-between gap-3">
+          <div>
+            <Button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className={`text-gray-400 hover:text-[#6CC1B6] rounded-lg px-5 `}
+            >
+              Previous
+            </Button>
+          </div>
+          <div>
+            <span className="text-white">
+              Page {currentPage} of {totalPages}
+            </span>
+          </div>
+          <div>
+            <Button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className={`text-gray-400 hover:text-[#6CC1B6] rounded-lg px-5 `}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog
