@@ -1,99 +1,100 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Input } from "../index.js";
-import { useForm } from "react-hook-form";
+import { FaLock } from "react-icons/fa";
+import { AiOutlineMail } from "react-icons/ai";
+import { toast } from "react-hot-toast";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./Login.css";
+import { API } from "../../config/axios";
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-function Login() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const [error, setError] = useState("");
+  const handleFocus = (e) => {
+    e.target.previousElementSibling.classList.add("glowIcon");
+  };
 
-  // const login = async (data) => {
-  //   setError('');
-  //   try {
-  //     const session = await authService.login(data);
-  //     if (session) {
-  //       const userData = await authService.getCurrentUser();
-  //       if (userData) dispatch(authLogin(userData));
-  //       navigate('/');
-  //     }
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  // };
-  console.log("Login");
+  const handleBlur = (e) => {
+    e.target.previousElementSibling.classList.remove("glowIcon");
+  };
+
+  const inputs = document.querySelectorAll(".input_text");
+  inputs.forEach((input) => {
+    input.addEventListener("focus", handleFocus);
+    input.addEventListener("blur", handleBlur);
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await API.post("/api/v1/auth/login", {
+        email,
+        password,
+      });
+
+      console.log(res.data);
+
+      if (res.data) {
+        localStorage.setItem("token", res.data);
+        toast.success("Login success");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data);
+    }
+  };
 
   return (
-    
-    <div className="flex items-center justify-center w-full h-[80vh]">
-      <div
-        className={`mx-auto w-full max-w-lg bg-black rounded-xl p-10 border text-white border-white`}
-      >
-        <div className="mb-2 flex justify-center"></div>
-        <h2 className="text-center text-2xl font-bold leading-tight">
-          Sign in to your account
-        </h2>
-
-        <form onSubmit={handleSubmit("login")} className="mt-8">
-          <div className="space-y-5">
-            <div>
-              <Input
-                label="Email: "
-                placeholder="Enter your email"
+    <div className="form-container h-[90vh]">
+      <form onSubmit={handleSubmit}>
+        <div className="login_form_container">
+          <div className="login_form">
+            <h2>Login</h2>
+            <div className="input_group">
+              <AiOutlineMail className="ml-3 text-white " />
+              <input
                 type="email"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-                    message: "Email address must be a valid address",
-                  },
-                })}
+                placeholder="Email"
+                className="input_text"
+                autoComplete="off"
+                id="exampleInputEmail1"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
-              {errors.email && (
-                <p className="text-red-600">{errors.email.message}</p>
-              )}
             </div>
-            <div>
-              <Input
-                label="Password: "
+            <div className="input_group">
+              <FaLock className="ml-3 text-white" />
+              <input
                 type="password"
-                placeholder="Enter your password"
-                {...register("password", {
-                  required: "Password is required",
-                })}
+                placeholder="Password"
+                className="input_text"
+                autoComplete="off"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                id="exampleInputPassword1"
+                required
               />
-              {errors.password && (
-                <p className="text-red-600">{errors.password.message}</p>
-              )}
             </div>
-           
-            {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-            <div className="flex justify-center mt-5 mx-auto px-auto w-full">
-              <Button
-                type="submit"
-                className="flex justify-center mt-2 bg-teal-500 rounded-md w-full py-1"
-              >
-                Sign in
-              </Button>
+            <div className="button_group" id="login_button">
+              <button type="submit" onSubmit={handleSubmit}>
+                LOGIN
+              </button>
             </div>
-            <p className="mt-5 text-center text-base ">
-              Don&apos;t have any account?&nbsp;
-              <Link
-                to="/signup"
-                className="font-medium text-primary transition-all duration-200 hover:underline"
-              >
-                Sign Up
-              </Link>
-            </p>
+            <div className="fotter">
+              <a onClick={() => navigate("/forgot-password")}>
+                Forgot Password ?
+              </a>
+              <a onClick={() => navigate("/register")}>Register</a>
+            </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
-}
+};
 
 export default Login;

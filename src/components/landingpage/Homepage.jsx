@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { HomeUp } from "../index";
-
+import HomeDown from "./home/HomeDown";
 
 const Homepage = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollPos, setScrollPos] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      setIsScrolled(scrollTop > 0);
+      setScrollPos(window.scrollY);
     };
     window.addEventListener("scroll", handleScroll);
 
@@ -18,11 +17,21 @@ const Homepage = () => {
   }, []);
 
   return (
-    <section className={isScrolled ? "home scrolled" : "home"} id="home">
-      
+    <section className="relative w-full h-screen overflow-hidden">
+      <div
+        className={`transition-opacity duration-[1500ms] ease-in-out ${
+          scrollPos < 20 ? "opacity-100" : "opacity-0"
+        } absolute w-full h-full`}
+      >
         <HomeUp />
-      
-      
+      </div>
+      <div
+        className={`transition-opacity duration-[1500ms] ease-in-out ${
+          scrollPos >= 20 ? "opacity-100" : "opacity-0"
+        } absolute w-full h-full`}
+      >
+        <HomeDown />
+      </div>
     </section>
   );
 };
