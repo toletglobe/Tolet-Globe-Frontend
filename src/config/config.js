@@ -4,7 +4,7 @@ import { BASE_URL } from '../constant/constant';
 class Service {
     static async fetchBlog() {
         try {
-            const response = await axios.get(`${BASE_URL}blogs`, {
+            const response = await axios.get(`${BASE_URL}/api/v1/blog/blogs`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -19,7 +19,7 @@ class Service {
 
     static async fetchBlogById(_id) {
         try {
-            const response = await axios.get(`${BASE_URL}blogs/${_id}`, {
+            const response = await axios.get(`${BASE_URL}/api/v1/blog/blogs/${_id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
