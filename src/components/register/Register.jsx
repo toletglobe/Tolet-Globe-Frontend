@@ -1,11 +1,7 @@
 import { useState } from "react";
-import "./Register.css";
+
 import {
-  FaUser,
-  FaLock,
-  FaPhoneAlt,
-  FaRegAddressCard,
-  FaSchool,
+  FaUser, FaLock, FaPhoneAlt, FaRegAddressCard, FaSchool,
 } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -47,13 +43,7 @@ const Register = () => {
     e.preventDefault(); // Prevent refreshing of the page while submitting the form
     try {
       const res = await API.post("/api/v1/auth/register", {
-        username,
-        email,
-        password,
-        phone,
-        role,
-        userType,
-        answer,
+        username, email, password, phone, role, userType, answer,
       });
       console.log(res.data);
       if (res.data) {
@@ -67,7 +57,6 @@ const Register = () => {
       console.log(error);
       toast.error(error.response.data);
     }
-    // console.log(username, email, password, phone, role, userType, answer);
   };
 
   return (
@@ -75,8 +64,6 @@ const Register = () => {
       <div className="absolute inset-0 w-[190%] h-[190%] bg-[conic-gradient(transparent,transparent,transparent,#C8A217)] animate-rotate-border"></div>
       <div className="absolute inset-0 w-[190%] h-[190%] bg-[conic-gradient(transparent,transparent,transparent,#3CBDB1)] animate-rotate-border animate-delay-[-3s]"></div>
       <div className="relative bg-black rounded-[50px_5px] p-[50px_40px] text-white z-10 min-h-[650px]">
-        {" "}
-        {/* Added min-h-[650px] */}
         <h2 className="text-4xl font-semibold text-center">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mt-10 flex items-center">
