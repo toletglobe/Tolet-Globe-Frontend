@@ -17,7 +17,7 @@ const Listing = () => {
     const fetchProperties = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/v1/property/"
+          "http://localhost:8000/api/v1/property/" // change to production url after checking e.g `${process.env.BASE_URL}/api/v1/property/`
         );
         setProperties(response.data);
       } catch (error) {
@@ -136,7 +136,7 @@ const Listing = () => {
                   </div>
                   <div className="card-footer-actions">
                     <button
-                      onClick={() => navigate(property.locationLink)}
+                      onClick={() => navigate(`/property/${property._id}`)}
                       className="card-footer-actions-btn bg-gray-200 text-gray-900 w-28 h-9 grid place-items-center text-sm"
                     >
                       SHOW MORE

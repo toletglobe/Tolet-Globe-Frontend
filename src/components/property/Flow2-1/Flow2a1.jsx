@@ -1,52 +1,64 @@
-import React from "react"
-import Flow2b from "./Flow2b"
-import img1 from "../../../assets/property/property-1.jpg"
-//import img2 from "../../assets/image/Flow2/img2.png"
-import shild from "../../../assets/property/shield.png"
-import { MdOutlineStarPurple500 } from "react-icons/md"
-import { MdStarOutline } from "react-icons/md"
-import { CiShare2 } from "react-icons/ci"
-import { IoIosAdd } from "react-icons/io"
-import { CiHeart } from "react-icons/ci"
-import profile from "../../../assets/property/author.jpg"
-import fav from "../../../assets/property/Vector.png"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import Flow2b from "./Flow2b";
+import img1 from "../../../assets/property/property-1.jpg";
+import shield from "../../../assets/property/shield.png";
+import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
+import { CiShare2, CiHeart } from "react-icons/ci";
+import { IoIosAdd } from "react-icons/io";
+import profile from "../../../assets/property/author.jpg";
+import fav from "../../../assets/property/Vector.png";
 
 const Flow2a = () => {
+  const { id } = useParams();
+  const [property, setProperty] = useState(null);
+
+  useEffect(() => {
+    const fetchProperty = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/v1/property/${id}`
+        );
+        setProperty(response.data);
+      } catch (error) {
+        console.error("Error fetching property:", error);
+      }
+    };
+
+    fetchProperty();
+  }, [id]);
+
+  if (!property) return <p>Loading...</p>; // Add a loading state
+
   return (
     <div className="pl-2 pr-4 mx-4">
-      {/* image section */}
+      {/* Image Section */}
       <div className="relative pb-2">
-        {/* temporary img section start*/}
-        <div className="w-full ">
+        <div className="w-full">
           <img
-            src={img1}
-            alt=""
-            srcset=""
+            src={property.photos[0] || img1}
+            alt={property.propertyType}
             className="w-full h-80 object-cover"
           />
         </div>
-        
         <div className="absolute w-full bottom-0">
-          <p className="bg-white inline p-1 px-3 rounded-lg justify-content: center;
-">
+          <p className="bg-white inline p-1 px-3 rounded-lg">
             Photos | Videos | Property Map
           </p>
         </div>
       </div>
-      {/* image portion ended */}
 
-      {/* 2nd div started */}
-      <div className="md:flex justify-between	pt-8">
-        <div className="">
+      {/* Property Details Section */}
+      <div className="md:flex justify-between pt-8">
+        <div>
           <h1 className="text-left text-white text-4xl">
-            Flat / Rent{" "}
+            {property.propertyType} / Rent{" "}
             <span>
-              <img src={shild} alt="" className="h-10 w-10 inline" />
+              <img src={shield} alt="shield" className="h-10 w-10 inline" />
             </span>
           </h1>
-          <p className="text-gray-400 block">
-            D 801 the woods apartment naubasta Deva road chinhat Lucknow
-          </p>
+          <p className="text-gray-400 block">{property.address}</p>
 
           <div className="flex">
             <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
@@ -54,29 +66,31 @@ const Flow2a = () => {
             <MdStarOutline className="text-[#FFFEFE] mt-1" />
             <MdStarOutline className="text-[#FFFEFE] mt-1" />
             <MdStarOutline className="text-[#FFFEFE] mt-1" />
-            <p className="ml-2 text-gray-400">12 (Reviews)</p>
+            <p className="ml-2 text-gray-400">
+              {property.reviews ? property.reviews.length : 0} (Reviews)
+            </p>
           </div>
 
           <div className="border border-gray-600 rounded-lg flex justify-between pl-3 pr-3">
             <div className="p-1">
               <p className="block text-gray-400">Monthly rent</p>
-              <h3 className="text-white text-3xl">Rs. 12000</h3>
+              <h3 className="text-white text-3xl">Rs. {property.rent}</h3>
             </div>
             <div className="p-1 text-gray-400">
               <p className="block">Bhk</p>
-              <h3 className="text-white text-3xl">2 bhk</h3>
+              <h3 className="text-white text-3xl">{property.bhk} bhk</h3>
             </div>
             <div className="p-1 text-gray-400">
-              <p className="block">Availability</p>
-              <h3 className="text-white text-3xl">Immediate</h3>
+              <p className="block">Floor</p>
+              <h3 className="text-white text-3xl">{property.floor}</h3>
             </div>
           </div>
         </div>
 
-        {/* 2nd div of div2 */}
-        <div className="border-1	bg-white rounded-l w-1/4 p-4">
+        {/* Request Visit Section */}
+        <div className="border-1 bg-white rounded-lg w-1/4 p-4">
           <div className="flex justify-between">
-            <p className="text-black	text-lg font-semibold">Request a visit</p>
+            <p className="text-black text-lg font-semibold">Request a visit</p>
             <div className="flex">
               <CiShare2 className="text-[#2E6A64] mt-1" />
               <IoIosAdd className="mt-1" />
@@ -84,25 +98,27 @@ const Flow2a = () => {
             </div>
           </div>
           <div className="flex">
-            <img src={profile} alt="" className="h-8 w-8 inline" />
-            <p className="pt-1 pl-3 text-gray-800">Deepti rastogi</p>
+            <img src={profile} alt="owner" className="h-8 w-8 inline" />
+            <p className="pt-1 pl-3 text-gray-800">{property.ownerName}</p>
           </div>
           <div>
-            <p className="block text-gray-400">+91 7318413444</p>
+            <p className="block text-gray-400">
+              {property.ownersContactNumber}
+            </p>
           </div>
           <div className="rounded-lg" style={{ backgroundColor: "#40B5A8" }}>
             <button className="flex w-full justify-evenly p-2 font-semibold">
-              <img src={fav} alt="" className="inline h-6 w-5" />
+              <img src={fav} alt="favorite" className="inline h-6 w-5" />
               Add To Visit
             </button>
           </div>
         </div>
       </div>
-      {/* 2nd div ended */}
 
-      <Flow2b />    
+      {/* Flow2b Section */}
+      <Flow2b propertyData={property} />
     </div>
-  )
-}
+  );
+};
 
-export default Flow2a
+export default Flow2a;
