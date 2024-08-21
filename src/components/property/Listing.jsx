@@ -5,21 +5,20 @@ import { IoAdd, IoBedOutline } from "react-icons/io5";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "./listing.css";
+import Service from "../../config/config";
 
 const Listing = () => {
   const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
 
-  // Fetch data from backend API
+  // Fetch data from backend APIp
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8000/api/v1/property/" // change to production url after checking e.g `${process.env.BASE_URL}/api/v1/property/`
-        );
-        setProperties(response.data);
+        const propertyData= await Service.fetchProperty();
+        setProperties(propertyData);
+        console.log(propertyData);
       } catch (error) {
         console.error("Error fetching properties:", error);
       }

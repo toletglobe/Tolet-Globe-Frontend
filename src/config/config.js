@@ -30,6 +30,20 @@ class Service {
       throw error;
     }
   }
+
+  static async fetchProperty(){
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/property`,{
+        headers:{
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
+  }
 }
 
 export default Service;
