@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Service from '../../config/config';
-import { Button } from '../index';
-import { FaLongArrowAltRight, FaRegHeart } from 'react-icons/fa';
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Service from "../../config/config";
+import { Button } from "../index";
+import { FaLongArrowAltRight, FaRegHeart } from "react-icons/fa";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -85,7 +85,7 @@ const Blog = () => {
                 <div className="mt-2">
                   <span className="text-gray-300 font-semibold">
                     {new Date(data?.date).toDateString()}
-                  </span>{' '}
+                  </span>{" "}
                   | {data?.category}
                 </div>
                 <div className="mt-2">
