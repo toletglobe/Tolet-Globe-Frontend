@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import Service from "../../../config/config";
 import Flow2b from "./Flow2b";
 import img1 from "../../../assets/property/property-1.jpg";
 import shield from "../../../assets/property/shield.png";
@@ -17,10 +17,9 @@ const Flow2a = () => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/v1/property/${id}`
-        );
-        setProperty(response.data);
+        const propertyList=await Service.fetchPropertyById(id);
+        setProperty(propertyList);
+        console.log(propertyList);
       } catch (error) {
         console.error("Error fetching property:", error);
       }
