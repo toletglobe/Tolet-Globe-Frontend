@@ -13,6 +13,7 @@ import {
   ForgotPassword,
 } from "./index";
 import Landing from "./Landing";
+import Listing from "./property/Listing";
 
 const Layout = () => {
   return (
@@ -29,6 +30,7 @@ const Layout = () => {
           <Route path="/blog/:id" element={<BlogView />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/property" element={<Property />} />
+          <Route path="/property-listing" element={<Listing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
