@@ -1,1 +1,1 @@
-export const BASE_URL='https://to-let-globe-trial-version-backend.onrender.com/'
+export const BASE_URL = "https://to-let-backend.onrender.com";

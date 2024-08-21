@@ -1,35 +1,35 @@
-import { BASE_URL } from "../constant/constant"
+import axios from "axios";
+import { BASE_URL } from "../constant/constant";
 
 class Service {
-    static async fetchblog(){
+  static async fetchBlog() {
     try {
-        const response = await fetch(`${BASE_URL}blogs`,{
-            method:'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        const data = await response.json()
-        return data
+      const response = await axios.get(`${BASE_URL}/api/v1/blog/blogs`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data);
+      return response.data;
     } catch (error) {
-        console.log(error)
-        throw error
+      console.log(error);
+      throw error;
     }
+  }
+
+  static async fetchBlogById(_id) {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/blog/blogs/${_id}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-    static async fetchBlogById(_id){
-        try {
-            const response = await fetch(`${BASE_URL}blogs/${_id}`,{
-                method:'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            const data = await response.json()
-            return data
-        } catch (error) {
-            console.log(error)
-            throw error
-        }
-    }
+  }
 }
-export default Service
+
+export default Service;

@@ -1,6 +1,17 @@
 import { Route, Routes } from "react-router-dom";
-import { NavBar, Contact, AboutUs, Service, Blog, Property, Footer, LoginLayout, BlogView, Listing,Flow
- } from "./index";
+import {
+  NavBar,
+  Contact,
+  AboutUs,
+  Service,
+  Blog,
+  Property,
+  Footer,
+  BlogView,
+  Login,
+  Register,
+  ForgotPassword,
+} from "./index";
 import Landing from "./Landing";
 
 const Layout = () => {
@@ -18,9 +29,9 @@ const Layout = () => {
           <Route path="/blog/:id" element={<BlogView />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/property" element={<Property />} />
-          <Route path="/listing" element={<Listing/>}/>
-          <Route path="/flow" element={<Flow/>}/>
-          <Route path="/login" element={<LoginLayout />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </div>
       <div className="footer bottom-0 mt-5">

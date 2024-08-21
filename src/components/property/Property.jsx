@@ -24,7 +24,7 @@ const Property = () => {
               </p>
             </div>
             {/* "/listing" route  */}
-            <Link to = "/listing" className="px-5 py-2 bg-white text-black rounded-md">
+            <Link className="px-5 py-2 bg-white text-black rounded-md">
               Join Us
             </Link>
           </div>
