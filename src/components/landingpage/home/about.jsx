@@ -48,7 +48,7 @@ export const About = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-center lg:pt-[120px] pt-[70px]  lg:flex-nowrap flex-wrap">
+        {/* <div className="flex items-center justify-between lg:flex-row flex-col lg:pt-[120px] pt-[70px] ">
           <div md={4} className="pb-10">
             <h3 className="font-poppins text-4xl font-normal text-[#f6ce3c] lg:text-left pb-2 text-center lg:pr-14">
               Our Mission
@@ -58,10 +58,29 @@ export const About = () => {
             </p>
           </div>
 
-          <div md={4} className="text-center pl-0 lg:pl-10">
+          <div md={4} className="text-center pl-0 lg:pl-56 ">
             <img
               src={image3}
               alt="image3"
+              className="w-full max-w-[400px] h-full max-h-[400px] m-auto"
+            />
+          </div>
+        </div> */}
+        <div className="flex items-center justify-center lg:pt-[120px] pt-[70px] flex-wrap lg:flex-nowrap">
+          <div md={6} className="text-center pb-10">
+            <h3 className="font-poppins text-4xl font-normal text-yellow-500 lg:text-left pb-2 text-center lg:pr-14">
+              Our Mission
+            </h3>
+            <p className="font-poppins text-lg font-medium text-white leading-6 lg:text-left text-center lg:pr-14">
+              Find nearby rental properties with 'To-Let' boards. Explore
+              available listings and options in your area with ease.
+            </p>
+          </div>
+
+          <div md={4} className="text-center pl-0 lg:pl-10">
+            <img
+              src={image3}
+              alt="image1"
               className="w-full max-w-[300px] h-full max-h-[300px] m-auto"
             />
           </div>

@@ -13,6 +13,7 @@ import {
   ForgotPassword,
 } from "./index";
 import Landing from "./Landing";
+import ResetPassword from "./resetpassword/ResetPassword";
 
 const Layout = () => {
   return (
@@ -32,6 +33,7 @@ const Layout = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/auth/reset-password" element={<ResetPassword />} />
         </Routes>
       </div>
       <div className="footer bottom-0 mt-5">

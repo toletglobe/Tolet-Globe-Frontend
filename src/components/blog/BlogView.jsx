@@ -1,27 +1,27 @@
-import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import Service from '../../config/config' // Adjust the import path accordingly
-import { FaRegHeart } from 'react-icons/fa6'
-import { MdOutlineRemoveRedEye } from 'react-icons/md'
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Service from "../../config/config"; // Adjust the import path accordingly
+import { FaRegHeart } from "react-icons/fa6";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const BlogView = () => {
-  const { id } = useParams() // Get the blog ID from the URL
-  const [blog, setBlog] = useState(null)
+  const { id } = useParams(); // Get the blog ID from the URL
+  const [blog, setBlog] = useState(null);
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const blogData = await Service.fetchBlogById(id) // Fetch the blog details
-        setBlog(blogData)
+        const blogData = await Service.fetchBlogById(id); // Fetch the blog details
+        setBlog(blogData);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
 
-    fetchBlog()
-  }, [id])
+    fetchBlog();
+  }, [id]);
 
-  if (!blog) return <div>Loading...</div>
+  if (!blog) return <div>Loading...</div>;
 
   return (
     <div className="bg-black text-white my-5 md:my-10 px-10">
@@ -35,9 +35,15 @@ const BlogView = () => {
           <div className="text-gray-300 text-xs">{blog.role}</div>
         </div>
         <hr />
-        <div className='text-white flex gap-3 my-2'>
-          <div className='flex items-center gap-1'><FaRegHeart />{blog.likes}</div>
-          <div className='flex items-center gap-1'><MdOutlineRemoveRedEye />{blog.views}</div>
+        <div className="text-white flex gap-3 my-2">
+          <div className="flex items-center gap-1">
+            <FaRegHeart />
+            {blog.likes}
+          </div>
+          <div className="flex items-center gap-1">
+            <MdOutlineRemoveRedEye />
+            {blog.views}
+          </div>
         </div>
         <hr />
         <div className=" mx-2 my-3">
@@ -55,11 +61,11 @@ const BlogView = () => {
           ></div>
         </div>
         <br />
-      <hr/>
+        <hr />
       </div>
       {/* Assuming `content` contains HTML formatted string */}
     </div>
-  )
-}
+  );
+};
 
-export default BlogView
+export default BlogView;
