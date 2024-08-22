@@ -1,0 +1,29 @@
+
+.left::after{
+    content: "";
+    background-image: url(../../../assets/logo.jpeg);
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;  
+    width: 3.9em;
+    height: 4em;
+    position: absolute;
+    left: 94%;
+    top: 43%;
+    border-radius: 50%; 
+    z-index: 1;
+}
+
+.right::after{
+    content: "";
+    background-image: url(../../../assets/logo.jpeg);
+    background-position: cover;
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;
+    width: 3.9em;
+    height: 4em;
+   position: absolute;
+    right: 95%;
+    top: 43%;
+    border-radius: 50%; 
+    z-index: 1;
+}
