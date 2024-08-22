@@ -1,9 +1,9 @@
-import "animate.css";
-import location from "../../../assets/getintouch/toletglobelocationimage.jpg";
+import 'animate.css'
+import location from '../../../assets/getintouch/toletglobelocationimage.jpg'
 
 export const ContactUs = () => {
   const googlemaps =
-    "https://www.google.com/maps/place/To-Let+Globe/@26.8465566,80.9797793,15z/data=!4m6!3m5!1s0x399bfd77577ba78f:0xd2d6f22d1b246815!8m2!3d26.8465566!4d80.9797793!16s%2Fg%2F11vhrqqb45?entry=ttu";
+    'https://www.google.com/maps/place/To-Let+Globe/@26.8465566,80.9797793,15z/data=!4m6!3m5!1s0x399bfd77577ba78f:0xd2d6f22d1b246815!8m2!3d26.8465566!4d80.9797793!16s%2Fg%2F11vhrqqb45?entry=ttu'
   return (
     <div className="my-10 h-full m-auto flex flex-col">
       <div className="w-[80%] mx-auto h-full bg-black flex flex-col justify-between lg:flex-row lg:justify-between mt-15">
@@ -13,8 +13,8 @@ export const ContactUs = () => {
               backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 10%, transparent 10%, rgba(0, 0, 0, 0.4) 100%), 
                                linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0.4) 95%, rgba(0, 0, 0, 0.4) 100%), 
                                url(${location})`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
             }}
             className={` bg-cover bg-no-repeat flex flex-col items-center justify-center w-full h-[80%] text-white my-auto`}
           >
@@ -61,5 +61,5 @@ export const ContactUs = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

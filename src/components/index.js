@@ -12,7 +12,7 @@ import Layout from "./Layout";
 import Admin from "./Admin.jsx";
 
 //Login Component
-import Login from "./login/Login.jsx";
+import Login from "./Login/Login.jsx";
 
 // register component
 import Register from "./register/Register.jsx";

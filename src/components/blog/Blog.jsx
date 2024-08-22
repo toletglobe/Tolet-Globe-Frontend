@@ -1,57 +1,56 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Service from '../../config/config'
-import { Button } from '../index'
-import { FaLongArrowAltRight, FaRegHeart } from 'react-icons/fa'
-import { MdOutlineRemoveRedEye } from 'react-icons/md'
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Service from "../../config/config";
+import { Button } from "../index";
+import { FaLongArrowAltRight, FaRegHeart } from "react-icons/fa";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const Blog = () => {
-  const [blogs, setBlogs] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [blogsPerPage] = useState(6) // Number of blogs per page
-  const [totalBlogs, setTotalBlogs] = useState(0)
-  const navigate = useNavigate() // Use useNavigate for navigation
+  const [blogs, setBlogs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [blogsPerPage] = useState(6); // Number of blogs per page
+  const [totalBlogs, setTotalBlogs] = useState(0);
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const allBlogs = await Service.fetchblog()
-        // Sort blogs by date in descending order
+        const allBlogs = await Service.fetchBlog();
         const sortedBlogs = allBlogs.sort(
-          (a, b) => new Date(b.date) - new Date(a.date),
-        )
-        setBlogs(sortedBlogs)
-        setTotalBlogs(sortedBlogs.length) // Set the total number of blogs
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+        setBlogs(sortedBlogs);
+        setTotalBlogs(sortedBlogs.length);
       } catch (error) {
-        console.log(error)
-        throw error
+        console.log(error);
+        throw error;
       }
-    }
+    };
 
-    fetchBlog()
-  }, [])
+    fetchBlog();
+  }, []);
 
   // Pagination logic
-  const indexOfLastBlog = currentPage * blogsPerPage
-  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage
-  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog)
-  const totalPages = Math.ceil(totalBlogs / blogsPerPage)
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const totalPages = Math.ceil(totalBlogs / blogsPerPage);
 
   const handleViewBlog = (blogId) => {
-    navigate(`/blog/${blogId}`) // Navigate to the detailed blog view page
-  }
+    navigate(`/blog/${blogId}`); // Navigate to the detailed blog view page
+  };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1)
+      setCurrentPage((prevPage) => prevPage - 1);
     }
-  }
+  };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage((prevPage) => prevPage + 1)
+      setCurrentPage((prevPage) => prevPage + 1);
     }
-  }
+  };
 
   return (
     <div className="bg-black my-5">
@@ -86,7 +85,7 @@ const Blog = () => {
                 <div className="mt-2">
                   <span className="text-gray-300 font-semibold">
                     {new Date(data?.date).toDateString()}
-                  </span>{' '}
+                  </span>{" "}
                   | {data?.category}
                 </div>
                 <div className="mt-2">
@@ -156,7 +155,7 @@ const Blog = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Blog
+export default Blog;
