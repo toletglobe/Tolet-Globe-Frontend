@@ -13,13 +13,13 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); //to prevent refreshing of the page while submitting the register form
     try {
-      const res = await API.post("/api/v1/auth/forgot-password", {
+      const res = await API.post("auth/forgot-password", {
         email,
         answer,
       });
 
       if (res.data) {
-        console.log(res.data.link)
+        console.log(res.data.link);
         toast.success(res.data && res.data.message);
       }
     } catch (error) {

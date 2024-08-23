@@ -46,7 +46,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent refreshing of the page while submitting the form
     try {
-      const res = await API.post("/api/v1/auth/register", {
+      const res = await API.post("auth/register", {
         username,
         email,
         password,
@@ -134,13 +134,21 @@ const Register = () => {
               onChange={handleRoleChange}
               className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
             >
-              <option value="" disabled selected className="text-[#3CBDB1] text-sm">
+              <option
+                value=""
+                disabled
+                selected
+                className="text-[#3CBDB1] text-sm"
+              >
                 Select Role
               </option>
               <option value="admin" className="text-[#3CBDB1] text-sm">
                 Admin
               </option>
-              <option value="content creator" className="text-[#3CBDB1] text-sm">
+              <option
+                value="content creator"
+                className="text-[#3CBDB1] text-sm"
+              >
                 Content Creator
               </option>
               <option value="user" className="text-[#3CBDB1] text-sm">
