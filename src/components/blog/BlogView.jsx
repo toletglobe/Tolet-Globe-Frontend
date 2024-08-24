@@ -5,13 +5,13 @@ import { FaRegHeart } from "react-icons/fa6";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const BlogView = () => {
-  const { id } = useParams(); // Get the blog ID from the URL
+  const { slug } = useParams(); // Get the blog ID from the URL
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const blogData = await Service.fetchBlogById(id); // Fetch the blog details
+        const blogData = await Service.fetchBlogBySlug(slug); // Fetch the blog details
         setBlog(blogData);
       } catch (error) {
         console.log(error);
@@ -19,7 +19,7 @@ const BlogView = () => {
     };
 
     fetchBlog();
-  }, [id]);
+  }, []);
 
   if (!blog) return <div>Loading...</div>;
 

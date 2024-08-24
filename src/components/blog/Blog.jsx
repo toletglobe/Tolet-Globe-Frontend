@@ -36,8 +36,8 @@ const Blog = () => {
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
   const totalPages = Math.ceil(totalBlogs / blogsPerPage);
 
-  const handleViewBlog = (blogId) => {
-    navigate(`/blog/${blogId}`); // Navigate to the detailed blog view page
+  const handleViewBlog = (slug) => {
+    navigate(`/blog/${slug}`); // Navigate to the detailed blog view page
   };
 
   const handlePreviousPage = () => {
@@ -75,7 +75,7 @@ const Blog = () => {
             <div className="">
               <div className="w-full ">
                 <img
-                  onClick={() => handleViewBlog(data._id)}
+                  onClick={() => handleViewBlog(data.slug)}
                   src={data?.image}
                   alt="image1"
                   className="cursor-pointer rounded-md w-full h-60 object-cover"
@@ -103,7 +103,7 @@ const Blog = () => {
                 <div className="flex flex-row items-center gap-2 ">
                   <Button
                     className="text-[#6CC1B6]"
-                    onClick={() => handleViewBlog(data._id)}
+                    onClick={() => handleViewBlog(data.slug)}
                   >
                     Read More <FaLongArrowAltRight />
                   </Button>
