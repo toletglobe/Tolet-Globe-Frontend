@@ -5,10 +5,14 @@ import { toast } from "react-hot-toast";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Login.css";
 import { API } from "../../config/axios";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/authSlice";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleFocus = (e) => {
     e.target.previousElementSibling.classList.add("glowIcon");

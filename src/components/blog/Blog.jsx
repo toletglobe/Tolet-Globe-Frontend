@@ -8,6 +8,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
   const [blogsPerPage] = useState(6); // Number of blogs per page
   const [totalBlogs, setTotalBlogs] = useState(0);
   const navigate = useNavigate(); // Use useNavigate for navigation
@@ -29,6 +30,32 @@ const Blog = () => {
 
     fetchBlog();
   }, []);
+
+
+  const handleClickLatest = () => {
+    getDataFromBackend();
+
+    setIsLatest(true);
+    paginate(1);
+  };
+
+  const handleClickTrending = () => {
+    backendData.sort((a, b) => {
+      const sumA = a.views + a.likes;
+      const sumB = b.views + b.likes;
+
+      if (sumA > sumB) {
+        return -1;
+      }
+      if (sumA < sumB) {
+        return 1;
+      }
+    });
+    setBackendData(backendData);
+    setIsLatest(false);
+    paginate(1);
+  };
+
 
   // Pagination logic
   const indexOfLastBlog = currentPage * blogsPerPage;
