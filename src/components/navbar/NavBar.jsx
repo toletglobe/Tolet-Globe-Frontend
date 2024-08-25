@@ -1,24 +1,33 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../store/authSlice";
 
 const NavBar = () => {
   const [activeLink, setActiveLink] = useState("");
+  const authState = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(logout());
+    navigate("/login");
+    toast.success("Logged out!");
+  };
+
   return (
     <nav className="z-0">
-      <div className="container bg-black top-0 flex justify-between fixed items-center px-3 py-1 rounded-xl">
+      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-3 py-1">
         <div>
           <Link to="/" className="flex items-center">
-            <img
-              src={logo}
-              alt="Logo"
-              className=" h-16 lg:h-12 ml-10 lg:ml-0"
-            />
+            <img src={logo} alt="Logo" className="h-16 lg:h-12 ml-10 lg:ml-0" />
           </Link>
         </div>
         <div className="flex flex-row">
@@ -58,9 +67,9 @@ const NavBar = () => {
                 to="/"
                 className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "home"
-                    ? "text-white bg-teal-500 rounded-xl"
+                    ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-orange-500 hover:rounded-xl`}
+                } hover:bg-[#c8a21c] hover:rounded-md`}
                 onClick={() => handleNavLinkClick("home")}
               >
                 Home
@@ -71,9 +80,9 @@ const NavBar = () => {
                 to="/service"
                 className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "service"
-                    ? "text-white bg-teal-500 rounded-xl"
+                    ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-orange-500 hover:rounded-xl`}
+                } hover:bg-[#c8a21c] hover:rounded-md`}
                 onClick={() => handleNavLinkClick("service")}
               >
                 Service
@@ -84,9 +93,9 @@ const NavBar = () => {
                 to="/blog"
                 className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "blog"
-                    ? "text-white bg-teal-500 rounded-xl"
+                    ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-orange-500 hover:rounded-xl`}
+                } hover:bg-[#c8a21c] hover:rounded-md`}
                 onClick={() => handleNavLinkClick("blog")}
               >
                 Blog
@@ -97,9 +106,9 @@ const NavBar = () => {
                 to="/contact"
                 className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "contact"
-                    ? "text-white bg-teal-500 rounded-xl"
+                    ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-orange-500 hover:rounded-xl`}
+                } hover:bg-[#c8a21c] hover:rounded-md`}
                 onClick={() => handleNavLinkClick("contact")}
               >
                 Contact
@@ -110,9 +119,9 @@ const NavBar = () => {
                 to="/aboutus"
                 className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "aboutus"
-                    ? "text-white bg-teal-500 rounded-xl"
+                    ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-orange-500 hover:rounded-xl`}
+                } hover:bg-[#c8a21c] hover:rounded-md`}
                 onClick={() => handleNavLinkClick("about")}
               >
                 About
@@ -123,26 +132,40 @@ const NavBar = () => {
                 to="/property"
                 className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
                   activeLink === "propertyListing"
-                    ? "text-white bg-teal-500 rounded-xl"
+                    ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-orange-500 hover:rounded-xl`}
+                } hover:bg-[#c8a21c] hover:rounded-md`}
                 onClick={() => handleNavLinkClick("propertyListing")}
               >
                 Property Listing
               </Link>
             </li>
             <li>
-              <Link
-                to="/login"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
-                  activeLink === "login"
-                    ? "text-white bg-teal-500 rounded-xl"
-                    : ""
-                } hover:bg-orange-500 hover:rounded-xl`}
-                onClick={() => handleNavLinkClick("login")}
-              >
-                Login
-              </Link>
+              {authState.status === true ? (
+                <Link
+                  to="/login"
+                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
+                    activeLink === "logout"
+                      ? "text-white bg-teal-500 rounded-md"
+                      : ""
+                  } hover:bg-[#c8a21c] hover:rounded-md`}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
+                    activeLink === "login"
+                      ? "text-white bg-teal-500 rounded-md"
+                      : ""
+                  } hover:bg-[#c8a21c] hover:rounded-md`}
+                  onClick={() => handleNavLinkClick("login")}
+                >
+                  Login
+                </Link>
+              )}
             </li>
           </ul>
         </div>

@@ -7,12 +7,12 @@ import office from "../../assets/service/image27.png";
 
 const Service = () => {
   return (
-    <div className="px-10 mt-10 bg-black h-screen">
+    <div className="pl-20 my-24 mx-auto w-[90%] bg-black cursor-pointer ">
       <h1 className="text-6xl font-bold text-white mb-3">Services</h1>
       <p className="text-xs text-[#CCB454]">
         SKIP THE MIDDLEMAN : RENT OR LEASE DIRECTLY ON TO-LET GLOBE
       </p>
-      <div className="w-full">
+      <div className="w-full ">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16 text-black">
           {[
             {

@@ -15,16 +15,21 @@ const Property = () => {
             services to our landlords and tenant
           </p>
         </div>
-        <div className="w-full flex items-start justify-between my-10 px-32">
-          <div className="flex flex-col gap-8 items-start">
+        <div className="w-full flex flex-col md:flex-row items-start justify-between my-10 px-4 md:px-10 lg:px-20">
+          <div className="flex flex-col gap-6 md:gap-8 items-center md:items-start">
+            {/* <div className="flex flex-col gap-6 md:gap-8 items-center"> */}
             <div>
-              <h2 className="text-[40px]">Find the best To-Let in Lucknow </h2>
+              <h2 className="text-[40px] text-start">
+                Find the best To-Let in Lucknow
+              </h2>
               <p className="text-[#CCB454]">
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            {/* "/listing" route  */}
-            <Link className="px-5 py-2 bg-white text-black rounded-md">
+            <Link
+              to={"/property-listing"}
+              className="px-5 py-2 bg-white text-black rounded-md"
+            >
               Join Us
             </Link>
           </div>
@@ -32,33 +37,30 @@ const Property = () => {
             <img src={image1} alt="PropImage" />
           </div>
         </div>
-        <div className="w-full flex items-start justify-between my-10 px-32">
+        <div className="w-full flex flex-col-reverse md:flex-row items-start justify-between my-10 px-4 md:px-10 lg:px-20">
           <div>
             <img src={image2} alt="PropImage" />
           </div>
-
-          <div className="flex flex-col gap-8 items-end">
+          <div className="flex flex-col gap-6 md:gap-8 items-center md:items-end ">
             <div className="text-end">
               <h2 className="text-[40px]">Find the best To-Let in Ayodhya </h2>
               <p className="text-[#CCB454]">
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            {/* '/nf' route */}
             <Link className="px-5 py-2 bg-white text-black rounded-md">
               Join Us
             </Link>
           </div>
         </div>
-        <div className="w-full flex items-start justify-between my-10 px-32">
-          <div className="flex flex-col gap-8 items-start">
+        <div className="w-full flex flex-col md:flex-row items-start justify-between my-10 px-4 md:px-10 lg:px-20">
+          <div className="flex flex-col gap-6 md:gap-8 items-center md:items-start">
             <div>
               <h2 className="text-[40px]">Find the best To-Let in Vellore</h2>
               <p className="text-[#CCB454]">
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            {/* /nf route */}
             <Link className="px-5 py-2 bg-white text-black rounded-md">
               Join Us
             </Link>
@@ -67,19 +69,17 @@ const Property = () => {
             <img src={image3} alt="PropImage" />
           </div>
         </div>
-        <div className="w-full flex items-start justify-between my-10 mb-10 px-32">
+        <div className="w-full flex flex-col-reverse md:flex-row items-start justify-between my-10 px-4 md:px-10 lg:px-20">
           <div>
             <img src={image2} alt="PropImage" />
           </div>
-
-          <div className="flex flex-col gap-8 items-end">
+          <div className="flex flex-col gap-6 md:gap-8 items-center md:items-end">
             <div className="text-end">
               <h2 className="text-[40px]">Find the best To-Let in Kota</h2>
               <p className="text-[#CCB454]">
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            {/* '/nf' route */}
             <Link className="px-5 py-2 bg-white text-black rounded-md">
               Join Us
             </Link>
