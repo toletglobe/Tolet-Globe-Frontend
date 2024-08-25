@@ -38,7 +38,7 @@ const Login = () => {
 
       console.log(res.data);
 
-     f (res.data.token) {
+      if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         dispatch(login(res.data.token));
         toast.success("Login success");

@@ -23,13 +23,13 @@ function ResetPassword() {
         return toast.error("Passwords doesn't match");
       }
 
-      const res = await API.post("/api/v1/auth/reset-password", {
+      const res = await API.post("/auth/reset-password", {
         token,
         password,
       });
       console.log(res.data);
       toast.success(res.data);
-      navigate("/login")
+      navigate("/login");
     } catch (err) {
       console.error("Err: ", err);
       toast.error(err.response.data);
