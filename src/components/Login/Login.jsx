@@ -38,12 +38,11 @@ const Login = () => {
 
       console.log(res.data);
 
-      if (res.data) {
-        localStorage.setItem("token", res.data);
+     f (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        dispatch(login(res.data.token));
         toast.success("Login success");
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
