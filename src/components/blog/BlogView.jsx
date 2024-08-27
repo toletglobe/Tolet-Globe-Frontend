@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Service from "../../config/config"; // Adjust the import path accordingly
@@ -5,24 +6,25 @@ import { FaRegHeart } from "react-icons/fa6";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import author from "../../assets/property/author.jpg"
 
+
 const BlogView = () => {
-  const { slug } = useParams(); // Get the blog ID from the URL
-  const [blog, setBlog] = useState(null);
+  const { slug } = useParams() // Get the blog ID from the URL
+  const [blog, setBlog] = useState(null)
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const blogData = await Service.fetchBlogBySlug(slug); // Fetch the blog details
-        setBlog(blogData);
+        const blogData = await Service.fetchBlogBySlug(slug) // Fetch the blog details
+        setBlog(blogData)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    };
+    }
 
-    fetchBlog();
-  }, []);
+    fetchBlog()
+  }, [])
 
-  if (!blog) return <div>Loading...</div>;
+  if (!blog) return <div>Loading...</div>
 
   return (
     <div className="bg-black text-white my-5 md:my-10 px-10">
@@ -55,9 +57,9 @@ const BlogView = () => {
           </div>
         </div>
         <hr />
-        <div  className="my-5 text-xl">
-          {blog.intro}
-        </div>
+
+        <div className="my-5 text-white">{blog.intro}</div>
+
         <div className=" mx-2 my-3">
           <img
             src={blog.image}
@@ -73,11 +75,10 @@ const BlogView = () => {
           ></div>
         </div>
         <br />
-        <hr />
       </div>
       {/* Assuming `content` contains HTML formatted string */}
     </div>
-  );
-};
+  )
+}
 
-export default BlogView;
+export default BlogView
