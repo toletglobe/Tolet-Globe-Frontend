@@ -10,7 +10,9 @@ import {
   BlogView,
   Login,
   Register,
+  Listing,
   ForgotPassword,
+  Flow2a,
 } from "./index";
 import Landing from "./Landing";
 import ResetPassword from "./resetpassword/ResetPassword";
@@ -34,6 +36,8 @@ const Layout = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
+          <Route path="/property-listing" element={<Listing />} />
+          <Route path="/property/:id" element={<Flow2a />} />
         </Routes>
       </div>
       <div className="footer bottom-0 mt-5">

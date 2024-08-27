@@ -39,6 +39,8 @@ import BlogView from "./blog/BlogView.jsx";
 
 //Property Component
 import Property from "./property/Property";
+import Listing from "./property/Listing.jsx";
+import Flow2a from "./property/Flow2-1/Flow2a1";
 
 //Contact Us page component
 import Contact from "./contact/Contact";
@@ -73,5 +75,7 @@ export {
   HomeUp,
   TopBg,
   Property,
+  Listing,
   Service,
+  Flow2a,
 };
