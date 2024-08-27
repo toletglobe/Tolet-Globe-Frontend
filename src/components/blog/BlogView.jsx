@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Service from '../../config/config' // Adjust the import path accordingly
