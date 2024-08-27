@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import {
   MdBedroomParent,
@@ -88,13 +90,13 @@ const Flow2b = ({ propertyData = {} }) => {
             <div className="border flex p-2 rounded-lg border-black mr-8">
               <MdBedroomParent className="h-6 w-6 mr-4 text-black bg-white" />
               <p className="inline pb-0 mb-0 font-normal">
-                {propertyData.bhk} Bedrooms
+                {propertyData?.bhk} Bedrooms
               </p>
             </div>
             <div className="border flex p-2 rounded-lg border-black mr-8">
               <MdOutlineBathroom className="h-6 w-6 mr-4 text-black bg-white" />
               <p className="inline pb-0 mb-0 font-normal">
-                {propertyData.bathrooms} Bathrooms
+                {propertyData?.bathrooms} Bathrooms
               </p>
             </div>
             <div className="border flex p-2 rounded-lg border-black mr-8">
@@ -104,13 +106,13 @@ const Flow2b = ({ propertyData = {} }) => {
             <div className="border flex p-2 rounded-lg border-black mr-8">
               <IoTabletLandscape className="h-6 w-6 mr-4 text-black bg-white" />
               <p className="inline pb-0 mb-0 font-normal">
-                {propertyData.area} sq ft
+                {propertyData?.area} sq ft
               </p>
             </div>
             <div className="border flex p-2 rounded-lg border-black mr-8">
               <CiMobile4 className="h-6 w-6 mr-4 text-black bg-white" />
               <p className="inline pb-0 mb-0 font-normal">
-                Appliances - {propertyData.appliances}
+                Appliances - {propertyData?.appliances}
               </p>
             </div>
           </div>
@@ -120,7 +122,7 @@ const Flow2b = ({ propertyData = {} }) => {
         <div className={`pb-4 ${selectComp !== 2 ? "hidden" : ""}`}>
           <div className="bg-white w-full rounded-lg p-3">
             <p className="text-black block font-semibold text-xl">About</p>
-            <p className="text-left mb-0">{propertyData.about}</p>
+            <p className="text-left mb-0">{propertyData?.about}</p>
           </div>
         </div>
 
@@ -189,7 +191,7 @@ const Flow2b = ({ propertyData = {} }) => {
             <div className="flex">
               <div className="w-4/5 mb-2">
                 <img
-                  src={propertyData.mapImage || map}
+                  src={propertyData?.mapImage || map}
                   alt="Map"
                   className="bg-cover max-h-72"
                 />
@@ -227,10 +229,10 @@ const Flow2b = ({ propertyData = {} }) => {
                 <div className="flex">
                   <MdOutlineStarPurple500 className="text-[#FFC700] mt-1 h-6 w-6" />
                   <p className="font-semibold text-[#FFC700] text-xl ml-2">
-                    {propertyData.rating} Stars
+                    {propertyData?.rating} Stars
                   </p>
                 </div>
-                <p className="text-gray-400 text-sm">{propertyData.reviews}</p>
+                <p className="text-gray-400 text-sm">{propertyData?.reviews}</p>
               </div>
             </div>
           </div>
