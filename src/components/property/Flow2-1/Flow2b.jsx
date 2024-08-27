@@ -286,7 +286,8 @@ const Flow2b = (property) => {
                 <div className="flex flex-col sm:flex-row justify-between">
                   <p className="text-gray-400">{property.address}</p>
                   <p className="font-semibold text-teal-500 sm:mt-0 mt-2">
-                    Get Directions
+                   <a href="https://maps.app.goo.gl/YifS8ePeDZxdideK7"> Get Directions
+                    </a> 
                   </p>
                 </div>
               </div>
@@ -298,7 +299,7 @@ const Flow2b = (property) => {
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113911.7374841447!2d80.88487084258148!3d26.848163621554857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be314f43454e5%3A0x111085c9b254d27c!2sBLOCK%20B!5e0!3m2!1sen!2sin!4v1724437712311!5m2!1sen!2sin"
                       // src={property.locationLink}
                       width="100%"
-                      height="400"
+                      height="480"
                       style={{ border: 0 }}
                       allowFullScreen=""
                       loading="lazy"
@@ -309,21 +310,21 @@ const Flow2b = (property) => {
 
                 <div className="pl-0 md:pl-4 md:w-1/5">
                   {[
-                    { icon: <MdSchool />, label: "School" },
-                    { icon: <MdRestaurant />, label: "Restaurants" },
-                    { icon: <MdShoppingBag />, label: "Groceries" },
-                    { icon: <MdLocalCafe />, label: "Cafe" },
-                    { icon: <MdMoney />, label: "Banks" },
-                    { icon: <MdStore />, label: "Shops" },
-                    { icon: <MdFitnessCenter />, label: "Fitness" },
-                    { icon: <MdDirectionsBus />, label: "Transport" },
+                    { icon: <MdSchool size={20} />, label: "School" },
+                    { icon: <MdRestaurant size={20} />, label: "Restaurants" },
+                    { icon: <MdShoppingBag size={20} />, label: "Groceries" },
+                    { icon: <MdLocalCafe  size={20}/>, label: "Cafe" },
+                    { icon: <MdMoney size={20} />, label: "Banks" },
+                    { icon: <MdStore  size={20}/>, label: "Shops" },
+                    { icon: <MdFitnessCenter size={20} />, label: "Fitness" },
+                    { icon: <MdDirectionsBus size={20} />, label: "Transport" },
                   ].map((item, index) => (
                     <div
                       key={index}
-                      className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto"
+                      className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto mb-4"
                     >
-                      <div className="flex w-1/2 justify-end">
-                        <div className="h-6 w-6 mr-2 text-black bg-white">
+                      <div className="flex w-2/5 justify-end">
+                        <div className="p-1 mr-1 text-black bg-white">
                           {item.icon}
                         </div>
                       </div>
