@@ -36,8 +36,8 @@ const Flow2a = () => {
       <div className="relative pb-2">
         <div className="w-full">
           <img
-            src={property.photos[0] || img1}
-            alt={property.propertyType}
+            src={property?.photos[0] || img1}
+            alt={property?.propertyType}
             className="w-full h-80 object-cover"
           />
         </div>
@@ -52,12 +52,12 @@ const Flow2a = () => {
       <div className="md:flex justify-between pt-8">
         <div>
           <h1 className="text-left text-white text-4xl">
-            {property.propertyType} / Rent{" "}
+            {property?.propertyType} / Rent{" "}
             <span>
               <img src={shield} alt="shield" className="h-10 w-10 inline" />
             </span>
           </h1>
-          <p className="text-gray-400 block">{property.address}</p>
+          <p className="text-gray-400 block">{property?.address}</p>
 
           <div className="flex">
             <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
@@ -66,22 +66,22 @@ const Flow2a = () => {
             <MdStarOutline className="text-[#FFFEFE] mt-1" />
             <MdStarOutline className="text-[#FFFEFE] mt-1" />
             <p className="ml-2 text-gray-400">
-              {property.reviews ? property.reviews.length : 0} (Reviews)
+              {property?.reviews ? property?.reviews?.length : 0} (Reviews)
             </p>
           </div>
 
           <div className="border border-gray-600 rounded-lg flex justify-between pl-3 pr-3">
             <div className="p-1">
               <p className="block text-gray-400">Monthly rent</p>
-              <h3 className="text-white text-3xl">Rs. {property.rent}</h3>
+              <h3 className="text-white text-3xl">Rs. {property?.rent}</h3>
             </div>
             <div className="p-1 text-gray-400">
               <p className="block">Bhk</p>
-              <h3 className="text-white text-3xl">{property.bhk} bhk</h3>
+              <h3 className="text-white text-3xl">{property?.bhk} bhk</h3>
             </div>
             <div className="p-1 text-gray-400">
               <p className="block">Floor</p>
-              <h3 className="text-white text-3xl">{property.floor}</h3>
+              <h3 className="text-white text-3xl">{property?.floor}</h3>
             </div>
           </div>
         </div>
@@ -98,11 +98,11 @@ const Flow2a = () => {
           </div>
           <div className="flex">
             <img src={profile} alt="owner" className="h-8 w-8 inline" />
-            <p className="pt-1 pl-3 text-gray-800">{property.ownerName}</p>
+            <p className="pt-1 pl-3 text-gray-800">{property?.ownerName}</p>
           </div>
           <div>
             <p className="block text-gray-400">
-              {property.ownersContactNumber}
+              {property?.ownersContactNumber}
             </p>
           </div>
           <div className="rounded-lg" style={{ backgroundColor: "#40B5A8" }}>
