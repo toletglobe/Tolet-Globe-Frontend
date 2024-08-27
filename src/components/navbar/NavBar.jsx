@@ -11,8 +11,15 @@ const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    // Scroll to the top of the page when activeLink changes
+    window.scrollTo(0, 0);
+  }, [activeLink]);
+
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
+    // Hide the mobile menu after selecting an option
+    document.getElementById("basic-navbar-nav").classList.add("hidden");
   };
 
   const handleLogout = () => {
@@ -20,6 +27,8 @@ const NavBar = () => {
     dispatch(logout());
     navigate("/login");
     toast.success("Logged out!");
+    // Hide the mobile menu after logout
+    document.getElementById("basic-navbar-nav").classList.add("hidden");
   };
 
   return (
@@ -31,7 +40,7 @@ const NavBar = () => {
           </Link>
         </div>
         <div className="flex flex-row">
-          <div className=" flex justify-end">
+          <div className="flex justify-end">
             <button
               className="text-white block lg:hidden"
               onClick={() =>
@@ -130,7 +139,7 @@ const NavBar = () => {
             <li>
               <Link
                 to="/property"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
+                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "propertyListing"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
@@ -144,7 +153,7 @@ const NavBar = () => {
               {authState.status === true ? (
                 <Link
                   to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
+                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                     activeLink === "logout"
                       ? "text-white bg-teal-500 rounded-md"
                       : ""
@@ -156,7 +165,7 @@ const NavBar = () => {
               ) : (
                 <Link
                   to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
+                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                     activeLink === "login"
                       ? "text-white bg-teal-500 rounded-md"
                       : ""
