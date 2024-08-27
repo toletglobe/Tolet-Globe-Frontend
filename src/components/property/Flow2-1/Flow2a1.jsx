@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Service from "../../../config/config";
 import Flow2b from "./Flow2b";
-import img1 from "../../../assets/property/property-1.jpg";
 import shield from "../../../assets/property/shield.png";
 import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
 import { CiShare2, CiHeart } from "react-icons/ci";
@@ -38,9 +37,8 @@ const Flow2a = () => {
           {/* temporary img section start*/}
           <div className="w-full ">
             <img
-              src={property.photos[0]}
+              src={property?.photos[0]}
               alt=""
-              srcset=""
               className="w-full h-80 object-cover"
             />
           </div>
