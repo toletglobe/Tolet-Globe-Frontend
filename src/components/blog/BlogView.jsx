@@ -46,6 +46,9 @@ const BlogView = () => {
           </div>
         </div>
         <hr />
+        <div className="my-2 font-semibold">
+          {blog.intro}
+        </div>
         <div className=" mx-2 my-3">
           <img
             src={blog.image}
@@ -61,7 +64,6 @@ const BlogView = () => {
           ></div>
         </div>
         <br />
-        <hr />
       </div>
       {/* Assuming `content` contains HTML formatted string */}
     </div>
