@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
   MdBedroomParent,
@@ -8,21 +9,13 @@ import {
   MdOutlineAvTimer,
 } from "react-icons/md";
 import {
-  MdBalance,
-  // MdBedroomParent,
-  MdCommentBank,
   MdDirectionsBus,
-  MdDirectionsCar,
   MdFitnessCenter,
-  MdLocalAtm,
   MdLocalCafe,
   MdMoney,
   MdRestaurant,
-  MdRestaurantMenu,
   MdSchool,
   MdShoppingBag,
-  MdShoppingBasket,
-  MdShoppingCart,
   MdStore,
 } from "react-icons/md";
 import { IoTabletLandscape } from "react-icons/io5";

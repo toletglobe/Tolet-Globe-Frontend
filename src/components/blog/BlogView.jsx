@@ -1,40 +1,29 @@
+
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Service from "../../config/config"; // Adjust the import path accordingly
 import { FaRegHeart } from "react-icons/fa6";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import author from "../../assets/property/author.jpg";
-import { ClipLoader } from "react-spinners"; // Example using react-spinners
+import author from "../../assets/property/author.jpg"
 
 const BlogView = () => {
   const { slug } = useParams(); // Get the blog ID from the URL
   const [blog, setBlog] = useState(null);
-  const [loading, setLoading] = useState(true); // Add a loading state
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const blogData = await Service.fetchBlogBySlug(slug); // Fetch the blog details
-        setBlog(blogData);
+        const blogData = await Service.fetchBlogBySlug(slug) // Fetch the blog details
+        setBlog(blogData)
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoading(false); // Set loading to false after fetching
       }
-    };
+    }
 
     fetchBlog();
-  }, [slug]);
+  }, []);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <ClipLoader color="#6CC1B6" size={150} /> {/* Spinner component */}
-      </div>
-    );
-  }
-
-  if (!blog) return <div>Blog not found</div>; // Handle case if blog is null after loading
+  if (!blog) return <div>Loading...</div>;
 
   return (
     <div className="bg-black text-white my-5 md:my-10 px-10">
@@ -69,10 +58,10 @@ const BlogView = () => {
           </div>
         </div>
         <hr />
-        <div className="my-5 text-xl">
+        <div  className="my-5 text-xl">
           {blog.intro}
         </div>
-        <div className="mx-2 my-3">
+        <div className=" mx-2 my-3">
           <img
             src={blog.image}
             alt={blog.title}
@@ -87,10 +76,9 @@ const BlogView = () => {
           ></div>
         </div>
         <br />
-        <hr />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BlogView;
+export default BlogView
