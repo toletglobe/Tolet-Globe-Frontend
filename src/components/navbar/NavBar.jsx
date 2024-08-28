@@ -1,12 +1,25 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../store/authSlice";
 
 const NavBar = () => {
   const [activeLink, setActiveLink] = useState("");
+  const authState = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(logout());
+    navigate("/login");
+    toast.success("Logged out!");
   };
 
   return (
@@ -128,17 +141,31 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to="/login"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
-                  activeLink === "login"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
-                onClick={() => handleNavLinkClick("login")}
-              >
-                Login
-              </Link>
+              {authState.status === true ? (
+                <Link
+                  to="/login"
+                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
+                    activeLink === "logout"
+                      ? "text-white bg-teal-500 rounded-md"
+                      : ""
+                  } hover:bg-[#c8a21c] hover:rounded-md`}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
+                    activeLink === "login"
+                      ? "text-white bg-teal-500 rounded-md"
+                      : ""
+                  } hover:bg-[#c8a21c] hover:rounded-md`}
+                  onClick={() => handleNavLinkClick("login")}
+                >
+                  Login
+                </Link>
+              )}
             </li>
           </ul>
         </div>

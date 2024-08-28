@@ -41,11 +41,11 @@ const Flow2a = () => {
             className="w-full h-80 object-cover"
           />
         </div>
-        <div className="absolute inset-x-0 bottom-0 flex justify-center">
-        <p className="bg-white inline p-1 px-3 rounded-lg">
-          Photos | Videos | Property Map
-        </p>
-      </div>
+        <div className="absolute w-full justify-center items-center bottom-0">
+          <p className="bg-white inline p-1 px-3 items-center ju rounded-lg">
+            Photos | Videos | Property Map
+          </p>
+        </div>
       </div>
 
       {/* Property Details Section */}
