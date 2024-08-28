@@ -80,6 +80,17 @@ const Contact = () => {
             />
           </div>
           <div className="mt-5 flex flex-col">
+            <label htmlFor="topix" className="text-white">
+              Phone No.
+            </label>
+            <input
+              type="phone"
+              id="phone"
+              placeholder="Enter Your Query"
+              className=" mt-2 appearance-none border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
+            />
+          </div>
+          <div className="mt-5 flex flex-col">
             <label className="text-white">Message</label>
             <textarea
               type="text"
