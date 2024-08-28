@@ -9,16 +9,19 @@ import { CiShare2, CiHeart } from "react-icons/ci";
 import { IoIosAdd } from "react-icons/io";
 import profile from "../../../assets/property/author.jpg";
 import fav from "../../../assets/property/Vector.png";
+import { ClipLoader } from "react-spinners";
 
 const Flow2a = () => {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
+
 
   useEffect(() => {
     const fetchProperty = async () => {
       try {
         const propertyList = await Service.fetchPropertyById(id);
         setProperty(propertyList);
+
         // console.log(propertyList);
       } catch (error) {
         console.error("Error fetching property:", error);
@@ -28,7 +31,14 @@ const Flow2a = () => {
     fetchProperty();
   }, []);
 
-  if (!property) return <p>Loading...</p>; // Add a loading state
+  if (!property){
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} /> {/* Spinner component */}
+      </div>
+    );
+  }
+
 
   return (
     <>
