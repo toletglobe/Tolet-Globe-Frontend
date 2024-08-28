@@ -7,19 +7,18 @@ import { logout } from "../../store/authSlice";
 
 const NavBar = () => {
   const [activeLink, setActiveLink] = useState("");
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Scroll to the top of the page when activeLink changes
     window.scrollTo(0, 0);
   }, [activeLink]);
 
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
-    // Hide the mobile menu after selecting an option
-    document.getElementById("basic-navbar-nav").classList.add("hidden");
+    setIsNavOpen(false);
   };
 
   const handleLogout = () => {
@@ -27,14 +26,13 @@ const NavBar = () => {
     dispatch(logout());
     navigate("/login");
     toast.success("Logged out!");
-    // Hide the mobile menu after logout
-    document.getElementById("basic-navbar-nav").classList.add("hidden");
+    setIsNavOpen(false);
   };
 
   return (
-    <nav className="z-0">
+    <nav className="z-50">
       <div className="w-full bg-black top-0 flex justify-between fixed items-center px-3 py-1">
-        <div>
+        <div className="navbar-logo">
           <Link to="/" className="flex items-center">
             <img src={logo} alt="Logo" className="h-16 lg:h-12 ml-10 lg:ml-0" />
           </Link>
@@ -43,11 +41,7 @@ const NavBar = () => {
           <div className="flex justify-end">
             <button
               className="text-white block lg:hidden"
-              onClick={() =>
-                document
-                  .getElementById("basic-navbar-nav")
-                  .classList.toggle("hidden")
-              }
+              onClick={() => setIsNavOpen(!isNavOpen)}
             >
               <svg
                 className="w-6 h-6"
@@ -68,9 +62,11 @@ const NavBar = () => {
         </div>
         <div
           id="basic-navbar-nav"
-          className="hidden lg:flex lg:items-center lg:w-auto w-full"
+          className={`lg:flex lg:items-center lg:w-auto w-full ${
+            isNavOpen ? "" : "hidden"
+          } absolute lg:relative top-16 left-0 lg:top-0 bg-black lg:bg-transparent lg:p-0 p-4 z-10`}
         >
-          <ul className="lg:flex lg:items-center lg:justify-between text-base text-gray-300 pt-4 lg:pt-0">
+          <ul className="lg:flex lg:items-center lg:justify-between text-base text-gray-300 pt--1 lg:pt-0">
             <li>
               <Link
                 to="/"
