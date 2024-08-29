@@ -12,27 +12,52 @@ const Blog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(6);
   const [totalBlogs, setTotalBlogs] = useState(0);
-  const [loading, setLoading] = useState(true); // Add loading state
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Use useNavigate for navigation
+  const [isLatest, setIsLatest] = useState(true);
+  const [backendData, setBackendData] = useState([]); // Store the original data from backend
+
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
         const allBlogs = await Service.fetchBlog();
-        const sortedBlogs = allBlogs.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
-        );
+        setBackendData(allBlogs); // Store the fetched data in backendData
+  
+        // By default, sort by latest
+        const sortedBlogs = allBlogs.sort((a, b) => new Date(b.date) - new Date(a.date));
         setBlogs(sortedBlogs);
-        setTotalBlogs(sortedBlogs.length);
-        setLoading(false); // Set loading to false after data is fetched
+
+        setTotalBlogs(sortedBlogs.length); // Set the total number of blogs
+
       } catch (error) {
         console.log(error);
         setLoading(false); // Set loading to false if an error occurs
       }
     };
-
+  
     fetchBlog();
   }, []);
+
+  
+  const handleClickLatest = () => {
+    const sortedBlogs = backendData.sort((a, b) => new Date(b.date) - new Date(a.date));
+    setBlogs(sortedBlogs);
+    setIsLatest(true);
+    setCurrentPage(1); // Reset to first page
+  };
+  
+  const handleClickTrending = () => {
+    const trendingBlogs = backendData.sort((a, b) => {
+      const sumA = a.views + a.likes;
+      const sumB = b.views + b.likes;
+      return sumB - sumA;
+    });
+    setBlogs(trendingBlogs);
+    setIsLatest(false);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  // Pagination logic
 
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
@@ -77,27 +102,77 @@ const Blog = () => {
       <h1 className="text-center mt-2 text-[#6CC1B6]">
         Dive into a Sea of Endless Stories and Insights
       </h1>
-        <div>
-          <div className="my-8 flex justify-center">
-            <div className="bg-white/20 p-3 text-white rounded-lg flex flex-row gap-5">
-              <button>Latest</button>
-              <button>Trending</button>
-            </div>
-          </div>
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 mx-auto   mt-10 ">
-            {currentBlogs.map((data, index) => (
-              <div
-                key={index}
-                className="text-white rounded-xl m-5 h-fit flex flex-col pb-2 border-b-4 border-stone-500 hover:border-[#6CC1B6]  "
-              >
-                <div className="">
-                  <div className="w-full">
-                    <img
-                      onClick={() => handleViewBlog(data.slug)}
-                      src={data?.image}
-                      alt="image1"
-                      className="cursor-pointer rounded-md w-full h-60 object-cover"
-                    />
+
+      <div className="my-8 flex justify-center">
+        <div className="bg-white/20 p-3 text-white rounded-lg flex flex-row gap-5">
+        <button 
+  onClick={handleClickLatest}
+  className={`${isLatest ? 'text-[#6CC1B6]' : 'text-white'}`}
+>
+  Latest
+</button>
+<button 
+  onClick={handleClickTrending}
+  className={`${!isLatest ? 'text-[#6CC1B6]' : 'text-white'}`}
+>
+  Trending
+</button>
+        </div>
+      </div>
+      <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:mx-20 mt-10 overflow-x-auto">
+        {currentBlogs.map((data, index) => (
+          <div
+            key={index}
+            className="text-white rounded-xl m-5 h-fit  flex flex-col justify-center pb-2 border-b-4 border-stone-500 hover:border-[#6CC1B6]"
+          >
+            <div className="">
+              <div className="w-full ">
+                <img
+                  onClick={() => handleViewBlog(data.slug)}
+                  src={data?.image}
+                  alt="image1"
+                  className="cursor-pointer rounded-md w-full h-60 object-cover"
+                />
+              </div>
+              <div className="p-2">
+                <div className="mt-2">
+                  <span className="text-gray-300 font-semibold">
+                    {new Date(data?.date).toDateString()}
+                  </span>{" "}
+                  | <span className="underline">{data?.category}</span>
+                </div>
+                <div className="mt-2">
+                  <button className="text-2xl font-semibold text-[#6CC1B6]" onClick={() => handleViewBlog(data.slug)}>
+                    {data?.title.length > 35
+                      ? `${data.title.slice(0, 35)}...`
+                      : data.title}
+                  </button>
+                  <p className="text-base text-gray-400 my-4">
+                    {data?.intro.length > 100
+                      ? `${data.intro.slice(0, 100)}...`
+                      : data.intro}
+                  </p>
+                </div>
+                <div className="flex flex-row items-center gap-2 ">
+                  <Button
+                    className="text-[#6CC1B6]"
+                    onClick={() => handleViewBlog(data.slug)}>
+                    Read More 
+                  </Button>
+                  <Button
+                    className="text-[#6CC1B6]"
+                    onClick={() => handleViewBlog(data.slug)}>
+                    <FaLongArrowAltRight />
+                  </Button>
+                </div>
+                <div className="mt-4 flex justify-between items-center">
+                  <div className="flex">
+                    <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full mr-4"><img src={author} alt="" /></figure>
+                    <div className="flex flex-col">
+                    <div>{data?.author}</div>
+                    <div className="text-xs text-gray-500">{data?.role}</div>
+                  </div>
+
                   </div>
                   <div className="p-2">
                     <div className="mt-2 flex flex-wrap justify-start">
