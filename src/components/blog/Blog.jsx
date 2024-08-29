@@ -15,50 +15,45 @@ const Blog = () => {
   const [blogsPerPage] = useState(6); // Number of blogs per page
   const [totalBlogs, setTotalBlogs] = useState(0);
   const navigate = useNavigate(); // Use useNavigate for navigation
+  const [isLatest, setIsLatest] = useState(true);
+  const [backendData, setBackendData] = useState([]); // Store the original data from backend
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
         const allBlogs = await Service.fetchBlog();
-        const sortedBlogs = allBlogs.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
-        );
+        setBackendData(allBlogs); // Store the fetched data in backendData
+  
+        // By default, sort by latest
+        const sortedBlogs = allBlogs.sort((a, b) => new Date(b.date) - new Date(a.date));
         setBlogs(sortedBlogs);
-        setTotalBlogs(sortedBlogs.length);
+        setTotalBlogs(sortedBlogs.length); // Set the total number of blogs
       } catch (error) {
         console.log(error);
         throw error;
       }
     };
-
+  
     fetchBlog();
   }, []);
-
-
+  
   const handleClickLatest = () => {
-    getDataFromBackend();
-
+    const sortedBlogs = backendData.sort((a, b) => new Date(b.date) - new Date(a.date));
+    setBlogs(sortedBlogs);
     setIsLatest(true);
-    paginate(1);
+    setCurrentPage(1); // Reset to first page
   };
-
+  
   const handleClickTrending = () => {
-    backendData.sort((a, b) => {
+    const trendingBlogs = backendData.sort((a, b) => {
       const sumA = a.views + a.likes;
       const sumB = b.views + b.likes;
-
-      if (sumA > sumB) {
-        return -1;
-      }
-      if (sumA < sumB) {
-        return 1;
-      }
+      return sumB - sumA;
     });
-    setBackendData(backendData);
+    setBlogs(trendingBlogs);
     setIsLatest(false);
-    paginate(1);
+    setCurrentPage(1); // Reset to first page
   };
-
 
   // Pagination logic
   const indexOfLastBlog = currentPage * blogsPerPage;
@@ -92,8 +87,18 @@ const Blog = () => {
       </h1>
       <div className="my-8 flex justify-center">
         <div className="bg-white/20 p-3 text-white rounded-lg flex flex-row gap-5">
-          <button>Latest</button>
-          <button>Trending</button>
+        <button 
+  onClick={handleClickLatest}
+  className={`${isLatest ? 'text-[#6CC1B6]' : 'text-white'}`}
+>
+  Latest
+</button>
+<button 
+  onClick={handleClickTrending}
+  className={`${!isLatest ? 'text-[#6CC1B6]' : 'text-white'}`}
+>
+  Trending
+</button>
         </div>
       </div>
       <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:mx-20 mt-10 overflow-x-auto">
