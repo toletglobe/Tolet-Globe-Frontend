@@ -141,95 +141,75 @@ const Listing = () => {
           <div className="container mx-auto px-10">
             <div>
               <div className="flex items-center justify-between px-3 pb-20">
-                <p className="text-5xl text-[#C8A21C] font-bold">
+                <p className="lg:text-5xl md:text-4xl text-2xl  text-[#C8A21C] font-bold">
                   Property Listing
                 </p>
                 <img
                   src={hamburger}
                   alt=""
-                  className="cursor-pointer"
+                  className="cursor-pointer lg:w-12 md:w-11 w-9 h-auto"
                   onClick={handleHamburger}
                 />
               </div>
-              <div className="absolute z-50 right-0 flex flex-col gap-4 p-4 sm:w-full md:w-[442px] lg:w-[500px]">
-                <div className="flex justify-end">
+              <div className="absolute z-50 right-0 flex  gap-4 p-4 sm:w-full md:w-[442px] lg:w-[500px] h-[2500px]">
+                <div className="">
                   <img
                     src={cross}
                     alt="Close"
                     onClick={handleHamburger}
                     className={`${
                       Hamburger ? "block" : "hidden"
-                    } cursor-pointer w-6 h-6 md:w-8 md:h-8`}
+                    } cursor-pointer `}
                   />
                 </div>
 
                 <div
-                  className={`flex flex-col bg-white text-black rounded-lg shadow-lg p-4 md:w-full ${
+                  className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg  md:w-full ${
                     Hamburger ? "block" : "hidden"
                   }`}
                 >
-                  <div className="mb-4">
-                    <p className="text-lg font-semibold mb-2">
+                  <div className=" flex w-full py-3 px-4 border-b-2 border-[#D9D9D9] ">
+                    <p className="lg:text-xl md:text-xl text-lg font-semibold mb-2 w-3/4">
                       Sign in to get a personalized feed!
                     </p>
-                    <button className="h-10 w-full rounded-xl bg-[#40B5A8] text-white font-semibold hover:bg-[#36a094] transition">
+                    <button className="h-10 w-2/4 rounded-xl bg-[#40B5A8] text-white font-semibold hover:bg-[#36a094] transition">
                       Login
                     </button>
                   </div>
 
-                  <div className="flex mb-4 gap-2">
-                    <p className="text-md font-medium mb-2">
-                      Property Services
-                    </p>
-                    <img
-                      src={side}
-                      alt="Property Services"
-                      className="w-2 h-2 md:w-2 md:h-2 mt-2"
-                    />
+                  <div className="flex items-center  w-full justify-between gap-2 px-5 py-3 border-b-2 border-[#D9D9D9]">
+                    <p className=" font-semibold mb-2">Property Services</p>
+                    <img src={side} alt="Property Services" className="" />
                   </div>
 
-                  <div className="mb-4 flex items-center gap-2">
-                    <p className="text-md font-medium">MB Advice</p>
-                    <div className="w-16 h-5 bg-[#FFC100] rounded-full flex items-center justify-center text-xs font-bold text-black">
-                      New
+                  <div className=" flex items-center w-full justify-between gap-2 px-5 py-3 border-b-2 border-[#D9D9D9]">
+                    <div className="flex items-center justify-center gap-8">
+                      <p className="text-md font-semibold">MB Advice</p>
+                      <div className="w-16 h-5 bg-[#FFC100] rounded-full  flex items-center justify-center text-xs font-bold text-black">
+                        New
+                      </div>
                     </div>
-                    <img
-                      src={side}
-                      alt="MB Advice"
-                      className="w-2 h-2 md:w-2 md:h-2"
-                    />
+                    <img src={side} alt="MB Advice" className="" />
                   </div>
 
-                  <div className="mb-4 flex items-center gap-2">
-                    <p className="text-md font-medium">Help</p>
-                    <img
-                      src={side}
-                      alt="Help"
-                      className="w-2 h-2 md:w-2 md:h-2"
-                    />
+                  <div className=" flex items-center w-full justify-between gap-2 px-5 py-3 border-b-2 border-[#D9D9D9]">
+                    <p className="text-md font-semibold">Help</p>
+                    <img src={side} alt="Help" className="" />
                   </div>
 
-                  <div className="mb-4 flex items-center gap-2">
-                    <p className="text-md font-medium">Wishlist</p>
-                    <img
-                      src={side}
-                      alt="Wishlist"
-                      className="w-2 h-2 md:w-2 md:h-2"
-                    />
+                  <div className=" flex items-center w-full justify-between gap-2 px-5 py-3 border-b-2 border-[#D9D9D9]">
+                    <p className="text-md font-semibold">Wishlist</p>
+                    <img src={side} alt="Wishlist" className="" />
                   </div>
 
-                  <div className="mb-4 flex items-center gap-2">
-                    <p className="text-md font-medium">Visit Properties</p>
-                    <img
-                      src={side}
-                      alt="Visit Properties"
-                      className="w-2 h-2 md:w-2 md:h-2"
-                    />
+                  <div className=" flex items-center  w-full justify-between gap-2 px-5 py-3 border-b-2 border-[#D9D9D9]">
+                    <p className="text-md font-semibold">Visit Properties</p>
+                    <img src={side} alt="Visit Properties" className="" />
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-start gap-3 pb-14">
+              <div className="flex items-center justify-start gap-3 pb-14 ml-4 flex-col md:flex-row lg:flex-row ">
                 <div className="bg-white h-14 w-80 flex items-center justify-between text-black px-4 rounded-2xl ">
                   <div className="w-1/4 flex items-center justify-start gap-4 border-r-2 h-3/4 border-black">
                     <p className="text-black">Buy</p>
@@ -254,7 +234,7 @@ const Listing = () => {
                     </div>
                     <div>Filters</div>
                   </div>
-                  <div className=" h-full flex items-center justify-center w-1/4 hover:bg-gray-200 p-1 cursor-pointer rounded-full">
+                  <div className=" h-full flex items-center justify-center w-1/4  cursor-pointer rounded-full">
                     <img
                       src={drop}
                       alt=""
@@ -267,16 +247,16 @@ const Listing = () => {
             </div>
 
             <div
-              className={`min-w-[827px] min-h-[683px] absolute z-30 top-[420px] left-[271px] flex items-start justify-center gap-5 ${
+              className={`min-w-[827px] min-h-[683px] absolute z-30 top-[420px] lg:left-[400px] md:left-[271px] left-[-235px] flex items-start justify-center gap-5 ${
                 isOpen ? "block" : "hidden"
               } `}
             >
-              <div>
+              <div className="">
                 <img
                   src={cross}
                   alt=""
                   onClick={handleOpen}
-                  className="cursor-pointer hover:bg-slate-200 p-2 rounded-full"
+                  className="cursor-pointer lg:static md:static absolute lg:bg-transparent md:bg-transparent bg-black rounded-full  top-3 right-56 w-9 lg:w-20 md:w-20 z-50 "
                 />
               </div>
               {isLoading && (
@@ -285,40 +265,57 @@ const Listing = () => {
                 </div>
               )}
               {/* filter */}
-              <div className="min-w-[300px] max-w-full sm:min-w-[715px] bg-white text-black flex flex-col justify-between rounded-b-2xl shadow-md">
-                <div className="text-xl font-medium py-3 flex items-center justify-center border-b-4">
+              <div className="lg:w-[715px] lg:max-w-full md:min-w-[300px] md:max-w-full  w-screen bg-white text-black flex flex-col justify-between rounded-b-2xl shadow-md">
+                <div className="text-2xl font-medium py-4 flex items-center justify-center border-b-4">
                   <p>All Filters</p>
                 </div>
                 <div className="flex flex-col items-start justify-start p-6 sm:px-10 gap-4">
                   <div className="w-full">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969]">
+                    <p className="text-xl sm:text-xl font-medium text-[#696969] mb-6">
                       Budget
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-2">
-                      <div className="h-11 w-full sm:w-72 border-2 border-[#4A7F79] flex items-center justify-between px-3 rounded-lg">
-                        <p>${filters.minPrice || "8500"}</p>
+                      <div className="h-11 w-full sm:w-72 border-2 border-[#4A7F79] flex items-center justify-between px-8 rounded-lg">
+                        <p className="font-light">
+                          ${filters.minPrice || "8500"}
+                        </p>
                         <img src={drop} alt="Dropdown icon" />
                       </div>
-                      <div className="h-11 w-full sm:w-72 border-2 border-[#4A7F79] flex items-center justify-between px-3 rounded-lg">
-                        <p>{filters.maxPrice || "Max"}</p>
+                      <div className="h-11 w-full sm:w-72 border-2 border-[#4A7F79] flex items-center justify-between px-8 rounded-lg">
+                        <p className="font-light">
+                          {filters.maxPrice || "Max"}
+                        </p>
                         <img src={drop} alt="Dropdown icon" />
                       </div>
                     </div>
                   </div>
-                  <input
-                    type="range"
-                    className="w-full mt-2 hover:cursor-pointer"
-                    min="0"
-                    max="10000"
-                    step="100"
-                    value={filters.minPrice || 0}
-                    onChange={(e) =>
-                      handleFilterChange("minPrice", e.target.value)
-                    }
-                  />
-
-                  <div className="w-full">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969]">
+                  <div className="w-3/4 flex items-center justify-center flex-col mx-auto mb-5 mt-8">
+                    <input
+                      type="range"
+                      className=" mb-5 w-full appearance-none cursor-pointer bg-[#40B5A8] rounded-full h-[5px]"
+                      min="0"
+                      max="10000"
+                      step="100"
+                      value={filters.minPrice || 0}
+                      onChange={(e) =>
+                        handleFilterChange("minPrice", e.target.value)
+                      }
+                    />
+                    <div className="w-full flex items-center justify-between">
+                      <div>
+                        <p className="font-light text-2xl">
+                          ${filters.minPrice || "8500"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-light text-2xl">
+                          {filters.maxPrice || "Max"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full mb-6">
+                    <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
                       BHK
                     </p>
                     <div className="flex flex-wrap items-center justify-between gap-2 hover:cursor-pointer">
@@ -342,8 +339,8 @@ const Listing = () => {
                     </div>
                   </div>
 
-                  <div className="w-full">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969]">
+                  <div className="w-full mb-6">
+                    <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
                       Residential
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -374,8 +371,8 @@ const Listing = () => {
                     </div>
                   </div>
 
-                  <div className="w-full">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969]">
+                  <div className="w-full mb-6">
+                    <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
                       Commercial
                     </p>
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -400,8 +397,8 @@ const Listing = () => {
                     </div>
                   </div>
 
-                  <div className="w-full">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969]">
+                  <div className="w-full mb-6">
+                    <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
                       Others
                     </p>
                     <div
@@ -418,8 +415,8 @@ const Listing = () => {
                     </div>
                   </div>
 
-                  <div className="w-full">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969]">
+                  <div className="w-full mb-6">
+                    <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
                       Preference Housing
                     </p>
                     <div className="flex flex-wrap gap-2 hover:cursor-pointer">
@@ -454,15 +451,15 @@ const Listing = () => {
                     </div>
                   </div>
 
-                  <div className="w-full">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969] ">
+                  <div className="w-full mb-6">
+                    <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3 ">
                       Move-in Date
                     </p>
                     <div className="hover:cursor-pointer h-12 w-full sm:w-[302px] text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-between px-3">
                       <p>Select one</p>
                       <input
                         type="date"
-                        className="text-black bg-white"
+                        className="text-black bg-white "
                         value={filters.moveInDate}
                         onChange={(e) =>
                           handleFilterChange("moveInDate", e.target.value)
@@ -471,8 +468,8 @@ const Listing = () => {
                     </div>
                   </div>
 
-                  <div className="w-full">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969]">
+                  <div className="w-full mb-6">
+                    <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
                       House Type
                     </p>
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -513,7 +510,6 @@ const Listing = () => {
               </div>
               {/* filter end*/}
             </div>
-
             <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {properties.map((property) => (
                 <li
@@ -641,7 +637,6 @@ export default Listing;
 
 {
   /* <section className="property py-24" id="property">
-
         <div className="container mx-auto px-10">
           <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {properties.map((property) => (
