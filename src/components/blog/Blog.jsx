@@ -2,21 +2,20 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Service from "../../config/config";
 import { Button } from "../index";
-import { FaLongArrowAltRight, FaRegHeart, FaArrowRight, FaArrowLeft  } from "react-icons/fa";
-import { MdArrowRight, MdArrowRightAlt, MdOutlineArrowRight, MdOutlineRemoveRedEye } from "react-icons/md";
-import author from "../../assets/property/author.jpg"
-import { FaArrowRightFromBracket, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import { IoMdArrowDropright } from "react-icons/io";
+import { FaLongArrowAltRight, FaRegHeart, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import author from "../../assets/property/author.jpg";
+import { ClipLoader } from "react-spinners";
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const [blogsPerPage] = useState(6); // Number of blogs per page
+  const [blogsPerPage] = useState(6);
   const [totalBlogs, setTotalBlogs] = useState(0);
   const navigate = useNavigate(); // Use useNavigate for navigation
   const [isLatest, setIsLatest] = useState(true);
   const [backendData, setBackendData] = useState([]); // Store the original data from backend
+
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -27,15 +26,18 @@ const Blog = () => {
         // By default, sort by latest
         const sortedBlogs = allBlogs.sort((a, b) => new Date(b.date) - new Date(a.date));
         setBlogs(sortedBlogs);
+
         setTotalBlogs(sortedBlogs.length); // Set the total number of blogs
+
       } catch (error) {
         console.log(error);
-        throw error;
+        setLoading(false); // Set loading to false if an error occurs
       }
     };
   
     fetchBlog();
   }, []);
+
   
   const handleClickLatest = () => {
     const sortedBlogs = backendData.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -56,13 +58,14 @@ const Blog = () => {
   };
 
   // Pagination logic
+
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
   const totalPages = Math.ceil(totalBlogs / blogsPerPage);
 
   const handleViewBlog = (slug) => {
-    navigate(`/blog/${slug}`); // Navigate to the detailed blog view page
+    navigate(`/blog/${slug}`);
   };
 
   const handlePreviousPage = () => {
@@ -77,6 +80,20 @@ const Blog = () => {
     }
   };
 
+  const onPageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} /> {/* Spinner component */}
+      </div>
+    );
+  }
+
   return (
     <div className="bg-black my-5">
       <h1 className="text-4xl text-center text-white font-semibold mt-4">
@@ -85,6 +102,7 @@ const Blog = () => {
       <h1 className="text-center mt-2 text-[#6CC1B6]">
         Dive into a Sea of Endless Stories and Insights
       </h1>
+
       <div className="my-8 flex justify-center">
         <div className="bg-white/20 p-3 text-white rounded-lg flex flex-row gap-5">
         <button 
@@ -154,100 +172,145 @@ const Blog = () => {
                     <div>{data?.author}</div>
                     <div className="text-xs text-gray-500">{data?.role}</div>
                   </div>
+
                   </div>
-                  <div className="flex flex-row gap-5">
-                    <div className="flex flex-row gap-1 items-center">
-                      <MdOutlineRemoveRedEye /> {data?.views}
+                  <div className="p-2">
+                    <div className="mt-2 flex flex-wrap justify-start">
+                      <span className="text-gray-400 font-semibold mx-1">
+                        {new Date(data?.date).toDateString()}
+                      </span>{" "}
+                      |{" "}
+                      <span className="mx-1 underline text-gray-400">
+                        {data?.category}
+                      </span>
                     </div>
-                    <div className="flex flex-row gap-1 items-center">
-                      <FaRegHeart /> {data?.likes}
+                    <div className="mt-2">
+                      <button
+                        className="text-xl font-semibold text-[#6CC1B6] text-start"
+                        onClick={() => handleViewBlog(data.slug)}
+                      >
+                        {data?.title.length > 25
+                          ? `${data.title.slice(0, 25)}...`
+                          : data.title}
+                      </button>
+                      <p className="text-sm text-gray-400 my-4">
+                        {data?.intro.length > 100
+                          ? `${data.intro.slice(0, 100)}...`
+                          : data.intro}
+                      </p>
+                    </div>
+                    <div className="flex flex-row items-center gap-2 ">
+                      <Button
+                        className="text-[#6CC1B6]"
+                        onClick={() => handleViewBlog(data.slug)}
+                      >
+                        Read More
+                      </Button>
+                      <Button
+                        className="text-[#6CC1B6]"
+                        onClick={() => handleViewBlog(data.slug)}
+                      >
+                        <FaLongArrowAltRight />
+                      </Button>
+                    </div>
+                    <div className="mt-4 flex justify-between items-center">
+                      <div className="flex">
+                        <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full mr-4">
+                          <img src={author} alt="" />
+                        </figure>
+                        <div className="flex flex-col">
+                          <div>{data?.author}</div>
+                          <div className="text-xs text-gray-500">
+                            {data?.role}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-row gap-5">
+                        <div className="flex flex-row gap-1 items-center">
+                          <MdOutlineRemoveRedEye /> {data?.views}
+                        </div>
+                        <div className="flex flex-row gap-1 items-center">
+                          <FaRegHeart /> {data?.likes}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center mt-5 mx-20">
+            <div className="bg-white/20 rounded-md px-2 py-1 flex justify-between gap-3">
+              <Button
+                onClick={handlePreviousPage}
+                disabled={currentPage === 1}
+                className="hover:text-[#6CC1B6] rounded-lg  flex items-center"
+              >
+                <FaChevronLeft className="mr-2" /> Previous
+              </Button>
+              <div className="flex items-center space-x-2">
+                {currentPage > 2 && (
+                  <>
+                    <button
+                      onClick={() => onPageChange(1)}
+                      className="px-2 py-1 rounded-lg  hover:text-[#6CC1B6]"
+                    >
+                      1
+                    </button>
+                    {currentPage > 3 && <span className="px-2">...</span>}
+                  </>
+                )}
+                {currentPage > 1 && (
+                  <button
+                    onClick={() => onPageChange(currentPage - 1)}
+                    className="px-2 py-1 rounded-lg  hover:text-[#6CC1B6]"
+                  >
+                    {currentPage - 1}
+                  </button>
+                )}
+                <button
+                  className="px-2 py-1 rounded-lg text-[#6CC1B6] underline"
+                  aria-current="page"
+                >
+                  {currentPage}
+                </button>
+                {currentPage < totalPages && (
+                  <button
+                    onClick={() => onPageChange(currentPage + 1)}
+                    className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
+                  >
+                    {currentPage + 1}
+                  </button>
+                )}
+                {currentPage < totalPages - 1 && (
+                  <>
+                    {currentPage < totalPages - 2 && (
+                      <span className="px-2">...</span>
+                    )}
+                    <button
+                      onClick={() => onPageChange(totalPages)}
+                      className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
+                    >
+                      {totalPages}
+                    </button>
+                  </>
+                )}
+              </div>
+              <div className="flex gap-1">
+                <span className="pt-0.5">|</span>
+                <Button
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                  className="hover:text-[#6CC1B6] rounded-lg flex items-center"
+                >
+                  Next <FaChevronRight className="ml-2" />
+                </Button>
+              </div>
             </div>
           </div>
-        ))}
-      </div>
-
-<div className="flex justify-center mt-5 mx-20">
-  <div className="bg-white/20 rounded-md px-2 py-1 flex justify-between gap-3">
-    <Button
-      onClick={handlePreviousPage}
-      disabled={currentPage === 1}
-      className="hover:text-[#6CC1B6] rounded-lg  flex items-center"
-    >
-      <FaChevronLeft className="mr-2" /> Previous
-    </Button>
-    <div className="flex items-center space-x-2">
-      {/* First Page */}
-      {currentPage > 2 && (
-        <>
-          <button
-            onClick={() => onPageChange(1)}
-            className="px-2 py-1 rounded-lg  hover:text-[#6CC1B6]"
-          >
-            1
-          </button>
-          {currentPage > 3 && <span className="px-2">...</span>}
-        </>
-      )}
-
-      {/* Previous Page */}
-      {currentPage > 1 && (
-        <button
-          onClick={() => onPageChange(currentPage - 1)}
-          className="px-2 py-1 rounded-lg  hover:text-[#6CC1B6]"
-        >
-          {currentPage - 1}
-        </button>
-      )}
-
-      {/* Current Page */}
-      <button
-        className="px-2 py-1 rounded-lg text-[#6CC1B6] underline"
-        aria-current="page"
-      >
-        {currentPage}
-      </button>
-
-      {/* Next Page */}
-      {currentPage < totalPages && (
-        <button
-          onClick={() => onPageChange(currentPage + 1)}
-          className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
-        >
-          {currentPage + 1}
-        </button>
-      )}
-
-      {/* Last Page */}
-      {currentPage < totalPages - 1 && (
-        <>
-          {currentPage < totalPages - 2 && <span className="px-2">...</span>}
-          <button
-            onClick={() => onPageChange(totalPages)}
-            className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
-          >
-            {totalPages}
-          </button>
-        </>
-      )}
-    </div>
-    <div className="flex gap-1">
-      <span className="pt-0.5">|</span>
-    <Button
-      onClick={handleNextPage}
-      disabled={currentPage === totalPages}
-      className="hover:text-[#6CC1B6] rounded-lg flex items-center"
-    >
-      Next <FaChevronRight className="ml-2" />
-    </Button>
-    </div>
-   
-  </div>
-</div>
-
+        </div>
+      
     </div>
   );
 };
