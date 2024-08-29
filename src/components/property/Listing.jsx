@@ -43,7 +43,7 @@ const Listing = () => {
             {properties.map((property) => (
               <li
                 key={property._id}
-                className="property-card bg-white border border-gray-200 shadow-lg"
+                className="property-card bg-white border border-grey-200 shadow-lg"
               >
                 <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
                   <Slider {...settings}>
@@ -58,24 +58,23 @@ const Listing = () => {
                     ))}
                   </Slider>
                   <div
-                    className="card-badge-right absolute top-6 right-6 text-white text-xs uppercase px-3 py-1"
-                    style={{ backgroundColor: "#c8a217" }}
-                  >
-                    {property.spaceType === "Residential"
-                      ? "For Rent"
-                      : "For Sale"}
-                  </div>
-                  <div
                     className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
-                    style={{ backgroundColor: "#137a60" }}
+                    style={{ backgroundColor: "#40B5A8" }}
                   >
-                    {property.propertyType}
+                    {property.propertyType === "Residential"
+                      ? "For Rent"
+                      : "Available"}
                   </div>
                   <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
                     <div>
                       <button className="banner-actions-btn flex items-center gap-1 text-white">
                         <FaLocationDot className="text-xl" />
-                        <address>{property.locality}</address>
+                        <address>
+                          {" "}
+                          {`${property.locality}, ${
+                            property.city || "Lucknow"
+                          }`}
+                        </address>
                       </button>
                     </div>
                     <div className="flex gap-4">
@@ -94,18 +93,23 @@ const Listing = () => {
                     <h3 className="card-title text-2xl font-semibold">
                       <a href="#">{property.propertyType}</a>
                     </h3>
-                    <div className="card_icons flex space-x-4">
+                    <div className="icon-box flex space-x-4 p-2">
                       <a href="#">
-                        <CiShare2 className="card_icon" /> {/* Share icon */}
+                        <CiShare2
+                          className="card_icon"
+                          style={{ color: "#40B5A8" }}
+                        />
                       </a>
                       <a href="#">
-                        <IoAdd className="card_icon" /> {/* Plus icon */}
+                        <IoAdd className="card_icon"
+                        style={{ color: "#000000", fontSize: "12px" }} />
                       </a>
                       <a href="#">
-                        <CiHeart className="card_icon text-red-500" /> {/* Heart icon */}
+                        <CiHeart className="card_icon text-red-500" />
                       </a>
                     </div>
                   </div>
+
                   <div className="card-details flex flex-col items-start">
                     <div className="card-price font-poppins text-s font-normal text-grey-700 mt-1">
                       RS. {property.rent}
@@ -116,17 +120,20 @@ const Listing = () => {
                   </div>
                   <ul className="card-list custom-card-list mt-4">
                     <li className="bed card-item flex items-center text-base">
-                      <IoBedOutline style={{ fontSize: "1.6rem" }} /> {/* Increased size */}
+                      <IoBedOutline style={{ fontSize: "1.6rem" }} />{" "}
+                      {/* Increased size */}
                       &nbsp;
                       {property.bhk}
                     </li>
                     <li className="bath card-item flex items-center text-base">
-                      <LuBath style={{ fontSize: "1.6rem" }} /> {/* Increased size */}
+                      <LuBath style={{ fontSize: "1.6rem" }} />{" "}
+                      {/* Increased size */}
                       &nbsp;
                       {property.typeOfWashroom}
                     </li>
                     <li className="pi card-item flex items-center text-base">
-                      <PiGridFour style={{ fontSize: "1.6rem" }} /> {/* Increased size */}
+                      <PiGridFour style={{ fontSize: "1.6rem" }} />{" "}
+                      {/* Increased size */}
                       &nbsp;
                       {property.floor} ft²
                     </li>
