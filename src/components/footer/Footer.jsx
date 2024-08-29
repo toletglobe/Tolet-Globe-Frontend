@@ -5,7 +5,6 @@ import logo from "../../assets/logo.png"
 const Footer = () => {
   return (
     <div className="text-white mx-20">
-      <hr className="my-10"/>
       <div className="grid grid-cols-2 md:grid-cols-4 justify-around gap-20">
         <div>
           <h1 className="text-2xl font-semibold">REACH US</h1>

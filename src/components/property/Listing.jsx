@@ -513,6 +513,7 @@ const Listing = () => {
               </div>
               {/* filter end*/}
             </div>
+
             <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {properties.map((property) => (
                 <li
@@ -640,6 +641,7 @@ export default Listing;
 
 {
   /* <section className="property py-24" id="property">
+
         <div className="container mx-auto px-10">
           <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {properties.map((property) => (

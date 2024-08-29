@@ -48,7 +48,7 @@ const HomeDown = () => {
           >
             <div className="flex">
               <input
-                className="flex-1 py-2 px-4 border border-gray-300 rounded-l-md"
+                className="flex-1 py-2 px-4 border border-gray-300 bg-white rounded-l-md"
                 placeholder="Search PG, Flats and Houses"
                 aria-label="Search PG, Flats and Houses"
               />

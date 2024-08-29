@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Service from "../../config/config";
 import { Button } from "../index";
-import { FaLongArrowAltRight, FaRegHeart } from "react-icons/fa";
-import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { FaLongArrowAltRight, FaRegHeart, FaArrowRight, FaArrowLeft  } from "react-icons/fa";
+import { MdArrowRight, MdArrowRightAlt, MdOutlineArrowRight, MdOutlineRemoveRedEye } from "react-icons/md";
+import author from "../../assets/property/author.jpg"
+import { FaArrowRightFromBracket, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import { IoMdArrowDropright } from "react-icons/io";
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
   const [blogsPerPage] = useState(6); // Number of blogs per page
   const [totalBlogs, setTotalBlogs] = useState(0);
   const navigate = useNavigate(); // Use useNavigate for navigation
@@ -30,14 +34,40 @@ const Blog = () => {
     fetchBlog();
   }, []);
 
+
+  const handleClickLatest = () => {
+    getDataFromBackend();
+
+    setIsLatest(true);
+    paginate(1);
+  };
+
+  const handleClickTrending = () => {
+    backendData.sort((a, b) => {
+      const sumA = a.views + a.likes;
+      const sumB = b.views + b.likes;
+
+      if (sumA > sumB) {
+        return -1;
+      }
+      if (sumA < sumB) {
+        return 1;
+      }
+    });
+    setBackendData(backendData);
+    setIsLatest(false);
+    paginate(1);
+  };
+
+
   // Pagination logic
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
   const totalPages = Math.ceil(totalBlogs / blogsPerPage);
 
-  const handleViewBlog = (blogId) => {
-    navigate(`/blog/${blogId}`); // Navigate to the detailed blog view page
+  const handleViewBlog = (slug) => {
+    navigate(`/blog/${slug}`); // Navigate to the detailed blog view page
   };
 
   const handlePreviousPage = () => {
@@ -70,12 +100,12 @@ const Blog = () => {
         {currentBlogs.map((data, index) => (
           <div
             key={index}
-            className="text-white rounded-xl m-5 h-fit flex flex-col justify-center pb-2 border-b-4 border-stone-500 hover:border-[#6CC1B6]"
+            className="text-white rounded-xl m-5 h-fit  flex flex-col justify-center pb-2 border-b-4 border-stone-500 hover:border-[#6CC1B6]"
           >
             <div className="">
               <div className="w-full ">
                 <img
-                  onClick={() => handleViewBlog(data._id)}
+                  onClick={() => handleViewBlog(data.slug)}
                   src={data?.image}
                   alt="image1"
                   className="cursor-pointer rounded-md w-full h-60 object-cover"
@@ -86,15 +116,15 @@ const Blog = () => {
                   <span className="text-gray-300 font-semibold">
                     {new Date(data?.date).toDateString()}
                   </span>{" "}
-                  | {data?.category}
+                  | <span className="underline">{data?.category}</span>
                 </div>
                 <div className="mt-2">
-                  <h1 className="text-lg font-semibold text-[#6CC1B6]">
-                    {data?.title.length > 40
-                      ? `${data.title.slice(0, 40)}...`
+                  <button className="text-2xl font-semibold text-[#6CC1B6]" onClick={() => handleViewBlog(data.slug)}>
+                    {data?.title.length > 35
+                      ? `${data.title.slice(0, 35)}...`
                       : data.title}
-                  </h1>
-                  <p className="text-base text-gray-400 mt-2">
+                  </button>
+                  <p className="text-base text-gray-400 my-4">
                     {data?.intro.length > 100
                       ? `${data.intro.slice(0, 100)}...`
                       : data.intro}
@@ -103,22 +133,29 @@ const Blog = () => {
                 <div className="flex flex-row items-center gap-2 ">
                   <Button
                     className="text-[#6CC1B6]"
-                    onClick={() => handleViewBlog(data._id)}
-                  >
-                    Read More <FaLongArrowAltRight />
+                    onClick={() => handleViewBlog(data.slug)}>
+                    Read More 
+                  </Button>
+                  <Button
+                    className="text-[#6CC1B6]"
+                    onClick={() => handleViewBlog(data.slug)}>
+                    <FaLongArrowAltRight />
                   </Button>
                 </div>
-                <div className="mt-2 flex justify-between items-center">
-                  <div className="flex flex-col">
+                <div className="mt-4 flex justify-between items-center">
+                  <div className="flex">
+                    <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full mr-4"><img src={author} alt="" /></figure>
+                    <div className="flex flex-col">
                     <div>{data?.author}</div>
                     <div className="text-xs text-gray-500">{data?.role}</div>
                   </div>
+                  </div>
                   <div className="flex flex-row gap-5">
                     <div className="flex flex-row gap-1 items-center">
-                      <FaRegHeart /> {data?.likes}
+                      <MdOutlineRemoveRedEye /> {data?.views}
                     </div>
                     <div className="flex flex-row gap-1 items-center">
-                      <MdOutlineRemoveRedEye /> {data?.views}
+                      <FaRegHeart /> {data?.likes}
                     </div>
                   </div>
                 </div>
@@ -127,33 +164,85 @@ const Blog = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-5 mx-20">
-        <div className="bg-white/20 rounded-md px-2 py-1 flex justify-between gap-3">
-          <div>
-            <Button
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-              className={`text-gray-400 hover:text-[#6CC1B6] rounded-lg px-5 `}
-            >
-              Previous
-            </Button>
-          </div>
-          <div>
-            <span className="text-white">
-              Page {currentPage} of {totalPages}
-            </span>
-          </div>
-          <div>
-            <Button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className={`text-gray-400 hover:text-[#6CC1B6] rounded-lg px-5 `}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
-      </div>
+
+<div className="flex justify-center mt-5 mx-20">
+  <div className="bg-white/20 rounded-md px-2 py-1 flex justify-between gap-3">
+    <Button
+      onClick={handlePreviousPage}
+      disabled={currentPage === 1}
+      className="hover:text-[#6CC1B6] rounded-lg  flex items-center"
+    >
+      <FaChevronLeft className="mr-2" /> Previous
+    </Button>
+    <div className="flex items-center space-x-2">
+      {/* First Page */}
+      {currentPage > 2 && (
+        <>
+          <button
+            onClick={() => onPageChange(1)}
+            className="px-2 py-1 rounded-lg  hover:text-[#6CC1B6]"
+          >
+            1
+          </button>
+          {currentPage > 3 && <span className="px-2">...</span>}
+        </>
+      )}
+
+      {/* Previous Page */}
+      {currentPage > 1 && (
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          className="px-2 py-1 rounded-lg  hover:text-[#6CC1B6]"
+        >
+          {currentPage - 1}
+        </button>
+      )}
+
+      {/* Current Page */}
+      <button
+        className="px-2 py-1 rounded-lg text-[#6CC1B6] underline"
+        aria-current="page"
+      >
+        {currentPage}
+      </button>
+
+      {/* Next Page */}
+      {currentPage < totalPages && (
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
+        >
+          {currentPage + 1}
+        </button>
+      )}
+
+      {/* Last Page */}
+      {currentPage < totalPages - 1 && (
+        <>
+          {currentPage < totalPages - 2 && <span className="px-2">...</span>}
+          <button
+            onClick={() => onPageChange(totalPages)}
+            className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
+          >
+            {totalPages}
+          </button>
+        </>
+      )}
+    </div>
+    <div className="flex gap-1">
+      <span className="pt-0.5">|</span>
+    <Button
+      onClick={handleNextPage}
+      disabled={currentPage === totalPages}
+      className="hover:text-[#6CC1B6] rounded-lg flex items-center"
+    >
+      Next <FaChevronRight className="ml-2" />
+    </Button>
+    </div>
+   
+  </div>
+</div>
+
     </div>
   );
 };

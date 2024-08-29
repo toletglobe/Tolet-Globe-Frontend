@@ -54,7 +54,8 @@ export const About = () => {
               Our Mission
             </h3>
             <p className="font-poppins text-lg font-medium text-white leading-6 lg:text-left text-center lg:pr-14">
-              To hold "To-Let" boards at all rental properties available nearby.
+              Find nearby rental properties with 'To-Let' boards. Explore
+              available listings and options in your area with ease.
             </p>
           </div>
 
