@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { CiHeart, CiShare2 } from "react-icons/ci";
-import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { IoAdd, IoBedOutline } from "react-icons/io5";
+import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import Slider from "react-slick";
 import "./listing.css";
 import Service from "../../config/config";
 
@@ -12,11 +13,10 @@ const Listing = () => {
   const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
 
-  // Fetch data from backend APIp
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const propertyData= await Service.fetchProperty();
+        const propertyData = await Service.fetchProperty();
         setProperties(propertyData);
         console.log(propertyData);
       } catch (error) {
@@ -26,6 +26,14 @@ const Listing = () => {
 
     fetchProperties();
   }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
   return (
     <>
@@ -38,15 +46,19 @@ const Listing = () => {
                 className="property-card bg-white border border-gray-200 shadow-lg"
               >
                 <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
-                  <a href="#">
-                    <img
-                      src={property.photos[0]}
-                      alt={property.propertyType}
-                      className="w-full h-full object-cover"
-                    />
-                  </a>
+                  <Slider {...settings}>
+                    {property.photos.map((photo, index) => (
+                      <div key={index}>
+                        <img
+                          src={photo}
+                          alt={property.propertyType}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </Slider>
                   <div
-                    className={`card-badge-right absolute top-6 right-6 text-white text-xs uppercase px-3 py-1`}
+                    className="card-badge-right absolute top-6 right-6 text-white text-xs uppercase px-3 py-1"
                     style={{ backgroundColor: "#c8a217" }}
                   >
                     {property.spaceType === "Residential"
@@ -54,7 +66,7 @@ const Listing = () => {
                       : "For Sale"}
                   </div>
                   <div
-                    className={`card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1`}
+                    className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
                     style={{ backgroundColor: "#137a60" }}
                   >
                     {property.propertyType}
@@ -79,44 +91,58 @@ const Listing = () => {
                 </figure>
                 <div className="card-content p-6">
                   <div className="name_icon flex justify-between items-center">
-                    <h3 className="h3 card-title text-xl font-semibold">
+                    <h3 className="card-title text-2xl font-semibold">
                       <a href="#">{property.propertyType}</a>
                     </h3>
-                    <div className="card_icons flex space-x-2">
+                    <div className="card_icons flex space-x-4">
                       <a href="#">
-                        <CiShare2 className="card_icon text-lg border p-1" />
+                        <CiShare2 className="card_icon" /> {/* Share icon */}
                       </a>
                       <a href="#">
-                        <IoAdd className="card_icon text-lg border p-1" />
+                        <IoAdd className="card_icon" /> {/* Plus icon */}
                       </a>
                       <a href="#">
-                        <CiHeart className="card_icon text-lg border p-1" />
+                        <CiHeart className="card_icon text-red-500" /> {/* Heart icon */}
                       </a>
                     </div>
                   </div>
-                  <div className="card-price text-gray-700 text-sm mt-1">
-                    Rs. {property.rent}
+                  <div className="card-details flex flex-col items-start">
+                    <div className="card-price font-poppins text-s font-normal text-grey-700 mt-1">
+                      RS. {property.rent}
+                    </div>
+                    <div className="card-text font-poppins text-lg font-medium text-black">
+                      {property.type}, {property.floor}th floor
+                    </div>
                   </div>
-                  <p className="card-text text-gray-800 text-sm mt-4">
-                    {property.type}, {property.floor}th floor
-                  </p>
-                  <ul className="card-list flex items-center justify-evenly mt-4">
-                    <li className="card-item flex items-center text-gray-800 text-base">
-                      <IoBedOutline className="text-xl" />
+                  <ul className="card-list custom-card-list mt-4">
+                    <li className="bed card-item flex items-center text-base">
+                      <IoBedOutline style={{ fontSize: "1.6rem" }} /> {/* Increased size */}
                       &nbsp;
                       {property.bhk}
                     </li>
-                    <li className="card-item flex items-center text-gray-800 text-base">
-                      <LuBath className="text-xl" />
+                    <li className="bath card-item flex items-center text-base">
+                      <LuBath style={{ fontSize: "1.6rem" }} /> {/* Increased size */}
                       &nbsp;
                       {property.typeOfWashroom}
                     </li>
-                    <li className="card-item flex items-center text-gray-800 text-base">
-                      <PiGridFour className="text-xl" />
+                    <li className="pi card-item flex items-center text-base">
+                      <PiGridFour style={{ fontSize: "1.6rem" }} /> {/* Increased size */}
                       &nbsp;
                       {property.floor} ft²
                     </li>
                   </ul>
+                  <div className="divider-container">
+                    <hr
+                      className="custom-hr"
+                      style={{
+                        border: "none",
+                        borderTop: "2.8px solid #ccc",
+                        width: "calc(100% + 0.001rem)",
+                        marginTop: "1.4rem",
+                        marginBottom: "-2.3rem",
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className="card-footer p-6 flex justify-between items-center">
                   <div className="card-author flex items-center gap-4">
@@ -136,7 +162,7 @@ const Listing = () => {
                   <div className="card-footer-actions">
                     <button
                       onClick={() => navigate(`/property/${property._id}`)}
-                      className="card-footer-actions-btn bg-gray-200 text-gray-900 w-28 h-9 grid place-items-center text-sm"
+                      className="card-footer-actions-btn"
                     >
                       SHOW MORE
                     </button>
