@@ -18,6 +18,7 @@ const Footer = () => {
 
   return (
     <div className="text-white mx-20">
+      <hr className="my-10" />
       <div className="grid grid-cols-2 md:grid-cols-4 justify-around gap-20">
         <div>
           <h1 className="text-2xl font-semibold">REACH US</h1>
@@ -29,7 +30,8 @@ const Footer = () => {
               <IoIosMail /> hello@toletglobe.in
             </li>
             <li className="flex flex-row items-center mb-2 gap-2">
-              <FaLocationDot /> D1/122 Vipulkhand, Gomtinagar Lucknow, Uttar Pradesh
+              <FaLocationDot /> D1/122 Vipulkhand, Gomtinagar Lucknow, Uttar
+              Pradesh
             </li>
           </ul>
         </div>
