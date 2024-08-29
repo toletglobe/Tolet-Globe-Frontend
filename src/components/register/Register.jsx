@@ -1,7 +1,11 @@
 import { useState } from "react";
-
+import "./Register.css";
 import {
-  FaUser, FaLock, FaPhoneAlt, FaRegAddressCard, FaSchool,
+  FaUser,
+  FaLock,
+  FaPhoneAlt,
+  FaRegAddressCard,
+  FaSchool,
 } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -42,8 +46,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent refreshing of the page while submitting the form
     try {
-      const res = await API.post("/api/v1/auth/register", {
-        username, email, password, phone, role, userType, answer,
+      const res = await API.post("auth/register", {
+        username,
+        email,
+        password,
+        phone,
+        role,
+        userType,
+        answer,
       });
       console.log(res.data);
       if (res.data) {
@@ -57,13 +67,16 @@ const Register = () => {
       console.log(error);
       toast.error(error.response.data);
     }
+    // console.log(username, email, password, phone, role, userType, answer);
   };
 
   return (
-    <div className="reset_form_container relative flex items-center justify-center my-10 overflow-hidden w-[400px] h-[685px] max-w-[400px] max-h-[685px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16">
-      <div className="absolute inset-0 w-[190%] h-[190%] bg-[conic-gradient(transparent,transparent,transparent,#C8A217)] animate-rotate-border"></div>
-      <div className="absolute inset-0 w-[190%] h-[190%] bg-[conic-gradient(transparent,transparent,transparent,#3CBDB1)] animate-rotate-border animate-delay-[-3s]"></div>
-      <div className="relative bg-black rounded-[50px_5px] p-[50px_40px] text-white z-10 min-h-[650px]">
+    <div className="register_form_container relative flex items-center justify-center my-10 overflow-hidden w-[400px] h-[685px] max-w-[400px] max-h-[685px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16">
+      {/* <div className="absolute inset-0 w-[190%] h-[190%] animate-rotate-border"></div>
+      <div className="absolute inset-0 w-[190%] h-[190%] animate-rotate-border animate-delay-[-3s]"></div> */}
+      <div className="relative bg-black rounded-[50px_5px] p-[43px_40px] text-white z-10 min-h-[650px] border-4 border-transparent">
+        {" "}
+        {/* Added min-h-[650px] */}
         <h2 className="text-4xl font-semibold text-center">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mt-10 flex items-center">
@@ -121,16 +134,24 @@ const Register = () => {
               onChange={handleRoleChange}
               className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
             >
-              <option value="" disabled className="text-[#3CBDB1]">
+              <option
+                value=""
+                disabled
+                selected
+                className="text-[#3CBDB1] text-sm"
+              >
                 Select Role
               </option>
-              <option value="admin" className="text-[#3CBDB1]">
+              <option value="admin" className="text-[#3CBDB1] text-sm">
                 Admin
               </option>
-              <option value="content creator" className="text-[#3CBDB1]">
+              <option
+                value="content creator"
+                className="text-[#3CBDB1] text-sm"
+              >
                 Content Creator
               </option>
-              <option value="user" className="text-[#3CBDB1]">
+              <option value="user" className="text-[#3CBDB1] text-sm">
                 User
               </option>
             </select>
@@ -142,7 +163,7 @@ const Register = () => {
                 id="userType"
                 value={userType}
                 onChange={handleUserTypeChange}
-                className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+                className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-sm outline-none"
               >
                 <option value="" disabled className="text-[#3CBDB1]">
                   Select User Type

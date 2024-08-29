@@ -17,9 +17,9 @@ class Service {
     }
   }
 
-  static async fetchBlogById(_id) {
+  static async fetchBlogBySlug(slug) {
     try {
-      const response = await axios.get(`${BASE_URL}blog/blogs/${_id}`, {
+      const response = await axios.get(`${BASE_URL}blog/blogs/${slug}`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -31,29 +31,29 @@ class Service {
     }
   }
 
-  static async fetchProperty(){
+  static async fetchProperty() {
     try {
-      const response = await axios.get(`${BASE_URL}property`,{
-        headers:{
+      const response = await axios.get(`${BASE_URL}property`, {
+        headers: {
           "Content-Type": "application/json",
         },
       });
       return response.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw error;
     }
   }
-  static async fetchPropertyById(_id){
+  static async fetchPropertyById(_id) {
     try {
-      const response = await axios.get(`${BASE_URL}property/${_id}`,{
-        headers:{
+      const response = await axios.get(`${BASE_URL}property/${_id}`, {
+        headers: {
           "Content-Type": "application/json",
         },
       });
       return response.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw error;
     }
   }

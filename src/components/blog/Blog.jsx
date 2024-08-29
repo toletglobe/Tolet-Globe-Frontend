@@ -8,6 +8,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
   const [blogsPerPage] = useState(6); // Number of blogs per page
   const [totalBlogs, setTotalBlogs] = useState(0);
   const navigate = useNavigate(); // Use useNavigate for navigation
@@ -30,14 +31,40 @@ const Blog = () => {
     fetchBlog();
   }, []);
 
+
+  const handleClickLatest = () => {
+    getDataFromBackend();
+
+    setIsLatest(true);
+    paginate(1);
+  };
+
+  const handleClickTrending = () => {
+    backendData.sort((a, b) => {
+      const sumA = a.views + a.likes;
+      const sumB = b.views + b.likes;
+
+      if (sumA > sumB) {
+        return -1;
+      }
+      if (sumA < sumB) {
+        return 1;
+      }
+    });
+    setBackendData(backendData);
+    setIsLatest(false);
+    paginate(1);
+  };
+
+
   // Pagination logic
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
   const totalPages = Math.ceil(totalBlogs / blogsPerPage);
 
-  const handleViewBlog = (blogId) => {
-    navigate(`/blog/${blogId}`); // Navigate to the detailed blog view page
+  const handleViewBlog = (slug) => {
+    navigate(`/blog/${slug}`); // Navigate to the detailed blog view page
   };
 
   const handlePreviousPage = () => {
@@ -75,7 +102,7 @@ const Blog = () => {
             <div className="">
               <div className="w-full ">
                 <img
-                  onClick={() => handleViewBlog(data._id)}
+                  onClick={() => handleViewBlog(data.slug)}
                   src={data?.image}
                   alt="image1"
                   className="cursor-pointer rounded-md w-full h-60 object-cover"
@@ -103,7 +130,7 @@ const Blog = () => {
                 <div className="flex flex-row items-center gap-2 ">
                   <Button
                     className="text-[#6CC1B6]"
-                    onClick={() => handleViewBlog(data._id)}
+                    onClick={() => handleViewBlog(data.slug)}
                   >
                     Read More <FaLongArrowAltRight />
                   </Button>
