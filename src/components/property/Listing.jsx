@@ -13,6 +13,8 @@ const Listing = () => {
   const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
 
+  console.log("Prashant")
+  
   useEffect(() => {
     const fetchProperties = async () => {
       try {
