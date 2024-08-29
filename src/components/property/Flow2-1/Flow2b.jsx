@@ -823,33 +823,10 @@ const Flow2b = (property) => {
                   <p className="text-center align-middle mx-0 my-0"> </p>
                 </div>
               </div>
-
-              <div className="my-4 flex justify-center">
-                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white mr-2">
-                  <p className="text-center align-middle mx-0 my-0">1</p>
-                </div>
-
-                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white mr-2">
-                  <p className="text-center align-middle mx-0 my-0">2</p>
-                </div>
-
-                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white mr-2">
-                  <p className="text-center align-middle mx-0 my-0">3</p>
-                </div>
-
-                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white mr-4 ml-2">
-                  <p className="text-center align-middle mx-0 my-0"> </p>
-                </div>
-
-                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white">
-                  <p className="text-center align-middle mx-0 my-0"> </p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
-    </>
     </>
   );
 };
