@@ -59,7 +59,8 @@ const Listing = () => {
                   </Slider>
                   <div
                     className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
-                    style={{ backgroundColor: "#40B5A8" }}
+                    style={{ backgroundColor: "#40B5A8", 
+                       textTransform: "capitalize"}}
                   >
                     {property.propertyType === "Residential"
                       ? "For Rent"
