@@ -11,6 +11,7 @@ import { IoAdd, IoBedOutline } from "react-icons/io5";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import Slider from "react-slick";
 import "./listing.css";
 
 import Service from "../../config/config";
@@ -21,6 +22,7 @@ import location from "../../assets/property/location.png";
 import cross from "../../assets/property/cross.png";
 import side from "../../assets/property/side.png";
 import axios from "axios";
+import { Button } from "../index";
 
 const Listing = () => {
   const [Hamburger, SetHamburger] = useState(false);
@@ -137,6 +139,15 @@ const Listing = () => {
 
     fetchProperties();
   }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+  };
 
   // Calculate total pages
   const totalPages = Math.ceil(properties.length / propertiesPerPage);
@@ -542,6 +553,7 @@ const Listing = () => {
                     </div>
                   </div>
                 </div>
+
                 <div className="border-t-4 py-5 px-6 sm:px-10 flex items-center justify-between">
                   <button
                     className="h-12 w-36 sm:w-44 border-2 rounded-md border-[#40B5A8] text-[#40b5a8] font-light"
@@ -559,37 +571,57 @@ const Listing = () => {
               </div>
               {/* filter end*/}
             </div>
+
             <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {properties.map((property) => (
                 <li
                   key={property._id}
-                  className="property-card bg-white border border-gray-200 shadow-lg"
+                  className="property-card bg-white border border-grey-200 shadow-lg"
                 >
                   <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
-                    <a href="#">
-                      <img
-                        src={property.photos[0]}
-                        alt={property.propertyType}
-                        className="w-full h-full object-cover"
-                      />
-                    </a>
+                    {property.photos.length > 1 ? (
+                      <Slider {...settings}>
+                        {property.photos.map((photo, index) => (
+                          <div key={index}>
+                            {/* <div> */}
+                            <img
+                              src={photo}
+                              alt={property.propertyType}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ))}
+                      </Slider>
+                    ) : (
+                      <div>
+                        <img
+                          src={property.photos[0]}
+                          alt={property.propertyType}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
                     <div
-                      className={`card-badge-right  absolute top-6 right-6 text-white text-xs uppercase px-3 py-1`}
-                      style={{ backgroundColor: "#c8a217" }}
+                      className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
+                      style={{
+                        backgroundColor: "#40B5A8",
+                        textTransform: "capitalize",
+                      }}
                     >
-                      For rent
-                    </div>
-                    <div
-                      className={`card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1`}
-                      style={{ backgroundColor: "#137a60" }}
-                    >
-                      Featured
+                      {property.propertyType === "Residential"
+                        ? "For Rent"
+                        : "Available"}
                     </div>
                     <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
                       <div>
                         <button className="banner-actions-btn flex items-center gap-1 text-white">
                           <FaLocationDot className="text-xl" />
-                          <address>{property.address}</address>
+                          <address>
+                            {" "}
+                            {`${property.locality}, ${
+                              property.city || "Lucknow"
+                            }`}
+                          </address>
                         </button>
                       </div>
                       <div className="flex gap-4">
@@ -597,60 +629,82 @@ const Listing = () => {
                           <FaVideo className="text-xl" />
                         </button>
                         <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                          <FaRegImage className="text-xl" />6
+                          <FaRegImage className="text-xl" />
+                          {property.photos.length}
                         </button>
                       </div>
                     </div>
                   </figure>
                   <div className="card-content p-6">
                     <div className="name_icon flex justify-between items-center">
-                      <h3 className="h3 card-title text-xl font-semibold">
-                        {/* <a href="#">{property.title}</a> */}
-                        <a href="#">Property for Rent</a>
+                      <h3 className="card-title text-2xl font-semibold">
+                        <a href="#">{property.propertyType}</a>
                       </h3>
-                      <div className="card_icons flex space-x-2">
+                      <div className="icon-box flex space-x-4 p-2">
                         <a href="#">
-                          <CiShare2 className="card_icon text-lg border p-1" />
+                          <CiShare2
+                            className="card_icon"
+                            style={{ color: "#40B5A8" }}
+                          />
                         </a>
                         <a href="#">
-                          <IoAdd className="card_icon text-lg border p-1" />
+                          <IoAdd
+                            className="card_icon"
+                            style={{ color: "#000000", fontSize: "12px" }}
+                          />
                         </a>
                         <a href="#">
-                          <CiHeart className="card_icon text-lg border p-1  " />
+                          <CiHeart className="card_icon text-red-500" />
                         </a>
                       </div>
                     </div>
-                    <div className="card-price text-gray-700 text-sm mt-1">
-                      {property.rent}
+
+                    <div className="card-details flex flex-col items-start">
+                      <div className="card-price font-poppins text-s font-normal text-grey-700 mt-1">
+                        RS. {property.rent}
+                      </div>
+                      <div className="card-text font-poppins text-lg font-medium text-black">
+                        {property.type}, {property.floor}th floor
+                      </div>
                     </div>
-                    <p className="card-text text-gray-800 text-sm mt-4">
-                      {/* {property.description} */}
-                      Beautiful, Ground Floor Accomodation
-                    </p>
-                    <ul className="card-list flex  items-center justify-evenly mt-4">
-                      <li className="card-item flex items-center text-gray-800 text-base">
-                        <IoBedOutline className="text-xl" />
+                    <ul className="card-list custom-card-list mt-4">
+                      <li className="bed card-item flex items-center text-base">
+                        <IoBedOutline style={{ fontSize: "1.6rem" }} />{" "}
+                        {/* Increased size */}
                         &nbsp;
                         {property.bhk}
                       </li>
-                      <li className="card-item flex items-center text-gray-800 text-base">
-                        <LuBath className="text-xl" />
+                      <li className="bath card-item flex items-center text-base">
+                        <LuBath style={{ fontSize: "1.6rem" }} />{" "}
+                        {/* Increased size */}
                         &nbsp;
-                        {/* {property.baths} */}2
+                        {property.typeOfWashroom}
                       </li>
-                      <li className="card-item flex items-center text-gray-800 text-base">
-                        <PiGridFour className="text-xl" />
+                      <li className="pi card-item flex items-center text-base">
+                        <PiGridFour style={{ fontSize: "1.6rem" }} />{" "}
+                        {/* Increased size */}
                         &nbsp;
-                        {/* {property.area} */}
-                        1800
+                        {property.floor} ft²
                       </li>
                     </ul>
+                    <div className="divider-container">
+                      <hr
+                        className="custom-hr"
+                        style={{
+                          border: "none",
+                          borderTop: "2.8px solid #ccc",
+                          width: "calc(100% + 0.001rem)",
+                          marginTop: "1.4rem",
+                          marginBottom: "-2.3rem",
+                        }}
+                      />
+                    </div>
                   </div>
                   <div className="card-footer p-6 flex justify-between items-center">
                     <div className="card-author flex items-center gap-4">
                       <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full">
                         <img
-                          src={author}
+                          src={property.photos[0]}
                           alt={property.ownerName}
                           className="w-full h-full object-cover"
                         />
@@ -662,11 +716,9 @@ const Listing = () => {
                       </div>
                     </div>
                     <div className="card-footer-actions">
-                      {/* onClick={() => navigate(property.location)} */}
                       <button
-                        // onClick={() => navigate(property.location)}
                         onClick={() => navigate(`/property/${property._id}`)}
-                        className="card-footer-actions-btn bg-gray-200 text-gray-900 w-28 h-9 grid place-items-center text-sm"
+                        className="card-footer-actions-btn"
                       >
                         SHOW MORE
                       </button>
@@ -677,9 +729,81 @@ const Listing = () => {
             </ul>
           </div>
         </section>
+
+        <div className="flex justify-center mt-5 mx-auto">
+          <div className="bg-white/20 rounded-md px-2 py-1 flex justify-center gap-3">
+            <Button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className="hover:text-[#6CC1B6] rounded-lg  flex items-center"
+            >
+              <FaChevronLeft className="mr-2" /> Previous
+            </Button>
+            <div className="flex items-center space-x-2">
+              {currentPage > 2 && (
+                <>
+                  <button
+                    onClick={() => onPageChange(1)}
+                    className="px-2 py-1 rounded-lg  hover:text-[#6CC1B6]"
+                  >
+                    1
+                  </button>
+                  {currentPage > 3 && <span className="px-2">...</span>}
+                </>
+              )}
+              {currentPage > 1 && (
+                <button
+                  onClick={() => onPageChange(currentPage - 1)}
+                  className="px-2 py-1 rounded-lg  hover:text-[#6CC1B6]"
+                >
+                  {currentPage - 1}
+                </button>
+              )}
+              <button
+                className="px-2 py-1 rounded-lg text-[#6CC1B6] underline"
+                aria-current="page"
+              >
+                {currentPage}
+              </button>
+              {currentPage < totalPages && (
+                <button
+                  onClick={() => onPageChange(currentPage + 1)}
+                  className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
+                >
+                  {currentPage + 1}
+                </button>
+              )}
+              {currentPage < totalPages - 1 && (
+                <>
+                  {currentPage < totalPages - 2 && (
+                    <span className="px-2">...</span>
+                  )}
+                  <button
+                    onClick={() => onPageChange(totalPages)}
+                    className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
+                  >
+                    {totalPages}
+                  </button>
+                </>
+              )}
+            </div>
+            <div className="flex gap-1">
+              <span className="pt-0.5">|</span>
+              <Button
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                className="hover:text-[#6CC1B6] rounded-lg flex items-center"
+              >
+                Next <FaChevronRight className="ml-2" />
+              </Button>
+            </div>
+          </div>
+        </div>
       </>
     </>
   );
+  // });
 };
+// };
 
 export default Listing;

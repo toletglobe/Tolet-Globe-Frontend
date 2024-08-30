@@ -39,7 +39,6 @@ import LocationComponent from "./Location.jsx";
 const Flow2b = (property) => {
   console.log(property);
 
-  
   // const [displayContent, setDisplayContent] = useState('location'); // 'location' is default
   // const handleIconClick = (content) => {
   //   setDisplayContent(content);
@@ -277,7 +276,7 @@ const Flow2b = (property) => {
           </div>
 
           {/* Location section */}
-         {/* <div className={`pb-4 ${selectComp > 5 ? "hidden" : ""}`}>
+          {/* <div className={`pb-4 ${selectComp > 5 ? "hidden" : ""}`}>
             <div className={`bg-white w-full rounded-md p-3`}>
               <p className="text-black block font-semibold text-xl">Location</p>
 
@@ -333,8 +332,8 @@ const Flow2b = (property) => {
               </div>
             </div>
           </div> */}
-         {/**<LocationComponent/> */} 
-         <LocationComponent/>
+          {/**<LocationComponent/> */}
+          <LocationComponent />
 
           {/* Review section */}
 

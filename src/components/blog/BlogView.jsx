@@ -1,10 +1,9 @@
-
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Service from "../../config/config"; // Adjust the import path accordingly
 import { FaRegHeart } from "react-icons/fa6";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import author from "../../assets/property/author.jpg"
+import author from "../../assets/property/author.jpg";
 
 const BlogView = () => {
   const { slug } = useParams(); // Get the blog ID from the URL
@@ -13,12 +12,12 @@ const BlogView = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const blogData = await Service.fetchBlogBySlug(slug) // Fetch the blog details
-        setBlog(blogData)
+        const blogData = await Service.fetchBlogBySlug(slug); // Fetch the blog details
+        setBlog(blogData);
       } catch (error) {
         console.log(error);
       }
-    }
+    };
 
     fetchBlog();
   }, []);
@@ -29,7 +28,8 @@ const BlogView = () => {
     <div className="bg-black text-white my-5 md:my-10 px-10">
       <div className="mb-4 md:mx-16">
         <p className="text-gray-400">
-          {new Date(blog.date).toDateString()} | <span className="underline">{blog.category}</span>
+          {new Date(blog.date).toDateString()} |{" "}
+          <span className="underline">{blog.category}</span>
         </p>
         <h1 className="text-4xl my-2 text-[#6CC1B6] font-bold">{blog.title}</h1>
         <div className="flex my-6">
@@ -58,7 +58,7 @@ const BlogView = () => {
           </div>
         </div>
         <hr />
-
+        <div className="my-2 font-semibold">{blog.intro}</div>
 
         <div className=" mx-2 my-3">
           <img
@@ -77,7 +77,7 @@ const BlogView = () => {
         <br />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BlogView
+export default BlogView;

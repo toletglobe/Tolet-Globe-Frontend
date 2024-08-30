@@ -131,7 +131,7 @@ const Blog = () => {
         {currentBlogs.map((data, index) => (
           <div
             key={index}
-            className="text-white rounded-xl m-5 h-fit  flex flex-col justify-center pb-2 border-b-4 border-stone-500 hover:border-[#6CC1B6]"
+            className="text-white rounded-xl m-5 h-fit flex flex-col justify-center pb-2 border-b-4 border-stone-500 hover:border-[#6CC1B6]"
           >
             <div className="">
               <div className="w-full ">
