@@ -36,17 +36,23 @@ const Login = () => {
         password,
       });
 
-      console.log(res.data);
+      // console.log(res.data);
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        dispatch(login(res.data.token));
+        const data = {
+          token: res.data.token,
+          userData: null,
+        };
+        dispatch(login(data));
+
+        // dispatch(login(res.data.token));
         toast.success("Login success");
         navigate("/");
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data);
+      // toast.error(error.response.data);
     }
   };
 
