@@ -1,3 +1,6 @@
+
+/* eslint-disable react/jsx-no-undef */
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import {
@@ -6,139 +9,139 @@ import {
   FaLocationDot,
   FaRegImage,
   FaVideo,
-} from "react-icons/fa6";
-import { IoAdd, IoBedOutline } from "react-icons/io5";
-import { LuBath } from "react-icons/lu";
-import { PiGridFour } from "react-icons/pi";
-import { useNavigate } from "react-router-dom";
-import Slider from "react-slick";
-import "./listing.css";
+} from 'react-icons/fa6'
+import { IoAdd, IoBedOutline } from 'react-icons/io5'
+import { LuBath } from 'react-icons/lu'
+import { PiGridFour } from 'react-icons/pi'
+import { useNavigate } from 'react-router-dom'
+import Slider from 'react-slick'
+import './listing.css'
 
-import Service from "../../config/config";
-import author from "../../assets/property/author.jpg";
-import hamburger from "../../assets/property/hamburger.png";
-import drop from "../../assets/property/drop.png";
-import location from "../../assets/property/location.png";
-import cross from "../../assets/property/cross.png";
-import side from "../../assets/property/side.png";
-import axios from "axios";
-import { Button } from "../index";
+import Service from '../../config/config'
+import author from '../../assets/property/author.jpg'
+import hamburger from '../../assets/property/hamburger.png'
+import drop from '../../assets/property/drop.png'
+import location from '../../assets/property/location.png'
+import cross from '../../assets/property/cross.png'
+import side from '../../assets/property/side.png'
+import axios from 'axios'
+import { Button } from '../index'
 
 const Listing = () => {
-  const [Hamburger, SetHamburger] = useState(false);
-  const [isOpen, SetIsOpen] = useState(false);
-  const navigate = useNavigate();
-  const [properties, setProperties] = useState([]);
-  const [propertiesPerPage, setPropertiesPerPage] = useState(9);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [Hamburger, SetHamburger] = useState(false)
+  const [isOpen, SetIsOpen] = useState(false)
+  const navigate = useNavigate()
+  const [properties, setProperties] = useState([])
+  const [propertiesPerPage, setPropertiesPerPage] = useState(9)
+  const [currentPage, setCurrentPage] = useState(1)
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   {
     /*filter*/
   }
   const [filters, setFilters] = useState({
-    minPrice: "",
-    maxPrice: "",
-    bhk: "",
-    residential: "",
-    commercial: "",
-    others: "",
-    preferenceHousing: "",
-    moveInDate: "",
-    houseType: "",
-  });
+    minPrice: '',
+    maxPrice: '',
+    bhk: '',
+    residential: '',
+    commercial: '',
+    others: '',
+    preferenceHousing: '',
+    moveInDate: '',
+    houseType: '',
+  })
 
   const handleFilterChange = (key, value) => {
     setFilters({
       ...filters,
       [key]: value,
-    });
-  };
+    })
+  }
 
   const resetFilters = () => {
     setFilters({
-      minPrice: "",
-      maxPrice: "",
-      bhk: "",
-      residential: "",
-      commercial: "",
-      others: "",
-      preferenceHousing: "",
-      moveInDate: "",
-      houseType: "",
-    });
-  };
+      minPrice: '',
+      maxPrice: '',
+      bhk: '',
+      residential: '',
+      commercial: '',
+      others: '',
+      preferenceHousing: '',
+      moveInDate: '',
+      houseType: '',
+    })
+  }
 
   const seeResults = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
 
     // Clean filter values
     const cleanedFilters = {
       ...filters,
-      bhk: filters.bhk.replace(/[^0-9]/g, ""), // Remove non-numeric characters
-    };
+      bhk: filters.bhk.replace(/[^0-9]/g, ''), // Remove non-numeric characters
+    }
 
     const queryString = Object.keys(cleanedFilters)
       .filter(
-        (key) => cleanedFilters[key] !== "" && cleanedFilters[key] !== null
+        (key) => cleanedFilters[key] !== '' && cleanedFilters[key] !== null,
       ) // Exclude empty or null values
       .map((key) => {
         const value = Array.isArray(cleanedFilters[key])
-          ? cleanedFilters[key].map(encodeURIComponent).join(",") // Encode array values
-          : encodeURIComponent(cleanedFilters[key]); // Encode single value
-        return `${encodeURIComponent(key)}=${value}`;
+          ? cleanedFilters[key].map(encodeURIComponent).join(',') // Encode array values
+          : encodeURIComponent(cleanedFilters[key]) // Encode single value
+        return `${encodeURIComponent(key)}=${value}`
       })
-      .join("&");
+      .join('&')
 
-    console.log(queryString);
+    console.log(queryString)
 
-    const url = `http://localhost:8000/api/v1/property/filter?${queryString}`;
+    const url = `http://localhost:8000/api/v1/property/filter?${queryString}`
 
     try {
-      const response = await axios.get(url);
-      console.log(response.data);
-      setProperties(response.data.data); // Update properties with the filtered results
+      const response = await axios.get(url)
+      console.log(response.data)
+      setProperties(response.data.data) // Update properties with the filtered results
       if (response.data.data.length === 0) {
         // Handle no results
-        console.log("No results found");
+        console.log('No results found')
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error('Error fetching data:', error)
     } finally {
-      setIsLoading(false);
-      SetIsOpen(false);
+      setIsLoading(false)
+      SetIsOpen(false)
     }
-  };
+  }
 
   {
     /*filter end*/
   }
 
   function handleOpen() {
-    SetIsOpen(!isOpen);
+    SetIsOpen(!isOpen)
   }
   function handleHamburger() {
-    SetHamburger(!Hamburger);
+    SetHamburger(!Hamburger)
   }
 
   // Fetch data from backend API
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const propertyData = await Service.fetchProperty();
-        setProperties(propertyData || []); // Ensure propertyData is an array
-        console.log(propertyData);
-        setLoading(false);
+        const propertyData = await Service.fetchProperty()
+        setProperties(propertyData || []) // Ensure propertyData is an array
+        console.log(propertyData)
+        setLoading(false)
       } catch (error) {
-        console.error("Error fetching properties:", error);
-        setLoading(false);
+        console.error('Error fetching properties:', error)
+        setLoading(false)
       }
-    };
+    }
 
-    fetchProperties();
-  }, []);
+    fetchProperties()
+  }, [])
 
   const settings = {
     dots: true,
@@ -147,52 +150,52 @@ const Listing = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
-  };
+  }
 
   // Calculate total pages
-  const totalPages = Math.ceil(properties.length / propertiesPerPage);
+  const totalPages = Math.ceil(properties.length / propertiesPerPage)
 
   // Get current properties
-  const indexOfLastProperty = currentPage * propertiesPerPage;
-  const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
+  const indexOfLastProperty = currentPage * propertiesPerPage
+  const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage
   const currentProperties = properties.slice(
     indexOfFirstProperty,
-    indexOfLastProperty
-  );
+    indexOfLastProperty,
+  )
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1)
     }
-  };
+  }
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage((prevPage) => prevPage + 1);
+      setCurrentPage((prevPage) => prevPage + 1)
     }
-  };
+  }
 
   const onPageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+      setCurrentPage(page)
     }
-  };
+  }
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <ClipLoader color="#6CC1B6" size={150} />
       </div>
-    );
+    )
   }
 
   return (
     <>
       <div
         className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
-          isOpen || Hamburger ? "block" : "hidden"
+          isOpen || Hamburger ? 'block' : 'hidden'
         }`}
       ></div>
 
@@ -211,21 +214,21 @@ const Listing = () => {
                   onClick={handleHamburger}
                 />
               </div>
-              <div className="absolute z-50 right-0 flex  gap-4 p-4 sm:w-full md:w-[442px] lg:w-[500px] h-[2500px]">
+              <div className="absolute z-50 right-0 flex  gap-4 p-4 sm:w-full md:w-[442px] lg:w-[500px] h-fit">
                 <div className="">
                   <img
                     src={cross}
                     alt="Close"
                     onClick={handleHamburger}
                     className={`${
-                      Hamburger ? "block" : "hidden"
+                      Hamburger ? 'block' : 'hidden'
                     } cursor-pointer `}
                   />
                 </div>
 
                 <div
                   className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg  md:w-full ${
-                    Hamburger ? "block" : "hidden"
+                    Hamburger ? 'block' : 'hidden'
                   }`}
                 >
                   <div className=" flex w-full py-3 px-4 border-b-2 border-[#D9D9D9] ">
@@ -269,7 +272,7 @@ const Listing = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-start gap-3 pb-14 ml-4 flex-col md:flex-row lg:flex-row ">
+              <div className="flex items-center justify-start gap-3 pb-10 ml-4 flex-col md:flex-row lg:flex-row ">
                 <div className="bg-white h-14 w-80 flex items-center justify-between text-black px-4 rounded-2xl ">
                   <div className="w-1/4 flex items-center justify-start gap-4 border-r-2 h-3/4 border-black">
                     <p className="text-black">Buy</p>
@@ -307,8 +310,8 @@ const Listing = () => {
             </div>
 
             <div
-              className={`min-w-[827px] min-h-[683px] absolute z-30 top-[420px] lg:left-[400px] md:left-[271px] left-[-235px] flex items-start justify-center gap-5 ${
-                isOpen ? "block" : "hidden"
+              className={`min-w-full min-h-fit absolute z-30 top-32 flex items-start justify-center gap-5 ${
+                isOpen ? 'block' : 'hidden'
               } `}
             >
               <div className="">
@@ -337,13 +340,13 @@ const Listing = () => {
                     <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-2">
                       <div className="h-11 w-full sm:w-72 border-2 border-[#4A7F79] flex items-center justify-between px-8 rounded-lg">
                         <p className="font-light">
-                          ${filters.minPrice || "8500"}
+                          ${filters.minPrice || '8500'}
                         </p>
                         <img src={drop} alt="Dropdown icon" />
                       </div>
                       <div className="h-11 w-full sm:w-72 border-2 border-[#4A7F79] flex items-center justify-between px-8 rounded-lg">
                         <p className="font-light">
-                          {filters.maxPrice || "Max"}
+                          {filters.maxPrice || 'Max'}
                         </p>
                         <img src={drop} alt="Dropdown icon" />
                       </div>
@@ -358,18 +361,18 @@ const Listing = () => {
                       step="100"
                       value={filters.minPrice || 0}
                       onChange={(e) =>
-                        handleFilterChange("minPrice", e.target.value)
+                        handleFilterChange('minPrice', e.target.value)
                       }
                     />
                     <div className="w-full flex items-center justify-between">
                       <div>
                         <p className="font-light text-2xl">
-                          ${filters.minPrice || "8500"}
+                          ${filters.minPrice || '8500'}
                         </p>
                       </div>
                       <div>
                         <p className="font-light text-2xl">
-                          {filters.maxPrice || "Max"}
+                          {filters.maxPrice || 'Max'}
                         </p>
                       </div>
                     </div>
@@ -380,18 +383,18 @@ const Listing = () => {
                     </p>
                     <div className="flex flex-wrap items-center justify-between gap-2 hover:cursor-pointer">
                       {[
-                        "+ 1 BHK",
-                        "+ 2 BHK",
-                        "+ 3 BHK",
-                        "+ 4 BHK",
-                        "+ >4 BHK",
+                        '+ 1 BHK',
+                        '+ 2 BHK',
+                        '+ 3 BHK',
+                        '+ 4 BHK',
+                        '+ >4 BHK',
                       ].map((bhk, index) => (
                         <div
                           key={index}
                           className={`h-8 w-28 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                            filters.bhk === bhk ? "bg-[#4A7F79] text-white" : ""
+                            filters.bhk === bhk ? 'bg-[#4A7F79] text-white' : ''
                           }`}
-                          onClick={() => handleFilterChange("bhk", bhk)}
+                          onClick={() => handleFilterChange('bhk', bhk)}
                         >
                           {bhk}
                         </div>
@@ -406,24 +409,24 @@ const Listing = () => {
                     <div className="flex flex-wrap gap-2">
                       <div
                         className={`hover:cursor-pointer h-8 w-24 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                          filters.residential === "+ Flat"
-                            ? "bg-[#4A7F79] text-white"
-                            : ""
+                          filters.residential === '+ Flat'
+                            ? 'bg-[#4A7F79] text-white'
+                            : ''
                         }`}
                         onClick={() =>
-                          handleFilterChange("residential", "+ Flat")
+                          handleFilterChange('residential', '+ Flat')
                         }
                       >
                         + Flat
                       </div>
                       <div
                         className={`hover:cursor-pointer h-8 w-32 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                          filters.residential === "+ House/Villa"
-                            ? "bg-[#4A7F79] text-white"
-                            : ""
+                          filters.residential === '+ House/Villa'
+                            ? 'bg-[#4A7F79] text-white'
+                            : ''
                         }`}
                         onClick={() =>
-                          handleFilterChange("residential", "+ House/Villa")
+                          handleFilterChange('residential', '+ House/Villa')
                         }
                       >
                         + House/Villa
@@ -437,19 +440,19 @@ const Listing = () => {
                     </p>
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       {[
-                        "+ Office Space",
-                        "+ Shop/Showroom",
-                        "+ Warehouse/Godown",
-                        "+ Building/Complex",
+                        '+ Office Space',
+                        '+ Shop/Showroom',
+                        '+ Warehouse/Godown',
+                        '+ Building/Complex',
                       ].map((type, index) => (
                         <div
                           key={index}
                           className={`hover:cursor-pointer h-9 w-44 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
                             filters.commercial === type
-                              ? "bg-[#4A7F79] text-white"
-                              : ""
+                              ? 'bg-[#4A7F79] text-white'
+                              : ''
                           }`}
-                          onClick={() => handleFilterChange("commercial", type)}
+                          onClick={() => handleFilterChange('commercial', type)}
                         >
                           {type}
                         </div>
@@ -463,12 +466,12 @@ const Listing = () => {
                     </p>
                     <div
                       className={`hover:cursor-pointer w-32 h-10 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                        filters.others === "+ Farm house"
-                          ? "bg-[#4A7F79] text-white"
-                          : ""
+                        filters.others === '+ Farm house'
+                          ? 'bg-[#4A7F79] text-white'
+                          : ''
                       }`}
                       onClick={() =>
-                        handleFilterChange("others", "+ Farm house")
+                        handleFilterChange('others', '+ Farm house')
                       }
                     >
                       + Farm house
@@ -486,8 +489,8 @@ const Listing = () => {
                           value={filters.preferenceHousing}
                           onChange={(e) =>
                             handleFilterChange(
-                              "preferenceHousing",
-                              e.target.value
+                              'preferenceHousing',
+                              e.target.value,
                             )
                           }
                         >
@@ -498,12 +501,12 @@ const Listing = () => {
                       </div>
                       <div
                         className={`h-9 w-36 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                          filters.preferenceHousing === "Family"
-                            ? "bg-[#4A7F79] text-white"
-                            : ""
+                          filters.preferenceHousing === 'Family'
+                            ? 'bg-[#4A7F79] text-white'
+                            : ''
                         }`}
                         onClick={() =>
-                          handleFilterChange("preferenceHousing", "Family")
+                          handleFilterChange('preferenceHousing', 'Family')
                         }
                       >
                         Family
@@ -522,7 +525,7 @@ const Listing = () => {
                         className="text-black bg-white "
                         value={filters.moveInDate}
                         onChange={(e) =>
-                          handleFilterChange("moveInDate", e.target.value)
+                          handleFilterChange('moveInDate', e.target.value)
                         }
                       />
                     </div>
@@ -534,18 +537,18 @@ const Listing = () => {
                     </p>
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       {[
-                        "Full-Furnished",
-                        "Semi-Furnished",
-                        "Non-Furnished",
+                        'Full-Furnished',
+                        'Semi-Furnished',
+                        'Non-Furnished',
                       ].map((type, index) => (
                         <div
                           key={index}
                           className={`hover:cursor-pointer h-9 w-36 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
                             filters.houseType === type
-                              ? "bg-[#4A7F79] text-white"
-                              : ""
+                              ? 'bg-[#4A7F79] text-white'
+                              : ''
                           }`}
-                          onClick={() => handleFilterChange("houseType", type)}
+                          onClick={() => handleFilterChange('houseType', type)}
                         >
                           {type}
                         </div>
@@ -604,22 +607,22 @@ const Listing = () => {
                     <div
                       className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
                       style={{
-                        backgroundColor: "#40B5A8",
-                        textTransform: "capitalize",
+                        backgroundColor: '#40B5A8',
+                        textTransform: 'capitalize',
                       }}
                     >
-                      {property.propertyType === "Residential"
-                        ? "For Rent"
-                        : "Available"}
+                      {property.propertyType === 'Residential'
+                        ? 'For Rent'
+                        : 'Available'}
                     </div>
                     <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
                       <div>
                         <button className="banner-actions-btn flex items-center gap-1 text-white">
                           <FaLocationDot className="text-xl" />
                           <address>
-                            {" "}
+                            {' '}
                             {`${property.locality}, ${
-                              property.city || "Lucknow"
+                              property.city || 'Lucknow'
                             }`}
                           </address>
                         </button>
@@ -644,13 +647,13 @@ const Listing = () => {
                         <a href="#">
                           <CiShare2
                             className="card_icon"
-                            style={{ color: "#40B5A8" }}
+                            style={{ color: '#40B5A8' }}
                           />
                         </a>
                         <a href="#">
                           <IoAdd
                             className="card_icon"
-                            style={{ color: "#000000", fontSize: "12px" }}
+                            style={{ color: '#000000', fontSize: '12px' }}
                           />
                         </a>
                         <a href="#">
@@ -669,19 +672,19 @@ const Listing = () => {
                     </div>
                     <ul className="card-list custom-card-list mt-4">
                       <li className="bed card-item flex items-center text-base">
-                        <IoBedOutline style={{ fontSize: "1.6rem" }} />{" "}
+                        <IoBedOutline style={{ fontSize: '1.6rem' }} />{' '}
                         {/* Increased size */}
                         &nbsp;
                         {property.bhk}
                       </li>
                       <li className="bath card-item flex items-center text-base">
-                        <LuBath style={{ fontSize: "1.6rem" }} />{" "}
+                        <LuBath style={{ fontSize: '1.6rem' }} />{' '}
                         {/* Increased size */}
                         &nbsp;
                         {property.typeOfWashroom}
                       </li>
                       <li className="pi card-item flex items-center text-base">
-                        <PiGridFour style={{ fontSize: "1.6rem" }} />{" "}
+                        <PiGridFour style={{ fontSize: '1.6rem' }} />{' '}
                         {/* Increased size */}
                         &nbsp;
                         {property.floor} ft²
@@ -691,11 +694,11 @@ const Listing = () => {
                       <hr
                         className="custom-hr"
                         style={{
-                          border: "none",
-                          borderTop: "2.8px solid #ccc",
-                          width: "calc(100% + 0.001rem)",
-                          marginTop: "1.4rem",
-                          marginBottom: "-2.3rem",
+                          border: 'none',
+                          borderTop: '2.8px solid #ccc',
+                          width: 'calc(100% + 0.001rem)',
+                          marginTop: '1.4rem',
+                          marginBottom: '-2.3rem',
                         }}
                       />
                     </div>
@@ -801,9 +804,9 @@ const Listing = () => {
         </div>
       </>
     </>
-  );
+  )
   // });
-};
+}
 // };
 
 export default Listing;
