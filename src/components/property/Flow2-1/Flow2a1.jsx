@@ -9,26 +9,37 @@ import { CiShare2, CiHeart } from "react-icons/ci";
 import { IoIosAdd } from "react-icons/io";
 import profile from "../../../assets/property/author.jpg";
 import fav from "../../../assets/property/Vector.png";
+import { ClipLoader } from "react-spinners";
 
 const Flow2a = () => {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
 
+
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const propertyList = await Service.fetchPropertyById(id);
+        const propertyList=await Service.fetchPropertyById(id);
         setProperty(propertyList);
-        // console.log(propertyList);
+
+        console.log(propertyList);
+
       } catch (error) {
         console.error("Error fetching property:", error);
       }
     };
 
     fetchProperty();
-  }, []);
+  }, [id]);
 
-  if (!property) return <p>Loading...</p>; // Add a loading state
+  if (!property){
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} /> {/* Spinner component */}
+      </div>
+    );
+  }
+
 
   return (
     <>
@@ -50,8 +61,6 @@ const Flow2a = () => {
               Photos | Videos | Property Map
             </p>
           </div>
-        </div>
-        {/* image portion ended */}
 
         {/* 2nd div started */}
         <div className="md:flex justify-between	pt-8">
@@ -214,9 +223,9 @@ const Flow2a = () => {
           </div>
         </div>
 
-        <Flow2b propertyData={property} />
-      </div> */}
-    </>
+      {/* Flow2b Section */}
+      <Flow2b propertyData={property} />
+    </div>
   );
 };
 
