@@ -75,6 +75,7 @@ const BlogView = () => {
           ></div>
         </div>
         <br />
+        <hr />
       </div>
     </div>
   );
