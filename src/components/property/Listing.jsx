@@ -1,7 +1,8 @@
-/* eslint-disable no-unused-vars */
+
 /* eslint-disable react/jsx-no-undef */
-import { useEffect, useState } from 'react'
-import { CiHeart, CiShare2 } from 'react-icons/ci'
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
+import { CiHeart, CiShare2 } from "react-icons/ci";
 import {
   FaChevronLeft,
   FaChevronRight,
@@ -808,4 +809,4 @@ const Listing = () => {
 }
 // };
 
-export default Listing
+export default Listing;
