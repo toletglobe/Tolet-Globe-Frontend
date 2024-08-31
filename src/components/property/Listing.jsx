@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { CiHeart, CiShare2 } from "react-icons/ci";
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaLocationDot,
-  FaRegImage,
-  FaVideo,
-} from "react-icons/fa6";
 import { IoAdd, IoBedOutline } from "react-icons/io5";
+import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
@@ -116,19 +110,13 @@ const Listing = () => {
     /*filter end*/
   }
 
-  function handleOpen() {
-    SetIsOpen(!isOpen);
-  }
-  function handleHamburger() {
-    SetHamburger(!Hamburger);
-  }
 
   // Fetch data from backend API
   useEffect(() => {
     const fetchProperties = async () => {
       try {
         const propertyData = await Service.fetchProperty();
-        setProperties(propertyData || []); // Ensure propertyData is an array
+        setProperties(propertyData);
         console.log(propertyData);
         setLoading(false);
       } catch (error) {
@@ -283,7 +271,16 @@ const Listing = () => {
                       <p>Add more ..</p>
                     </div>
                     <div>
-                      <img src={location} alt="" />
+
+                      <button className="banner-actions-btn flex items-center gap-1 text-white">
+                        <FaLocationDot className="text-xl" />
+                        <address>
+                          {" "}
+                          {`${property.locality}, ${
+                            property.city || "Lucknow"
+                          }`}
+                        </address>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -300,6 +297,69 @@ const Listing = () => {
                       alt=""
                       onClick={handleOpen}
                       className=" cursor-pointer"
+                    />
+                  </div>
+                </figure>
+                <div className="card-content p-6">
+                  <div className="name_icon flex justify-between items-center">
+                    <h3 className="card-title text-2xl font-semibold">
+                      <a href="#">{property.propertyType}</a>
+                    </h3>
+                    <div className="icon-box flex space-x-4 p-2">
+                      <a href="#">
+                        <CiShare2
+                          className="card_icon"
+                          style={{ color: "#40B5A8" }}
+                        />
+                      </a>
+                      <a href="#">
+                        <IoAdd className="card_icon"
+                        style={{ color: "#000000", fontSize: "12px" }} />
+                      </a>
+                      <a href="#">
+                        <CiHeart className="card_icon text-red-500" />
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="card-details flex flex-col items-start">
+                    <div className="card-price font-poppins text-s font-normal text-grey-700 mt-1">
+                      RS. {property.rent}
+                    </div>
+                    <div className="card-text font-poppins text-lg font-medium text-black">
+                      {property.type}, {property.floor}th floor
+                    </div>
+                  </div>
+                  <ul className="card-list custom-card-list mt-4">
+                    <li className="bed card-item flex items-center text-base">
+                      <IoBedOutline style={{ fontSize: "1.6rem" }} />{" "}
+                      {/* Increased size */}
+                      &nbsp;
+                      {property.bhk}
+                    </li>
+                    <li className="bath card-item flex items-center text-base">
+                      <LuBath style={{ fontSize: "1.6rem" }} />{" "}
+                      {/* Increased size */}
+                      &nbsp;
+                      {property.typeOfWashroom}
+                    </li>
+                    <li className="pi card-item flex items-center text-base">
+                      <PiGridFour style={{ fontSize: "1.6rem" }} />{" "}
+                      {/* Increased size */}
+                      &nbsp;
+                      {property.floor} ft²
+                    </li>
+                  </ul>
+                  <div className="divider-container">
+                    <hr
+                      className="custom-hr"
+                      style={{
+                        border: "none",
+                        borderTop: "2.8px solid #ccc",
+                        width: "calc(100% + 0.001rem)",
+                        marginTop: "1.4rem",
+                        marginBottom: "-2.3rem",
+                      }}
                     />
                   </div>
                 </div>
@@ -430,46 +490,10 @@ const Listing = () => {
                       </div>
                     </div>
                   </div>
-
-                  <div className="w-full mb-6">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
-                      Commercial
-                    </p>
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      {[
-                        "+ Office Space",
-                        "+ Shop/Showroom",
-                        "+ Warehouse/Godown",
-                        "+ Building/Complex",
-                      ].map((type, index) => (
-                        <div
-                          key={index}
-                          className={`hover:cursor-pointer h-9 w-44 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                            filters.commercial === type
-                              ? "bg-[#4A7F79] text-white"
-                              : ""
-                          }`}
-                          onClick={() => handleFilterChange("commercial", type)}
-                        >
-                          {type}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="w-full mb-6">
-                    <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
-                      Others
-                    </p>
-                    <div
-                      className={`hover:cursor-pointer w-32 h-10 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                        filters.others === "+ Farm house"
-                          ? "bg-[#4A7F79] text-white"
-                          : ""
-                      }`}
-                      onClick={() =>
-                        handleFilterChange("others", "+ Farm house")
-                      }
+                  <div className="card-footer-actions">
+                    <button
+                      onClick={() => navigate(`/property/${property._id}`)}
+                      className="card-footer-actions-btn"
                     >
                       + Farm house
                     </div>
