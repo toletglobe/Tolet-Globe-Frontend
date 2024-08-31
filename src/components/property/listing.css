@@ -61,11 +61,19 @@
   cursor: pointer;
 }
 
-/* Optionally, added cursor pointer to carousel arrows */
 .slick-arrow {
   cursor: pointer;
 }
 
+/* Add styles for carousel dots (optional) */
+.slick-dots li button:before {
+  color: #000; /* Change dot color */
+}
+
+/* Adjust styles for carousel dots on hover (optional) */
+.slick-dots li.slick-active button:before {
+  color: #c8a217; /* Change active dot color */
+}
 
 
 /* Container for the card details */
@@ -126,6 +134,11 @@
   justify-content: center;
 }
 
+
+/* Heart icon specific styling */
+.card_icons a:last-child .card_icon {
+  color: red; /* Red color for heart icon */
+}
 
 /* CSS for SHOW MORE button */
 .card-footer-actions-btn {

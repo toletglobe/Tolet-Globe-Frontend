@@ -8,16 +8,16 @@ import {
   MdPets,
   MdOutlineAvTimer,
 } from "react-icons/md";
-import {
-  MdDirectionsBus,
-  MdFitnessCenter,
-  MdLocalCafe,
-  MdMoney,
-  MdRestaurant,
-  MdSchool,
-  MdShoppingBag,
-  MdStore,
-} from "react-icons/md";
+// import {
+//   MdDirectionsBus,
+//   MdFitnessCenter,
+//   MdLocalCafe,
+//   MdMoney,
+//   MdRestaurant,
+//   MdSchool,
+//   MdShoppingBag,
+//   MdStore,
+// } from "react-icons/md";
 import { IoTabletLandscape } from "react-icons/io5";
 import { LuParkingCircle, LuFlower2 } from "react-icons/lu";
 import { CiMobile4 } from "react-icons/ci";
@@ -33,11 +33,16 @@ import profile from "../../../assets/property/author7.jpg";
 
 // import map from "../../../assets/property/map.png";
 import Popup from "./Popup";
+import LocationComponent from "./Location.jsx";
 // import Property from "../Property";
 
 const Flow2b = (property) => {
   console.log(property);
 
+  // const [displayContent, setDisplayContent] = useState('location'); // 'location' is default
+  // const handleIconClick = (content) => {
+  //   setDisplayContent(content);
+  // };
   const [selectedButton, setSelectedButton] = useState("");
   const [selectComp, setSelectComp] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
@@ -271,7 +276,7 @@ const Flow2b = (property) => {
           </div>
 
           {/* Location section */}
-          <div className={`pb-4 ${selectComp > 5 ? "hidden" : ""}`}>
+          {/* <div className={`pb-4 ${selectComp > 5 ? "hidden" : ""}`}>
             <div className={`bg-white w-full rounded-md p-3`}>
               <p className="text-black block font-semibold text-xl">Location</p>
 
@@ -326,7 +331,9 @@ const Flow2b = (property) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+          {/**<LocationComponent/> */}
+          <LocationComponent />
 
           {/* Review section */}
 
