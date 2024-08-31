@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Service from "../../../config/config";
@@ -42,7 +43,7 @@ const Flow2a = () => {
 
 
   return (
-    <>
+    <div>
       <div className="pl-2 pr-4 mx-4">
         {/* image section */}
         <div className="relative pb-2">
@@ -51,7 +52,6 @@ const Flow2a = () => {
             <img
               src={property.photos[0]}
               alt=""
-              srcset=""
               className="w-full h-80 object-cover"
             />
           </div>
@@ -226,7 +226,7 @@ const Flow2a = () => {
       {/* Flow2b Section */}
       <Flow2b propertyData={property} />
     </div>
+    </div>
   );
-};
-
+}
 export default Flow2a;

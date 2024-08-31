@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-no-undef */
 import { useEffect, useState } from "react";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import {
