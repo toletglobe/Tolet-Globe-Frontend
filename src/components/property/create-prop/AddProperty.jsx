@@ -16,7 +16,7 @@ const AddProperty = () => {
       alert("You can upload a maximum of 5 images.");
       return;
     }
-    setImages(e.target.files);
+    setImages([...e.target.files]);
     setValue("images", e.target.files); // Set file input value for react-hook-form
   };
 
@@ -31,6 +31,7 @@ const AddProperty = () => {
         formData.append("images", images[i]);
       }
 
+      // change backend url to Base url when pushing to main branch e.g ${BASE_URL}property/add-property
       const response = await axios.post(
         "http://localhost:8000/api/v1/property/add-property",
         formData,
@@ -51,54 +52,108 @@ const AddProperty = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-20">
-      <div>
-        <label>Owner Name:</label>
-        <input type="text" {...register("ownerName", { required: true })} />
-        {errors.ownerName && <p>Owner Name is required</p>}
-      </div>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="mt-10 max-w-6xl mx-auto p-8 bg-white rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-6"
+    >
+      <h2 className="text-3xl font-bold col-span-full mb-6 text-center">
+        Add Property
+      </h2>
 
-      <div>
-        <label>Owner{"'"}s Contact Number:</label>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Owner Name:
+        </label>
         <input
           type="text"
-          {...register("ownersContactNumber", { required: true })}
+          {...register("ownerName", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {errors.ownersContactNumber && (
-          <p>Owner{"'"}s Contact Number is required</p>
+        {errors.ownerName && (
+          <p className="text-red-500 text-sm mt-1">Owner Name is required</p>
         )}
       </div>
 
-      <div>
-        <label>Owner{"'"}s Alternate Contact Number:</label>
-        <input type="text" {...register("ownersAlternateContactNumber")} />
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Owner{"'"}s Contact Number:
+        </label>
+        <input
+          type="text"
+          {...register("ownersContactNumber", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.ownersContactNumber && (
+          <p className="text-red-500 text-sm mt-1">
+            Owner{"'"}s Contact Number is required
+          </p>
+        )}
       </div>
 
-      <div>
-        <label>Locality:</label>
-        <input type="text" {...register("locality", { required: true })} />
-        {errors.locality && <p>Locality is required</p>}
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Owner{"'"}s Alternate Contact Number:
+        </label>
+        <input
+          type="text"
+          {...register("ownersAlternateContactNumber")}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
 
-      <div>
-        <label>Address:</label>
-        <input type="text" {...register("address", { required: true })} />
-        {errors.address && <p>Address is required</p>}
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Locality:
+        </label>
+        <input
+          type="text"
+          {...register("locality", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.locality && (
+          <p className="text-red-500 text-sm mt-1">Locality is required</p>
+        )}
       </div>
 
-      <div>
-        <label>Space Type:</label>
-        <select {...register("spaceType", { required: true })}>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Address:
+        </label>
+        <input
+          type="text"
+          {...register("address", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.address && (
+          <p className="text-red-500 text-sm mt-1">Address is required</p>
+        )}
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Space Type:
+        </label>
+        <select
+          {...register("spaceType", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="">Select Space Type</option>
           <option value="Commercial">Commercial</option>
           <option value="Residential">Residential</option>
         </select>
-        {errors.spaceType && <p>Space Type is required</p>}
+        {errors.spaceType && (
+          <p className="text-red-500 text-sm mt-1">Space Type is required</p>
+        )}
       </div>
 
-      <div>
-        <label>Property Type:</label>
-        <select {...register("propertyType", { required: true })}>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Property Type:
+        </label>
+        <select
+          {...register("propertyType", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="">Select Property Type</option>
           <option value="House">House</option>
           <option value="Flat">Flat</option>
@@ -106,12 +161,19 @@ const AddProperty = () => {
           <option value="Office">Office</option>
           <option value="Shop">Shop</option>
         </select>
-        {errors.propertyType && <p>Property Type is required</p>}
+        {errors.propertyType && (
+          <p className="text-red-500 text-sm mt-1">Property Type is required</p>
+        )}
       </div>
 
-      <div>
-        <label>Current Residence of Owner:</label>
-        <select {...register("currentResidenceOfOwner")}>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Current Residence of Owner:
+        </label>
+        <select
+          {...register("currentResidenceOfOwner")}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="">Select Residence</option>
           <option value="Same City">Same City</option>
           <option value="Same Place">Same Place</option>
@@ -119,125 +181,232 @@ const AddProperty = () => {
         </select>
       </div>
 
-      <div>
-        <label>Rent:</label>
-        <input type="number" {...register("rent", { required: true })} />
-        {errors.rent && <p>Rent is required</p>}
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">Rent:</label>
+        <input
+          type="number"
+          {...register("rent", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.rent && (
+          <p className="text-red-500 text-sm mt-1">Rent is required</p>
+        )}
       </div>
 
-      <div>
-        <label>Concession:</label>
-        <input type="checkbox" {...register("concession")} />
+      <div className="mb-4 flex items-center col-span-full">
+        <input type="checkbox" {...register("concession")} className="mr-2" />
+        <label className="text-gray-700 font-semibold">Concession</label>
       </div>
 
-      <div>
-        <label>Pets Allowed:</label>
-        <input type="checkbox" {...register("petsAllowed")} />
+      <div className="mb-4 flex items-center col-span-full">
+        <input type="checkbox" {...register("petsAllowed")} className="mr-2" />
+        <label className="text-gray-700 font-semibold">Pets Allowed</label>
       </div>
 
-      <div>
-        <label>Preference:</label>
-        <select {...register("preference", { required: true })}>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Preference:
+        </label>
+        <select
+          {...register("preference", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="">Select Preference</option>
           <option value="Bachelors">Bachelors</option>
           <option value="Family">Family</option>
           <option value="Any">Any</option>
         </select>
-        {errors.preference && <p>Preference is required</p>}
+        {errors.preference && (
+          <p className="text-red-500 text-sm mt-1">Preference is required</p>
+        )}
       </div>
 
-      <div>
-        <label>Bachelors:</label>
-        <select {...register("bachelors", { required: true })}>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Bachelors:
+        </label>
+        <select
+          {...register("bachelors", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="">Select Bachelors</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Others">Others</option>
+          <option value="Allowed">Allowed</option>
+          <option value="Not Allowed">Not Allowed</option>
         </select>
-        {errors.bachelors && <p>Bachelors is required</p>}
+        {errors.bachelors && (
+          <p className="text-red-500 text-sm mt-1">Bachelors is required</p>
+        )}
       </div>
 
-      <div>
-        <label>Type:</label>
-        <select {...register("type", { required: true })}>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">Type:</label>
+        <select
+          {...register("type", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="">Select Type</option>
           <option value="Non-Furnished">Non-Furnished</option>
           <option value="Semi-Furnished">Semi-Furnished</option>
           <option value="Fully-Furnished">Fully-Furnished</option>
         </select>
-        {errors.type && <p>Type is required</p>}
+        {errors.type && (
+          <p className="text-red-500 text-sm mt-1">Type is required</p>
+        )}
       </div>
 
-      <div>
-        <label>BHK:</label>
-        <input type="number" {...register("bhk", { required: true })} />
-        {errors.bhk && <p>BHK is required</p>}
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">BHK:</label>
+        <input
+          type="number"
+          {...register("bhk", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.bhk && (
+          <p className="text-red-500 text-sm mt-1">BHK is required</p>
+        )}
       </div>
 
-      <div>
-        <label>Floor:</label>
-        <input type="number" {...register("floor", { required: true })} />
-        {errors.floor && <p>Floor is required</p>}
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">Floor:</label>
+        <input
+          type="number"
+          {...register("floor", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.floor && (
+          <p className="text-red-500 text-sm mt-1">Floor is required</p>
+        )}
       </div>
 
-      <div>
-        <label>Nearest Landmark:</label>
-        <input type="text" {...register("nearestLandmark")} />
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Nearest Landmark:
+        </label>
+        <input
+          type="text"
+          {...register("nearestLandmark")}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
 
-      <div>
-        <label>Type of Washroom:</label>
-        <select {...register("typeOfWashroom", { required: true })}>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Type of Washroom:
+        </label>
+        <select
+          {...register("typeOfWashroom", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="">Select Type of Washroom</option>
           <option value="Western">Western</option>
           <option value="Indian">Indian</option>
           <option value="Both">Both</option>
         </select>
-        {errors.typeOfWashroom && <p>Type of Washroom is required</p>}
+        {errors.typeOfWashroom && (
+          <p className="text-red-500 text-sm mt-1">
+            Type of Washroom is required
+          </p>
+        )}
       </div>
 
-      <div>
-        <label>Cooling Facility:</label>
-        <select {...register("coolingFacility", { required: true })}>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Cooling Facility:
+        </label>
+        <select
+          {...register("coolingFacility", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="">Select Cooling Facility</option>
           <option value="AC">AC</option>
           <option value="Fan">Fan</option>
           <option value="Cooler">Cooler</option>
         </select>
-        {errors.coolingFacility && <p>Cooling Facility is required</p>}
+        {errors.coolingFacility && (
+          <p className="text-red-500 text-sm mt-1">
+            Cooling Facility is required
+          </p>
+        )}
       </div>
 
-      <div>
-        <label>Car Parking:</label>
+      <div className="mb-4 flex items-center col-span-full">
         <input
           type="checkbox"
           {...register("carParking", { required: true })}
+          className="mr-2"
         />
-        {errors.carParking && <p>Car Parking is required</p>}
+        <label className="text-gray-700 font-semibold">Car Parking</label>
+        {errors.carParking && (
+          <p className="text-red-500 text-sm ml-2">Car Parking is required</p>
+        )}
       </div>
 
-      <div>
-        <label>Subscription Amount:</label>
-        <input type="number" {...register("subscriptionAmount")} />
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Subscription Amount:
+        </label>
+        <input
+          type="number"
+          {...register("subscriptionAmount")}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
 
-      <div>
-        <label>Comment by Analyst:</label>
-        <input type="text" {...register("commentByAnalyst")} />
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Comment by Analyst:
+        </label>
+        <input
+          type="text"
+          {...register("commentByAnalyst")}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
 
-      <div>
-        <label>Photos (max 5):</label>
-        <input type="file" multiple accept="image/*" onChange={onFileChange} />
+      <div className="mb-4 col-span-full">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Photos (max 5):
+        </label>
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={onFileChange}
+          className="w-full text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+          {images.length > 0 &&
+            images.map((file, index) => (
+              <img
+                key={index}
+                src={URL.createObjectURL(file)}
+                alt={`Preview ${index}`}
+                className="w-full h-32 object-cover rounded-md"
+              />
+            ))}
+        </div>
       </div>
 
-      <div>
-        <label>Location Link:</label>
-        <input type="text" {...register("locationLink", { required: true })} />
-        {errors.locationLink && <p>Location Link is required</p>}
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">
+          Location Link:
+        </label>
+        <input
+          type="text"
+          {...register("locationLink", { required: true })}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.locationLink && (
+          <p className="text-red-500 text-sm mt-1">Location Link is required</p>
+        )}
       </div>
 
-      <button type="submit">Submit</button>
+      <button
+        type="submit"
+        className="w-full bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Submit
+      </button>
     </form>
   );
 };
