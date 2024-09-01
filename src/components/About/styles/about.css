@@ -1,0 +1,10 @@
+.timeline::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: var(--scroll-position, 0%); /* Use the custom property for height */
+  background: #6cc0c4;
+  top: 0;
+  left: 50%;
+  margin-left: -3px;
+}

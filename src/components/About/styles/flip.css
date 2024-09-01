@@ -1,0 +1,16 @@
+
+ 
+  .flip-box-inner {
+
+    transform-style: preserve-3d;
+  }
+  
+  .flip-box-front,
+  .flip-box-back {
+  
+    -webkit-backface-visibility: hidden; 
+    backface-visibility: hidden;
+  }
+  
+
+ 

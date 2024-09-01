@@ -7,6 +7,18 @@ import {
   MdPets,
   MdOutlineAvTimer,
 } from "react-icons/md";
+
+// import {
+//   MdDirectionsBus,
+//   MdFitnessCenter,
+//   MdLocalCafe,
+//   MdMoney,
+//   MdRestaurant,
+//   MdSchool,
+//   MdShoppingBag,
+//   MdStore,
+// } from "react-icons/md";
+
 import { IoTabletLandscape } from "react-icons/io5";
 import { LuParkingCircle, LuFlower2 } from "react-icons/lu";
 import { CiMobile4 } from "react-icons/ci";
@@ -20,8 +32,23 @@ import { WiSmoke } from "react-icons/wi";
 import map from "../../../assets/property/map.png";
 import Popup from "./Popup";
 
-const Flow2b = ({ propertyData = {} }) => {
-  const [selectedSection, setSelectedSection] = useState(null);
+
+// const Flow2b = ({ propertyData = {} }) => {
+//   const [selectedSection, setSelectedSection] = useState(null);
+
+import LocationComponent from "./Location.jsx";
+// import Property from "../Property";
+
+const Flow2b = (property) => {
+  console.log(property);
+
+  // const [displayContent, setDisplayContent] = useState('location'); // 'location' is default
+  // const handleIconClick = (content) => {
+  //   setDisplayContent(content);
+  // };
+  const [selectedButton, setSelectedButton] = useState("");
+  const [selectComp, setSelectComp] = useState(0);
+
   const [showPopup, setShowPopup] = useState(false);
   
   // Create refs for each section
@@ -137,11 +164,17 @@ const Flow2b = ({ propertyData = {} }) => {
               </div>
             </div>
           </div>
+
         );
       case "Location":
         return (
           <div ref={sectionRefs.Location} className="pb-4">
             <div className="bg-white w-full rounded-lg p-3">
+
+
+          {/* Location section */}
+          {/* <div className={`pb-4 ${selectComp > 5 ? "hidden" : ""}`}>
+            <div className={`bg-white w-full rounded-md p-3`}>
               <p className="text-black block font-semibold text-xl">Location</p>
               <div className="w-4/5">
                 <div className="flex justify-between">
@@ -176,6 +209,7 @@ const Flow2b = ({ propertyData = {} }) => {
                 </div>
               </div>
             </div>
+
           </div>
         );
       case "Reviews":
@@ -187,6 +221,147 @@ const Flow2b = ({ propertyData = {} }) => {
                 <MdOutlineStarPurple500 className="h-8 w-8 text-black bg-white" />
                 <p className="text-black font-semibold pl-2 text-lg">4.7</p>
                 <p className="text-gray-400 pl-2 text-lg">25 reviews</p>
+
+          </div> */}
+          {/**<LocationComponent/> */}
+          <LocationComponent />
+
+          {/* Review section */}
+
+          <div className={`pb-4 ${selectComp > 6 ? "hidden" : ""}`}>
+            <div className={`bg-white w-full rounded-lg p-3`}>
+              <p className="text-black block font-semibold text-xl">Review</p>
+
+              <div className="md:flex  gap-4">
+                <div className="border rounded-lg  p-4 border-black ">
+                  <div className="flex">
+                    <MdOutlineStarPurple500 className="text-[#FFC700] mt-1 h-8 w-8 mx-2" />
+                    <MdOutlineStarPurple500 className="text-[#FFC700] mt-1 h-8 w-8 mx-2" />
+                    <MdOutlineStarPurple500 className="text-[#FFC700] mt-1 h-8 w-8 mx-2" />
+                    <MdOutlineStarPurple500 className="text-[#FFC700] mt-1 h-8 w-8 mx-2" />
+                    <PiStarThin className="text-[#000000] mt-1 h-8 w-8 mx-2" />
+                  </div>
+                  <h2 className="font-semibold text-black pt-3 text-left ml-2 ">
+                    4.5 out of 5
+                  </h2>
+                </div>
+
+                <div className="border rounded-lg  p-4 border-black w-full md:flex justify-between sm:flex-row">
+                  <div>
+                    <p className="my-0 text-left ml-2 tracking-wide">
+                      Rate this property based on
+                    </p>
+                    <p className="my-0 text-left ml-2 tracking-wide">
+                      your experience.
+                    </p>
+                    <div className="flex pt-3">
+                      <PiStarThin className="text-[#000000] mt-1 h-8 w-8 mx-2" />
+                      <PiStarThin className="text-[#000000] mt-1 h-8 w-8 mx-2" />
+                      <PiStarThin className="text-[#000000] mt-1 h-8 w-8 mx-2" />
+                      <PiStarThin className="text-[#000000] mt-1 h-8 w-8 mx-2" />
+                      <PiStarThin className="text-[#000000] mt-1 h-8 w-8 mx-2" />
+                    </div>
+                  </div>
+
+                  <div className="pr-4">
+                    <p className="my-0 tracking-wide">
+                      Share details of your experience With
+                    </p>
+                    <p className="my-0 text-left tracking-wide">
+                      This Property.
+                    </p>
+                    <div
+                      className="rounded-lg mt-3"
+                      style={{ backgroundColor: "#40B5A8" }}
+                    >
+                      <button
+                        className="flex w-full justify-evenly p-2 font-semibold"
+                        onClick={() => {
+                          setShowPopup(true);
+                        }}
+                      >
+                        Write a review
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {showPopup && <Popup onClose={() => setShowPopup(false)} />}
+
+              <div className="mt-4 border border-black rounded-lg p-4 w-full">
+                <div className="flex">
+                  <img src={profile} className="h-16 w-16" alt="" />
+                  <div className="ml-4 mt-2">
+                    <p className="mx-0 my-0 font-semibold text-lg">
+                      Peter Parker
+                    </p>
+                    <div className="flex mt-1">
+                      <MdOutlineStarPurple500 className="text-[#FFC700] h-4 w-4 mr-2" />
+                      <MdOutlineStarPurple500 className="text-[#FFC700] h-4 w-4 mr-2" />
+                      <MdOutlineStarPurple500 className="text-[#FFC700] mr-2 h-4 w-4" />
+                      <MdOutlineStarPurple500 className="text-[#FFC700] mr-2 h-4 w-4" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <p className="text-left mx-0 my-0">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Placeat necessitatibus natus exercitationem eum qui.
+                    Numquam, autem officia? Voluptate, ab excepturi? Hic dolor
+                    vero saepe ut vitae eum suscipit! Odit, ut!
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4 border border-black rounded-lg p-4 w-full">
+                <div className="flex">
+                  <img src={profile} className="h-16 w-16" alt="" />
+                  <div className="ml-4 mt-2">
+                    <p className="mx-0 my-0 font-semibold text-lg">
+                      Peter Parker
+                    </p>
+                    <div className="flex mt-1">
+                      <MdOutlineStarPurple500 className="text-[#FFC700] h-4 w-4 mr-2" />
+                      <MdOutlineStarPurple500 className="text-[#FFC700] h-4 w-4 mr-2" />
+                      <MdOutlineStarPurple500 className="text-[#FFC700] mr-2 h-4 w-4" />
+                      <MdOutlineStarPurple500 className="text-[#FFC700] mr-2 h-4 w-4" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <p className="text-left mx-0 my-0">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Placeat necessitatibus natus exercitationem eum qui.
+                    Numquam, autem officia? Voluptate, ab excepturi? Hic dolor
+                    vero saepe ut vitae eum suscipit! Odit, ut!
+                  </p>
+                </div>
+              </div>
+
+              <div className="my-4 flex justify-center">
+                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white mr-2">
+                  <p className="text-center align-middle mx-0 my-0">1</p>
+                </div>
+
+                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white mr-2">
+                  <p className="text-center align-middle mx-0 my-0">2</p>
+                </div>
+
+                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white mr-2">
+                  <p className="text-center align-middle mx-0 my-0">3</p>
+                </div>
+
+                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white mr-4 ml-2">
+                  <p className="text-center align-middle mx-0 my-0"> </p>
+                </div>
+
+                <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-teal-500 hover:text-white">
+                  <p className="text-center align-middle mx-0 my-0"> </p>
+                </div>
+
               </div>
               <button
                 className="border-2 border-teal-500 font-semibold rounded-lg px-5 py-2 mt-2"
