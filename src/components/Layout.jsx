@@ -17,6 +17,7 @@ import {
 import Landing from "./Landing";
 import ResetPassword from "./resetpassword/ResetPassword";
 import Reviews from "./reviews/Reviews";
+import AddProperty from "./property/create-prop/AddProperty";
 
 const Layout = () => {
   return (
@@ -40,6 +41,7 @@ const Layout = () => {
           <Route path="/property-listing" element={<Listing />} />
           <Route path="/property/:id" element={<Flow2a />} />
           <Route path="/property/reviews" element={<Reviews />} />
+          <Route path="/property/add-property" element={<AddProperty />} />
         </Routes>
       </div>
       <div className="footer bottom-0 mt-5">
