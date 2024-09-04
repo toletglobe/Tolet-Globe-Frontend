@@ -5,7 +5,9 @@ import { IoAdd, IoBedOutline } from "react-icons/io5";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 const Cards = ({ properties }) => {
+  const navigate = useNavigate();
   const settings = {
     dots: true,
     infinite: true,
