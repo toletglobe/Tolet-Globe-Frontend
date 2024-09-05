@@ -20,6 +20,7 @@ function Reviews({ reviewData }) {
   const optionRef = useRef(null);
   const navigate = useNavigate();
 
+  // for handling comment overflow
   const characterLimit = 360;
 
   const handleOpenModal = () => {
@@ -36,6 +37,7 @@ function Reviews({ reviewData }) {
 
   const handleSubmission = async () => {
     try {
+      // if no user loggedin
       if (authState.status === false) {
         return navigate("/login");
       }
@@ -57,6 +59,7 @@ function Reviews({ reviewData }) {
     }
   };
 
+  // pagination details
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 2;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
@@ -68,6 +71,7 @@ function Reviews({ reviewData }) {
 
   const [isExpanded, setIsExpanded] = useState([]);
 
+  // toggle readmore section
   const toggleReadmore = (index) => {
     setIsExpanded((prev) => {
       const expanded = [...prev];
@@ -75,7 +79,7 @@ function Reviews({ reviewData }) {
       return expanded;
     });
   };
-
+// toggle option menu
   const toggleOption = (index) => {
     setIsOptionOpen((prev) => {
       const open = [...prev];
@@ -94,6 +98,7 @@ function Reviews({ reviewData }) {
     }
   };
 
+  // calculate average rating on review change
   useEffect(() => {
     const calculateAverageRating = (reviews) => {
       if (reviews.length === 0) return 0;
@@ -109,10 +114,12 @@ function Reviews({ reviewData }) {
     setAverageRating(parseFloat(calculateAverageRating(reviews)));
   }, [reviews]);
 
+  // for updating review state
   useEffect(() => {
     setReviews(reviewData);
   }, [reviewData]);
 
+  // for handling click outside event
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (optionRef.current && !optionRef.current.contains(event.target)) {
@@ -177,6 +184,7 @@ function Reviews({ reviewData }) {
               >
                 write a review
               </button>
+              {/* review Dialog */}
               <ReviewDialog isOpen={isModalOpen} onClose={handleCloseModal}>
                 <p className="py-2">Share your Experience</p>
                 <textarea

@@ -41,6 +41,7 @@ const NavBar = () => {
     navigate("/login");
     toast.success("Logged out!");
   };
+  // hanlding click outside event for avatar
   useEffect(() => {
     const handlClickOutside = (event) => {
       if (avatarRef.current && !avatarRef.current.contains(event.target)) {
@@ -202,7 +203,7 @@ const NavBar = () => {
                 >
                   Login
                 </Link> */}
-
+              {/* user avatar */}
               {authState.status === true && localStorage.getItem("token") ? (
                 <div ref={avatarRef}>
                   <button

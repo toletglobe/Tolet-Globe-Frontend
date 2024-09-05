@@ -9,8 +9,10 @@ const Main = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
+  // fetching user info whenever auth state changes
   useEffect(() => {
     const token = localStorage.getItem("token");
+    // fetching user info with jwt token
     const fetchUserInfo = async () => {
       if (!token) return null;
       try {
