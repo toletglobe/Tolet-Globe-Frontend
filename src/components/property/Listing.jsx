@@ -9,7 +9,7 @@ import {
   FaRegImage,
   FaVideo,
 } from "react-icons/fa6";
-import { IoAdd, IoBedOutline } from "react-icons/io5";
+import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
@@ -25,8 +25,10 @@ import cross from "../../assets/property/cross.png";
 import side from "../../assets/property/side.png";
 import axios from "axios";
 import { Button } from "../index";
+import { ClipLoader } from "react-spinners";
 
-const Listing = () => {
+
+const Listing = (props) => {
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ const Listing = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   {
     /*filter*/
@@ -111,6 +113,7 @@ const Listing = () => {
     } finally {
       setIsLoading(false);
       SetIsOpen(false);
+
     }
   };
 
@@ -132,15 +135,24 @@ const Listing = () => {
         const propertyData = await Service.fetchProperty();
         setProperties(propertyData || []); // Ensure propertyData is an array
         console.log(propertyData);
-        setLoading(false);
+        setLoader(false);
+
       } catch (error) {
         console.error("Error fetching properties:", error);
-        setLoading(false);
+        setLoader(false);
       }
     };
 
     fetchProperties();
   }, []);
+
+  if (loader) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} />
+      </div>
+    );
+  }
 
   const settings = {
     dots: true,
@@ -182,13 +194,7 @@ const Listing = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <ClipLoader color="#6CC1B6" size={150} />
-      </div>
-    );
-  }
+
 
   const [mode, setMode] = useState(false);
   function handleMode() {
@@ -199,12 +205,42 @@ const Listing = () => {
   function handleLocation() {
     setLocation(!Location);
   }
+
+  // Property Add and remove function to compare Property
+  const handleToggle = (event, property) => {
+    event.preventDefault();
+    
+    props.setcompareData((prev) => {
+      // Check if the property is already in the selected list
+      const isAlreadySelected = prev.some((p) => p._id === property._id);
+  
+      // If the property is already selected, remove it
+      if (isAlreadySelected) {
+        return prev.filter((p) => p._id !== property._id);
+      }
+  
+      // If the property is not selected and the list has fewer than 4 items, add it
+      if (prev.length < 4) {
+        return [...prev, property]; 
+      } else {
+        return prev;
+      }
+    });
+  };
+  
+  const isInCompareList = (propertyId) => {
+    return props.compareData.some((p) => p._id === propertyId);
+  };
+
+  const compare = () => {
+    navigate("/compare-property")
+  }
+
   return (
     <>
       <div
-        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
-          isOpen || Hamburger || Location ? "block" : "hidden"
-        }`}
+        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${isOpen || Hamburger || Location ? "block" : "hidden"
+          }`}
       ></div>
 
       <>
@@ -228,16 +264,14 @@ const Listing = () => {
                     src={cross}
                     alt="Close"
                     onClick={handleHamburger}
-                    className={`${
-                      Hamburger ? "block" : "hidden"
-                    } cursor-pointer `}
+                    className={`${Hamburger ? "block" : "hidden"
+                      } cursor-pointer `}
                   />
                 </div>
 
                 <div
-                  className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg  md:w-full ${
-                    Hamburger ? "block" : "hidden"
-                  }`}
+                  className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg  md:w-full ${Hamburger ? "block" : "hidden"
+                    }`}
                 >
                   <div className=" flex w-full py-3 px-4 border-b-2 border-[#D9D9D9] ">
                     <p className="lg:text-xl md:text-xl text-lg font-semibold mb-2 w-3/4">
@@ -287,15 +321,13 @@ const Listing = () => {
                     <img
                       src={drop}
                       alt=""
-                      className={`${
-                        mode ? "rotate-180" : "rotate-0"
-                      } mt-1 cursor-pointer `}
+                      className={`${mode ? "rotate-180" : "rotate-0"
+                        } mt-1 cursor-pointer `}
                       onClick={handleMode}
                     />
                     <div
-                      className={` ${
-                        mode ? "block" : "hidden"
-                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-24 py-3 top-[350px] left-14`}
+                      className={` ${mode ? "block" : "hidden"
+                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-24 py-3 top-[350px] left-14`}
                     >
                       <p className=" border-b-2 py-1 text-lg font-medium">
                         Buy
@@ -322,9 +354,8 @@ const Listing = () => {
                       />
                     </div>
                     <div
-                      className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${
-                        Location ? "block" : "hidden"
-                      }`}
+                      className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
+                        }`}
                     >
                       <div>
                         <img
@@ -372,13 +403,23 @@ const Listing = () => {
                     />
                   </div>
                 </div>
+                <div className="compare" onClick={compare}>
+                  {props.compareData.length >= 1 && (
+                    <button
+                      className={`bg-white text-black rounded-md py-3 px-6 font-medium ${props.compareData.length <= 1 ? 'opacity-50 grayscale cursor-not-allowed' : ''}`}
+                      disabled={props.compareData.length <= 1}
+                    >
+                      Compare {props.compareData.length}
+                    </button>
+                  )}
+                </div>
+
               </div>
             </div>
 
             <div
-              className={`min-w-full min-h-fit absolute z-30 top-32 flex items-start justify-center gap-5 ${
-                isOpen ? "block" : "hidden"
-              } `}
+              className={`min-w-full min-h-fit absolute z-30 top-32 flex items-start justify-center gap-5 ${isOpen ? "block" : "hidden"
+                } `}
             >
               <div className="">
                 <img
@@ -457,9 +498,8 @@ const Listing = () => {
                       ].map((bhk, index) => (
                         <div
                           key={index}
-                          className={`h-8 w-28 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                            filters.bhk === bhk ? "bg-[#4A7F79] text-white" : ""
-                          }`}
+                          className={`h-8 w-28 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${filters.bhk === bhk ? "bg-[#4A7F79] text-white" : ""
+                            }`}
                           onClick={() => handleFilterChange("bhk", bhk)}
                         >
                           {bhk}
@@ -474,11 +514,10 @@ const Listing = () => {
                     </p>
                     <div className="flex flex-wrap gap-2">
                       <div
-                        className={`hover:cursor-pointer h-8 w-24 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                          filters.residential === "+ Flat"
-                            ? "bg-[#4A7F79] text-white"
-                            : ""
-                        }`}
+                        className={`hover:cursor-pointer h-8 w-24 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${filters.residential === "+ Flat"
+                          ? "bg-[#4A7F79] text-white"
+                          : ""
+                          }`}
                         onClick={() =>
                           handleFilterChange("residential", "+ Flat")
                         }
@@ -486,11 +525,10 @@ const Listing = () => {
                         + Flat
                       </div>
                       <div
-                        className={`hover:cursor-pointer h-8 w-32 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                          filters.residential === "+ House/Villa"
-                            ? "bg-[#4A7F79] text-white"
-                            : ""
-                        }`}
+                        className={`hover:cursor-pointer h-8 w-32 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${filters.residential === "+ House/Villa"
+                          ? "bg-[#4A7F79] text-white"
+                          : ""
+                          }`}
                         onClick={() =>
                           handleFilterChange("residential", "+ House/Villa")
                         }
@@ -513,11 +551,10 @@ const Listing = () => {
                       ].map((type, index) => (
                         <div
                           key={index}
-                          className={`hover:cursor-pointer h-9 w-44 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                            filters.commercial === type
-                              ? "bg-[#4A7F79] text-white"
-                              : ""
-                          }`}
+                          className={`hover:cursor-pointer h-9 w-44 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${filters.commercial === type
+                            ? "bg-[#4A7F79] text-white"
+                            : ""
+                            }`}
                           onClick={() => handleFilterChange("commercial", type)}
                         >
                           {type}
@@ -531,11 +568,10 @@ const Listing = () => {
                       Others
                     </p>
                     <div
-                      className={`hover:cursor-pointer w-32 h-10 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                        filters.others === "+ Farm house"
-                          ? "bg-[#4A7F79] text-white"
-                          : ""
-                      }`}
+                      className={`hover:cursor-pointer w-32 h-10 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${filters.others === "+ Farm house"
+                        ? "bg-[#4A7F79] text-white"
+                        : ""
+                        }`}
                       onClick={() =>
                         handleFilterChange("others", "+ Farm house")
                       }
@@ -566,11 +602,10 @@ const Listing = () => {
                         </select>
                       </div>
                       <div
-                        className={`h-9 w-36 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                          filters.preferenceHousing === "Family"
-                            ? "bg-[#4A7F79] text-white"
-                            : ""
-                        }`}
+                        className={`h-9 w-36 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${filters.preferenceHousing === "Family"
+                          ? "bg-[#4A7F79] text-white"
+                          : ""
+                          }`}
                         onClick={() =>
                           handleFilterChange("preferenceHousing", "Family")
                         }
@@ -609,11 +644,10 @@ const Listing = () => {
                       ].map((type, index) => (
                         <div
                           key={index}
-                          className={`hover:cursor-pointer h-9 w-36 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                            filters.houseType === type
-                              ? "bg-[#4A7F79] text-white"
-                              : ""
-                          }`}
+                          className={`hover:cursor-pointer h-9 w-36 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${filters.houseType === type
+                            ? "bg-[#4A7F79] text-white"
+                            : ""
+                            }`}
                           onClick={() => handleFilterChange("houseType", type)}
                         >
                           {type}
@@ -687,9 +721,8 @@ const Listing = () => {
                           <FaLocationDot className="text-xl" />
                           <address>
                             {" "}
-                            {`${property.locality}, ${
-                              property.city || "Lucknow"
-                            }`}
+                            {`${property.locality}, ${property.city || "Lucknow"
+                              }`}
                           </address>
                         </button>
                       </div>
@@ -716,11 +749,18 @@ const Listing = () => {
                             style={{ color: "#40B5A8" }}
                           />
                         </a>
-                        <a href="#">
-                          <IoAdd
-                            className="card_icon"
-                            style={{ color: "#000000", fontSize: "12px" }}
-                          />
+                        <a href="#" onClick={(event) => handleToggle(event, property)} key={property._id}>
+                          {isInCompareList(property._id) ? (
+                            <IoRemove
+                              className="card_icon"
+                              style={{ color: "#ff0000", fontSize: "12px" }}
+                            />
+                          ) : (
+                            <IoAdd
+                              className="card_icon"
+                              style={{ color: "#000000", fontSize: "12px" }}
+                            />
+                          )}
                         </a>
                         <a href="#">
                           <CiHeart className="card_icon text-red-500" />

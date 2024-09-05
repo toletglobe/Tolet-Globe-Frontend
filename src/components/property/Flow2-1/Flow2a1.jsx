@@ -13,6 +13,7 @@ import { CiShare2, CiHeart } from "react-icons/ci";
 import { IoIosAdd } from "react-icons/io";
 import profile from "../../../assets/property/author.jpg";
 import fav from "../../../assets/property/Vector.png";
+import { ClipLoader } from "react-spinners";
 
 const Flow2a = () => {
   const { id } = useParams();
@@ -44,7 +45,13 @@ const Flow2a = () => {
     setSelectedImage("");
   };
 
-  if (!property) return <p>Loading...</p>; // Add a loading state
+  if (!property) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} />
+      </div>
+    );
+  } // Add a loading state
 
   return (
     <div className="px-4 py-4 relative">

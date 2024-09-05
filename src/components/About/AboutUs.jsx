@@ -9,7 +9,7 @@
   import CEO2 from '../../assets/about/CEO2.jpg'
   import CEO3 from '../../assets/about/CEO3.jpeg'
 
-  export default function About() {
+  export default function About(props) {
     useEffect(() => {
       // Function to handle the scroll event
       const handleScroll = () => {
@@ -34,7 +34,7 @@
         window.removeEventListener('scroll', handleScroll);
       };
     }, []);
-
+console.log(props.compareData)
     return (
       <>
         <div className="aboutustimeline my-24 ">

@@ -4,6 +4,7 @@ import Service from "../../config/config"; // Adjust the import path accordingly
 import { FaRegHeart } from "react-icons/fa6";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import author from "../../assets/property/author.jpg";
+import { ClipLoader } from "react-spinners";
 
 const BlogView = () => {
   const { slug } = useParams(); // Get the blog ID from the URL
@@ -22,7 +23,13 @@ const BlogView = () => {
     fetchBlog();
   }, []);
 
-  if (!blog) return <div>Loading...</div>;
+  if (!blog) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} />
+      </div>
+    );
+  };
 
   return (
     <div className="bg-black text-white my-5 md:my-10 px-10">
