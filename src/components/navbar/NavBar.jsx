@@ -106,7 +106,7 @@ const NavBar = () => {
                   activeLink === "home"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                } hover:bg-[#6CC1B6] hover:h-8 hover:rounded-full hover:text-black hover:shadow-[0_0_15px_5px_rgba(59,130,246,0.7)]`}
                 onClick={() => handleNavLinkClick("home")}
               >
                 Home
@@ -119,7 +119,7 @@ const NavBar = () => {
                   activeLink === "service"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                } hover:bg-[#6CC1B6] hover:h-8 hover:rounded-full hover:text-black hover:shadow-[0_0_15px_5px_rgba(59,130,246,0.7)]`}
                 onClick={() => handleNavLinkClick("service")}
               >
                 Service
@@ -132,7 +132,7 @@ const NavBar = () => {
                   activeLink === "blog"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                } hover:bg-[#6CC1B6] hover:h-8 hover:rounded-full hover:text-black hover:shadow-[0_0_15px_5px_rgba(59,130,246,0.7)]`}
                 onClick={() => handleNavLinkClick("blog")}
               >
                 Blog
@@ -145,7 +145,7 @@ const NavBar = () => {
                   activeLink === "contact"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                } hover:bg-[#6CC1B6] hover:h-8 hover:rounded-full hover:text-black hover:shadow-[0_0_15px_5px_rgba(59,130,246,0.7)]`}
                 onClick={() => handleNavLinkClick("contact")}
               >
                 Contact
@@ -158,7 +158,7 @@ const NavBar = () => {
                   activeLink === "aboutus"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                } hover:bg-[#6CC1B6] hover:h-8 hover:rounded-full hover:text-black hover:shadow-[0_0_15px_5px_rgba(59,130,246,0.7)]`}
                 onClick={() => handleNavLinkClick("about")}
               >
                 About
@@ -171,7 +171,7 @@ const NavBar = () => {
                   activeLink === "propertyListing"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                } hover:bg-[#6CC1B6] hover:h-8 hover:rounded-full hover:text-black hover:shadow-[0_0_15px_5px_rgba(59,130,246,0.7)]`}
                 onClick={() => handleNavLinkClick("propertyListing")}
               >
                 Property Listing
@@ -185,7 +185,7 @@ const NavBar = () => {
                     activeLink === "logout"
                       ? "text-white bg-teal-500 rounded-md"
                       : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
+                  } hover:bg-[#6CC1B6] hover:h-8 hover:rounded-full hover:text-black hover:shadow-[0_0_15px_5px_rgba(59,130,246,0.7)]`}
                   onClick={handleLogout}
                 >
                   Logout
@@ -197,7 +197,7 @@ const NavBar = () => {
                     activeLink === "login"
                       ? "text-white bg-teal-500 rounded-md"
                       : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
+                  } hover:bg-[#6CC1B6] hover:h-8 hover:rounded-full hover:text-black hover:shadow-[0_0_15px_5px_rgba(59,130,246,0.7)]`}
                   onClick={() => handleNavLinkClick("login")}
                 >
                   Login
@@ -243,7 +243,7 @@ const NavBar = () => {
                     activeLink === "login"
                       ? "text-white bg-teal-500 rounded-md"
                       : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
+                  } hover:bg-[#6CC1B6] hover:h-8 hover:rounded-full hover:text-black hover:shadow-[0_0_15px_5px_rgba(59,130,246,0.7)]`}
                   onClick={() => handleNavLinkClick("login")}
                 >
                   Login
