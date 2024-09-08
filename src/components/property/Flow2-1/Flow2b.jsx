@@ -34,6 +34,7 @@ import profile from "../../../assets/property/author7.jpg";
 // import map from "../../../assets/property/map.png";
 import Popup from "./Popup";
 import LocationComponent from "./Location.jsx";
+import Reviews from "../../reviews/Reviews.jsx";
 // import Property from "../Property";
 
 const Flow2b = (property) => {
@@ -72,6 +73,33 @@ const Flow2b = (property) => {
         setSelectComp(0);
     }
   };
+  const reviewData = [
+    {
+      _id: "6347hjsdvfhvdfdshcvw",
+      property: "64f08d4f1c2a4e2a7e2a7f9b", // Replace with a valid ObjectId of a Property
+      user: "64f08d4f1c2a4e2a7e2a7f9c", // Replace with a valid ObjectId of a User
+      username: "john_doe",
+      rating: 5,
+      comment: "Amazing property! Had a great stay.",
+      // The slug will be generated automatically in the pre-validation hook.
+    },
+    {
+      _id: "6347hjsdvfhdfdvshcvw",
+      property: "64f08d4f1c2a4e2a7e2a7f9d", // Replace with a valid ObjectId of a Property
+      user: "64f08d4f1c2a4e2a7e2a7f9e", // Replace with a valid ObjectId of a User
+      username: "jane_smith",
+      rating: 4,
+      comment: "Very good location, but the rooms could be cleaner.",
+    },
+    {
+      _id: "6347hjsdvfhvdfdshcvw",
+      property: "64f08d4f1c2a4e2a7e2a7f9f", // Replace with a valid ObjectId of a Property
+      user: "64f08d4f1c2a4e2a7e2a7fa0", // Replace with a valid ObjectId of a User
+      username: "alex_brown",
+      rating: 1,
+      comment: "Average experience, but the price was reasonable.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est, a qui ipsum, recusandae fuga commodi porro quaerat mollitia voluptas possimus perspiciatis. Ea commodi accusantium cupiditate deserunt ipsa eaque saepe animi!",
+    },
+  ];
 
   const buttonClasses = "text-white font-semibold text-xl";
 
@@ -336,8 +364,8 @@ const Flow2b = (property) => {
           <LocationComponent />
 
           {/* Review section */}
-
-          <div className={`pb-4 ${selectComp > 6 ? "hidden" : ""}`}>
+          <Reviews reviewData={reviewData} />
+          {/* <div className={`pb-4 ${selectComp > 6 ? "hidden" : ""}`}>
             <div className={`bg-white w-full rounded-lg p-3`}>
               <p className="text-black block font-semibold text-xl">Review</p>
 
@@ -472,7 +500,7 @@ const Flow2b = (property) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

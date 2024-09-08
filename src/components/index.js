@@ -51,6 +51,11 @@ import Service from "./service/Service";
 //About us page component
 import AboutUs from "./About/AboutUs";
 
+//Landlord Page
+import LandlordPage from "./Landlord/LandlordPage.jsx"
+
+
+
 export {
   Button,
   Input,
@@ -78,4 +83,6 @@ export {
   Listing,
   Service,
   Flow2a,
+  LandlordPage,
+  
 };
