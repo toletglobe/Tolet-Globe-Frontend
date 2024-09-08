@@ -7,7 +7,8 @@ import { API } from "../../config/axios";
 import toast from "react-hot-toast";
 import { EllipsisVerticalIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
-function Reviews() {
+import { useNavigate } from "react-router-dom";
+function Reviews({ reviewData }) {
   const authState = useSelector((state) => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOptionOpen, setIsOptionOpen] = useState([]);
@@ -16,7 +17,10 @@ function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const reviewRefs = useRef({});
+  const optionRef = useRef(null);
+  const navigate = useNavigate();
 
+  // for handling comment overflow
   const characterLimit = 360;
 
   const handleOpenModal = () => {
@@ -33,6 +37,11 @@ function Reviews() {
 
   const handleSubmission = async () => {
     try {
+      // if no user loggedin
+      if (authState.status === false) {
+        return navigate("/login");
+      }
+
       const data = {
         user: authState.userData.userId,
         username: authState.userData.username,
@@ -50,6 +59,7 @@ function Reviews() {
     }
   };
 
+  // pagination details
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 2;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
@@ -61,6 +71,7 @@ function Reviews() {
 
   const [isExpanded, setIsExpanded] = useState([]);
 
+  // toggle readmore section
   const toggleReadmore = (index) => {
     setIsExpanded((prev) => {
       const expanded = [...prev];
@@ -68,7 +79,7 @@ function Reviews() {
       return expanded;
     });
   };
-
+// toggle option menu
   const toggleOption = (index) => {
     setIsOptionOpen((prev) => {
       const open = [...prev];
@@ -87,6 +98,7 @@ function Reviews() {
     }
   };
 
+  // calculate average rating on review change
   useEffect(() => {
     const calculateAverageRating = (reviews) => {
       if (reviews.length === 0) return 0;
@@ -102,37 +114,28 @@ function Reviews() {
     setAverageRating(parseFloat(calculateAverageRating(reviews)));
   }, [reviews]);
 
+  // for updating review state
   useEffect(() => {
-    const data = [
-      {
-        property: "64f08d4f1c2a4e2a7e2a7f9b", // Replace with a valid ObjectId of a Property
-        user: "64f08d4f1c2a4e2a7e2a7f9c", // Replace with a valid ObjectId of a User
-        username: "john_doe",
-        rating: 5,
-        comment: "Amazing property! Had a great stay.",
-        // The slug will be generated automatically in the pre-validation hook.
-      },
-      {
-        property: "64f08d4f1c2a4e2a7e2a7f9d", // Replace with a valid ObjectId of a Property
-        user: "64f08d4f1c2a4e2a7e2a7f9e", // Replace with a valid ObjectId of a User
-        username: "jane_smith",
-        rating: 4,
-        comment: "Very good location, but the rooms could be cleaner.",
-      },
-      {
-        property: "64f08d4f1c2a4e2a7e2a7f9f", // Replace with a valid ObjectId of a Property
-        user: "64f08d4f1c2a4e2a7e2a7fa0", // Replace with a valid ObjectId of a User
-        username: "alex_brown",
-        rating: 1,
-        comment: "Average experience, but the price was reasonable.",
-      },
-    ];
-    setReviews(data);
-  }, []);
+    setReviews(reviewData);
+  }, [reviewData]);
+
+  // for handling click outside event
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (optionRef.current && !optionRef.current.contains(event.target)) {
+        setIsOptionOpen([]);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [optionRef]);
 
   return (
-    <div className="w-[100vw] h-fit flex justify-center items-center font-poppins my-10">
-      <div className="bg-white relative rounded-md w-5/6 h-full mx-5 flex flex-col items-start p-5">
+    <div className="w-full h-fit flex justify-center items-center font-poppins my-10">
+      <div className="bg-white relative rounded-md w-full h-full flex flex-col items-start p-5">
         <p className="font-poppins font-normal text-xl">Reviews</p>
         <div className="flex sm:flex-row flex-col sm:justify-between items-center w-full sm:h-[160px] h-fit my-4">
           <div className="sm:w-1/4 w-full h-full border-[1px] border-[#0f0f0f] rounded-md flex flex-col sm:p-8 p-3 items-center">
@@ -181,12 +184,13 @@ function Reviews() {
               >
                 write a review
               </button>
+              {/* review Dialog */}
               <ReviewDialog isOpen={isModalOpen} onClose={handleCloseModal}>
                 <p className="py-2">Share your Experience</p>
                 <textarea
                   placeholder="Leave your experience"
                   maxLength={150}
-                  className="w-full border border-black rounded-lg p-4 min-h-20 outline-none text-sm"
+                  className="w-full border border-black bg-white rounded-lg p-4 min-h-20 outline-none text-sm"
                   value={reviewInput}
                   onChange={(e) => setReviewInput(e.target.value)}
                 ></textarea>
@@ -216,8 +220,8 @@ function Reviews() {
                     <p className="w-14 h-14 flex items-center justify-center rounded-full bg-gray-400">
                       {review.username.charAt(0)}
                     </p>
-                    <div className="flex flex-col mx-4 items-center justify-center h-full">
-                      <p className="mx-2 text-lg font-semibold text-[#0f0f0f]">
+                    <div className="flex flex-col mx-4 items-start justify-center h-full">
+                      <p className="text-lg mx-2 font-semibold text-[#0f0f0f]">
                         {review.username}
                       </p>
                       <div className="flex items-center justify-center py-1">
@@ -243,12 +247,13 @@ function Reviews() {
                       <EllipsisVerticalIcon className="w-5 h-5" />
                     </button>
                     {isOptionOpen[index] && (
-                      <div className="absolute top-8 right-2 w-fit h-fit flex flex-col  justify-center items-center text-[#0f0f0f] bg-gray-300 rounded-lg">
+                      <div
+                        ref={optionRef}
+                        className="absolute top-8 right-2 w-fit h-fit flex flex-col  justify-center items-center text-[#0f0f0f] bg-gray-300 rounded-lg"
+                      >
                         <ul className="w-ful flex flex-col items-start">
                           <li
-                            onClick={() =>
-                              deleteReview("66d088c11c4db55d486beb33")
-                            }
+                            onClick={() => deleteReview(review._id)}
                             className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg"
                           >
                             <TrashIcon className="w-[18px] h-[18px] mr-2" />{" "}

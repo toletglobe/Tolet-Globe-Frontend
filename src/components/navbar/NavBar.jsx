@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import toast from "react-hot-toast";
@@ -16,7 +16,7 @@ const NavBar = () => {
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const avatarRef = useRef();
   // useEffect(() => {
   //   window.scrollTo(0, 0);
   // }, [activeLink]);
@@ -41,6 +41,20 @@ const NavBar = () => {
     navigate("/login");
     toast.success("Logged out!");
   };
+  // hanlding click outside event for avatar
+  useEffect(() => {
+    const handlClickOutside = (event) => {
+      if (avatarRef.current && !avatarRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handlClickOutside);
+    };
+  }, [avatarRef]);
 
   return (
     <nav className="z-50">
@@ -189,16 +203,16 @@ const NavBar = () => {
                 >
                   Login
                 </Link> */}
-
+              {/* user avatar */}
               {authState.status === true && localStorage.getItem("token") ? (
-                <div>
+                <div ref={avatarRef}>
                   <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className="rounded-full relative flex justify-center items-center w-10 h-10 mx-3 text-white bg-teal-500"
                   >
                     {authState.userData
                       ? authState.userData.username.charAt(0).toUpperCase()
-                      : ""}
+                      : "U"}
                   </button>
                   {isMenuOpen && (
                     <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#0f0f0f] bg-white rounded-lg">
