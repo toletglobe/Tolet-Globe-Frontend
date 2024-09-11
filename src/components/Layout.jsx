@@ -14,6 +14,7 @@ import {
   ForgotPassword,
   Flow2a,
   LandlordPage,
+  LandlordDashboard
 } from "./index";
 import Landing from "./Landing";
 import ResetPassword from "./resetpassword/ResetPassword";
@@ -24,8 +25,8 @@ const Layout = () => {
   const location = useLocation();
   
   // Determine whether to show the NavBar and Footer based on the current route
-  const showNavBar = location.pathname !== "/landlord-profile";
-  const showFooter = location.pathname !== "/landlord-profile";
+  const showNavBar = location.pathname !== "/landlord-profile" && location.pathname !== "/landlord-dashboard";
+  const showFooter = location.pathname !== "/landlord-profile" && location.pathname !== "/landlord-dashboard";
 
   return (
     <div className="flex flex-col min-h-screen w-full">
@@ -52,6 +53,8 @@ const Layout = () => {
           <Route path="/property/reviews" element={<Reviews />} />
           <Route path="/property/add-property" element={<AddProperty />} />
           <Route path="/landlord-profile" element={<LandlordPage />} />
+          <Route path="/landlord-dashboard" element={<LandlordDashboard />} />
+
         </Routes>
       </div>
       {showFooter && (
