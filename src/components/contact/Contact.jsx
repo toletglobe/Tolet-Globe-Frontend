@@ -66,15 +66,15 @@ const Contact = () => {
             <p className="text-gray-300/50 mt-1">
               Our friendly team is here to help
             </p>
-            <p className="text-[#6CC1B6] ">toletglobetech@gmail.com</p>
+            <p className="text-[#6CC1B6] ">hello@toletglobe.in</p>
           </div>
         </div>
         <div className="flex flex-row gap-5 mt-10">
           <IoCallOutline className="text-white text-4xl" />
           <div>
             <h1 className="text-white text-2xl">Call us...</h1>
-            <p className="text-gray-300/50 mt-1">Mon - Fri, 8 AM to 10 PM</p>
-            <p className="text-[#6CC1B6] ">+91 9876543210</p>
+            <p className="text-gray-300/50 mt-1">Mon - Sat, 8 AM to 10 PM</p>
+            <p className="text-[#6CC1B6] ">+91 8707727347</p>
           </div>
         </div>
       </div>
@@ -105,7 +105,7 @@ const Contact = () => {
             <input
               type="text"
               id="name"
-              placeholder="John Doe"
+              placeholder="Rohit Kapur"
               value={formData.name}
               name="name"
               className=" mt-2 appearance-none border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"

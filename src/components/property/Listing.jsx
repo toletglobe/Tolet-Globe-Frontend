@@ -124,16 +124,16 @@ const Listing = () => {
               <div className="flex items-center justify-start gap-3 pb-10 ml-4 flex-col md:flex-row lg:flex-row ">
                 <div className="bg-white h-14 w-80 flex items-center justify-between text-black px-4 rounded-2xl ">
                   <div className="w-1/4 flex items-center justify-start gap-4 border-r-2 h-3/4 border-black">
-                    <p className="text-black">Buy</p>
-                    <img
+                    <p className="text-black">Rent</p>
+                    {/* <img
                       src={drop}
                       alt=""
                       className={`${
                         mode ? "rotate-180" : "rotate-0"
                       } mt-1 cursor-pointer `}
                       onClick={handleMode}
-                    />
-                    <div
+                    /> */}
+                    {/* <div
                       className={` ${
                         mode ? "block" : "hidden"
                       } z-50 absolute bg-white shadow-lg rounded-lg text-center w-24 py-3 top-[350px] left-14`}
@@ -145,7 +145,7 @@ const Listing = () => {
                         Sell
                       </p>
                       <p className=" py-1 text-lg font-medium">Rent</p>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
                     <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full ">

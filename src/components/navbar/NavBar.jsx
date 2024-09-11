@@ -107,7 +107,8 @@ const NavBar = () => {
                   activeLink === "home"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
                 onClick={() => handleNavLinkClick("home")}
               >
                 Home
@@ -120,7 +121,8 @@ const NavBar = () => {
                   activeLink === "service"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
                 onClick={() => handleNavLinkClick("service")}
               >
                 Service
@@ -133,7 +135,8 @@ const NavBar = () => {
                   activeLink === "blog"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
                 onClick={() => handleNavLinkClick("blog")}
               >
                 Blog
@@ -146,7 +149,8 @@ const NavBar = () => {
                   activeLink === "contact"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                }`}
                 onClick={() => handleNavLinkClick("contact")}
               >
                 Contact
@@ -159,8 +163,9 @@ const NavBar = () => {
                   activeLink === "aboutus"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
-                onClick={() => handleNavLinkClick("about")}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
+                onClick={() => handleNavLinkClick("aboutus")}
               >
                 About
               </Link>
@@ -172,7 +177,8 @@ const NavBar = () => {
                   activeLink === "propertyListing"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
                 onClick={() => handleNavLinkClick("propertyListing")}
               >
                 Property Listing
@@ -244,7 +250,8 @@ const NavBar = () => {
                     activeLink === "login"
                       ? "text-white bg-teal-500 rounded-md"
                       : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
+                    // } hover:bg-[#c8a21c] hover:rounded-md`}
+                  } `}
                   onClick={() => handleNavLinkClick("login")}
                 >
                   Login
