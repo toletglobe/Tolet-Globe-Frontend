@@ -36,8 +36,9 @@ const Flow2a = () => {
     fetchProperty();
   }, [id]);
 
-  const openModal = (image) => {
+  const openModal = (image, index) => {
     setSelectedImage(image);
+    setCurrentIndex(index);
     setIsModalOpen(true);
   };
 
@@ -50,12 +51,14 @@ const Flow2a = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? (property?.photos?.length || 1) - 1 : prevIndex - 1
     );
+    setSelectedImage(property?.photos[currentIndex] || img1);
   };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
       (prevIndex + 1) % (property?.photos?.length || 1)
     );
+    setSelectedImage(property?.photos[currentIndex] || img1);
   };
 
   if (!property) return <p>Loading...</p>; // Add a loading state
@@ -64,21 +67,13 @@ const Flow2a = () => {
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
       <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
-        {/* Left Arrow */}
-        <button
-          onClick={handlePrev}
-          className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white text-black text-2xl  p-2 rounded-full"
-        >
-          <HiChevronLeft />
-        </button>
-
         {/* Large Image */}
         <div className="w-full md:w-1/2">
           <img
-            src={property?.photos[currentIndex] || img1}
+            src={property?.photos[0] || img1}
             alt={property?.propertyType}
             className="w-full h-[383px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[currentIndex] || img1)}
+            onClick={() => openModal(property?.photos[0] || img1, 0)}
           />
         </div>
 
@@ -88,39 +83,31 @@ const Flow2a = () => {
             src={property?.photos[1] || img2}
             alt={property?.propertyType}
             className="w-full h-[193px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[1] || img2)}
+            onClick={() => openModal(property?.photos[1] || img2, 1)}
           />
           <img
             src={property?.photos[2] || img3}
             alt={property?.propertyType}
             className="w-full h-[193px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[2] || img3)}
+            onClick={() => openModal(property?.photos[2] || img3, 2)}
           />
           <img
             src={property?.photos[3] || img4}
             alt={property?.propertyType}
             className="w-full h-[186px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[3] || img4)}
+            onClick={() => openModal(property?.photos[3] || img4, 3)}
           />
           <img
             src={property?.photos[4] || img5}
             alt={property?.propertyType}
             className="w-full h-[186px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[4] || img5)}
+            onClick={() => openModal(property?.photos[4] || img5, 4)}
           />
         </div>
-
-        {/* Right Arrow */}
-        <button
-          onClick={handleNext}
-          className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white text-black text-2xl  p-2 rounded-full"
-        >
-          <HiChevronRight />
-        </button>
       </div>
       
-     {/* Caption Section */}
-     <div className="text-center -mt-4 relative">
+      {/* Caption Section */}
+      <div className="text-center -mt-4 relative">
         <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
           Photos | Videos | Property Map
         </p>
@@ -199,9 +186,25 @@ const Flow2a = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
           <div className="relative bg-dark p-4">
+            {/* Left Arrow */}
+            <button
+              onClick={handlePrev}
+              className="absolute top-1/2 left-7 transform -translate-y-1/2 bg-white text-black text-2xl  p-2 rounded-full"
+            >
+              <HiChevronLeft />
+            </button>
+
+            {/* Right Arrow */}
+            <button
+              onClick={handleNext}
+              className="absolute top-1/2 right-7 transform -translate-y-1/2 bg-white text-black text-2xl  p-2 rounded-full"
+            >
+              <HiChevronRight />
+            </button>
+
             <button
               onClick={closeModal}
-              className="absolute top-2 right-2 text-black text-xl bg-gray-300 p-1 rounded-full"
+              className="absolute top-2 right-2 text-white text-xl bg-gray-300 p-1 rounded-full"
             >
               &times;
             </button>
