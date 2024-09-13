@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { IoAdd, IoBedOutline } from "react-icons/io5";
@@ -6,6 +5,28 @@ import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+
+// Custom Arrow Components
+const PrevArrow = ({ onClick }) => (
+  <div
+    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    onClick={onClick}
+    style={{ width: "40px", height: "40px" }} // Increased size of the circle
+  >
+    <span className="text-2xl">&#8249;</span> {/* Left Shift Arrow */}
+  </div>
+);
+
+const NextArrow = ({ onClick }) => (
+  <div
+    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    onClick={onClick}
+    style={{ width: "40px", height: "40px" }} // Increased size of the circle
+  >
+    <span className="text-2xl">&#8250;</span> {/* Right Shift Arrow */}
+  </div>
+);
+
 const Cards = ({ properties }) => {
   const navigate = useNavigate();
   const settings = {
@@ -15,6 +36,9 @@ const Cards = ({ properties }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    draggable: false,  // This line disables the dragging effect
   };
 
   return (
@@ -23,14 +47,13 @@ const Cards = ({ properties }) => {
         {properties.map((property) => (
           <li
             key={property._id}
-            className="property-card bg-white border border-grey-200 shadow-lg"
+            className="property-card bg-white border border-grey-200 shadow-lg relative"
           >
             <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
               {property.photos.length > 1 ? (
                 <Slider {...settings}>
                   {property.photos.map((photo, index) => (
                     <div key={index}>
-                      {/* <div> */}
                       <img
                         src={photo}
                         alt={property.propertyType}
@@ -40,12 +63,15 @@ const Cards = ({ properties }) => {
                   ))}
                 </Slider>
               ) : (
-                <div>
+                <div className="relative">
                   <img
                     src={property.photos[0]}
                     alt={property.propertyType}
                     className="w-full h-full object-cover"
                   />
+                  {/* Show arrows even if there is only one image */}
+                  <PrevArrow onClick={() => {}} />
+                  <NextArrow onClick={() => {}} />
                 </div>
               )}
               <div
