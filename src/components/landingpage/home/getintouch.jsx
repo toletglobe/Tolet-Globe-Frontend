@@ -33,14 +33,22 @@ export const ContactUs = () => {
 
 
   const handleSubmit = async (evt) => {
+  try {
     evt.preventDefault(); // Prevent the default form submission
     setLoading(true);
     const dataForEnquiry = formData;
     const response2 = await API.post("contact/submit-data", dataForEnquiry);
     handleReset();
-    toast.success("Enquiry Sent! We will get in touch with you.");
+    toast.success("Enquiry Sent! We will get in touch with you shortly.");
     setLoading(false);
     console.log(response2);
+  } 
+  catch (error) {
+    console.log(error);
+    handleReset();
+    toast.error("Something went wrong. Please try again later.");
+    setLoading(false);
+  }
   };
 
   const googlemaps =
