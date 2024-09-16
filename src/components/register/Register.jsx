@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import "./Register.css";
 import {
   FaUser,
@@ -11,6 +12,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API } from "../../config/axios";
+import { login } from "../../store/authSlice";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -21,7 +23,7 @@ const Register = () => {
   const [userType, setUserType] = useState("");
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleRoleChange = (e) => {
     setRole(e.target.value);
     if (e.target.value !== "user") {
@@ -62,6 +64,8 @@ const Register = () => {
         setTimeout(() => {
           navigate("/login");
         }, 3000);
+      const userData = res.data;
+      dispatch(login({username : userData.username}))
       }
     } catch (error) {
       console.log(error);

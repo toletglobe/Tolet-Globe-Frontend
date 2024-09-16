@@ -216,17 +216,23 @@ const NavBar = () => {
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className="rounded-full relative flex justify-center items-center w-10 h-10 mx-3 text-white bg-teal-500"
                   >
+                     {/* // have to work here */}
                     {authState.userData
                       ? authState.userData.username.charAt(0).toUpperCase()
                       : "U"}
+                     {/* // possible soln */}
+                      {/* <img
+                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/man-982957_960_720.png"
+                      alt="user avatar"
+                      className="w-full h-full rounded-full"
+                    /> */}
                   </button>
                   {isMenuOpen && (
                     <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#0f0f0f] bg-white rounded-lg">
                       <ul className="w-ful flex flex-col items-start">
+                       {/* // have to work here */}
                         <li className="font-bold p-3 w-full text-center">
-                          {authState.userData
-                            ? authState.userData.username.toUpperCase()
-                            : "USER"}
+                          { authState.userData?.username?.toUpperCase()|| "USER"}
                         </li>
                         <li className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg">
                           <ComputerDesktopIcon className="w-[18px] h-[18px] mr-2" />{" "}
