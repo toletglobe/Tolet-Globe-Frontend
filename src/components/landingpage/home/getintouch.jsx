@@ -1,6 +1,6 @@
 import "animate.css";
 import location from "../../../assets/getintouch/toletglobelocationimage.jpg";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { API } from "../../../config/axios";
 import { toast } from "react-hot-toast";
 
@@ -12,6 +12,7 @@ export const ContactUs = () => {
     msg: "",
     topic: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (evt) => {
     setFormData((prev) => ({
@@ -30,13 +31,24 @@ export const ContactUs = () => {
     });
   };
 
+
   const handleSubmit = async (evt) => {
-    evt.preventDefault(); // Prevent the default form submissio
+  try {
+    evt.preventDefault(); // Prevent the default form submission
+    setLoading(true);
     const dataForEnquiry = formData;
-    handleReset();
-    toast.success("Enquiry Sent! We will get in touch with you.");
     const response2 = await API.post("contact/submit-data", dataForEnquiry);
+    handleReset();
+    toast.success("Enquiry Sent! We will get in touch with you shortly.");
+    setLoading(false);
     console.log(response2);
+  } 
+  catch (error) {
+    console.log(error);
+    handleReset();
+    toast.error("Something went wrong. Please try again later.");
+    setLoading(false);
+  }
   };
 
   const googlemaps =
@@ -70,7 +82,7 @@ export const ContactUs = () => {
             feel free to ask them anytime
           </p>
 
-          <form
+          <form 
             className="w-full flex flex-col justify-between text-white"
             onSubmit={handleSubmit}
           >
@@ -81,6 +93,7 @@ export const ContactUs = () => {
                 value={formData.topic}
                 name="topic"
                 onChange={handleChange}
+                required
               >
                 <option className=" text-black" value="">
                   Topic
@@ -97,6 +110,7 @@ export const ContactUs = () => {
               name="name"
               className=" bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
               onChange={handleChange}
+              required
             />
             <input
               type="email"
@@ -105,6 +119,7 @@ export const ContactUs = () => {
               name="email"
               className="bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
               onChange={handleChange}
+              required
             />
             <input
               type="text"
@@ -121,10 +136,20 @@ export const ContactUs = () => {
               name="msg"
               className="bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
               onChange={handleChange}
+              required
             />
-            <button className="bg-none border-none text-[#c8a21c] text-left text-lg mt-4">
-              Send Message &rarr;
-            </button>
+            {loading ? (
+            <div className="flex items-center space-x-2">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              <span className="text-yellow-300">Sending...</span>
+            </div>
+          ) : (
+            <input
+              type="submit"
+              value="Send Message →"
+              className="text-yellow-300 ml-0 cursor-pointer self-start font-semibold"
+            />
+          )} 
           </form>
         </div>
       </div>

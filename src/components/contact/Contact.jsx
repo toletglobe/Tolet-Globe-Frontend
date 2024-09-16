@@ -2,7 +2,7 @@
 
 import { BsChatRightDots } from "react-icons/bs";
 import { IoCallOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { API } from "../../config/axios";
 import { toast } from "react-hot-toast";
 
@@ -15,6 +15,7 @@ const Contact = () => {
     topic: "",
   });
 
+  const [loading, setLoading] = useState(false);
   const handleChange = (evt) => {
     setFormData((prev) => ({
       ...prev,
@@ -31,16 +32,27 @@ const Contact = () => {
       topic: "",
     });
   };
+  
 
   const handleSubmit = async (evt) => {
-    evt.preventDefault(); // Prevent the default form submissio
-
+  try {
+    evt.preventDefault(); // Prevent the default form submission
+    setLoading(true);
     const dataForEnquiry = formData;
-    handleReset();
-    toast.success("Enquiry Sent! We will get in touch with you.");
     const response2 = await API.post("contact/submit-data", dataForEnquiry);
+    handleReset();
+    toast.success("Enquiry Sent! We will get in touch with you shortly.");
+    setLoading(false);
     console.log(response2);
+  } 
+  catch (error) {
+    console.log(error);
+    handleReset();
+    toast.error("Something went wrong. Please try again later.");
+    setLoading(false);
+  }
   };
+
 
   return (
     <div className="flex flex-col md:flex-row md:gap-9 p-5 mx-6 my-10 justify-between mt-20">
@@ -91,6 +103,7 @@ const Contact = () => {
               value={formData.topic}
               name="topic"
               onChange={handleChange}
+              required
             >
               <option value="">Select a topic</option>
               <option value="Residential">Residential</option>
@@ -110,6 +123,7 @@ const Contact = () => {
               name="name"
               className=" mt-2 appearance-none border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
               onChange={handleChange}
+              required
             />
           </div>
           <div className="mt-5 flex flex-col">
@@ -124,6 +138,7 @@ const Contact = () => {
               name="email"
               className=" mt-2 appearance-none border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
               onChange={handleChange}
+              required
             />
           </div>
           <div className="mt-5 flex flex-col">
@@ -152,11 +167,20 @@ const Contact = () => {
               name="msg"
               className=" row-span-6 mt-2 appearance-none border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
               onChange={handleChange}
+              required
             />
           </div>
-          <button className="mt-6 bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg">
+          {loading ? (
+            <div className="flex items-center justify-center space-x-2 mt-6 bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+              <span className="text-black">Sending...</span>
+            </div>
+          ):(
+            <button className="mt-6 bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg">
             Submit Query
-          </button>
+            </button>
+          )}
+          
         </form>
       </div>
     </div>
@@ -164,3 +188,5 @@ const Contact = () => {
 };
 
 export default Contact;
+
+
