@@ -52,7 +52,12 @@ import Service from "./service/Service";
 import AboutUs from "./About/AboutUs";
 
 //Landlord Page
-// import LandlordPage from "./Landlord/LandlordPage.jsx";
+
+import LandlordPage from "./Landlord/LandlordPage.jsx"
+import LandlordDashboard from "./landlord/LandlordDashboard.jsx";
+
+
+
 
 export {
   Button,
@@ -81,5 +86,8 @@ export {
   Listing,
   Service,
   Flow2a,
-  // LandlordPage,
+
+  LandlordPage,
+  LandlordDashboard
+
 };
