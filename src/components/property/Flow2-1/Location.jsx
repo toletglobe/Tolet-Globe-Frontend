@@ -49,7 +49,7 @@ const LocationComponent = ({ property, selectComp }) => {
 
         <div className="w-full md:w-4/5">
           <div className="flex flex-col sm:flex-row justify-between">
-            <p className="text-gray-400">{property?.address || "Address not available"}</p>
+            <p className="text-gray-400">{property?.propertyData.address || "Address not available"}</p>
             <p className="font-semibold text-teal-500 sm:mt-0 mt-2">
               Get Directions
             </p>
