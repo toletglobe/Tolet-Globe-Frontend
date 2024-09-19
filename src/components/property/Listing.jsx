@@ -152,7 +152,7 @@ const Listing = () => {
                       <p>Lucknow</p>
                     </div>
                     <div className="text-[12px]">
-                      <p>Add more ..</p>
+                      <p className="whitespace-nowrap">Add more..</p>
                     </div>
                     <div>
                       <img

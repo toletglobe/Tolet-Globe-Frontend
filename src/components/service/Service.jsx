@@ -7,7 +7,7 @@ import office from "../../assets/service/image27.png";
 
 const Service = () => {
   return (
-    <div className="pl-20 my-24 mx-auto w-[90%] bg-black cursor-pointer ">
+    <div className="pl-20 my-24 mx-auto w-full bg-black cursor-pointer ">
       <h1 className="text-6xl font-bold text-white mb-3">Services</h1>
       <p className="text-xs text-[#CCB454]">
         SKIP THE MIDDLEMAN : RENT OR LEASE DIRECTLY ON TO-LET GLOBE
