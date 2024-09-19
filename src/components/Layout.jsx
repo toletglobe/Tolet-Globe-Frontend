@@ -1,4 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import {
   NavBar,
   Contact,
@@ -13,6 +14,7 @@ import {
   Listing,
   ForgotPassword,
   Flow2a,
+
   LandlordPage,
   LandlordDashboard,
   Listing_Ayodhya,
@@ -26,6 +28,7 @@ import AddProperty from "./property/create-prop/AddProperty";
 
 const Layout = () => {
   const location = useLocation();
+
 
   // Determine whether to show the NavBar and Footer based on the current route
   const showNavBar =
@@ -65,12 +68,15 @@ const Layout = () => {
           <Route path="/landlord-profile" element={<LandlordPage />} />
           <Route path="/landlord-dashboard" element={<LandlordDashboard />} />
         </Routes>
+
+ 
+      </div> 
+      {showFooter && ( 
+      <div className="footer mt-5">
+        <Footer />
+
       </div>
-      {showFooter && (
-        <div className="footer mt-5">
-          <Footer />
-        </div>
-      )}
+       )}
     </div>
   );
 };
