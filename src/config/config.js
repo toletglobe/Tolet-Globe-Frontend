@@ -33,14 +33,16 @@ class Service {
 
   static async fetchProperty() {
     try {
+      console.log(`Fetching from: ${BASE_URL}property`);
       const response = await axios.get(`${BASE_URL}property`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+      console.log("Response received:", response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.error("Error in fetchProperty:", error.response || error);
       throw error;
     }
   }

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import image1 from "../../assets/property/img1.svg";
 import image2 from "../../assets/property/img2.svg";
 import image3 from "../../assets/property/img3.svg";
-import image4 from "../../assets/property/img4.svg";
+// import image4 from "../../assets/property/img4.svg";
 const Property = () => {
   return (
     <>
@@ -27,7 +27,7 @@ const Property = () => {
               </p>
             </div>
             <Link
-              to={"/property-listing"}
+              to={"/property-listing-lucknow"}
               className="px-5 py-2 bg-white text-black rounded-md"
             >
               Join Us
@@ -48,7 +48,7 @@ const Property = () => {
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            <Link className="px-5 py-2 bg-white text-black rounded-md">
+            <Link to={'/property-listing-ayodhya'}  className="px-5 py-2 bg-white text-black rounded-md">
               Join Us
             </Link>
           </div>
@@ -61,7 +61,7 @@ const Property = () => {
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            <Link className="px-5 py-2 bg-white text-black rounded-md">
+            <Link to={'/property-listing-vellore'}  className="px-5 py-2 bg-white text-black rounded-md">
               Join Us
             </Link>
           </div>
@@ -80,7 +80,7 @@ const Property = () => {
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            <Link className="px-5 py-2 bg-white text-black rounded-md">
+            <Link to={'/property-listing-kota'}  className="px-5 py-2 bg-white text-black rounded-md">
               Join Us
             </Link>
           </div>

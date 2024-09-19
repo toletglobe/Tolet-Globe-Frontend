@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom"; 
+import { Route, Routes, useLocation } from "react-router-dom";
 import {
   NavBar,
   Contact,
@@ -14,7 +14,10 @@ import {
   ForgotPassword,
   Flow2a,
   LandlordPage,
-  LandlordDashboard
+  LandlordDashboard,
+  Listing_Ayodhya,
+  Listing_Vellore,
+  Listing_Kota
 } from "./index";
 import Landing from "./Landing";
 import ResetPassword from "./resetpassword/ResetPassword";
@@ -23,10 +26,14 @@ import AddProperty from "./property/create-prop/AddProperty";
 
 const Layout = () => {
   const location = useLocation();
-  
+
   // Determine whether to show the NavBar and Footer based on the current route
-  const showNavBar = location.pathname !== "/landlord-profile" && location.pathname !== "/landlord-dashboard";
-  const showFooter = location.pathname !== "/landlord-profile" && location.pathname !== "/landlord-dashboard";
+  const showNavBar =
+    location.pathname !== "/landlord-profile" &&
+    location.pathname !== "/landlord-dashboard";
+  const showFooter =
+    location.pathname !== "/landlord-profile" &&
+    location.pathname !== "/landlord-dashboard";
 
   return (
     <div className="flex flex-col min-h-screen w-full">
@@ -35,7 +42,7 @@ const Layout = () => {
           <NavBar />
         </div>
       )}
-     <div className={`main flex-1 ${showNavBar ? 'pt-16' : ''}`}>
+      <div className={`main flex-1 ${showNavBar ? "pt-16" : ""}`}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/contact" element={<Contact />} />
@@ -48,13 +55,15 @@ const Layout = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
-          <Route path="/property-listing" element={<Listing />} />
+          <Route path="/property-listing-lucknow" element={<Listing />} />
+          <Route path="/property-listing-ayodhya" element={<Listing_Ayodhya />} />
+          <Route path="/property-listing-vellore" element={<Listing_Vellore />} />
+          <Route path="/property-listing-kota" element={<Listing_Kota />} />
           <Route path="/property/:id" element={<Flow2a />} />
           <Route path="/property/reviews" element={<Reviews />} />
           <Route path="/property/add-property" element={<AddProperty />} />
           <Route path="/landlord-profile" element={<LandlordPage />} />
           <Route path="/landlord-dashboard" element={<LandlordDashboard />} />
-
         </Routes>
       </div>
       {showFooter && (
@@ -67,5 +76,3 @@ const Layout = () => {
 };
 
 export default Layout;
-
-
