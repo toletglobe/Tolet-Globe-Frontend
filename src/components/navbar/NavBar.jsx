@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import userIcon from "../../assets/user-icon.png";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/authSlice";
-import { button } from "@material-tailwind/react";
 import {
   ArrowLeftStartOnRectangleIcon,
   ComputerDesktopIcon,
@@ -25,14 +25,6 @@ const NavBar = () => {
     setActiveLink(link);
     // setIsNavOpen(false);
   };
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   dispatch(logout());
-  //   navigate("/login");
-  //   toast.success("Logged out!");
-  //   setIsNavOpen(false);
-  // };
 
   const handleLogout = () => {
     setIsMenuOpen(false);
@@ -214,25 +206,19 @@ const NavBar = () => {
                 <div ref={avatarRef}>
                   <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="rounded-full relative flex justify-center items-center w-10 h-10 mx-3 text-white bg-teal-500"
+                    className="rounded-full relative flex justify-center items-center w-9 h-9 mx-3 text-white bg-teal-500"
                   >
-                     {/* // have to work here */}
-                    {authState.userData
-                      ? authState.userData.username.charAt(0).toUpperCase()
-                      : "U"}
-                     {/* // possible soln */}
-                      {/* <img
-                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/man-982957_960_720.png"
-                      alt="user avatar"
-                      className="w-full h-full rounded-full"
-                    /> */}
+                      <img
+                      src={userIcon}
+                      alt="avatar"
+                      className="w-full h-full rounded-full p-1"
+                    />
                   </button>
                   {isMenuOpen && (
-                    <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#0f0f0f] bg-white rounded-lg">
+                    <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#120404] bg-white rounded-lg">
                       <ul className="w-ful flex flex-col items-start">
-                       {/* // have to work here */}
-                        <li className="font-bold p-3 w-full text-center">
-                          { authState.userData?.username?.toUpperCase()|| "USER"}
+                        <li className="font-extrabold p-3 w-full text-center bg-gray-200 ">
+                         {authState.userData ? authState.userData.username?.toUpperCase() : "User" }
                         </li>
                         <li className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg">
                           <ComputerDesktopIcon className="w-[18px] h-[18px] mr-2" />{" "}
