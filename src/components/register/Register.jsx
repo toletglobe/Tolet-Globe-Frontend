@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import "./Register.css";
 import {
   FaUser,
@@ -12,7 +11,6 @@ import { AiOutlineMail } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API } from "../../config/axios";
-import { login } from "../../store/authSlice";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -23,7 +21,6 @@ const Register = () => {
   const [userType, setUserType] = useState("");
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const handleRoleChange = (e) => {
     setRole(e.target.value);
     if (e.target.value !== "user") {
@@ -46,7 +43,7 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent refreshing of the page while submitting the form
+    e.preventDefault(); 
     try {
       const res = await API.post("auth/register", {
         username,
@@ -64,14 +61,11 @@ const Register = () => {
         setTimeout(() => {
           navigate("/login");
         }, 3000);
-      const userData = res.data;
-      dispatch(login({username : userData.username}))
       }
     } catch (error) {
       console.log(error);
       toast.error(error.response.data);
     }
-    // console.log(username, email, password, phone, role, userType, answer);
   };
 
   return (
@@ -141,7 +135,7 @@ const Register = () => {
               <option
                 value=""
                 disabled
-                selected
+            
                 className="text-[#3CBDB1] text-sm"
               >
                 Select Role
@@ -169,7 +163,7 @@ const Register = () => {
                 onChange={handleUserTypeChange}
                 className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-sm outline-none"
               >
-                <option value="" disabled className="text-[#3CBDB1]">
+                <option disabled className="text-[#3CBDB1]">
                   Select User Type
                 </option>
                 <option value="buyer" className="text-[#3CBDB1]">
