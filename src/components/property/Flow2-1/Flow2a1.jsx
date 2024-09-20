@@ -135,26 +135,28 @@ const Flow2a = () => {
             </p>
           </div>
 
-          <div className="border space-x-7 border-gray-600 rounded-lg flex justify-between pl-3 pr-3">
+
+          <div className="border border-gray-600 rounded-lg flex justify-between gap-x-4 pl-3 pr-3 mb-4 md:mb-0">
+
             <div className="p-1">
-              <p className="block text-gray-400">Monthly rent</p>
-              <h3 className="text-white text-3xl">Rs. {property?.rent}</h3>
+              <p className="block text-center text-gray-400">Monthly rent</p>
+              <h3 className="text-white text-center text-3xl md:text-2xl">Rs. {property?.rent}</h3>
             </div>
             <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
-              <p className="block">Bhk</p>
-              <h3 className="text-white text-3xl">{property?.bhk} bhk</h3>
+              <p className="block text-center">Bhk</p>
+              <h3 className="text-white text-center text-3xl md:text-2xl">{property?.bhk} bhk</h3>
             </div>
             <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
-              <p className="block">Floor</p>
-              <h3 className="text-white text-3xl">{property?.floor}</h3>
+              <p className="block text-center">Floor</p>
+              <h3 className="text-white text-center text-3xl md:text-2xl">{property?.floor}</h3>
             </div>
           </div>
         </div>
 
         {/* Request Visit Section */}
-        <div className="border-1 bg-white rounded-lg w-1/4 p-4">
+        <div className="border-1 bg-white rounded-lg lg:w-1/4 md:w-1/2 p-4">
           <div className="flex justify-between">
             <p className="text-black text-lg font-semibold">Request a visit</p>
             <div className="flex">

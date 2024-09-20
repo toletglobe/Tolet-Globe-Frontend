@@ -55,7 +55,7 @@ const Contact = () => {
 
 
   return (
-    <div className="flex flex-col md:flex-row md:gap-9 p-5 mx-6 my-10 justify-between mt-20">
+    <div className="flex flex-col md:flex-row md:gap-9 py-5 px-10 mx-6 my-10 justify-between mt-20">
       <div className="w-full md:w-1/2 px-5 mt-[50px]">
         <div>
           <h1 className="text-white text-4xl font-semibold">

@@ -70,7 +70,7 @@ const Flow2b = (property) => {
         setSelectComp(6);
         break;
       default:
-        setSelectComp(0);
+        setSelectComp(1);
     }
   };
   const reviewData = [
@@ -109,59 +109,55 @@ const Flow2b = (property) => {
       <div className="text-black">
         <div className="flex flex-wrap gap-4 justify-between pt-10 pb-4 sm:items-start">
           <button
-            className={`${buttonClasses} ${
-              selectedButton === "Features"
+            className={`${buttonClasses} ${selectedButton === "Features"
                 ? "underline decoration-teal-500"
-                : ""
-            }`}
+                : "hover:underline hover:decoration-teal-500"
+              } `}
             onClick={() => handleButtonClick("Features")}
           >
             Features
           </button>
           <button
-            className={`${buttonClasses} ${
-              selectedButton === "About" ? "underline decoration-teal-500" : ""
-            }`}
+            className={`${buttonClasses} ${selectedButton === "About"
+                ? "underline decoration-teal-500"
+                : "hover:underline hover:decoration-teal-500"
+              }`}
             onClick={() => handleButtonClick("About")}
           >
             About
           </button>
           <button
-            className={`${buttonClasses} ${
-              selectedButton === "Amenities"
+            className={`${buttonClasses} ${selectedButton === "Amenities"
                 ? "underline decoration-teal-500"
-                : ""
-            }`}
+                : "hover:underline hover:decoration-teal-500"
+              }`}
             onClick={() => handleButtonClick("Amenities")}
           >
             Amenities
           </button>
           <button
-            className={`${buttonClasses} ${
-              selectedButton === "Regulations"
+            className={`${buttonClasses} ${selectedButton === "Regulations"
                 ? "underline decoration-teal-500"
-                : ""
-            }`}
+                : "hover:underline hover:decoration-teal-500"
+              }`}
             onClick={() => handleButtonClick("Regulations")}
           >
             Regulations
           </button>
           <button
-            className={`${buttonClasses} ${
-              selectedButton === "Location"
+            className={`${buttonClasses} ${selectedButton === "Location"
                 ? "underline decoration-teal-500"
-                : ""
-            }`}
+                : "hover:underline hover:decoration-teal-500"
+              }`}
             onClick={() => handleButtonClick("Location")}
           >
             Location
           </button>
           <button
-            className={`${buttonClasses} ${
-              selectedButton === "Reviews"
+            className={`${buttonClasses} ${selectedButton === "Reviews"
                 ? "underline decoration-teal-500"
-                : ""
-            }`}
+                : "hover:underline hover:decoration-teal-500"
+              }`}
             onClick={() => handleButtonClick("Reviews")}
           >
             Reviews
@@ -170,9 +166,8 @@ const Flow2b = (property) => {
 
         <div className="mb-2">
           <div
-            className={`bg-white w-full rounded-lg p-3 mb-4 ${
-              selectComp > 1 ? "hidden" : ""
-            }`}
+            className={`bg-white w-full rounded-lg p-3 mb-4 ${selectComp > 1 ? "hidden" : ""
+              }`}
           >
             <p className="text-black block font-semibold text-xl">Features</p>
             <div className="flex flex-wrap gap-3">
@@ -279,7 +274,7 @@ const Flow2b = (property) => {
                 <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
                   <MdPets className="h-6 w-6 mr-2 text-black bg-white" />
                   <p className="inline font-normal">
-                    Pets Allowed{property.petsAllowed ? "Yes" : "No"}
+                    Pets Allowed {property.petsAllowed ? "Yes" : "No"}
                   </p>
                 </div>
 
@@ -303,11 +298,13 @@ const Flow2b = (property) => {
               </div>
             </div>
           </div>
-
-          <LocationComponent />
-
+          <div className={`pb-4 ${selectComp > 5 ? "hidden" : ""}`}>
+            <LocationComponent />
+          </div>
           {/* Review section */}
-          <Reviews reviewData={reviewData} />
+          <div className={`pb-4 ${selectComp > 6 ? "hidden" : ""}`}>
+            <Reviews reviewData={reviewData} />
+          </div>
         </div>
       </div>
     </>
