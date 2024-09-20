@@ -4,6 +4,12 @@ import {
   Contact,
   AboutUs,
   Service,
+  Shop,
+  Office,
+  Warehouse,
+  Flat,
+  Pg,
+  House,
   Blog,
   Property,
   Footer,
@@ -42,6 +48,12 @@ const Layout = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/service" element={<Service />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/house" element={<House />} />
+          <Route path="/flat" element={<Flat />} />
+          <Route path="/office" element={<Office />} />
+          <Route path="/pg" element={<Pg />} />
+          <Route path="/warehouse" element={<Warehouse />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogView />} />
           <Route path="/aboutus" element={<AboutUs />} />
