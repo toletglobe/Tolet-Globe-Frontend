@@ -304,7 +304,7 @@ const Flow2b = (property) => {
             </div>
           </div>
 
-          <LocationComponent />
+          <LocationComponent property={property}/>
 
           {/* Review section */}
           <Reviews reviewData={reviewData} />
