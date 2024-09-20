@@ -135,15 +135,17 @@ const Flow2a = () => {
             </p>
           </div>
 
-          <div className="border border-gray-600 rounded-lg flex justify-between pl-3 pr-3">
+          <div className="border space-x-7 border-gray-600 rounded-lg flex justify-between pl-3 pr-3">
             <div className="p-1">
               <p className="block text-gray-400">Monthly rent</p>
               <h3 className="text-white text-3xl">Rs. {property?.rent}</h3>
             </div>
+            <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
               <p className="block">Bhk</p>
               <h3 className="text-white text-3xl">{property?.bhk} bhk</h3>
             </div>
+            <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
               <p className="block">Floor</p>
               <h3 className="text-white text-3xl">{property?.floor}</h3>
