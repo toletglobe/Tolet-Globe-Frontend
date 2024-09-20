@@ -35,6 +35,11 @@ import profile from "../../../assets/property/author7.jpg";
 import Popup from "./Popup";
 import LocationComponent from "./Location.jsx";
 import Reviews from "../../reviews/Reviews.jsx";
+import About from "./Flow2bcomponents/About.jsx";
+import Amenities from "./Flow2bcomponents/Amenities.jsx";
+import Features from "./Flow2bcomponents/Featurns.jsx";
+import Regulation from "./Flow2bcomponents/Regulations .jsx";
+import NavButton from "./Flow2bcomponents/Navbar.jsx";
 // import Property from "../Property";
 
 const Flow2b = (property) => {
@@ -107,203 +112,28 @@ const Flow2b = (property) => {
   return (
     <>
       <div className="text-black">
-        <div className="flex flex-wrap gap-4 justify-between pt-10 pb-4 sm:items-start">
-          <button
-            className={`${buttonClasses} ${
-              selectedButton === "Features"
-                ? "underline decoration-teal-500"
-                : ""
-            }`}
-            onClick={() => handleButtonClick("Features")}
-          >
-            Features
-          </button>
-          <button
-            className={`${buttonClasses} ${
-              selectedButton === "About" ? "underline decoration-teal-500" : ""
-            }`}
-            onClick={() => handleButtonClick("About")}
-          >
-            About
-          </button>
-          <button
-            className={`${buttonClasses} ${
-              selectedButton === "Amenities"
-                ? "underline decoration-teal-500"
-                : ""
-            }`}
-            onClick={() => handleButtonClick("Amenities")}
-          >
-            Amenities
-          </button>
-          <button
-            className={`${buttonClasses} ${
-              selectedButton === "Regulations"
-                ? "underline decoration-teal-500"
-                : ""
-            }`}
-            onClick={() => handleButtonClick("Regulations")}
-          >
-            Regulations
-          </button>
-          <button
-            className={`${buttonClasses} ${
-              selectedButton === "Location"
-                ? "underline decoration-teal-500"
-                : ""
-            }`}
-            onClick={() => handleButtonClick("Location")}
-          >
-            Location
-          </button>
-          <button
-            className={`${buttonClasses} ${
-              selectedButton === "Reviews"
-                ? "underline decoration-teal-500"
-                : ""
-            }`}
-            onClick={() => handleButtonClick("Reviews")}
-          >
-            Reviews
-          </button>
-        </div>
-
+    // Navbuttons for navigation 
+        <NavButton
+          selectedButton={selectedButton}
+          handleButtonClick={handleButtonClick}
+          buttonClasses={buttonClasses}
+        />
+  
         <div className="mb-2">
-          <div
-            className={`bg-white w-full rounded-lg p-3 mb-4 ${
-              selectComp > 1 ? "hidden" : ""
-            }`}
-          >
-            <p className="text-black block font-semibold text-xl">Features</p>
-            <div className="flex flex-wrap gap-3">
-              <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                <MdBedroomParent className="h-6 w-6 mr-2 text-black bg-white" />
-                <p className="inline font-normal">{property.bhk} Bedrooms</p>
-              </div>
 
-              <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                <MdOutlineBathroom className="h-6 w-6 mr-2 text-black bg-white" />
-                <p className="inline font-normal">2 Bathrooms</p>
-              </div>
+        {/* // Featurn Component */}
+          <Features property={property} selectComp={selectComp} />
 
-              <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                <LuParkingCircle className="h-6 w-6 mr-2 text-black bg-white" />
-                <p className="inline font-normal">
-                  {property.carParking ? "Yes" : "No"}
-                </p>
-              </div>
+         {/* //About component */}
+          <About selectComp={selectComp} />
 
-              <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                <IoTabletLandscape className="h-6 w-6 mr-2 text-black bg-white" />
-                <p className="inline font-normal">1200 sq ft</p>
-              </div>
-
-              <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                <CiMobile4 className="h-6 w-6 mr-2 text-black bg-white" />
-                <p className="inline font-normal">
-                  Appliances - TV, Refrigerator
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className={`pb-4 ${selectComp > 2 ? "hidden" : ""}`}>
-            <div className={`bg-white w-full rounded-lg p-3`}>
-              <p className="text-black block font-semibold text-xl">About</p>
-              <p className=" text-left mb-0">
-                Brand New!! Residential 2 BHK Semi Furnished Flat at 4th floor
-                with both Indian and Western bathrooms and Car Parking facility
-                great for nuclear family or extra income. Pets are allowed and
-                price is negotiable located at D 801 the woods apartment
-                naubasta Deva road chinhat Lucknow .
-              </p>
-            </div>
-          </div>
-
-          <div className={`pb-4 ${selectComp > 3 ? "hidden" : ""}`}>
-            <div className={`bg-white w-full rounded-lg p-3`}>
-              <p className="text-black block font-semibold text-xl">
-                Amenities
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <MdSecurity className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">Security</p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <CgGym className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">Gym</p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <LuFlower2 className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">Garden</p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <FaHammer className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">Maintenance</p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <GiMicrophone className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">Club House</p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <GiFamilyHouse className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">Semi furnished</p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <MdOutlineAvTimer className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">24 hrs backup</p>
-                </div>
-              </div>
-            </div>
-          </div>
+           {/* // Amenities component */}
+          <Amenities selectComp={selectComp} />
 
           {/* Regulation section */}
-          <div className={`pb-4 ${selectComp > 4 ? "hidden" : ""}`}>
-            <div className={`bg-white w-full rounded-lg p-3`}>
-              <p className="text-black block font-semibold text-xl">
-                Regulations
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <PiStudentBold className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">Student Friendly</p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <MdPets className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">
-                    Pets Allowed{property.petsAllowed ? "Yes" : "No"}
-                  </p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <FaPeopleGroup className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">Guests Allowed</p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <BsPeopleFill className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">
-                    Families Allowed{" "}
-                    {property.preference === "Family" ? "Yes" : "No"}
-                  </p>
-                </div>
-
-                <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-                  <WiSmoke className="h-6 w-6 mr-2 text-black bg-white" />
-                  <p className="inline font-normal">Smokers Allowed</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <Regulation selectComp={selectComp} property={property} />
+        
+        {/* Location Component */}
           <LocationComponent />
 
           {/* Review section */}

@@ -34,6 +34,7 @@ const Listing = () => {
     const fetchProperties = async () => {
       try {
         const propertyData = await Service.fetchProperty();
+        console.log(propertyData, "....")
         setProperties(propertyData || []); // Ensure propertyData is an array
         console.log(propertyData);
         setLoading(false);
