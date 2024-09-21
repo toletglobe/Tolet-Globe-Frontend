@@ -206,3 +206,25 @@
 }
 
 
+/* Fixed position for Filter and Select Location buttons */
+.fixed-filters {
+  position: fixed;
+  top: 55px; /* Adjust this based on your navbar height */
+  left: 10;
+  width: 100%;
+  z-index: 100;
+  background-color: black;
+  padding: 20px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-container {
+  display: flex;
+  justify-content: flex-start; /* Left align the buttons */
+  align-items: center;
+  padding: 10px;
+  background-color: black;
+  border-radius: 10px;
+  gap: 30px; /* Add a smaller gap between "Rent" and "Filters" */
+}
+
