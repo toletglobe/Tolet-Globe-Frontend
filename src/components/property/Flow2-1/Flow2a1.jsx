@@ -62,7 +62,6 @@ const Flow2a = () => {
   };
 
   if (!property) return <p>Loading...</p>; // Add a loading state
-
   return (
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
@@ -188,12 +187,18 @@ const Flow2a = () => {
 
       {/* Modal for Full Image View */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
-          <div className="relative bg-dark p-4">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center"
+          onClick={closeModal} // Close modal when clicking outside the image
+        >
+          <div
+            className="relative bg-dark p-4"
+            onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside the image
+          >
             {/* Left Arrow */}
             <button
               onClick={handlePrev}
-              className="absolute top-1/2 left-7 transform -translate-y-1/2 bg-white text-black text-2xl  p-2 rounded-full"
+              className="absolute top-1/2 left-7 transform -translate-y-1/2 bg-white text-black text-2xl p-2 rounded-full"
             >
               <HiChevronLeft />
             </button>
@@ -201,7 +206,7 @@ const Flow2a = () => {
             {/* Right Arrow */}
             <button
               onClick={handleNext}
-              className="absolute top-1/2 right-7 transform -translate-y-1/2 bg-white text-black text-2xl  p-2 rounded-full"
+              className="absolute top-1/2 right-7 transform -translate-y-1/2 bg-white text-black text-2xl p-2 rounded-full"
             >
               <HiChevronRight />
             </button>
@@ -212,10 +217,12 @@ const Flow2a = () => {
             >
               &times;
             </button>
+
+            {/* Corrected Image Size for Enlarged View */}
             <img
               src={selectedImage}
               alt="Selected"
-              className="h-[568px] object-cover"
+              className="object-contain h-[80vh] max-w-full" // Ensure image fits correctly
             />
           </div>
         </div>
