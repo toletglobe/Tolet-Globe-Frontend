@@ -54,13 +54,13 @@ const Service = () => {
   ];
 
   return (
-    <div className="pl-20 my-24 mx-auto w-full bg-black cursor-pointer ">
-      <h1 className="text-6xl font-bold text-white mb-3">Services</h1>
-      <p className="text-xs text-[#CCB454]">
+    <div className="my-24 mx-auto w-[90%] bg-black cursor-pointer ">
+      <h1 className="text-6xl text-center font-bold text-white mb-3">Services</h1>
+      <p className="text-xs text-center text-[#CCB454]">
         SKIP THE MIDDLEMAN : RENT OR LEASE DIRECTLY ON TO-LET GLOBE
       </p>
       <div className="w-full ">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16 text-black">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16 text-black mx-auto justify-items-center">
           {services.map((service, index) => (
             <Card
               key={index}
