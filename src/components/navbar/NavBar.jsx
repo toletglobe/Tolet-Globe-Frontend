@@ -4,7 +4,6 @@ import logo from "../../assets/logo.png";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/authSlice";
-import { button } from "@material-tailwind/react";
 import {
   ArrowLeftStartOnRectangleIcon,
   ComputerDesktopIcon,
@@ -17,22 +16,10 @@ const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const avatarRef = useRef();
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, [activeLink]);
 
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
-    // setIsNavOpen(false);
   };
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   dispatch(logout());
-  //   navigate("/login");
-  //   toast.success("Logged out!");
-  //   setIsNavOpen(false);
-  // };
 
   const handleLogout = () => {
     setIsMenuOpen(false);
@@ -41,225 +28,181 @@ const NavBar = () => {
     navigate("/login");
     toast.success("Logged out!");
   };
-  // hanlding click outside event for avatar
+
+  // Handle click outside for avatar
   useEffect(() => {
-    const handlClickOutside = (event) => {
+    const handleClickOutside = (event) => {
       if (avatarRef.current && !avatarRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handlClickOutside);
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handlClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [avatarRef]);
 
   return (
-    <nav className="z-50">
-      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-20 py-4">
-        <div className="navbar-logo">
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Logo" className="h-16 lg:h-12 ml-10 lg:ml-0" />
-          </Link>
-        </div>
-        <div className="flex flex-row">
-          <div className="flex justify-end">
-            <button
-              className="text-white block lg:hidden"
-              // onClick={() => setIsNavOpen(!isNavOpen)}
-              onClick={() =>
-                document
-                  .getElementById("basic-navbar-nav")
-                  .classList.toggle("hidden")
-              }
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div
-          id="basic-navbar-nav"
-          className="hidden lg:flex lg:items-center lg:w-auto w-full"
-          // className={`lg:flex lg:items-center lg:w-auto w-full ${
-          //   isNavOpen ? "" : "hidden"
-          // } absolute lg:relative top-16 left-0 lg:top-0 bg-black lg:bg-transparent lg:p-0 p-4 z-10`}
+    <nav className="bg-black z-50 fixed w-full top-0 flex justify-between items-center px-5 py-3 shadow-lg">
+      {/* Logo */}
+      <div className="flex items-center">
+        <Link to="/" className="flex items-center">
+          <img src={logo} alt="Logo" className="h-12" />
+        </Link>
+      </div>
+
+      {/* Mobile Menu Button */}
+      <div className="lg:hidden">
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="text-white focus:outline-none"
         >
-          <ul className="lg:flex lg:items-center lg:justify-between text-base text-gray-300 pt--1 lg:pt-0">
-            <li>
-              <Link
-                to="/"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "home"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("home")}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/service"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "service"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("service")}
-              >
-                Service
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/blog"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "blog"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("blog")}
-              >
-                Blog
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "contact"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                }`}
-                onClick={() => handleNavLinkClick("contact")}
-              >
-                Contact
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/aboutus"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "aboutus"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("aboutus")}
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/property"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "propertyListing"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("propertyListing")}
-              >
-                Property Listing
-              </Link>
-            </li>
-            <li>
-              {/* {authState.status === true ? (
-                <Link
-                  to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                    activeLink === "logout"
-                      ? "text-white bg-teal-500 rounded-md"
-                      : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Link>
-              ) : (
-                <Link
-                  to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                    activeLink === "login"
-                      ? "text-white bg-teal-500 rounded-md"
-                      : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
-                  onClick={() => handleNavLinkClick("login")}
-                >
-                  Login
-                </Link> */}
-              {/* user avatar */}
-              {authState.status === true && localStorage.getItem("token") ? (
-                <div ref={avatarRef}>
-                  <button
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="rounded-full relative flex justify-center items-center w-10 h-10 mx-3 text-white bg-teal-500"
-                  >
-                    {authState.userData
-                      ? authState.userData.username.charAt(0).toUpperCase()
-                      : "U"}
-                  </button>
-                  {isMenuOpen && (
-                    <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#0f0f0f] bg-white rounded-lg">
-                      <ul className="w-ful flex flex-col items-start">
-                        <li className="font-bold p-3 w-full text-center">
-                          {authState.userData
-                            ? authState.userData.username.toUpperCase()
-                            : "USER"}
-                        </li>
-                        <li className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg">
-                          <ComputerDesktopIcon className="w-[18px] h-[18px] mr-2" />{" "}
-                          Dashboard
-                        </li>
-                        <li
-                          className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg"
-                          onClick={handleLogout}
-                        >
-                          <ArrowLeftStartOnRectangleIcon className="w-[18px] h-[18px] mr-2" />{" "}
-                          Logout
-                        </li>
-                      </ul>
-                    </div>
-                  )}
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
+        </button>
+      </div>
+
+      {/* Nav Links */}
+      <div
+        className={`${
+          isMenuOpen ? "block" : "hidden"
+        } lg:flex lg:items-center lg:justify-between w-full lg:w-auto lg:static absolute top-16 left-0 lg:top-0 lg:bg-transparent bg-black lg:p-0 p-5 lg:flex-row flex-col items-center`}
+      >
+        <ul className="lg:flex lg:space-x-6 text-gray-300">
+          <li>
+            <Link
+              to="/"
+              className={`block px-5 py-2 ${
+                activeLink === "home" ? "text-white bg-teal-500 rounded-md" : ""
+              } hover:bg-teal-500 hover:rounded-md`}
+              onClick={() => handleNavLinkClick("home")}
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/service"
+              className={`block px-5 py-2 ${
+                activeLink === "service"
+                  ? "text-white bg-teal-500 rounded-md"
+                  : ""
+              } hover:bg-teal-500 hover:rounded-md`}
+              onClick={() => handleNavLinkClick("service")}
+            >
+              Service
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog"
+              className={`block px-5 py-2 ${
+                activeLink === "blog" ? "text-white bg-teal-500 rounded-md" : ""
+              } hover:bg-teal-500 hover:rounded-md`}
+              onClick={() => handleNavLinkClick("blog")}
+            >
+              Blog
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/contact"
+              className={`block px-5 py-2 ${
+                activeLink === "contact"
+                  ? "text-white bg-teal-500 rounded-md"
+                  : ""
+              } hover:bg-teal-500 hover:rounded-md`}
+              onClick={() => handleNavLinkClick("contact")}
+            >
+              Contact
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/aboutus"
+              className={`block px-5 py-2 ${
+                activeLink === "aboutus"
+                  ? "text-white bg-teal-500 rounded-md"
+                  : ""
+              } hover:bg-teal-500 hover:rounded-md`}
+              onClick={() => handleNavLinkClick("aboutus")}
+            >
+              About
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/property"
+              className={`block px-5 py-2 ${
+                activeLink === "propertyListing"
+                  ? "text-white bg-teal-500 rounded-md"
+                  : ""
+              } hover:bg-teal-500 hover:rounded-md`}
+              onClick={() => handleNavLinkClick("propertyListing")}
+            >
+              Property Listing
+            </Link>
+          </li>
+        </ul>
+
+        {/* User avatar */}
+        {authState.status && localStorage.getItem("token") ? (
+          <div className="relative mt-4 lg:mt-0" ref={avatarRef}>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="flex items-center justify-center w-10 h-10 text-white bg-teal-500 rounded-full"
+            >
+              {authState.userData
+                ? authState.userData.username.charAt(0).toUpperCase()
+                : "U"}
+            </button>
+            {isMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                <div className="text-center font-bold p-3">
+                  {authState.userData
+                    ? authState.userData.username.toUpperCase()
+                    : "USER"}
                 </div>
-              ) : (
-                <Link
-                  to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
-                    activeLink === "login"
-                      ? "text-white bg-teal-500 rounded-md"
-                      : ""
-                    // } hover:bg-[#c8a21c] hover:rounded-md`}
-                  } `}
-                  onClick={() => handleNavLinkClick("login")}
-                >
-                  Login
-                </Link>
-              )}
-            </li>
-          </ul>
-        </div>
+                <ul className="text-gray-900">
+                  <li className="p-3 cursor-pointer hover:bg-gray-100 flex items-center">
+                    <ComputerDesktopIcon className="w-5 h-5 mr-2" />
+                    Dashboard
+                  </li>
+                  <li
+                    className="p-3 cursor-pointer hover:bg-gray-100 flex items-center"
+                    onClick={handleLogout}
+                  >
+                    <ArrowLeftStartOnRectangleIcon className="w-5 h-5 mr-2" />
+                    Logout
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Link
+            to="/login"
+            className={`block px-5 py-2 ${
+              activeLink === "login" ? "text-white bg-teal-500 rounded-md" : ""
+            } hover:bg-teal-500 hover:rounded-md`}
+            onClick={() => handleNavLinkClick("login")}
+          >
+            Login
+          </Link>
+        )}
       </div>
     </nav>
   );
