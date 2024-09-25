@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Axios } from "axios";
 import drop from "../../../assets/property/drop.png";
 const Filters = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,10 +15,27 @@ const Filters = () => {
     houseType: "",
   });
   const handleFilterChange = (key, value) => {
-    setFilters({
-      ...filters,
-      [key]: value,
-    });
+
+    if (key === "bhk") {
+      const newBhkFilters = [...filters.bhk]; // Copy existing BHK filters
+      if (newBhkFilters.includes(value)) {
+        // If the value is already in the array, remove it
+        const index = newBhkFilters.indexOf(value);
+        newBhkFilters.splice(index, 1);
+      } else {
+        // Otherwise, add the value to the array
+        newBhkFilters.push(value);
+      }
+      setFilters({
+        ...filters,
+        bhk: newBhkFilters,
+      });
+    } else {
+      setFilters({
+        ...filters,
+        [key]: value,
+      });
+    }
   };
 
   const resetFilters = () => {
@@ -39,7 +57,7 @@ const Filters = () => {
     // Clean filter values
     const cleanedFilters = {
       ...filters,
-      bhk: filters.bhk.replace(/[^0-9]/g, ""), // Remove non-numeric characters
+      bhk: filters.bhk ? String(filters.bhk).replace(/[^0-9]/g, "") : "",  // Remove non-numeric characters
     };
 
     const queryString = Object.keys(cleanedFilters)
@@ -86,7 +104,7 @@ const Filters = () => {
           <p>All Filters</p>
         </div>
         <div className="flex flex-col items-start justify-start p-6 sm:px-10 gap-4">
-          <div className="w-full">
+          {/* <div className="w-full">
             <p className="text-xl sm:text-xl font-medium text-[#696969] mb-6">
               Budget
             </p>
@@ -100,8 +118,8 @@ const Filters = () => {
                 <img src={drop} alt="Dropdown icon" />
               </div>
             </div>
-          </div>
-          <div className="w-3/4 flex items-center justify-center flex-col mx-auto mb-5 mt-8">
+          </div> */}
+          {/* <div className="w-3/4 flex items-center justify-center flex-col mx-auto mb-5 mt-8">
             <input
               type="range"
               className=" mb-5 w-full appearance-none cursor-pointer bg-[#40B5A8] rounded-full h-[5px]"
@@ -123,28 +141,23 @@ const Filters = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="w-full mb-6">
-            <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
-              BHK
-            </p>
-            <div className="flex flex-wrap items-center justify-between gap-2 hover:cursor-pointer">
-              {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ >4 BHK"].map(
-                (bhk, index) => (
-                  <div
-                    key={index}
-                    className={`h-8 w-28 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                      filters.bhk === bhk ? "bg-[#4A7F79] text-white" : ""
-                    }`}
-                    onClick={() => handleFilterChange("bhk", bhk)}
-                  >
-                    {bhk}
-                  </div>
-                )
-              )}
-            </div>
+      <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">BHK</p>
+      <div className="flex flex-wrap items-center justify-between gap-2 hover:cursor-pointer">
+        {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ >4 BHK"].map((bhk, index) => (
+          <div
+            key={index}
+            className={`h-8 w-28 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
+              filters.bhk.includes(bhk) ? "bg-[#4A7F79] text-white" : ""
+            }`}
+            onClick={() => handleFilterChange("bhk", bhk)}
+          >
+            {bhk}
           </div>
-
+        ))}
+      </div>
+    </div>
           <div className="w-full mb-6">
             <p className="text-lg sm:text-xl font-medium text-[#696969] mb-3">
               Residential
