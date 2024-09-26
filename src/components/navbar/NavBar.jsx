@@ -217,6 +217,7 @@ const NavBar = () => {
                   {isMenuOpen && (
                     <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#120404] bg-white rounded-lg">
                       <ul className="w-ful flex flex-col items-start">
+                       {/* // have to work here */}
                         <li className="font-extrabold p-3 w-full text-center bg-gray-200 ">
                          {authState.userData ? authState.userData.username?.toUpperCase() : "User" }
                         </li>

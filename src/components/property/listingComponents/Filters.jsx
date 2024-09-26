@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import drop from "../../../assets/property/drop.png";
-const Filters = () => {
+import { useNavigate} from "react-router-dom";
+import { BASE_URL } from "../../../constant/constant";
+import axios from "axios";
+const Filters = ({SetIsOpen}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
     minPrice: "",
@@ -13,6 +16,7 @@ const Filters = () => {
     moveInDate: "",
     houseType: "",
   });
+  const navigate = useNavigate();
   const handleFilterChange = (key, value) => {
     setFilters({
       ...filters,
@@ -54,14 +58,13 @@ const Filters = () => {
       })
       .join("&");
 
-    console.log(queryString);
-
-    const url = `http://localhost:8000/api/v1/property/filter?${queryString}`;
+ //   console.log(queryString);
+    navigate(`/property-listing?${queryString}`);
+    const url = `${BASE_URL}property/filter?${queryString}`;
 
     try {
       const response = await axios.get(url);
       console.log(response.data);
-      setProperties(response.data.data); // Update properties with the filtered results
       if (response.data.data.length === 0) {
         // Handle no results
         console.log("No results found");
