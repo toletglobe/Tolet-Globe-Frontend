@@ -1,6 +1,8 @@
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
+import { IoMdClose } from "react-icons/io";
 import { IoAdd, IoBedOutline } from "react-icons/io5";
+import Popup from 'reactjs-popup';
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
@@ -112,12 +114,33 @@ const Cards = ({ properties }) => {
                   <a href="#">{property.propertyType}</a>
                 </h3>
                 <div className="icon-box flex space-x-4 p-2">
-                  <a href="#">
-                    <CiShare2
-                      className="card_icon"
-                      style={{ color: "#40B5A8" }}
-                    />
-                  </a>
+                      <Popup trigger=
+                      {<button>
+                        <CiShare2
+                          className="card_icon"
+                          style={{ color: "#40B5A8" }}
+                        />
+                      </button>} 
+                      nested>
+                      {
+                          close => (
+                              <div className='bg-slate-50 text-black px-2 py-2 rounded-full h-full flex flex-col shadow-xl'>
+                                  <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                                    <div className="px-2 py-3 text-sm truncate w-32">
+                                      {`toletglobe.in/property/${property._id}`}
+                                    </div>
+                                    <div>
+                                      <button className="px-4 py-1 bg-[#40B5A8] text-white rounded-3xl" onClick={()=>{
+                                          navigator.clipboard.writeText(`www.toletglobe.in/property/${property._id}`);
+                                          close()
+                                        }}>Copy</button>
+                                    </div>
+                                  </div>
+                              </div>
+                          )
+                      }
+                  </Popup>
+                  
                   <a href="#">
                     <IoAdd
                       className="card_icon"
