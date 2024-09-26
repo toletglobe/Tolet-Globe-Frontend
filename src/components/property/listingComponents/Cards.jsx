@@ -1,3 +1,4 @@
+import React from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
@@ -13,9 +14,9 @@ const PrevArrow = ({ onClick }) => (
   <div
     className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }} // Increased size of the circle
+    style={{ width: "40px", height: "40px" }}
   >
-    <span className="text-2xl">&#8249;</span> {/* Left Shift Arrow */}
+    <span className="text-2xl">&#8249;</span>
   </div>
 );
 
@@ -23,13 +24,13 @@ const NextArrow = ({ onClick }) => (
   <div
     className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }} // Increased size of the circle
+    style={{ width: "40px", height: "40px" }}
   >
-    <span className="text-2xl">&#8250;</span> {/* Right Shift Arrow */}
+    <span className="text-2xl">&#8250;</span>
   </div>
 );
 
-const Cards = ({ properties }) => {
+const Cards = ({ properties, cityName, propertyAction }) => {
   const navigate = useNavigate();
   const settings = {
     dots: true,
@@ -40,7 +41,7 @@ const Cards = ({ properties }) => {
     arrows: true,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-    draggable: false,  // This line disables the dragging effect
+    draggable: false,
   };
 
   return (
@@ -71,7 +72,6 @@ const Cards = ({ properties }) => {
                     alt={property.propertyType}
                     className="w-full h-full object-cover"
                   />
-                  {/* Show arrows even if there is only one image */}
                   <PrevArrow onClick={() => {}} />
                   <NextArrow onClick={() => {}} />
                 </div>
@@ -83,17 +83,14 @@ const Cards = ({ properties }) => {
                   textTransform: "capitalize",
                 }}
               >
-                {property.propertyType === "Residential"
-                  ? "For Rent"
-                  : "Available"}
+                {propertyAction}
               </div>
               <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
                 <div>
                   <button className="banner-actions-btn flex items-center gap-1 text-white">
                     <FaLocationDot className="text-xl" />
                     <address>
-                      {" "}
-                      {`${property.locality}, ${property.city || "Lucknow"}`}
+                      {`${property.locality}, ${cityName}`}
                     </address>
                   </button>
                 </div>
@@ -163,20 +160,17 @@ const Cards = ({ properties }) => {
               </div>
               <ul className="card-list custom-card-list mt-4">
                 <li className="bed card-item flex items-center text-base">
-                  <IoBedOutline style={{ fontSize: "1.6rem" }} />{" "}
-                  {/* Increased size */}
+                  <IoBedOutline style={{ fontSize: "1.6rem" }} />
                   &nbsp;
                   {property.bhk}
                 </li>
                 <li className="bath card-item flex items-center text-base">
-                  <LuBath style={{ fontSize: "1.6rem" }} />{" "}
-                  {/* Increased size */}
+                  <LuBath style={{ fontSize: "1.6rem" }} />
                   &nbsp;
                   {property.typeOfWashroom}
                 </li>
                 <li className="pi card-item flex items-center text-base">
-                  <PiGridFour style={{ fontSize: "1.6rem" }} />{" "}
-                  {/* Increased size */}
+                  <PiGridFour style={{ fontSize: "1.6rem" }} />
                   &nbsp;
                   {property.floor} ft²
                 </li>

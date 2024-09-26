@@ -41,6 +41,9 @@ import BlogView from "./blog/BlogView.jsx";
 import Property from "./property/Property";
 import Listing from "./property/Listing.jsx";
 import Flow2a from "./property/Flow2-1/Flow2a1";
+import Listing_Ayodhya from './property/PorpertyListing/Listing_Ayodhya'
+import Listing_Vellore from './property/PorpertyListing/Listing_Vellore'
+import Listing_Kota from './property/PorpertyListing/Listing_Kota'
 
 //Contact Us page component
 import Contact from "./contact/Contact";
@@ -100,6 +103,9 @@ export {
   Flow2a,
 
   LandlordPage,
-  LandlordDashboard
-
+  LandlordDashboard,
+  Listing_Ayodhya,
+  Listing_Vellore,
+  Listing_Kota
 };
+
