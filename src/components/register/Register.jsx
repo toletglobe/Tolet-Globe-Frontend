@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Register.css";
 import {
   FaUser,
@@ -18,14 +18,13 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState("buyer");
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
+
   const handleRoleChange = (e) => {
     setRole(e.target.value);
-    if (e.target.value !== "user") {
-      setUserType("");
-    }
+    if(e.target.value !== "user" && userType !== "owner") setUserType("owner");
   };
 
   const handleUserTypeChange = (e) => {
@@ -54,17 +53,17 @@ const Register = () => {
         userType,
         answer,
       });
-      console.log(res.data);
+      console.log(res);
       if (res.data) {
         resetFields();
-        toast.success(res.data);
+        toast.success("Check email for verification link");
         setTimeout(() => {
           navigate("/login");
         }, 3000);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data);
+      toast.error("Registration failed");
+      console.log(error.response.data);
     }
   };
 
@@ -135,7 +134,7 @@ const Register = () => {
               <option
                 value=""
                 disabled
-            
+                selected
                 className="text-[#3CBDB1] text-sm"
               >
                 Select Role
@@ -166,7 +165,7 @@ const Register = () => {
                 <option disabled className="text-[#3CBDB1]">
                   Select User Type
                 </option>
-                <option value="buyer" className="text-[#3CBDB1]">
+                <option value="buyer" selected  className="text-[#3CBDB1]">
                   Buyer
                 </option>
                 <option value="tenant" className="text-[#3CBDB1]">
