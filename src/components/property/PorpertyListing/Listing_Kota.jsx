@@ -1,25 +1,22 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-no-undef */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./listing.css";
-import Service from "../../config/config";
+import "../listing.css";
+import Service from "../../../config/config";
 // import author from "../../assets/property/author.jpg";
-import hamburger from "../../assets/property/hamburger.png";
-import drop from "../../assets/property/drop.png";
-import location from "../../assets/property/location.png";
-import cross from "../../assets/property/cross.png";
-import SideOpt from "./listingComponents/SideOpt";
-import SelectLocation from "./listingComponents/SelectLocation";
-import Filters from "./listingComponents/Filters";
-import Cards from "./listingComponents/Cards";
-import Pagination from "./listingComponents/Pagination";
+import hamburger from "../../../assets/property/hamburger.png";
+import drop from "../../../assets/property/drop.png";
+import location from "../../../assets/property/location.png";
+import cross from "../../../assets/property/cross.png";
+import SideOpt from "../listingComponents/SideOpt";
+import SelectLocation from "../listingComponents/SelectLocation";
+import Filters from "../listingComponents/Filters";
+import Cards from "../listingComponents/Cards";
+import Pagination from "../listingComponents/Pagination";
 
 const Listing = () => {
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
-  // const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
   const [propertiesPerPage, setPropertiesPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
@@ -152,10 +149,10 @@ const Listing = () => {
                   </div>
                   <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
                     <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full ">
-                      <p>Lucknow</p>
+                      <p>Kota</p>
                     </div>
                     <div className="text-[12px]">
-                      <p className="whitespace-nowrap">Add more..</p>
+                      <p>Add more ..</p>
                     </div>
                     <div>
                       <img
@@ -188,6 +185,7 @@ const Listing = () => {
                     <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
                       2
                     </div>
+                    <div>Filters</div>
                   </div>
                   <div className=" h-full flex items-center justify-center w-1/4  cursor-pointer rounded-full">
                     <img
@@ -215,16 +213,15 @@ const Listing = () => {
                 />
               </div>
 
-              <div >
-                <Filters SetIsOpen = {SetIsOpen} />
+              <div>
+                <Filters />
               </div>
-              
             </div>
             {/* filters ends */}
             {/* cards starts */}
             <Cards
               properties={properties}
-              cityName="Lucknow"
+              cityName="Kota"
               propertyAction="For Rent"
             />
             {/* cards ends */}
@@ -239,5 +236,4 @@ const Listing = () => {
 };
 
 export default Listing;
-
 

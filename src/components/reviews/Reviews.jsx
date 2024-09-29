@@ -134,9 +134,9 @@ function Reviews({ reviewData }) {
   }, [optionRef]);
 
   return (
-    <div className="w-full h-fit flex justify-center items-center font-poppins my-10">
-      <div className="bg-white relative rounded-md w-full h-full flex flex-col items-start p-5">
-        <p className="font-poppins font-normal text-xl">Reviews</p>
+    <div className="w-full h-fit flex justify-center items-center font-poppins mb-5">
+      <div className="bg-white relative rounded-md w-full h-full flex flex-col items-start p-3">
+        <p className="font-poppins font-semibold text-xl">Reviews</p>
         <div className="flex sm:flex-row flex-col sm:justify-between items-center w-full sm:h-[160px] h-fit my-4">
           <div className="sm:w-1/4 w-full h-full border-[1px] border-[#0f0f0f] rounded-md flex flex-col sm:p-8 p-3 items-center">
             <div className="w-full flex items-center">

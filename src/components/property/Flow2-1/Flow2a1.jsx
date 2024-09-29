@@ -13,12 +13,14 @@ import { CiShare2, CiHeart } from "react-icons/ci";
 import { IoIosAdd } from "react-icons/io";
 import profile from "../../../assets/property/author.jpg";
 import fav from "../../../assets/property/Vector.png";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 const Flow2a = () => {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -34,8 +36,9 @@ const Flow2a = () => {
     fetchProperty();
   }, [id]);
 
-  const openModal = (image) => {
+  const openModal = (image, index) => {
     setSelectedImage(image);
+    setCurrentIndex(index);
     setIsModalOpen(true);
   };
 
@@ -44,55 +47,70 @@ const Flow2a = () => {
     setSelectedImage("");
   };
 
-  if (!property) return <p>Loading...</p>; // Add a loading state
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? (property?.photos?.length || 1) - 1 : prevIndex - 1
+    );
+    setSelectedImage(property?.photos[currentIndex] || img1);
+  };
 
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      (prevIndex + 1) % (property?.photos?.length || 1)
+    );
+    setSelectedImage(property?.photos[currentIndex] || img1);
+  };
+
+  if (!property) return <p>Loading...</p>; // Add a loading state
   return (
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
-      <div className="flex flex-wrap md:flex-nowrap gap-1">
+      <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
         {/* Large Image */}
         <div className="w-full md:w-1/2">
           <img
             src={property?.photos[0] || img1}
             alt={property?.propertyType}
             className="w-full h-[383px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[0] || img1)}
+            onClick={() => openModal(property?.photos[0] || img1, 0)}
           />
         </div>
+
         {/* Grid of Smaller Images */}
         <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
           <img
             src={property?.photos[1] || img2}
             alt={property?.propertyType}
             className="w-full h-[193px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[1] || img2)}
+            onClick={() => openModal(property?.photos[1] || img2, 1)}
           />
           <img
             src={property?.photos[2] || img3}
             alt={property?.propertyType}
             className="w-full h-[193px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[2] || img3)}
+            onClick={() => openModal(property?.photos[2] || img3, 2)}
           />
           <img
             src={property?.photos[3] || img4}
             alt={property?.propertyType}
             className="w-full h-[186px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[3] || img4)}
+            onClick={() => openModal(property?.photos[3] || img4, 3)}
           />
           <img
             src={property?.photos[4] || img5}
             alt={property?.propertyType}
             className="w-full h-[186px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.photos[4] || img5)}
+            onClick={() => openModal(property?.photos[4] || img5, 4)}
           />
         </div>
       </div>
-         {/* Caption Section */}
-    <div className="text-center -mt-4">
-    <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
-      Photos | Videos | Property Map
-    </p>
-  </div>
+      
+      {/* Caption Section */}
+      <div className="text-center -mt-4 relative">
+        <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
+          Photos | Videos | Property Map
+        </p>
+      </div>
 
       {/* Property Details Section */}
       <div className="md:flex justify-between pt-8">
@@ -116,24 +134,28 @@ const Flow2a = () => {
             </p>
           </div>
 
-          <div className="border border-gray-600 rounded-lg flex justify-between pl-3 pr-3">
+
+          <div className="border border-gray-600 rounded-lg flex justify-between gap-x-4 pl-3 pr-3 mb-4 md:mb-0">
+
             <div className="p-1">
-              <p className="block text-gray-400">Monthly rent</p>
-              <h3 className="text-white text-3xl">Rs. {property?.rent}</h3>
+              <p className="block text-center text-gray-400">Monthly rent</p>
+              <h3 className="text-white text-center text-3xl md:text-2xl">Rs. {property?.rent}</h3>
             </div>
+            <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
-              <p className="block">Bhk</p>
-              <h3 className="text-white text-3xl">{property?.bhk} bhk</h3>
+              <p className="block text-center">Bhk</p>
+              <h3 className="text-white text-center text-3xl md:text-2xl">{property?.bhk} bhk</h3>
             </div>
+            <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
-              <p className="block">Floor</p>
-              <h3 className="text-white text-3xl">{property?.floor}</h3>
+              <p className="block text-center">Floor</p>
+              <h3 className="text-white text-center text-3xl md:text-2xl">{property?.floor}</h3>
             </div>
           </div>
         </div>
 
         {/* Request Visit Section */}
-        <div className="border-1 bg-white rounded-lg w-1/4 p-4">
+        <div className="border-1 bg-white rounded-lg lg:w-1/4 md:w-1/2 p-4">
           <div className="flex justify-between">
             <p className="text-black text-lg font-semibold">Request a visit</p>
             <div className="flex">
@@ -165,18 +187,42 @@ const Flow2a = () => {
 
       {/* Modal for Full Image View */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
-          <div className="relative">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center"
+          onClick={closeModal} // Close modal when clicking outside the image
+        >
+          <div
+            className="relative bg-dark p-4"
+            onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside the image
+          >
+            {/* Left Arrow */}
+            <button
+              onClick={handlePrev}
+              className="absolute top-1/2 left-7 transform -translate-y-1/2 bg-white text-black text-2xl p-2 rounded-full"
+            >
+              <HiChevronLeft />
+            </button>
+
+            {/* Right Arrow */}
+            <button
+              onClick={handleNext}
+              className="absolute top-1/2 right-7 transform -translate-y-1/2 bg-white text-black text-2xl p-2 rounded-full"
+            >
+              <HiChevronRight />
+            </button>
+
             <button
               onClick={closeModal}
-              className="absolute top-2 right-2 text-black text-xl"
+              className="absolute top-2 right-2 text-white text-xl bg-gray-300 p-1 rounded-full"
             >
               &times;
             </button>
+
+            {/* Corrected Image Size for Enlarged View */}
             <img
               src={selectedImage}
               alt="Selected"
-              className="w-full h-auto object-cover"
+              className="object-contain h-[80vh] max-w-full" // Ensure image fits correctly
             />
           </div>
         </div>

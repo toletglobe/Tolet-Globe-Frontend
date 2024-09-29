@@ -13,7 +13,8 @@ import toast from "react-hot-toast";
 import { API } from "../../config/axios";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState(""); 
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
@@ -31,7 +32,8 @@ const Register = () => {
   };
 
   const resetFields = () => {
-    setUsername("");
+    setFirstName(""); 
+    setLastName("");
     setEmail("");
     setPassword("");
     setPhone("");
@@ -44,7 +46,8 @@ const Register = () => {
     e.preventDefault(); 
     try {
       const res = await API.post("auth/register", {
-        username,
+        firstName,
+        lastName,
         email,
         password,
         phone,
@@ -75,15 +78,30 @@ const Register = () => {
         {/* Added min-h-[650px] */}
         <h2 className="text-4xl font-semibold text-center">Register</h2>
         <form onSubmit={handleSubmit}>
+           {/* First Name Field */}
+           <div className="mt-10 flex items-center">
+            <FaUser className="ml-3 text-white" />
+            <input
+              type="text"
+              placeholder="First Name"
+              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              autoComplete="off"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Last Name Field */}
           <div className="mt-10 flex items-center">
             <FaUser className="ml-3 text-white" />
             <input
               type="text"
-              placeholder="Username"
+              placeholder="Last Name"
               className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
               autoComplete="off"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
               required
             />
           </div>

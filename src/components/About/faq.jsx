@@ -31,7 +31,7 @@ export default function faq() {
         
   return (
    <>
-   <div className="faq-container bg-black w-5/6 m-auto  ">
+   <div className="faq-container bg-black w-full px-20 m-auto  ">
       <div className="row">
         <div className="faq-wrapper">
           <div className="header rounded-t-3xl pt-5 pb-16 text-2xl bg-[#6cc0c4]  text-white w-full flex items-center justify-center">

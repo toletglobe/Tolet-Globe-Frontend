@@ -50,7 +50,7 @@ const NavBar = () => {
 
   return (
     <nav className="z-50">
-      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-10 py-4">
+      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-20 py-4">
         <div className="navbar-logo">
           <Link to="/" className="flex items-center">
             <img src={logo} alt="Logo" className="h-16 lg:h-12 ml-10 lg:ml-0" />
