@@ -40,19 +40,20 @@ const Login = () => {
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        const data = {
+        dispatch(login({
           token: res.data.token,
-          userData: null,
-        };
-        dispatch(login(data));
-
-        // dispatch(login(res.data.token));
+          userData: {
+            username: res.data.user.username,
+            email: res.data.user.email,
+            role: res.data.user.role,
+          },
+        }));
         toast.success("Login success");
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
-      // toast.error(error.response.data);
+      toast.error(error.response?.data?.message || "Login failed");
+      console.log(error.response.data);
     }
   };
 

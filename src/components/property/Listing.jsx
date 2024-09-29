@@ -188,7 +188,6 @@ const Listing = () => {
                     <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
                       2
                     </div>
-                    <div>Filters</div>
                   </div>
                   <div className=" h-full flex items-center justify-center w-1/4  cursor-pointer rounded-full">
                     <img
@@ -216,9 +215,10 @@ const Listing = () => {
                 />
               </div>
 
-              <div>
-                <Filters />
+              <div >
+                <Filters SetIsOpen = {SetIsOpen} />
               </div>
+              
             </div>
             {/* filters ends */}
             {/* cards starts */}

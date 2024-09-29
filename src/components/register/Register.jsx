@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Register.css";
 import {
   FaUser,
@@ -19,15 +19,12 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState("buyer");
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
-
   const handleRoleChange = (e) => {
     setRole(e.target.value);
-    if (e.target.value !== "user") {
-      setUserType("");
-    }
+    if(e.target.value !== "user" && userType !== "owner") setUserType("owner");
   };
 
   const handleUserTypeChange = (e) => {
@@ -46,7 +43,7 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent refreshing of the page while submitting the form
+    e.preventDefault(); 
     try {
       const res = await API.post("auth/register", {
         firstName,
@@ -58,19 +55,18 @@ const Register = () => {
         userType,
         answer,
       });
-      console.log(res.data);
+      console.log(res);
       if (res.data) {
         resetFields();
-        toast.success(res.data);
+        toast.success("Check email for verification link");
         setTimeout(() => {
           navigate("/login");
         }, 3000);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data);
+      toast.error("Registration failed");
+      console.log(error.response.data);
     }
-    // console.log(username, email, password, phone, role, userType, answer);
   };
 
   return (
@@ -155,7 +151,7 @@ const Register = () => {
               <option
                 value=""
                 disabled
-                selected
+            
                 className="text-[#3CBDB1] text-sm"
               >
                 Select Role
@@ -183,10 +179,10 @@ const Register = () => {
                 onChange={handleUserTypeChange}
                 className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-sm outline-none"
               >
-                <option value="" disabled className="text-[#3CBDB1]">
+                <option disabled className="text-[#3CBDB1]">
                   Select User Type
                 </option>
-                <option value="buyer" className="text-[#3CBDB1]">
+                <option value="buyer" selected  className="text-[#3CBDB1]">
                   Buyer
                 </option>
                 <option value="tenant" className="text-[#3CBDB1]">

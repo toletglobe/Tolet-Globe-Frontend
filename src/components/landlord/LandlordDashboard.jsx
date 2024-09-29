@@ -5,8 +5,10 @@ import propertyimage2 from "../../assets/property/blog-2.jpg";
 import propertyimage3 from "../../assets/property/blog-3.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { MdMoreVert } from "react-icons/md";
+
 
 
 
@@ -120,6 +122,7 @@ const LandlordDashboard = () => {
             </div>
   ))
 
+
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
@@ -211,6 +214,103 @@ const LandlordDashboard = () => {
         </div>
 
         {/* Recent Properties */}
+
+//         <div className="px-10 mt-8">
+//           <h2 className="text-2xl font-semibold mb-4">Recent Properties</h2>
+//           <div className="grid grid-cols-3 gap-6">
+//             {/* Property Card 1 */}
+//             <div className="bg-black p-4 rounded-md">
+//               <img
+//                 src={propertyimage1}
+//                 alt="Property"
+//                 className="w-full h-40 object-cover rounded-md mb-4"
+//               />
+//               <div className="flex justify-between items-center">
+//                 <h3 className="text-lg font-semibold">Name</h3>
+//                 <div className="flex items-center space-x-4">
+//                   <FontAwesomeIcon
+//                     icon={faHeart}
+//                     className={`cursor-pointer ${
+//                       likedProperties[0] ? "text-red-500" : "text-gray-500"
+//                     }`}
+//                     onClick={() => handleLikeClick(0)}
+//                   />
+//                   <FontAwesomeIcon
+//                     icon={faShareAlt}
+//                     className="text-green-500"
+//                   />
+//                   <FontAwesomeIcon
+//                     icon={faEllipsisV}
+//                     className="text-gray-500"
+//                   />
+//                 </div>
+//               </div>
+//               <p className="text-gray-400">Gomti Nagar, Lucknow, India</p>
+//               <p className="text-gray-400">Price</p>
+//             </div>
+
+//             {/* Property Card 2 */}
+//             <div className="bg-black p-4 rounded-md">
+//               <img
+//                 src={propertyimage2}
+//                 alt="Property"
+//                 className="w-full h-40 object-cover rounded-md mb-4"
+//               />
+//               <div className="flex justify-between items-center">
+//                 <h3 className="text-lg font-semibold">Name</h3>
+//                 <div className="flex items-center space-x-4">
+//                   <FontAwesomeIcon
+//                     icon={faHeart}
+//                     className={`cursor-pointer ${
+//                       likedProperties[1] ? "text-red-500" : "text-gray-500"
+//                     }`}
+//                     onClick={() => handleLikeClick(1)}
+//                   />
+//                   <FontAwesomeIcon
+//                     icon={faShareAlt}
+//                     className="text-green-500"
+//                   />
+//                   <FontAwesomeIcon
+//                     icon={faEllipsisV}
+//                     className="text-gray-500"
+//                   />
+//                 </div>
+//               </div>
+//               <p className="text-gray-400">Gomti Nagar, Lucknow, India</p>
+//               <p className="text-gray-400">Price</p>
+//             </div>
+
+//             {/* Property Card 3 */}
+//             <div className="bg-black p-4 rounded-md">
+//               <img
+//                 src={propertyimage3}
+//                 alt="Property"
+//                 className="w-full h-40 object-cover rounded-md mb-4"
+//               />
+//               <div className="flex justify-between items-center">
+//                 <h3 className="text-lg font-semibold">Name</h3>
+//                 <div className="flex items-center space-x-4">
+//                   <FontAwesomeIcon
+//                     icon={faHeart}
+//                     className={`cursor-pointer ${
+//                       likedProperties[2] ? "text-red-500" : "text-gray-500"
+//                     }`}
+//                     onClick={() => handleLikeClick(2)}
+//                   />
+//                   <FontAwesomeIcon
+//                     icon={faShareAlt}
+//                     className="text-green-500"
+//                   />
+//                   <FontAwesomeIcon
+//                     icon={faEllipsisV}
+//                     className="text-gray-500"
+//                   />
+//                 </div>
+//               </div>
+//               <p className="text-gray-400">Gomti Nagar, Lucknow, India</p>
+//               <p className="text-gray-400">Price</p>
+//             </div>
+
         <div className="properties px-10 mt-8">
           <h2 className="text-2xl font-semibold mb-4">Recent Properties</h2>
           <div className="grid grid-cols-3 gap-6">
@@ -218,6 +318,7 @@ const LandlordDashboard = () => {
             
             {/* import MyProperty */}
             {/* <MyProperty /> */}
+
 
           </div>
           <div className="flex justify-end mt-6">
