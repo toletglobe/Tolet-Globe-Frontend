@@ -35,23 +35,14 @@ import AddProperty from "./property/create-prop/AddProperty";
 const Layout = () => {
   const location = useLocation();
 
-
-  // Determine whether to show the NavBar and Footer based on the current route
-  const showNavBar =
-    location.pathname !== "/landlord-profile" &&
-    location.pathname !== "/landlord-dashboard";
-  const showFooter =
-    location.pathname !== "/landlord-profile" &&
-    location.pathname !== "/landlord-dashboard";
-
   return (
     <div className="flex flex-col min-h-screen w-full">
-      {showNavBar && (
+     
         <div className="nav fixed top-0 left-0 right-0 z-50 bg-white">
           <NavBar />
         </div>
-      )}
-      <div className={`main flex-1 ${showNavBar ? "pt-16" : ""}`}>
+
+      <div className="main flex-1 pt-16">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/contact" element={<Contact />} />
@@ -83,12 +74,9 @@ const Layout = () => {
 
  
       </div> 
-      {showFooter && ( 
       <div className="footer mt-5">
         <Footer />
-
       </div>
-       )}
     </div>
   );
 };
