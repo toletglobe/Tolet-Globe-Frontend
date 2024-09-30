@@ -65,6 +65,7 @@ const Layout = () => {
           <Route path="/property-listing-ayodhya" element={<Listing_Ayodhya />} />
           <Route path="/property-listing-vellore" element={<Listing_Vellore />} />
           <Route path="/property-listing-kota" element={<Listing_Kota />} />
+          <Route path="/property-listing/:slug" element={<Listing />} />
           <Route path="/property/:id" element={<Flow2a />} />
           <Route path="/property/reviews" element={<Reviews />} />
           <Route path="/property/add-property" element={<AddProperty />} />

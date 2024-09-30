@@ -47,7 +47,7 @@ const Cards = ({ properties, cityName, propertyAction }) => {
   return (
     <div>
       <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {properties.map((property) => (
+        {Array.isArray(properties) && properties.map((property) => (
           <li
             key={property._id}
             className="property-card bg-white border border-grey-200 shadow-lg relative"

@@ -15,6 +15,8 @@ import SelectLocation from "./listingComponents/SelectLocation";
 import Filters from "./listingComponents/Filters";
 import Cards from "./listingComponents/Cards";
 import Pagination from "./listingComponents/Pagination";
+import { useParams } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 const Listing = () => {
   const [Hamburger, SetHamburger] = useState(false);
@@ -24,19 +26,24 @@ const Listing = () => {
   const [propertiesPerPage, setPropertiesPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-
+  const [Location, setLocation] = useState(false);
   function handleOpen() {
     SetIsOpen(!isOpen);
   }
   function handleHamburger() {
     SetHamburger(!Hamburger);
   }
-
-  // Fetch data from backend API
+  function handleLocation() {
+    setLocation(!Location);
+  }
+  const {slug} = useParams();
   useEffect(() => {
     const fetchProperties = async () => {
+      setLoading(true);
       try {
-        const propertyData = await Service.fetchProperty();
+        const propertyData = slug
+        ? await Service.fetchPropertyBySlug(slug)
+        : await Service.fetchProperty()
         setProperties(propertyData || []); // Ensure propertyData is an array
         console.log(propertyData);
         setLoading(false);
@@ -47,7 +54,7 @@ const Listing = () => {
     };
 
     fetchProperties();
-  }, []);
+  }, [slug]);
 
   // Calculate total pages
   const totalPages = Math.ceil(properties.length / propertiesPerPage);
@@ -55,10 +62,12 @@ const Listing = () => {
   // Get current properties
   const indexOfLastProperty = currentPage * propertiesPerPage;
   const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  const currentProperties = properties.slice(
+  const currentProperties = Array.isArray(properties) 
+  ? properties.slice(
     indexOfFirstProperty,
     indexOfLastProperty
-  );
+  ) 
+  : [];
 
   if (loading) {
     return (
@@ -66,16 +75,6 @@ const Listing = () => {
         <ClipLoader color="#6CC1B6" size={150} />
       </div>
     );
-  }
-
-  const [mode, setMode] = useState(false);
-  function handleMode() {
-    setMode(!mode);
-  }
-
-  const [Location, setLocation] = useState(false);
-  function handleLocation() {
-    setLocation(!Location);
   }
   return (
     <>
