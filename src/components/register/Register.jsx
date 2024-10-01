@@ -46,7 +46,7 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent refreshing of the page while submitting the form
+    e.preventDefault();
     try {
       const res = await API.post("auth/register", {
         firstName,
@@ -58,7 +58,6 @@ const Register = () => {
         userType,
         answer,
       });
-      console.log(res.data);
       if (res.data) {
         resetFields();
         toast.success(res.data);
@@ -73,9 +72,9 @@ const Register = () => {
   };
 
   return (
-    <div className="register_form_container relative flex items-center justify-center my-10 overflow-hidden w-[360px] h-[auto] max-w-[360px] bg-black rounded-[30px_5px] mx-auto">
-      <div className="relative bg-black rounded-[30px_5px] p-[30px] text-white z-10 border-4 border-transparent">
-        <h2 className="text-3xl font-semibold text-center">Register</h2>
+    <div className="register_form_container relative flex items-center justify-center mt-10 mb-10 overflow-hidden w-[350px] h-[full] max-w-[350px] bg-black rounded-[5px_5px] mx-auto my-40 p-1">
+      <div className="relative bg-black text-white z-10 border-4 border-transparent w-full">
+        <h2 className="text-2xl font-semibold text-center">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mt-6 flex items-center">
             <FaUser className="ml-2 text-white" />
@@ -131,7 +130,7 @@ const Register = () => {
           <div className="mt-6 flex items-center">
             <FaPhoneAlt className="ml-2 text-white" />
             <input
-              type="number"
+              type="tel"
               placeholder="Phone Number"
               className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-base outline-none"
               autoComplete="off"
@@ -148,6 +147,7 @@ const Register = () => {
               value={role}
               onChange={handleRoleChange}
               className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] pl-2 text-base outline-none"
+              defaultValue=""
             >
               <option value="" disabled className="text-[#3CBDB1]">
                 Select Role
@@ -172,6 +172,7 @@ const Register = () => {
                 value={userType}
                 onChange={handleUserTypeChange}
                 className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] pl-2 text-base outline-none"
+                defaultValue=""
               >
                 <option value="" disabled className="text-[#3CBDB1]">
                   Select User Type
@@ -202,10 +203,10 @@ const Register = () => {
             />
           </div>
 
-          <div className="relative w-[280px] h-[30px] mt-[50px] transition-all">
+          <div className="relative w-full h-[50px] mt-[50px] flex justify-center">
             <button
               type="submit"
-              className="absolute w-full h-full text-lg tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
+              className="absolute w-[90%] h-[30px] text-lg tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217] transition-colors duration-3"
             >
               REGISTER
             </button>
