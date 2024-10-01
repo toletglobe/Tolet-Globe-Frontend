@@ -70,25 +70,19 @@ const Register = () => {
       console.log(error);
       toast.error(error.response.data);
     }
-    // console.log(username, email, password, phone, role, userType, answer);
   };
 
   return (
-    <div className="register_form_container relative flex items-center justify-center my-10 overflow-hidden w-[400px] h-[685px] max-w-[400px] max-h-[685px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16">
-      {/* <div className="absolute inset-0 w-[190%] h-[190%] animate-rotate-border"></div>
-      <div className="absolute inset-0 w-[190%] h-[190%] animate-rotate-border animate-delay-[-3s]"></div> */}
-      <div className="relative bg-black rounded-[50px_5px] p-[43px_40px] text-white z-10 min-h-[650px] border-4 border-transparent">
-        {" "}
-        {/* Added min-h-[650px] */}
-        <h2 className="text-4xl font-semibold text-center">Register</h2>
+    <div className="register_form_container relative flex items-center justify-center my-10 overflow-hidden w-[360px] h-[auto] max-w-[360px] bg-black rounded-[30px_5px] mx-auto">
+      <div className="relative bg-black rounded-[30px_5px] p-[30px] text-white z-10 border-4 border-transparent">
+        <h2 className="text-3xl font-semibold text-center">Register</h2>
         <form onSubmit={handleSubmit}>
-           {/* First Name Field */}
-           <div className="mt-10 flex items-center">
-            <FaUser className="ml-3 text-white" />
+          <div className="mt-6 flex items-center">
+            <FaUser className="ml-2 text-white" />
             <input
               type="text"
               placeholder="First Name"
-              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-base outline-none"
               autoComplete="off"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
@@ -96,92 +90,88 @@ const Register = () => {
             />
           </div>
 
-          {/* Last Name Field */}
-          <div className="mt-10 flex items-center">
-            <FaUser className="ml-3 text-white" />
+          <div className="mt-6 flex items-center">
+            <FaUser className="ml-2 text-white" />
             <input
               type="text"
               placeholder="Last Name"
-              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-base outline-none"
               autoComplete="off"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               required
             />
           </div>
-          <div className="mt-10 flex items-center">
-            <AiOutlineMail className="ml-3 text-white" />
+
+          <div className="mt-6 flex items-center">
+            <AiOutlineMail className="ml-2 text-white" />
             <input
               type="email"
               placeholder="Email"
-              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-base outline-none"
               autoComplete="off"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="mt-10 flex items-center">
-            <FaLock className="ml-3 text-white" />
+
+          <div className="mt-6 flex items-center">
+            <FaLock className="ml-2 text-white" />
             <input
               type="password"
               placeholder="Password"
-              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-base outline-none"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <div className="mt-10 flex items-center">
-            <FaPhoneAlt className="ml-3 text-white" />
+
+          <div className="mt-6 flex items-center">
+            <FaPhoneAlt className="ml-2 text-white" />
             <input
               type="number"
               placeholder="Phone Number"
-              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-base outline-none"
               autoComplete="off"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
             />
           </div>
-          <div className="mt-10 flex items-center">
-            <FaRegAddressCard className="ml-3 text-white" />
+
+          <div className="mt-6 flex items-center">
+            <FaRegAddressCard className="ml-2 text-white" />
             <select
               id="role"
               value={role}
               onChange={handleRoleChange}
-              className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] pl-2 text-base outline-none"
             >
-              <option
-                value=""
-                disabled
-                selected
-                className="text-[#3CBDB1] text-sm"
-              >
+              <option value="" disabled className="text-[#3CBDB1]">
                 Select Role
               </option>
-              <option value="admin" className="text-[#3CBDB1] text-sm">
+              <option value="admin" className="text-[#3CBDB1]">
                 Admin
               </option>
-              <option
-                value="content creator"
-                className="text-[#3CBDB1] text-sm"
-              >
+              <option value="content creator" className="text-[#3CBDB1]">
                 Content Creator
               </option>
-              <option value="user" className="text-[#3CBDB1] text-sm">
+              <option value="user" className="text-[#3CBDB1]">
                 User
               </option>
             </select>
           </div>
+
           {role === "user" && (
-            <div className="mt-10 flex items-center">
-              <FaSchool className="ml-3 text-white" />
+            <div className="mt-6 flex items-center">
+              <FaSchool className="ml-2 text-white" />
               <select
                 id="userType"
                 value={userType}
                 onChange={handleUserTypeChange}
-                className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-sm outline-none"
+                className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] pl-2 text-base outline-none"
               >
                 <option value="" disabled className="text-[#3CBDB1]">
                   Select User Type
@@ -198,22 +188,24 @@ const Register = () => {
               </select>
             </div>
           )}
-          <div className="mt-10 flex items-center">
-            <FaSchool className="ml-3 text-white" />
+
+          <div className="mt-6 flex items-center">
+            <FaSchool className="ml-2 text-white" />
             <input
               type="text"
               placeholder="Your first School"
-              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-base outline-none"
               autoComplete="off"
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
               required
             />
           </div>
-          <div className="relative w-[300px] h-[40px] mt-[70px] transition-all">
+
+          <div className="relative w-[280px] h-[30px] mt-[50px] transition-all">
             <button
               type="submit"
-              className="absolute w-full h-full text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
+              className="absolute w-full h-full text-lg tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
             >
               REGISTER
             </button>
