@@ -61,8 +61,8 @@ export default function Frm3({ formData, setFormData }) {
           />
           <label
             htmlFor="yes_btn"
-            className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4 text-gray-200 ${
-              formData.carParking ? "border-yellow-500" : ""
+            className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4 ${
+              formData.carParking ? "text-black bg-gray-200" : "text-gray-200"
             }`}
           >
             Yes
@@ -87,8 +87,8 @@ export default function Frm3({ formData, setFormData }) {
           />
           <label
             htmlFor="no_btn"
-            className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4 text-gray-200 ${
-              formData.carParking ? "" : "border-red-950"
+            className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4  ${
+              formData.carParking ? "text-gray-200" : "text-black bg-white"
             }`}
           >
             No

@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
 import "./listing.css";
 import Service from "../../config/config";
 import author from "../../assets/property/author.jpg";
@@ -24,6 +27,8 @@ const Listing = () => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(false);
   const [Location, setLocation] = useState(false);
+
+  const authState = useSelector((state) => state.auth);
 
   function handleOpen() {
     SetIsOpen(!isOpen);
@@ -114,11 +119,20 @@ const Listing = () => {
     );
   }
 
+   const handleAddPropertybtn = () => {
+     if (authState.status === true && localStorage.getItem("token")) {
+       navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
+     } else {
+       toast.error("Please Log In first");
+     }
+   };
+
   return (
     <>
       <div
-        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${isOpen || Hamburger || Location ? "block" : "hidden"
-          }`}
+        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
+          isOpen || Hamburger || Location ? "block" : "hidden"
+        }`}
       ></div>
 
       <section className="property py-24" id="property">
@@ -135,121 +149,144 @@ const Listing = () => {
                 onClick={handleHamburger}
               />
             </div>
-            <div className="absolute z-50 right-0 flex gap-4 p-4 sm:w-full md:w-[442px] lg:w-[500px] h-fit">
+            <div className="absolute z-50 top-[50%] right-5 flex gap-4 p-4 sm:w-full md:w-[442px] lg:w-[500px] h-fit">
               <div>
                 <img
                   src={cross}
                   alt="Close"
                   onClick={handleHamburger}
-                  className={`${Hamburger ? "block" : "hidden"
-                    } cursor-pointer`}
+                  className={`${Hamburger ? "block" : "hidden"} cursor-pointer`}
                 />
               </div>
 
               <div
-                className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg md:w-full ${Hamburger ? "block" : "hidden"
-                  }`}
+                className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg md:w-full ${
+                  Hamburger ? "block" : "hidden"
+                }`}
               >
                 <SideOpt />
               </div>
             </div>
 
-            <div className="flex items-center justify-start gap-3 pb-10 ml-4 flex-col md:flex-row lg:flex-row">
-              <div className="bg-white h-14 w-80 flex items-center justify-between text-black px-4 rounded-2xl">
-                <div className="w-1/4 flex items-center justify-start gap-4 border-r-2 h-3/4 border-black">
-                  <p className="text-black">Sort</p>
-                  <img
-                    src={drop}
-                    alt="Dropdown"
-                    className={`${mode ? "rotate-180" : "rotate-0"
+            <div className="flex justify-between">
+              <div className="flex items-center justify-start gap-3 pb-10 ml-4 flex-col md:flex-row lg:flex-row">
+                <div className="bg-white h-14 w-80 flex items-center justify-between text-black px-4 rounded-2xl">
+                  <div className="w-1/4 flex items-center justify-start gap-4 border-r-2 h-3/4 border-black">
+                    <p className="text-black">Sort</p>
+                    <img
+                      src={drop}
+                      alt="Dropdown"
+                      className={`${
+                        mode ? "rotate-180" : "rotate-0"
                       } mt-1 cursor-pointer`}
-                    onClick={handleMode}
-                  />
-                  <div className="relative">
-                    <div
-                      className={`${mode ? "block" : "hidden"
+                      onClick={handleMode}
+                    />
+                    <div className="relative">
+                      <div
+                        className={`${
+                          mode ? "block" : "hidden"
                         } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-0`}
+                      >
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            handleSortClick("price-low-high"), setMode(false);
+                          }}
+                        >
+                          Price: Low to High
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            handleSortClick("price-high-low"), setMode(false);
+                          }}
+                        >
+                          Price: High to Low
+                        </p>
+                        <p
+                          className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            handleSortClick("most-trending"), setMode(false);
+                          }}
+                        >
+                          Most Trending
+                        </p>
+                        <p
+                          className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            handleSortClick("date-uploaded"), setMode(false);
+                          }}
+                        >
+                          Date Uploaded
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
+                    <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full">
+                      <p>Lucknow</p>
+                    </div>
+                    <div className="text-[12px]">
+                      <p>Add more ..</p>
+                    </div>
+                    <div>
+                      <img
+                        src={location}
+                        alt="Location"
+                        className="cursor-pointer"
+                        onClick={handleLocation}
+                      />
+                    </div>
+                    <div
+                      className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${
+                        Location ? "block" : "hidden"
+                      }`}
                     >
-                      <p
-                        className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => { handleSortClick("price-low-high"), setMode(false) }}
-                      >
-                        Price: Low to High
-                      </p>
-                      <p
-                        className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => { handleSortClick("price-high-low"), setMode(false) }}
-                      >
-                        Price: High to Low
-                      </p>
-                      <p
-                        className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => { handleSortClick("most-trending"), setMode(false) }}
-                      >
-                        Most Trending
-                      </p>
-                      <p
-                        className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => { handleSortClick("date-uploaded"), setMode(false) }}
-                      >
-                        Date Uploaded
-                      </p>
+                      <div>
+                        <img
+                          src={cross}
+                          alt="Close"
+                          onClick={handleLocation}
+                          className="cursor-pointer"
+                        />
+                      </div>
+                      <SelectLocation />
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
-                  <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full">
-                    <p>Lucknow</p>
-                  </div>
-                  <div className="text-[12px]">
-                    <p>Add more ..</p>
-                  </div>
-                  <div>
-                    <img
-                      src={location}
-                      alt="Location"
-                      className="cursor-pointer"
-                      onClick={handleLocation}
-                    />
-                  </div>
-                  <div
-                    className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
-                      }`}
-                  >
-                    <div>
-                      <img
-                        src={cross}
-                        alt="Close"
-                        onClick={handleLocation}
-                        className="cursor-pointer"
-                      />
+                <div className="h-14 w-56 bg-white text-black flex items-start justify-between px-5 rounded-2xl">
+                  <div className="flex items-center justify-start gap-4 h-full w-2/4">
+                    <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
+                      2
                     </div>
-                    <SelectLocation />
+                    <div>Filters</div>
+                  </div>
+                  <div className="h-full flex items-center justify-center w-1/4 cursor-pointer rounded-full">
+                    <img
+                      src={drop}
+                      alt="Dropdown"
+                      onClick={handleOpen}
+                      className="cursor-pointer"
+                    />
                   </div>
                 </div>
               </div>
-              <div className="h-14 w-56 bg-white text-black flex items-start justify-between px-5 rounded-2xl">
-                <div className="flex items-center justify-start gap-4 h-full w-2/4">
-                  <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
-                    2
-                  </div>
-                  <div>Filters</div>
-                </div>
-                <div className="h-full flex items-center justify-center w-1/4 cursor-pointer rounded-full">
-                  <img
-                    src={drop}
-                    alt="Dropdown"
-                    onClick={handleOpen}
-                    className="cursor-pointer"
-                  />
-                </div>
+
+              <div>
+                <a
+                  onClick={handleAddPropertybtn}
+                  className="mr-2 bg-white w-44 h-14 text-black flex items-center justify-center px-5 rounded-2xl cursor-pointer"
+                >
+                  Add Property
+                </a>
               </div>
             </div>
           </div>
 
           <div
-            className={`min-w-full min-h-fit absolute z-30 top-32 flex items-start justify-center gap-5 ${isOpen ? "block" : "hidden"
-              }`}
+            className={`min-w-full min-h-fit absolute z-30 top-32 flex items-start justify-center gap-5 ${
+              isOpen ? "block" : "hidden"
+            }`}
           >
             <div>
               <img
