@@ -24,6 +24,7 @@ const Listing = () => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(false);
   const [Location, setLocation] = useState(false);
+  const [compare, setCompare] = useState([]);
 
   function handleOpen() {
     SetIsOpen(!isOpen);
@@ -37,7 +38,15 @@ const Listing = () => {
   function handleLocation() {
     setLocation(!Location);
   }
-
+  function handleCompareClick() {
+    // Store the compare and properties data in localStorage
+    localStorage.setItem('compare', JSON.stringify(compare));
+    localStorage.setItem('properties', JSON.stringify(properties));
+    
+    // Open the ComparePage in a new tab
+    window.open("/property/compare", "_blank");
+  }
+  
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -101,9 +110,10 @@ const Listing = () => {
   );
 
   const handleSortClick = (sortType) => {
-    const queryParams = new URLSearchParams(location.search);
+    const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("sort", sortType);
     navigate(`?${queryParams.toString()}`); // Update URL with new sort query
+    sortProperties(sortType);
   };
 
   if (loading) {
@@ -117,8 +127,9 @@ const Listing = () => {
   return (
     <>
       <div
-        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${isOpen || Hamburger || Location ? "block" : "hidden"
-          }`}
+        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
+          isOpen || Hamburger || Location ? "block" : "hidden"
+        }`}
       ></div>
 
       <section className="property py-24" id="property">
@@ -141,14 +152,14 @@ const Listing = () => {
                   src={cross}
                   alt="Close"
                   onClick={handleHamburger}
-                  className={`${Hamburger ? "block" : "hidden"
-                    } cursor-pointer`}
+                  className={`${Hamburger ? "block" : "hidden"} cursor-pointer`}
                 />
               </div>
 
               <div
-                className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg md:w-full ${Hamburger ? "block" : "hidden"
-                  }`}
+                className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg md:w-full ${
+                  Hamburger ? "block" : "hidden"
+                }`}
               >
                 <SideOpt />
               </div>
@@ -161,36 +172,46 @@ const Listing = () => {
                   <img
                     src={drop}
                     alt="Dropdown"
-                    className={`${mode ? "rotate-180" : "rotate-0"
-                      } mt-1 cursor-pointer`}
+                    className={`${
+                      mode ? "rotate-180" : "rotate-0"
+                    } mt-1 cursor-pointer`}
                     onClick={handleMode}
                   />
                   <div className="relative">
                     <div
-                      className={`${mode ? "block" : "hidden"
-                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-0`}
+                      className={`${
+                        mode ? "block" : "hidden"
+                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-0`}
                     >
                       <p
                         className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => { handleSortClick("price-low-high"), setMode(false) }}
+                        onClick={() => {
+                          handleSortClick("price-low-high"), setMode(false);
+                        }}
                       >
                         Price: Low to High
                       </p>
                       <p
                         className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => { handleSortClick("price-high-low"), setMode(false) }}
+                        onClick={() => {
+                          handleSortClick("price-high-low"), setMode(false);
+                        }}
                       >
                         Price: High to Low
                       </p>
                       <p
                         className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => { handleSortClick("most-trending"), setMode(false) }}
+                        onClick={() => {
+                          handleSortClick("most-trending"), setMode(false);
+                        }}
                       >
                         Most Trending
                       </p>
                       <p
                         className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => { handleSortClick("date-uploaded"), setMode(false) }}
+                        onClick={() => {
+                          handleSortClick("date-uploaded"), setMode(false);
+                        }}
                       >
                         Date Uploaded
                       </p>
@@ -213,8 +234,9 @@ const Listing = () => {
                     />
                   </div>
                   <div
-                    className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
-                      }`}
+                    className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${
+                      Location ? "block" : "hidden"
+                    }`}
                   >
                     <div>
                       <img
@@ -244,12 +266,27 @@ const Listing = () => {
                   />
                 </div>
               </div>
+
+              {compare.length > 0 && (
+                <div className="">
+                  <button
+                    onClick={() => setCompare([])}
+                    className="hover:bg-red-500 bg-white text-black rounded-2xl px-10 py-4 mx-4"
+                  >
+                    clear Compare
+                  </button>
+
+                  <button onClick={() => handleCompareClick()} className="hover:105 hover:bg-yellow-500 bg-white text-black rounded-2xl px-10 py-4">Compare{compare.length}</button>
+                </div>
+              )}
+
             </div>
           </div>
 
           <div
-            className={`min-w-full min-h-fit absolute z-30 top-32 flex items-start justify-center gap-5 ${isOpen ? "block" : "hidden"
-              }`}
+            className={`min-w-full min-h-fit absolute z-30 top-32 flex items-start justify-center gap-5 ${
+              isOpen ? "block" : "hidden"
+            }`}
           >
             <div>
               <img
@@ -263,7 +300,11 @@ const Listing = () => {
             <Filters />
           </div>
 
-          <Cards properties={properties} />
+          <Cards
+            properties={properties}
+            compare={compare}
+            setCompare={setCompare}
+          />
         </div>
       </section>
 

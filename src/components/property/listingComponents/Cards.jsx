@@ -30,7 +30,7 @@ const NextArrow = ({ onClick }) => (
   </div>
 );
 
-const Cards = ({ properties, cityName, propertyAction }) => {
+const Cards = ({ properties, cityName, propertyAction, compare, setCompare }) => {
   const navigate = useNavigate();
   const settings = {
     dots: true,
@@ -42,6 +42,15 @@ const Cards = ({ properties, cityName, propertyAction }) => {
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
     draggable: false,
+  };
+
+  const addPropertyToCompare = (propertyId) => {
+    setCompare((prevCompare) => {
+      if (!prevCompare.includes(propertyId)) {
+        return [...prevCompare, propertyId];
+      }
+      return prevCompare;
+    });
   };
 
   return (
@@ -138,12 +147,20 @@ const Cards = ({ properties, cityName, propertyAction }) => {
                       }
                   </Popup>
                   
-                  <a href="#">
+                  <button
+                    onClick={() => {
+                      addPropertyToCompare(property._id);
+                      console.log('auys');
+                      console.log(property._id);
+
+                    }}
+                    className="compare-btn"
+                  >
                     <IoAdd
                       className="card_icon"
                       style={{ color: "#000000", fontSize: "12px" }}
                     />
-                  </a>
+                  </button>
                   <a href="#">
                     <CiHeart className="card_icon text-red-500" />
                   </a>
