@@ -33,13 +33,13 @@ class Service {
 
   static async fetchProperty() {
     try {
-      console.log(`Fetching from: ${BASE_URL}property`);
+    //  console.log(`Fetching from: ${BASE_URL}property`);
       const response = await axios.get(`${BASE_URL}property`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log("Response received:", response.data);
+    //  console.log("Response received:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error in fetchProperty:", error.response || error);
@@ -49,7 +49,7 @@ class Service {
 // fetching properties dynamically from slug
   static async fetchPropertyBySlug (slug) {
    try {
-     console.log(`Fetching from: ${BASE_URL}property/slug/${slug}`);
+  //   console.log(`Fetching from: ${BASE_URL}property/slug/${slug}`);
      const response = await axios.get(`${BASE_URL}property/slug/${slug}`, {
      headers: {
        "Content-Type": "application/json",

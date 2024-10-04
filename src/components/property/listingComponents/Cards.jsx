@@ -43,11 +43,11 @@ const Cards = ({ properties, cityName, propertyAction }) => {
     nextArrow: <NextArrow />,
     draggable: false,
   };
-
+  const normalizedProperties = Array.isArray(properties) ? properties : [properties]; // Ensure properties is an array
   return (
     <div>
       <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {Array.isArray(properties) && properties.map((property) => (
+      {normalizedProperties.map((property) => (
           <li
             key={property._id}
             className="property-card bg-white border border-grey-200 shadow-lg relative"
@@ -205,7 +205,7 @@ const Cards = ({ properties, cityName, propertyAction }) => {
               </div>
               <div className="card-footer-actions">
                 <button
-                  onClick={() => navigate(`/property/${property._id}`)}
+                  onClick={() => navigate(`/property/${property.slug}`)}
                   className="card-footer-actions-btn"
                 >
                   SHOW MORE

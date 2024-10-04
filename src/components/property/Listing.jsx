@@ -45,7 +45,7 @@ const Listing = () => {
         ? await Service.fetchPropertyBySlug(slug)
         : await Service.fetchProperty()
         setProperties(propertyData || []); // Ensure propertyData is an array
-        console.log(propertyData);
+      //  console.log(propertyData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching properties:", error);
