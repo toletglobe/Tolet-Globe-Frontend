@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import drop from "../../../assets/property/drop.png";
-import { useNavigate} from "react-router-dom";
-import { BASE_URL } from "../../../constant/constant";
 import axios from "axios";
-const Filters = ({SetIsOpen}) => {
+const Filters = ({SetIsOpen, setProperties}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
     minPrice: "",
@@ -16,7 +14,6 @@ const Filters = ({SetIsOpen}) => {
     moveInDate: "",
     houseType: "",
   });
-  const navigate = useNavigate();
   const handleFilterChange = (key, value) => {
     setFilters({
       ...filters,
@@ -58,13 +55,14 @@ const Filters = ({SetIsOpen}) => {
       })
       .join("&");
 
- //   console.log(queryString);
-    navigate(`/property-listing?${queryString}`);
-    const url = `${BASE_URL}property/filter?${queryString}`;
+    console.log(queryString);
+
+    const url = `http://localhost:8000/api/v1/property/filter?${queryString}`;
 
     try {
       const response = await axios.get(url);
       console.log(response.data);
+      setProperties(response.data.data); // Update properties with the filtered results
       if (response.data.data.length === 0) {
         // Handle no results
         console.log("No results found");
@@ -155,25 +153,37 @@ const Filters = ({SetIsOpen}) => {
             <div className="flex flex-wrap gap-2">
               <div
                 className={`hover:cursor-pointer h-8 w-24 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                  filters.residential === "+ Flat"
+                  filters.residential === "Flat"
                     ? "bg-[#4A7F79] text-white"
                     : ""
                 }`}
-                onClick={() => handleFilterChange("residential", "+ Flat")}
+                onClick={() => handleFilterChange("residential", "Flat")}
               >
                 + Flat
               </div>
               <div
                 className={`hover:cursor-pointer h-8 w-32 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                  filters.residential === "+ House/Villa"
+                  filters.residential === "House"
                     ? "bg-[#4A7F79] text-white"
                     : ""
                 }`}
                 onClick={() =>
-                  handleFilterChange("residential", "+ House/Villa")
+                  handleFilterChange("residential", "House")
                 }
               >
-                + House/Villa
+                + House
+              </div>
+              <div
+                className={`hover:cursor-pointer h-8 w-32 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
+                  filters.residential === "Villa"
+                    ? "bg-[#4A7F79] text-white"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleFilterChange("residential", "Villa")
+                }
+              >
+                + Villa
               </div>
             </div>
           </div>
@@ -184,10 +194,13 @@ const Filters = ({SetIsOpen}) => {
             </p>
             <div className="flex flex-wrap items-center justify-between gap-2">
               {[
-                "+ Office Space",
-                "+ Shop/Showroom",
-                "+ Warehouse/Godown",
-                "+ Building/Complex",
+                "Office Space",
+                "Shop",
+                "ShowRoom",
+                "Warehouse",
+                "Godown",
+                "Building",
+                "Complex"
               ].map((type, index) => (
                 <div
                   key={index}
@@ -208,11 +221,11 @@ const Filters = ({SetIsOpen}) => {
             </p>
             <div
               className={`hover:cursor-pointer w-32 h-10 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center ${
-                filters.others === "+ Farm house"
+                filters.others === "Farm house"
                   ? "bg-[#4A7F79] text-white"
                   : ""
               }`}
-              onClick={() => handleFilterChange("others", "+ Farm house")}
+              onClick={() => handleFilterChange("others", "Farm house")}
             >
               + Farm house
             </div>
