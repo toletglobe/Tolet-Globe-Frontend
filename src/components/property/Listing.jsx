@@ -15,7 +15,8 @@ import SelectLocation from "./listingComponents/SelectLocation";
 import Filters from "./listingComponents/Filters";
 import Cards from "./listingComponents/Cards";
 import Pagination from "./listingComponents/Pagination";
-import ClipLoader from "react-spinners/ClipLoader"; // Assuming you're using react-spinners
+import { useParams } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 const Listing = () => {
   const [Hamburger, SetHamburger] = useState(false);
@@ -36,20 +37,25 @@ const Listing = () => {
   function handleHamburger() {
     SetHamburger(!Hamburger);
   }
-  function handleMode() {
-    setMode(!mode);
-  }
   function handleLocation() {
     setLocation(!Location);
   }
+  const {slug} = useParams();
+  function handleMode() {
+    setMode(!mode);
+  }
+
 
 
   useEffect(() => {
     const fetchProperties = async () => {
       setLoading(true);
       try {
-        const propertyData = await Service.fetchProperty();
-        setProperties(propertyData || []);
+        const propertyData = slug
+        ? await Service.fetchPropertyBySlug(slug)
+        : await Service.fetchProperty()
+        setProperties(propertyData || []); // Ensure propertyData is an array
+      //  console.log(propertyData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching properties:", error);
@@ -58,41 +64,7 @@ const Listing = () => {
     };
 
     fetchProperties();
-  }, []);
-
-  // Watch for changes in the query parameter and apply sorting
-  useEffect(() => {
-    const query = new URLSearchParams(window.location.search); // Check this change
-    const sortType = query.get("sort");
-
-    if (sortType) {
-      sortProperties(sortType);
-    }
-  }, [window.location.search]);
-
-  // Sorting logic based on the query parameter
-  const sortProperties = (sortType) => {
-    let sortedProperties = [...properties];
-
-    if (sortType === "price-low-high") {
-      sortedProperties.sort((a, b) => a.rent - b.rent);
-      console.log("helloo");
-
-    } else if (sortType === "price-high-low") {
-      sortedProperties.sort((a, b) => b.rent - a.rent);
-      console.log("helloo");
-
-    } else if (sortType === "most-trending") {
-      // Assuming you have a "trendingScore" or similar property
-      sortedProperties.sort((a, b) => b.reviews.length - a.reviews.length);
-
-    } else if (sortType === "date-uploaded") {
-      // Assuming you have a "dateUploaded" field
-      sortedProperties.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    }
-
-    setProperties(sortedProperties); // Update the state with sorted properties
-  };
+  }, [slug]);
 
   // Calculate total pages
   const totalPages = Math.ceil(properties.length / propertiesPerPage);
@@ -100,10 +72,12 @@ const Listing = () => {
   // Get current properties
   const indexOfLastProperty = currentPage * propertiesPerPage;
   const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  const currentProperties = properties.slice(
+  const currentProperties = Array.isArray(properties) 
+  ? properties.slice(
     indexOfFirstProperty,
     indexOfLastProperty
-  );
+  ) 
+  : [];
 
   const handleSortClick = (sortType) => {
     const queryParams = new URLSearchParams(location.search);

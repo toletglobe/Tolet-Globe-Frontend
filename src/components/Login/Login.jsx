@@ -36,14 +36,14 @@ const Login = () => {
         password,
       });
 
-      // console.log(res.data);
+//     console.log(res.data);
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         dispatch(login({
           token: res.data.token,
           userData: {
-            username: res.data.user.username,
+            firstName: res.data.user.firstName,
             email: res.data.user.email,
             role: res.data.user.role,
           },
