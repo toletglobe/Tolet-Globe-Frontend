@@ -265,7 +265,7 @@ function Reviews({ reviewData }) {
                   </div>
                 </div>
 
-                <div class="w-full py-4">
+                <div className="w-full py-4">
                   <p
                     id="text"
                     ref={(el) => (reviewRefs.current[index] = el)}

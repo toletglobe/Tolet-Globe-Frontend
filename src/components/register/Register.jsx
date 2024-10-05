@@ -70,10 +70,10 @@ const Register = () => {
   };
 
   return (
-    <div className="register_form_container relative flex items-center justify-center my-10 overflow-hidden w-[400px] h-[685px] max-w-[400px] max-h-[685px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16">
+    <div className={`register_form_container relative flex items-center justify-center my-10 overflow-hidden ${role==="user" ? 'h-[785px]' : 'h-[700px]' } w-[400px]  max-w-[400px] max-h-[785px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16 `}>
       {/* <div className="absolute inset-0 w-[190%] h-[190%] animate-rotate-border"></div>
       <div className="absolute inset-0 w-[190%] h-[190%] animate-rotate-border animate-delay-[-3s]"></div> */}
-      <div className="relative bg-black rounded-[50px_5px] p-[43px_40px] text-white z-10 min-h-[650px] border-4 border-transparent">
+      <div className="absolute inset-1 bg-black rounded-[50px_5px] p-[43px_40px] text-white z-10 min-h-[650px] border-4 border-transparent">
         {" "}
         {/* Added min-h-[650px] */}
         <h2 className="text-4xl font-semibold text-center">Register</h2>
@@ -146,7 +146,7 @@ const Register = () => {
               id="role"
               value={role}
               onChange={handleRoleChange}
-              className="w-full h-8 bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              className="w-full h-8 text-sm bg-black border-b border-white text-[#3CBDB1] placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 outline-none"
             >
               <option
                 value=""
@@ -206,7 +206,7 @@ const Register = () => {
               required
             />
           </div>
-          <div className="relative w-[300px] h-[40px] mt-[70px] transition-all">
+          <div className="relative w-[300px] h-[40px] mt-[40px] ml-2 transition-all">
             <button
               type="submit"
               className="absolute w-full h-full text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
