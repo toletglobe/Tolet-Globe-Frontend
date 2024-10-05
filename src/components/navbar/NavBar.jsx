@@ -220,7 +220,11 @@ const NavBar = () => {
                         <li className="font-extrabold p-3 w-full text-center bg-gray-200 ">
                          {authState.userData ? authState.userData.firstName?.toUpperCase() : "User" }
                         </li>
-                        <li className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg">
+                        <li
+                          
+                          onClick={() => { navigate("/landlord-dashboard"); setIsMenuOpen(false); } }
+                          
+                          className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg">
                           <ComputerDesktopIcon className="w-[18px] h-[18px] mr-2" />{" "}
                           Dashboard
                         </li>

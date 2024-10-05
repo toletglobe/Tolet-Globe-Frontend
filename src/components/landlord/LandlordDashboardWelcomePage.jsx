@@ -1,24 +1,48 @@
 import propertyimage1 from "../../assets/property/blog-1.png";
 import propertyimage2 from "../../assets/property/blog-2.jpg";
 import propertyimage3 from "../../assets/property/blog-3.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { MdMoreVert } from "react-icons/md";
 
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 const LandlordDashboard = () => {
+  const phoneRef = useRef(null);
+
+  const navigate = useNavigate();
+
+  const phone = 8707727347;
+
+  const [showNumber, setShowNumber] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (phoneRef.current && !event.target.closest(".contact-support-box")) {
+        setShowNumber(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   // States to track liked status for each property
   const [likedProperties, setLikedProperties] = useState([false, false, false]);
 
   // Handle like button click
-  const handleLikeClick = (index) => {
-    const updatedLikes = likedProperties.map((liked, i) =>
-      i === index ? !liked : liked
-    );
-    setLikedProperties(updatedLikes);
-  };
+  // const handleLikeClick = (index) => {
+  //   const updatedLikes = likedProperties.map((liked, i) =>
+  //     i === index ? !liked : liked
+  //   );
+  //   setLikedProperties(updatedLikes);
+  // };
 
   const cardContent = [
     {
@@ -119,61 +143,91 @@ const LandlordDashboard = () => {
   ));
 
   return (
-    <div className="min-h-screen flex">
-
-      <div className="flex-1 bg-black text-white p-10">
-        
-        {/* Header (Welcome Message) */}
-        <div className="p-10">
-          <h1 className="text-3xl font-bold -mt-5">
-            Welcome to your Landlord Dashboard
-          </h1>
-        </div>
-        {/* Quick Actions */}
-        <div className="px-10 space-y-6">
-          <h2 className="text-xl font-semibold text-left">Quick Actions</h2>
-          <div className="flex justify-between items-center border border-yellow-500 p-6 rounded-xl">
-            <div>
-              <h2 className="text-xl font-semibold text-left">
-                Add a new property
-              </h2>
-              <p className="text-gray-400">
-                Easily add a property to your account
-              </p>
-            </div>
-            <button className="bg-gray-800 text-white py-2 px-6 rounded">
-              Add Property
-            </button>
+    <div className="flex-1 bg-black text-white">
+      {/* Header (Welcome Message) */}
+      <div className="mt-5 mb-8">
+        <h1 className="text-4xl font-bold">
+          Welcome to your Landlord Dashboard
+        </h1>
+      </div>
+      {/* Quick Actions */}
+      <div className="flex flex-col gap-y-8">
+        <h2 className="text-xl font-bold text-left">Quick Actions</h2>
+        <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl">
+          <div>
+            <h2 className="text-lg font-bold text-left">Add a new property</h2>
+            <p className="text-gray-400">
+              Easily add a property to your account
+            </p>
           </div>
+          <button
+            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer"
+            onClick={() => {
+              navigate("/landlord-dashboard", {
+                state: { content: "AddProperty" },
+              });
+            }}
+          >
+            Add Property
+          </button>
+        </div>
 
-          <div className="flex justify-between items-center border border-yellow-500 p-6 rounded-xl">
-            <div>
-              <h2 className="text-xl font-semibold text-left">
-                Get help with an issue
-              </h2>
-              <p className="text-gray-400">
-                Need help with something? We're here to help
-              </p>
-            </div>
-            <button className="bg-gray-800 text-white py-2 px-6 rounded flex items-center">
+        <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl">
+          <div>
+            <h2 className="text-lg font-bold text-left">
+              Get help with an issue
+            </h2>
+            <p className="text-lg leading-7 text-[#ABADB0]">
+              Need help with something? We're here to help
+            </p>
+          </div>
+          <div className="relative">
+            <button
+              className="bg-gray-800 text-white py-2 px-6 rounded flex items-center cursor-pointer contact-support-box"
+              onClick={() => {
+                setShowNumber(!showNumber);
+              }}
+            >
               <span className="mr-2">🎧</span> Contact Support
             </button>
+
+            {showNumber && (
+              <div
+                ref={phoneRef}
+                className="absolute w-[100%] h-[100%] border-[1.5px] border-gray-500 bg-gray-800 text-white py-2 px-6 rounded flex justify-between"
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+              >
+                {phone}
+                <FontAwesomeIcon
+                  icon={faCopy}
+                  className="mt-[2px] cursor-pointer"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${phone}`);
+                    setShowNumber(false);
+                  }}
+                ></FontAwesomeIcon>
+              </div>
+            )}
           </div>
         </div>
-        {/* Recent Properties */}
-        <div className="properties px-10 mt-8">
-          <h2 className="text-2xl font-semibold mb-4">Recent Properties</h2>
-          <div className="grid grid-cols-3 gap-6">
-            {cards}
+      </div>
+      {/* Recent Properties */}
+      <div className="mt-8">
+        <h2 className="text-2xl text-left font-semibold mb-4">
+          Recent Properties
+        </h2>
+        <div className="grid grid-cols-3">
+          {cards}
 
-            {/* import MyProperty */}
-            {/* <MyProperty /> */}
-          </div>
-          <div className="flex justify-end mt-6">
-            <button className="bg-gray-800 text-white py-2 px-4 rounded">
-              View all (3)
-            </button>
-          </div>
+          {/* import MyProperty */}
+          {/* <MyProperty /> */}
+        </div>
+        <div className="flex justify-end mt-6">
+          <button className="bg-gray-800 text-white py-2 px-4 rounded">
+            View all (3)
+          </button>
         </div>
       </div>
     </div>
@@ -181,101 +235,3 @@ const LandlordDashboard = () => {
 };
 
 export default LandlordDashboard;
-
-{
-  /* <div className="px-10 mt-8"> */
-}
-//           <h2 className="text-2xl font-semibold mb-4">Recent Properties</h2>
-//           <div className="grid grid-cols-3 gap-6">
-//             {/* Property Card 1 */}
-//             <div className="bg-black p-4 rounded-md">
-//               <img
-//                 src={propertyimage1}
-//                 alt="Property"
-//                 className="w-full h-40 object-cover rounded-md mb-4"
-//               />
-//               <div className="flex justify-between items-center">
-//                 <h3 className="text-lg font-semibold">Name</h3>
-//                 <div className="flex items-center space-x-4">
-//                   <FontAwesomeIcon
-//                     icon={faHeart}
-//                     className={`cursor-pointer ${
-//                       likedProperties[0] ? "text-red-500" : "text-gray-500"
-//                     }`}
-//                     onClick={() => handleLikeClick(0)}
-//                   />
-//                   <FontAwesomeIcon
-//                     icon={faShareAlt}
-//                     className="text-green-500"
-//                   />
-//                   <FontAwesomeIcon
-//                     icon={faEllipsisV}
-//                     className="text-gray-500"
-//                   />
-//                 </div>
-//               </div>
-//               <p className="text-gray-400">Gomti Nagar, Lucknow, India</p>
-//               <p className="text-gray-400">Price</p>
-//             </div>
-
-//             {/* Property Card 2 */}
-//             <div className="bg-black p-4 rounded-md">
-//               <img
-//                 src={propertyimage2}
-//                 alt="Property"
-//                 className="w-full h-40 object-cover rounded-md mb-4"
-//               />
-//               <div className="flex justify-between items-center">
-//                 <h3 className="text-lg font-semibold">Name</h3>
-//                 <div className="flex items-center space-x-4">
-//                   <FontAwesomeIcon
-//                     icon={faHeart}
-//                     className={`cursor-pointer ${
-//                       likedProperties[1] ? "text-red-500" : "text-gray-500"
-//                     }`}
-//                     onClick={() => handleLikeClick(1)}
-//                   />
-//                   <FontAwesomeIcon
-//                     icon={faShareAlt}
-//                     className="text-green-500"
-//                   />
-//                   <FontAwesomeIcon
-//                     icon={faEllipsisV}
-//                     className="text-gray-500"
-//                   />
-//                 </div>
-//               </div>
-//               <p className="text-gray-400">Gomti Nagar, Lucknow, India</p>
-//               <p className="text-gray-400">Price</p>
-//             </div>
-
-//             {/* Property Card 3 */}
-//             <div className="bg-black p-4 rounded-md">
-//               <img
-//                 src={propertyimage3}
-//                 alt="Property"
-//                 className="w-full h-40 object-cover rounded-md mb-4"
-//               />
-//               <div className="flex justify-between items-center">
-//                 <h3 className="text-lg font-semibold">Name</h3>
-//                 <div className="flex items-center space-x-4">
-//                   <FontAwesomeIcon
-//                     icon={faHeart}
-//                     className={`cursor-pointer ${
-//                       likedProperties[2] ? "text-red-500" : "text-gray-500"
-//                     }`}
-//                     onClick={() => handleLikeClick(2)}
-//                   />
-//                   <FontAwesomeIcon
-//                     icon={faShareAlt}
-//                     className="text-green-500"
-//                   />
-//                   <FontAwesomeIcon
-//                     icon={faEllipsisV}
-//                     className="text-gray-500"
-//                   />
-//                 </div>
-//               </div>
-//               <p className="text-gray-400">Gomti Nagar, Lucknow, India</p>
-//               <p className="text-gray-400">Price</p>
-//             </div>

@@ -1,13 +1,18 @@
 import React from "react";
 import side from "../../../assets/property/side.png";
+import { useNavigate } from "react-router-dom";
+
 const SideOpt = () => {
+
+  const navigate = useNavigate();
+
   return (
     <div>
       <div className=" flex w-full py-3 px-4 border-b-2 border-[#D9D9D9] ">
         <p className="lg:text-xl md:text-xl text-lg font-semibold mb-2 w-3/4">
           Sign in to get a personalized feed!
         </p>
-        <button className="h-10 w-2/4 rounded-xl bg-[#40B5A8] text-white font-semibold hover:bg-[#36a094] transition">
+        <button className="h-10 w-2/4 rounded-xl bg-[#40B5A8] text-white font-semibold hover:bg-[#36a094] transition" onClick={ () => { navigate('/login') }}>
           Login
         </button>
       </div>
