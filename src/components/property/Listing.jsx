@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -28,6 +28,7 @@ const Listing = () => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(false);
   const [Location, setLocation] = useState(false);
+  const location = useLocation();
 
   const authState = useSelector((state) => state.auth);
 
@@ -48,24 +49,68 @@ const Listing = () => {
 
 
   useEffect(() => {
-    const fetchProperties = async () => {
+    const fetchAndFilterProperties = async () => {
       setLoading(true);
       try {
+        // Fetch properties
         const propertyData = slug
         ? await Service.fetchPropertyBySlug(slug)
         : await Service.fetchProperty()
         setProperties(propertyData || []); // Ensure propertyData is an array
-      //  console.log(propertyData);
+      //  console.log(propertyData); // Ensure propertyData is an array
+  
+        // Check for filters
+        const searchParams = new URLSearchParams(location.search);
+        const type = searchParams.get("type");
+        console.log("Type of property:", type);
+  
+        // Apply filtering based on type
+        if (type === 'Flat') {
+          setProperties(propertyData.filter((a) => a.propertyType === "Flat"));
+        } else if (type === 'House/Villa') {
+          setProperties(propertyData.filter((a) => a.propertyType === "House" || a.propertyType === "Villa"));
+        } else if (type === 'Shop') {
+          setProperties(propertyData.filter((a) => a.propertyType === "Shop"));
+        } else if (type === 'Office') {
+          setProperties(propertyData.filter((a) => a.propertyType === "Office"));
+        } else if (type === 'Warehouse') {
+          setProperties(propertyData.filter((a) => a.propertyType === "Ware house"));
+        } else if (type === 'PayingGuest') {
+          setProperties(propertyData.filter((a) => a.propertyType === "Paying Guest"));
+        }
+  
+        // Check for sorting
+        const sortType = searchParams.get("sort");
+        if (sortType) {
+          sortProperties(propertyData, sortType);
+        }
+  
         setLoading(false);
       } catch (error) {
         console.error("Error fetching properties:", error);
         setLoading(false);
       }
     };
+  
+    fetchAndFilterProperties();
+  }, [location.search]);
 
-    fetchProperties();
-  }, [slug]);
+// Sorting logic
+const sortProperties = (properties, sortType) => {
+  let sortedProperties = [...properties];
 
+  if (sortType === "price-low-high") {
+    sortedProperties.sort((a, b) => a.rent - b.rent);
+  } else if (sortType === "price-high-low") {
+    sortedProperties.sort((a, b) => b.rent - a.rent);
+  } else if (sortType === "most-trending") {
+    sortedProperties.sort((a, b) => b.reviews.length - a.reviews.length);
+  } else if (sortType === "date-uploaded") {
+    sortedProperties.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }
+
+  setProperties(sortedProperties);
+};
   // Calculate total pages
   const totalPages = Math.ceil(properties.length / propertiesPerPage);
 
