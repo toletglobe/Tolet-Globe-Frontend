@@ -14,6 +14,7 @@ import { IoIosAdd } from "react-icons/io";
 import profile from "../../../assets/property/author.jpg";
 import fav from "../../../assets/property/Vector.png";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { ClipLoader } from "react-spinners";
 
 const Flow2a = () => {
   const { id } = useParams();
@@ -57,13 +58,19 @@ const Flow2a = () => {
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex + 1) % (property?.photos?.length || 1)
+    setCurrentIndex(
+      (prevIndex) => (prevIndex + 1) % (property?.photos?.length || 1)
     );
     setSelectedImage(property?.photos[currentIndex] || img1);
   };
 
-  if (!property) return <p>Loading...</p>; // Add a loading state
+  if (!property) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} />
+      </div>
+    );
+  } // Add a
   return (
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
@@ -106,7 +113,7 @@ const Flow2a = () => {
           />
         </div>
       </div>
-      
+
       {/* Caption Section */}
       <div className="text-center -mt-4 relative">
         <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
@@ -136,22 +143,26 @@ const Flow2a = () => {
             </p>
           </div>
 
-
           <div className="border border-gray-600 rounded-lg flex justify-between gap-x-4 pl-3 pr-3 mb-4 md:mb-0">
-
             <div className="p-1">
               <p className="block text-center text-gray-400">Monthly rent</p>
-              <h3 className="text-white text-center text-3xl md:text-2xl">Rs. {property?.rent}</h3>
+              <h3 className="text-white text-center text-3xl md:text-2xl">
+                Rs. {property?.rent}
+              </h3>
             </div>
             <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
               <p className="block text-center">Bhk</p>
-              <h3 className="text-white text-center text-3xl md:text-2xl">{property?.bhk} bhk</h3>
+              <h3 className="text-white text-center text-3xl md:text-2xl">
+                {property?.bhk} bhk
+              </h3>
             </div>
             <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
               <p className="block text-center">Floor</p>
-              <h3 className="text-white text-center text-3xl md:text-2xl">{property?.floor}</h3>
+              <h3 className="text-white text-center text-3xl md:text-2xl">
+                {property?.floor}
+              </h3>
             </div>
           </div>
         </div>

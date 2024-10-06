@@ -1,34 +1,29 @@
-
-export default function Frm4({formData, setFormData}) {
- 
-
+export default function Frm4({ formData, setFormData }) {
   const handleSelectChangeApp = (e) => {
     const options = e.target.options;
     let selected = [];
-
-    for (let i = 0; i < options.length; i++){
-      if (options[i].selected) {
-        selected.push(options[i].value)
-      }
-    }
-
-    setFormData((formData) => { return { ...formData, appliances: selected } });
-
-  }
-
-  const handleSelectChangeAmen = (e) => {
-    const options = e.target.options;
-    let selected = [];
-
-    for (let i = 0; i < options.length; i++){
+    for (let i = 0; i < options.length; i++) {
       if (options[i].selected) {
         selected.push(options[i].value);
       }
     }
+    setFormData((formData) => {
+      return { ...formData, appliances: selected };
+    });
+  };
 
-    setFormData((formData) => { return { ...formData, amenities: selected } });
-  }
-
+  const handleSelectChangeAmen = (e) => {
+    const options = e.target.options;
+    let selected = [];
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) {
+        selected.push(options[i].value);
+      }
+    }
+    setFormData((formData) => {
+      return { ...formData, amenities: selected };
+    });
+  };
 
   return (
     <>
