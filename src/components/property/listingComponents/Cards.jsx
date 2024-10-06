@@ -35,7 +35,6 @@ const Cards = ({
   properties,
   cityName,
   propertyAction,
-  props,
   handleToggle,
   isInCompareList,
 }) => {
@@ -55,32 +54,6 @@ const Cards = ({
   const normalizedProperties = Array.isArray(properties)
     ? properties
     : [properties]; // Ensure properties is an array
-
-  // Property Add and remove function to compare Property
-  // const handleToggle = (event, property) => {
-  //   event.preventDefault();
-
-  //   props.setcompareData((prev) => {
-  //     // Check if the property is already in the selected list
-  //     const isAlreadySelected = prev.some((p) => p._id === property._id);
-
-  //     // If the property is already selected, remove it
-  //     if (isAlreadySelected) {
-  //       return prev.filter((p) => p._id !== property._id);
-  //     }
-
-  //     // If the property is not selected and the list has fewer than 4 items, add it
-  //     if (prev.length < 4) {
-  //       return [...prev, property];
-  //     } else {
-  //       return prev;
-  //     }
-  //   });
-  // };
-
-  // const isInCompareList = (propertyId) => {
-  //   return compareData.some((p) => p._id === propertyId);
-  // };
 
   return (
     <div>

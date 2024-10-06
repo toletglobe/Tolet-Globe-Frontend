@@ -187,9 +187,6 @@ const Listing = (props) => {
   return (
     <>
       <div
-        // className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
-        //   isOpen || Hamburger || Location ? "block" : "hidden"
-        // }`}
         className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
           isOpen || Hamburger || Location ? "block" : "hidden"
         }`}
@@ -245,7 +242,7 @@ const Listing = (props) => {
                       <div
                         className={`${
                           mode ? "block" : "hidden"
-                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-0`}
+                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
                       >
                         <p
                           className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
@@ -385,7 +382,6 @@ const Listing = (props) => {
 
           <Cards
             properties={properties}
-            props={props}
             handleToggle={handleToggle}
             isInCompareList={isInCompareList}
           />
