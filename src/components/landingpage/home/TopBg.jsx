@@ -43,7 +43,7 @@ const TopBg = () => {
   return (
     <>
       {/* -----------------Top Component----------------- */}
-      <div className="w-[6.8rem] -translate-y-[400px] translate-x-[400px]">
+      <div className="w-[6.8rem] -translate-y-[300px] translate-x-[650px]">
         <div className="top-img">
           {/* ---------- Birds Image ---------- */}
 

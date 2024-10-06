@@ -23,7 +23,7 @@ const HomeDown = () => {
           <h1
             className={`absolute transform text-3xl sm:text-[2.3rem] font-light text-white tracking-widest transition-all lg:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms]  ease-in-out ${
               isScrolled
-                ? "left-[5%] top-[12.5rem] lg:top-[19rem] opacity-100"
+                ? "left-[5%] top-[12.5rem] lg:top-[19rem] opacity-100 text-[40px] leading-[60px]"
                 : "left-[30%] top-[12.5rem] lg:top-[19rem] opacity-0"
             } `}
           >
@@ -32,7 +32,7 @@ const HomeDown = () => {
           <h6
             className={`absolute transform text-center text-[#c8a21c] font-light transition-all lg:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms]  ease-in-out ${
               isScrolled
-                ? "left-[5%] top-[17rem] lg:left-[8%] lg:top-[23rem] opacity-100"
+                ? "left-[5%] top-[17rem] lg:left-[5%] lg:top-[23rem] text-[20px] leading-[30px] font-normal text-[#2f988d] opacity-100"
                 : "left-[30%] top-[17rem] lg:top-[23rem] opacity-0"
             } `}
           >
@@ -41,19 +41,19 @@ const HomeDown = () => {
           <div
             className={` absolute transform transition-all lg:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms] ease-in-out w-[20%] ${
               isScrolled
-                ? "left-[5%] w-[20%] top-[42%] lg:top-[53%] lg:w-[33%] opacity-100"
+                ? "left-[5%] w-[20%] top-[42%] lg:top-[58%] lg:w-[33%] opacity-100"
                 : "left-[30%] w-[20%] top-[39%] lg:top-[56%] lg:w-[33%] opacity-0"
             } `}
             id="inputGroup"
           >
             <div className="flex">
               <input
-                className="flex-1 py-2 px-4 border border-gray-300 bg-white rounded-l-md"
+                className="flex-1 py-2 border border-gray-300 bg-white rounded-l-md rounded-r-0 text-center text-[15px] text-[#5a5656] font-normal"
                 placeholder="Search PG, Flats and Houses"
                 aria-label="Search PG, Flats and Houses"
               />
               <button
-                className="bg-[#40b5a8] text-white rounded-r-md px-4"
+                className="bg-[#1d5f58] text-white rounded-r-md px-4"
                 onClick={() => console.log("connect")}
               >
                 Search

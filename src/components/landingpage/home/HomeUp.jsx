@@ -20,7 +20,7 @@ const HomeUp = () => {
       <div className=" flex justify-center items-center h-full">
         <div className="w-full relative">
           <h1
-            className={`absolute -top-20 left-0 right-0 text-center text-white sm:text-4xl md:text-[2.6rem] text-3xl font-normal font-sans tracking-[0.3rem] transition-all duration-[1800ms] ease-in-out ${
+            className={`absolute -top-20 left-0 right-0 text-center text-white sm:text-4xl md:text-[4rem] text-3xl font-normal font-sans transition-all duration-[1800ms] ease-in-out ${
               isScrolled
                 ? "transform -translate-x-80 scale-75 opacity-0"
                 : "transform translate-x-0 scale-100 opacity-100"
@@ -35,7 +35,7 @@ const HomeUp = () => {
                 : "transform translate-x-0 scale-100 opacity-100"
             }`}
           >
-            NO BROKERAGE ON PGS | FLATS | HOUSES | OFFICES
+            NO BROKERAGES ON PGS | FLATS | HOUSES | OFFICES
           </h6>
 
           <TopBg />

@@ -39,7 +39,7 @@ function ResetPassword() {
   return (
     <div className="form-container h-[90vh]">
       <form onSubmit={(e) => handleSubmit(e)}>
-        <div className="reset_form_container relative mt-24  ml-[550px] w-[400px] h-[470px] max-w-[400px] max-h-[650px] bg-black rounded-[50px_5px] flex items-center justify-center overflow-hidden">
+        <div className="reset_form_container relative mt-24  ml-[550px] w-[400px] h-[470px] max-w-[400px] max-h-[650px] bg-black rounded-[50px_5px] flex items-center justify-center overflow-hidden before:before_reset_form_container after:after_reset_form_container">
           <div className="absolute bg-black rounded-[50px_5px] inset-1 p-[50px_40px] z-10 text-white">
             <h3 className="text-2xl font-semibold text-center">
               RESET PASSWORD

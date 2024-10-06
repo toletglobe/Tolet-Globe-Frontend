@@ -60,15 +60,15 @@ const Login = () => {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
-        <div className="login_form_container mx-auto my-40">
-          <div className="login_form">
-            <h2>Login</h2>
-            <div className="input_group">
-              <AiOutlineMail className="ml-3 text-white " />
+        <div className="login_form_container mx-auto my-24 relative w-[400px] h-[470px] max-w-[400px] max-h-[470px] bg-black rounded-tl-[50px] rounded-br-[50px] rounded-tr-[5px] rounded-bl-[5px] flex items-center justify-center overflow-hidden xl:ml-[550px] before:before_login_form_container after:after_login_form_container">
+          <div className="login_form absolute bg-black rounded-tl-[50px] rounded-br-[50px] rounded-tr-[5px] rounded-bl-[5px] inset-[5px] py-[50px] px-[40px] z-10 text-white">
+            <h2 className="text-[40px] font-semibold text-center">Login</h2>
+            <div className="input_group mt-[40px] relative flex items-center justify-start">
+              <AiOutlineMail className="ml-3 text-white text-[20px]" />
               <input
                 type="email"
                 placeholder="Email"
-                className="input_text"
+                className="input_text w-[95%] h-[30px] bg-transparent border-0 outline-0 border-b border-solid border-white text-[20px] pl-[10px] text-white placeholder:text-[15px] placeholder:text-white placeholder:tracking-[1px]"
                 autoComplete="off"
                 id="exampleInputEmail1"
                 value={email}
@@ -76,12 +76,12 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="input_group">
-              <FaLock className="ml-3 text-white" />
+            <div className="input_group mt-[40px] relative flex items-center justify-start">
+              <FaLock className="ml-3 text-white text-[20px]" />
               <input
                 type="password"
                 placeholder="Password"
-                className="input_text"
+                className="input_text w-[95%] h-[30px] bg-transparent border-0 outline-0 border-b border-solid border-white text-[20px] pl-[10px] text-white placeholder:text-[15px] placeholder:text-white placeholder:tracking-[1px]"
                 autoComplete="off"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -89,16 +89,16 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="button_group" id="login_button">
-              <button type="submit" onSubmit={handleSubmit}>
+            <div className="button_group relative w-[300px] h-[40px] duration-[1s] mt-[70px]" id="login_button">
+              <button type="submit" onSubmit={handleSubmit} className="absolute w-full h-full no-underline z-10 cursor-pointer text-[22px] border border-solid border-[#c8a217] rounded-[50px] bg-black flex justify-center items-center text-white hover:bg-[#c8a217]">
                 LOGIN
               </button>
             </div>
-            <div className="fotter">
-              <a onClick={() => navigate("/forgot-password")}>
+            <div className="fotter mt-[30px] flex justify-between">
+              <a className="no-underline cursor-pointer text-[18px] text-[#3cbdb1]" onClick={() => navigate("/forgot-password")}>
                 Forgot Password ?
               </a>
-              <a onClick={() => navigate("/register")}>Register</a>
+              <a className="no-underline cursor-pointer text-[18px] text-[#3cbdb1]" onClick={() => navigate("/register")}>Register</a>
             </div>
           </div>
         </div>
