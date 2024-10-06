@@ -4,6 +4,7 @@ import { FaLock } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { API } from "../../config/axios";
+
 function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

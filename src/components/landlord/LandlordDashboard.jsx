@@ -9,6 +9,7 @@ import LandlordDashboardAccountSecurity from "./LandlordDashboardAccountSecurity
 import { useEffect, useState } from "react";
 
 export default function LandlordDashboard() {
+  
   const location = useLocation();
 
   const [mainContent, setMainContent] = useState("Welcome");
