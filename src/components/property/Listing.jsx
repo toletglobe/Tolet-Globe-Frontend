@@ -8,7 +8,7 @@ import Service from "../../config/config";
 import author from "../../assets/property/author.jpg";
 import hamburger from "../../assets/property/hamburger.png";
 import drop from "../../assets/property/drop.png";
-import location from "../../assets/property/location.png";
+import loc from "../../assets/property/location.png";
 import cross from "../../assets/property/cross.png";
 import SideOpt from "./listingComponents/SideOpt";
 import SelectLocation from "./listingComponents/SelectLocation";
@@ -288,7 +288,7 @@ const Listing = (props) => {
                     </div>
                     <div>
                       <img
-                        src={location}
+                        src={loc}
                         alt="Location"
                         className="cursor-pointer"
                         onClick={handleLocation}
