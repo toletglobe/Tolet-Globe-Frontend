@@ -1,3 +1,4 @@
+
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -5,6 +6,7 @@ import { BASE_URL } from "../../../constant/constant";
 import axios from "axios";
 
 const Filters = ({ SetIsOpen }) => {
+
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
     bhk: [],
@@ -15,7 +17,9 @@ const Filters = ({ SetIsOpen }) => {
     genderPreference: "",
     houseType: [],
   });
+
   const navigate = useNavigate();
+
 
   const handleFilterChange = (key, value) => {
     setFilters(prevFilters => {
@@ -72,12 +76,15 @@ const Filters = ({ SetIsOpen }) => {
       })
       .join("&");
 
+
     navigate(`/property-listing?${queryString}`);
     const url = `${BASE_URL}property/filter?${queryString}`;
+
 
     try {
       const response = await axios.get(url);
       console.log(response.data);
+      setProperties(response.data.data); // Update properties with the filtered results
       if (response.data.data.length === 0) {
         console.log("No results found");
       }
@@ -123,6 +130,7 @@ const Filters = ({ SetIsOpen }) => {
           <div className="w-full mb-3">
             <p className="text-base font-medium text-[#696969] mb-2">Residential</p>
             <div className="flex flex-wrap gap-2">
+
               {["+ Flat", "+ House/Villa"].map((type, index) => (
                 <div
                   key={index}
@@ -141,6 +149,7 @@ const Filters = ({ SetIsOpen }) => {
             <p className="text-base font-medium text-[#696969] mb-2">Commercial</p>
             <div className="flex flex-wrap items-start gap-2">
               {["+ Office Space", "+ Shop/Showroom", "+ Warehouse/Godown", "+ Building/Complex"].map((type, index) => (
+
                 <div
                   key={index}
                   className={`hover:cursor-pointer h-7 w-32 text-xs font-light border border-[#4A7F79] rounded-md flex items-center justify-center ${
@@ -154,9 +163,11 @@ const Filters = ({ SetIsOpen }) => {
             </div>
           </div>
 
+
           <div className="w-full mb-3">
             <p className="text-base font-medium text-[#696969] mb-2">Others</p>
             <div className="flex">
+
               <div
                 className={`hover:cursor-pointer w-28 h-7 text-xs font-light border border-[#4A7F79] rounded-md flex items-center justify-center ${
                   filters.others === "+ Farm house" ? "bg-[#4A7F79] text-white" : ""

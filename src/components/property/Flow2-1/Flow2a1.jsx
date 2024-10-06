@@ -22,19 +22,21 @@ const Flow2a = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const { slug } = useParams();
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const propertyList = await Service.fetchPropertyById(id);
+        // const propertyList = await Service.fetchPropertyById(id);  // use this in case of fetching old properties and comment the below one
+        const propertyList = await Service.fetchPropertyBySlug(slug);
         setProperty(propertyList);
-        console.log(propertyList);
+        // console.log(propertyList);
       } catch (error) {
         console.error("Error fetching property:", error);
       }
     };
 
     fetchProperty();
-  }, [id]);
+  }, [slug]);
 
   const openModal = (image, index) => {
     setSelectedImage(image);
