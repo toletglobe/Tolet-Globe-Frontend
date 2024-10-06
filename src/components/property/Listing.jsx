@@ -303,21 +303,31 @@ const sortProperties = (properties, sortType) => {
           </div>
 
           <div
-            className={`min-w-full min-h-fit absolute z-30 top-32 flex items-start justify-center gap-5 ${
-              isOpen ? "block" : "hidden"
-            }`}
-          >
-            <div>
-              <img
-                src={cross}
-                alt="Close"
-                onClick={handleOpen}
-                className="cursor-pointer lg:static md:static absolute lg:bg-transparent md:bg-transparent bg-black rounded-full top-3 right-56 w-9 lg:w-20 md:w-20 z-50"
-              />
-            </div>
 
-            <Filters />
-          </div>
+              className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
+                isOpen ? "block" : "hidden"
+              } `}
+            >
+              <div className="relative w-full max-w-lg">
+                <Filters SetIsOpen={SetIsOpen}/>
+                <div className="absolute top-1 right-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    onClick={handleOpen}
+                    className="cursor-pointer w-5 lg:w-6 md:w-6 z-50 text-red-400 hover:text-red-800 transition-colors duration-300"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+            </div>
 
           <Cards properties={properties} />
         </div>
