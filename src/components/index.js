@@ -62,7 +62,7 @@ import AboutUs from "./About/AboutUs";
 
 //Landlord Page
 
-import LandlordPage from "./Landlord/LandlordPage.jsx"
+import LandlordPage from "./landlord/LandlordPage.jsx"
 import LandlordDashboard from "./landlord/LandlordDashboard.jsx";
 
 
