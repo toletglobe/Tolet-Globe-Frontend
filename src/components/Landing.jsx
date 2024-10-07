@@ -10,8 +10,9 @@ const Landing = () => {
       <Homepage />
       <Service />
       <About />
-      <PropertyCarousel />
+      <PropertyCarousel/>
       <ContactUs />
+      
     </div>
   );
 };

@@ -3,14 +3,42 @@ body{
 }
 
 
+
 /* Transition Animition css*/
 .register_form_container::before {
-  @apply absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#3cbdb1)] animate-rotate_border;
-  content: '';
+  position: absolute;
+  width: 170%;
+  height: 170%;
+  content: "";
+  background-image: conic-gradient(
+    transparent,
+    transparent,
+    transparent,
+    #3cbdb1
+  );
+  animation: rotate_border 6s linear infinite;
 }
 
 .register_form_container::after {
-  @apply absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#c8a217)] animate-rotate_border;
-  content: '';
+  position: absolute;
+  width: 170%;
+  height: 170%;
+  content: "";
+  background-image: conic-gradient(
+    transparent,
+    transparent,
+    transparent,
+    #c8a217
+  );
+  animation: rotate_border 6s linear infinite;
   animation-delay: -3s;
+}
+
+@keyframes rotate_border {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
