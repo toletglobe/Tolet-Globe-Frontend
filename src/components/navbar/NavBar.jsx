@@ -208,7 +208,7 @@ const NavBar = () => {
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className="rounded-full relative flex justify-center items-center w-9 h-9 mx-3 text-white bg-teal-500"
                   >
-                      <img
+                    <img
                       src={userIcon}
                       alt="avatar"
                       className="w-full h-full rounded-full p-1"
@@ -218,13 +218,17 @@ const NavBar = () => {
                     <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#120404] bg-white rounded-lg">
                       <ul className="w-ful flex flex-col items-start">
                         <li className="font-extrabold p-3 w-full text-center bg-gray-200 ">
-                         {authState.userData ? authState.userData.firstName?.toUpperCase() : "User" }
+                          {authState.userData
+                            ? authState.userData.firstName?.toUpperCase()
+                            : "User"}
                         </li>
                         <li
-                          
-                          onClick={() => { navigate("/landlord-dashboard"); setIsMenuOpen(false); } }
-                          
-                          className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg">
+                          onClick={() => {
+                            navigate("/landlord-dashboard");
+                            setIsMenuOpen(false);
+                          }}
+                          className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg"
+                        >
                           <ComputerDesktopIcon className="w-[18px] h-[18px] mr-2" />{" "}
                           Dashboard
                         </li>

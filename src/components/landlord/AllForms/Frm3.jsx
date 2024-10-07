@@ -1,42 +1,38 @@
 export default function Frm3({ formData, setFormData }) {
-
   const handleimagesubmit = (e) => {
     if (formData.images.length >= 10) {
       alert("We admit at most 10 images");
       return;
     }
 
-   if (e.target.files.length == 1) {
+    if (e.target.files.length == 1) {
       const file = e.target.files[0];
 
-     setFormData((formData) => {
-       return {
-         ...formData,
-         images: [...formData.images, file]
-       }
-     });
-      
+      setFormData((formData) => {
+        return {
+          ...formData,
+          images: [...formData.images, file],
+        };
+      });
+
       e.target.value = "";
-   } else if (e.target.files.length > 1) {
-     
-     if (formData.images.length + e.target.files.length > 10) {
-       alert("We admit at most 10 images");
-       return;
-     }
-     
-     const filesArray = Array.from(e.target.files);
+    } else if (e.target.files.length > 1) {
+      if (formData.images.length + e.target.files.length > 10) {
+        alert("We admit at most 10 images");
+        return;
+      }
 
-     setFormData((formData) => {
-       return {
-         ...formData,
-         images: [...formData.images, ...filesArray]
-          }
-     });
-     
+      const filesArray = Array.from(e.target.files);
+
+      setFormData((formData) => {
+        return {
+          ...formData,
+          images: [...formData.images, ...filesArray],
+        };
+      });
     }
-  }
+  };
 
-  
   return (
     <>
       <div className="mt-10 pl-5 h-fit">

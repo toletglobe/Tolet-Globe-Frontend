@@ -10,14 +10,15 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
+import { useSelector } from "react-redux";
+
 const LandlordDashboard = () => {
   const phoneRef = useRef(null);
-
   const navigate = useNavigate();
-
   const phone = 8707727347;
-
   const [showNumber, setShowNumber] = useState(false);
+
+  const authState = useSelector((state) => state.auth);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -147,7 +148,7 @@ const LandlordDashboard = () => {
       {/* Header (Welcome Message) */}
       <div className="mt-5 mb-8">
         <h1 className="text-4xl font-bold">
-          Welcome to your Landlord Dashboard
+        {authState.userData ? authState.userData.firstName?.charAt(0).toUpperCase() + authState.userData.firstName?.slice(1).toLowerCase() : "User"}! Welcome to your Landlord Dashboard
         </h1>
       </div>
       {/* Quick Actions */}

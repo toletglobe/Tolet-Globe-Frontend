@@ -2,8 +2,9 @@ import React from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
-import { IoAdd, IoBedOutline } from "react-icons/io5";
-import Popup from 'reactjs-popup';
+// import { IoAdd, IoBedOutline } from "react-icons/io5";
+import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
+import Popup from "reactjs-popup";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
@@ -30,7 +31,13 @@ const NextArrow = ({ onClick }) => (
   </div>
 );
 
-const Cards = ({ properties, cityName, propertyAction }) => {
+const Cards = ({
+  properties,
+  cityName,
+  propertyAction,
+  handleToggle,
+  isInCompareList,
+}) => {
   const navigate = useNavigate();
   const settings = {
     dots: true,
@@ -43,11 +50,15 @@ const Cards = ({ properties, cityName, propertyAction }) => {
     nextArrow: <NextArrow />,
     draggable: false,
   };
-  const normalizedProperties = Array.isArray(properties) ? properties : [properties]; // Ensure properties is an array
+
+  const normalizedProperties = Array.isArray(properties)
+    ? properties
+    : [properties]; // Ensure properties is an array
+
   return (
     <div>
       <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {normalizedProperties.map((property) => (
+        {normalizedProperties.map((property) => (
           <li
             key={property._id}
             className="property-card bg-white border border-grey-200 shadow-lg relative"
@@ -89,9 +100,7 @@ const Cards = ({ properties, cityName, propertyAction }) => {
                 <div>
                   <button className="banner-actions-btn flex items-center gap-1 text-white">
                     <FaLocationDot className="text-xl" />
-                    <address>
-                      {`${property.locality}, ${cityName}`}
-                    </address>
+                    <address>{`${property.locality}, ${cityName}`}</address>
                   </button>
                 </div>
                 <div className="flex gap-4">
@@ -111,38 +120,57 @@ const Cards = ({ properties, cityName, propertyAction }) => {
                   <a href="#">{property.propertyType}</a>
                 </h3>
                 <div className="icon-box flex space-x-4 p-2">
-                      <Popup trigger=
-                      {<button>
+                  <Popup
+                    trigger={
+                      <button>
                         <CiShare2
                           className="card_icon"
                           style={{ color: "#40B5A8" }}
                         />
-                      </button>} 
-                      nested>
-                      {
-                          close => (
-                              <div className='bg-slate-50 text-black px-2 py-2 rounded-full h-full flex flex-col shadow-xl'>
-                                  <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
-                                    <div className="px-2 py-3 text-sm truncate w-32">
-                                      {`toletglobe.in/property/${property._id}`}
-                                    </div>
-                                    <div>
-                                      <button className="px-4 py-1 bg-[#40B5A8] text-white rounded-3xl" onClick={()=>{
-                                          navigator.clipboard.writeText(`www.toletglobe.in/property/${property._id}`);
-                                          close()
-                                        }}>Copy</button>
-                                    </div>
-                                  </div>
-                              </div>
-                          )
-                      }
+                      </button>
+                    }
+                    nested
+                  >
+                    {(close) => (
+                      <div className="bg-slate-50 text-black px-2 py-2 rounded-full h-full flex flex-col shadow-xl">
+                        <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                          <div className="px-2 py-3 text-sm truncate w-32">
+                            {`toletglobe.in/property/${property._id}`}
+                          </div>
+                          <div>
+                            <button
+                              className="px-4 py-1 bg-[#40B5A8] text-white rounded-3xl"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  `www.toletglobe.in/property/${property._id}`
+                                );
+                                close();
+                              }}
+                            >
+                              Copy
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </Popup>
-                  
-                  <a href="#">
-                    <IoAdd
-                      className="card_icon"
-                      style={{ color: "#000000", fontSize: "12px" }}
-                    />
+
+                  <a
+                    href="#"
+                    onClick={(event) => handleToggle(event, property)}
+                    key={property._id}
+                  >
+                    {isInCompareList(property._id) ? (
+                      <IoRemove
+                        className="card_icon"
+                        style={{ color: "#ff0000", fontSize: "12px" }}
+                      />
+                    ) : (
+                      <IoAdd
+                        className="card_icon"
+                        style={{ color: "#000000", fontSize: "12px" }}
+                      />
+                    )}
                   </a>
                   <a href="#">
                     <CiHeart className="card_icon text-red-500" />

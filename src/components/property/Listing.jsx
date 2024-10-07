@@ -8,7 +8,7 @@ import Service from "../../config/config";
 import author from "../../assets/property/author.jpg";
 import hamburger from "../../assets/property/hamburger.png";
 import drop from "../../assets/property/drop.png";
-import location from "../../assets/property/location.png";
+import loc from "../../assets/property/location.png";
 import cross from "../../assets/property/cross.png";
 import SideOpt from "./listingComponents/SideOpt";
 import SelectLocation from "./listingComponents/SelectLocation";
@@ -17,8 +17,9 @@ import Cards from "./listingComponents/Cards";
 import Pagination from "./listingComponents/Pagination";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 
-const Listing = () => {
+const Listing = (props) => {
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -41,12 +42,10 @@ const Listing = () => {
   function handleLocation() {
     setLocation(!Location);
   }
-  const {slug} = useParams();
+  const { slug } = useParams();
   function handleMode() {
     setMode(!mode);
   }
-
-
 
   useEffect(() => {
     const fetchAndFilterProperties = async () => {
@@ -54,75 +53,84 @@ const Listing = () => {
       try {
         // Fetch properties
         const propertyData = slug
-        ? await Service.fetchPropertyBySlug(slug)
-        : await Service.fetchProperty()
+          ? await Service.fetchPropertyBySlug(slug)
+          : await Service.fetchProperty();
         setProperties(propertyData || []); // Ensure propertyData is an array
-      //  console.log(propertyData); // Ensure propertyData is an array
-  
+        //  console.log(propertyData); // Ensure propertyData is an array
+
         // Check for filters
         const searchParams = new URLSearchParams(location.search);
         const type = searchParams.get("type");
         console.log("Type of property:", type);
-  
+
         // Apply filtering based on type
-        if (type === 'Flat') {
+        if (type === "Flat") {
           setProperties(propertyData.filter((a) => a.propertyType === "Flat"));
-        } else if (type === 'House/Villa') {
-          setProperties(propertyData.filter((a) => a.propertyType === "House" || a.propertyType === "Villa"));
-        } else if (type === 'Shop') {
+        } else if (type === "House/Villa") {
+          setProperties(
+            propertyData.filter(
+              (a) => a.propertyType === "House" || a.propertyType === "Villa"
+            )
+          );
+        } else if (type === "Shop") {
           setProperties(propertyData.filter((a) => a.propertyType === "Shop"));
-        } else if (type === 'Office') {
-          setProperties(propertyData.filter((a) => a.propertyType === "Office"));
-        } else if (type === 'Warehouse') {
-          setProperties(propertyData.filter((a) => a.propertyType === "Ware house"));
-        } else if (type === 'PayingGuest') {
-          setProperties(propertyData.filter((a) => a.propertyType === "Paying Guest"));
+        } else if (type === "Office") {
+          setProperties(
+            propertyData.filter((a) => a.propertyType === "Office")
+          );
+        } else if (type === "Warehouse") {
+          setProperties(
+            propertyData.filter((a) => a.propertyType === "Ware house")
+          );
+        } else if (type === "PayingGuest") {
+          setProperties(
+            propertyData.filter((a) => a.propertyType === "Paying Guest")
+          );
         }
-  
+
         // Check for sorting
         const sortType = searchParams.get("sort");
         if (sortType) {
           sortProperties(propertyData, sortType);
         }
-  
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching properties:", error);
         setLoading(false);
       }
     };
-  
+
     fetchAndFilterProperties();
   }, [location.search]);
 
-// Sorting logic
-const sortProperties = (properties, sortType) => {
-  let sortedProperties = [...properties];
+  // Sorting logic
+  const sortProperties = (properties, sortType) => {
+    let sortedProperties = [...properties];
 
-  if (sortType === "price-low-high") {
-    sortedProperties.sort((a, b) => a.rent - b.rent);
-  } else if (sortType === "price-high-low") {
-    sortedProperties.sort((a, b) => b.rent - a.rent);
-  } else if (sortType === "most-trending") {
-    sortedProperties.sort((a, b) => b.reviews.length - a.reviews.length);
-  } else if (sortType === "date-uploaded") {
-    sortedProperties.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  }
+    if (sortType === "price-low-high") {
+      sortedProperties.sort((a, b) => a.rent - b.rent);
+    } else if (sortType === "price-high-low") {
+      sortedProperties.sort((a, b) => b.rent - a.rent);
+    } else if (sortType === "most-trending") {
+      sortedProperties.sort((a, b) => b.reviews.length - a.reviews.length);
+    } else if (sortType === "date-uploaded") {
+      sortedProperties.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    }
 
-  setProperties(sortedProperties);
-};
+    setProperties(sortedProperties);
+  };
   // Calculate total pages
   const totalPages = Math.ceil(properties.length / propertiesPerPage);
 
   // Get current properties
   const indexOfLastProperty = currentPage * propertiesPerPage;
   const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  const currentProperties = Array.isArray(properties) 
-  ? properties.slice(
-    indexOfFirstProperty,
-    indexOfLastProperty
-  ) 
-  : [];
+  const currentProperties = Array.isArray(properties)
+    ? properties.slice(indexOfFirstProperty, indexOfLastProperty)
+    : [];
 
   const handleSortClick = (sortType) => {
     const queryParams = new URLSearchParams(location.search);
@@ -138,13 +146,43 @@ const sortProperties = (properties, sortType) => {
     );
   }
 
-   const handleAddPropertybtn = () => {
-     if (authState.status === true && localStorage.getItem("token")) {
-       navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
-     } else {
-       toast.error("Please Log In first");
-     }
-   };
+  const handleAddPropertybtn = () => {
+    if (authState.status === true && localStorage.getItem("token")) {
+      navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
+    } else {
+      toast.error("Please Log In first");
+    }
+  };
+
+  // Property Add and remove function to compare Property
+  const handleToggle = (event, property) => {
+    event.preventDefault();
+
+    props.setcompareData((prev) => {
+      // Check if the property is already in the selected list
+      const isAlreadySelected = prev.some((p) => p._id === property._id);
+
+      // If the property is already selected, remove it
+      if (isAlreadySelected) {
+        return prev.filter((p) => p._id !== property._id);
+      }
+
+      // If the property is not selected and the list has fewer than 4 items, add it
+      if (prev.length < 4) {
+        return [...prev, property];
+      } else {
+        return prev;
+      }
+    });
+  };
+
+  const isInCompareList = (propertyId) => {
+    return props.compareData.some((p) => p._id === propertyId);
+  };
+
+  const compare = () => {
+    navigate("/compare-property");
+  };
 
   return (
     <>
@@ -204,7 +242,7 @@ const sortProperties = (properties, sortType) => {
                       <div
                         className={`${
                           mode ? "block" : "hidden"
-                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-0`}
+                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
                       >
                         <p
                           className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
@@ -250,7 +288,7 @@ const sortProperties = (properties, sortType) => {
                     </div>
                     <div>
                       <img
-                        src={location}
+                        src={loc}
                         alt="Location"
                         className="cursor-pointer"
                         onClick={handleLocation}
@@ -291,6 +329,21 @@ const sortProperties = (properties, sortType) => {
                 </div>
               </div>
 
+              <div className="compare" onClick={compare}>
+                {props.compareData.length >= 1 && (
+                  <button
+                    className={`bg-white text-black rounded-md py-3 px-6 font-medium ${
+                      props.compareData.length <= 1
+                        ? "opacity-50 grayscale cursor-not-allowed"
+                        : ""
+                    }`}
+                    disabled={props.compareData.length <= 1}
+                  >
+                    Compare {props.compareData.length}
+                  </button>
+                )}
+              </div>
+
               <div>
                 <a
                   onClick={handleAddPropertybtn}
@@ -303,33 +356,35 @@ const sortProperties = (properties, sortType) => {
           </div>
 
           <div
-
-              className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
-                isOpen ? "block" : "hidden"
-              } `}
-            >
-              <div className="relative w-full max-w-lg">
-                <Filters SetIsOpen={SetIsOpen}/>
-                <div className="absolute top-1 right-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    onClick={handleOpen}
-                    className="cursor-pointer w-5 lg:w-6 md:w-6 z-50 text-red-400 hover:text-red-800 transition-colors duration-300"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
+            className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
+              isOpen ? "block" : "hidden"
+            } `}
+          >
+            <div className="relative w-full max-w-lg">
+              <Filters SetIsOpen={SetIsOpen} setProperties={setProperties} />
+              <div className="absolute top-1 right-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  onClick={handleOpen}
+                  className="cursor-pointer w-5 lg:w-6 md:w-6 z-50 text-red-400 hover:text-red-800 transition-colors duration-300"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </div>
-
             </div>
+          </div>
 
-          <Cards properties={properties} />
+          <Cards
+            properties={properties}
+            handleToggle={handleToggle}
+            isInCompareList={isInCompareList}
+          />
         </div>
       </section>
 

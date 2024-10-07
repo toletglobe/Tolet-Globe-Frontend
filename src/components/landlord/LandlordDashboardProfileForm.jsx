@@ -182,7 +182,7 @@ const LandlordDashboardProfileForm = () => {
         </div>
       </main>
     </div>
-  );
+    );
 };
 
 export default LandlordDashboardProfileForm;

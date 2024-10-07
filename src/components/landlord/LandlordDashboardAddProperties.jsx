@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 import axios from "axios";
 import { API } from "../../config/axios";
 
@@ -8,79 +8,82 @@ import Frm3 from "./AllForms/Frm3";
 import Frm4 from "./AllForms/Frm4";
 
 export default function LandlordDashboardAddProperties() {
-
-
   // For changing and showing page number
   const [page, setPage] = useState(0);
-  
 
   // For yellow progress bar
   function yellowBorder(page) {
     let p = page + 1;
-
     let yellowDivs = [];
 
     while (p--) {
-      yellowDivs.push(<div key={`yellow-${p}`} className="bg-yellow-500 rounded-lg w-[25%] h-2 "></div>)
+      yellowDivs.push(
+        <div
+          key={`yellow-${p}`}
+          className="bg-yellow-500 rounded-lg w-[25%] h-2 "
+        ></div>
+      );
     }
 
     return yellowDivs;
   }
 
-
   // For white progress bar
   function whiteBorder(page) {
     let p = 4 - (page + 1);
 
-     let whiteDivs = [];
+    let whiteDivs = [];
 
-     while (p--) {
-       whiteDivs.push(<div key={`white-${p}`} className="bg-white rounded-lg w-[25%] h-2 "></div>);
-     }
+    while (p--) {
+      whiteDivs.push(
+        <div
+          key={`white-${p}`}
+          className="bg-white rounded-lg w-[25%] h-2 "
+        ></div>
+      );
+    }
     return whiteDivs;
   }
 
   // For storing formData
   const [formData, setFormData] = useState({
-    firstName: "", 
+    firstName: "",
     lastName: "",
     ownersContactNumber: "",
     ownersAlternateContactNumber: "",
-    pin: "", 
+    pin: "",
     city: "",
-    locality: "", 
-    address: "", 
-    spaceType: "", 
+    locality: "",
+    address: "",
+    spaceType: "",
     petsAllowed: "",
     preference: "",
     bachelors: "",
-    type: "",  
-    bhk: "",   
-    floor: "",    
+    type: "",
+    bhk: "",
+    floor: "",
     nearestLandmark: "",
-    typeOfWashroom: "",   
-    coolingFacility: "",     
-    carParking: true,       
-    rent: "",              
+    typeOfWashroom: "",
+    coolingFacility: "",
+    carParking: true,
+    rent: "",
     security: "",
-    images: [],    
-    squareFeetArea: "",  
-    appliances: [],   
-    amenities: [],    
-    aboutTheProperty: "",   
-    comments: "", 
+    images: [],
+    squareFeetArea: "",
+    appliances: [],
+    amenities: [],
+    aboutTheProperty: "",
+    comments: "",
   });
 
-
-
-  const RenderFormBody = (page)=>{
+  const RenderFormBody = (page) => {
     if (page == 0) {
       return (
         <div key={`Frm1-${page}`}>
           <Frm1 formData={formData} setFormData={setFormData} />
         </div>
       );
-    } else if (page == 1) { 
+    } else if (page == 1) {
       return (
         <div key={`Frm2-${page}`}>
           <Frm2 formData={formData} setFormData={setFormData} />
@@ -95,13 +98,11 @@ export default function LandlordDashboardAddProperties() {
     } else {
       return (
         <div key={`Frm4-${page}`}>
-          <Frm4 formData={formData} setFormData={setFormData}/>
+          <Frm4 formData={formData} setFormData={setFormData} />
         </div>
       );
     }
-
-  }
-
+  };
 
   // Submitting form Data
   const submitForm = async (formData) => {
@@ -115,13 +116,10 @@ export default function LandlordDashboardAddProperties() {
       squareFeetArea: Number(formData.squareFeetArea),
     };
 
-    // console.log("This is updateFormdata:", updatedFormData);
-
     const dataToSend = new FormData();
 
     Object.entries(updatedFormData).forEach(([key, value]) => {
       if (Array.isArray(value)) {
-
         if (key === "images") {
           value.forEach((image) => dataToSend.append("images", image));
         } else {
@@ -136,24 +134,28 @@ export default function LandlordDashboardAddProperties() {
     //   console.log(`${key}: ${value}`);
     // }
 
-
     const token = localStorage.getItem("token");
     console.log("Token: ", token);
 
+    if (!token) {
+      console.error("No token found in localStorage");
+      // Handle the case where there's no token (e.g., redirect to login)
+      return;
+    }
+
     try {
-      const { data } = await API.post(
-        "property/add-property",
-        dataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "token": `${token}`
-          },
-        }
-      );
+      const { data } = await API.post("property/add-property", dataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, // Change 'token' to 'Authorization'
+        },
+      });
       console.log(data);
     } catch (err) {
-      console.log(err);
+      console.error(
+        "Error submitting form:",
+        err.response?.data || err.message
+      );
     }
 
     // clearing form fields
@@ -186,13 +188,7 @@ export default function LandlordDashboardAddProperties() {
       aboutTheProperty: "",
       comments: "",
     });
-
-  }
-
-  
-
-  
-
+  };
 
   return (
     <>
@@ -201,8 +197,10 @@ export default function LandlordDashboardAddProperties() {
       <div className="">
         {/* ProgressBar */}
 
-        <div className="ml-5 flex flex-col gap-2">
-          <h1 className="text-[#FFFFFF] text-[33px] leading-10 font-bold">Add New Property</h1>
+        <div className="ml-5 flex flex-col gap-2 mt-5 mb-8">
+          <h1 className="text-[#FFFFFF] text-[33px] leading-10 font-bold">
+            Add New Property
+          </h1>
           <div className="mt-8 flex gap-4">
             {yellowBorder(page)}
             {whiteBorder(page)}
@@ -210,7 +208,6 @@ export default function LandlordDashboardAddProperties() {
           <div className="text-[#4F7396] text-xs leading-5">{page + 1}/4</div>
         </div>
 
-        
         {/* Form-Container */}
         <form
           encType="multipart/form-data"
@@ -228,15 +225,10 @@ export default function LandlordDashboardAddProperties() {
             setPage((page) => page + 1);
           }}
         >
-
-
           <div>
-
-
             {/* Form-Body */}
             <div>{RenderFormBody(page)}</div>
 
-            
             {/* Form-footer */}
             <div className="my-10 h-fit flex gap-x-3 justify-end">
               <input
@@ -268,11 +260,8 @@ export default function LandlordDashboardAddProperties() {
                 disabled={page != 3}
               />
             </div>
-
           </div>
-
         </form>
-        
       </div>
     </>
   );
