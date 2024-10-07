@@ -1,6 +1,10 @@
+import React from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
-import { IoAdd, IoBedOutline } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
+// import { IoAdd, IoBedOutline } from "react-icons/io5";
+import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
+import Popup from "reactjs-popup";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
@@ -11,9 +15,9 @@ const PrevArrow = ({ onClick }) => (
   <div
     className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }} // Increased size of the circle
+    style={{ width: "40px", height: "40px" }}
   >
-    <span className="text-2xl">&#8249;</span> {/* Left Shift Arrow */}
+    <span className="text-2xl">&#8249;</span>
   </div>
 );
 
@@ -21,13 +25,19 @@ const NextArrow = ({ onClick }) => (
   <div
     className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }} // Increased size of the circle
+    style={{ width: "40px", height: "40px" }}
   >
-    <span className="text-2xl">&#8250;</span> {/* Right Shift Arrow */}
+    <span className="text-2xl">&#8250;</span>
   </div>
 );
 
-const Cards = ({ properties }) => {
+const Cards = ({
+  properties,
+  cityName,
+  propertyAction,
+  handleToggle,
+  isInCompareList,
+}) => {
   const navigate = useNavigate();
   const settings = {
     dots: true,
@@ -38,13 +48,17 @@ const Cards = ({ properties }) => {
     arrows: true,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-    draggable: false,  // This line disables the dragging effect
+    draggable: false,
   };
+
+  const normalizedProperties = Array.isArray(properties)
+    ? properties
+    : [properties]; // Ensure properties is an array
 
   return (
     <div>
       <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {properties.map((property) => (
+        {normalizedProperties.map((property) => (
           <li
             key={property._id}
             className="property-card bg-white border border-grey-200 shadow-lg relative"
@@ -69,7 +83,6 @@ const Cards = ({ properties }) => {
                     alt={property.propertyType}
                     className="w-full h-full object-cover"
                   />
-                  {/* Show arrows even if there is only one image */}
                   <PrevArrow onClick={() => {}} />
                   <NextArrow onClick={() => {}} />
                 </div>
@@ -81,18 +94,13 @@ const Cards = ({ properties }) => {
                   textTransform: "capitalize",
                 }}
               >
-                {property.propertyType === "Residential"
-                  ? "For Rent"
-                  : "Available"}
+                {propertyAction}
               </div>
               <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
                 <div>
                   <button className="banner-actions-btn flex items-center gap-1 text-white">
                     <FaLocationDot className="text-xl" />
-                    <address>
-                      {" "}
-                      {`${property.locality}, ${property.city || "Lucknow"}`}
-                    </address>
+                    <address>{`${property.locality}, ${cityName}`}</address>
                   </button>
                 </div>
                 <div className="flex gap-4">
@@ -112,17 +120,57 @@ const Cards = ({ properties }) => {
                   <a href="#">{property.propertyType}</a>
                 </h3>
                 <div className="icon-box flex space-x-4 p-2">
-                  <a href="#">
-                    <CiShare2
-                      className="card_icon"
-                      style={{ color: "#40B5A8" }}
-                    />
-                  </a>
-                  <a href="#">
-                    <IoAdd
-                      className="card_icon"
-                      style={{ color: "#000000", fontSize: "12px" }}
-                    />
+                  <Popup
+                    trigger={
+                      <button>
+                        <CiShare2
+                          className="card_icon"
+                          style={{ color: "#40B5A8" }}
+                        />
+                      </button>
+                    }
+                    nested
+                  >
+                    {(close) => (
+                      <div className="bg-slate-50 text-black px-2 py-2 rounded-full h-full flex flex-col shadow-xl">
+                        <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                          <div className="px-2 py-3 text-sm truncate w-32">
+                            {`toletglobe.in/property/${property._id}`}
+                          </div>
+                          <div>
+                            <button
+                              className="px-4 py-1 bg-[#40B5A8] text-white rounded-3xl"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  `www.toletglobe.in/property/${property._id}`
+                                );
+                                close();
+                              }}
+                            >
+                              Copy
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </Popup>
+
+                  <a
+                    href="#"
+                    onClick={(event) => handleToggle(event, property)}
+                    key={property._id}
+                  >
+                    {isInCompareList(property._id) ? (
+                      <IoRemove
+                        className="card_icon"
+                        style={{ color: "#ff0000", fontSize: "12px" }}
+                      />
+                    ) : (
+                      <IoAdd
+                        className="card_icon"
+                        style={{ color: "#000000", fontSize: "12px" }}
+                      />
+                    )}
                   </a>
                   <a href="#">
                     <CiHeart className="card_icon text-red-500" />
@@ -140,20 +188,17 @@ const Cards = ({ properties }) => {
               </div>
               <ul className="card-list custom-card-list mt-4">
                 <li className="bed card-item flex items-center text-base">
-                  <IoBedOutline style={{ fontSize: "1.6rem" }} />{" "}
-                  {/* Increased size */}
+                  <IoBedOutline style={{ fontSize: "1.6rem" }} />
                   &nbsp;
                   {property.bhk}
                 </li>
                 <li className="bath card-item flex items-center text-base">
-                  <LuBath style={{ fontSize: "1.6rem" }} />{" "}
-                  {/* Increased size */}
+                  <LuBath style={{ fontSize: "1.6rem" }} />
                   &nbsp;
                   {property.typeOfWashroom}
                 </li>
                 <li className="pi card-item flex items-center text-base">
-                  <PiGridFour style={{ fontSize: "1.6rem" }} />{" "}
-                  {/* Increased size */}
+                  <PiGridFour style={{ fontSize: "1.6rem" }} />
                   &nbsp;
                   {property.floor} ft²
                 </li>
@@ -188,7 +233,7 @@ const Cards = ({ properties }) => {
               </div>
               <div className="card-footer-actions">
                 <button
-                  onClick={() => navigate(`/property/${property._id}`)}
+                  onClick={() => navigate(`/property/${property.slug}`)}
                   className="card-footer-actions-btn"
                 >
                   SHOW MORE

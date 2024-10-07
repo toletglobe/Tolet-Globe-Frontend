@@ -14,6 +14,7 @@ import { IoIosAdd } from "react-icons/io";
 import profile from "../../../assets/property/author.jpg";
 import fav from "../../../assets/property/Vector.png";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { ClipLoader } from "react-spinners";
 
 const Flow2a = () => {
   const { id } = useParams();
@@ -22,19 +23,21 @@ const Flow2a = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const { slug } = useParams();
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const propertyList = await Service.fetchPropertyById(id);
+        // const propertyList = await Service.fetchPropertyById(id);  // use this in case of fetching old properties and comment the below one
+        const propertyList = await Service.fetchPropertyBySlug(slug);
         setProperty(propertyList);
-        console.log(propertyList);
+        // console.log(propertyList);
       } catch (error) {
         console.error("Error fetching property:", error);
       }
     };
 
     fetchProperty();
-  }, [id]);
+  }, [slug]);
 
   const openModal = (image, index) => {
     setSelectedImage(image);
@@ -55,14 +58,19 @@ const Flow2a = () => {
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex + 1) % (property?.photos?.length || 1)
+    setCurrentIndex(
+      (prevIndex) => (prevIndex + 1) % (property?.photos?.length || 1)
     );
     setSelectedImage(property?.photos[currentIndex] || img1);
   };
 
-  if (!property) return <p>Loading...</p>; // Add a loading state
-
+  if (!property) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} />
+      </div>
+    );
+  } // Add a
   return (
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
@@ -105,7 +113,7 @@ const Flow2a = () => {
           />
         </div>
       </div>
-      
+
       {/* Caption Section */}
       <div className="text-center -mt-4 relative">
         <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
@@ -135,24 +143,32 @@ const Flow2a = () => {
             </p>
           </div>
 
-          <div className="border border-gray-600 rounded-lg flex justify-between pl-3 pr-3">
+          <div className="border border-gray-600 rounded-lg flex justify-between gap-x-4 pl-3 pr-3 mb-4 md:mb-0">
             <div className="p-1">
-              <p className="block text-gray-400">Monthly rent</p>
-              <h3 className="text-white text-3xl">Rs. {property?.rent}</h3>
+              <p className="block text-center text-gray-400">Monthly rent</p>
+              <h3 className="text-white text-center text-3xl md:text-2xl">
+                Rs. {property?.rent}
+              </h3>
             </div>
+            <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
-              <p className="block">Bhk</p>
-              <h3 className="text-white text-3xl">{property?.bhk} bhk</h3>
+              <p className="block text-center">Bhk</p>
+              <h3 className="text-white text-center text-3xl md:text-2xl">
+                {property?.bhk} bhk
+              </h3>
             </div>
+            <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
             <div className="p-1 text-gray-400">
-              <p className="block">Floor</p>
-              <h3 className="text-white text-3xl">{property?.floor}</h3>
+              <p className="block text-center">Floor</p>
+              <h3 className="text-white text-center text-3xl md:text-2xl">
+                {property?.floor}
+              </h3>
             </div>
           </div>
         </div>
 
         {/* Request Visit Section */}
-        <div className="border-1 bg-white rounded-lg w-1/4 p-4">
+        <div className="border-1 bg-white rounded-lg lg:w-1/4 md:w-1/2 p-4">
           <div className="flex justify-between">
             <p className="text-black text-lg font-semibold">Request a visit</p>
             <div className="flex">
@@ -184,12 +200,18 @@ const Flow2a = () => {
 
       {/* Modal for Full Image View */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
-          <div className="relative bg-dark p-4">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center"
+          onClick={closeModal} // Close modal when clicking outside the image
+        >
+          <div
+            className="relative bg-dark p-4"
+            onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside the image
+          >
             {/* Left Arrow */}
             <button
               onClick={handlePrev}
-              className="absolute top-1/2 left-7 transform -translate-y-1/2 bg-white text-black text-2xl  p-2 rounded-full"
+              className="absolute top-1/2 left-7 transform -translate-y-1/2 bg-white text-black text-2xl p-2 rounded-full"
             >
               <HiChevronLeft />
             </button>
@@ -197,7 +219,7 @@ const Flow2a = () => {
             {/* Right Arrow */}
             <button
               onClick={handleNext}
-              className="absolute top-1/2 right-7 transform -translate-y-1/2 bg-white text-black text-2xl  p-2 rounded-full"
+              className="absolute top-1/2 right-7 transform -translate-y-1/2 bg-white text-black text-2xl p-2 rounded-full"
             >
               <HiChevronRight />
             </button>
@@ -208,10 +230,12 @@ const Flow2a = () => {
             >
               &times;
             </button>
+
+            {/* Corrected Image Size for Enlarged View */}
             <img
               src={selectedImage}
               alt="Selected"
-              className="h-[568px] object-cover"
+              className="object-contain h-[80vh] max-w-full" // Ensure image fits correctly
             />
           </div>
         </div>
