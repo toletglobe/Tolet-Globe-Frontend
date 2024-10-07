@@ -1,21 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 
-
-// import {
-//   MdDirectionsBus,
-//   MdFitnessCenter,
-//   MdLocalCafe,
-//   MdMoney,
-//   MdRestaurant,
-//   MdSchool,
-//   MdShoppingBag,
-//   MdStore,
-// } from "react-icons/md";
-
-
-// import map from "../../../assets/property/map.png";
-
 import LocationComponent from "./Location.jsx";
 import Reviews from "../../reviews/Reviews.jsx";
 import Features from "./Flow2bcomponents/Features.jsx";
@@ -25,13 +10,7 @@ import Regulation from "./Flow2bcomponents/Regulations .jsx";
 import NavButton from "./Flow2bcomponents/Navbar.jsx";
 // import Property from "../Property";
 
-const Flow2b = (property) => {
-  console.log(property);
-
-  // const [displayContent, setDisplayContent] = useState('location'); // 'location' is default
-  // const handleIconClick = (content) => {
-  //   setDisplayContent(content);
-  // };
+const Flow2b = ({ property }) => {
   const [selectedButton, setSelectedButton] = useState("");
   const [selectComp, setSelectComp] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
@@ -95,30 +74,31 @@ const Flow2b = (property) => {
   return (
     <>
       <div className="text-black">
-      {/* Navbar component for navigation */}
-      <NavButton selectedButton={selectedButton} handleButtonClick={handleButtonClick} buttonClasses={buttonClasses}/>
-       
+        {/* Navbar component for navigation */}
+        <NavButton
+          selectedButton={selectedButton}
+          handleButtonClick={handleButtonClick}
+          buttonClasses={buttonClasses}
+        />
 
         <div className="mb-2">
-        {/* Feature component */}
-           <Features selectComp={selectComp}  property={property}/>
+          {/* Feature component */}
+          <Features selectComp={selectComp} property={property} />
 
-         {/* About component */}
-          <About selectComp={selectComp}/>
-        
+          {/* About component */}
+          <About selectComp={selectComp} property={property} />
 
-        {/* Amenitie component */}
-          <Amenities selectComp={selectComp}/>
-           
-          
-         {/* Regulation section */}
-          <Regulation selectComp={selectComp}  property={property}/>
+          {/* Amenitie component */}
+          <Amenities selectComp={selectComp} property={property} />
 
-           {/* Location component */}
+          {/* Regulation section */}
+          <Regulation selectComp={selectComp} property={property} />
+
+          {/* Location component */}
           <div className={`pb-4 ${selectComp > 5 ? "hidden" : ""}`}>
-            <LocationComponent />
+            <LocationComponent property={property} selectComp={selectComp} />
           </div>
-          
+
           {/* Review section */}
           <div className={`pb-4 ${selectComp > 6 ? "hidden" : ""}`}>
             <Reviews reviewData={reviewData} />

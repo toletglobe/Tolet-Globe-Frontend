@@ -6,10 +6,17 @@ import Frm1 from "./AllForms/Frm1";
 import Frm2 from "./AllForms/Frm2";
 import Frm3 from "./AllForms/Frm3";
 import Frm4 from "./AllForms/Frm4";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
+import { ClipLoader } from "react-spinners";
 
 export default function LandlordDashboardAddProperties() {
   // For changing and showing page number
   const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   // For yellow progress bar
   function yellowBorder(page) {
@@ -47,15 +54,17 @@ export default function LandlordDashboardAddProperties() {
 
   // For storing formData
   const [formData, setFormData] = useState({
+    userId: "",
     firstName: "",
     lastName: "",
     ownersContactNumber: "",
     ownersAlternateContactNumber: "",
-    pin: "",
+    pincode: "",
     city: "",
     locality: "",
     address: "",
     spaceType: "",
+    propertyType: "",
     petsAllowed: "",
     preference: "",
     bachelors: "",
@@ -74,6 +83,7 @@ export default function LandlordDashboardAddProperties() {
     amenities: [],
     aboutTheProperty: "",
     comments: "",
+    locationLink: "",
   });
 
   const RenderFormBody = (page) => {
@@ -106,9 +116,10 @@ export default function LandlordDashboardAddProperties() {
 
   // Submitting form Data
   const submitForm = async (formData) => {
+    setLoading(true);
     const updatedFormData = {
       ...formData,
-      pin: Number(formData.pin),
+      pincode: Number(formData.pincode),
       petsAllowed: Boolean(formData.petsAllowed),
       bhk: Number(formData.bhk),
       rent: Number(formData.rent),
@@ -150,7 +161,12 @@ export default function LandlordDashboardAddProperties() {
           Authorization: `Bearer ${token}`, // Change 'token' to 'Authorization'
         },
       });
+
+      setLoading(false);
+
       console.log(data);
+      toast.success("Property added successfully");
+      navigate(`/property/${data.property.slug}`);
     } catch (err) {
       console.error(
         "Error submitting form:",
@@ -160,15 +176,17 @@ export default function LandlordDashboardAddProperties() {
 
     // clearing form fields
     setFormData({
+      userId: "",
       firstName: "",
       lastName: "",
       ownersContactNumber: "",
       ownersAlternateContactNumber: "",
-      pin: "",
+      pincode: "",
       city: "",
       locality: "",
       address: "",
       spaceType: "",
+      propertyType: "",
       petsAllowed: "",
       preference: "",
       bachelors: "",
@@ -187,8 +205,17 @@ export default function LandlordDashboardAddProperties() {
       amenities: [],
       aboutTheProperty: "",
       comments: "",
+      locationLink: "",
     });
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} /> {/* Spinner component */}
+      </div>
+    );
+  }
 
   return (
     <>

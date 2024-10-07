@@ -64,9 +64,9 @@ const Cards = ({
             className="property-card bg-white border border-grey-200 shadow-lg relative"
           >
             <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
-              {property.photos.length > 1 ? (
+              {property.images.length > 1 ? (
                 <Slider {...settings}>
-                  {property.photos.map((photo, index) => (
+                  {property.images.map((photo, index) => (
                     <div key={index}>
                       <img
                         src={photo}
@@ -79,7 +79,7 @@ const Cards = ({
               ) : (
                 <div className="relative">
                   <img
-                    src={property.photos[0]}
+                    src={property.images[0]}
                     alt={property.propertyType}
                     className="w-full h-full object-cover"
                   />
@@ -100,7 +100,7 @@ const Cards = ({
                 <div>
                   <button className="banner-actions-btn flex items-center gap-1 text-white">
                     <FaLocationDot className="text-xl" />
-                    <address>{`${property.locality}, ${cityName}`}</address>
+                    <address>{`${property.locality}, ${property.city}`}</address>
                   </button>
                 </div>
                 <div className="flex gap-4">
@@ -109,7 +109,7 @@ const Cards = ({
                   </button>
                   <button className="banner-img_video-btn flex items-center gap-2 text-white">
                     <FaRegImage className="text-xl" />
-                    {property.photos.length}
+                    {property.images.length}
                   </button>
                 </div>
               </div>
@@ -142,7 +142,7 @@ const Cards = ({
                               className="px-4 py-1 bg-[#40B5A8] text-white rounded-3xl"
                               onClick={() => {
                                 navigator.clipboard.writeText(
-                                  `www.toletglobe.in/property/${property._id}`
+                                  `www.toletglobe.in/property/${property.slug}`
                                 );
                                 close();
                               }}
@@ -183,7 +183,7 @@ const Cards = ({
                   RS. {property.rent}
                 </div>
                 <div className="card-text font-poppins text-lg font-medium text-black">
-                  {property.type}, {property.floor}th floor
+                  {property.type}, {property.floor}
                 </div>
               </div>
               <ul className="card-list custom-card-list mt-4">
@@ -200,7 +200,7 @@ const Cards = ({
                 <li className="pi card-item flex items-center text-base">
                   <PiGridFour style={{ fontSize: "1.6rem" }} />
                   &nbsp;
-                  {property.floor} ft²
+                  {property.squareFeetArea} ft²
                 </li>
               </ul>
               <div className="divider-container">
@@ -220,7 +220,7 @@ const Cards = ({
               <div className="card-author flex items-center gap-4">
                 <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full">
                   <img
-                    src={property.photos[0]}
+                    src={property.images[0]}
                     alt={property.ownerName}
                     className="w-full h-full object-cover"
                   />

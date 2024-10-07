@@ -28,22 +28,39 @@ export default function Frm4({ formData, setFormData }) {
   return (
     <>
       <div className="mt-10 pl-5 h-fit">
-        <div className="text-white flex flex-col gap-y-9 items-start">
-          <label className="text-[#FFFFFF] font-bold text-lg leading-6">
-            Square Feet Area
-          </label>
-          <input
-            required
-            type="number"
-            placeholder="0"
-            className="bg-black w-[50%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.squareFeetArea}
-            onChange={(e) => {
-              setFormData((formData) => {
-                return { ...formData, squareFeetArea: e.target.value };
-              });
-            }}
-          />
+        <div className="mt-14 grid grid-flow-col grid-rows-1">
+          <div className="text-white flex flex-col gap-y-9 items-start">
+            <label className="text-[#FFFFFF] font-bold text-lg leading-6">
+              Square Feet Area
+            </label>
+            <input
+              required
+              type="number"
+              placeholder="0"
+              className="bg-black w-[50%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+              value={formData.squareFeetArea}
+              onChange={(e) => {
+                setFormData((formData) => {
+                  return { ...formData, squareFeetArea: e.target.value };
+                });
+              }}
+            />
+          </div>
+          <div className="text-white flex flex-col gap-y-9 items-start">
+            <label className="text-[#FFFFFF] font-bold text-lg leading-6">
+              Location Link
+            </label>
+            <input
+              placeholder="Google Maps location link here"
+              className="bg-black w-[70%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+              value={formData.locationLink}
+              onChange={(e) => {
+                setFormData((formData) => {
+                  return { ...formData, locationLink: e.target.value };
+                });
+              }}
+            />
+          </div>
         </div>
 
         <div className="mt-14 grid grid-flow-col grid-rows-1">
@@ -60,11 +77,11 @@ export default function Frm4({ formData, setFormData }) {
               <option value="" disabled>
                 Choose your Appliances
               </option>
-              <option value="refrigerator">Refrigerator</option>
-              <option value="oven">Oven</option>
-              <option value="dishwasher">Dishwasher</option>
-              <option value="heater">Heater</option>
-              <option value="air conditioner">Air conditioner</option>
+              <option value="Refrigerator">Refrigerator</option>
+              <option value="Oven">Oven</option>
+              <option value="Dishwasher">Dishwasher</option>
+              <option value="Heater">Heater</option>
+              <option value="Air Conditioner">Air conditioner</option>
             </select>
           </div>
 
@@ -86,6 +103,8 @@ export default function Frm4({ formData, setFormData }) {
               <option value="balcony">Balcony</option>
               <option value="garden">Garden</option>
               <option value="elevator">Elevator</option>
+              <option value="24hrssupply">24 Hrs Supply</option>
+              <option value="clubhouse">Club House</option>
             </select>
           </div>
         </div>

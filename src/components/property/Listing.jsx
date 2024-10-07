@@ -24,12 +24,12 @@ const Listing = (props) => {
   const [isOpen, SetIsOpen] = useState(false);
   const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
-  const [propertiesPerPage, setPropertiesPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(false);
   const [Location, setLocation] = useState(false);
   const location = useLocation();
+  const propertiesPerPage = 9;
 
   const authState = useSelector((state) => state.auth);
 
@@ -184,6 +184,34 @@ const Listing = (props) => {
     navigate("/compare-property");
   };
 
+  // const totalProperties = properties.length;
+  // const indexOfLastProperty = currentPage * propertiesPerPage;
+  // const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
+  // const currentProperties = properties.slice(indexOfFirstProperty, indexOfLastProperty);
+  // const totalPages = Math.ceil(totalProperties / propertiesPerPage);
+
+  const handleViewBlog = (slug) => {
+    navigate(`/blog/${slug}`);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const onPageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <>
       <div
@@ -282,9 +310,6 @@ const Listing = (props) => {
                   <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
                     <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full">
                       <p>Lucknow</p>
-                    </div>
-                    <div className="text-[12px]">
-                      <p>Add more ..</p>
                     </div>
                     <div>
                       <img

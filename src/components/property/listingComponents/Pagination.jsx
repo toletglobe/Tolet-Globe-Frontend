@@ -4,6 +4,7 @@ import { FaChevronLeft, FaChevronRight, FaLocationDot } from "react-icons/fa6";
 const Pagination = ({ properties }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [propertiesPerPage, setPropertiesPerPage] = useState(9);
+  
 
   // Calculate total pages
   const totalPages = Math.ceil(properties.length / propertiesPerPage);

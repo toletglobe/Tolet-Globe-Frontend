@@ -5,6 +5,7 @@ import {
 } from "react-icons/fa";
 import Button from '../../fields/Button';
 
+
 const Pagination = ({ currentPage, handlePreviousPage, handleNextPage, onPageChange, totalPages }) => {
     return (
         <div className="flex justify-center mt-5 mx-auto">
