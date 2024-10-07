@@ -53,7 +53,7 @@ import AboutUs from "./About/AboutUs";
 
 //Landlord Page
 
-import LandlordPage from "./landlord/LandlordPage.jsx"
+// import LandlordPage from "./landlord/LandlordPage.jsx"
 import LandlordDashboard from "./landlord/LandlordDashboard.jsx";
 
 
@@ -87,7 +87,7 @@ export {
   Service,
   Flow2a,
 
-  LandlordPage,
+  // LandlordPage,
   LandlordDashboard
 
 };
