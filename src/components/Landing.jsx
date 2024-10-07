@@ -2,7 +2,7 @@ import { Homepage } from "./index";
 import Service from "./service/Service";
 import { About } from "./landingpage/home/about";
 import { ContactUs } from "./landingpage/home/getintouch";
-import Institution from "./partner institution/Institution";
+import Institution from "./partner_institution/Institution";
 
 const Landing = () => {
   return (
