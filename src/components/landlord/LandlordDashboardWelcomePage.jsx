@@ -20,8 +20,6 @@ const LandlordDashboard = () => {
 
   const authState = useSelector((state) => state.auth);
 
-  console.log(authState);
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (phoneRef.current && !event.target.closest(".contact-support-box")) {
