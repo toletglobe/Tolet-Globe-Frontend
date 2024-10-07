@@ -14,7 +14,7 @@ import {
   ForgotPassword,
   Flow2a,
 
-  LandlordPage,
+  // LandlordPage,
   LandlordDashboard
 
 } from "./index";
@@ -54,7 +54,7 @@ const Layout = () => {
           <Route path="/property/:id" element={<Flow2a />} />
           <Route path="/property/reviews" element={<Reviews />} />
           <Route path="/property/add-property" element={<AddProperty />} />
-          <Route path="/landlord-profile" element={<LandlordPage />} />
+{/*           <Route path="/landlord-profile" element={<LandlordPage />} /> */}
           <Route path="/landlord-dashboard" element={<LandlordDashboard />} />
 
         </Routes>
