@@ -20,6 +20,8 @@ import { ClipLoader } from "react-spinners";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 
 const Listing = (props) => {
+  const { city } = useParams();
+
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -51,12 +53,8 @@ const Listing = (props) => {
     const fetchAndFilterProperties = async () => {
       setLoading(true);
       try {
-        // Fetch properties
-        const propertyData = slug
-          ? await Service.fetchPropertyBySlug(slug)
-          : await Service.fetchProperty();
+        const propertyData = await Service.fetchPropertyByCity(city);
         setProperties(propertyData || []); // Ensure propertyData is an array
-        //  console.log(propertyData); // Ensure propertyData is an array
 
         // Check for filters
         const searchParams = new URLSearchParams(location.search);
@@ -309,7 +307,7 @@ const Listing = (props) => {
                   </div>
                   <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
                     <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full">
-                      <p>Lucknow</p>
+                      <p>{city}</p>
                     </div>
                     <div>
                       <img
@@ -386,7 +384,7 @@ const Listing = (props) => {
             } `}
           >
             <div className="relative w-full max-w-lg">
-              <Filters SetIsOpen={SetIsOpen} setProperties={setProperties} />
+              <Filters SetIsOpen={SetIsOpen} setProperties={setProperties} city={city}/>
               <div className="absolute top-1 right-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

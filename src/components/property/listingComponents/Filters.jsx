@@ -4,19 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../constant/constant";
 import axios from "axios";
 
-const Filters = ({ SetIsOpen, setProperties }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const Filters = ({ SetIsOpen, setProperties, city }) => {
   const [filters, setFilters] = useState({
     bhk: [],
     residential: [],
     commercial: [],
-    others: "",
     preferenceHousing: "",
     genderPreference: "",
     houseType: [],
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => {
@@ -43,6 +41,7 @@ const Filters = ({ SetIsOpen, setProperties }) => {
         return newFilters;
       }
     });
+    console.log(filters);
   };
 
   const resetFilters = () => {
@@ -50,7 +49,6 @@ const Filters = ({ SetIsOpen, setProperties }) => {
       bhk: [],
       residential: [],
       commercial: [],
-      others: "",
       preferenceHousing: "",
       genderPreference: "",
       houseType: [],
@@ -58,7 +56,7 @@ const Filters = ({ SetIsOpen, setProperties }) => {
   };
 
   const seeResults = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     const cleanedFilters = {
       ...filters,
       bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
@@ -75,7 +73,14 @@ const Filters = ({ SetIsOpen, setProperties }) => {
       })
       .join("&");
 
-    const url = `${BASE_URL}property/filter?${queryString}`;
+    // Add the city to the query string
+    const cityParam = `city=${encodeURIComponent(city)}`;
+    const finalQueryString = queryString
+      ? `${queryString}&${cityParam}`
+      : cityParam;
+
+    const url = `${BASE_URL}property/filter?${finalQueryString}`;
+    console.log(url);
 
     try {
       const response = await axios.get(url);
@@ -87,18 +92,13 @@ const Filters = ({ SetIsOpen, setProperties }) => {
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
       SetIsOpen(false);
     }
   };
 
   return (
     <>
-      {isLoading && (
-        <div>
-          <p className="text-white font-bold text-2xl"></p>
-        </div>
-      )}
       <div className="lg:w-[450px] md:w-[380px] w-[320px] bg-white text-black flex flex-col justify-between rounded-b-2xl shadow-md">
         <div className="text-xl font-medium py-3 flex items-center justify-center border-b-2">
           <p>All Filters</p>
@@ -128,7 +128,7 @@ const Filters = ({ SetIsOpen, setProperties }) => {
               Residential
             </p>
             <div className="flex flex-wrap gap-2">
-              {["+ Flat", "+ House/Villa"].map((type, index) => (
+              {["+ Flat", "+ House", "+ PG"].map((type, index) => (
                 <div
                   key={index}
                   className={`hover:cursor-pointer h-7 w-24 text-xs font-light border border-[#4A7F79] rounded-md flex items-center justify-center ${
@@ -149,12 +149,7 @@ const Filters = ({ SetIsOpen, setProperties }) => {
               Commercial
             </p>
             <div className="flex flex-wrap items-start gap-2">
-              {[
-                "+ Office Space",
-                "+ Shop/Showroom",
-                "+ Warehouse/Godown",
-                "+ Building/Complex",
-              ].map((type, index) => (
+              {["+ Office", "+ Shop", "+ Warehouse"].map((type, index) => (
                 <div
                   key={index}
                   className={`hover:cursor-pointer h-7 w-32 text-xs font-light border border-[#4A7F79] rounded-md flex items-center justify-center ${
@@ -170,7 +165,7 @@ const Filters = ({ SetIsOpen, setProperties }) => {
             </div>
           </div>
 
-          <div className="w-full mb-3">
+          {/* <div className="w-full mb-3">
             <p className="text-base font-medium text-[#696969] mb-2">Others</p>
             <div className="flex">
               <div
@@ -184,7 +179,7 @@ const Filters = ({ SetIsOpen, setProperties }) => {
                 + Farm house
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="w-full mb-3">
             <p className="text-base font-medium text-[#696969] mb-2">
@@ -201,6 +196,7 @@ const Filters = ({ SetIsOpen, setProperties }) => {
                 <option value="">Select one</option>
                 <option value="Family">Family</option>
                 <option value="Bachelors">Bachelors</option>
+                <option value="Any">Any</option>
               </select>
               <select
                 className={`h-7 w-28 text-xs font-light border rounded-md ${
@@ -223,7 +219,7 @@ const Filters = ({ SetIsOpen, setProperties }) => {
                   <>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
-                    <option value="Both">Both</option>
+                    <option value="Others">Others</option>
                   </>
                 )}
               </select>
@@ -235,7 +231,7 @@ const Filters = ({ SetIsOpen, setProperties }) => {
               House Type
             </p>
             <div className="flex flex-wrap items-start gap-2">
-              {["Full-Furnished", "Semi-Furnished", "Non-Furnished"].map(
+              {["Fully-Furnished", "Semi-Furnished", "Non-Furnished"].map(
                 (type, index) => (
                   <div
                     key={index}

@@ -22,9 +22,6 @@ import {
   Flow2a,
   LandlordPage,
   LandlordDashboard,
-  Listing_Ayodhya,
-  Listing_Vellore,
-  Listing_Kota,
 } from "./index";
 import Landing from "./Landing";
 import ResetPassword from "./resetpassword/ResetPassword";
@@ -62,9 +59,8 @@ const Layout = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
-          {/* <Route path="/property-listing-lucknow" element={<Listing />} /> */}
           <Route
-            path="/property-listing-lucknow"
+            path="/property-listing/:city"
             element={
               <Listing
                 setcompareData={setcompareData}
@@ -72,17 +68,6 @@ const Layout = () => {
               />
             }
           />
-          <Route
-            path="/property-listing-ayodhya"
-            element={<Listing_Ayodhya />}
-          />
-          <Route
-            path="/property-listing-vellore"
-            element={<Listing_Vellore />}
-          />
-          <Route path="/property-listing-kota" element={<Listing_Kota />} />
-          <Route path="/property-listing/:slug" element={<Listing />} />
-          {/* <Route path="/property/:id" element={<Flow2a />} />  use this for old properties and comment down the below one */}
           <Route path="/property/:slug" element={<Flow2a />} />
           <Route path="/property/reviews" element={<Reviews />} />
           <Route path="/property/add-property" element={<AddProperty />} />

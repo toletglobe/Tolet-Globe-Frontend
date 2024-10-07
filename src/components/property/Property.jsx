@@ -27,7 +27,7 @@ const Property = () => {
               </p>
             </div>
             <Link
-              to={"/property-listing-lucknow"}
+              to={"/property-listing/Lucknow"}
               className="px-5 py-2 bg-white text-black rounded-md"
             >
               Join Us
@@ -48,7 +48,10 @@ const Property = () => {
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            <Link to={'/property-listing-ayodhya'}  className="px-5 py-2 bg-white text-black rounded-md">
+            <Link
+              to={"/property-listing/Ayodhya"}
+              className="px-5 py-2 bg-white text-black rounded-md"
+            >
               Join Us
             </Link>
           </div>
@@ -61,7 +64,10 @@ const Property = () => {
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            <Link to={'/property-listing-vellore'}  className="px-5 py-2 bg-white text-black rounded-md">
+            <Link
+              to={"/property-listing/Vellore"}
+              className="px-5 py-2 bg-white text-black rounded-md"
+            >
               Join Us
             </Link>
           </div>
@@ -80,7 +86,10 @@ const Property = () => {
                 With No Brokerage on rental PGs | Flats | Houses | Offices.
               </p>
             </div>
-            <Link to={'/property-listing-kota'}  className="px-5 py-2 bg-white text-black rounded-md">
+            <Link
+              to={"/property-listing/Kota"}
+              className="px-5 py-2 bg-white text-black rounded-md"
+            >
               Join Us
             </Link>
           </div>
@@ -91,4 +100,3 @@ const Property = () => {
 };
 
 export default Property;
-
