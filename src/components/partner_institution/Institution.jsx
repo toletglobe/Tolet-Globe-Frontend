@@ -3,7 +3,7 @@ import ipcpsimg from "../../assets/Institution/IpcpsImg.svg";
 // import ipcpsText from "../../assets/Institution/IpcpText.svg";
 import UniversityOgLakhnaw from "../../assets/Institution/UniversityOfLakhnaw.svg";
 import NPGC from "../../assets/Institution/NPGC.svg";
-import RCD from "../../assets/Institution/RCD.svg";
+import RCD from "../../assets/Institution/RCd.svg";
 import SSDC from "../../assets/Institution/SSCD.svg";
 
 import NMIMS from "../../assets/Institution/NMIMS.svg";
