@@ -55,7 +55,7 @@ export const ContactUs = () => {
     "https://www.google.com/maps/place/To-Let+Globe/@26.8465566,80.9797793,15z/data=!4m6!3m5!1s0x399bfd77577ba78f:0xd2d6f22d1b246815!8m2!3d26.8465566!4d80.9797793!16s%2Fg%2F11vhrqqb45?entry=ttu";
   return (
     <div className="my-10 h-full m-auto flex flex-col">
-      <div className="w-[80%] mx-auto h-full bg-black flex flex-col justify-between lg:flex-row lg:justify-between mt-15">
+      <div className="w-full mx-auto h-full bg-black flex flex-col justify-between lg:flex-row lg:justify-between mt-15 px-20">
         <a href={googlemaps} className="lg:w-[65%] flex h-[30rem] lg:h-auto">
           <div
             style={{

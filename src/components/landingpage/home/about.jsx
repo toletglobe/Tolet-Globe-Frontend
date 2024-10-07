@@ -7,7 +7,7 @@ export const About = () => {
   return (
     <div className="bg-black w-full p-5 mt-[12%] mb-[5%]">
       <h2 className="text-6xl font-bold text-white text-center">About Us</h2>
-      <div className="flex flex-col items-center lg:px-40 px-10">
+      <div className="flex flex-col lg:px-0 px-20">
         <div className="flex items-center justify-center lg:pt-[120px] pt-[70px] flex-wrap lg:flex-nowrap">
           <div md={6} className="text-center pb-10">
             <h3 className="font-poppins text-4xl font-normal text-yellow-500 lg:text-left pb-2 text-center lg:pr-14">
@@ -29,15 +29,15 @@ export const About = () => {
         </div>
 
         <div className="flex items-center justify-center lg:pt-[120px] pt-[70px] lg:flex-nowrap flex-wrap">
-          <div md={4} className="text-center lg:order-first order-last">
+          <div md={4} className="text-center pl-10 lg:order-first order-last">
             <img
               src={image2}
               alt="image2"
-              className="w-full max-w-[400px] h-full max-h-[400px] m-auto"
+              className="w-full max-w-[300px] h-full max-h-[300px] m-auto"
             />
           </div>
 
-          <div md={6} className="pl-0 lg:pl-10 pb-10">
+          <div md={6} className="text-center pl-0 lg:pl-10 pb-10">
             <h3 className="font-poppins text-4xl font-normal text-[#f6ce3c] pb-2 lg:text-left text-center lg:pl-14">
               Our Vision
             </h3>

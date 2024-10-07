@@ -42,8 +42,8 @@ const Sidebar = ({activeLink, handleNavLinkClick}) => {
                     <AiOutlineHome size={27} className='mr-3' /><span>My Properties</span>
                 </Link>
                 <Link
-                    to="/admin/Add-Properties"
-                    onClick={()=>handleNavLinkClick("/Add-Properties")}
+                    to="/admin/add-Properties"
+                    onClick={()=>handleNavLinkClick("/add-Properties")}
                     className="flex block text-white-700 hover:bg-[#ffcc00] p-3 rounded"
                 >
                     <IoAddOutline size={27} className='mr-3' /><span>Add Property</span>

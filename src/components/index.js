@@ -47,17 +47,21 @@ import Contact from "./contact/Contact";
 
 //Service Component
 import Service from "./service/Service";
+import Warehouse from "./service/Warehouse.jsx";
+import House from "./service/House.jsx";
+import Flat from "./service/Flat.jsx";
+import Shop from "./service/Shop.jsx";
+import Pg from "./service/Pg";
+import Office from "./service/Office.jsx";
 
 //About us page component
 import AboutUs from "./About/AboutUs";
 
 //Landlord Page
 
-// import LandlordPage from "./landlord/LandlordPage.jsx"
+
+
 import LandlordDashboard from "./landlord/LandlordDashboard.jsx";
-
-
-
 
 export {
   Button,
@@ -85,9 +89,14 @@ export {
   Property,
   Listing,
   Service,
+  Shop,
+  Office,
+  Warehouse,
+  Flat,
+  Pg,
+  House,
   Flow2a,
 
-  // LandlordPage,
   LandlordDashboard
 
 };

@@ -1,7 +1,7 @@
 
 .left::after{
     content: "";
-    background-image: url(../../../assets/logo.jpeg);
+    background-image: url(../../../assets/logo1.jpeg);
     background-size: contain;
     box-shadow: 0 0 0.5em #6cc0c4;  
     width: 3.9em;
@@ -15,7 +15,7 @@
 
 .right::after{
     content: "";
-    background-image: url(../../../assets/logo.jpeg);
+    background-image: url(../../../assets/logo1.jpeg);
     background-position: cover;
     background-size: contain;
     box-shadow: 0 0 0.5em #6cc0c4;
