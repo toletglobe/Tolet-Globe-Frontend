@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import userIcon from "../../assets/user-icon.png";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/authSlice";
-import { button } from "@material-tailwind/react";
 import {
   ArrowLeftStartOnRectangleIcon,
   ComputerDesktopIcon,
@@ -25,14 +25,6 @@ const NavBar = () => {
     setActiveLink(link);
     // setIsNavOpen(false);
   };
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   dispatch(logout());
-  //   navigate("/login");
-  //   toast.success("Logged out!");
-  //   setIsNavOpen(false);
-  // };
 
   const handleLogout = () => {
     setIsMenuOpen(false);
@@ -58,7 +50,7 @@ const NavBar = () => {
 
   return (
     <nav className="z-50">
-      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-10 py-4">
+      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-20 py-4">
         <div className="navbar-logo">
           <Link to="/" className="flex items-center">
             <img src={logo} alt="Logo" className="h-16 lg:h-12 ml-10 lg:ml-0" />
@@ -107,7 +99,8 @@ const NavBar = () => {
                   activeLink === "home"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
                 onClick={() => handleNavLinkClick("home")}
               >
                 Home
@@ -120,7 +113,8 @@ const NavBar = () => {
                   activeLink === "service"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
                 onClick={() => handleNavLinkClick("service")}
               >
                 Service
@@ -133,7 +127,8 @@ const NavBar = () => {
                   activeLink === "blog"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
                 onClick={() => handleNavLinkClick("blog")}
               >
                 Blog
@@ -146,7 +141,8 @@ const NavBar = () => {
                   activeLink === "contact"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                }`}
                 onClick={() => handleNavLinkClick("contact")}
               >
                 Contact
@@ -159,8 +155,9 @@ const NavBar = () => {
                   activeLink === "aboutus"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
-                onClick={() => handleNavLinkClick("about")}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
+                onClick={() => handleNavLinkClick("aboutus")}
               >
                 About
               </Link>
@@ -172,7 +169,8 @@ const NavBar = () => {
                   activeLink === "propertyListing"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                } hover:bg-[#c8a21c] hover:rounded-md`}
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
                 onClick={() => handleNavLinkClick("propertyListing")}
               >
                 Property Listing
@@ -208,21 +206,29 @@ const NavBar = () => {
                 <div ref={avatarRef}>
                   <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="rounded-full relative flex justify-center items-center w-10 h-10 mx-3 text-white bg-teal-500"
+                    className="rounded-full relative flex justify-center items-center w-9 h-9 mx-3 text-white bg-teal-500"
                   >
-                    {authState.userData
-                      ? authState.userData.username.charAt(0).toUpperCase()
-                      : "U"}
+                    <img
+                      src={userIcon}
+                      alt="avatar"
+                      className="w-full h-full rounded-full p-1"
+                    />
                   </button>
                   {isMenuOpen && (
-                    <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#0f0f0f] bg-white rounded-lg">
+                    <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#120404] bg-white rounded-lg">
                       <ul className="w-ful flex flex-col items-start">
-                        <li className="font-bold p-3 w-full text-center">
+                        <li className="font-extrabold p-3 w-full text-center bg-gray-200 ">
                           {authState.userData
-                            ? authState.userData.username.toUpperCase()
-                            : "USER"}
+                            ? authState.userData.firstName?.toUpperCase()
+                            : "User"}
                         </li>
-                        <li className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg">
+                        <li
+                          onClick={() => {
+                            navigate("/landlord-dashboard");
+                            setIsMenuOpen(false);
+                          }}
+                          className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg"
+                        >
                           <ComputerDesktopIcon className="w-[18px] h-[18px] mr-2" />{" "}
                           Dashboard
                         </li>
@@ -244,7 +250,8 @@ const NavBar = () => {
                     activeLink === "login"
                       ? "text-white bg-teal-500 rounded-md"
                       : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
+                    // } hover:bg-[#c8a21c] hover:rounded-md`}
+                  } `}
                   onClick={() => handleNavLinkClick("login")}
                 >
                   Login

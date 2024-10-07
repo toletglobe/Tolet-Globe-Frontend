@@ -21,9 +21,9 @@ const Footer = () => {
 
       <hr className="my-3"/>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 justify-around gap-20">
+      <div className="flex justify-around gap-20 py-2 px-2">
         <div>
-          <h1 className="text-2xl font-semibold">REACH US</h1>
+          <h1 className="text-2xl font-semibold text-teal-500">REACH US</h1>
           <ul className="mt-5">
             <li className="flex flex-row items-center mb-2 gap-2">
               <IoIosCall /> +91-8707727347
@@ -31,14 +31,14 @@ const Footer = () => {
             <li className="flex flex-row items-center mb-2 gap-2">
               <IoIosMail /> hello@toletglobe.in
             </li>
-            <li className="flex flex-row items-center mb-2 gap-2">
-              <FaLocationDot /> D1/122 Vipulkhand, Gomtinagar Lucknow, Uttar
+            <li className="flex flex-row items-center mb-2 gap-2 text-sm">
+              <FaLocationDot /> D1/122 Vipulkhand, Gomtinagar Lucknow,Uttar
               Pradesh
             </li>
           </ul>
         </div>
-        <div>
-          <h1 className="text-2xl font-semibold">QUICK LINKS</h1>
+        <div className="">
+          <h1 className="text-2xl font-semibold whitespace-nowrap text-teal-500  ">QUICK LINKS</h1>
           <ul className="mt-5 gap-3">
             <li className="mb-2">
               <Link
@@ -70,7 +70,7 @@ const Footer = () => {
           </ul>
         </div>
         <div>
-          <h1 className="text-2xl font-semibold">SERVICE</h1>
+          <h1 className="text-2xl font-semibold text-teal-500">SERVICES</h1>
           <ul className="mt-5 gap-3">
             <li>Paying Guest</li>
             <li>Flat and House</li>
@@ -78,16 +78,16 @@ const Footer = () => {
             <li>Shops and Godown</li>
           </ul>
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center ">
           <div>
             <img src={logo} alt="" />
           </div>
-          <div className="text-center">
-            One-stop solution for all your brokerage-free rental needs
-          </div>
+        <p className="text-center justify-stretch mt-3">
+          One-stop solution for all your <br/> brokerage-free rental needs
+        </p>
         </div>
       </div>
-      <div className="text-gray-500 font-bold mt-10">
+      <div className="text-gray-500 font-bold mt-4 ml-9">
         © 2023 To-Let Globe -- Lucknow
       </div>
     </div>
