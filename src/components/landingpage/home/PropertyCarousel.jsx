@@ -41,7 +41,7 @@ export const PropertyCarousel = () => {
             <p className="text-[#CCB454]">
               With No Brokerage on rental PGs | Flats | Houses | Offices.
             </p>
-            <Link to={"/property-listing"} className="px-5 py-2 bg-[#d3d3d3] text-black rounded-lg">
+            <Link to={"/property-listing/lucknow"} className="px-5 py-2 bg-[#d3d3d3] text-black rounded-lg">
               JOIN US
             </Link>
           </div>
@@ -59,7 +59,7 @@ export const PropertyCarousel = () => {
             <p className="text-[#CCB454]">
               With No Brokerage on rental PGs | Flats | Houses | Offices.
             </p>
-            <Link to={"/property-listing"} className="px-5 py-2 bg-[#d3d3d3] text-black rounded-lg">
+            <Link to={"/property-listing/ayodhya"} className="px-5 py-2 bg-[#d3d3d3] text-black rounded-lg">
               JOIN US
             </Link>
           </div>
@@ -77,7 +77,7 @@ export const PropertyCarousel = () => {
             <p className="text-[#CCB454]">
               With No Brokerage on rental PGs | Flats | Houses | Offices.
             </p>
-            <Link to={"/property-listing"} className="px-5 py-2 bg-[#d3d3d3] text-black rounded-lg">
+            <Link to={"/property-listing/vellore"} className="px-5 py-2 bg-[#d3d3d3] text-black rounded-lg">
               JOIN US
             </Link>
           </div>
@@ -95,7 +95,7 @@ export const PropertyCarousel = () => {
             <p className="text-[#CCB454]">
               With No Brokerage on rental PGs | Flats | Houses | Offices.
             </p>
-            <Link to={"/property-listing"} className="px-5 py-2 bg-[#d3d3d3] text-black rounded-lg">
+            <Link to={"/property-listing/kota"} className="px-5 py-2 bg-[#d3d3d3] text-black rounded-lg">
               JOIN US
             </Link>
           </div>
