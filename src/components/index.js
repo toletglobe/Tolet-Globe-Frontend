@@ -59,6 +59,7 @@ import AboutUs from "./About/AboutUs";
 
 //Landlord Page
 
+
 import LandlordDashboard from "./landlord/LandlordDashboard.jsx";
 
 export {
@@ -94,5 +95,7 @@ export {
   Pg,
   House,
   Flow2a,
+
   LandlordDashboard,
+
 };

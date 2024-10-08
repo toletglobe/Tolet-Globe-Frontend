@@ -99,6 +99,8 @@ const Flow2b = ({ property }) => {
             <LocationComponent property={property} selectComp={selectComp} />
           </div>
 
+
+
           {/* Review section */}
           <div className={`pb-4 ${selectComp > 6 ? "hidden" : ""}`}>
             <Reviews reviewData={reviewData} />
