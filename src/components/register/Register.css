@@ -1,0 +1,16 @@
+body{
+  background-color: #000000;
+}
+
+
+/* Transition Animition css*/
+.register_form_container::before {
+  @apply absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#3cbdb1)] animate-rotate_border;
+  content: '';
+}
+
+.register_form_container::after {
+  @apply absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#c8a217)] animate-rotate_border;
+  content: '';
+  animation-delay: -3s;
+}

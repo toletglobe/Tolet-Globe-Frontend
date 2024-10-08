@@ -1,0 +1,2 @@
+bg1 C0CFB8 33%
+bg2 C0CFB8 10%  pass through 70

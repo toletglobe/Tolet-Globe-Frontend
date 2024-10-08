@@ -1,0 +1,803 @@
+
+@media (max-width: 480px) {
+    /*------------------- Background CSS -----------------------*/
+    
+    .Tbg-1{
+        position: absolute;
+        opacity: 0.05;
+        width: 500px;
+        height: 600px;
+        transform: translate3d(-450px,50px,0);
+        transition: all 1sec ease-in-out;
+    }
+    .scrolled .Tbg-1{
+        opacity: 1 !important;
+        width: 500px;
+        height: 600px;
+        transform: translate3d(560px,-520px,0);
+        transition: all 1sec ease-in-out;
+    }
+    
+    .bg-1{
+        opacity: 0;
+        transform: translate3d(560px,-520px,0);
+        transition: all 1sec ease-in-out;
+    }
+    .scrolled .bg-1{
+        width: 500px;
+        height: 600px;
+        position: absolute;
+        opacity: 0.3;
+        transform: translate3d(260px,-120px,0);
+    }
+    
+    .Tbg-2{
+        height: 600px !important;
+        opacity: 0.1;
+        transform: translate3d(-600px,-300px,0);
+        transition: all 1sec ease-in-out !important;
+    }
+    .scrolled .Tbg-2{
+        opacity: 0;
+        transform: translate3d(400px,-300px,0);
+    }
+    
+    .bg-2{
+        opacity: 0;
+        height: 600px !important ;
+        transform: translate3d(-600px,-300px,0);
+        transition: all 0.5sec ease-in-out;
+    }
+    .scrolled .bg-2{
+        opacity: 0.2;
+        height: 250px;
+        width: 250px;
+        position: absolute;
+        z-index: -1;
+        transform: translate(0px,-290px);
+    }
+    
+    /* -----------------------Bird Component-------------- */
+    
+    .Tbird-1{
+        position: absolute;
+        opacity: 0.5;
+        width: 50px;
+        height: 20px;
+        transform: translate3d(-120px, 20px, 0) !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Tbird-1 {
+        opacity: 0;
+        transform: translate3d(250px,190px,0) !important;
+    }
+    
+    .bird-1{
+        opacity: 0;
+        position: absolute;
+        transform: translate3d(-1040px, -250px, 0) !important;
+        transition: all 1.5s ease-in-out;
+    }
+    
+    .scrolled .bird-1{
+        position: absolute;
+        opacity: 1;
+        width: 40px;
+        height: 20px;
+        transform: translate3d(-40px,-100px,0) !important;
+    } 
+    
+    .Tbird-2{
+        position: absolute;
+        opacity: 0.5;
+        width: 100px;
+        height: 40px;
+        transform: translate3d(-310px, 420px, 0);
+        transition: 1.5s ease-in-out;
+    }
+    .scrolled .Tbird-2{
+        opacity: 0;
+        width: 100px;
+        height: 40px;
+        transform: translate3d(450px, 250px, 0);
+    }
+    
+    .bird-2{
+        opacity: 0;
+        position: absolute;
+        transform: translate3d(-700px, 72px, 0);
+        transition: 1.5s ease-in-out;
+    }
+    .scrolled .bird-2{
+        position: absolute;
+        opacity: 1;
+        width: 40px;
+        height: 20px;
+        transform: translate3d(120px, -30px, 0);
+    }
+    
+    /* ------------------Cloud CSS------------------- */
+    
+    /* Line 42 */
+    
+    /* box-sizing: border-box;
+    
+    position: absolute;
+    width: 366.72px;
+    height: 0px;
+    left: 572px;
+    top: 1632px;
+    
+    background: #6CBFC4;
+    border: 5px solid #6CBFC4;
+    transform: matrix(0.97, 0.24, 0.24, -0.97, 0, 0); */
+    
+    
+    .Tcloud-1{
+        position: absolute;
+        opacity: 0.3;
+        width: 100px;
+        height: 40px;
+        transform: translate3d(-260px,45px,0) !important;
+        transition: all 1.5s ease-in-out !important;
+    }
+    
+    .scrolled .Tcloud-1{
+        opacity: 0;
+        position: absolute;
+        transform: translate3d(250px, 150px,0) !important;
+    }
+    .cloud-1{
+        opacity: 0;
+        position: absolute;
+        width: 100px;
+        height: 40px;
+        transform: translate3d(-260px,-245px,0) !important;
+        transition: all 1.5s ease-in-out !important;
+    }
+    .scrolled .cloud-1{
+        position: absolute;
+        opacity: 1;
+        width: 100px;
+        height: 40px;
+        transform: translate3d(-200px, -50px,0) !important;
+    }
+    
+    .Tcloud-2{
+        opacity: 0.5;
+        position: absolute;
+        width: 170px;
+        height: 60px;
+        transform: translate3d(-50%,160px,0);
+        transition: all 1.5s ease-in-out !important;
+    }
+    .scrolled .Tcloud-2{
+        position: absolute;
+        opacity: 0;
+        width: 100px;
+        height: 40px;
+        transform: translate3d(70px,220px,0);
+    }
+    .cloud-2{
+        opacity: 0.3;
+        position: absolute;
+        width: 130px;
+        height: 40px;
+        transform: translate3d(-450px,45px,0);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled  .cloud-2{
+        position: absolute;
+        opacity: 2;
+        width: 100px;
+        height: 40px;
+        transform: translate3d(-40px,-150px,0);
+    }
+    
+    .Tcloud-3{
+        opacity: 0.5;
+        position: absolute;
+        width: 120px;
+        height: 40px;
+        transform: translate3d(-520px,430px,0);
+        transition: all 1.5s ease-in-out !important;
+    }
+    .scrolled .Tcloud-3{
+        opacity: 0;
+        position: absolute;
+        width: 260px;
+        height: 40px;
+        transform: translate3d(340px,175px,0);
+        
+    }
+    .cloud-3{
+        position: absolute;
+        opacity: 0;
+        width: 260px;
+        height: 40px;
+        transform: translate3d(-550px,-50px,0);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .cloud-3{
+        position: absolute;
+        opacity: 1;
+        width: 100px;
+        height: 40px;
+        transform: translate3d(100px,-75px,0);
+    }
+    
+    /* -------------------Hand CSS ------------------ */
+    
+    .Thand{
+        position: absolute;
+        opacity: 0;
+        width: 250px;
+        height: 200px;
+        transform: translate(85%,10%);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Thand{
+        position: absolute;
+        opacity: 0;
+        z-index: 2;
+        width: 250px;
+        height: 200px;
+        transform: translateX(-25%);
+    }
+    .hand{
+        opacity: 0;
+        position: absolute;
+        width: 250px;
+        height: 200px;
+        right: -50%;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .hand{
+        position: absolute;
+        opacity: 1;
+        z-index: 2;
+        width: 300px;
+        height: 200px;
+        opacity: 1;
+        right: 32%;
+    }
+    
+    
+    /* -------------------Home CSS ------------------ */
+    .Twall-1{
+        position: absolute;
+        height: 110px;
+        width:180px;
+        opacity: 0.05;
+        transform: translate3d(36.5vw,470px,0px) rotate(300deg);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Twall-1{
+        position: absolute;
+        height: 60px;
+        width:80px;
+        opacity: 0;
+        transform: translate3d(-15px,30px,0px) rotate(360deg);
+    }
+    .wall-1{
+        position: absolute;
+        height: 20px;
+        width:80px;
+        opacity: 1;
+        transform: translate3d(450px,191px,0px) rotate(20deg) ;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .wall-1{
+        position: absolute;
+        height: 60px;
+        width:80px;
+        opacity: 1;
+        transform: translate3d(-5px,50px,0px) rotate(360deg);
+    }
+    .Twall-2{
+        position: absolute;
+        height: 190px;
+        width:240px;
+        opacity:0.05;
+        transform: translate3d(35.5vw,300px,50px)rotate(300deg);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Twall-2{
+        position: absolute;
+        height: 190px;
+        width:240px;
+        opacity:0;
+        transform: translate3d(50px,-15px,0) rotate(360deg);
+    }
+    .wall-2{
+        position: absolute;
+        height: 20px;
+        width:80px;
+        opacity: 1;
+        transform: translate3d(550px,230px,50px)rotate(30deg);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .wall-2{
+        position: absolute;
+        height: 100px;
+        width:80px;
+        opacity: 1;
+        transform: translate3d(60px,5px,0) rotate(360deg);
+    }
+    .Troof-1{
+        position: absolute;
+        height: 140px;
+        width:110px;
+        opacity: 0.1;
+        transition: all 1.5s ease-in-out;
+        transform: translate3d(-55vw,75vh,0) !important;
+    }
+    .scrolled .Troof-1{
+        position: absolute;
+        height: 140px;
+        opacity: 0;
+        width:190px;
+        transform: translate3d(-12px,-65px,0) rotate(360deg);
+    }
+    .roof-1{
+        position: absolute;
+        height: 140px;
+        width:110px;
+        transform: translate3d(-730px,90px,0);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .roof-1{
+        position: absolute;
+        height: 140px;
+        width:110px;
+        transform: translate3d(-3px,-45px,0) rotate(360deg);
+    }
+    
+    .Troof-2{
+        position: absolute;
+        height: 50px;
+        width:45px;
+        opacity: 0.2;
+        transition: all 1.5s ease-in-out;
+        transform: translate3d(-115px,445px,0)  !important;
+    }
+    .scrolled .Troof-2{
+        position: absolute;
+        height: 50px;
+        width:45px;
+        opacity: 0;
+        transform: translate3d(15px,-30px,0)  !important;
+    }
+    .roof-2{
+        position: absolute;
+        height: 170px;
+        opacity: 0.3;
+        height: 50px;
+        width:45px;
+        transition: all 1.5s ease-in-out;
+        transform: translate3d(-115px,65px,0) rotate(360deg) !important;
+    }
+    .scrolled .roof-2{
+        position: absolute;
+        opacity: 1;
+        height: 50px;
+        width:45px;
+        transform: translate3d(25px,-10px,0)  !important;
+    }
+    .Troof-3{
+        position: absolute;
+        height: 55px;
+        width:115px;
+        opacity: 0.2;
+        z-index: 0;
+        transform: translate3d(-625px,470px,0);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Troof-3{
+        position: absolute;
+        height: 55px;
+        width:115px;
+        fill: black;
+        z-index: 0;
+        transform: translate3d(27px,-22px,0);
+    }
+    .roof-3{
+        position: absolute;
+        height: 55px;
+        width:115px;
+        z-index: 0;
+        transform: translate3d(548px,-50px,0);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .roof-3{
+        position: absolute;
+        height: 55px;
+        width:115px;
+        z-index: 0;
+        transform: translate3d(37px,-3px,0);
+    }
+    
+    .Troof-4{
+        position: absolute;
+        height: 140px;
+        opacity: 0.06;
+        width:85px;
+        transform: translate3d(250px,330px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Troof-4{
+        position: absolute;
+        height: 140px;
+        opacity: 0;
+        width:85px;
+        transform: translate3d(300px,200px,0)  !important;
+    }
+    .roof-4{
+        position: absolute;
+        height: 140px;
+        opacity: 0.2;
+        width:85px;
+        transform: translate3d(250px,130px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .roof-4{
+        position: absolute;
+        opacity: 1;
+        height: 30px;
+        width:45px;
+        transform: translate3d(25px,8px,0)  !important;
+    }
+    .Tgate{
+        position: absolute;
+        height: 45px;
+        width:30px;
+        transform: translate3d(80px,85vh,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Tgate{
+        position: absolute;
+        height: 45px;
+        width:30px;
+        opacity: 0;
+        transform: translate3d(10px,45px,0) !important;
+    }
+    .gate{
+        position: absolute;
+        height: 45px;
+        width:30px;
+        transform: translate3d(80px,65px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .gate{
+        position: absolute;
+        height: 45px;
+        width:30px;
+        transform: translate3d(17px,65px,0) !important;
+    }
+    
+    .Twindow-1{
+        opacity: 0.06;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate(31vw,52vh)  !important;
+        transition: all 1.5s ease-in-out !important;
+    }
+    .scrolled .Twindow-1{
+        opacity: 0;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate3d(22.5vw,45vh,0)  !important;
+    }
+    .window-1{
+        opacity: 0.2;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate(31vw,-17px)  !important;
+        transition: all 1.5s ease-in-out !important;
+    }
+    .scrolled .window-1{
+        opacity: 1 !important;
+        position: absolute;
+        height: 20px;
+        width:30px;
+        transform: translate3d(-3px,60px,0)  !important;
+    }
+    .Twindow-2{
+        opacity: 0.06;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate3d(28vw,52vh,0)  !important;
+        transition: all 1.5s ease-in-out !important;
+    }
+    .scrolled .Twindow-2{
+        opacity: 0;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate3d(28vw,45vh,0)  !important;
+    }
+    .window-2{
+        opacity: 0.2;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate3d(28vw,-17px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .window-2{
+        opacity: 1;
+        position: absolute;
+        height: 20px;
+        width:30px;
+        transform: translate3d(40px,60px,0)  !important;
+    }
+    .Twindow-3{
+        opacity: 0.06;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate(25vw,52vh)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Twindow-3{
+        opacity: 0;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate3d(32.5vw,42vh,0)  !important;
+    }
+    .window-3{
+        opacity: 0.2;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate(25vw,-18px)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .window-3{
+        opacity: 1;
+        position: absolute;
+        height: 20px;
+        width:30px;
+        transform: translate3d(70px,60px,0)  !important;
+    }
+    .Twindow-4{
+        opacity: 0.06;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate(22vw,52vh)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Twindow-4{
+        opacity: 0;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate3d(37vw,42vh,0)  !important;
+    }
+    .window-4{
+        opacity: 0.2;
+        position: absolute;
+        height: 60px;
+        width:30px;
+        transform: translate(22vw,-18px)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .window-4{
+        opacity: 1;
+        position: absolute;
+        height: 20px;
+        width:30px;
+        transform: translate3d(100px,60px,0)  !important;
+    }
+    .Twindow-5{
+        opacity: 0.06;
+        position: absolute;
+        height: 40px;
+        width:25px;
+        transform: translate(19vw,54vh)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Twindow-5{
+        opacity: 0;
+        position: absolute;
+        height: 40px;
+        width:25px;
+        transform: translate3d(32.7vw,42vh,0)  !important;
+    }
+    .window-5{
+        opacity: 0.2;
+        position: absolute;
+        height: 40px;
+        width:25px;
+        transform: translate(19vw,-10px)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .window-5{
+        opacity: 1;
+        position: absolute;
+        height: 15px;
+        width:20px;
+        z-index: 2;
+        transform: translate3d(90px,22px,0)  !important;
+    }
+    .Twindow-6{
+        position: absolute;
+        z-index: 1;
+        opacity: 0.06;
+        height: 35px;
+        width:25px;
+        transform: translate(16vw,54vh)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Twindow-6{
+        position: absolute;
+        z-index: 1;
+        opacity: 0;
+        height: 35px;
+        width:25px;
+        transform: translate3d(25.5vw,50vh,0)  !important;
+    }
+    .window-6{
+        opacity: 0.2;
+        position: absolute;
+        z-index: 1;
+        height: 35px;
+        width:25px;
+        transform: translate3d(-75px,-10px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .window-6{
+        opacity: 1;
+        position: absolute;
+        z-index: 1;
+        height: 13px;
+        width:15px;
+        transform: translate3d(30px,22px,0)  !important;
+    }
+    
+    
+    .Tchimney{
+        position: absolute;
+        opacity: 0.2;
+        width: 25px;
+        height: 25px;
+        transform: translate3d(430px,330px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Tchimney{
+        position: absolute;
+        opacity: 0;
+        width: 25px;
+        height: 25px;
+        transform: translate3d(430px,300px,0)  !important;
+    
+    }
+    .chimney{
+        position: absolute;
+        width: 25px;
+        opacity: 0.2;
+        height: 25px;
+        transform: translate3d(420px,-60px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .chimney{
+        position: absolute;
+        opacity: 1;
+        width: 20px;
+        height: 15px;
+        transform: translate3d(70px,-10px,0)  !important;
+    
+    }
+    
+    /* --------Plant CSS---------- */
+    .Tplant-1{
+        position: absolute;
+        height: 80px;
+        width:60px;
+        opacity: 0.2;
+        z-index: 0;
+        transform: translate3d(510px,520px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Tplant-1{
+        position: absolute;
+        height: 80px;
+        width:60px;
+        opacity: 0;
+        z-index: 0;
+        transform: translate3d(510px,390px,0)  !important;
+    }
+    .plant-1{
+        position: absolute;
+        height: 80px;
+        width:60px;
+        z-index: 0;
+        opacity: 0.3;
+        transform: translate3d(510px,100px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .plant-1{
+        position: absolute;
+        height: 50px;
+        width:60px;
+        z-index: 0;
+        opacity: 1;
+        transform: translate3d(118px,30px,0)  !important;
+    }
+    
+    .Tplant-2{
+        position: absolute;
+        height: 90px;
+        width:70px;
+        opacity:0.2;
+        z-index: 0;
+        transform: translate3d(208px,590px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Tplant-2{
+        position: absolute;
+        height: 90px;
+        width:70px;
+        opacity: 0;
+        z-index: 0;
+        transform: translate3d(207px,390px,0)  !important;
+    }
+    .plant-2{
+        position: absolute;
+        height: 110px; 
+        width:75px;
+        z-index: 0;
+        opacity: 0.1;
+        transform: translate3d(208px,90px,0)  !important;
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .plant-2{
+        position: absolute;
+        height: 50px;
+        width:60px;
+        opacity: 1;
+        z-index: 0;
+        transform: translate3d(-50px,33px,0)  !important;
+    }
+    
+    /* -------------------Sun Css-------------------- */
+    
+    .Tsun-circle{
+        position: absolute;
+        opacity: 0.06;
+        width: 620px;
+        height: 600px;
+        transform: translate(-860px,-50px);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .Tsun-circle{
+        position: absolute;
+        opacity: 0;
+        width: 80px;
+        height: 60px;
+        transform: translate(430px,100px);
+    }
+    
+    .sun-circle{
+        position: absolute;
+        opacity: 0.06;
+        width: 620px;
+        height: 600px;
+        transform: translate(-860px,-350px);
+        transition: all 1.5s ease-in-out;
+    }
+    .scrolled .sun-circle{
+        position: absolute;
+        opacity: 1 !important;
+        width: 50px;
+        height: 40px;
+        transform: translate(70px,-150px);
+        transition: all 1.5s ease-in-out;
+    }
+    }
