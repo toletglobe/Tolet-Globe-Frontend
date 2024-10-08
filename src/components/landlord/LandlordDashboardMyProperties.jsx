@@ -2,10 +2,17 @@ import propertyimage1 from "../../assets/property/blog-1.png";
 import propertyimage2 from "../../assets/property/blog-2.jpg";
 import propertyimage3 from "../../assets/property/blog-3.jpg";
 
+import { useNavigate } from "react-router-dom";
+
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { MdMoreVert } from "react-icons/md";
 
 export default function MyProperties() {
+  
+  const navigate = useNavigate();
+  const handleAddPropertybtn = () => {
+      navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
+  };
   const cardContent = [
     {
       id: 1,
@@ -105,7 +112,11 @@ export default function MyProperties() {
   ));
   return (
     <>
-      <div className="mt-8">
+    <div className="flex justify-between p-4">
+      <h2 className="text-4xl font-bold">Your Properties</h2>
+      <button className="px-4 bg-[#212629] rounded-md text-base font-medium" onClick={handleAddPropertybtn}>Add Property</button>
+    </div>
+      <div className="">
         <div className="grid grid-cols-3">
           {cards}
 
@@ -113,6 +124,9 @@ export default function MyProperties() {
           {/* <MyProperty /> */}
         </div>
       </div>
+      <div className="flex justify-end p-4">
+      <button className="p-3 bg-[#212629] rounded-md text-base font-medium">View all (3)</button>
+    </div>
     </>
   );
 }
