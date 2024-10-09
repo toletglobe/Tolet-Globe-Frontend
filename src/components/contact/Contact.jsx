@@ -72,15 +72,16 @@ const Contact = () => {
         </div>
 
         <div className="flex flex-row gap-5 mt-20">
-          <BsChatRightDots className="text-white text-4xl" />
-          <div>
-            <h1 className="text-white text-2xl">Chat with us !!</h1>
-            <p className="text-gray-300/50 mt-1">
-              Our friendly team is here to help
-            </p>
-            <p className="text-[#6CC1B6] ">hello@toletglobe.in</p>
-          </div>
-        </div>
+        <BsChatRightDots className="text-white text-4xl" />
+  <div>
+    <h1 className="text-white text-2xl">Chat with us !!</h1>
+    <p className="text-gray-300/50 mt-1">Our friendly team is here to help</p>
+    <a href="mailto:hello@toletglobe.in" className="text-[#6CC1B6]">
+      hello@toletglobe.in
+    </a>
+  </div>
+</div>
+
         <div className="flex flex-row gap-5 mt-10">
           <IoCallOutline className="text-white text-4xl" />
           <div>
