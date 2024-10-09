@@ -76,7 +76,7 @@ const LandlordDashboardAccountSecurity = () => {
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Enter Current Password"
-              className="w-full p-2 pl-4 border-2 border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
+              className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
             <p className="text-blue-400 text-sm mt-4 mb-4">
               Re-enter your new password
@@ -90,7 +90,7 @@ const LandlordDashboardAccountSecurity = () => {
               value={NewPassword}
               onChange={handlePasswordChange}
               placeholder="Enter New Password"
-              className="w-full p-2 pl-4 border-2 border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
+              className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
             <ul className="mt-4 space-y-1">
               {!passwordCriteria.length && NewPassword && (
@@ -127,7 +127,7 @@ const LandlordDashboardAccountSecurity = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Enter Confirm Password"
-              className="w-full p-2 pl-4 border-2 border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
+              className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
           </div>
         </form>
