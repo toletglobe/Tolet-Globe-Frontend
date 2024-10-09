@@ -53,16 +53,16 @@ const Flow2a = () => {
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? (property?.photos?.length || 1) - 1 : prevIndex - 1
+      prevIndex === 0 ? (property?.images?.length || 1) - 1 : prevIndex - 1
     );
-    setSelectedImage(property?.photos[currentIndex] || img1);
+    setSelectedImage(property?.images[currentIndex] || img1);
   };
 
   const handleNext = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex + 1) % (property?.photos?.length || 1)
+      (prevIndex) => (prevIndex + 1) % (property?.images?.length || 1)
     );
-    setSelectedImage(property?.photos[currentIndex] || img1);
+    setSelectedImage(property?.images[currentIndex] || img1);
   };
 
   if (!property) {

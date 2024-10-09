@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
     style={{ width: "40px", height: "40px" }}
   >
@@ -23,7 +23,7 @@ const PrevArrow = ({ onClick }) => (
 
 const NextArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
     style={{ width: "40px", height: "40px" }}
   >
