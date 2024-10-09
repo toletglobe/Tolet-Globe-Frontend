@@ -212,13 +212,20 @@ const Listing = (props) => {
 
   return (
     <>
-      <div
+      <div onClick={()=>{
+        if(isOpen===true) SetIsOpen(false)
+        else if(Location==true) setLocation(false)
+      }}
         className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
           isOpen || Hamburger || Location ? "block" : "hidden"
         }`}
       ></div>
 
-      <section className="property py-24" id="property">
+      <section 
+      onClick={() => {
+        if(mode===true) setMode(false)       
+      }}
+      className="property py-24" id="property">
         <div className="container mx-auto px-10">
           <div>
             <div className="flex items-center justify-between px-3 pb-20">
@@ -378,7 +385,10 @@ const Listing = (props) => {
             </div>
           </div>
 
-          <div
+          <div onClick={()=>{
+            if(isOpen===true) SetIsOpen(false)
+            else if(Location==true) setLocation(false)
+          }}
             className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
               isOpen ? "block" : "hidden"
             } `}
