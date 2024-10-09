@@ -10,6 +10,7 @@ const AddProperty = () => {
     setValue,
   } = useForm();
   const [images, setImages] = useState([]);
+  
 
   const onFileChange = (e) => {
     if (e.target.files.length > 5) {
@@ -21,6 +22,8 @@ const AddProperty = () => {
   };
 
   const onSubmit = async (data) => {
+
+     
     try {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
@@ -59,6 +62,7 @@ const AddProperty = () => {
       <h2 className="text-3xl font-bold col-span-full mb-6 text-center">
         Add Property
       </h2>
+     
 
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-1">

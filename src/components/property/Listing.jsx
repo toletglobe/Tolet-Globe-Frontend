@@ -148,7 +148,8 @@ const Listing = (props) => {
     if (authState.status === true && localStorage.getItem("token")) {
       navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
     } else {
-      toast.error("Please Log In first");
+      // toast.error("Please Log In first");
+      navigate("/login");
     }
   };
 

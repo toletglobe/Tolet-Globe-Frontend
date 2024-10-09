@@ -186,31 +186,14 @@ const LandlordDashboard = () => {
             <button
               className="bg-gray-800 text-white py-2 px-6 rounded flex items-center cursor-pointer contact-support-box"
               onClick={() => {
-                setShowNumber(!showNumber);
+               
+               navigate("/contact");
               }}
             >
               <span className="mr-2">🎧</span> Contact Support
             </button>
 
-            {showNumber && (
-              <div
-                ref={phoneRef}
-                className="absolute w-[100%] h-[100%] border-[1.5px] border-gray-500 bg-gray-800 text-white py-2 px-6 rounded flex justify-between"
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              >
-                {phone}
-                <FontAwesomeIcon
-                  icon={faCopy}
-                  className="mt-[2px] cursor-pointer"
-                  onClick={() => {
-                    navigator.clipboard.writeText(`${phone}`);
-                    setShowNumber(false);
-                  }}
-                ></FontAwesomeIcon>
-              </div>
-            )}
+           
           </div>
         </div>
       </div>
