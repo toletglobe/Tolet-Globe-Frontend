@@ -13,49 +13,57 @@ const Service = () => {
       img: pg,
       title: "Paying Guest",
       bg: "bg-[#6CC1B6]",
-      path: "/pg",
-      description: "Find budget-friendly and convenient paying guest accommodations for a comfortable stay away from home",
+      path: "/property-listing?type=PayingGuest",
+      description:
+        "Find budget-friendly and convenient paying guest accommodations for a comfortable stay away from home",
     },
     {
       img: flat,
       title: "Flat",
       bg: "bg-[#CCB454]",
-      path: "/flat",
-      description: "Discover a diverse range of apartments for rent, customize to suit your lifestyle and budget",
+      path: "/property-listing?type=Flat",
+      description:
+        "Discover a diverse range of apartments for rent, customize to suit your lifestyle and budget",
     },
     {
       img: house,
       title: "House",
       bg: "bg-[#6CC1B6]",
-      path: "/house",
-      description: "Search for your dream home, available for rent or sale, tailored to your lifestyle and preferences",
+      path: "/property-listing?type=House/Villa",
+      description:
+        "Search for your dream home, available for rent or sale, tailored to your lifestyle and preferences",
     },
     {
       img: shop,
       title: "Shop",
       bg: "bg-[#CCB454]",
-      path: "/shop",
-      description: "Explore a variety of retail spaces and shops available for lease, ideal for growing your business",
+      path: "/property-listing?type=Shop",
+      description:
+        "Explore a variety of retail spaces and shops available for lease, ideal for growing your business",
     },
     {
       img: office,
       title: "Office",
       bg: "bg-[#6CC1B6]",
-      path: "/office",
-      description: "Elevate your workspace and productivity with modern office spaces for rent, designed for success",
+      path: "/property-listing?type=Office",
+      description:
+        "Elevate your workspace and productivity with modern office spaces for rent, designed for success",
     },
     {
       img: warehouse,
       title: "Warehouse",
       bg: "bg-[#CCB454]",
-      path: "/warehouse",
-      description: "Secure the perfect godown space for rent, offering ample storage and logistics solutions",
+      path: "/property-listing?type=Warehouse",
+      description:
+        "Secure the perfect godown space for rent, offering ample storage and logistics solutions",
     },
   ];
 
   return (
     <div className="my-24 mx-auto w-[90%] bg-black cursor-pointer ">
-      <h1 className="text-6xl text-center font-bold text-white mb-3">Services</h1>
+      <h1 className="text-6xl text-center font-bold text-white mb-3">
+        Services
+      </h1>
       <p className="text-xs text-center text-[#CCB454]">
         SKIP THE MIDDLEMAN : RENT OR LEASE DIRECTLY ON TO-LET GLOBE
       </p>

@@ -125,7 +125,6 @@ export default function LandlordDashboardSidebar({
                 navigate("/login");
                 toast.success("Logged Out!");
               } else {
-                navigate("/login");
                 toast.error("Please login first!");
               }
             }}
