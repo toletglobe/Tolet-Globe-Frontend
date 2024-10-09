@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .hand {
   opacity: 0;
   position: absolute;
@@ -868,7 +867,6 @@
   transform: translate(870px, -270px);
   transition: all 2s ease-in-out;
 }
-=======
 .hand {
   opacity: 0;
   position: absolute;
@@ -1738,4 +1736,3 @@
   transform: translate(870px, -270px);
   transition: all 2s ease-in-out;
 }
->>>>>>> 1575a0a5e69fe016721cb3b26dc39733bb41e760
