@@ -162,6 +162,20 @@ const NavBar = () => {
                 About
               </Link>
             </li>
+            {/*<li>
+              <Link
+                to="/property"
+                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
+                  activeLink === "propertyListing"
+                    ? "text-white bg-teal-500 rounded-md"
+                    : ""
+                  // } hover:bg-[#c8a21c] hover:rounded-md`}
+                } `}
+                onClick={() => handleNavLinkClick("propertyListing")}
+              >
+                Property Listing
+              </Link>
+            </li>*/}
             <li>
               {/* {authState.status === true ? (
                 <Link
