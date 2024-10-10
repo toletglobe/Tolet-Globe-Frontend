@@ -59,8 +59,20 @@ const Listing = (props) => {
     const fetchAndFilterProperties = async () => {
       setLoading(true);
       try {
-        const propertyData = await Service.fetchPropertyByCity(city);
-        setProperties(propertyData || []); // Ensure propertyData is an array
+        let propertyData= [];
+        if(city){
+          propertyData = await Service.fetchPropertyByCity(city);
+          setProperties(propertyData || []); // Ensure propertyData is an array
+        }
+        else {
+          propertyData = await Service.fetchProperty();
+          setProperties(propertyData || []);
+        }
+
+        propertyData.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+          setProperties(propertyData); // Ensure propertyData is an array
 
         // Check for filters
         const searchParams = new URLSearchParams(location.search);
