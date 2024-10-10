@@ -13,7 +13,7 @@ import { ClipLoader } from "react-spinners";
 
 export default function LandlordDashboardAddProperties() {
   // For changing and showing page number
-  const [page, setPage] = useState(3);
+  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
