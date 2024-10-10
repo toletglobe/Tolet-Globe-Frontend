@@ -13,7 +13,7 @@ import { ClipLoader } from "react-spinners";
 
 export default function LandlordDashboardAddProperties() {
   // For changing and showing page number
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(3);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -125,6 +125,8 @@ export default function LandlordDashboardAddProperties() {
       rent: Number(formData.rent),
       security: Number(formData.security),
       squareFeetArea: Number(formData.squareFeetArea),
+      appliances: formData.appliances.map((obj) => obj.value),
+      amenities: formData.amenities.map((obj) => obj.value),
     };
 
     const dataToSend = new FormData();
