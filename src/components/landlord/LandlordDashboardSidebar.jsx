@@ -65,6 +65,7 @@ export default function LandlordDashboardSidebar({
             } `}
             onClick={() => {
               handleOnClick("AddProperty");
+              navigate("/login");
             }}
           >
             <FontAwesomeIcon icon={faPlus} className="text-xl" />
