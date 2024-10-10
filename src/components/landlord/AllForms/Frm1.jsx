@@ -1,4 +1,32 @@
 export default function Frm1({ formData, setFormData }) {
+
+  
+   const cityOptions = [
+     { value: "Lucknow", label: "Lucknow" },
+     { value: "Ayodhya", label: "Ayodhya" },
+     { value: "Vellore", label: "Vellore" },
+     { value: "Kota", label: "Kota" },
+   ];
+
+  const optionRenderFun = (option) => (
+    <option key={option.value} value={option.value}>
+      {option.label}
+    </option>
+  );
+
+  const residentialOptions = [
+    { value: "House", label: "House" },
+    { value: "Flat", label: "Flat" },
+    { value: "PG", label: "PG" },
+  ];
+
+  const commercialOptions = [
+    { value: "Office", label: "Office" },
+    { value: "Shop", label: "Shop" },
+    { value: "Warehouse", label: "Warehouse" },
+  ];
+
+
   return (
     <>
       <div className="grid grid-cols-2 gap-x-7 gap-y-12 mt-10 pl-5 h-fit">
@@ -52,6 +80,7 @@ export default function Frm1({ formData, setFormData }) {
                 ownersContactNumber: e.target.value,
               });
             }}
+            pattern="[0-9]{10}"
           />
         </div>
         {/* Owner's Alternate Contact Number */}
@@ -70,6 +99,7 @@ export default function Frm1({ formData, setFormData }) {
                 ownersAlternateContactNumber: e.target.value,
               });
             }}
+            pattern="[0-9]{10}"
           />
         </div>
 
@@ -79,7 +109,7 @@ export default function Frm1({ formData, setFormData }) {
             Pin Code
           </label>
           <input
-            type="number"
+            type="text"
             placeholder="Pin Code"
             required
             className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
@@ -87,22 +117,28 @@ export default function Frm1({ formData, setFormData }) {
             onChange={(e) => {
               setFormData({ ...formData, pincode: e.target.value });
             }}
+            pattern="[1-9]{1}[0-9]{5}"
           />
         </div>
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             City
           </label>
-          <input
-            type="Text"
-            placeholder="City"
+          <select
             required
             className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
             value={formData.city}
             onChange={(e) => {
               setFormData({ ...formData, city: e.target.value });
             }}
-          />
+          >
+            <option value="" disabled>
+              Select City
+            </option>
+
+            {cityOptions.map(optionRenderFun)}
+          
+          </select>
         </div>
 
         {/* Locality */}
@@ -166,6 +202,7 @@ export default function Frm1({ formData, setFormData }) {
             Property Type
           </label>
           <select
+            disabled={formData.spaceType == "" ? true : false}
             required
             className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
             value={formData.propertyType}
@@ -176,12 +213,10 @@ export default function Frm1({ formData, setFormData }) {
             <option value="" disabled>
               Select Property Type
             </option>
-            <option value="House">House</option>
-            <option value="Flat">Flat</option>
-            <option value="PG">PG</option>
-            <option value="Office">Office</option>
-            <option value="Shop">Shop</option>
-            <option value="Warehouse">Warehouse</option>
+
+            {formData.spaceType === "Commercial"
+              ? commercialOptions.map(optionRenderFun)
+              : residentialOptions.map(optionRenderFun)}
           </select>
         </div>
       </div>

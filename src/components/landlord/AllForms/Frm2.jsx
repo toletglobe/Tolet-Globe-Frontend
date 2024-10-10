@@ -8,7 +8,7 @@ export default function Frm2({ formData, setFormData }) {
               Pets Allowed
             </label>
             <select
-              required
+              // required
               className="bg-black px-3 py-3 w-[95%] h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
               value={formData.petsAllowed}
               onChange={(e) => {
