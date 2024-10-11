@@ -69,6 +69,9 @@ export const About = () => {
           </div>
         </div>
       </div>
+    
+      {/* Hiring Partners Section */}
+      <HiringPartners />
     </div>
   );
 };
