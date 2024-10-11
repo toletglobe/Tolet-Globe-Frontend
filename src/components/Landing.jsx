@@ -4,6 +4,7 @@ import { About } from "./landingpage/home/about";
 import { ContactUs } from "./landingpage/home/getintouch";
 import { PropertyCarousel } from "./landingpage/home/PropertyCarousel";
 import Institution from "./partner_institution/Institution";
+import HiringPartners from "./Hiringpartner/HiringPartners";
 
 const Landing = () => {
   return (
@@ -11,6 +12,7 @@ const Landing = () => {
       <Homepage />
       <Service />
       <About />
+      <HiringPartners/>
       < PropertyCarousel />
       <Institution/>
       <ContactUs />

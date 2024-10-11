@@ -2,7 +2,6 @@ import React from "react";
 import image1 from "../../../assets/about/image1.svg";
 import image2 from "../../../assets/about/image2.svg";
 import image3 from "../../../assets/about/image3.svg";
-import HiringPartners from "../../Hiringpartner/HiringPartners";
 
 export const About = () => {
   return (
@@ -70,8 +69,6 @@ export const About = () => {
         </div>
       </div>
     
-      {/* Hiring Partners Section */}
-      <HiringPartners />
     </div>
   );
 };
