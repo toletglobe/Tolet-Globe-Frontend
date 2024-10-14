@@ -76,6 +76,18 @@ class Service {
     }
   }
 
+  static async fetchMyProperties(userId) {
+    try {
+      const response = await axios.get(`${BASE_URL}property/user/${userId}`, {
+        userId,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
   static async fetchPropertyByCity(city) {
     try {
       const response = await axios.get(`${BASE_URL}property/city/${city}`, {

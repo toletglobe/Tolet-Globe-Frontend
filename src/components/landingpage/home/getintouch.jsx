@@ -68,7 +68,7 @@ export const ContactUs = () => {
         </div>
       </a>
       <div className=" text-start bg-black bg-opacity-80 p-10  lg:h-[100%] lg:w-[380px] w-full  ">
-        <p className="text-[#ea776c] font-normal text-4xl text-left pb-5">
+        <p className="text-yellow-300 font-normal text-4xl text-left pb-5">
           GET IN TOUCH
         </p>
         <p className="text-gray-500 m-0 text-left pb-4">Have some questions?</p>
