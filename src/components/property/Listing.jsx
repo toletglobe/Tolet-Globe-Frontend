@@ -384,7 +384,11 @@ const Listing = (props) => {
             } `}
           >
             <div className="relative w-full max-w-lg">
-              <Filters SetIsOpen={SetIsOpen} setProperties={setProperties} city={city}/>
+              <Filters
+                SetIsOpen={SetIsOpen}
+                setProperties={setProperties}
+                city={city}
+              />
               <div className="absolute top-1 right-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -404,7 +408,13 @@ const Listing = (props) => {
           </div>
 
           <Cards
-            properties={properties}
+            properties={currentProperties.map((property) => ({
+              ...property,
+              propertyType: `${property.bhk} BHK,
+              ${property.propertyType},
+              ${"On Rent"} `,
+              ownerName: property.firstName,
+            }))}
             handleToggle={handleToggle}
             isInCompareList={isInCompareList}
           />
