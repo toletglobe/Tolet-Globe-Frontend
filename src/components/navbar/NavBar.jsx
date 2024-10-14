@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import userIcon from "../../assets/user-icon.png";
+import userIcon from "../../assets/user-icon.png"; // Fallback image
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/authSlice";
@@ -10,20 +10,16 @@ import {
   ComputerDesktopIcon,
 } from "@heroicons/react/24/outline";
 
-const NavBar = () => {
+const NavBar = ({ userInfo }) => { // Correctly destructuring props
   const [activeLink, setActiveLink] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const avatarRef = useRef();
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, [activeLink]);
 
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
-    // setIsNavOpen(false);
   };
 
   const handleLogout = () => {
@@ -33,18 +29,18 @@ const NavBar = () => {
     navigate("/login");
     toast.success("Logged out!");
   };
-  // hanlding click outside event for avatar
+
+  // Handling click outside event for avatar
   useEffect(() => {
-    const handlClickOutside = (event) => {
+    const handleClickOutside = (event) => {
       if (avatarRef.current && !avatarRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handlClickOutside);
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handlClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [avatarRef]);
 
@@ -60,7 +56,6 @@ const NavBar = () => {
           <div className="flex justify-end">
             <button
               className="text-white block lg:hidden"
-              // onClick={() => setIsNavOpen(!isNavOpen)}
               onClick={() =>
                 document
                   .getElementById("basic-navbar-nav")
@@ -87,9 +82,6 @@ const NavBar = () => {
         <div
           id="basic-navbar-nav"
           className="hidden lg:flex lg:items-center lg:w-auto w-full"
-          // className={`lg:flex lg:items-center lg:w-auto w-full ${
-          //   isNavOpen ? "" : "hidden"
-          // } absolute lg:relative top-16 left-0 lg:top-0 bg-black lg:bg-transparent lg:p-0 p-4 z-10`}
         >
           <ul className="lg:flex lg:items-center lg:justify-between text-base text-gray-300 pt--1 lg:pt-0">
             <li>
@@ -99,8 +91,7 @@ const NavBar = () => {
                   activeLink === "home"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
+                }`}
                 onClick={() => handleNavLinkClick("home")}
               >
                 Home
@@ -113,8 +104,7 @@ const NavBar = () => {
                   activeLink === "service"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
+                }`}
                 onClick={() => handleNavLinkClick("service")}
               >
                 Service
@@ -127,8 +117,7 @@ const NavBar = () => {
                   activeLink === "blog"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
+                }`}
                 onClick={() => handleNavLinkClick("blog")}
               >
                 Blog
@@ -141,7 +130,6 @@ const NavBar = () => {
                   activeLink === "contact"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
                 }`}
                 onClick={() => handleNavLinkClick("contact")}
               >
@@ -155,8 +143,7 @@ const NavBar = () => {
                   activeLink === "aboutus"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
+                }`}
                 onClick={() => handleNavLinkClick("aboutus")}
               >
                 About
@@ -169,39 +156,14 @@ const NavBar = () => {
                   activeLink === "propertyListing"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
+                }`}
                 onClick={() => handleNavLinkClick("propertyListing")}
               >
                 Property Listing
               </Link>
             </li>
             <li>
-              {/* {authState.status === true ? (
-                <Link
-                  to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                    activeLink === "logout"
-                      ? "text-white bg-teal-500 rounded-md"
-                      : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Link>
-              ) : (
-                <Link
-                  to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                    activeLink === "login"
-                      ? "text-white bg-teal-500 rounded-md"
-                      : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
-                  onClick={() => handleNavLinkClick("login")}
-                >
-                  Login
-                </Link> */}
-              {/* user avatar */}
+              {/* User avatar or login button */}
               {authState.status === true && localStorage.getItem("token") ? (
                 <div ref={avatarRef}>
                   <button
@@ -209,18 +171,16 @@ const NavBar = () => {
                     className="rounded-full relative flex justify-center items-center w-9 h-9 mx-3 text-white bg-teal-500"
                   >
                     <img
-                      src={userIcon}
+                      src={userInfo?.profilePicture || userIcon} // Use fallback image if profilePicture is undefined
                       alt="avatar"
                       className="w-full h-full rounded-full p-1"
                     />
                   </button>
                   {isMenuOpen && (
-                    <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#120404] bg-white rounded-lg">
-                      <ul className="w-ful flex flex-col items-start">
+                    <div className="absolute top-20 right-14 w-fit h-fit flex flex-col justify-center items-center text-[#120404] bg-white rounded-lg">
+                      <ul className="w-full flex flex-col items-start">
                         <li className="font-extrabold p-3 w-full text-center bg-gray-200 ">
-                          {authState.userData
-                            ? authState.userData.firstName?.toUpperCase()
-                            : "User"}
+                          {authState.userData?.firstName?.toUpperCase() || "User"}
                         </li>
                         <li
                           onClick={() => {
@@ -250,8 +210,7 @@ const NavBar = () => {
                     activeLink === "login"
                       ? "text-white bg-teal-500 rounded-md"
                       : ""
-                    // } hover:bg-[#c8a21c] hover:rounded-md`}
-                  } `}
+                  }`}
                   onClick={() => handleNavLinkClick("login")}
                 >
                   Login

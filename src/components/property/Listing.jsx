@@ -253,12 +253,20 @@ const Listing = (props) => {
 
   return (
     <>
-      <div
+      <div onClick={()=>{
+        if(Location===true) setLocation(false)
+        if(isOpen===true) SetIsOpen(false)
+      }}
         className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${isOpen || Hamburger || Location ? "block" : "hidden"
           }`}
       ></div>
 
-      <section className="property h-[100vh] pb-14 px-10 w-full overflow-y-auto" id="property">
+      <section onClick={()=>{
+        if(mode===true) setMode(false)
+        if(Location===true) setLocation(false)
+        if(showCity===true) setShowCity(false)
+        if(isOpen===true) SetIsOpen(false)
+      }} className="property h-[100vh] pb-14 px-10 w-full overflow-y-auto" id="property">
         {/* <div className="container mx-auto  px-10"> */}
         <div className="px-3 flex flex-col gap-12 py-12 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
@@ -475,12 +483,14 @@ const Listing = (props) => {
           </div>
         </div>
 
-        <div
+        <div onClick={()=>{
+          if(isOpen===true) SetIsOpen(false)
+        }}
           className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${isOpen ? "block" : "hidden"
             } `}
         >
-          <div className="relative w-full max-w-lg">
-            <Filters
+          <div onClick={(e)=>e.stopPropagation() } className="relative w-full max-w-lg">
+            <Filters 
               SetIsOpen={SetIsOpen}
               setProperties={setProperties}
               city={city}
