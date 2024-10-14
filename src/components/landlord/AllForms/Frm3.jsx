@@ -43,12 +43,13 @@ export default function Frm3({ formData, setFormData }) {
             id="yes_btn"
             name="car_Parking"
             hidden
+            value="Yes"
             onChange={(e) => {
               if (e.target.checked) {
                 setFormData((formData) => {
                   formData = {
                     ...formData,
-                    carParking: true,
+                    carParking: e.target.value,
                   };
                   return formData;
                 });
@@ -58,7 +59,9 @@ export default function Frm3({ formData, setFormData }) {
           <label
             htmlFor="yes_btn"
             className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4 ${
-              formData.carParking ? "text-black bg-gray-200" : "text-gray-200"
+              formData.carParking === "Yes"
+                ? "text-black bg-gray-200"
+                : "text-gray-200"
             }`}
           >
             Yes
@@ -69,12 +72,13 @@ export default function Frm3({ formData, setFormData }) {
             id="no_btn"
             name="car_Parking"
             hidden
+            value="No"
             onChange={(e) => {
               if (e.target.checked) {
                 setFormData((formData) => {
                   formData = {
                     ...formData,
-                    carParking: false,
+                    carParking: e.target.value,
                   };
                   return formData;
                 });
@@ -84,7 +88,9 @@ export default function Frm3({ formData, setFormData }) {
           <label
             htmlFor="no_btn"
             className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4  ${
-              formData.carParking ? "text-gray-200" : "text-black bg-white"
+              formData.carParking === "No"
+                ? "text-black bg-white"
+                : "text-gray-200"
             }`}
           >
             No
@@ -98,8 +104,9 @@ export default function Frm3({ formData, setFormData }) {
             </label>
             <input
               required
-              type="number"
+              type="text"
               placeholder=" ₹ 2500"
+              // pattern="^(NA|\d+)$"
               className="mt-10 bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
               value={formData.rent}
               onChange={(e) => {
@@ -116,8 +123,9 @@ export default function Frm3({ formData, setFormData }) {
             </label>
             <input
               required
-              type="number"
+              type="text"
               placeholder=" ₹ 5000"
+              // pattern="^(NA|\d+)$"
               className="mt-10 bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
               value={formData.security}
               onChange={(e) => {
