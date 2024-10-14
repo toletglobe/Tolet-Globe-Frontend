@@ -20,7 +20,7 @@ const Landing = () => {
 
       <Institution/>
       </div>
-      <ContactUs />
+      <ContactUs /> 
     </div>
   );
 };
