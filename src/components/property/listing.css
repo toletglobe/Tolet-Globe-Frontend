@@ -127,8 +127,8 @@
 }
 
 .card_icon {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,14 +143,14 @@
 /* CSS for SHOW MORE button */
 .card-footer-actions-btn {
   font-family: Poppins, sans-serif; /* Use Poppins font */
-  font-size: 12px; 
+  font-size: 10px; 
   font-weight: 400; 
   line-height: 18px; 
   text-align: center; 
   background: #40B5A8;
   border: 1px solid #ddd; 
   border-radius: 4px; 
-  padding: 0.5rem 1rem; 
+  padding: 0.3rem 0.5rem; 
   color: #FFFFFF; 
 }
 .card-list{
