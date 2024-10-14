@@ -53,16 +53,16 @@ const Flow2a = () => {
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? (property?.photos?.length || 1) - 1 : prevIndex - 1
+      prevIndex === 0 ? (property?.images?.length || 1) - 1 : prevIndex - 1
     );
-    setSelectedImage(property?.photos[currentIndex] || img1);
+    setSelectedImage(property?.images[currentIndex] || img1);
   };
 
   const handleNext = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex + 1) % (property?.photos?.length || 1)
+      (prevIndex) => (prevIndex + 1) % (property?.images?.length || 1)
     );
-    setSelectedImage(property?.photos[currentIndex] || img1);
+    setSelectedImage(property?.images[currentIndex] || img1);
   };
 
   if (!property) {
@@ -218,7 +218,7 @@ const Flow2a = () => {
             {/* Left Arrow */}
             <button
               onClick={handlePrev}
-              className="absolute top-1/2 left-7 transform -translate-y-1/2 bg-white text-black text-2xl p-2 rounded-full"
+              className="absolute top-1/2 left-7 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black text-2xl p-2 rounded-full"
             >
               <HiChevronLeft />
             </button>
@@ -226,7 +226,7 @@ const Flow2a = () => {
             {/* Right Arrow */}
             <button
               onClick={handleNext}
-              className="absolute top-1/2 right-7 transform -translate-y-1/2 bg-white text-black text-2xl p-2 rounded-full"
+              className="absolute top-1/2 right-7 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black text-2xl p-2 rounded-full"
             >
               <HiChevronRight />
             </button>
