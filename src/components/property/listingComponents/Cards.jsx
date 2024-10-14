@@ -1,250 +1,434 @@
-import React from "react";
-import Slider from "react-slick";
-import { CiHeart, CiShare2 } from "react-icons/ci";
-import { IoMdClose } from "react-icons/io";
-// import { IoAdd, IoBedOutline } from "react-icons/io5";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
+import "./listing.css";
+import Service from "../../config/config";
+import author from "../../assets/property/author.jpg";
+import hamburger from "../../assets/property/hamburger.png";
+import drop from "../../assets/property/drop.png";
+import loc from "../../assets/property/location.png";
+import cross from "../../assets/property/cross.png";
+import SideOpt from "./listingComponents/SideOpt";
+import SelectLocation from "./listingComponents/SelectLocation";
+import Filters from "./listingComponents/Filters";
+import Cards from "./listingComponents/Cards";
+import Pagination from "./listingComponents/Pagination";
+import { useParams } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
-import Popup from "reactjs-popup";
-import { LuBath } from "react-icons/lu";
-import { PiGridFour } from "react-icons/pi";
-import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
 
-// Custom Arrow Components
-const PrevArrow = ({ onClick }) => (
-  <div
-    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
-    onClick={onClick}
-    style={{ width: "40px", height: "40px" }}
-  >
-    <span className="text-2xl">&#8249;</span>
-  </div>
-);
+const Listing = (props) => {
+  const { city } = useParams();
 
-const NextArrow = ({ onClick }) => (
-  <div
-    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
-    onClick={onClick}
-    style={{ width: "40px", height: "40px" }}
-  >
-    <span className="text-2xl">&#8250;</span>
-  </div>
-);
-
-const Cards = ({
-  properties,
-  cityName,
-  propertyAction,
-  handleToggle,
-  isInCompareList,
-}) => {
+  const [Hamburger, SetHamburger] = useState(false);
+  const [isOpen, SetIsOpen] = useState(false);
   const navigate = useNavigate();
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-    draggable: false,
+  const [properties, setProperties] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState(false);
+  const [Location, setLocation] = useState(false);
+  const location = useLocation();
+  const propertiesPerPage = 9;
+
+  const authState = useSelector((state) => state.auth);
+
+  function handleOpen() {
+    SetIsOpen(!isOpen);
+  }
+  function handleHamburger() {
+    SetHamburger(!Hamburger);
+  }
+  function handleLocation() {
+    setLocation(!Location);
+  }
+  const { slug } = useParams();
+  function handleMode() {
+    setMode(!mode);
+  }
+
+  useEffect(() => {
+    const fetchAndFilterProperties = async () => {
+      setLoading(true);
+      try {
+        const propertyData = await Service.fetchPropertyByCity(city);
+        setProperties(propertyData || []); // Ensure propertyData is an array
+
+        // Check for filters
+        const searchParams = new URLSearchParams(location.search);
+        const type = searchParams.get("type");
+        console.log("Type of property:", type);
+
+        // Apply filtering based on type
+        if (type === "Flat") {
+          setProperties(propertyData.filter((a) => a.propertyType === "Flat"));
+        } else if (type === "House/Villa") {
+          setProperties(
+            propertyData.filter(
+              (a) => a.propertyType === "House" || a.propertyType === "Villa"
+            )
+          );
+        } else if (type === "Shop") {
+          setProperties(propertyData.filter((a) => a.propertyType === "Shop"));
+        } else if (type === "Office") {
+          setProperties(
+            propertyData.filter((a) => a.propertyType === "Office")
+          );
+        } else if (type === "Warehouse") {
+          setProperties(
+            propertyData.filter((a) => a.propertyType === "Ware house")
+          );
+        } else if (type === "PayingGuest") {
+          setProperties(
+            propertyData.filter((a) => a.propertyType === "Paying Guest")
+          );
+        }
+
+        // Check for sorting
+        const sortType = searchParams.get("sort");
+        if (sortType) {
+          sortProperties(propertyData, sortType);
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAndFilterProperties();
+  }, [location.search]);
+
+  // Sorting logic
+  const sortProperties = (properties, sortType) => {
+    let sortedProperties = [...properties];
+
+    if (sortType === "price-low-high") {
+      sortedProperties.sort((a, b) => a.rent - b.rent);
+    } else if (sortType === "price-high-low") {
+      sortedProperties.sort((a, b) => b.rent - a.rent);
+    } else if (sortType === "most-trending") {
+      sortedProperties.sort((a, b) => b.reviews.length - a.reviews.length);
+    } else if (sortType === "date-uploaded") {
+      sortedProperties.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    }
+
+    setProperties(sortedProperties);
+  };
+  // Calculate total pages
+  const totalPages = Math.ceil(properties.length / propertiesPerPage);
+
+  // Get current properties
+  const indexOfLastProperty = currentPage * propertiesPerPage;
+  const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
+  const currentProperties = Array.isArray(properties)
+    ? properties.slice(indexOfFirstProperty, indexOfLastProperty)
+    : [];
+
+  const handleSortClick = (sortType) => {
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.set("sort", sortType);
+    navigate(`?${queryParams.toString()}`); // Update URL with new sort query
   };
 
-  const normalizedProperties = Array.isArray(properties)
-    ? properties
-    : [properties]; // Ensure properties is an array
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} />
+      </div>
+    );
+  }
+
+  const handleAddPropertybtn = () => {
+    if (authState.status === true && localStorage.getItem("token")) {
+      navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
+    } else {
+      toast.error("Please Log In first");
+    }
+  };
+
+  // Property Add and remove function to compare Property
+  const handleToggle = (event, property) => {
+    event.preventDefault();
+
+    props.setcompareData((prev) => {
+      // Check if the property is already in the selected list
+      const isAlreadySelected = prev.some((p) => p._id === property._id);
+
+      // If the property is already selected, remove it
+      if (isAlreadySelected) {
+        return prev.filter((p) => p._id !== property._id);
+      }
+
+      // If the property is not selected and the list has fewer than 4 items, add it
+      if (prev.length < 4) {
+        return [...prev, property];
+      } else {
+        return prev;
+      }
+    });
+  };
+
+  const isInCompareList = (propertyId) => {
+    return props.compareData.some((p) => p._id === propertyId);
+  };
+
+  const compare = () => {
+    navigate("/compare-property");
+  };
+
+  // const totalProperties = properties.length;
+  // const indexOfLastProperty = currentPage * propertiesPerPage;
+  // const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
+  // const currentProperties = properties.slice(indexOfFirstProperty, indexOfLastProperty);
+  // const totalPages = Math.ceil(totalProperties / propertiesPerPage);
+
+  const handleViewBlog = (slug) => {
+    navigate(`/blog/${slug}`);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const onPageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
-    <div>
-      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {normalizedProperties.map((property) => (
-          <li
-            key={property._id}
-            className="property-card bg-white border border-grey-200 shadow-lg relative"
-          >
-            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
-              {property.images.length > 1 ? (
-                <Slider {...settings}>
-                  {property.images.map((photo, index) => (
-                    <div key={index}>
-                      <img
-                        src={photo}
-                        alt={property.propertyType}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  ))}
-                </Slider>
-              ) : (
-                <div className="relative">
-                  <img
-                    src={property.images[0]}
-                    alt={property.propertyType}
-                    className="w-full h-full object-cover"
-                  />
-                  <PrevArrow onClick={() => {}} />
-                  <NextArrow onClick={() => {}} />
-                </div>
-              )}
-              <div
-                className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
-                style={{
-                  backgroundColor: "#40B5A8",
-                  textTransform: "capitalize",
-                }}
-              >
-                {propertyAction}
-              </div>
-              <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
-                <div>
-                  <button className="banner-actions-btn flex items-center gap-1 text-white">
-                    <FaLocationDot className="text-xl" />
-                    <address>{`${property.locality}, ${property.city}`}</address>
-                  </button>
-                </div>
-                <div className="flex gap-4">
-                  <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                    <FaVideo className="text-xl" />
-                  </button>
-                  <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                    <FaRegImage className="text-xl" />
-                    {property.images.length}
-                  </button>
-                </div>
-              </div>
-            </figure>
-            <div className="card-content p-6">
-              <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-2xl font-semibold">
-                  <a href="#">{property.propertyType}</a>
-                </h3>
-                <div className="icon-box flex space-x-4 p-2">
-                  <Popup
-                    trigger={
-                      <button>
-                        <CiShare2
-                          className="card_icon"
-                          style={{ color: "#40B5A8" }}
-                        />
-                      </button>
-                    }
-                    nested
-                  >
-                    {(close) => (
-                      <div className="bg-slate-50 text-black px-2 py-2 rounded-full h-full flex flex-col shadow-xl">
-                        <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
-                          <div className="px-2 py-3 text-sm truncate w-32">
-                            {`toletglobe.in/property/${property._id}`}
-                          </div>
-                          <div>
-                            <button
-                              className="px-4 py-1 bg-[#40B5A8] text-white rounded-3xl"
-                              onClick={() => {
-                                navigator.clipboard.writeText(
-                                  `www.toletglobe.in/property/${property.slug}`
-                                );
-                                close();
-                              }}
-                            >
-                              Copy
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </Popup>
+    <>
+      <div
+        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
+          isOpen || Hamburger || Location ? "block" : "hidden"
+        }`}
+      ></div>
 
-                  <a
-                    href="#"
-                    onClick={(event) => handleToggle(event, property)}
-                    key={property._id}
-                  >
-                    {isInCompareList(property._id) ? (
-                      <IoRemove
-                        className="card_icon"
-                        style={{ color: "#ff0000", fontSize: "12px" }}
-                      />
-                    ) : (
-                      <IoAdd
-                        className="card_icon"
-                        style={{ color: "#000000", fontSize: "12px" }}
-                      />
-                    )}
-                  </a>
-                  <a href="#">
-                    <CiHeart className="card_icon text-red-500" />
-                  </a>
-                </div>
-              </div>
-
-              <div className="card-details flex flex-col items-start">
-                <div className="card-price font-poppins text-s font-normal text-grey-700 mt-1">
-                  RS. {property.rent}
-                </div>
-                <div className="card-text font-poppins text-lg font-medium text-black">
-                  {property.type}, {property.floor}
-                </div>
-              </div>
-              <ul className="card-list custom-card-list mt-4">
-                <li className="bed card-item flex items-center text-base">
-                  <IoBedOutline style={{ fontSize: "1.6rem" }} />
-                  &nbsp;
-                  {property.bhk}
-                </li>
-                <li className="bath card-item flex items-center text-base">
-                  <LuBath style={{ fontSize: "1.6rem" }} />
-                  &nbsp;
-                  {property.typeOfWashroom}
-                </li>
-                <li className="pi card-item flex items-center text-base">
-                  <PiGridFour style={{ fontSize: "1.6rem" }} />
-                  &nbsp;
-                  {property.squareFeetArea} ft²
-                </li>
-              </ul>
-              <div className="divider-container">
-                <hr
-                  className="custom-hr"
-                  style={{
-                    border: "none",
-                    borderTop: "2.8px solid #ccc",
-                    width: "calc(100% + 0.001rem)",
-                    marginTop: "1.4rem",
-                    marginBottom: "-2.3rem",
-                  }}
+      <section className="property py-24" id="property">
+        <div className="container mx-auto px-10">
+          <div>
+            <div className="flex items-center justify-between px-3 pb-20">
+              <p className="lg:text-5xl md:text-4xl text-2xl text-[#C8A21C] font-bold">
+                Property Listing
+              </p>
+              <img
+                src={hamburger}
+                alt="Hamburger Menu"
+                className="cursor-pointer lg:w-12 md:w-11 w-9 h-auto"
+                onClick={handleHamburger}
+              />
+            </div>
+            <div className="absolute z-50 top-[50%] right-5 flex gap-4 p-4 sm:w-full md:w-[442px] lg:w-[500px] h-fit">
+              <div>
+                <img
+                  src={cross}
+                  alt="Close"
+                  onClick={handleHamburger}
+                  className={`${Hamburger ? "block" : "hidden"} cursor-pointer`}
                 />
               </div>
+
+              <div
+                className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg md:w-full ${
+                  Hamburger ? "block" : "hidden"
+                }`}
+              >
+                <SideOpt />
+              </div>
             </div>
-            <div className="card-footer p-6 flex justify-between items-center">
-              <div className="card-author flex items-center gap-4">
-                <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full">
-                  <img
-                    src={property.images[0]}
-                    alt={property.ownerName}
-                    className="w-full h-full object-cover"
-                  />
-                </figure>
-                <div>
-                  <p className="author-name text-gray-900 text-sm font-medium">
-                    <a href="#">{property.ownerName}</a>
-                  </p>
+
+            <div className="flex justify-between">
+              <div className="flex items-center justify-start gap-3 pb-10 ml-4 flex-col md:flex-row lg:flex-row">
+                <div className="bg-white h-14 w-80 flex items-center justify-between text-black px-4 rounded-2xl">
+                  <div className="w-1/4 flex items-center justify-start gap-4 border-r-2 h-3/4 border-black">
+                    <p className="text-black">Sort</p>
+                    <img
+                      src={drop}
+                      alt="Dropdown"
+                      className={`${
+                        mode ? "rotate-180" : "rotate-0"
+                      } mt-1 cursor-pointer`}
+                      onClick={handleMode}
+                    />
+                    <div className="relative">
+                      <div
+                        className={`${
+                          mode ? "block" : "hidden"
+                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
+                      >
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            handleSortClick("price-low-high"), setMode(false);
+                          }}
+                        >
+                          Price: Low to High
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            handleSortClick("price-high-low"), setMode(false);
+                          }}
+                        >
+                          Price: High to Low
+                        </p>
+                        <p
+                          className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            handleSortClick("most-trending"), setMode(false);
+                          }}
+                        >
+                          Most Trending
+                        </p>
+                        <p
+                          className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            handleSortClick("date-uploaded"), setMode(false);
+                          }}
+                        >
+                          Date Uploaded
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
+                    <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full">
+                      <p>{city}</p>
+                    </div>
+                    <div>
+                      <img
+                        src={loc}
+                        alt="Location"
+                        className="cursor-pointer"
+                        onClick={handleLocation}
+                      />
+                    </div>
+                    <div
+                      className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${
+                        Location ? "block" : "hidden"
+                      }`}
+                    >
+                      <div>
+                        <img
+                          src={cross}
+                          alt="Close"
+                          onClick={handleLocation}
+                          className="cursor-pointer"
+                        />
+                      </div>
+                      <SelectLocation />
+                    </div>
+                  </div>
+                </div>
+                <div className="h-14 w-56 bg-white text-black flex items-start justify-between px-5 rounded-2xl">
+                  <div className="flex items-center justify-start gap-4 h-full w-2/4">
+                    <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
+                      2
+                    </div>
+                    <div>Filters</div>
+                  </div>
+                  <div className="h-full flex items-center justify-center w-1/4 cursor-pointer rounded-full">
+                    <img
+                      src={drop}
+                      alt="Dropdown"
+                      onClick={handleOpen}
+                      className="cursor-pointer"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="card-footer-actions">
-                <button
-                  onClick={() => navigate(`/property/${property.slug}`)}
-                  className="card-footer-actions-btn"
+
+              <div className="compare" onClick={compare}>
+                {props.compareData.length >= 1 && (
+                  <button
+                    className={`bg-white text-black rounded-md py-3 px-6 font-medium ${
+                      props.compareData.length <= 1
+                        ? "opacity-50 grayscale cursor-not-allowed"
+                        : ""
+                    }`}
+                    disabled={props.compareData.length <= 1}
+                  >
+                    Compare {props.compareData.length}
+                  </button>
+                )}
+              </div>
+
+              <div>
+                <a
+                  onClick={handleAddPropertybtn}
+                  className="mr-2 bg-white w-44 h-14 text-black flex items-center justify-center px-5 rounded-2xl cursor-pointer"
                 >
-                  SHOW MORE
-                </button>
+                  Add Property
+                </a>
               </div>
             </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+          </div>
+
+          <div
+            className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
+              isOpen ? "block" : "hidden"
+            } `}
+          >
+            <div className="relative w-full max-w-lg">
+              <Filters
+                SetIsOpen={SetIsOpen}
+                setProperties={setProperties}
+                city={city}
+              />
+              <div className="absolute top-1 right-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  onClick={handleOpen}
+                  className="cursor-pointer w-5 lg:w-6 md:w-6 z-50 text-red-400 hover:text-red-800 transition-colors duration-300"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <Cards
+            properties={currentProperties.map((property) => ({
+              ...property,
+              propertyType: `${property.bhk} BHK,
+              ${property.propertyType},
+              ${"On Rent"} `,
+              ownerName: property.firstName,
+            }))}
+            handleToggle={handleToggle}
+            isInCompareList={isInCompareList}
+          />
+        </div>
+      </section>
+
+      <Pagination
+        properties={properties}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+      />
+    </>
   );
 };
 
-export default Cards;
+export default Listing;
