@@ -116,10 +116,10 @@ const Cards = ({
             </figure>
             <div className="card-content p-6">
               <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-2xl font-semibold">
+                <h3 className="card-title text-lg w-4/5 font-semibold">
                   <a href="#">{property.propertyType}</a>
                 </h3>
-                <div className="icon-box flex space-x-4 p-2">
+                <div className="icon-box flex space-x-2 p-0.5">
                   <Popup
                     trigger={
                       <button>
@@ -217,7 +217,7 @@ const Cards = ({
               </div>
             </div>
             <div className="card-footer p-6 flex justify-between items-center">
-              <div className="card-author flex items-center gap-4">
+              <div className="card-author flex items-center gap-2">
                 <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full">
                   <img
                     src={property.images[0]}
@@ -226,7 +226,7 @@ const Cards = ({
                   />
                 </figure>
                 <div>
-                  <p className="author-name text-gray-900 text-sm font-medium">
+                  <p className="author-name text-gray-900 text-xs font-medium">
                     <a href="#">{property.ownerName}</a>
                   </p>
                 </div>
