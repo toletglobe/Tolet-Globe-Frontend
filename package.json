@@ -34,7 +34,8 @@
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.5",
     "reactjs-popup": "^2.0.6",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "toasty": "^6.0.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
