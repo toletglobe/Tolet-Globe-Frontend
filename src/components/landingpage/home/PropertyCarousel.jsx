@@ -8,13 +8,31 @@ import image2 from "../../../assets/property/img2.svg";
 import image3 from "../../../assets/property/img3.svg";
 import image4 from "../../../assets/property/img4.svg";
 
+// Add these imports for custom arrow icons
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
 export const PropertyCarousel = () => {
+  // Custom arrow components
+  const CustomPrevArrow = (props) => (
+    <div {...props} className="custom-arrow custom-prev-arrow">
+      <FaChevronLeft size={30} />
+    </div>
+  );
+
+  const CustomNextArrow = (props) => (
+    <div {...props} className="custom-arrow custom-next-arrow">
+      <FaChevronRight size={30} />
+    </div>
+  );
+
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
   };
 
   const slides = [
@@ -50,7 +68,7 @@ export const PropertyCarousel = () => {
           </p>
         </div>
       </div>
-      <div className="w-[85%]  mx-auto px-4 py-8">
+      <div className="w-[85%] mx-auto px-4 py-8 custom-slider-container">
         <Slider {...settings}>
           {slides.map((slide, index) => (
             <div
@@ -89,6 +107,25 @@ export const PropertyCarousel = () => {
           ))}
         </Slider>
       </div>
+      <style jsx>{`
+        .custom-slider-container :global(.slick-prev),
+        .custom-slider-container :global(.slick-next) {
+          display: none !important;
+        }
+        .custom-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 1;
+          cursor: pointer;
+        }
+        .custom-prev-arrow {
+          left: -40px;
+        }
+        .custom-next-arrow {
+          right: -40px;
+        }
+      `}</style>
     </>
   );
 };
