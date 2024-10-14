@@ -12,6 +12,7 @@ export default function Frm4({ formData, setFormData }) {
     }),
   };
   const appliancesOptions = [
+    { value: "NA", label: "NA" },
     { value: "Refrigerator", label: "Refrigerator" },
     { value: "Heater", label: "Heater" },
     { value: "Oven", label: "Oven" },
@@ -20,7 +21,7 @@ export default function Frm4({ formData, setFormData }) {
   ];
 
   const handleOnChangeAppliances = (selectedOptions) => {
-    console.log("SO: ", selectedOptions);
+    // console.log("SO: ", selectedOptions);
 
     setFormData((formData) => {
       return { ...formData, appliances: selectedOptions };
@@ -28,15 +29,18 @@ export default function Frm4({ formData, setFormData }) {
   };
 
   const amenitiesOptions = [
+    { value: "NA", label: "NA" },
     { value: "Gym", label: "Gym" },
     { value: "Pool", label: "Pool" },
     { value: "Balcony", label: "Balcony" },
     { value: "Garden", label: "Garden" },
     { value: "Elevator", label: "Elevator" },
+    { value: "24 Hrs Supply", label: "24 Hrs Supply" },
+    { value: "Club House", label: "Club House" },
   ];
 
   const handleOnChangeAmenities = (selectedOptions) => {
-    console.log("SO: ", selectedOptions);
+    // console.log("SO: ", selectedOptions);
 
     setFormData((formData) => {
       return { ...formData, amenities: selectedOptions };
@@ -54,8 +58,9 @@ export default function Frm4({ formData, setFormData }) {
             </label>
             <input
               required
-              type="number"
+              type="text"
               placeholder="0"
+              // pattern="^(NA|\d+)$"
               className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
               value={formData.squareFeetArea}
               onChange={(e) => {
@@ -130,19 +135,6 @@ export default function Frm4({ formData, setFormData }) {
             onChange={(e) => {
               setFormData((formData) => {
                 return { ...formData, aboutTheProperty: e.target.value };
-              });
-            }}
-          ></textarea>
-        </div>
-
-        <div className="mt-10 text-white flex flex-col gap-y-9 items-start">
-          <label className="font-bold text-lg">Comments</label>
-          <textarea
-            className="bg-black w-[50%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.comments}
-            onChange={(e) => {
-              setFormData((formData) => {
-                return { ...formData, comments: e.target.value };
               });
             }}
           ></textarea>

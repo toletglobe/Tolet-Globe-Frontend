@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { API } from "../../config/axios";
 
 import Frm1 from "./AllForms/Frm1";
@@ -74,7 +73,7 @@ export default function LandlordDashboardAddProperties() {
     nearestLandmark: "",
     typeOfWashroom: "",
     coolingFacility: "",
-    carParking: true,
+    carParking: "",
     rent: "",
     security: "",
     images: [],
@@ -82,7 +81,6 @@ export default function LandlordDashboardAddProperties() {
     appliances: [],
     amenities: [],
     aboutTheProperty: "",
-    comments: "",
     locationLink: "",
   });
 
@@ -120,14 +118,24 @@ export default function LandlordDashboardAddProperties() {
     const updatedFormData = {
       ...formData,
       pincode: Number(formData.pincode),
-      petsAllowed: Boolean(formData.petsAllowed),
-      bhk: Number(formData.bhk),
-      rent: Number(formData.rent),
-      security: Number(formData.security),
-      squareFeetArea: Number(formData.squareFeetArea),
+      // petsAllowed: Boolean(formData.petsAllowed),  NA
+      // bhk: Number(formData.bhk),  NA
+      // rent: Number(formData.rent),  NA
+      // security: Number(formData.security),  NA
+      // squareFeetArea: Number(formData.squareFeetArea), NA
       appliances: formData.appliances.map((obj) => obj.value),
       amenities: formData.amenities.map((obj) => obj.value),
     };
+
+    for (const [key, value] of Object.entries(updatedFormData)) {
+      if (key === "userId" || key === "lastName" || key === "images") {
+        continue;
+      }
+
+      if (value === "") {
+        updatedFormData[key] = "NA";
+      }
+    }
 
     const dataToSend = new FormData();
 
@@ -142,10 +150,6 @@ export default function LandlordDashboardAddProperties() {
         dataToSend.append(key, value);
       }
     });
-
-    // for (let [key, value] of dataToSend.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
 
     const token = localStorage.getItem("token");
     console.log("Token: ", token);
@@ -198,7 +202,7 @@ export default function LandlordDashboardAddProperties() {
       nearestLandmark: "",
       typeOfWashroom: "",
       coolingFacility: "",
-      carParking: true,
+      carParking: "",
       rent: "",
       security: "",
       images: [],
@@ -206,7 +210,6 @@ export default function LandlordDashboardAddProperties() {
       appliances: [],
       amenities: [],
       aboutTheProperty: "",
-      comments: "",
       locationLink: "",
     });
   };

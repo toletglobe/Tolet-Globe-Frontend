@@ -18,8 +18,9 @@ export default function Frm2({ formData, setFormData }) {
               <option value="" disabled>
                 Select Pets Allowed
               </option>
-              <option value="true">Yes</option>
-              <option value="false">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+              <option value="NA">NA</option>
             </select>
           </div>
 
@@ -28,6 +29,7 @@ export default function Frm2({ formData, setFormData }) {
               Bachelors
             </label>
             <select
+              disabled={formData.preference === "Family" ? true : false}
               required
               className="bg-black px-3 py-3 w-[95%] h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
               value={formData.bachelors}
@@ -38,9 +40,10 @@ export default function Frm2({ formData, setFormData }) {
               <option value="" disabled>
                 Select Bachelors
               </option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
+              <option value="Boys">Boys</option>
+              <option value="Girls">Girls</option>
               <option value="Others">Others</option>
+              <option value="NA">NA</option>
             </select>
           </div>
 
@@ -60,6 +63,7 @@ export default function Frm2({ formData, setFormData }) {
               <option value="1">1 BHK</option>
               <option value="2">2 BHK</option>
               <option value="3">3 BHK</option>
+              <option value="NA">NA</option>
             </select>
           </div>
 
@@ -81,6 +85,7 @@ export default function Frm2({ formData, setFormData }) {
               <option value="Bachelors">Bachelors</option>
               <option value="Family">Family</option>
               <option value="Any">Any</option>
+              <option value="NA">NA</option>
             </select>
           </div>
 
@@ -100,6 +105,7 @@ export default function Frm2({ formData, setFormData }) {
               <option value="Non-Furnished">Non-Furnished</option>
               <option value="Semi-Furnished">Semi-Furnished</option>
               <option value="Fully-Furnished">Fully-Furnished</option>
+              <option value="NA">NA</option>
             </select>
           </div>
 
@@ -121,6 +127,7 @@ export default function Frm2({ formData, setFormData }) {
               <option value="Ground Floor">Ground Floor</option>
               <option value="1st Floor">1st Floor</option>
               <option value="2nd Floor">2nd Floor</option>
+              <option value="NA">NA</option>
             </select>
           </div>
         </div>
@@ -167,6 +174,7 @@ export default function Frm2({ formData, setFormData }) {
               <option value="AC">AC</option>
               <option value="Fan">Fan</option>
               <option value="Cooler">Cooler</option>
+              <option value="NA">NA</option>
             </select>
           </div>
 
@@ -191,6 +199,7 @@ export default function Frm2({ formData, setFormData }) {
               <option value="Western">Western</option>
               <option value="Indian">Indian</option>
               <option value="Both">Both</option>
+              <option value="NA">NA</option>
             </select>
           </div>
         </div>

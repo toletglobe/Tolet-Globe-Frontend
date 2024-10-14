@@ -1,29 +1,39 @@
 export default function Frm1({ formData, setFormData }) {
 
   
-   const cityOptions = [
-     { value: "Lucknow", label: "Lucknow" },
-     { value: "Ayodhya", label: "Ayodhya" },
-     { value: "Vellore", label: "Vellore" },
-     { value: "Kota", label: "Kota" },
-   ];
-
+  
   const optionRenderFun = (option) => (
     <option key={option.value} value={option.value}>
       {option.label}
     </option>
   );
+  
+  const cityOptions = [
+    { value: "Lucknow", label: "Lucknow" },
+    { value: "Ayodhya", label: "Ayodhya" },
+    { value: "Vellore", label: "Vellore" },
+    { value: "Kota", label: "Kota" },
+  ];
+
+  const spaceTypeOptions = [
+    { value: "Residential", label: "Residential" },
+    { value: "Commercial", label: "Commercial" },
+    { value: "PG", label: "PG" },
+    { value: "NA", label: "NA" },
+  ];
 
   const residentialOptions = [
     { value: "House", label: "House" },
     { value: "Flat", label: "Flat" },
     { value: "PG", label: "PG" },
+    { value: "NA", label: "NA" },
   ];
 
   const commercialOptions = [
     { value: "Office", label: "Office" },
     { value: "Shop", label: "Shop" },
     { value: "Warehouse", label: "Warehouse" },
+    { value: "NA", label: "NA" },
   ];
 
 
@@ -137,7 +147,6 @@ export default function Frm1({ formData, setFormData }) {
             </option>
 
             {cityOptions.map(optionRenderFun)}
-          
           </select>
         </div>
 
@@ -191,9 +200,7 @@ export default function Frm1({ formData, setFormData }) {
             <option value="" disabled>
               Select Space Type
             </option>
-            <option value="Residential">Residential</option>
-            <option value="Commercial">Commercial</option>
-            <option value="PG">PG</option>
+            {spaceTypeOptions.map(optionRenderFun)}
           </select>
         </div>
 
