@@ -5,7 +5,9 @@ import { ContactUs } from "./landingpage/home/getintouch";
 import { PropertyCarousel } from "./landingpage/home/PropertyCarousel";
 import Institution from "./partner_institution/Institution";
 import HiringPartners from "./Hiringpartner/HiringPartners";
-import TestimonialCard from "./testimonial/testimonial";
+
+import OurReach from "./OurReach/OurReach"
+
 
 const Landing = () => {
   return (
@@ -14,10 +16,15 @@ const Landing = () => {
       <Service />
       <About />
       <HiringPartners/>
+      <div className="flex flex-col gap-9">
       < PropertyCarousel />
+      <OurReach />
+
       <Institution/>
-      <TestimonialCard/>
-      <ContactUs />
+
+      </div>
+      <ContactUs /> 
+
     </div>
   );
 };

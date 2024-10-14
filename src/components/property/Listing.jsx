@@ -18,6 +18,7 @@ import Pagination from "./listingComponents/Pagination";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
+// import { set } from "mongoose";
 
 const Listing = (props) => {
   const { city } = useParams();
@@ -37,6 +38,10 @@ const Listing = (props) => {
   const [filterCount, setFilterCount] = useState(0);
 
   const authState = useSelector((state) => state.auth);
+
+  function refresh(){
+    window.location.reload(false)
+  }
 
   function handleOpen() {
     SetIsOpen(!isOpen);
@@ -263,7 +268,7 @@ const Listing = (props) => {
         if(isOpen===true) SetIsOpen(false)
       }} className="property h-[100vh] pb-14 px-10 w-full overflow-y-auto" id="property">
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-3 flex flex-col gap-12 py-12 sticky top-0 z-30 bg-black">
+        <div className="px-3 flex flex-col gap-12 py-12 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
             <p className="lg:text-5xl md:text-4xl text-2xl text-[#C8A21C] font-bold">
               Property Listing
@@ -348,7 +353,7 @@ const Listing = (props) => {
                 </div>
                 <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
                   <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full">
-                    <p onClick={handleLocation}>{city}</p>
+                  <p onClick={handleLocation}>{!city ? "Select City" : city}</p>
                   </div>
                   <div>
                     <img
@@ -415,7 +420,7 @@ const Listing = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div
+                  {/* <div
                     className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
                       }`}
                   >
@@ -423,12 +428,13 @@ const Listing = (props) => {
                       <img
                         src={cross}
                         alt="Close"
-                        onClick={handleLocation}
+                        onClick={()=>{handleLocation(); refresh();}}
                         className="cursor-pointer"
                       />
                     </div>
                     <SelectLocation />
-                  </div>
+                  </div> */}
+                    <SelectLocation Location={Location} setLocation={setLocation} />
                 </div>
               </div>
               <div className="h-14 w-56 bg-white text-black flex items-start justify-between px-5 rounded-md">
