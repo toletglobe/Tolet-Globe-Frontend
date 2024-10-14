@@ -1,0 +1,133 @@
+/* General body styling */
+body {
+  background-color: #1a1a1a;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Title styling */
+.hiring-title {
+  color: #2e7766;
+  font-size: 40px; /* Adjust font size as needed */
+  font-weight: 700; /* Set font weight to 700 */
+  text-align: center;
+  margin: 0; /* Remove margin to better center vertically */
+  padding: 0; /* Remove padding to position at the top */
+  position: relative; /* Position relative for top alignment */
+  top: -10px; /* Slightly adjust this value to move the title down from the top border */
+  z-index: 1; /* Ensure title is above other elements */
+}
+
+/* Hiring Partners section styling */
+.hiring-partners {
+  width: 100%; /* Full width */
+  padding: 40px 60px; /* Padding for better spacing */
+  background-color: #000;
+  /* border: 2px solid #2e7766; */ /* Removed border around the component */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  box-sizing: border-box;
+  position: relative; /* For proper layering */
+}
+
+/* Logo container: Horizontal flexbox layout */
+.logos {
+  display: flex;
+  justify-content: space-between; /* Space logos evenly across the container */
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* Max width to ensure it stays within the border */
+  gap: 40px; /* Increased space between logos */
+  margin: 30px 0; /* Increased margin for better separation */
+}
+
+/* Logo styling */
+.logos img {
+  height: 84.89px; /* Set a fixed height for all logos */
+  width: auto; /* Use auto width to maintain aspect ratio */
+  max-width: 200px; /* Set a maximum width for logos */
+  opacity: 1; /* Set opacity to 1 for visibility */
+  border-radius: 5px; /* Add a small curved border */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Transition effects for smoothness */
+}
+
+/* Hover effect for logos */
+.logos img:hover {
+  transform: scale(1.05); /* Slightly increase size on hover */
+  opacity: 0.9; /* Slightly decrease opacity on hover */
+}
+
+/* Specific Logo Adjustments */
+.linkedin {
+  border-radius: 9.76px 0 0 0; /* Rounded corners */
+}
+
+.unstop {
+  border-radius: 9.76px 0 0 0; /* Rounded corners */
+}
+
+.apna {
+  border-radius: 9.76px 0 0 0; /* Rounded corners */
+}
+
+.pregard {
+  border-radius: 9.76px 0 0 0; /* Rounded corners */
+}
+
+.sunstone {
+  border-radius: 9.76px 0 0 0; /* Rounded corners */
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 1200px) {
+  .hiring-partners {
+    padding: 30px 40px; /* Adjust padding for smaller screens */
+  }
+
+  .logos {
+    gap: 40px; /* Adjust the gap for smaller screens */
+  }
+
+  .hiring-title {
+    font-size: 36px; /* Slightly smaller font for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .hiring-partners {
+    padding: 20px 30px; /* Further adjust padding for tablets */
+  }
+
+  .logos {
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust spacing for tablets */
+  }
+
+  .logos img {
+    width: 120px; /* Smaller logos for tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .hiring-partners {
+    padding: 15px 20px; /* Reduced padding for phones */
+  }
+
+  .logos {
+    flex-direction: column; /* Stack logos vertically on smaller screens */
+  }
+
+  .logos img {
+    width: 100px; /* Smaller logos for phones */
+  }
+
+  .hiring-title {
+    font-size: 28px; /* Slightly smaller font for phones */
+  }
+}

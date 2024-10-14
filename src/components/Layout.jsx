@@ -69,6 +69,15 @@ const Layout = () => {
               />
             }
           />
+          <Route
+            path="/property-listing/"
+            element={
+              <Listing
+                setcompareData={setcompareData}
+                compareData={compareData}
+              />
+            }
+          />
           <Route path="/property/:slug" element={<Flow2a />} />
           <Route path="/property/reviews" element={<Reviews />} />
           <Route path="/property/add-property" element={<AddProperty />} />

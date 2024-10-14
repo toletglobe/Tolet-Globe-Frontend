@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
-import { IoMdClose } from "react-icons/io";
+import { FaRegCopy } from "react-icons/fa6";
 // import { IoAdd, IoBedOutline } from "react-icons/io5";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import Popup from "reactjs-popup";
@@ -129,17 +129,17 @@ const Cards = ({
                         />
                       </button>
                     }
-                    nested
+                    position={"bottom center"}
                   >
                     {(close) => (
-                      <div className="bg-slate-50 text-black px-2 py-2 rounded-full h-full flex flex-col shadow-xl">
+                      <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
                         <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
-                          <div className="px-2 py-3 text-sm truncate w-32">
-                            {`toletglobe.in/property/${property._id}`}
+                          <div className="px-2 py-2 text-sm truncate w-32">
+                            {`toletglobe.in/property/${property.slug}`}
                           </div>
                           <div>
                             <button
-                              className="px-4 py-1 bg-[#40B5A8] text-white rounded-3xl"
+                              className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
                               onClick={() => {
                                 navigator.clipboard.writeText(
                                   `www.toletglobe.in/property/${property.slug}`
@@ -147,7 +147,7 @@ const Cards = ({
                                 close();
                               }}
                             >
-                              Copy
+                              <FaRegCopy />
                             </button>
                           </div>
                         </div>
