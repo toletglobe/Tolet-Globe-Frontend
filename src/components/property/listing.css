@@ -1,8 +1,8 @@
 .property-list {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 2rem; 
-  padding: 1rem; 
+  gap: 2rem;
+  padding: 1rem;
 }
 
 .property-list a {
@@ -25,18 +25,18 @@
 /* Property Card */
 .property-card {
   border: 1px solid #ccc; /* Base border color */
-  border-radius: 0; 
+  border-radius: 0;
   overflow: hidden;
   position: relative;
   padding: 1rem;
-  transition: box-shadow 0.3s ease; 
+  transition: box-shadow 0.3s ease;
 }
 
 /* Banner Image Container */
 .card-banner {
   overflow: hidden;
   position: relative;
-  transition: border 0.3s ease; 
+  transition: border 0.3s ease;
 }
 
 /* Card Banner Image */
@@ -44,16 +44,15 @@
   width: 100%;
   height: 350px;
   object-fit: cover; /* Ensure the image covers the container */
-  transition: border 0.3s ease; 
+  transition: border 0.3s ease;
 }
-
 
 /* Card Banner */
 .card-banner img {
   width: 100%;
   height: 350px;
-  border: 1px solid #D9D9D9; 
-  border-radius: 5px; 
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
 }
 
 /* Added cursor pointer to carousel slides */
@@ -75,22 +74,21 @@
   color: #c8a217; /* Change active dot color */
 }
 
-
 /* Container for the card details */
 .card-details {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; 
-  gap: 0.5rem; 
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 /* Style for the type labels (Flat, Shop, House) */
 .card-type {
   font-family: Poppins, sans-serif;
-  font-size: 14px; 
+  font-size: 14px;
   font-weight: 500;
-  color: #000; 
-  margin-bottom: 0.5rem; 
+  color: #000;
+  margin-bottom: 0.5rem;
 }
 
 /* Style for the price */
@@ -102,10 +100,10 @@
   color: #808080;
   padding: 0.3px;
 }
-.cate-price{
+.cate-price {
   margin-right: 20px;
 }
-.card-text{
+.card-text {
   margin-left: -1.5px;
 }
 
@@ -127,13 +125,12 @@
 }
 
 .card_icon {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 
 /* Heart icon specific styling */
 .card_icons a:last-child .card_icon {
@@ -143,66 +140,63 @@
 /* CSS for SHOW MORE button */
 .card-footer-actions-btn {
   font-family: Poppins, sans-serif; /* Use Poppins font */
-  font-size: 12px; 
-  font-weight: 400; 
-  line-height: 18px; 
-  text-align: center; 
-  background: #40B5A8;
-  border: 1px solid #ddd; 
-  border-radius: 4px; 
-  padding: 0.5rem 1rem; 
-  color: #FFFFFF; 
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 18px;
+  text-align: center;
+  background: #40b5a8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  color: #ffffff;
 }
-.card-list{
+.card-list {
   margin-top: 12px;
 }
-.bed{
+.bed {
   color: #767676;
 }
-.bath{
+.bath {
   color: #767676;
 }
-.pi{
-  color: #7C7C7C;
+.pi {
+  color: #7c7c7c;
 }
-.author-name{
+.author-name {
   color: #767676;
 }
-
-
 
 /* Group box for icons */
 .card_icons {
   display: flex;
-  gap: 1rem; 
-  padding: 0.5rem; 
-  border: 1px solid #ddd; 
-  background: #f9f9f9; 
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
 
   border-radius: 0; /* Remove rounded corners to make the box square */
-  transition: border-color 0.3s ease, background-color 0.3s ease; 
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 /* Individual icon styles as Figma */
 .card_icon {
   width: 25px;
   height: 25px;
-  gap: 0px; 
-  border: 0.5px solid #00000066; 
-  background-color: #D9D9D917;
+  gap: 0px;
+  border: 0.5px solid #00000066;
+  background-color: #d9d9d917;
   border-radius: 0; /* Square edges */
-  opacity: 1; 
+  opacity: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.3s ease, background-color 0.3s ease; 
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .card_icon {
-  border: 0.5px solid #00000066
+  border: 0.5px solid #00000066;
 }
 .card_icons a:nth-child(2) .card_icon {
- font-size: small;
+  font-size: small;
 }
-
-
