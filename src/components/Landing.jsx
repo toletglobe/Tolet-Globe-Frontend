@@ -5,7 +5,9 @@ import { ContactUs } from "./landingpage/home/getintouch";
 import { PropertyCarousel } from "./landingpage/home/PropertyCarousel";
 import Institution from "./partner_institution/Institution";
 import HiringPartners from "./Hiringpartner/HiringPartners";
+
 import OurReach from "./OurReach/OurReach"
+
 
 const Landing = () => {
   return (
@@ -19,8 +21,10 @@ const Landing = () => {
       <OurReach />
 
       <Institution/>
+
       </div>
       <ContactUs /> 
+
     </div>
   );
 };

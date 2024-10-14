@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
-import { FaRegCopy } from "react-icons/fa6";
+import { IoMdClose } from "react-icons/io";
 // import { IoAdd, IoBedOutline } from "react-icons/io5";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import Popup from "reactjs-popup";
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
     style={{ width: "40px", height: "40px" }}
   >
@@ -23,7 +23,7 @@ const PrevArrow = ({ onClick }) => (
 
 const NextArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
     style={{ width: "40px", height: "40px" }}
   >
@@ -129,17 +129,17 @@ const Cards = ({
                         />
                       </button>
                     }
-                    position={"bottom center"}
+                    nested
                   >
                     {(close) => (
-                      <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
+                      <div className="bg-slate-50 text-black px-2 py-2 rounded-full h-full flex flex-col shadow-xl">
                         <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
-                          <div className="px-2 py-2 text-sm truncate w-32">
-                            {`toletglobe.in/property/${property.slug}`}
+                          <div className="px-2 py-3 text-sm truncate w-32">
+                            {`toletglobe.in/property/${property._id}`}
                           </div>
                           <div>
                             <button
-                              className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                              className="px-4 py-1 bg-[#40B5A8] text-white rounded-3xl"
                               onClick={() => {
                                 navigator.clipboard.writeText(
                                   `www.toletglobe.in/property/${property.slug}`
@@ -147,7 +147,7 @@ const Cards = ({
                                 close();
                               }}
                             >
-                              <FaRegCopy />
+                              Copy
                             </button>
                           </div>
                         </div>

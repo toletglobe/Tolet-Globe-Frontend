@@ -59,8 +59,8 @@ export default function LandlordDashboard() {
 
   return (
     <>
-      <div className="w-[100vw] mt-16 ml-16 flex">
-        <div className="w-[27%]">
+      <div className="w-[100vw] mt-16 ml-12 flex gap-x-8">
+        <div className="w-[25%]">
           <LandlordDashboardSidebar
             mainContent={mainContent}
             setMainContent={setMainContent}
@@ -69,7 +69,7 @@ export default function LandlordDashboard() {
           />
         </div>
 
-        <div className="w-[62%]">{ShowMainContent(mainContent)}</div>
+        <div className="w-[65%]">{ShowMainContent(mainContent)}</div>
       </div>
     </>
   );

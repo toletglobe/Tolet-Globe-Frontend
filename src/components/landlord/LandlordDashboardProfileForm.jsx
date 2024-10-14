@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { toast } from "react-hot-toast"; // Import toast
+import { toast } from "react-hot-toast";
 
 const LandlordDashboardProfileForm = () => {
   const [userInfo, setUserInfo] = useState({
@@ -9,11 +9,14 @@ const LandlordDashboardProfileForm = () => {
     lastName: "",
     email: "",
     phoneNumber: "",
+    profilePicture: "",
   });
 
   const [isChanged, setIsChanged] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null); // State for image upload
+  const fileInputRef = useRef(null); // Create a ref for the file input
 
   // Fetch user data on component mount
   useEffect(() => {
@@ -26,7 +29,12 @@ const LandlordDashboardProfileForm = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:8000/api/v1/user/info?token=${token}`
+          `http://localhost:8000/api/v1/user/info?token=${token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setUserInfo(response.data);
       } catch (error) {
@@ -51,7 +59,6 @@ const LandlordDashboardProfileForm = () => {
 
   // Handle save changes (update user info)
   const handleSaveChanges = async () => {
-    // Check if any input field is empty
     if (
       !userInfo.firstName ||
       !userInfo.lastName ||
@@ -67,7 +74,8 @@ const LandlordDashboardProfileForm = () => {
       const token = localStorage.getItem("token");
       setIsSubmitting(true);
 
-      const response = await axios.put(
+      // Prepare request for updating user info
+      const updateResponse = await axios.put(
         "http://localhost:8000/api/v1/user/update",
         {
           userId: userInfo.userId,
@@ -83,8 +91,43 @@ const LandlordDashboardProfileForm = () => {
         }
       );
 
-      console.log(response.data);
+      console.log(updateResponse.data);
       toast.success("User updated successfully!"); // Show success toast
+
+      // Upload the profile picture if selected
+      if (selectedImage) {
+        const formData = new FormData();
+        formData.append("profilePicture", selectedImage);
+
+        const uploadResponse = await axios.post(
+          "http://localhost:8000/api/v1/user/uploadProfilePicture",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data", // Important for file uploads
+            },
+          }
+        );
+
+        toast.success("Profile picture uploaded successfully!"); // Show success toast
+
+        // Update the userInfo with the uploaded image URL if available
+        if (uploadResponse.data && uploadResponse.data.imageUrl) {
+          setUserInfo((prevInfo) => ({
+            ...prevInfo,
+            profilePicture: uploadResponse.data.imageUrl, // Adjust based on your API response
+          }));
+        }
+
+        // Reset the selected image
+        setSelectedImage(null);
+        // Clear the file input field
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ""; // Reset the input
+        }
+      }
+
       setIsChanged(false);
       setErrorMessage("");
     } catch (error) {
@@ -92,6 +135,15 @@ const LandlordDashboardProfileForm = () => {
       toast.error("Failed to update user information"); // Show error toast
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // Handle image change
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+      setIsChanged(true); // Set isChanged to true when an image is selected
     }
   };
 
@@ -108,9 +160,14 @@ const LandlordDashboardProfileForm = () => {
               </p>
             </div>
             <div>
-              <button className="px-8 py-2 bg-white text-black font-bold rounded-md mb-8">
-                Upload
-              </button>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                ref={fileInputRef} // Attach the ref to the input
+                className="p-2 bg-white text-black font-bold rounded-md"
+              />
+              {/* Removed the upload button */}
             </div>
           </div>
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -150,6 +207,7 @@ const LandlordDashboardProfileForm = () => {
               <input
                 type="email"
                 name="email"
+                disabled={true}
                 value={userInfo.email}
                 onChange={handleInputChange}
                 placeholder="Enter Your Email ID"
@@ -158,7 +216,7 @@ const LandlordDashboardProfileForm = () => {
             </div>
             <div className="flex flex-col gap-3">
               <label htmlFor="phoneNumber" className="font-medium text-lg">
-                Number
+                Phone Number
               </label>
               <input
                 type="text"
@@ -182,7 +240,7 @@ const LandlordDashboardProfileForm = () => {
         </div>
       </main>
     </div>
-    );
+  );
 };
 
 export default LandlordDashboardProfileForm;
