@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -15,17 +15,16 @@ import SelectLocation from "./listingComponents/SelectLocation";
 import Filters from "./listingComponents/Filters";
 import Cards from "./listingComponents/Cards";
 import Pagination from "./listingComponents/Pagination";
-import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import { useStateValue } from "../../StateProvider";
 
 const Listing = () => {
   const { city } = useParams();
+  const navigate = useNavigate();
 
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
-  const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -124,7 +123,7 @@ const Listing = () => {
     };
 
     fetchAndFilterProperties();
-  }, [location.search]);
+  }, [city, location.search]); // Add city to the dependency array
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -337,7 +336,14 @@ const Listing = () => {
                     </div>
                     <SelectLocation />
                   </div> */}
-                    <SelectLocation Location={Location} setLocation={setLocation} />
+                    <SelectLocation 
+                      Location={Location} 
+                      setLocation={setLocation} 
+                      onLocationSelect={(selectedCity) => {
+                        navigate(`/property-listing/${selectedCity}`);
+                        setLocation(false);
+                      }}
+                    />
                 </div>
               </div>
               <div className="h-14 w-56 bg-white text-black flex items-start justify-between px-5 rounded-md">
