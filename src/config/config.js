@@ -31,6 +31,20 @@ class Service {
     }
   }
 
+  static async updateViews(slug) {
+    try {
+      const response = await axios.get(`${BASE_URL}blog/updateViews/${slug}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
   static async fetchProperty() {
     try {
       //  console.log(`Fetching from: ${BASE_URL}property`);
