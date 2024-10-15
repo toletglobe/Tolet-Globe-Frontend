@@ -1,13 +1,10 @@
 export default function Frm1({ formData, setFormData }) {
-
-  
-  
   const optionRenderFun = (option) => (
     <option key={option.value} value={option.value}>
       {option.label}
     </option>
   );
-  
+
   const cityOptions = [
     { value: "Lucknow", label: "Lucknow" },
     { value: "Ayodhya", label: "Ayodhya" },
@@ -18,7 +15,6 @@ export default function Frm1({ formData, setFormData }) {
   const spaceTypeOptions = [
     { value: "Residential", label: "Residential" },
     { value: "Commercial", label: "Commercial" },
-    { value: "PG", label: "PG" },
     { value: "NA", label: "NA" },
   ];
 
@@ -36,6 +32,98 @@ export default function Frm1({ formData, setFormData }) {
     { value: "NA", label: "NA" },
   ];
 
+  const allOptions = [
+    { value: "House", label: "House" },
+    { value: "Flat", label: "Flat" },
+    { value: "PG", label: "PG" },
+    { value: "Office", label: "Office" },
+    { value: "Shop", label: "Shop" },
+    { value: "Warehouse", label: "Warehouse" },
+    { value: "NA", label: "NA" },
+  ];
+
+  const cityLocalityData = {
+    Lucknow: {
+      localities: [
+        "Kamta",
+        "Nishatganj",
+        "Hazratganj",
+        "Gomti Nagar",
+        "Sushant Golf City",
+        "Khargapur",
+        "Chinhat",
+        "Indira Nagar",
+        "Aliganj",
+        "Vinay Khand",
+        "Patrakar Puran",
+        "Awadh Vihar Colony",
+        "Sunder Nagar",
+        "Amity University",
+        "Ismail Ganj",
+        "Rajajipuram",
+      ],
+      pincodes: [
+        "226028",
+        "226001",
+        "226001",
+        "226010",
+        "226030",
+        "226010",
+        "226028",
+        "226016",
+        "226024",
+        "226010",
+        "226010",
+        "226015",
+        "226005",
+        "226010",
+        "226010",
+        "226010",
+      ],
+    },
+    Ayodhya: {
+      localities: ["Bakhtiarpur", "Bhadohi", "Bakhtiyarpur", "Bhadohi"],
+      pincodes: ["224121", "224122", "224123", "224124"],
+    },
+    Vellore: {
+      localities: [
+        "Vellore Cantonment",
+        "Gandhi Nagar",
+        "Vellore East",
+        "Vellore West",
+      ],
+      pincodes: ["632001", "632002", "632003", "632004"],
+    },
+    Kota: {
+      localities: ["Kota Cantonment", "Kota East", "Kota West", "Kota Central"],
+      pincodes: ["324001", "324002", "324003", "324004"],
+    },
+  };
+
+  const handleCityChange = (e) => {
+    const selectedCity = e.target.value;
+    setFormData({
+      ...formData,
+      city: selectedCity,
+      locality: "",
+      pincode: "",
+    });
+  };
+
+  const handleLocalityChange = (e) => {
+    const selectedLocality = e.target.value;
+    const selectedCity = formData.city;
+    const localityIndex =
+      cityLocalityData[selectedCity].localities.indexOf(selectedLocality);
+    const correspondingPincode =
+      cityLocalityData[selectedCity].pincodes[localityIndex];
+
+    setFormData({
+      ...formData,
+      locality: selectedLocality,
+      pincode: correspondingPincode,
+    });
+  };
 
   return (
     <>
@@ -113,6 +201,47 @@ export default function Frm1({ formData, setFormData }) {
           />
         </div>
 
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            City
+          </label>
+          <select
+            required
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            value={formData.city}
+            onChange={handleCityChange}
+          >
+            <option value="" disabled>
+              Select City
+            </option>
+            {cityOptions.map(optionRenderFun)}
+          </select>
+        </div>
+
+        {/* Locality */}
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            Locality
+          </label>
+          <select
+            required
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            value={formData.locality}
+            onChange={handleLocalityChange}
+            disabled={!formData.city}
+          >
+            <option value="" disabled>
+              Select Locality
+            </option>
+            {formData.city &&
+              cityLocalityData[formData.city].localities.map((locality) => (
+                <option key={locality} value={locality}>
+                  {locality}
+                </option>
+              ))}
+          </select>
+        </div>
+
         {/* Pin */}
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
@@ -124,46 +253,7 @@ export default function Frm1({ formData, setFormData }) {
             required
             className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
             value={formData.pincode}
-            onChange={(e) => {
-              setFormData({ ...formData, pincode: e.target.value });
-            }}
-            pattern="[1-9]{1}[0-9]{5}"
-          />
-        </div>
-        <div>
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            City
-          </label>
-          <select
-            required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.city}
-            onChange={(e) => {
-              setFormData({ ...formData, city: e.target.value });
-            }}
-          >
-            <option value="" disabled>
-              Select City
-            </option>
-
-            {cityOptions.map(optionRenderFun)}
-          </select>
-        </div>
-
-        {/* Locality */}
-        <div>
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Locality
-          </label>
-          <input
-            type="text"
-            placeholder="Enter Locality"
-            required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.locality}
-            onChange={(e) => {
-              setFormData({ ...formData, locality: e.target.value });
-            }}
+            readOnly
           />
         </div>
 
@@ -223,7 +313,9 @@ export default function Frm1({ formData, setFormData }) {
 
             {formData.spaceType === "Commercial"
               ? commercialOptions.map(optionRenderFun)
-              : residentialOptions.map(optionRenderFun)}
+              : formData.spaceType === "Residential"
+              ? residentialOptions.map(optionRenderFun)
+              : allOptions.map(optionRenderFun)}
           </select>
         </div>
       </div>
