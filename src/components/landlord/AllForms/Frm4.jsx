@@ -127,10 +127,53 @@ export default function Frm4({ formData, setFormData }) {
           </div>
         </div>
 
+        <div className="mt-14 grid grid-flow-col grid-rows-1">
+          <div className="text-white flex flex-col gap-y-9 items-start">
+            <label className="text-[#FFFFFF] font-bold text-lg leading-6">
+              Address Verification
+            </label>
+            <input
+              required
+              type="text"
+              placeholder="Address Verification"
+              className="bg-black w-[90%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+              value={formData.addressVerification}
+              onChange={(e) => {
+                setFormData((formData) => {
+                  return { ...formData, addressVerification: e.target.value };
+                });
+              }}
+            />
+          </div>
+          <div className="text-white flex flex-col gap-y-9 items-start">
+            <label className="text-[#FFFFFF] font-bold text-lg leading-6">
+              Availability Status
+            </label>
+            <select
+              required
+              placeholder="Availability Status"
+              className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+              value={formData.availabilityStatus}
+              onChange={(e) => {
+                setFormData((formData) => {
+                  return { ...formData, availabilityStatus: e.target.value };
+                });
+              }}
+            >
+              <option value="" disabled>
+                Select Locality
+              </option>
+              <option value="Available">Available</option>
+              <option value="Rented Out">Rented Out</option>
+              <option value="NA">NA</option>
+            </select>
+          </div>
+        </div>
+
         <div className="mt-10 text-white flex flex-col gap-y-9 items-start">
           <label className="font-bold text-lg">About the property</label>
           <textarea
-            className="bg-black w-[50%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            className="bg-black w-[466px] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
             value={formData.aboutTheProperty}
             onChange={(e) => {
               setFormData((formData) => {

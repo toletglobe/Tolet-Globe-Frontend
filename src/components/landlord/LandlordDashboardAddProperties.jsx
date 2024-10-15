@@ -61,6 +61,7 @@ export default function LandlordDashboardAddProperties() {
     pincode: "",
     city: "",
     locality: "",
+    area: "",
     address: "",
     spaceType: "",
     propertyType: "",
@@ -77,11 +78,14 @@ export default function LandlordDashboardAddProperties() {
     rent: "",
     security: "",
     images: [],
+    videos: [],
     squareFeetArea: "",
+    locationLink: "",
     appliances: [],
     amenities: [],
+    addressVerification: "",
+    availabilityStatus: "",
     aboutTheProperty: "",
-    locationLink: "",
   });
 
   const RenderFormBody = (page) => {
@@ -190,6 +194,7 @@ export default function LandlordDashboardAddProperties() {
       pincode: "",
       city: "",
       locality: "",
+      area: "",
       address: "",
       spaceType: "",
       propertyType: "",
@@ -206,11 +211,14 @@ export default function LandlordDashboardAddProperties() {
       rent: "",
       security: "",
       images: [],
+      videos: [],
       squareFeetArea: "",
+      locationLink: "",
       appliances: [],
       amenities: [],
+      addressVerification: "",
+      availabilityStatus: "",
       aboutTheProperty: "",
-      locationLink: "",
     });
   };
 
