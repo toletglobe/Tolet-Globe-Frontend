@@ -25,6 +25,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+
 @keyframes marquee {
   0% {
     transform: translateX(50%);
