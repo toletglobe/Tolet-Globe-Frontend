@@ -131,8 +131,10 @@ const Cards = ({ properties, propertyAction }) => {
             </figure>
             <div className="card-content p-6">
               <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-2xl font-semibold">
-                  <a href="#">{property.propertyType}</a>
+                <h3 className="card-title text-[20px] font-semibold">
+                  <a href="#">
+                    {property.bhk} BHK, {property.propertyType}, On Rent
+                  </a>
                 </h3>
                 <div className="icon-box flex space-x-4 p-2">
                   <Popup
@@ -249,7 +251,9 @@ const Cards = ({ properties, propertyAction }) => {
                 </figure>
                 <div>
                   <p className="author-name text-gray-900 text-sm font-medium">
-                    <a href="#">{property.ownerName}</a>
+                    <a href="#">
+                      {property.firstName} {property.lastName}
+                    </a>
                   </p>
                 </div>
               </div>
