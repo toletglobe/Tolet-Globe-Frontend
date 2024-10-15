@@ -40,8 +40,8 @@ const Listing = () => {
 
   const authState = useSelector((state) => state.auth);
 
-  function refresh(){
-    window.location.reload(false)
+  function refresh() {
+    window.location.reload(false);
   }
 
   function handleOpen() {
@@ -207,9 +207,9 @@ const Listing = () => {
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-3 flex flex-col gap-12 py-12 sticky top-0 z-20 bg-black">
+        <div className="px-3 flex flex-col gap-12 py-7 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
-            <p className="lg:text-5xl md:text-4xl text-2xl text-[#C8A21C] font-bold">
+            <p className="lg:text-[45px] md:text-4xl text-2xl text-[#C8A21C] font-bold">
               Property Listing
             </p>
             <img
@@ -274,8 +274,10 @@ const Listing = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
-                  <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full">
-                  <p onClick={handleLocation}>{!city ? "Select City" : city}</p>
+                  <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
+                    <p onClick={handleLocation}>
+                      {!city ? "Select City" : city}
+                    </p>
                   </div>
                   <div>
                     <img
@@ -286,8 +288,9 @@ const Listing = () => {
                     />
                     <div className="relative">
                       <div
-                        className={`${showCity && city == "Lucknow" ? "block" : "hidden"
-                          } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
+                        className={`${
+                          showCity && city == "Lucknow" ? "block" : "hidden"
+                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
                       >
                         <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Gomati Nagar
@@ -336,14 +339,14 @@ const Listing = () => {
                     </div>
                     <SelectLocation />
                   </div> */}
-                    <SelectLocation 
-                      Location={Location} 
-                      setLocation={setLocation} 
-                      onLocationSelect={(selectedCity) => {
-                        navigate(`/property-listing/${selectedCity}`);
-                        setLocation(false);
-                      }}
-                    />
+                  <SelectLocation
+                    Location={Location}
+                    setLocation={setLocation}
+                    onLocationSelect={(selectedCity) => {
+                      navigate(`/property-listing/${selectedCity}`);
+                      setLocation(false);
+                    }}
+                  />
                 </div>
               </div>
               <div className="h-14 w-56 bg-white text-black flex items-start justify-between px-5 rounded-md">
