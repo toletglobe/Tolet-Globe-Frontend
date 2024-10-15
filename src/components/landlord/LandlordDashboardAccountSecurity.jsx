@@ -27,30 +27,45 @@ const LandlordDashboardAccountSecurity = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (newPassword === confirmPassword) {
-      try {
-        const res = await fetch(`${BASE_URL}auth/change-password`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({
-            currentPassword,
-            newPassword,
-          }),
-        });
-        const data = await res.json();
-        if (res.status === 200) {
-          toast.success(data.message);
-        } else {
-          toast.error(data.message || "An error occurred");
-        }
-      } catch (error) {
-        toast.error("An error occurred");
+
+    // Check if all password criteria are met
+    const allCriteriaMet = Object.values(passwordCriteria).every(
+      (criterion) => criterion
+    );
+
+    if (!allCriteriaMet) {
+      toast.error("Please ensure all password requirements are met");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("New password and confirm password do not match");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${BASE_URL}auth/change-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
+      const data = await res.json();
+      if (res.status === 200 || res.status === 201) {
+        toast.success(data.message || "Password changed successfully");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        toast.error(data.message || "An error occurred");
       }
-    } else {
-      toast.error("Password and confirmPassword not matching");
+    } catch (error) {
+      toast.error("An error occurred");
     }
   }
 
@@ -150,19 +165,17 @@ const LandlordDashboardAccountSecurity = () => {
               className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
           </div>
+          {/* Third div for the button */}
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              // onClick={handleSubmit}
+              className="bg-teal-500 text-white px-5 py-2 rounded-md hover:bg-teal-600 transition duration-300"
+            >
+              Save Changes
+            </button>
+          </div>
         </form>
-      </div>
-      {/* Third div for the button */}
-      <div className="flex justify-end">
-        {" "}
-        {/* Aligns the button to the right */}
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          className="bg-teal-500 text-white px-5 py-2 rounded-md hover:bg-teal-600 transition duration-300"
-        >
-          Save Changes
-        </button>
       </div>
     </div>
   );
