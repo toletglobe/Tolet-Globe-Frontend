@@ -165,11 +165,9 @@ const LandlordDashboardAccountSecurity = () => {
               className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
           </div>
-          {/* Third div for the button */}
-          <div className="flex justify-end">
+          <div className="flex justify-end translate-x-3/4 translate-y-10">
             <button
               type="submit"
-              // onClick={handleSubmit}
               className="bg-teal-500 text-white px-5 py-2 rounded-md hover:bg-teal-600 transition duration-300"
             >
               Save Changes
