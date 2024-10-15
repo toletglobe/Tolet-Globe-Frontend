@@ -50,7 +50,8 @@ const LandlordDashboard = ({ myProperties }) => {
       <img
         src={property.images[0]}
         alt="Property"
-        className=" relative  h-[200px] w-full object-cover rounded-md  mb-4"
+        className=" relative  h-[200px] w-full object-cover rounded-md  mb-4 hover:cursor-pointer"
+        onClick={() => navigate(`/property/${property.slug}`)}
       />
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">

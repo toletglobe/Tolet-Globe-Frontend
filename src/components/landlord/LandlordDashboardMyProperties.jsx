@@ -6,10 +6,16 @@ import Service from "../../config/config";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { MdMoreVert } from "react-icons/md";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MyProperties({ myProperties }) {
+  const navigate = useNavigate();
   const cards = myProperties.map((property) => (
-    <div key={property._id} className=" bg-black p-4 rounded-md">
+    <div
+      key={property._id}
+      className=" bg-black p-4 rounded-md hover:cursor-pointer"
+      onClick={() => navigate(`/property/${property.slug}`)}
+    >
       <img
         src={property.images[0]}
         alt="Property"
