@@ -151,7 +151,7 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
             </li>
             <li>
               <Link
-                to="/property"
+                to="/property-listing"
                 className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "propertyListing"
                     ? "text-white bg-teal-500 rounded-md"
