@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { BASE_URL } from "../../constant/constant";
 
 const LandlordDashboardAccountSecurity = () => {
-  const [NewPassword, setNewPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordCriteria, setPasswordCriteria] = useState({
@@ -27,9 +27,9 @@ const LandlordDashboardAccountSecurity = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (NewPassword === confirmPassword) {
+    if (newPassword === confirmPassword) {
       try {
-        const res = await fetch(`${BASE_URL}auth/ChangePassword`, {
+        const res = await fetch(`${BASE_URL}auth/change-password`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const LandlordDashboardAccountSecurity = () => {
           },
           body: JSON.stringify({
             currentPassword,
-            NewPassword,
+            newPassword,
           }),
         });
         const data = await res.json();
@@ -55,19 +55,25 @@ const LandlordDashboardAccountSecurity = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black flex flex-col p-4"> {/* Main container with padding */}
+    <div className="min-h-screen bg-black flex flex-col p-4">
+      {" "}
+      {/* Main container with padding */}
       {/* First div for heading and instructions */}
-      <div className="mb-4"> {/* Minimal bottom margin for spacing */}
+      <div className="mb-4">
+        {" "}
+        {/* Minimal bottom margin for spacing */}
         <h2 className="text-3xl text-white font-semibold text-left">
           Account Security
         </h2>
         <p className="text-xs sm:text-sm md:text-base text-teal-400 p-2 text-left">
-          Use at least 8 characters. Don't use a password from another site or something too obvious like your pet's name.
+          Use at least 8 characters. Don't use a password from another site or
+          something too obvious like your pet's name.
         </p>
       </div>
-
       {/* Second div for the form */}
-      <div className="w-full max-w-md mb-4"> {/* Keep the form aligned to the left with a bottom margin */}
+      <div className="w-full max-w-md mb-4">
+        {" "}
+        {/* Keep the form aligned to the left with a bottom margin */}
         <form onSubmit={handleSubmit} className="mb-0">
           <div className="mb-4">
             <label className="block text-white mb-2">Current Password</label>
@@ -87,32 +93,44 @@ const LandlordDashboardAccountSecurity = () => {
             <label className="block text-white mb-2">New Password</label>
             <input
               type="password"
-              value={NewPassword}
+              value={newPassword}
               onChange={handlePasswordChange}
               placeholder="Enter New Password"
               className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
             <ul className="mt-4 space-y-1">
-              {!passwordCriteria.length && NewPassword && (
-                <li className="text-sm pl-2 flex items-center text-[#ff3300]" style={{ fontFamily: "'SF Pro Display', sans-serif" }}>
+              {!passwordCriteria.length && newPassword && (
+                <li
+                  className="text-sm pl-2 flex items-center text-[#ff3300]"
+                  style={{ fontFamily: "'SF Pro Display', sans-serif" }}
+                >
                   <span className="mr-2 text-[#ff3300]">✗</span>
                   At least 8 characters long
                 </li>
               )}
-              {!passwordCriteria.uppercase && NewPassword && (
-                <li className="text-sm pl-2 flex items-center text-[#ff3300]" style={{ fontFamily: "'SF Pro Display', sans-serif" }}>
+              {!passwordCriteria.uppercase && newPassword && (
+                <li
+                  className="text-sm pl-2 flex items-center text-[#ff3300]"
+                  style={{ fontFamily: "'SF Pro Display', sans-serif" }}
+                >
                   <span className="mr-2 text-[#ff3300]">✗</span>
                   Contains at least one uppercase letter
                 </li>
               )}
-              {!passwordCriteria.lowercase && NewPassword && (
-                <li className="text-sm pl-2 flex items-center text-[#ff3300]" style={{ fontFamily: "'SF Pro Display', sans-serif" }}>
+              {!passwordCriteria.lowercase && newPassword && (
+                <li
+                  className="text-sm pl-2 flex items-center text-[#ff3300]"
+                  style={{ fontFamily: "'SF Pro Display', sans-serif" }}
+                >
                   <span className="mr-2 text-[#ff3300]">✗</span>
                   Contains at least one lowercase letter
                 </li>
               )}
-              {!passwordCriteria.number && NewPassword && (
-                <li className="text-sm pl-2 flex items-center text-[#ff3300]" style={{ fontFamily: "'SF Pro Display', sans-serif" }}>
+              {!passwordCriteria.number && newPassword && (
+                <li
+                  className="text-sm pl-2 flex items-center text-[#ff3300]"
+                  style={{ fontFamily: "'SF Pro Display', sans-serif" }}
+                >
                   <span className="mr-2 text-[#ff3300]">✗</span>
                   Contains at least one number
                 </li>
@@ -121,7 +139,9 @@ const LandlordDashboardAccountSecurity = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-white mb-2">Confirm New Password</label>
+            <label className="block text-white mb-2">
+              Confirm New Password
+            </label>
             <input
               type="password"
               value={confirmPassword}
@@ -132,9 +152,10 @@ const LandlordDashboardAccountSecurity = () => {
           </div>
         </form>
       </div>
-
       {/* Third div for the button */}
-      <div className="flex justify-end"> {/* Aligns the button to the right */}
+      <div className="flex justify-end">
+        {" "}
+        {/* Aligns the button to the right */}
         <button
           type="submit"
           onClick={handleSubmit}

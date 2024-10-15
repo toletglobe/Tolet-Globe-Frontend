@@ -31,12 +31,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Layout = () => {
-  
-  const [compareData, setcompareData] = useState([]);
   const location = useLocation();
   const [userInfo, setUserInfo] = useState(null); // State to hold user info
   const [loading, setLoading] = useState(true); // Loading state
-
 
   // Fetch user info once when the app loads
   useEffect(() => {
@@ -91,24 +88,8 @@ const Layout = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
-          <Route
-            path="/property-listing/:city"
-            element={
-              <Listing
-                setcompareData={setcompareData}
-                compareData={compareData}
-              />
-            }
-          />
-          <Route
-            path="/property-listing/"
-            element={
-              <Listing
-                setcompareData={setcompareData}
-                compareData={compareData}
-              />
-            }
-          />
+          <Route path="/property-listing/:city" element={<Listing />} />
+          <Route path="/property-listing/" element={<Listing />} />
           <Route path="/property/:slug" element={<Flow2a />} />
           <Route path="/property/reviews" element={<Reviews />} />
           <Route path="/property/add-property" element={<AddProperty />} />
@@ -117,15 +98,7 @@ const Layout = () => {
             path="/landlord-dashboard"
             element={<LandlordDashboard setUserInfo={setUserInfo} />}
           />
-          <Route
-            path="/compare-property"
-            element={
-              <CompareProperty
-                compareData={compareData}
-                setcompareData={setcompareData}
-              />
-            }
-          />
+          <Route path="/compare-property" element={<CompareProperty />} />
         </Routes>
       </div>
       <div className="footer mt-5">

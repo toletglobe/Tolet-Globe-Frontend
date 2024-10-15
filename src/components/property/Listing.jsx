@@ -18,9 +18,9 @@ import Pagination from "./listingComponents/Pagination";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
-// import { set } from "mongoose";
+import { useStateValue } from "../../StateProvider";
 
-const Listing = (props) => {
+const Listing = () => {
   const { city } = useParams();
 
   const [Hamburger, SetHamburger] = useState(false);
@@ -34,6 +34,8 @@ const Listing = (props) => {
   const [Location, setLocation] = useState(false);
   const location = useLocation();
   const propertiesPerPage = 9;
+
+  const [{ compareProperty }, dispatch] = useStateValue();
 
   const [filterCount, setFilterCount] = useState(0);
 
@@ -64,20 +66,19 @@ const Listing = (props) => {
     const fetchAndFilterProperties = async () => {
       setLoading(true);
       try {
-        let propertyData= [];
-        if(city){
+        let propertyData = [];
+        if (city) {
           propertyData = await Service.fetchPropertyByCity(city);
           setProperties(propertyData || []); // Ensure propertyData is an array
-        }
-        else {
+        } else {
           propertyData = await Service.fetchProperty();
           setProperties(propertyData || []);
         }
 
         propertyData.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          );
-          setProperties(propertyData); // Ensure propertyData is an array
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setProperties(propertyData); // Ensure propertyData is an array
 
         // Check for filters
         const searchParams = new URLSearchParams(location.search);
@@ -124,19 +125,6 @@ const Listing = (props) => {
 
     fetchAndFilterProperties();
   }, [location.search]);
-
-  //filter counting
-  // const countAppliedFilters = (filters) => {
-  //   return Object.values(filters).reduce((count, filterValue) => {
-  //     if (Array.isArray(filterValue)) {
-  //       return count + (filterValue.length > 0 ? 1 : 0);
-  //     } else {
-  //       return count + (filterValue ? 1 : 0);
-  //     }
-  //   }, 0);    
-  // };
-
-  // const filterCount = countAppliedFilters(filters);
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -189,62 +177,8 @@ const Listing = (props) => {
     }
   };
 
-  // Property Add and remove function to compare Property
-  const handleToggle = (event, property) => {
-    event.preventDefault();
-
-    props.setcompareData((prev) => {
-      // Check if the property is already in the selected list
-      const isAlreadySelected = prev.some((p) => p._id === property._id);
-
-      // If the property is already selected, remove it
-      if (isAlreadySelected) {
-        return prev.filter((p) => p._id !== property._id);
-      }
-
-      // If the property is not selected and the list has fewer than 4 items, add it
-      if (prev.length < 4) {
-        return [...prev, property];
-      } else {
-        return prev;
-      }
-    });
-  };
-
-  const isInCompareList = (propertyId) => {
-    return props.compareData.some((p) => p._id === propertyId);
-  };
-
   const compare = () => {
     navigate("/compare-property");
-  };
-
-  // const totalProperties = properties.length;
-  // const indexOfLastProperty = currentPage * propertiesPerPage;
-  // const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  // const currentProperties = properties.slice(indexOfFirstProperty, indexOfLastProperty);
-  // const totalPages = Math.ceil(totalProperties / propertiesPerPage);
-
-  const handleViewBlog = (slug) => {
-    navigate(`/blog/${slug}`);
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  const onPageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
   };
 
   const updateFilterCount = (count) => {
@@ -253,20 +187,26 @@ const Listing = (props) => {
 
   return (
     <>
-      <div onClick={()=>{
-        if(Location===true) setLocation(false)
-        if(isOpen===true) SetIsOpen(false)
-      }}
-        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${isOpen || Hamburger || Location ? "block" : "hidden"
-          }`}
+      <div
+        onClick={() => {
+          if (Location === true) setLocation(false);
+          if (isOpen === true) SetIsOpen(false);
+        }}
+        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
+          isOpen || Hamburger || Location ? "block" : "hidden"
+        }`}
       ></div>
 
-      <section onClick={()=>{
-        if(mode===true) setMode(false)
-        if(Location===true) setLocation(false)
-        if(showCity===true) setShowCity(false)
-        if(isOpen===true) SetIsOpen(false)
-      }} className="property h-[100vh] pb-14 px-10 w-full overflow-y-auto" id="property">
+      <section
+        onClick={() => {
+          if (mode === true) setMode(false);
+          if (Location === true) setLocation(false);
+          if (showCity === true) setShowCity(false);
+          if (isOpen === true) SetIsOpen(false);
+        }}
+        className="property h-[100vh] pb-14 px-10 w-full overflow-y-auto"
+        id="property"
+      >
         {/* <div className="container mx-auto  px-10"> */}
         <div className="px-3 flex flex-col gap-12 py-12 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
@@ -277,27 +217,8 @@ const Listing = (props) => {
               src={hamburger}
               alt="Hamburger Menu"
               className="cursor-pointer lg:w-12 md:w-11 w-9 h-auto"
-            // onClick={handleHamburger}
             />
           </div>
-          {/* <div className="absolute z-50 top-[50%] right-5 flex gap-4 p-4 sm:w-full md:w-[442px] lg:w-[500px] h-fit">
-              <div>
-                <img
-                  src={cross}
-                  alt="Close"
-                  onClick={handleHamburger}
-                  className={`${Hamburger ? "block" : "hidden"} cursor-pointer`}
-                />
-              </div>
-
-              <div
-                className={`flex flex-col bg-white text-black py-4 rounded-lg shadow-lg md:w-full ${
-                  Hamburger ? "block" : "hidden"
-                }`}
-              >
-                <SideOpt />
-              </div>
-            </div> */}
 
           <div className="flex justify-between gap-14 w-full flex-wrap">
             <div className="flex items-center justify-between gap-20 md:gap-36 lg:gap-36 ml-4 flex-col md:flex-row lg:flex-row">
@@ -307,14 +228,16 @@ const Listing = (props) => {
                   <img
                     src={drop}
                     alt="Dropdown"
-                    className={`${mode ? "rotate-180" : "rotate-0"
-                      } mt-1 cursor-pointer`}
+                    className={`${
+                      mode ? "rotate-180" : "rotate-0"
+                    } mt-1 cursor-pointer`}
                     onClick={handleMode}
                   />
                   <div className="relative">
                     <div
-                      className={`${mode ? "block" : "hidden"
-                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
+                      className={`${
+                        mode ? "block" : "hidden"
+                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
                     >
                       <p
                         className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
@@ -367,54 +290,34 @@ const Listing = (props) => {
                         className={`${showCity && city == "Lucknow" ? "block" : "hidden"
                           } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
                       >
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Gomati Nagar
                         </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Kharagpur
                         </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Kamta
                         </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Nishat Ganj
                         </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Chinhat
                         </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Hazratganj
                         </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Indira Nagar
                         </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Sunder Nagar
                         </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Surender Nagar
                         </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        >
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
                           Aliganj
                         </p>
                       </div>
@@ -456,17 +359,18 @@ const Listing = (props) => {
             </div>
 
             <div className="compare" onClick={compare}>
-              {props.compareData.length >= 0 && (
+              {compareProperty.length >= 0 && (
                 <button
-                  className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${props.compareData.length <= 1
-                    ? "opacity-50 grayscale cursor-not-allowed"
-                    : ""
-                    }`}
-                  // disabled={props.compareData.length <= 1}
+                  className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
+                    compareProperty.length <= 1
+                      ? "opacity-50 grayscale cursor-not-allowed"
+                      : ""
+                  }`}
+                  disabled={compareProperty.length <= 1}
                 >
                   Compare
                   <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
-                    {props.compareData.length}
+                    {compareProperty.length}
                   </div>
                 </button>
               )}
@@ -483,14 +387,19 @@ const Listing = (props) => {
           </div>
         </div>
 
-        <div onClick={()=>{
-          if(isOpen===true) SetIsOpen(false)
-        }}
-          className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${isOpen ? "block" : "hidden"
-            } `}
+        <div
+          onClick={() => {
+            if (isOpen === true) SetIsOpen(false);
+          }}
+          className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
+            isOpen ? "block" : "hidden"
+          } `}
         >
-          <div onClick={(e)=>e.stopPropagation() } className="relative w-full max-w-lg">
-            <Filters 
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-lg"
+          >
+            <Filters
               SetIsOpen={SetIsOpen}
               setProperties={setProperties}
               city={city}
@@ -515,12 +424,7 @@ const Listing = (props) => {
           </div>
         </div>
 
-        <Cards
-          properties={properties}
-          handleToggle={handleToggle}
-          isInCompareList={isInCompareList}
-        />
-        {/* </div> */}
+        <Cards properties={properties} />
       </section>
 
       <Pagination
