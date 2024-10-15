@@ -31,6 +31,7 @@ const Reviews = ({ property }) => {
         toast.error("Error fetching reviews");
       }
     };
+
     fetchReviews();
   }, []);
 
@@ -83,12 +84,17 @@ const Reviews = ({ property }) => {
   const handlePreviousPage = () =>
     currentPage > 1 && setCurrentPage(currentPage - 1);
 
+  console.log(
+    currentReviews.reduce((acc, review) => acc + review.userRating, 0) /
+      currentReviews.length
+  );
+
   return (
     <div className="w-full p-6 bg-white shadow-lg rounded-lg">
       <div className="flex justify-between gap-6 mb-6">
         <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-white">
           <h2 className="text-2xl font-bold">
-            Average Rating:{" "}
+            Average Rating :
             {currentReviews.length > 0
               ? currentReviews.reduce(
                   (acc, review) => acc + review.userRating,
@@ -100,16 +106,14 @@ const Reviews = ({ property }) => {
           {
             <ReactStars
               count={5}
-              value={Math.min(
-                Math.max(
-                  currentReviews.reduce(
-                    (acc, review) => acc + review.userRating,
-                    0
-                  ) / currentReviews.length,
-                  0
-                ),
-                5
-              )}
+              value={
+                currentReviews.length > 0
+                  ? currentReviews.reduce(
+                      (acc, review) => acc + review.userRating,
+                      0
+                    ) / currentReviews.length
+                  : 0
+              }
               size={40}
               edit={false}
               activeColor="#ffd700"

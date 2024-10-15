@@ -29,7 +29,8 @@ const Flow2a = () => {
       try {
         // const propertyList = await Service.fetchPropertyById(id);  // use this in case of fetching old properties and comment the below one
         const propertyList = await Service.fetchPropertyBySlug(slug);
-        console.log(propertyList);
+        // console.log(propertyList);
+        // console.log("Hello");
 
         setProperty(propertyList);
       } catch (error) {
