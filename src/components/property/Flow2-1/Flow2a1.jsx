@@ -17,12 +17,13 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { ClipLoader } from "react-spinners";
 
 const Flow2a = () => {
-  const { id } = useParams();
   const [property, setProperty] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const [isVideos,setisVideos] = useState(false);
+  const [isLocation,setIsLocation] = useState(false);
+  const[isImage,setIsImage] = useState(true);
   const { slug } = useParams();
   useEffect(() => {
     const fetchProperty = async () => {
@@ -71,11 +72,34 @@ const Flow2a = () => {
         <ClipLoader color="#6CC1B6" size={150} />
       </div>
     );
-  } // Add a
+  } 
+  const changeview  = (view) => {
+    switch(view) {
+     case 'videos' : 
+       setisVideos(true);
+       setIsImage(false);
+       setIsLocation(false);
+       break;
+     
+     case 'image' :
+       setisVideos(false);
+       setIsImage(true);
+       setIsLocation(false); 
+       break;
+
+       case 'location' :
+         setisVideos(false);
+         setIsImage(false);
+         setIsLocation(true); 
+         break;
+
+     }
+    }
 
   return (
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
+      { isImage && (
       <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
         {/* Large Image */}
         <div className="w-full md:w-1/2">
@@ -86,7 +110,6 @@ const Flow2a = () => {
             onClick={() => openModal(property?.images[0] || img1, 0)}
           />
         </div>
-
         {/* Grid of Smaller Images */}
         <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
           <img
@@ -115,11 +138,35 @@ const Flow2a = () => {
           />
         </div>
       </div>
+     )}
+
+      {/* Video Carousel Section */}
+      
+      {isVideos && property.videos?.length > 0 ? (
+    <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
+      <div className="w-full md:w-1/2">
+        <video controls className="w-full h-[383px] object-cover cursor-pointer">
+          <source src={property?.videos[0] || video1} type="video/mp4" />
+        </video>
+      </div>
+      <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
+        {property.videos.slice(1, 5).map((video, index) => (
+          <video key={index} controls className={`w-full ${index < 2 ? 'h-[193px]' : 'h-[186px]'} object-cover cursor-pointer`}>
+            <source src={video || eval(`video${index + 2}`)} type="video/mp4" />
+          </video>
+        ))}
+      </div>
+    </div>
+  ) : isVideos && (
+    <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
+      <div className="w-full md:w-1/2 bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[380px] text-centre h-10">Sorry! Currently no videos available </div>
+    </div>
+  )}
 
       {/* Caption Section */}
       <div className="text-center -mt-4 relative">
         <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
-          Photos | Videos | Property Map
+          <button onClick={() => changeview('image')}> Photos</button>  | <button onClick={() => changeview('videos')}> Videos</button> | <button onClick={()=>changeview('location')}>Property Map</button>
         </p>
       </div>
 
