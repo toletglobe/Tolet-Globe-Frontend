@@ -1,45 +1,46 @@
 export default function Frm1({ formData, setFormData }) {
-  const optionRenderFun = (option) => (
-    <option key={option.value} value={option.value}>
-      {option.label}
+
+  const optionRenderFun = (value) => (
+    <option key={value} value={value}>
+      {value}
     </option>
   );
 
   const cityOptions = [
-    { value: "Lucknow", label: "Lucknow" },
-    { value: "Ayodhya", label: "Ayodhya" },
-    { value: "Vellore", label: "Vellore" },
-    { value: "Kota", label: "Kota" },
+    "Lucknow",
+    "Ayodhya",
+    "Vellore",
+    "Kota",
   ];
 
   const spaceTypeOptions = [
-    { value: "Residential", label: "Residential" },
-    { value: "Commercial", label: "Commercial" },
-    { value: "NA", label: "NA" },
+    "Residential",
+    "Commercial",
+    "NA",
   ];
 
   const residentialOptions = [
-    { value: "House", label: "House" },
-    { value: "Flat", label: "Flat" },
-    { value: "PG", label: "PG" },
-    { value: "NA", label: "NA" },
+    "House",
+    "Flat",
+    "PG",
+    "NA",
   ];
 
   const commercialOptions = [
-    { value: "Office", label: "Office" },
-    { value: "Shop", label: "Shop" },
-    { value: "Warehouse", label: "Warehouse" },
-    { value: "NA", label: "NA" },
+    "Office",
+    "Shop",
+    "Warehouse",
+    "NA",
   ];
 
   const allOptions = [
-    { value: "House", label: "House" },
-    { value: "Flat", label: "Flat" },
-    { value: "PG", label: "PG" },
-    { value: "Office", label: "Office" },
-    { value: "Shop", label: "Shop" },
-    { value: "Warehouse", label: "Warehouse" },
-    { value: "NA", label: "NA" },
+    "House",
+    "Flat",
+    "PG",
+    "Office",
+    "Shop",
+    "Warehouse",
+    "NA",
   ];
 
   const cityLocalityData = {
@@ -234,12 +235,25 @@ export default function Frm1({ formData, setFormData }) {
               Select Locality
             </option>
             {formData.city &&
-              cityLocalityData[formData.city].localities.map((locality) => (
-                <option key={locality} value={locality}>
-                  {locality}
-                </option>
-              ))}
+              cityLocalityData[formData.city].localities.map(optionRenderFun)}
           </select>
+        </div>
+
+        {/* Area */}
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            Area
+          </label>
+          <input
+            type="text"
+            placeholder="Enter Area"
+            required
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            value={formData.area}
+            onChange={(e) => {
+              setFormData({ ...formData, area: e.target.value });
+            }}
+          />
         </div>
 
         {/* Pin */}

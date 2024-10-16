@@ -39,14 +39,15 @@ const LocationComponent = ({ property, selectComp }) => {
       case "transport":
         return "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d56951.607888975435!2d80.93580075365227!3d26.856630086899923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sgomti%20nagar%20transport!5e0!3m2!1sen!2sin!4v1724867811707!5m2!1sen!2sin"; // Replace with the actual URL for transport
       default:
-        console.log("MAP", property);
-        return property?.locationLink;
+        // console.log("MAP", property);
+        // console.log(property?.locationLink);
+        // return property?.locationLink;
 
-      // return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113911.7374841447!2d80.88487084258148!3d26.848163621554857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be314f43454e5%3A0x111085c9b254d27c!2sBLOCK%20B!5e0!3m2!1sen!2sin!4v1724437712311!5m2!1sen!2sin"; // Default location
+        return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113911.7374841447!2d80.88487084258148!3d26.848163621554857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be314f43454e5%3A0x111085c9b254d27c!2sBLOCK%20B!5e0!3m2!1sen!2sin!4v1724437712311!5m2!1sen!2sin"; // Default location
     }
   };
 
-  console.log(property);
+  // console.log(property);
 
   return (
     <div className={`pb-4 ${selectComp > 5 ? "hidden" : ""}`}>
@@ -55,7 +56,6 @@ const LocationComponent = ({ property, selectComp }) => {
 
         <div className="w-full md:w-4/5">
           <div className="flex flex-col sm:flex-row justify-between">
-
             <p className="text-gray-400">
               {property?.address || "Address not available"}, {property?.city}
             </p>
@@ -72,6 +72,7 @@ const LocationComponent = ({ property, selectComp }) => {
               <iframe
                 key={selectedCategory} // Add this key prop
                 src={getMapSrc()}
+                // src={property?.locationLink}
                 width="100%"
                 height="400"
                 style={{ border: 0 }}

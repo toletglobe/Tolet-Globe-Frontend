@@ -82,7 +82,7 @@ const Listing = () => {
         // Check for filters
         const searchParams = new URLSearchParams(location.search);
         const type = searchParams.get("type");
-        console.log("Type of property:", type);
+        // console.log("Type of property:", type);
 
         // Apply filtering based on type
         if (type === "Flat") {
