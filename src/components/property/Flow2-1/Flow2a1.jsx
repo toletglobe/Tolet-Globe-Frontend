@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Service from "../../../config/config";
 import Flow2b from "./Flow2b";
-import img1 from "../../../assets/property/property-1.jpg";
-import img2 from "../../../assets/property/property-2.jpg";
-import img3 from "../../../assets/property/property-3.jpg";
-import img4 from "../../../assets/property/property-4.png";
-import img5 from "../../../assets/property/property-5.jpg";
+// import img1 from "../../../assets/property/property-1.jpg";
+// import img2 from "../../../assets/property/property-2.jpg";
+// import img3 from "../../../assets/property/property-3.jpg";
+// import img4 from "../../../assets/property/property-4.png";
+// import img5 from "../../../assets/property/property-5.jpg";
 import shield from "../../../assets/property/shield.png";
 import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
 import { CiShare2, CiHeart } from "react-icons/ci";
@@ -29,7 +29,7 @@ const Flow2a = () => {
       try {
         // const propertyList = await Service.fetchPropertyById(id);  // use this in case of fetching old properties and comment the below one
         const propertyList = await Service.fetchPropertyBySlug(slug);
-        // console.log(propertyList);
+        console.log(propertyList);
         // console.log("Hello");
 
         setProperty(propertyList);
@@ -56,14 +56,14 @@ const Flow2a = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? (property?.images?.length || 1) - 1 : prevIndex - 1
     );
-    setSelectedImage(property?.images[currentIndex] || img1);
+    setSelectedImage(property?.images[currentIndex]);
   };
 
   const handleNext = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex + 1) % (property?.images?.length || 1)
     );
-    setSelectedImage(property?.images[currentIndex] || img1);
+    setSelectedImage(property?.images[currentIndex]);
   };
 
   if (!property) {
@@ -77,45 +77,54 @@ const Flow2a = () => {
   return (
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
-      <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
-        {/* Large Image */}
-        <div className="w-full md:w-1/2">
-          <img
-            src={property?.images[0] || img1}
-            alt={property?.propertyType}
-            className="w-full h-[383px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[0] || img1, 0)}
-          />
-        </div>
+      {property.images.length > 0 ? (
+        <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
+          {/* Main Image */}
+          <div
+            className={`w-full ${property.images.length > 1 ? "md:w-1/2" : ""}`}
+          >
+            <img
+              src={property.images[0]}
+              alt={property.propertyType}
+              className="w-full h-[400px] object-cover cursor-pointer"
+              onClick={() => openModal(property.images[0], 0)}
+            />
+          </div>
 
-        {/* Grid of Smaller Images */}
-        <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
-          <img
-            src={property?.images[1] || img2}
-            alt={property?.propertyType}
-            className="w-full h-[193px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[1] || img2, 1)}
-          />
-          <img
-            src={property?.images[2] || img3}
-            alt={property?.propertyType}
-            className="w-full h-[193px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[2] || img3, 2)}
-          />
-          <img
-            src={property?.images[3] || img4}
-            alt={property?.propertyType}
-            className="w-full h-[186px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[3] || img4, 3)}
-          />
-          <img
-            src={property?.images[4] || img5}
-            alt={property?.propertyType}
-            className="w-full h-[186px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[4] || img5, 4)}
-          />
+          {/* Additional Images */}
+          {property.images.length > 1 && (
+            <div
+              className={`w-full md:w-1/2 grid ${
+                property.images.length === 2 ? "grid-cols-1" : "grid-cols-2"
+              } gap-1`}
+            >
+              {property.images.slice(1, 5).map((image, index) => (
+                <img
+                  key={index + 1}
+                  src={image}
+                  alt={`${property.propertyType} ${index + 2}`}
+                  className={`w-full ${
+                    property.images.length <= 3 ? "h-[400px]" : "h-[200px]"
+                  } object-cover cursor-pointer`}
+                  onClick={() => openModal(image, index + 1)}
+                />
+              ))}
+              {property.images.length > 5 && (
+                <div
+                  className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full cursor-pointer"
+                  onClick={() => openModal(property.images[4], 4)}
+                >
+                  +{property.images.length - 5} more
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      </div>
+      ) : (
+        <div className="py-40 text-center text-4xl font-semibold">
+          No Images Available for this Property
+        </div>
+      )}
 
       {/* Caption Section */}
       <div className="text-center -mt-4 relative">
