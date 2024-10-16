@@ -25,6 +25,7 @@ const Flow2a = () => {
   const [isVideos,setisVideos] = useState(false);
   const [isLocation,setIsLocation] = useState(false);
   const[isImage,setIsImage] = useState(true);
+  const [currentVideo, setCurrentVideo] = useState(null);
   const { slug } = useParams();
   useEffect(() => {
     const fetchProperty = async () => {
@@ -144,29 +145,59 @@ const Flow2a = () => {
       {/* Video Carousel Section */}
       
       {isVideos && property.videos?.length > 0 ? (
-        <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
+    <div className="flex flex-wrap md:flex-nowrap gap-1 relative ">
      {/* Large Video */}
-  <div className="w-full md:w-1/2 h-full">
-    <video controls className="w-full h-full object-cover cursor-pointer">
-      <source src={property?.videos[0] } type="video/mp4" />
+  <div className="w-full md:w-1/2">
+    <video controls 
+    className="w-full h-[383px] object-cover cursor-pointer"
+    onClick={() => setCurrentVideo(property?.videos[0])}
+    >
+      <source src={ property?.videos[0] } type="video/mp4" />
     </video>
   </div>
-
   {/* Grid of Smaller Videos */}
-  <div className="w-full md:w-1/2 grid grid-cols-2 gap-1 lg:h-[383px]">
-    <video controls className="w-full h-[50%] object-cover cursor-pointer">
-      <source src={property?.videos[1] } type="video/mp4" />
+  <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
+    <video controls
+     className="w-full h-[193px] object-cover cursor-pointer"
+     onClick={() => setCurrentVideo(property?.videos[1])}
+     >
+    <source src={property?.videos[1] } type="video/mp4" />
     </video>
-    <video controls className="w-full h-[50%] object-cover cursor-pointer">
-      <source src={property?.videos[2] } type="video/mp4" />
+
+    <video controls 
+    className="w-full h-[193px] object-cover cursor-pointer"
+    onClick={() => setCurrentVideo(property?.videos[2])}
+    >
+    <source src={property?.videos[2] } type="video/mp4" />
     </video>
-    <video controls className="w-full h-[50%] object-cover cursor-pointer">
-      <source src={property?.videos[3] } type="video/mp4" />
+
+    <video controls 
+    className="w-full h-[193px] object-cover cursor-pointer"
+    onClick={() => setCurrentVideo(property?.videos[3])}
+    > 
+    <source src={property?.videos[3] } type="video/mp4" />
     </video>
-    <video controls className="w-full h-[50%] object-cover cursor-pointer">
-      <source src={property?.videos[4] } type="video/mp4" />
+
+    <video controls 
+    className="w-full h-[193px] object-cover cursor-pointer"
+    onClick={() => setCurrentVideo(property?.videos[4])}
+    >
+    <source src={property?.videos[4] } type="video/mp4" />
     </video>
   </div>
+  {currentVideo && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+        <video controls className="w-full h-auto max-w-xl">
+          <source src={currentVideo} type="video/mp4" />
+        </video>
+        <button
+          className="absolute top-2 right-2 text-white text-2xl"
+          onClick={() => setCurrentVideo(null)} // Close the video overlay
+        >
+          &times;
+        </button>
+      </div>
+    )}
 </div>
   ) : isVideos && (
     <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
