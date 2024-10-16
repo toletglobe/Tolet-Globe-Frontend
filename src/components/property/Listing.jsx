@@ -594,8 +594,6 @@ const Listing = () => {
           </div>
         </div>
 
-        <Cards properties={properties} />
-
         {properties.length === 0 ? (
           <p className="text-center text-lg font-semibold mt-10">
             No properties found
