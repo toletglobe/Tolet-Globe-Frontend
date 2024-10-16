@@ -27,6 +27,7 @@ import ResetPassword from "./resetpassword/ResetPassword";
 import Reviews from "./reviews/Reviews";
 import AddProperty from "./property/create-prop/AddProperty";
 import CompareProperty from "./property/compare-prop/CompareProperty";
+import LandlordDashboardMyProperties from "./landlord/LandlordDashboardMyProperties"
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -95,10 +96,12 @@ const Layout = () => {
           <Route path="/property/add-property" element={<AddProperty />} />
 
           <Route
-            path="/landlord-dashboard"
+            path="/landlord-dashboard/"
             element={<LandlordDashboard setUserInfo={setUserInfo} />}
-          />
+          >
+          </Route>
           <Route path="/compare-property" element={<CompareProperty />} />
+          
         </Routes>
       </div>
       <div className="footer mt-5">

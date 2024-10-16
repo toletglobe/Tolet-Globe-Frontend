@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { API } from "../../config/axios";
 
 const LandlordDashboardProfileForm = () => {
   const [userInfo, setUserInfo] = useState({
@@ -28,14 +29,11 @@ const LandlordDashboardProfileForm = () => {
           return;
         }
 
-        const response = await axios.get(
-          `http://localhost:8000/api/v1/user/info?token=${token}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await API.get(`user/info?token=${token}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUserInfo(response.data);
       } catch (error) {
         console.error("Error fetching user info:", error);
@@ -75,8 +73,8 @@ const LandlordDashboardProfileForm = () => {
       setIsSubmitting(true);
 
       // Prepare request for updating user info
-      const updateResponse = await axios.put(
-        "http://localhost:8000/api/v1/user/update",
+      const updateResponse = await API.put(
+        "user/update",
         {
           userId: userInfo.userId,
           firstName: userInfo.firstName,
@@ -99,8 +97,8 @@ const LandlordDashboardProfileForm = () => {
         const formData = new FormData();
         formData.append("profilePicture", selectedImage);
 
-        const uploadResponse = await axios.post(
-          "http://localhost:8000/api/v1/user/uploadProfilePicture",
+        const uploadResponse = await API.post(
+          "user/uploadProfilePicture",
           formData,
           {
             headers: {
