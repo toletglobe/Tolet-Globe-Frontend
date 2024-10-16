@@ -61,6 +61,8 @@ const Listing = () => {
     setShowCity(!showCity);
   }
 
+  const [noPropertiesFound, setNoPropertiesFound] = useState(false);
+
   useEffect(() => {
     const fetchAndFilterProperties = async () => {
       setLoading(true);
@@ -434,6 +436,14 @@ const Listing = () => {
         </div>
 
         <Cards properties={properties} />
+
+        {properties.length === 0 ? (
+          <p className="text-center text-lg font-semibold mt-10">
+            No properties found
+          </p>
+        ) : (
+          <Cards properties={properties} />
+        )}
       </section>
 
       <Pagination

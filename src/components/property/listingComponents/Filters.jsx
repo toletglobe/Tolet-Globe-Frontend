@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../../constant/constant";
 import axios from "axios";
+import { BASE_URL } from "../../../constant/constant";
 
-const Filters = ({ SetIsOpen, setProperties, city, updateFilterCount }) => {
+const Filters = ({ SetIsOpen, setProperties, updateFilterCount }) => {
 
   const [filters, setFilters] = useState({
     bhk: [],
@@ -15,35 +14,19 @@ const Filters = ({ SetIsOpen, setProperties, city, updateFilterCount }) => {
     houseType: [],
   });
 
-useEffect(() => {
-  const countAppliedFilters = (filters) => {
-        return Object.values(filters).reduce((count, filterValue) => {
-            if (Array.isArray(filterValue)) {
-                return count + (filterValue.length > 0 ? 1 : 0);
-            } else {
-                return count + (filterValue ? 1 : 0);
-            }
-        }, 0);
+  useEffect(() => {
+    const countAppliedFilters = (filters) => {
+      return Object.values(filters).reduce((count, filterValue) => {
+        if (Array.isArray(filterValue)) {
+          return count + (filterValue.length > 0 ? 1 : 0);
+        } else {
+          return count + (filterValue ? 1 : 0);
+        }
+      }, 0);
     };
-    const totalFilters = countAppliedFilters(filters)
-  
-  updateFilterCount(totalFilters);
-}, [filters, updateFilterCount]);
-
-//   const countAppliedFilters = (filters) => {
-//     return Object.values(filters).reduce((count, filterValue) => {
-//         if (Array.isArray(filterValue)) {
-//             return count + (filterValue.length > 0 ? 1 : 0);
-//         } else {
-//             return count + (filterValue ? 1 : 0);
-//         }
-//     }, 0);
-// };
-
-// const appliedFiltersCount = countAppliedFilters(filters);
-// console.log(appliedFiltersCount);
-
-  // const navigate = useNavigate();
+    const totalFilters = countAppliedFilters(filters);
+    updateFilterCount(totalFilters);
+  }, [filters, updateFilterCount]);
 
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => {
@@ -70,7 +53,6 @@ useEffect(() => {
         return newFilters;
       }
     });
-    console.log(filters);
   };
 
   const resetFilters = () => {
@@ -85,11 +67,12 @@ useEffect(() => {
   };
 
   const seeResults = async () => {
-    // setIsLoading(true);
     const cleanedFilters = {
       ...filters,
       bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
     };
+
+    // Create a query string from the filters, without city-specific logic
     const queryString = Object.keys(cleanedFilters)
       .filter(
         (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
@@ -102,18 +85,11 @@ useEffect(() => {
       })
       .join("&");
 
-    // Add the city to the query string
-    const cityParam = `city=${encodeURIComponent(city)}`;
-    const finalQueryString = queryString
-      ? `${queryString}&${cityParam}`
-      : cityParam;
-
-    const url = `${BASE_URL}property/filter?${finalQueryString}`;
+    const url = `${BASE_URL}property/filter?${queryString}`;
     console.log(url);
 
     try {
       const response = await axios.get(url);
-      console.log(response.data);
       setProperties(response.data.data); // Update properties with the filtered results
       if (response.data.data.length === 0) {
         console.log("No results found");
@@ -121,7 +97,6 @@ useEffect(() => {
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      // setIsLoading(false);
       SetIsOpen(false);
     }
   };
@@ -194,22 +169,6 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* <div className="w-full mb-3">
-            <p className="text-base font-medium text-[#696969] mb-2">Others</p>
-            <div className="flex">
-              <div
-                className={`hover:cursor-pointer w-28 h-7 text-xs font-light border border-[#4A7F79] rounded-md flex items-center justify-center ${
-                  filters.others === "+ Farm house"
-                    ? "bg-[#4A7F79] text-white"
-                    : ""
-                }`}
-                onClick={() => handleFilterChange("others", "+ Farm house")}
-              >
-                + Farm house
-              </div>
-            </div>
-          </div> */}
-
           <div className="w-full mb-3">
             <p className="text-base font-medium text-[#696969] mb-2">
               Preference Housing
@@ -279,16 +238,16 @@ useEffect(() => {
           </div>
         </div>
 
-        <div className="border-t-2 py-3 px-4 flex items-center justify-center gap-4">
+        <div className="w-full text-sm font-light flex items-center justify-center gap-5">
           <button
-            className="h-9 w-32 border rounded-md border-[#40B5A8] text-[#40b5a8] text-sm font-light"
             onClick={resetFilters}
+            className="h-10 w-24 text-[#4A7F79] border border-[#4A7F79] rounded-md"
           >
-            Reset filters
+            Reset
           </button>
           <button
-            className="h-9 w-32 border rounded-md bg-[#40B5A8] border-[#4A7F79] text-white text-sm font-light"
             onClick={seeResults}
+            className="h-10 w-24 bg-[#4A7F79] text-white rounded-md"
           >
             See Results
           </button>
