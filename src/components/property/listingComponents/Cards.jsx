@@ -90,11 +90,20 @@ const Cards = ({
               <div
                 className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
                 style={{
-                  backgroundColor: "#40B5A8",
-                  textTransform: "capitalize",
+                  backgroundColor:
+                    property.status === 'available'
+                      ? '#40B5A8' // Green for available
+                      : property.status === 'rented'
+                      ? '#FF5733' // Orange for rented
+                      : '#999999', // Gray for not available (NA)
+                  textTransform: 'capitalize',
                 }}
               >
-                {propertyAction}
+                {property.status === 'available'
+                  ? 'Available'
+                  : property.status === 'rented'
+                  ? 'Rented Out'
+                  : 'NA'}
               </div>
               <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
                 <div>
@@ -248,3 +257,4 @@ const Cards = ({
 };
 
 export default Cards;
+
