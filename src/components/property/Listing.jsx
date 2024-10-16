@@ -40,7 +40,7 @@ const Listing = () => {
 
   const authState = useSelector((state) => state.auth);
 
-  const [noPropertiesFound, setNoPropertiesFound] = useState(false)
+  const [noPropertiesFound, setNoPropertiesFound] = useState(false);
 
   const [selectedLocality, setSelectedLocality] = useState("");
 
@@ -64,8 +64,6 @@ const Listing = () => {
   function handleShowCity() {
     setShowCity(!showCity);
   }
-
-  
 
   useEffect(() => {
     const fetchAndFilterProperties = async () => {
@@ -188,27 +186,27 @@ const Listing = () => {
     navigate(`?${queryParams.toString()}`); // Update URL with new sort query
   };
 
- const handleLocalitySelect = (locality) => {
-  setSelectedLocality(locality); // Update selected locality
-};
+  const handleLocalitySelect = (locality) => {
+    setSelectedLocality(locality); // Update selected locality
+  };
 
-// Render locality options dynamically based on city
-// const renderLocalities = () => {
-//   const localities = {
-//     Lucknow: ["Gomati Nagar", "Kharagpur", "Kamta", "Nishat Ganj", "Chinhat"],
-//     // Add more cities and localities here
-//   };
+  // Render locality options dynamically based on city
+  // const renderLocalities = () => {
+  //   const localities = {
+  //     Lucknow: ["Gomati Nagar", "Kharagpur", "Kamta", "Nishat Ganj", "Chinhat"],
+  //     // Add more cities and localities here
+  //   };
 
-//   return localities[city]?.map((locality) => (
-//     <p
-//       key={locality}
-//       className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-//       onClick={() => handleLocalitySelect(locality)}
-//     >
-//       {locality}
-//     </p>
-//   ));
-// };
+  //   return localities[city]?.map((locality) => (
+  //     <p
+  //       key={locality}
+  //       className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+  //       onClick={() => handleLocalitySelect(locality)}
+  //     >
+  //       {locality}
+  //     </p>
+  //   ));
+  // };
 
   if (loading) {
     return (
@@ -334,7 +332,7 @@ const Listing = () => {
                     <img
                       src={loc}
                       alt="Location"
-                      className="cursor-pointer"
+                      className="hover:cursor-pointer"
                       onClick={handleShowCity}
                     />
                     <div className="relative">
@@ -343,39 +341,151 @@ const Listing = () => {
                           showCity && city == "Lucknow" ? "block" : "hidden"
                         } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
                       >
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Gomti Nagar")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Gomti Nagar")}
+                        >
                           Gomti Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Khargapur")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Khargapur")}
+                        >
                           Khargapur
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Kamta")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Kamta")}
+                        >
                           Kamta
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Nishat Ganj")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Nishat Ganj")}
+                        >
                           Nishat Ganj
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Chinhat")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Chinhat")}
+                        >
                           Chinhat
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Hazratganj")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Hazratganj")}
+                        >
                           Hazratganj
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Indira Nagar")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Indira Nagar")}
+                        >
                           Indira Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Sunder Nagar")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Sunder Nagar")}
+                        >
                           Sunder Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Surender Nagar")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Surender Nagar")}
+                        >
                           Surender Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Aliganj")}>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Aliganj")}
+                        >
                           Aliganj
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Amity university")
+                          }
+                        >
+                          Amity University
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Awadh Vihar Colony")
+                          }
+                        >
+                          Awadh Vihar Colony
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Chinhat Tiraha")}
+                        >
+                          Chinhat Tiraha
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Dayal Paradise")}
+                        >
+                          Dayal Paradise
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Gomti Nagar Extension")
+                          }
+                        >
+                          Gomti Nagar Extension
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Ismailganj")}
+                        >
+                          Ismailganj
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Nagar Nigam Degree College")
+                          }
+                        >
+                          Nagar Nigam Degree College
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Patrakar Puram")}
+                        >
+                          Patrakar Puram
+                        </p>
+
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Rajajipuram")}
+                        >
+                          Rajajipuram
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Shakti Nagar")}
+                        >
+                          Shakti Nagar
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Sushant Golf City")
+                          }
+                        >
+                          Sushant Golf City
                         </p>
                       </div>
                     </div>
                   </div>
+                  {selectedLocality && (
+                    <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
+                      <p>{selectedLocality}</p>
+                    </div>
+                  )}
                   {/* <div
                     className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
                       }`}
