@@ -144,23 +144,33 @@ const Flow2a = () => {
       {/* Video Carousel Section */}
       
       {isVideos && property.videos?.length > 0 ? (
-    <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
-      <div className="w-full md:w-1/2">
-        <video controls className="w-full h-[383px] object-cover cursor-pointer">
-          <source src={property?.videos[0] || video1} type="video/mp4" />
-        </video>
-      </div>
-      <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
-        {property.videos.slice(1, 5).map((video, index) => (
-          <video key={index} controls className={`w-full ${index < 2 ? 'h-[193px]' : 'h-[186px]'} object-cover cursor-pointer`}>
-            <source src={video || eval(`video${index + 2}`)} type="video/mp4" />
-          </video>
-        ))}
-      </div>
-    </div>
+        <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
+     {/* Large Video */}
+  <div className="w-full md:w-1/2 h-full">
+    <video controls className="w-full h-full object-cover cursor-pointer">
+      <source src={property?.videos[0] } type="video/mp4" />
+    </video>
+  </div>
+
+  {/* Grid of Smaller Videos */}
+  <div className="w-full md:w-1/2 grid grid-cols-2 gap-1 lg:h-[383px]">
+    <video controls className="w-full h-[50%] object-cover cursor-pointer">
+      <source src={property?.videos[1] } type="video/mp4" />
+    </video>
+    <video controls className="w-full h-[50%] object-cover cursor-pointer">
+      <source src={property?.videos[2] } type="video/mp4" />
+    </video>
+    <video controls className="w-full h-[50%] object-cover cursor-pointer">
+      <source src={property?.videos[3] } type="video/mp4" />
+    </video>
+    <video controls className="w-full h-[50%] object-cover cursor-pointer">
+      <source src={property?.videos[4] } type="video/mp4" />
+    </video>
+  </div>
+</div>
   ) : isVideos && (
-    <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
-      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] text-center p-10 my-8 lg:h-[226px] ">Sorry! Currently no videos are available </div>
+    <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
+      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] text-center p-10 my-8 ">Sorry! Currently no videos are available </div>
     </div>
   )}
 
@@ -171,8 +181,8 @@ const Flow2a = () => {
   </div>
 ) : (
   isLocation && (
-    <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
-      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] p-10 my-8 lg:h-[226px]  text-center">
+    <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
+      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] p-10 my-8 text-center">
         Sorry! Currently, Map is not available
       </div>
     </div>

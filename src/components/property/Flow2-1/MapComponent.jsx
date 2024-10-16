@@ -14,7 +14,7 @@ console.log(property.locationLink);
           <iframe
             src={getMapSrc()}
             width="100%"
-            height="400"
+            height="383"
             style={{ border: 0 }}
             allowFullScreen=""
             loading="lazy"
