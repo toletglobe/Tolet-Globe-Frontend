@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Service from "../../../config/config";
 import Flow2b from "./Flow2b";
-import img1 from "../../../assets/property/property-1.jpg";
-import img2 from "../../../assets/property/property-2.jpg";
-import img3 from "../../../assets/property/property-3.jpg";
-import img4 from "../../../assets/property/property-4.png";
-import img5 from "../../../assets/property/property-5.jpg";
+// import img1 from "../../../assets/property/property-1.jpg";
+// import img2 from "../../../assets/property/property-2.jpg";
+// import img3 from "../../../assets/property/property-3.jpg";
+// import img4 from "../../../assets/property/property-4.png";
+// import img5 from "../../../assets/property/property-5.jpg";
 import shield from "../../../assets/property/shield.png";
 import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
 import { CiShare2, CiHeart } from "react-icons/ci";
@@ -31,6 +31,7 @@ const Flow2a = () => {
         // const propertyList = await Service.fetchPropertyById(id);  // use this in case of fetching old properties and comment the below one
         const propertyList = await Service.fetchPropertyBySlug(slug);
         console.log(propertyList);
+        // console.log("Hello");
 
         setProperty(propertyList);
       } catch (error) {
@@ -56,14 +57,14 @@ const Flow2a = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? (property?.images?.length || 1) - 1 : prevIndex - 1
     );
-    setSelectedImage(property?.images[currentIndex] || img1);
+    setSelectedImage(property?.images[currentIndex]);
   };
 
   const handleNext = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex + 1) % (property?.images?.length || 1)
     );
-    setSelectedImage(property?.images[currentIndex] || img1);
+    setSelectedImage(property?.images[currentIndex]);
   };
 
   if (!property) {
