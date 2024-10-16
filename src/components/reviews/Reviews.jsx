@@ -230,7 +230,7 @@ const Reviews = ({ property }) => {
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className="bg-gray-400 text-white py-2 px-4 rounded-full mr-2"
+          className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full mr-2"
         >
           &lt;
         </button>
@@ -255,7 +255,7 @@ const Reviews = ({ property }) => {
           disabled={
             currentPage === Math.ceil(totalReviews.length / reviewsPerPage)
           }
-          className="bg-gray-400 text-white py-2 px-4 rounded-full ml-2"
+          className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full ml-2"
         >
           &gt;
         </button>
