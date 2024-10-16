@@ -205,4 +205,6 @@
  font-size: small;
 }
 
-
+#property {
+  scrollbar-width: none;
+}

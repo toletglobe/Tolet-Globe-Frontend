@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../constant/constant";
 import axios from "axios";
 
-const Filters = ({ SetIsOpen, setProperties, city }) => {
+const Filters = ({ SetIsOpen, setProperties, city, updateFilterCount }) => {
+
   const [filters, setFilters] = useState({
     bhk: [],
     residential: [],
@@ -13,6 +14,34 @@ const Filters = ({ SetIsOpen, setProperties, city }) => {
     genderPreference: "",
     houseType: [],
   });
+
+useEffect(() => {
+  const countAppliedFilters = (filters) => {
+        return Object.values(filters).reduce((count, filterValue) => {
+            if (Array.isArray(filterValue)) {
+                return count + (filterValue.length > 0 ? 1 : 0);
+            } else {
+                return count + (filterValue ? 1 : 0);
+            }
+        }, 0);
+    };
+    const totalFilters = countAppliedFilters(filters)
+  
+  updateFilterCount(totalFilters);
+}, [filters, updateFilterCount]);
+
+//   const countAppliedFilters = (filters) => {
+//     return Object.values(filters).reduce((count, filterValue) => {
+//         if (Array.isArray(filterValue)) {
+//             return count + (filterValue.length > 0 ? 1 : 0);
+//         } else {
+//             return count + (filterValue ? 1 : 0);
+//         }
+//     }, 0);
+// };
+
+// const appliedFiltersCount = countAppliedFilters(filters);
+// console.log(appliedFiltersCount);
 
   // const navigate = useNavigate();
 

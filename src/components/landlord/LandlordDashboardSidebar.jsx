@@ -65,6 +65,9 @@ export default function LandlordDashboardSidebar({
             } `}
             onClick={() => {
               handleOnClick("AddProperty");
+              navigate("/landlord-dashboard", {
+                state: { content: "AddProperty" },
+              });
             }}
           >
             <FontAwesomeIcon icon={faPlus} className="text-xl" />

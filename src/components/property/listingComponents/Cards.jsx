@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
-import { IoMdClose } from "react-icons/io";
+import { FaRegCopy } from "react-icons/fa6";
 // import { IoAdd, IoBedOutline } from "react-icons/io5";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import Popup from "reactjs-popup";
@@ -9,11 +9,12 @@ import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useStateValue } from "../../../StateProvider";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
     style={{ width: "40px", height: "40px" }}
   >
@@ -23,7 +24,7 @@ const PrevArrow = ({ onClick }) => (
 
 const NextArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
     onClick={onClick}
     style={{ width: "40px", height: "40px" }}
   >
@@ -31,13 +32,27 @@ const NextArrow = ({ onClick }) => (
   </div>
 );
 
-const Cards = ({
-  properties,
-  cityName,
-  propertyAction,
-  handleToggle,
-  isInCompareList,
-}) => {
+const Cards = ({ properties, propertyAction }) => {
+  const [{ compareProperty }, dispatch] = useStateValue();
+
+  const addToCompare = (property) => {
+    dispatch({
+      type: "ADD_TO_COMPARE",
+      item: property,
+    });
+  };
+
+  const removeFromCompare = (property) => {
+    dispatch({
+      type: "REMOVE_FROM_COMPARE",
+      item: property,
+    });
+  };
+
+  const isInCompareList = (property) => {
+    return compareProperty.some((item) => item._id === property._id);
+  };
+
   const navigate = useNavigate();
   const settings = {
     dots: true,
@@ -116,8 +131,10 @@ const Cards = ({
             </figure>
             <div className="card-content p-6">
               <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-2xl font-semibold">
-                  <a href="#">{property.propertyType}</a>
+                <h3 className="card-title text-[20px] font-semibold">
+                  <a href="#">
+                    {property.bhk} BHK, {property.propertyType}, On Rent
+                  </a>
                 </h3>
                 <div className="icon-box flex space-x-4 p-2">
                   <Popup
@@ -129,17 +146,17 @@ const Cards = ({
                         />
                       </button>
                     }
-                    nested
+                    position={"bottom center"}
                   >
                     {(close) => (
-                      <div className="bg-slate-50 text-black px-2 py-2 rounded-full h-full flex flex-col shadow-xl">
+                      <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
                         <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
-                          <div className="px-2 py-3 text-sm truncate w-32">
-                            {`toletglobe.in/property/${property._id}`}
+                          <div className="px-2 py-2 text-sm truncate w-32">
+                            {`toletglobe.in/property/${property.slug}`}
                           </div>
                           <div>
                             <button
-                              className="px-4 py-1 bg-[#40B5A8] text-white rounded-3xl"
+                              className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
                               onClick={() => {
                                 navigator.clipboard.writeText(
                                   `www.toletglobe.in/property/${property.slug}`
@@ -147,7 +164,7 @@ const Cards = ({
                                 close();
                               }}
                             >
-                              Copy
+                              <FaRegCopy />
                             </button>
                           </div>
                         </div>
@@ -157,10 +174,17 @@ const Cards = ({
 
                   <a
                     href="#"
-                    onClick={(event) => handleToggle(event, property)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isInCompareList(property)) {
+                        removeFromCompare(property);
+                      } else {
+                        addToCompare(property);
+                      }
+                    }}
                     key={property._id}
                   >
-                    {isInCompareList(property._id) ? (
+                    {isInCompareList(property) ? (
                       <IoRemove
                         className="card_icon"
                         style={{ color: "#ff0000", fontSize: "12px" }}
@@ -227,7 +251,9 @@ const Cards = ({
                 </figure>
                 <div>
                   <p className="author-name text-gray-900 text-sm font-medium">
-                    <a href="#">{property.ownerName}</a>
+                    <a href="#">
+                      {property.firstName} {property.lastName}
+                    </a>
                   </p>
                 </div>
               </div>

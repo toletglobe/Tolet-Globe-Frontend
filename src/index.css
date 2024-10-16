@@ -25,17 +25,20 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+
 @keyframes marquee {
   0% {
-    transform: translateX(30%);
+    transform: translateX(50%);
   }
   100% {
-    transform: translateX(-35%);
+    transform: translateX(-50%);
   }
 }
 
 .animate-marquee {
-  animation: marquee 20s linear infinite; /* Adjust the duration to your liking */
+  animation: marquee 20s linear infinite; 
+  animation-play-state: running;
 }
 
 .marquee {
@@ -47,6 +50,10 @@ body {
   white-space: nowrap; /* Prevent line breaks */
 }
 
+
+.animate-marquee:hover {
+  animation-play-state: paused; /* Pause the animation on hover */
+}
 .overflow-hidden {
   overflow: hidden;  /* //Prevent overflow */
 }
@@ -54,19 +61,23 @@ body {
 @media (max-width: 640px) {
   @keyframes marquee {
     0% {
-      transform: translateX(250%); /* Start fully off the screen */
+      transform: translateX(350%); /* Start fully off the screen */
     }
     100% {
-      transform: translateX(-290%); /* Move fully off the screen to the left */
+      transform: translateX(-350%); /* Move fully off the screen to the left */
     }
   }
 
   .animate-marquee {
     animation: marquee 15s linear infinite; /* Shorter duration for smaller screens */
+    animation-play-state: running;
   }
 
   .marquee {
     display: flex;
     width: max-content; /* Ensure the width wraps around all images */
+  }
+  .animate-marquee:hover {
+    animation-play-state: paused;
   }
 }
