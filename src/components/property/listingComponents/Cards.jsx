@@ -91,17 +91,17 @@ const Cards = ({
                 className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
                 style={{
                   backgroundColor:
-                    property.status === 'available'
+                    property.availabilityStatus === 'Available'
                       ? '#40B5A8' // Green for available
-                      : property.status === 'rented'
+                      : property.status === 'Rented Out'
                       ? '#FF5733' // Orange for rented
                       : '#999999', // Gray for not available (NA)
                   textTransform: 'capitalize',
                 }}
               >
-                {property.status === 'available'
+                {property.availabilityStatus === 'Available'
                   ? 'Available'
-                  : property.status === 'rented'
+                  : property.availabilityStatus === 'Rented Out'
                   ? 'Rented Out'
                   : 'NA'}
               </div>
