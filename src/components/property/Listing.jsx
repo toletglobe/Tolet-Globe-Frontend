@@ -40,6 +40,10 @@ const Listing = () => {
 
   const authState = useSelector((state) => state.auth);
 
+  const [noPropertiesFound, setNoPropertiesFound] = useState(false)
+
+  const [selectedLocality, setSelectedLocality] = useState("");
+
   function refresh() {
     window.location.reload(false);
   }
@@ -61,7 +65,7 @@ const Listing = () => {
     setShowCity(!showCity);
   }
 
-  const [noPropertiesFound, setNoPropertiesFound] = useState(false);
+  
 
   useEffect(() => {
     const fetchAndFilterProperties = async () => {
@@ -76,45 +80,68 @@ const Listing = () => {
           setProperties(propertyData || []);
         }
 
+        // Filter by locality if selected
+        if (selectedLocality) {
+          propertyData = propertyData.filter(
+            (property) => property.locality === selectedLocality
+          );
+        }
+
+        // Sort by created date
         propertyData.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setProperties(propertyData); // Ensure propertyData is an array
 
         // Check for filters
         const searchParams = new URLSearchParams(location.search);
         const type = searchParams.get("type");
-        // console.log("Type of property:", type);
 
-        // Apply filtering based on type
+        let filteredProperties = propertyData; // Start with all properties
+
+        // Apply filtering based on property type
         if (type === "Flat") {
-          setProperties(propertyData.filter((a) => a.propertyType === "Flat"));
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Flat"
+          );
         } else if (type === "House/Villa") {
-          setProperties(
-            propertyData.filter(
-              (a) => a.propertyType === "House" || a.propertyType === "Villa"
-            )
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "House" || a.propertyType === "Villa"
           );
         } else if (type === "Shop") {
-          setProperties(propertyData.filter((a) => a.propertyType === "Shop"));
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Shop"
+          );
         } else if (type === "Office") {
-          setProperties(
-            propertyData.filter((a) => a.propertyType === "Office")
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Office"
           );
         } else if (type === "Warehouse") {
-          setProperties(
-            propertyData.filter((a) => a.propertyType === "Ware house")
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Ware house"
           );
         } else if (type === "PayingGuest") {
-          setProperties(
-            propertyData.filter((a) => a.propertyType === "Paying Guest")
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Paying Guest"
           );
         }
+
+        // Apply filtering based on locality
+        if (selectedLocality) {
+          filteredProperties = filteredProperties.filter(
+            (property) => property.locality === selectedLocality
+          );
+        }
+
+        // Set filtered properties
+        setProperties(filteredProperties);
+
+        // Check if no properties were found
+        setNoPropertiesFound(filteredProperties.length === 0);
 
         // Check for sorting
         const sortType = searchParams.get("sort");
         if (sortType) {
-          sortProperties(propertyData, sortType);
+          sortProperties(filteredProperties, sortType);
         }
 
         setLoading(false);
@@ -125,7 +152,7 @@ const Listing = () => {
     };
 
     fetchAndFilterProperties();
-  }, [city, location.search]); // Add city to the dependency array
+  }, [city, location.search, selectedLocality]); // Add city to the dependency array
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -160,6 +187,28 @@ const Listing = () => {
     queryParams.set("sort", sortType);
     navigate(`?${queryParams.toString()}`); // Update URL with new sort query
   };
+
+ const handleLocalitySelect = (locality) => {
+  setSelectedLocality(locality); // Update selected locality
+};
+
+// Render locality options dynamically based on city
+// const renderLocalities = () => {
+//   const localities = {
+//     Lucknow: ["Gomati Nagar", "Kharagpur", "Kamta", "Nishat Ganj", "Chinhat"],
+//     // Add more cities and localities here
+//   };
+
+//   return localities[city]?.map((locality) => (
+//     <p
+//       key={locality}
+//       className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+//       onClick={() => handleLocalitySelect(locality)}
+//     >
+//       {locality}
+//     </p>
+//   ));
+// };
 
   if (loading) {
     return (
@@ -294,34 +343,34 @@ const Listing = () => {
                           showCity && city == "Lucknow" ? "block" : "hidden"
                         } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
                       >
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
-                          Gomati Nagar
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Gomti Nagar")}>
+                          Gomti Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
-                          Kharagpur
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Khargapur")}>
+                          Khargapur
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Kamta")}>
                           Kamta
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Nishat Ganj")}>
                           Nishat Ganj
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Chinhat")}>
                           Chinhat
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Hazratganj")}>
                           Hazratganj
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Indira Nagar")}>
                           Indira Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Sunder Nagar")}>
                           Sunder Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Surender Nagar")}>
                           Surender Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100" onClick={() => handleLocalitySelect("Aliganj")}>
                           Aliganj
                         </p>
                       </div>
