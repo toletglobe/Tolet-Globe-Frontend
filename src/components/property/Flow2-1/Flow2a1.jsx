@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Service from "../../../config/config";
 import Flow2b from "./Flow2b";
-// import img1 from "../../../assets/property/property-1.jpg";
-// import img2 from "../../../assets/property/property-2.jpg";
-// import img3 from "../../../assets/property/property-3.jpg";
-// import img4 from "../../../assets/property/property-4.png";
-// import img5 from "../../../assets/property/property-5.jpg";
+import img1 from "../../../assets/property/property-1.jpg";
+import img2 from "../../../assets/property/property-2.jpg";
+import img3 from "../../../assets/property/property-3.jpg";
+import img4 from "../../../assets/property/property-4.png";
+import img5 from "../../../assets/property/property-5.jpg";
 import shield from "../../../assets/property/shield.png";
 import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
 import { CiShare2, CiHeart } from "react-icons/ci";
@@ -15,6 +15,7 @@ import profile from "../../../assets/property/author.jpg";
 import fav from "../../../assets/property/Vector.png";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { ClipLoader } from "react-spinners";
+import MapComponent from "./MapComponent";
 
 const Flow2a = () => {
   const [property, setProperty] = useState(null);
@@ -28,10 +29,8 @@ const Flow2a = () => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        // const propertyList = await Service.fetchPropertyById(id);  // use this in case of fetching old properties and comment the below one
         const propertyList = await Service.fetchPropertyBySlug(slug);
-        console.log(propertyList);
-        // console.log("Hello");
+      //  console.log(propertyList);
 
         setProperty(propertyList);
       } catch (error) {
@@ -74,6 +73,7 @@ const Flow2a = () => {
       </div>
     );
   } 
+  console.log(property);
   const changeview  = (view) => {
     switch(view) {
      case 'videos' : 
@@ -101,7 +101,7 @@ const Flow2a = () => {
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
       { isImage && (
-      <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
+      <div className="flex flex-wrap md:flex-nowrap gap-1 relative ">
         {/* Large Image */}
         <div className="w-full md:w-1/2">
           <img
@@ -160,12 +160,28 @@ const Flow2a = () => {
     </div>
   ) : isVideos && (
     <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
-      <div className="w-full md:w-1/2 bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[380px] text-centre h-10">Sorry! Currently no videos available </div>
+      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] text-center p-10 my-8 lg:h-[226px] ">Sorry! Currently no videos are available </div>
     </div>
   )}
 
+{/* Location Section */}
+{isLocation && property.locationLink !== "NA" ? (
+  <div>
+    <MapComponent property={property} />
+  </div>
+) : (
+  isLocation && (
+    <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
+      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] p-10 my-8 lg:h-[226px]  text-center">
+        Sorry! Currently, Map is not available
+      </div>
+    </div>
+  )
+)}
+
+
       {/* Caption Section */}
-      <div className="text-center -mt-4 relative">
+      <div className="text-center relative -mt-8">
         <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
           <button onClick={() => changeview('image')}> Photos</button>  | <button onClick={() => changeview('videos')}> Videos</button> | <button onClick={()=>changeview('location')}>Property Map</button>
         </p>
