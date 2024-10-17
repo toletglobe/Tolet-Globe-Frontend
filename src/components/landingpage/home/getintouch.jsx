@@ -1,5 +1,5 @@
 import "animate.css";
-import location from "../../../assets/map.jpg";
+import location from "../../../assets/map.png";
 import { useRef, useState } from "react";
 import { API } from "../../../config/axios";
 import { toast } from "react-hot-toast";
@@ -58,16 +58,17 @@ export const ContactUs = () => {
         backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.6) 100%), 
       linear-gradient(to right, rgba(0, 0, 0, 0.6) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.6) 100%), 
       url(${location})`,
+        backgroundSize: "cover",
       }}
     >
       <a href={googlemaps}>
-        <div className="text-star  h-[100%] lg:w-[860px] flex items-end ">
-          <div className="text-white font-semibold lg:text-5xl text-left pb-5 mb-10 -ml-20 text-shadow-lg -stroke-2 -stroke-white lg:block hidden translate-y-[-50px] ">
+        <div className="text-start  h-[100%] lg:w-[860px] flex items-end ">
+          {/* <div className="text-white font-semibold lg:text-5xl text-left pb-5 mb-10 -ml-20 text-shadow-lg -stroke-2 -stroke-white lg:block hidden translate-y-[-50px] ">
             CONTACT US
-          </div>
+          </div> */}
         </div>
       </a>
-      <div className=" text-start bg-black bg-opacity-80 p-10  lg:h-[100%] lg:w-[380px] w-full  ">
+      <div className=" text-start -mt-2 bg-black opacity-100 p-10  lg:h-[100%] lg:w-[380px] w-full rounded-md bg-gradient-to-r from-black via-black to-transparent shadow-[0_0_10px_rgba(0,0,0,0.2)] ">
         <p className="text-yellow-300 font-normal text-4xl text-left pb-5">
           GET IN TOUCH
         </p>

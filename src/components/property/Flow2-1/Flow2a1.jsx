@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Service from "../../../config/config";
 import Flow2b from "./Flow2b";
-// import img1 from "../../../assets/property/property-1.jpg";
-// import img2 from "../../../assets/property/property-2.jpg";
-// import img3 from "../../../assets/property/property-3.jpg";
-// import img4 from "../../../assets/property/property-4.png";
-// import img5 from "../../../assets/property/property-5.jpg";
+import img1 from "../../../assets/property/property-1.jpg";
+import img2 from "../../../assets/property/property-2.jpg";
+import img3 from "../../../assets/property/property-3.jpg";
+import img4 from "../../../assets/property/property-4.png";
+import img5 from "../../../assets/property/property-5.jpg";
 import shield from "../../../assets/property/shield.png";
 import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
 import { CiShare2, CiHeart, CiShare1 } from "react-icons/ci";
@@ -15,24 +15,25 @@ import profile from "../../../assets/property/author.jpg";
 import fav from "../../../assets/property/Vector.png";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { ClipLoader } from "react-spinners";
+import MapComponent from "./MapComponent";
 import Popup from "reactjs-popup";
 import { FaRegCopy } from "react-icons/fa6";
 
 const Flow2a = () => {
-  const { id } = useParams();
   const [property, setProperty] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const [isVideos,setisVideos] = useState(false);
+  const [isLocation,setIsLocation] = useState(false);
+  const[isImage,setIsImage] = useState(true);
+  const [currentVideo, setCurrentVideo] = useState(null);
   const { slug } = useParams();
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        // const propertyList = await Service.fetchPropertyById(id);  // use this in case of fetching old properties and comment the below one
         const propertyList = await Service.fetchPropertyBySlug(slug);
-        console.log(propertyList);
-        // console.log("Hello");
+      //  console.log(propertyList);
 
         setProperty(propertyList);
       } catch (error) {
@@ -74,64 +75,158 @@ const Flow2a = () => {
         <ClipLoader color="#6CC1B6" size={150} />
       </div>
     );
-  } // Add a
+  } 
+  console.log(property);
+  const changeview  = (view) => {
+    switch(view) {
+     case 'videos' : 
+       setisVideos(true);
+       setIsImage(false);
+       setIsLocation(false);
+       break;
+     
+     case 'image' :
+       setisVideos(false);
+       setIsImage(true);
+       setIsLocation(false); 
+       break;
+
+       case 'location' :
+         setisVideos(false);
+         setIsImage(false);
+         setIsLocation(true); 
+         break;
+
+     }
+    }
 
   return (
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
-      {property.images.length > 0 ? (
-        <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
-          {/* Main Image */}
-          <div
-            className={`w-full ${property.images.length > 1 ? "md:w-1/2" : ""}`}
-          >
-            <img
-              src={property.images[0]}
-              alt={property.propertyType}
-              className="w-full h-[400px] object-cover cursor-pointer"
-              onClick={() => openModal(property.images[0], 0)}
-            />
-          </div>
+      { isImage && (
+      <div className="flex flex-wrap md:flex-nowrap gap-1 relative ">
+        {/* Large Image */}
+        <div className="w-full md:w-1/2">
+          <img
+            src={property?.images[0] || img1}
+            alt={property?.propertyType}
+            className="w-full h-[383px] object-cover cursor-pointer"
+            onClick={() => openModal(property?.images[0] || img1, 0)}
+          />
+        </div>
+        {/* Grid of Smaller Images */}
+        <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
+          <img
+            src={property?.images[1] || img2}
+            alt={property?.propertyType}
+            className="w-full h-[193px] object-cover cursor-pointer"
+            onClick={() => openModal(property?.images[1] || img2, 1)}
+          />
+          <img
+            src={property?.images[2] || img3}
+            alt={property?.propertyType}
+            className="w-full h-[193px] object-cover cursor-pointer"
+            onClick={() => openModal(property?.images[2] || img3, 2)}
+          />
+          <img
+            src={property?.images[3] || img4}
+            alt={property?.propertyType}
+            className="w-full h-[186px] object-cover cursor-pointer"
+            onClick={() => openModal(property?.images[3] || img4, 3)}
+          />
+          <img
+            src={property?.images[4] || img5}
+            alt={property?.propertyType}
+            className="w-full h-[186px] object-cover cursor-pointer"
+            onClick={() => openModal(property?.images[4] || img5, 4)}
+          />
+        </div>
+      </div>
+     )}
 
-          {/* Additional Images */}
-          {property.images.length > 1 && (
-            <div
-              className={`w-full md:w-1/2 grid ${
-                property.images.length === 2 ? "grid-cols-1" : "grid-cols-2"
-              } gap-1`}
-            >
-              {property.images.slice(1, 5).map((image, index) => (
-                <img
-                  key={index + 1}
-                  src={image}
-                  alt={`${property.propertyType} ${index + 2}`}
-                  className={`w-full ${
-                    property.images.length <= 3 ? "h-[400px]" : "h-[200px]"
-                  } object-cover cursor-pointer`}
-                  onClick={() => openModal(image, index + 1)}
-                />
-              ))}
-              {property.images.length > 5 && (
-                <div
-                  className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full cursor-pointer"
-                  onClick={() => openModal(property.images[4], 4)}
-                >
-                  +{property.images.length - 5} more
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="py-40 text-center text-4xl font-semibold">
-          No Images Available for this Property
-        </div>
-      )}
+      {/* Video Carousel Section */}
+      
+      {isVideos && property.videos?.length > 0 ? (
+    <div className="flex flex-wrap md:flex-nowrap gap-1 relative ">
+     {/* Large Video */}
+  <div className="w-full md:w-1/2">
+    <video controls 
+    className="w-full h-[383px] object-cover cursor-pointer"
+    onClick={() => setCurrentVideo(property?.videos[0])}
+    >
+      <source src={ property?.videos[0] } type="video/mp4" />
+    </video>
+  </div>
+  {/* Grid of Smaller Videos */}
+  <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
+    <video controls
+     className="w-full h-[193px] object-cover cursor-pointer"
+     onClick={() => setCurrentVideo(property?.videos[1])}
+     >
+    <source src={property?.videos[1] } type="video/mp4" />
+    </video>
+
+    <video controls 
+    className="w-full h-[193px] object-cover cursor-pointer"
+    onClick={() => setCurrentVideo(property?.videos[2])}
+    >
+    <source src={property?.videos[2] } type="video/mp4" />
+    </video>
+
+    <video controls 
+    className="w-full h-[193px] object-cover cursor-pointer"
+    onClick={() => setCurrentVideo(property?.videos[3])}
+    > 
+    <source src={property?.videos[3] } type="video/mp4" />
+    </video>
+
+    <video controls 
+    className="w-full h-[193px] object-cover cursor-pointer"
+    onClick={() => setCurrentVideo(property?.videos[4])}
+    >
+    <source src={property?.videos[4] } type="video/mp4" />
+    </video>
+  </div>
+  {currentVideo && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+        <video controls className="w-full h-auto max-w-xl">
+          <source src={currentVideo} type="video/mp4" />
+        </video>
+        <button
+          className="absolute top-2 right-2 text-white text-2xl"
+          onClick={() => setCurrentVideo(null)} // Close the video overlay
+        >
+          &times;
+        </button>
+      </div>
+    )}
+</div>
+  ) : isVideos && (
+    <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
+      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] text-center p-10 my-8 ">Sorry! Currently no videos are available </div>
+    </div>
+  )}
+
+{/* Location Section */}
+{isLocation && property.locationLink !== "NA" ? (
+  <div>
+    <MapComponent property={property} />
+  </div>
+) : (
+  isLocation && (
+    <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
+      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] p-10 my-8 text-center">
+        Sorry! Currently, Map is not available
+      </div>
+    </div>
+  )
+)}
+
 
       {/* Caption Section */}
-      <div className="text-center -mt-4 relative">
+      <div className="text-center relative -mt-8">
         <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
-          Photos | Videos | Property Map
+          <button onClick={() => changeview('image')}> Photos</button>  | <button onClick={() => changeview('videos')}> Videos</button> | <button onClick={()=>changeview('location')}>Property Map</button>
         </p>
       </div>
 
