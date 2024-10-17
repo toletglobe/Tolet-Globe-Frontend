@@ -103,14 +103,24 @@ const Cards = ({ properties, propertyAction }) => {
                 </div>
               )}
               <div
-                className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
-                style={{
-                  backgroundColor: "#40B5A8",
-                  textTransform: "capitalize",
-                }}
+              className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
+              style={{
+                backgroundColor:
+                  property.availabilityStatus === 'Available'
+                    ? '#236b62' // Green for available
+                    : property.availabilityStatus === 'Rented Out'
+                    ? '#c71221' // Red for rented
+                    : '#999999', // Gray for not available (NA)
+                textTransform: 'capitalize',
+              }}
               >
-                {propertyAction}
-              </div>
+              {property.availabilityStatus === 'Available'
+                ? 'Available'
+                : property.availabilityStatus === 'Rented Out'
+                ? 'Rented'
+                : 'NA'}
+               </div>
+
               <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
                 <div>
                   <button className="banner-actions-btn flex items-center gap-1 text-white">
@@ -274,3 +284,4 @@ const Cards = ({ properties, propertyAction }) => {
 };
 
 export default Cards;
+
