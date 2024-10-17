@@ -256,7 +256,7 @@ const Listing = () => {
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-3 flex flex-col gap-12 py-7 sticky top-0 z-20 bg-black">
+        <div className="px-3 flex flex-col gap-8 py-6 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
             <p className="lg:text-[45px] md:text-4xl text-2xl text-[#C8A21C] font-bold">
               Property Listing
