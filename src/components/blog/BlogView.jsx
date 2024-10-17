@@ -60,13 +60,13 @@ const BlogView = () => {
         <hr />
         <div className="my-2 font-semibold">{blog.intro}</div>
 
-        <div className=" mx-2 my-3">
-          <img
-            src={blog.image}
-            alt={blog.title}
-            className="rounded-md w-full h-full object-cover"
-          />
-        </div>
+         <div className="mx-auto my-3 max-w-3xl">
+  <img
+    src={blog.image}
+    alt={blog.title}
+    className="rounded-md w-full h-96 max-h-full object-cover filter brightness-120"
+  />
+</div>
 
         <div className="">
           <div
