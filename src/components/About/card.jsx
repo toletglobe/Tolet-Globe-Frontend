@@ -9,6 +9,7 @@ export default function card(props) {
     const paddingStyles = props.place === 'left'
     ? 'md:py-2 md:pr-[10%] md:pl-[4.2%] '
     : 'md:py-2 md:pr-[4.2%] md:pl-[10%] ';
+    
   // Dynamic position styles
   const positionStyles = props.place === 'left'
     ? 'left-0'

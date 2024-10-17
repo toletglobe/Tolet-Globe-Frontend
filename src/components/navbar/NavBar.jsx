@@ -20,7 +20,15 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
 
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
+    localStorage.setItem("activeLink", link);
   };
+
+  useEffect(() => {
+    const savedLink = localStorage.getItem("activeLink");
+    if (savedLink) {
+      setActiveLink(savedLink); // Retrieve active link from localStorage
+    }
+  }, []);
 
   const handleLogout = () => {
     setIsMenuOpen(false);

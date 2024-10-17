@@ -13,7 +13,6 @@ import IMT from "../../assets/Institution/IMT-Nagpur.svg";
 
 const Institution = () => {
   const images = [
-    
     { src: IMT, title: "IMT Nagpur" },
     { src: ibs, title: "IBS, Hyderabad" },
     { src: UniversityOgLakhnaw, title: "Lucknow University, Lucknow" },
@@ -35,7 +34,7 @@ const Institution = () => {
     <div className="m-5">
       <div className="flex flex-col items-center justify-cente">
         <h3 className="w-full max-w-[1078.22px] h-auto font-poppins font-medium text-[24px] leading-[36px] text-center text-[#1D5F58] sm:text-[36px] sm:leading-[48px] md:text-[42.6667px] md:leading-[64px]">
-          Partnered Institutions   
+          Partnered Institutions
         </h3>
 
         <p className="w-full max-w-[1078.22px] h-auto font-poppins font-medium text-[11.5556px] leading-[17px] text-center text-[#C8A117] sm:w-[1078.22px]">
@@ -43,27 +42,27 @@ const Institution = () => {
           and universities across the country for college placements, including:
         </p>
       </div>
+
       <div className="overflow-hidden mt-10">
-  <div className="animate-marquee flex items-center justify-center">
-    <div className="marquee">
-      {images.concat(images).map((image, idx) => (
-        <div
-          key={idx}
-          className="flex flex-col items-center justify-center mx-9 my-5"
-        >
-          <img
-            src={image.src}
-            alt={image.title}
-            className="max-w-[900px] max-h-[900px]"
-          />
+        <div className="animate-marquee flex items-center justify-center">
+          <div className="marquee">
+            {images.concat(images).map((image, idx) => (
+              <div
+                key={idx}
+                className="flex flex-col items-center justify-center mx-9 my-5"
+              >
+                <img
+                  src={image.src}
+                  alt={image.title}
+                  className="max-w-[900px] max-h-[900px]"
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
+      </div>
     </div>
   );
 };
-
 
 export default Institution;

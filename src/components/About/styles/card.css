@@ -28,6 +28,8 @@
     z-index: 1;
 }
 
+
+  /* Media query for small screen */
 @media (max-width: 990px) {
 
     .left::after{
@@ -43,6 +45,7 @@
         border-radius: 50%; 
         z-index: 1;
     }
+
     .right::after{
         content: "";
         background-image: url(../../../assets/logo1.jpeg);
