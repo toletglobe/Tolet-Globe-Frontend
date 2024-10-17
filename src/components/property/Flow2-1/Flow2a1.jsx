@@ -24,16 +24,16 @@ const Flow2a = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVideos,setisVideos] = useState(false);
-  const [isLocation,setIsLocation] = useState(false);
-  const[isImage,setIsImage] = useState(true);
+  const [isVideos, setisVideos] = useState(false);
+  const [isLocation, setIsLocation] = useState(false);
+  const [isImage, setIsImage] = useState(true);
   const [currentVideo, setCurrentVideo] = useState(null);
   const { slug } = useParams();
   useEffect(() => {
     const fetchProperty = async () => {
       try {
         const propertyList = await Service.fetchPropertyBySlug(slug);
-      //  console.log(propertyList);
+        //  console.log(propertyList);
 
         setProperty(propertyList);
       } catch (error) {
@@ -75,158 +75,173 @@ const Flow2a = () => {
         <ClipLoader color="#6CC1B6" size={150} />
       </div>
     );
-  } 
+  }
   console.log(property);
-  const changeview  = (view) => {
-    switch(view) {
-     case 'videos' : 
-       setisVideos(true);
-       setIsImage(false);
-       setIsLocation(false);
-       break;
-     
-     case 'image' :
-       setisVideos(false);
-       setIsImage(true);
-       setIsLocation(false); 
-       break;
+  const changeview = (view) => {
+    switch (view) {
+      case "videos":
+        setisVideos(true);
+        setIsImage(false);
+        setIsLocation(false);
+        break;
 
-       case 'location' :
-         setisVideos(false);
-         setIsImage(false);
-         setIsLocation(true); 
-         break;
+      case "image":
+        setisVideos(false);
+        setIsImage(true);
+        setIsLocation(false);
+        break;
 
-     }
+      case "location":
+        setisVideos(false);
+        setIsImage(false);
+        setIsLocation(true);
+        break;
     }
+  };
 
   return (
     <div className="px-4 py-4 relative">
       {/* Image Carousel Section */}
-      { isImage && (
-      <div className="flex flex-wrap md:flex-nowrap gap-1 relative ">
-        {/* Large Image */}
-        <div className="w-full md:w-1/2">
-          <img
-            src={property?.images[0] || img1}
-            alt={property?.propertyType}
-            className="w-full h-[383px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[0] || img1, 0)}
-          />
+      {isImage ? (
+        <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
+          {/* Main Image */}
+          <div
+            className={`w-full ${property.images.length > 1 ? "md:w-1/2" : ""}`}
+          >
+            <img
+              src={property.images[0]}
+              alt={property.propertyType}
+              className="w-full h-[400px] object-cover cursor-pointer"
+              onClick={() => openModal(property.images[0], 0)}
+            />
+          </div>
+
+          {/* Additional Images */}
+          {property.images.length > 1 && (
+            <div
+              className={`w-full md:w-1/2 grid ${
+                property.images.length === 2 ? "grid-cols-1" : "grid-cols-2"
+              } gap-1`}
+            >
+              {property.images.slice(1, 5).map((image, index) => (
+                <img
+                  key={index + 1}
+                  src={image}
+                  alt={`${property.propertyType} ${index + 2}`}
+                  className={`w-full ${
+                    property.images.length <= 3 ? "h-[400px]" : "h-[200px]"
+                  } object-cover cursor-pointer`}
+                  onClick={() => openModal(image, index + 1)}
+                />
+              ))}
+              {property.images.length > 5 && (
+                <div
+                  className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full cursor-pointer"
+                  onClick={() => openModal(property.images[4], 4)}
+                >
+                  +{property.images.length - 5} more
+                </div>
+              )}
+            </div>
+          )}
         </div>
-        {/* Grid of Smaller Images */}
-        <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
-          <img
-            src={property?.images[1] || img2}
-            alt={property?.propertyType}
-            className="w-full h-[193px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[1] || img2, 1)}
-          />
-          <img
-            src={property?.images[2] || img3}
-            alt={property?.propertyType}
-            className="w-full h-[193px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[2] || img3, 2)}
-          />
-          <img
-            src={property?.images[3] || img4}
-            alt={property?.propertyType}
-            className="w-full h-[186px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[3] || img4, 3)}
-          />
-          <img
-            src={property?.images[4] || img5}
-            alt={property?.propertyType}
-            className="w-full h-[186px] object-cover cursor-pointer"
-            onClick={() => openModal(property?.images[4] || img5, 4)}
-          />
-        </div>
-      </div>
-     )}
+      ) : (
+        <div></div>
+      )}
 
       {/* Video Carousel Section */}
-      
+
       {isVideos && property.videos?.length > 0 ? (
-    <div className="flex flex-wrap md:flex-nowrap gap-1 relative ">
-     {/* Large Video */}
-  <div className="w-full md:w-1/2">
-    <video controls 
-    className="w-full h-[383px] object-cover cursor-pointer"
-    onClick={() => setCurrentVideo(property?.videos[0])}
-    >
-      <source src={ property?.videos[0] } type="video/mp4" />
-    </video>
-  </div>
-  {/* Grid of Smaller Videos */}
-  <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
-    <video controls
-     className="w-full h-[193px] object-cover cursor-pointer"
-     onClick={() => setCurrentVideo(property?.videos[1])}
-     >
-    <source src={property?.videos[1] } type="video/mp4" />
-    </video>
+        <div className="flex flex-wrap md:flex-nowrap gap-1 relative ">
+          {/* Large Video */}
+          <div className="w-full md:w-1/2">
+            <video
+              controls
+              className="w-full h-[383px] object-cover cursor-pointer"
+              onClick={() => setCurrentVideo(property?.videos[0])}
+            >
+              <source src={property?.videos[0]} type="video/mp4" />
+            </video>
+          </div>
+          {/* Grid of Smaller Videos */}
+          <div className="w-full md:w-1/2 grid grid-cols-2 gap-1">
+            <video
+              controls
+              className="w-full h-[193px] object-cover cursor-pointer"
+              onClick={() => setCurrentVideo(property?.videos[1])}
+            >
+              <source src={property?.videos[1]} type="video/mp4" />
+            </video>
 
-    <video controls 
-    className="w-full h-[193px] object-cover cursor-pointer"
-    onClick={() => setCurrentVideo(property?.videos[2])}
-    >
-    <source src={property?.videos[2] } type="video/mp4" />
-    </video>
+            <video
+              controls
+              className="w-full h-[193px] object-cover cursor-pointer"
+              onClick={() => setCurrentVideo(property?.videos[2])}
+            >
+              <source src={property?.videos[2]} type="video/mp4" />
+            </video>
 
-    <video controls 
-    className="w-full h-[193px] object-cover cursor-pointer"
-    onClick={() => setCurrentVideo(property?.videos[3])}
-    > 
-    <source src={property?.videos[3] } type="video/mp4" />
-    </video>
+            <video
+              controls
+              className="w-full h-[193px] object-cover cursor-pointer"
+              onClick={() => setCurrentVideo(property?.videos[3])}
+            >
+              <source src={property?.videos[3]} type="video/mp4" />
+            </video>
 
-    <video controls 
-    className="w-full h-[193px] object-cover cursor-pointer"
-    onClick={() => setCurrentVideo(property?.videos[4])}
-    >
-    <source src={property?.videos[4] } type="video/mp4" />
-    </video>
-  </div>
-  {currentVideo && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
-        <video controls className="w-full h-auto max-w-xl">
-          <source src={currentVideo} type="video/mp4" />
-        </video>
-        <button
-          className="absolute top-2 right-2 text-white text-2xl"
-          onClick={() => setCurrentVideo(null)} // Close the video overlay
-        >
-          &times;
-        </button>
-      </div>
-    )}
-</div>
-  ) : isVideos && (
-    <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
-      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] text-center p-10 my-8 ">Sorry! Currently no videos are available </div>
-    </div>
-  )}
+            <video
+              controls
+              className="w-full h-[193px] object-cover cursor-pointer"
+              onClick={() => setCurrentVideo(property?.videos[4])}
+            >
+              <source src={property?.videos[4]} type="video/mp4" />
+            </video>
+          </div>
+          {currentVideo && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+              <video controls className="w-full h-auto max-w-xl">
+                <source src={currentVideo} type="video/mp4" />
+              </video>
+              <button
+                className="absolute top-2 right-2 text-white text-2xl"
+                onClick={() => setCurrentVideo(null)} // Close the video overlay
+              >
+                &times;
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        isVideos && (
+          <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
+            <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] text-center p-10 my-8 ">
+              Sorry! Currently no videos are available{" "}
+            </div>
+          </div>
+        )
+      )}
 
-{/* Location Section */}
-{isLocation && property.locationLink !== "NA" ? (
-  <div>
-    <MapComponent property={property} />
-  </div>
-) : (
-  isLocation && (
-    <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
-      <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] p-10 my-8 text-center">
-        Sorry! Currently, Map is not available
-      </div>
-    </div>
-  )
-)}
-
+      {/* Location Section */}
+      {isLocation && property.locationLink !== "NA" ? (
+        <div>
+          <MapComponent property={property} />
+        </div>
+      ) : (
+        isLocation && (
+          <div className="flex flex-wrap md:flex-nowrap gap-1 relative lg:h-[383px]">
+            <div className="w-full  bg-black text-4xl font-semibold lg:p-20 lg:my-20 lg:ml-[60px] p-10 my-8 text-center">
+              Sorry! Currently, Map is not available
+            </div>
+          </div>
+        )
+      )}
 
       {/* Caption Section */}
       <div className="text-center relative -mt-8">
         <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
-          <button onClick={() => changeview('image')}> Photos</button>  | <button onClick={() => changeview('videos')}> Videos</button> | <button onClick={()=>changeview('location')}>Property Map</button>
+          <button onClick={() => changeview("image")}> Photos</button> |{" "}
+          <button onClick={() => changeview("videos")}> Videos</button> |{" "}
+          <button onClick={() => changeview("location")}>Property Map</button>
         </p>
       </div>
 
@@ -283,39 +298,44 @@ const Flow2a = () => {
           <div className="flex justify-between">
             <p className="text-black text-lg font-semibold">Request a visit</p>
             <div className="flex gap-2">
-              <Popup arrow={false}
-                    trigger={
-                      <button>
-                        <CiShare2 className="w-6 h-6"
-                          style={{ color: "#40B5A8" }}
-                        />
-                      </button>
-                    }
-                    position={"left center"}
-                  >
-                    {(close) => (
-                      <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90 mt-10 -ml-6">
-                        <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
-                          <div className="px-2 py-2 text-sm truncate w-32">
-                            {property?.firstName+ ' '} {property?.lastName}{" - "+property?.ownersContactNumber}
-                          </div>
-                          <div>
-                            <button
-                              className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
-                              onClick={() => {
-                                navigator.clipboard.writeText(
-                                  `${property?.firstName+ ' '} ${property?.lastName}
-                            ${" - "+property?.ownersContactNumber}`
-                                );
-                                close();
-                              }}
-                            >
-                              <FaRegCopy />
-                            </button>
-                          </div>
-                        </div>
+              <Popup
+                arrow={false}
+                trigger={
+                  <button>
+                    <CiShare2
+                      className="w-6 h-6"
+                      style={{ color: "#40B5A8" }}
+                    />
+                  </button>
+                }
+                position={"left center"}
+              >
+                {(close) => (
+                  <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90 mt-10 -ml-6">
+                    <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                      <div className="px-2 py-2 text-sm truncate w-32">
+                        {property?.firstName + " "} {property?.lastName}
+                        {" - " + property?.ownersContactNumber}
                       </div>
-                    )}
+                      <div>
+                        <button
+                          className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                          onClick={() => {
+                            navigator.clipboard.writeText(
+                              `${property?.firstName + " "} ${
+                                property?.lastName
+                              }
+                            ${" - " + property?.ownersContactNumber}`
+                            );
+                            close();
+                          }}
+                        >
+                          <FaRegCopy />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </Popup>
               <IoIosAdd className="text-black w-7 h-7" />
               <CiHeart className="text-[#FF0B0B] w-6 h-6" />
@@ -324,7 +344,7 @@ const Flow2a = () => {
           <div className="flex">
             <img src={profile} alt="owner" className="h-8 w-8 inline" />
             <p className="pt-1 pl-3 text-gray-800">
-              {property?.firstName+ ' '}
+              {property?.firstName + " "}
               {property?.lastName}
             </p>
           </div>
