@@ -9,13 +9,15 @@ import img4 from "../../../assets/property/property-4.png";
 import img5 from "../../../assets/property/property-5.jpg";
 import shield from "../../../assets/property/shield.png";
 import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
-import { CiShare2, CiHeart } from "react-icons/ci";
+import { CiShare2, CiHeart, CiShare1 } from "react-icons/ci";
 import { IoIosAdd } from "react-icons/io";
 import profile from "../../../assets/property/author.jpg";
 import fav from "../../../assets/property/Vector.png";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { ClipLoader } from "react-spinners";
 import MapComponent from "./MapComponent";
+import Popup from "reactjs-popup";
+import { FaRegCopy } from "react-icons/fa6";
 
 const Flow2a = () => {
   const [property, setProperty] = useState(null);
@@ -280,16 +282,49 @@ const Flow2a = () => {
         <div className="border-1 bg-white rounded-lg lg:w-1/4 md:w-1/2 p-4">
           <div className="flex justify-between">
             <p className="text-black text-lg font-semibold">Request a visit</p>
-            <div className="flex">
-              <CiShare2 className="text-[#2E6A64] mt-1" />
-              <IoIosAdd className="mt-1" />
-              <CiHeart className="text-[#FF0B0B] mt-1" />
+            <div className="flex gap-2">
+              <Popup arrow={false}
+                    trigger={
+                      <button>
+                        <CiShare2 className="w-6 h-6"
+                          style={{ color: "#40B5A8" }}
+                        />
+                      </button>
+                    }
+                    position={"left center"}
+                  >
+                    {(close) => (
+                      <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90 mt-10 -ml-6">
+                        <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                          <div className="px-2 py-2 text-sm truncate w-32">
+                            {property?.firstName+ ' '} {property?.lastName}{" - "+property?.ownersContactNumber}
+                          </div>
+                          <div>
+                            <button
+                              className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  `${property?.firstName+ ' '} ${property?.lastName}
+                            ${" - "+property?.ownersContactNumber}`
+                                );
+                                close();
+                              }}
+                            >
+                              <FaRegCopy />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+              </Popup>
+              <IoIosAdd className="text-black w-7 h-7" />
+              <CiHeart className="text-[#FF0B0B] w-6 h-6" />
             </div>
           </div>
           <div className="flex">
             <img src={profile} alt="owner" className="h-8 w-8 inline" />
             <p className="pt-1 pl-3 text-gray-800">
-              {property?.firstName}
+              {property?.firstName+ ' '}
               {property?.lastName}
             </p>
           </div>

@@ -6,6 +6,7 @@ import { PropertyCarousel } from "./landingpage/home/PropertyCarousel";
 import Institution from "./partner_institution/Institution";
 import HiringPartners from "./Hiringpartner/HiringPartners";
 import OurReach from "./OurReach/OurReach";
+import TestimonialCard from "./testimonial/testimonial"
 
 const Landing = () => {
   return (
@@ -19,6 +20,7 @@ const Landing = () => {
         <OurReach />
 
         <Institution />
+        <TestimonialCard/>
       </div>
       <ContactUs />
     </div>

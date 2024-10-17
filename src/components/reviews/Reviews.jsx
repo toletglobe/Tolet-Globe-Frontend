@@ -7,14 +7,15 @@ import { useSelector } from "react-redux";
 import { API } from "../../config/axios";
 
 const Reviews = ({ property }) => {
-  const [currentReviews, setCurrentReviews] = useState([]);
+  // const [currentReviews, setCurrentReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(1);
   const [comment, setComment] = useState("");
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const reviewsPerPage = 1;
+  const [totalReviews, setTotalReviews] = useState([])
+  const reviewsPerPage = 2;
   const navigate = useNavigate();
 
   const authState = useSelector((state) => state.auth);
@@ -24,7 +25,7 @@ const Reviews = ({ property }) => {
       try {
         const initialReviews = await API.get(`reviews/${property._id}`);
         if (initialReviews.data.reviews.length > 0) {
-          setCurrentReviews(initialReviews.data.reviews);
+          setTotalReviews(initialReviews.data.reviews);
         }
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -64,7 +65,7 @@ const Reviews = ({ property }) => {
       setRating(0);
       setComment("");
       setShowReviewForm(false);
-      setCurrentReviews(fetchedReviews.data.reviews);
+      setTotalReviews(fetchedReviews.data.reviews);
     } catch (error) {
       console.error("Error adding review:", error);
       toast.error("Error adding review");
@@ -73,20 +74,20 @@ const Reviews = ({ property }) => {
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  // const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
+  const currentReviews = totalReviews.slice(indexOfFirstReview, indexOfLastReview);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleNextPage = () =>
-    currentPage < Math.ceil(currentReviews.length / reviewsPerPage) &&
+    currentPage < Math.ceil(totalReviews.length / reviewsPerPage) &&
     setCurrentPage(currentPage + 1);
 
   const handlePreviousPage = () =>
     currentPage > 1 && setCurrentPage(currentPage - 1);
 
   console.log(
-    currentReviews.reduce((acc, review) => acc + review.userRating, 0) /
-      currentReviews.length
+    totalReviews.reduce((acc, review) => acc + review.userRating, 0) /
+      totalReviews.length
   );
 
   return (
@@ -95,11 +96,11 @@ const Reviews = ({ property }) => {
         <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-white">
           <h2 className="text-2xl font-bold">
             Average Rating :
-            {currentReviews.length > 0
-              ? currentReviews.reduce(
+            {totalReviews.length > 0
+              ? totalReviews.reduce(
                   (acc, review) => acc + review.userRating,
                   0
-                ) / currentReviews.length
+                ) / totalReviews.length
               : 0}
             / 5
           </h2>
@@ -107,11 +108,11 @@ const Reviews = ({ property }) => {
             <ReactStars
               count={5}
               value={
-                currentReviews.length > 0
-                  ? currentReviews.reduce(
+                totalReviews.length > 0
+                  ? totalReviews.reduce(
                       (acc, review) => acc + review.userRating,
                       0
-                    ) / currentReviews.length
+                    ) / totalReviews.length
                   : 0
               }
               size={40}
@@ -229,17 +230,17 @@ const Reviews = ({ property }) => {
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className="bg-gray-400 text-white py-2 px-4 rounded-full mr-2"
+          className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full mr-2"
         >
           &lt;
         </button>
         {Array.from(
-          { length: Math.ceil(currentReviews.length / reviewsPerPage) },
+          { length: Math.ceil(totalReviews.length / reviewsPerPage) },
           (_, index) => (
             <button
               key={index}
               onClick={() => paginate(index + 1)}
-              className={`py-2 px-2 rounded-full ${
+              className={`py-2 px-2 w-10 rounded-full ${
                 currentPage === index + 1
                   ? "bg-teal-500 text-white"
                   : "bg-gray-300 text-gray-800"
@@ -252,11 +253,11 @@ const Reviews = ({ property }) => {
         <button
           onClick={handleNextPage}
           disabled={
-            currentPage === Math.ceil(currentReviews.length / reviewsPerPage)
+            currentPage === Math.ceil(totalReviews.length / reviewsPerPage)
           }
-          className="bg-gray-400 text-white py-2 px-4 rounded-full ml-2"
+          className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full ml-2"
         >
-          &gt;&gt;
+          &gt;
         </button>
       </div>
 
