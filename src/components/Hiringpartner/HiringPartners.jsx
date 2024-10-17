@@ -12,7 +12,7 @@ const HiringPartners = () => {
 
   return (
     <div className="h-full w-full py-8 px-6 bg-black flex flex-col items-center justify-center relative -top-8 border border-white rounded-lg shadow-lg" 
-         style={{ width: '1212px', height: '246px', marginLeft: 'auto', marginRight: '160px' }}> {/* Align component to the right */}
+         style={{ width: '1212px', height: '246px', marginLeft: 'auto', marginRight: '150px' }}> {/* Align component to the right */}
       <div className="max-w-[1310px] w-full text-center">
         <div className="bg-black z-20 relative inline-block" style={{ width: '392px', height: '49px', borderRadius: '10px', position: 'absolute', left: '410px',top:-24 }}> {/* Updated styles */}
           <h2 className="text-[#2e7766] text-4xl font-bold mb-0 relative">
