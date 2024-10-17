@@ -27,11 +27,15 @@ export default function LandlordDashboardSidebar({
   const authState = useSelector((state) => state.auth);
 
   const [toggelSetting, setToggelSetting] = useState(false);
+  const[isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleOnClick = (text) => {
     setMainContent((mainContent) => (mainContent = text));
     setColored(text);
   };
+  const toggleMenu = () =>{
+    setIsMenuOpen(!isMenuOpen);
+  }
 
   return (
     <>
@@ -47,7 +51,15 @@ export default function LandlordDashboardSidebar({
           >
             <FontAwesomeIcon icon={faChartSimple} className="text-xl" />
             <span>Dashboard</span>
+            <button onClick={toggleMenu} className="ml-3">
+              <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg"
+               className={`transform transition-transform ${isMenuOpen ? 'rotate-0' : '-rotate-90'}`}
+              >
+                <path d="M7 8L13.9282 0.999999H0.0717969L7 8Z" fill="white" />
+              </svg>
+            </button>
           </div>
+          {isMenuOpen && (
           <div
             className={`rounded-md px-[14px] py-[10px] max-w-[320px] min-h-[45px] text-xl flex items-center gap-x-4 cursor-pointer ${
               colored == "MyProperty" ? "bg-[#C8A117]" : ""
@@ -59,6 +71,8 @@ export default function LandlordDashboardSidebar({
             <FontAwesomeIcon icon={faHouse} className="text-xl" />
             <span>My Properties</span>
           </div>
+          )}
+          {isMenuOpen && (
           <div
             className={`rounded-md px-[14px] py-[10px] max-w-[320px] min-h-[45px] text-xl flex items-center gap-x-4 cursor-pointer ${
               colored == "AddProperty" ? "bg-[#C8A117]" : ""
@@ -73,7 +87,8 @@ export default function LandlordDashboardSidebar({
             <FontAwesomeIcon icon={faPlus} className="text-xl" />
             <span>Add Property</span>
           </div>
-
+         )}
+         {isMenuOpen && (
           <div
             className={`rounded-md max-w-[320px] min-h-[45px] text-xl cursor-pointer`}
           >
@@ -116,7 +131,8 @@ export default function LandlordDashboardSidebar({
               </ul>
             )}
           </div>
-
+         )}
+         {isMenuOpen && (
           <div
             className={`rounded-md px-[14px] py-[10px] max-w-[320px] min-min-h-[45px] text-xl text-[#FF0000] flex items-center gap-x-4 cursor-pointer ${
               colored == "Logout" ? "bg-[#C8A117]" : ""
@@ -138,6 +154,7 @@ export default function LandlordDashboardSidebar({
             />
             <span>Logout</span>
           </div>
+         )}
         </div>
       </div>
     </>
