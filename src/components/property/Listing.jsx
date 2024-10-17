@@ -68,14 +68,29 @@ const Listing = () => {
   useEffect(() => {
     const fetchAndFilterProperties = async () => {
       setLoading(true);
+      // try {
+      //   let propertyObject = {};
+      //   let propertyData = [];
+      //   if (city) {
+      //     propertyData = await Service.fetchPropertyByCity(city);
+      //     setProperties(propertyData || []); // Ensure propertyData is an array
+      //   } else {
+      //     propertyData = await Service.fetchProperty();
+      //     setProperties(propertyData || []);
+      //   }
       try {
+        let propertyObject = {};
         let propertyData = [];
         if (city) {
-          propertyData = await Service.fetchPropertyByCity(city);
-          setProperties(propertyData || []); // Ensure propertyData is an array
+            propertyObject = await Service.fetchPropertyByCity(city);
+            setProperties(propertyObject.properties || []); // Ensure propertyData is an array
+            propertyData = propertyObject.properties;
+            console.log(propertyObject);
         } else {
-          propertyData = await Service.fetchProperty();
-          setProperties(propertyData || []);
+            propertyObject = await Service.fetchProperty();
+            setProperties(propertyObject.properties || []);
+            propertyData = propertyObject.properties;
+            console.log(propertyObject);
         }
 
         // Filter by locality if selected

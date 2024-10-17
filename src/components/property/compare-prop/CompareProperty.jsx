@@ -13,6 +13,8 @@ export default function CompareProperty() {
 
   const [{ compareProperty }, dispatch] = useStateValue();
 
+  const [showOnlyDifferences, setShowOnlyDifferences] = useState(false);
+
   useEffect(() => {
     if (!compareProperty.length) {
       navigate("/property-listing");
@@ -26,19 +28,47 @@ export default function CompareProperty() {
     });
   };
 
+  // Check if a column has differences between properties
+  const hasDifferences = (key) => {
+    const firstValue = compareProperty[0][key];
+    return compareProperty.some((property) => property[key] !== firstValue);
+  };
+
+  const filteredPropertyKeys = [
+    { key: "locality", label: "Location" },
+    { key: "spaceType", label: "Space type" },
+    { key: "propertyType", label: "Property Type" },
+    { key: "preference", label: "Preference" },
+    { key: "bachelors", label: "If Bachelors" },
+    { key: "type", label: "Type" },
+    { key: "bhk", label: "BHK" },
+    { key: "rent", label: "Budget" },
+  ];
+
+  const filteredProperties = (showOnlyDifferences
+    ? filteredPropertyKeys.filter(({ key }) => hasDifferences(key))
+    : filteredPropertyKeys);
+
   return (
     <>
-      <div className="flex flex-col items-center p-6 space-y-8">
+      <div className="flex flex-col items-end p-6 space-y-8">
         <div
-          className={`w-full max-w-6xl grid gap-6  grid-cols-1  md:grid-cols-2 lg:grid-cols-${compareProperty.length}`}
+          className={`w-full max-w-8xl grid gap-6 grid-cols-1 md:grid-cols-3 lg:grid-cols-5`}
         >
+          <div className="relative">
+            <h4 className="text-2xl font-semibold absolute top-8">Compare property with other properties</h4>
+            <div className="flex items-stretch gap-4 absolute bottom-4">
+              <input type="checkbox" checked={showOnlyDifferences} onChange={(e) => setShowOnlyDifferences(e.target.checked)} />
+              <span>Show only differences</span>
+            </div>
+          </div>
           {compareProperty.map((property, index) => (
             <div
               key={index}
               className="bg-white shadow-md rounded-lg p-4 relative"
             >
               <span
-                className="w-4 h-5 text-sm bg-[#40B5A8] text-white rounded-full absolute top-0 right-0 pl-1 font-semibold cursor-pointer"
+                className="w-5 h-5 text-sm bg-[#40B5A8] text-white rounded-full absolute top-0 right-0 text-center font-semibold cursor-pointer"
                 onClick={() => handleRemoveProperty(property)} // Remove property on click
               >
                 X
@@ -52,7 +82,7 @@ export default function CompareProperty() {
                   />
                 </div>
                 <div
-                  className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
+                  className="card-badge-left absolute top-3 left-3 text-white text-xs uppercase px-3 py-1"
                   style={{
                     backgroundColor: "#40B5A8",
                     textTransform: "capitalize",
@@ -62,27 +92,27 @@ export default function CompareProperty() {
                     ? "For Rent"
                     : "Available"}
                 </div>
-                <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
+                <div className="banner-actions absolute bottom-1 left-4 right-4 flex gap-4 justify-between items-center">
                   <div>
                     <button className="banner-actions-btn flex items-center gap-1 text-white">
-                      <FaLocationDot className="text-xl" />
-                      <address>
+                      <FaLocationDot className="text-sm" />
+                      <address className="text-xs">
                         {`${property.locality}, ${property.city || "Lucknow"}`}
                       </address>
                     </button>
                   </div>
                   <div className="flex gap-4">
                     <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                      <FaVideo className="text-xl" />
+                      <FaVideo className="text-md" />
                     </button>
-                    <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                      <FaRegImage className="text-xl" />
+                    <button className="banner-img_video-btn flex text-md items-center gap-2 text-white">
+                      <FaRegImage className="text-md" />
                       {property.images.length}
                     </button>
                   </div>
                 </div>
               </figure>
-              <div className="card-content p-4 sm:p-6">
+              <div className="card-content md:py-4 md:px-2 p-6">
                 <div className="name_icon flex justify-between items-center">
                   <h3 className="card-title text-lg sm:text-2xl font-semibold text-black">
                     <a href="#">{property.propertyType}</a>
@@ -122,7 +152,7 @@ export default function CompareProperty() {
                       </div>
                     )}
                   </Popup>
-                    <a href="#" onClick={() => {}}>
+                    <a href="#" onClick={() => { }}>
                       <IoAdd
                         className="card_icon"
                         style={{ color: "#000000", fontSize: "12px" }}
@@ -164,13 +194,13 @@ export default function CompareProperty() {
                       borderTop: "2.8px solid #ccc",
                       width: "calc(100% + 0.001rem)",
                       marginTop: "1.4rem",
-                      marginBottom: "-2.3rem",
+                      marginBottom: "-1rem",
                     }}
                   />
                 </div>
               </div>
-              <div className="card-footer p-4 sm:p-6 flex justify-between items-center">
-                <div className="card-author flex items-center gap-4">
+              <div className="card-footer md:p-2 p-6 flex justify-between items-center">
+                <div className="card-author flex items-center gap-2">
                   <figure className="author-avatar w-8 h-8 sm:w-10 sm:h-10 overflow-hidden rounded-full">
                     <img
                       src={property.images[0]}
@@ -187,7 +217,7 @@ export default function CompareProperty() {
                 <div className="card-footer-actions">
                   <button
                     onClick={() => navigate(`/property/${property.slug}`)}
-                    className="card-footer-actions-btn text-xs sm:text-base"
+                    className="card-footer-actions-btn md:text-xs text-base"
                   >
                     SHOW MORE
                   </button>
@@ -195,7 +225,7 @@ export default function CompareProperty() {
               </div>
             </div>
           ))}
-          {compareProperty.length < 4 && (
+          {/* {compareProperty.length < 4 && (
             <div
               className="bg-gray-100 shadow-md rounded-lg p-4 flex items-center justify-center cursor-pointer"
               onClick={() => {
@@ -204,11 +234,53 @@ export default function CompareProperty() {
             >
               <IoAdd className="text-6xl text-gray-500" />
             </div>
-          )}
+          )} */}
+          {(compareProperty.length < 4 && compareProperty.length > 2) &&
+            Array(1)
+              .fill(null)
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-100 shadow-md rounded-lg p-4 flex items-center justify-center cursor-pointer"
+                  onClick={() => {
+                    navigate("/property-listing");
+                  }}
+                >
+                  <IoAdd className="text-6xl text-gray-500" />
+                </div>
+              ))}
+          {(compareProperty.length < 3 && compareProperty.length > 1) &&
+            Array(2)
+              .fill(null)
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-100 shadow-md rounded-lg p-4 flex items-center justify-center cursor-pointer"
+                  onClick={() => {
+                    navigate("/property-listing");
+                  }}
+                >
+                  <IoAdd className="text-6xl text-gray-500" />
+                </div>
+              ))}
+          {(compareProperty.length < 2 && compareProperty.length > 0) &&
+            Array(3)
+              .fill(null)
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-100 shadow-md rounded-lg p-4 flex items-center justify-center cursor-pointer"
+                  onClick={() => {
+                    navigate("/property-listing");
+                  }}
+                >
+                  <IoAdd className="text-6xl text-gray-500" />
+                </div>
+              ))}
         </div>
 
         {/* Difference Table div with different Components  */}
-        <div className="bg-white w-full max-w-6xl mt-8 pt-4 overflow-x-auto">
+        {/* <div className="bg-white w-full max-w-8xl mt-8 pt-4 overflow-x-auto">
           <table className="min-w-full bg-white overflow-hidden">
             <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
               <tr>
@@ -221,7 +293,7 @@ export default function CompareProperty() {
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
                 >
-                  <td className="py-2 px-6 text-start">
+                  <td className="py-2 px-6 w-64 text-center">
                     {property.locality}, {property.city || "Lucknow"}
                   </td>
                 </tr>
@@ -238,7 +310,7 @@ export default function CompareProperty() {
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
                 >
-                  <td className="py-2 px-6 text-start">{property.spaceType}</td>
+                  <td className="py-2 px-6 text-center w-64">{property.spaceType}</td>
                 </tr>
               ))}
             </tbody>
@@ -253,7 +325,7 @@ export default function CompareProperty() {
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
                 >
-                  <td className="py-2 px-6 text-start">
+                  <td className="py-2 px-6 text-center w-64">
                     {property.propertyType}
                   </td>
                 </tr>
@@ -270,7 +342,7 @@ export default function CompareProperty() {
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
                 >
-                  <td className="py-2 px-6 text-start">
+                  <td className="py-2 px-6 text-center w-64">
                     {property.preference}
                   </td>
                 </tr>
@@ -287,7 +359,7 @@ export default function CompareProperty() {
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
                 >
-                  <td className="py-2 px-6 text-start">{property.bachelors}</td>
+                  <td className="py-2 px-6 text-center w-64">{property.bachelors}</td>
                 </tr>
               ))}
             </tbody>
@@ -302,7 +374,7 @@ export default function CompareProperty() {
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
                 >
-                  <td className="py-2 px-6 text-start">{property.type}</td>
+                  <td className="py-2 px-6 text-center w-64">{property.type}</td>
                 </tr>
               ))}
             </tbody>
@@ -317,7 +389,7 @@ export default function CompareProperty() {
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
                 >
-                  <td className="py-2 px-6 text-start">{property.bhk}</td>
+                  <td className="py-2 px-6 text-center w-64">{property.bhk}</td>
                 </tr>
               ))}
             </tbody>
@@ -332,10 +404,37 @@ export default function CompareProperty() {
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
                 >
-                  <td className="py-2 px-6 text-start">{property.rent}</td>
+                  <td className="py-2 px-6 text-center w-64">{property.rent}</td>
                 </tr>
               ))}
             </tbody>
+          </table>
+        </div> */}
+
+        {/* New */}
+        <div className="bg-white w-full max-w-8xl mt-8 pt-4 overflow-x-auto">
+          <table className="min-w-full bg-white overflow-hidden">
+            {filteredProperties.map(({ key, label }) => (
+              <React.Fragment key={key}>
+                <thead className="bg-gray-200 text-[#40B5A8] text-sm">
+                  <tr>
+                    <th className="py-2 px-6 text-left">{label}</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-700 text-sm flex justify-evenly">
+                  {compareProperty.map((property, index) => (
+                    <tr
+                      key={index}
+                      className="border-b border-gray-200 hover:bg-gray-100"
+                    >
+                      <td className="py-2 px-6 text-center">
+                        {property[key]}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </React.Fragment>
+            ))}
           </table>
         </div>
       </div>
