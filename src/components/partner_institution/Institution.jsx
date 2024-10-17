@@ -13,12 +13,7 @@ import IMT from "../../assets/Institution/IMT-Nagpur.svg";
 
 const Institution = () => {
   const images = [
-    {
-      src: ipcpsimg,
-      title: "Public College of Professional Studies, Lucknow",
-      className: "bg-white",
-    },
-    { src: Jaipiria, title: "Jaipuria College, Lucknow" },
+    
     { src: IMT, title: "IMT Nagpur" },
     { src: ibs, title: "IBS, Hyderabad" },
     { src: UniversityOgLakhnaw, title: "Lucknow University, Lucknow" },
@@ -28,6 +23,12 @@ const Institution = () => {
     { src: RCD, title: "Ramjas College, Delhi" },
     { src: NMIMS, title: "NMIMS, Mumbai" },
     { src: IIM, title: "IIM Kashipur" },
+    {
+      src: ipcpsimg,
+      title: "Public College of Professional Studies, Lucknow",
+      className: "bg-white",
+    },
+    { src: Jaipiria, title: "Jaipuria College, Lucknow" },
   ];
 
   return (
@@ -42,22 +43,24 @@ const Institution = () => {
           and universities across the country for college placements, including:
         </p>
       </div>
-      <div className="  mt-10">
-        <div className="flex animate-marquee whitespace-wrap items-center justify-center">
-          {images.map((image, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col items-center justify-center  mx-9 my-5"
-            >
-              <img
-                src={image.src}
-                alt={image.title}
-                className="max-w-[900px] max-h-[900px]"
-              />
-            </div>
-          ))}
+      <div className="overflow-hidden mt-10">
+  <div className="animate-marquee flex items-center justify-center">
+    <div className="marquee">
+      {images.concat(images).map((image, idx) => (
+        <div
+          key={idx}
+          className="flex flex-col items-center justify-center mx-9 my-5"
+        >
+          <img
+            src={image.src}
+            alt={image.title}
+            className="max-w-[900px] max-h-[900px]"
+          />
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
     </div>
   );
 };
