@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { useEffect, useRef, useState } from 'react'
-import CountUp from 'react-countup'
+import { useEffect, useRef, useState } from "react"
+import CountUp from "react-countup"
 
 export default function OurReach() {
   const [isVisible, setIsVisible] = useState(false)
@@ -17,10 +17,7 @@ export default function OurReach() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
+        setIsVisible(entry.isIntersecting)
       },
       { threshold: 0.1 }
     )
@@ -37,14 +34,23 @@ export default function OurReach() {
   }, [])
 
   return (
-    <div ref={containerRef} className="bg-black p-6 border border-white rounded-[10px] mx-auto w-full max-w-[1212px] h-auto sm:p-10" >
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18.14px] p-[18.14px] mx-[51.55px] my-auto">
+    <div
+      ref={containerRef}
+      className="bg-black p-6 border border-white rounded-[10px] mx-auto w-full max-w-[1212px] h-auto sm:p-10"
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18.14px] p-[18.14px] mx-[61.55px] my-[38.82px]">
         {stats.map((stat, index) => (
-          <div key={index} className="bg-transparent p-[27.22px] my-6 rounded-[13.61px] border border-white w-full mx-auto min-w-[179.18px] h-auto border-1.34">
-            <h3 className="text-white text-sm font-medium mb-1 w-full h-auto">{stat.title}</h3>
+          <div
+            key={index}
+            className="bg-transparent p-[27.22px] my-6 rounded-[13.61px] border border-white w-full mx-auto min-w-[179.18px] h-auto border-1.34"
+          >
+            <h3 className="text-white text-sm font-medium mb-1 w-full h-auto">
+              {stat.title}
+            </h3>
             <p className="text-white text-2xl font-bold w-full h-auto">
               {isVisible ? (
                 <CountUp
+                  key={`${isVisible}-${index}`}
                   start={0}
                   end={stat.value}
                   duration={2}
@@ -52,7 +58,7 @@ export default function OurReach() {
                   separator=","
                 />
               ) : (
-                '0'
+                "0"
               )}
               {stat.suffix}
             </p>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { IoAdd, IoBedOutline } from "react-icons/io5";
@@ -25,11 +25,35 @@ export default function CompareProperty() {
     });
   };
 
+  const compare = () => {
+    if (compareProperty.length > 1) {
+      navigate("/compare-property");
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col items-center p-6 space-y-8">
+        <div className="compare" onClick={compare}>
+          <button
+            className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
+              compareProperty.length <= 1
+                ? "opacity-50 grayscale cursor-not-allowed"
+                : ""
+            }`}
+            disabled={compareProperty.length <= 1}
+          >
+            Compare
+            {compareProperty.length > 0 && (
+              <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
+                {compareProperty.length}
+              </div>
+            )}
+          </button>
+        </div>
+
         <div
-          className={`w-full max-w-6xl grid gap-6  grid-cols-1  md:grid-cols-2 lg:grid-cols-${compareProperty.length}`}
+          className={`w-full max-w-6xl grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-${compareProperty.length}`}
         >
           {compareProperty.map((property, index) => (
             <div
@@ -38,7 +62,7 @@ export default function CompareProperty() {
             >
               <span
                 className="w-4 h-5 text-sm bg-[#40B5A8] text-white rounded-full absolute top-0 right-0 pl-1 font-semibold cursor-pointer"
-                onClick={() => handleRemoveProperty(property)} // Remove property on click
+                onClick={() => handleRemoveProperty(property)}
               >
                 X
               </span>
@@ -178,135 +202,31 @@ export default function CompareProperty() {
           )}
         </div>
 
-        {/* Difference Table div with different Components  */}
         <div className="bg-white w-full max-w-6xl mt-8 pt-4 overflow-x-auto">
           <table className="min-w-full bg-white overflow-hidden">
-            <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
-              <tr>
-                <th className="py-2 px-6 text-left">Location</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {compareProperty.map((property, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-200 hover:bg-gray-100"
-                >
-                  <td className="py-2 px-6 text-start">
-                    {property.locality}, {property.city || "Lucknow"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
-              <tr>
-                <th className="py-2 px-6 text-left">Space type</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {compareProperty.map((property, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-200 hover:bg-gray-100"
-                >
-                  <td className="py-2 px-6 text-start">{property.spaceType}</td>
-                </tr>
-              ))}
-            </tbody>
-            <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
-              <tr>
-                <th className="py-2 px-6 text-left">Property Type</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {compareProperty.map((property, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-200 hover:bg-gray-100"
-                >
-                  <td className="py-2 px-6 text-start">
-                    {property.propertyType}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
-              <tr>
-                <th className="py-2 px-6 text-left">Preference</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {compareProperty.map((property, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-200 hover:bg-gray-100"
-                >
-                  <td className="py-2 px-6 text-start">
-                    {property.preference}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
-              <tr>
-                <th className="py-2 px-6 text-left">If Bachelors</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {compareProperty.map((property, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-200 hover:bg-gray-100"
-                >
-                  <td className="py-2 px-6 text-start">{property.bachelors}</td>
-                </tr>
-              ))}
-            </tbody>
-            <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
-              <tr>
-                <th className="py-2 px-6 text-left">Type</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {compareProperty.map((property, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-200 hover:bg-gray-100"
-                >
-                  <td className="py-2 px-6 text-start">{property.type}</td>
-                </tr>
-              ))}
-            </tbody>
-            <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
-              <tr>
-                <th className="py-2 px-6 text-left">BHK</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {compareProperty.map((property, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-200 hover:bg-gray-100"
-                >
-                  <td className="py-2 px-6 text-start">{property.bhk}</td>
-                </tr>
-              ))}
-            </tbody>
-            <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
-              <tr>
-                <th className="py-2 px-6 text-left">Budget</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {compareProperty.map((property, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-200 hover:bg-gray-100"
-                >
-                  <td className="py-2 px-6 text-start">{property.rent}</td>
-                </tr>
-              ))}
-            </tbody>
+            {["Location", "Space type", "Property Type", "Preference", "If Bachelors", "Type", "BHK", "Budget"].map((header) => (
+              <React.Fragment key={header}>
+                <thead className="bg-gray-200 text-[#40B5A8] text-sm sm:text-md">
+                  <tr>
+                    <th className="py-2 px-6 text-left">{header}</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
+                  {compareProperty.map((property, index) => (
+                    <tr
+                      key={index}
+                      className="border-b border-gray-200 hover:bg-gray-100"
+                    >
+                      <td className="py-2 px-6 text-start">
+                        {header === "Location"
+                          ? `${property.locality}, ${property.city || "Lucknow"}`
+                          : property[header.toLowerCase().replace(/ /g, "")]}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </React.Fragment>
+            ))}
           </table>
         </div>
       </div>

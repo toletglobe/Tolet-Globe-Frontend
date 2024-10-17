@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../constant/constant";
 import axios from "axios";
 
@@ -15,20 +15,20 @@ const Filters = ({ SetIsOpen, setProperties, city, updateFilterCount }) => {
     houseType: [],
   });
 
-useEffect(() => {
-  const countAppliedFilters = (filters) => {
-        return Object.values(filters).reduce((count, filterValue) => {
-            if (Array.isArray(filterValue)) {
-                return count + (filterValue.length > 0 ? 1 : 0);
-            } else {
-                return count + (filterValue ? 1 : 0);
-            }
-        }, 0);
-    };
+  useEffect(() => {
+    const countAppliedFilters = (filters) => {
+      return Object.values(filters).reduce((count, filterValue) => {
+        if (Array.isArray(filterValue)) {
+          return count + (filterValue.length > 0 ? 1 : 0)
+        } else {
+          return count + (filterValue ? 1 : 0)
+        }
+      }, 0)
+    }
     const totalFilters = countAppliedFilters(filters)
-  
-  updateFilterCount(totalFilters);
-}, [filters, updateFilterCount]);
+    updateFilterCount(totalFilters > 0 ? totalFilters : null)
+  }, [filters, updateFilterCount])
+
 
 //   const countAppliedFilters = (filters) => {
 //     return Object.values(filters).reduce((count, filterValue) => {

@@ -351,9 +351,11 @@ const Listing = () => {
               </div>
               <div className="h-14 w-56 bg-white text-black flex items-start justify-between px-5 rounded-md">
                 <div className="flex items-center justify-start gap-4 h-full w-2/4">
-                  <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
-                    {filterCount}
-                  </div>
+                  {filterCount !== null && filterCount > 0 && (
+                    <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center text-xs font-medium">
+                      {filterCount}
+                    </div>
+                  )}
                   <div>Filters</div>
                 </div>
                 <div className="h-full flex items-center justify-center w-1/4 cursor-pointer rounded-full">
@@ -368,21 +370,21 @@ const Listing = () => {
             </div>
 
             <div className="compare" onClick={compare}>
-              {compareProperty.length >= 0 && (
-                <button
-                  className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
-                    compareProperty.length <= 1
-                      ? "opacity-50 grayscale cursor-not-allowed"
-                      : ""
-                  }`}
-                  disabled={compareProperty.length <= 1}
-                >
-                  Compare
+              <button
+                className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
+                  compareProperty.length <= 1
+                    ? "opacity-50 grayscale cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={compareProperty.length <= 1}
+              >
+                Compare
+                {compareProperty.length > 0 && (
                   <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
                     {compareProperty.length}
                   </div>
-                </button>
-              )}
+                )}
+              </button>
             </div>
 
             <div>
