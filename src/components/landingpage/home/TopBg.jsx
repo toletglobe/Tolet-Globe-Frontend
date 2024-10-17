@@ -36,8 +36,6 @@ const TopBg = () => {
   window.addEventListener("scroll", () => {
     if (window.scrollY > 5) {
       document.body.classList.add("scrolled");
-    } else {
-      document.body.classList.remove("scrolled");
     }
   });
   return (

@@ -5,50 +5,47 @@ import { IoAdd, IoBedOutline } from "react-icons/io5";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import { useStateValue } from "../../../StateProvider";
 
-export default function CompareProperty(props) {
-  const [properties, setProperties] = useState(props.compareData || []); // Use state to manage properties
+export default function CompareProperty() {
   const navigate = useNavigate();
 
-  // Redirect to /property-listing if no properties are available
+  const [{ compareProperty }, dispatch] = useStateValue();
+
   useEffect(() => {
-    if (!properties.length) {
+    if (!compareProperty.length) {
       navigate("/property-listing");
     }
-  }, [properties, navigate]);
+  }, [compareProperty, navigate]);
 
-  // Handle property removal
-  const handleRemoveProperty = (index) => {
-    const updatedProperties = properties.filter((_, i) => i !== index);
-    setProperties(updatedProperties);
-    props.setcompareData(props.compareData.filter((_, i) => i !== index));
+  const handleRemoveProperty = (property) => {
+    dispatch({
+      type: "REMOVE_FROM_COMPARE",
+      item: property,
+    });
   };
-
-  // Return nothing if redirecting
-  if (!properties.length) return null;
 
   return (
     <>
       <div className="flex flex-col items-center p-6 space-y-8">
-        {/* Property Cards Div with complete functionality */}
         <div
-          className={`w-full max-w-6xl grid gap-6  grid-cols-1  md:grid-cols-2 lg:grid-cols-${properties.length}`}
+          className={`w-full max-w-6xl grid gap-6  grid-cols-1  md:grid-cols-2 lg:grid-cols-${compareProperty.length}`}
         >
-          {properties.map((property, index) => (
+          {compareProperty.map((property, index) => (
             <div
               key={index}
               className="bg-white shadow-md rounded-lg p-4 relative"
             >
               <span
                 className="w-4 h-5 text-sm bg-[#40B5A8] text-white rounded-full absolute top-0 right-0 pl-1 font-semibold cursor-pointer"
-                onClick={() => handleRemoveProperty(index)} // Remove property on click
+                onClick={() => handleRemoveProperty(property)} // Remove property on click
               >
                 X
               </span>
               <figure className="card-banner relative overflow-hidden h-[200px]">
                 <div>
                   <img
-                    src={property.photos[0]}
+                    src={property.images[0]}
                     alt={property.propertyType}
                     className="w-full h-full object-cover"
                   />
@@ -79,7 +76,7 @@ export default function CompareProperty(props) {
                     </button>
                     <button className="banner-img_video-btn flex items-center gap-2 text-white">
                       <FaRegImage className="text-xl" />
-                      {property.photos.length}
+                      {property.images.length}
                     </button>
                   </div>
                 </div>
@@ -147,27 +144,29 @@ export default function CompareProperty(props) {
                 <div className="card-author flex items-center gap-4">
                   <figure className="author-avatar w-8 h-8 sm:w-10 sm:h-10 overflow-hidden rounded-full">
                     <img
-                      src={property.photos[0]}
-                      alt={property.ownerName}
+                      src={property.images[0]}
+                      alt={property.firstName}
                       className="w-full h-full object-cover"
                     />
                   </figure>
                   <div>
                     <p className="author-name text-gray-900 text-xs sm:text-sm font-medium">
-                      <a href="#">{property.ownerName}</a>
+                      <a href="#">{property.firstName}</a>
                     </p>
                   </div>
                 </div>
                 <div className="card-footer-actions">
-                  <button className="card-footer-actions-btn text-xs sm:text-base">
+                  <button
+                    onClick={() => navigate(`/property/${property.slug}`)}
+                    className="card-footer-actions-btn text-xs sm:text-base"
+                  >
                     SHOW MORE
                   </button>
                 </div>
               </div>
             </div>
           ))}
-          {/* Add another property Icon */}
-          {properties.length < 4 && (
+          {compareProperty.length < 4 && (
             <div
               className="bg-gray-100 shadow-md rounded-lg p-4 flex items-center justify-center cursor-pointer"
               onClick={() => {
@@ -188,7 +187,7 @@ export default function CompareProperty(props) {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {properties.map((property, index) => (
+              {compareProperty.map((property, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
@@ -205,7 +204,7 @@ export default function CompareProperty(props) {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {properties.map((property, index) => (
+              {compareProperty.map((property, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
@@ -220,7 +219,7 @@ export default function CompareProperty(props) {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {properties.map((property, index) => (
+              {compareProperty.map((property, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
@@ -237,7 +236,7 @@ export default function CompareProperty(props) {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {properties.map((property, index) => (
+              {compareProperty.map((property, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
@@ -254,7 +253,7 @@ export default function CompareProperty(props) {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {properties.map((property, index) => (
+              {compareProperty.map((property, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
@@ -269,7 +268,7 @@ export default function CompareProperty(props) {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {properties.map((property, index) => (
+              {compareProperty.map((property, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
@@ -284,7 +283,7 @@ export default function CompareProperty(props) {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {properties.map((property, index) => (
+              {compareProperty.map((property, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
@@ -299,7 +298,7 @@ export default function CompareProperty(props) {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm sm:text-md flex justify-evenly">
-              {properties.map((property, index) => (
+              {compareProperty.map((property, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"

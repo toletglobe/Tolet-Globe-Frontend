@@ -5,7 +5,9 @@ const HomeUp = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const handleScroll = () => {
-    setIsScrolled(window.scrollY > 5);
+    if (window.scrollY > 5) {
+      setIsScrolled(true);
+    }
   };
 
   useEffect(() => {

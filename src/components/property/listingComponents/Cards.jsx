@@ -9,6 +9,7 @@ import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useStateValue } from "../../../StateProvider";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
@@ -31,13 +32,27 @@ const NextArrow = ({ onClick }) => (
   </div>
 );
 
-const Cards = ({
-  properties,
-  cityName,
-  propertyAction,
-  handleToggle,
-  isInCompareList,
-}) => {
+const Cards = ({ properties, propertyAction }) => {
+  const [{ compareProperty }, dispatch] = useStateValue();
+
+  const addToCompare = (property) => {
+    dispatch({
+      type: "ADD_TO_COMPARE",
+      item: property,
+    });
+  };
+
+  const removeFromCompare = (property) => {
+    dispatch({
+      type: "REMOVE_FROM_COMPARE",
+      item: property,
+    });
+  };
+
+  const isInCompareList = (property) => {
+    return compareProperty.some((item) => item._id === property._id);
+  };
+
   const navigate = useNavigate();
   const settings = {
     dots: true,
@@ -116,8 +131,10 @@ const Cards = ({
             </figure>
             <div className="card-content p-6">
               <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-2xl font-semibold">
-                  <a href="#">{property.propertyType}</a>
+                <h3 className="card-title text-[20px] font-semibold">
+                  <a href="#">
+                    {property.bhk} BHK, {property.propertyType}, On Rent
+                  </a>
                 </h3>
                 <div className="icon-box flex space-x-4 p-2">
                   <Popup
@@ -157,10 +174,17 @@ const Cards = ({
 
                   <a
                     href="#"
-                    onClick={(event) => handleToggle(event, property)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isInCompareList(property)) {
+                        removeFromCompare(property);
+                      } else {
+                        addToCompare(property);
+                      }
+                    }}
                     key={property._id}
                   >
-                    {isInCompareList(property._id) ? (
+                    {isInCompareList(property) ? (
                       <IoRemove
                         className="card_icon"
                         style={{ color: "#ff0000", fontSize: "12px" }}
@@ -227,7 +251,9 @@ const Cards = ({
                 </figure>
                 <div>
                   <p className="author-name text-gray-900 text-sm font-medium">
-                    <a href="#">{property.ownerName}</a>
+                    <a href="#">
+                      {property.firstName} {property.lastName}
+                    </a>
                   </p>
                 </div>
               </div>

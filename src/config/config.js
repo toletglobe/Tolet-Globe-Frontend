@@ -9,7 +9,7 @@ class Service {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -20,6 +20,20 @@ class Service {
   static async fetchBlogBySlug(slug) {
     try {
       const response = await axios.get(`${BASE_URL}blog/blogs/${slug}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  static async updateViews(slug) {
+    try {
+      const response = await axios.get(`${BASE_URL}blog/updateViews/${slug}`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -68,6 +82,18 @@ class Service {
         headers: {
           "Content-Type": "application/json",
         },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  static async fetchMyProperties(userId) {
+    try {
+      const response = await axios.get(`${BASE_URL}property/user/${userId}`, {
+        userId,
       });
       return response.data;
     } catch (error) {

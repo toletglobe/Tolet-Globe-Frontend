@@ -61,13 +61,13 @@ const Blog = () => {
   };
 
   // Pagination logic
-
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
   const totalPages = Math.ceil(totalBlogs / blogsPerPage);
 
-  const handleViewBlog = (slug) => {
+  const handleViewBlog = async (slug) => {
+    await Service.updateViews(slug);
     navigate(`/blog/${slug}`);
   };
 
@@ -105,9 +105,19 @@ const Blog = () => {
       <h1 className="text-center mt-2 text-[#6CC1B6]">
         Dive into a Sea of Endless Stories and Insights
       </h1>
-      <LatestTrending isLatest={isLatest} handleClickLatest={handleClickLatest} handleClickTrending={handleClickTrending}/>
+      <LatestTrending
+        isLatest={isLatest}
+        handleClickLatest={handleClickLatest}
+        handleClickTrending={handleClickTrending}
+      />
       <BlogList currentBlogs={currentBlogs} handleViewBlog={handleViewBlog} />
-      <Pagination currentPage={currentPage} handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} onPageChange={onPageChange} totalPages={totalPages} />
+      <Pagination
+        currentPage={currentPage}
+        handleNextPage={handleNextPage}
+        handlePreviousPage={handlePreviousPage}
+        onPageChange={onPageChange}
+        totalPages={totalPages}
+      />
     </div>
   );
 };
