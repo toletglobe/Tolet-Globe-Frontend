@@ -40,6 +40,10 @@ const Listing = () => {
 
   const authState = useSelector((state) => state.auth);
 
+  const [noPropertiesFound, setNoPropertiesFound] = useState(false);
+
+  const [selectedLocality, setSelectedLocality] = useState("");
+
   function refresh() {
     window.location.reload(false);
   }
@@ -74,45 +78,68 @@ const Listing = () => {
           setProperties(propertyData || []);
         }
 
+        // Filter by locality if selected
+        if (selectedLocality) {
+          propertyData = propertyData.filter(
+            (property) => property.locality === selectedLocality
+          );
+        }
+
+        // Sort by created date
         propertyData.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setProperties(propertyData); // Ensure propertyData is an array
 
         // Check for filters
         const searchParams = new URLSearchParams(location.search);
         const type = searchParams.get("type");
-        // console.log("Type of property:", type);
 
-        // Apply filtering based on type
+        let filteredProperties = propertyData; // Start with all properties
+
+        // Apply filtering based on property type
         if (type === "Flat") {
-          setProperties(propertyData.filter((a) => a.propertyType === "Flat"));
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Flat"
+          );
         } else if (type === "House/Villa") {
-          setProperties(
-            propertyData.filter(
-              (a) => a.propertyType === "House" || a.propertyType === "Villa"
-            )
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "House" || a.propertyType === "Villa"
           );
         } else if (type === "Shop") {
-          setProperties(propertyData.filter((a) => a.propertyType === "Shop"));
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Shop"
+          );
         } else if (type === "Office") {
-          setProperties(
-            propertyData.filter((a) => a.propertyType === "Office")
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Office"
           );
         } else if (type === "Warehouse") {
-          setProperties(
-            propertyData.filter((a) => a.propertyType === "Ware house")
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Ware house"
           );
         } else if (type === "PayingGuest") {
-          setProperties(
-            propertyData.filter((a) => a.propertyType === "Paying Guest")
+          filteredProperties = propertyData.filter(
+            (a) => a.propertyType === "Paying Guest"
           );
         }
+
+        // Apply filtering based on locality
+        if (selectedLocality) {
+          filteredProperties = filteredProperties.filter(
+            (property) => property.locality === selectedLocality
+          );
+        }
+
+        // Set filtered properties
+        setProperties(filteredProperties);
+
+        // Check if no properties were found
+        setNoPropertiesFound(filteredProperties.length === 0);
 
         // Check for sorting
         const sortType = searchParams.get("sort");
         if (sortType) {
-          sortProperties(propertyData, sortType);
+          sortProperties(filteredProperties, sortType);
         }
 
         setLoading(false);
@@ -123,7 +150,7 @@ const Listing = () => {
     };
 
     fetchAndFilterProperties();
-  }, [city, location.search]); // Add city to the dependency array
+  }, [city, location.search, selectedLocality]); // Add city to the dependency array
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -158,6 +185,28 @@ const Listing = () => {
     queryParams.set("sort", sortType);
     navigate(`?${queryParams.toString()}`); // Update URL with new sort query
   };
+
+  const handleLocalitySelect = (locality) => {
+    setSelectedLocality(locality); // Update selected locality
+  };
+
+  // Render locality options dynamically based on city
+  // const renderLocalities = () => {
+  //   const localities = {
+  //     Lucknow: ["Gomati Nagar", "Kharagpur", "Kamta", "Nishat Ganj", "Chinhat"],
+  //     // Add more cities and localities here
+  //   };
+
+  //   return localities[city]?.map((locality) => (
+  //     <p
+  //       key={locality}
+  //       className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+  //       onClick={() => handleLocalitySelect(locality)}
+  //     >
+  //       {locality}
+  //     </p>
+  //   ));
+  // };
 
   if (loading) {
     return (
@@ -207,7 +256,7 @@ const Listing = () => {
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-3 flex flex-col gap-12 py-7 sticky top-0 z-20 bg-black">
+        <div className="px-3 flex flex-col gap-8 py-6 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
             <p className="lg:text-[45px] md:text-4xl text-2xl text-[#C8A21C] font-bold">
               Property Listing
@@ -283,7 +332,7 @@ const Listing = () => {
                     <img
                       src={loc}
                       alt="Location"
-                      className="cursor-pointer"
+                      className="hover:cursor-pointer"
                       onClick={handleShowCity}
                     />
                     <div className="relative">
@@ -292,39 +341,151 @@ const Listing = () => {
                           showCity && city == "Lucknow" ? "block" : "hidden"
                         } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
                       >
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
-                          Gomati Nagar
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Gomti Nagar")}
+                        >
+                          Gomti Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
-                          Kharagpur
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Khargapur")}
+                        >
+                          Khargapur
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Kamta")}
+                        >
                           Kamta
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Nishat Ganj")}
+                        >
                           Nishat Ganj
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Chinhat")}
+                        >
                           Chinhat
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Hazratganj")}
+                        >
                           Hazratganj
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Indira Nagar")}
+                        >
                           Indira Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Sunder Nagar")}
+                        >
                           Sunder Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Surender Nagar")}
+                        >
                           Surender Nagar
                         </p>
-                        <p className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100">
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Aliganj")}
+                        >
                           Aliganj
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Amity university")
+                          }
+                        >
+                          Amity University
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Awadh Vihar Colony")
+                          }
+                        >
+                          Awadh Vihar Colony
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Chinhat Tiraha")}
+                        >
+                          Chinhat Tiraha
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Dayal Paradise")}
+                        >
+                          Dayal Paradise
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Gomti Nagar Extension")
+                          }
+                        >
+                          Gomti Nagar Extension
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Ismailganj")}
+                        >
+                          Ismailganj
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Nagar Nigam Degree College")
+                          }
+                        >
+                          Nagar Nigam Degree College
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Patrakar Puram")}
+                        >
+                          Patrakar Puram
+                        </p>
+
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Rajajipuram")}
+                        >
+                          Rajajipuram
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleLocalitySelect("Shakti Nagar")}
+                        >
+                          Shakti Nagar
+                        </p>
+                        <p
+                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                          onClick={() =>
+                            handleLocalitySelect("Sushant Golf City")
+                          }
+                        >
+                          Sushant Golf City
                         </p>
                       </div>
                     </div>
                   </div>
+                  {selectedLocality && (
+                    <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
+                      <p>{selectedLocality}</p>
+                    </div>
+                  )}
                   {/* <div
                     className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
                       }`}
@@ -435,7 +596,13 @@ const Listing = () => {
           </div>
         </div>
 
-        <Cards properties={properties} />
+        {properties.length === 0 ? (
+          <p className="text-center text-lg font-semibold mt-10">
+            No properties found
+          </p>
+        ) : (
+          <Cards properties={properties} />
+        )}
       </section>
 
       <Pagination

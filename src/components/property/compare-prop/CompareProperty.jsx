@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { CiHeart, CiShare2 } from "react-icons/ci";
-import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
+import { FaLocationDot, FaRegCopy, FaRegImage, FaVideo } from "react-icons/fa6";
+import Popup from "reactjs-popup";
 import { IoAdd, IoBedOutline } from "react-icons/io5";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
@@ -111,12 +112,40 @@ export default function CompareProperty() {
                     <a href="#">{property.propertyType}</a>
                   </h3>
                   <div className="icon-box flex space-x-4 p-2">
-                    <a href="#">
-                      <CiShare2
-                        className="card_icon"
-                        style={{ color: "#40B5A8" }}
-                      />
-                    </a>
+                  <Popup
+                    trigger={
+                      <button>
+                        <CiShare2
+                          className="card_icon"
+                          style={{ color: "#40B5A8" }}
+                        />
+                      </button>
+                    }
+                    position={"bottom center"}
+                  >
+                    {(close) => (
+                      <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
+                        <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                          <div className="px-2 py-2 text-sm truncate w-32">
+                            {`toletglobe.in/property/${property.slug}`}
+                          </div>
+                          <div>
+                            <button
+                              className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  `www.toletglobe.in/property/${property.slug}`
+                                );
+                                close();
+                              }}
+                            >
+                              <FaRegCopy />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </Popup>
                     <a href="#" onClick={() => {}}>
                       <IoAdd
                         className="card_icon"

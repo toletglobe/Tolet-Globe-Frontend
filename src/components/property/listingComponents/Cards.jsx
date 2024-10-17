@@ -137,7 +137,7 @@ const Cards = ({ properties, propertyAction }) => {
                   </a>
                 </h3>
                 <div className="icon-box flex space-x-4 p-2">
-                  <Popup
+                  <Popup arrow={false}
                     trigger={
                       <button>
                         <CiShare2
