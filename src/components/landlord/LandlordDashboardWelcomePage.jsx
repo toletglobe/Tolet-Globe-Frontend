@@ -9,7 +9,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
-
+import {Link} from "react-router-dom"
 import { useSelector } from "react-redux";
 
 const LandlordDashboard = ({ myProperties }) => {
@@ -165,8 +165,10 @@ const LandlordDashboard = ({ myProperties }) => {
               {/* <MyProperty /> */}
             </div>
             <div className="flex justify-end mt-6">
-              <button className="bg-gray-800 text-white py-2 px-4 rounded">
-                View all (3)
+              <button onClick={()=>{
+                navigate("/landlord-dashboard",{state: {content: "MyProperty"}});
+              }} className="bg-gray-800 text-white py-2 px-4 rounded">
+                View all ({myProperties.length})
               </button>
             </div>
           </>
