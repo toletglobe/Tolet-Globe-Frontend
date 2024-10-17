@@ -1,18 +1,25 @@
-import React, { useState } from "react";
-import Forward from '../../assets/testimonial/Forward.png'
-import Back from '../../assets/testimonial/Back.png'
-import linked_in from "../../assets/testimonial/linked_in.png";
-import Facebook from '../../assets/testimonial/Facebook.png';
-import telegram from "../../assets/testimonial/telegram.png"
-import instagram from "../../assets/testimonial/instagram.png"
+import React, { useState, useEffect } from "react";
 import img1 from "../../assets/testimonial/img1.png"
 import image2 from "../../assets/testimonial/image2.webp"
 import image3 from "../../assets/testimonial/image3.jpg"
 import image4 from "../../assets/testimonial/image4.jpg"
 import image5 from "../../assets/testimonial/image5.webp"
+import Back from '../../assets/testimonial/Back.png'
+import Forward from '../../assets/testimonial/Forward.png'
+import linked_in from "../../assets/testimonial/linked_in.png";
+import Facebook from '../../assets/testimonial/Facebook.png';
+import telegram from "../../assets/testimonial/telegram.png"
+import instagram from "../../assets/testimonial/instagram.png"
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+
 
 const TestimonialCard = () => {
-  const testimonials = [
+  const [colored, setColored] = useState(0);
+  // Image array
+  const images = [
     {
       name: "David",
       rating: 4,
@@ -45,117 +52,135 @@ const TestimonialCard = () => {
     },
   ];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handleNext = (e) => {
-    e.preventDefault();  
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-  };
-
-  const handlePrev = (e) => {
-    e.preventDefault(); 
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+  const NextArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div
+       
+        onClick={onClick}
+      >
+              <img
+              onClick={() => setColored(colored+1)}
+    src={Forward}
+    alt="Next"
+    className="absolute top-1/2 right-[-30%] transform -translate-y-1/2 text-white p-2 rounded-full"
+    // Increased right position from the edge
+  />
+      </div>
     );
+  };
+  
+  // Custom Previous Arrow
+  const PrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div
+        onClick={onClick}
+      >
+               <img
+               onClick={() => setColored(colored-1)}
+        src={Back}
+        alt="Previous"
+        className="absolute top-1/2 left-[-30%] transform -translate-y-1/2 text-white p-2 rounded-full" 
+        // Increased left from 50% (2/4) to 60%
+      />
+      </div>
+    );
+  };
+  
+
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    afterChange: (current) => setColored(current),
+    nextArrow: < NextArrow/>,
+    prevArrow: <PrevArrow/>
+
+
   };
 
   return (
-    <div className="w-full h-screen bg-black">
+    <div className="relative w-full max-w-4xl mx-auto justify-center ">
       <div className="flex flex-col items-center justify-center">
-        <h3 className="w-full max-w-[1078.22px] h-auto font-poppins font-medium text-[24px] leading-[36px] text-center text-[#1D5F58] sm:text-[36px] sm:leading-[48px] md:text-[42.6667px] md:leading-[64px]">
+        <h3 className="font-poppins font-medium text-[24px] leading-[36px] text-center text-[#1D5F58] sm:text-[36px] sm:leading-[48px] md:text-[42.6667px] md:leading-[64px]">
           Testimonials
         </h3>
       </div>
-
-      <div className="flex justify-center gap-x-40 mt-20">
-        <div className="flex items-center m-10">
+      <div className="flex justify-center gap-x-40 mt-10 ">
+        <div className="flex items-center ">
           <p className="text-yellow-500 text-2xl md:text-4xl mb-10 py-4 text-center">
             What People Say <br /> About Us
           </p>
         </div>
+    
 
-        <div className="flex flex-col items-center gap-y-2 relative">
-          <div className="flex items-center justify-center relative">
-            <button onClick={handlePrev} className="ml-4">
-              <img
-                src={Back}
-                alt="Previous"
-                className="w-15 h-10 md:w-25 md:h-20 cursor-pointer"
-              />
-            </button>
-
-            <div className="bg-white p-6 rounded-lg shadow-lg w-80 md:w-96 text-left">
-              <img
-                src={testimonials[currentIndex].image}
-                alt={testimonials[currentIndex].name}
-                className="w-full rounded-md mb-4"
-              />
-              <h3 className="text-black font-bold text-lg">
-                {testimonials[currentIndex].name}
-              </h3>
-              <div className="flex mb-4">
-                {Array.from({ length: 5 }, (v, i) => (
-                  <span
-                    key={i}
-                    className={`text-2xl ${
-                      i < testimonials[currentIndex].rating
-                        ? 'text-orange-400'
-                        : 'text-gray-300'
-                    }`}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
-              <p className="text-black mb-4">
-                {testimonials[currentIndex].review}
-              </p>
-
-              <div className="flex space-x-1 justify-end">
-                <img
-                  src={linked_in}
-                  alt="LinkedIn"
-                  className="w-6 h-6 cursor-pointer bg-[#25ABC3] p-2 rounded-full inline-block ml-10"
-                />
-                <img
-                  src={Facebook}
-                  alt="Facebook"
-                  className="w-6 h-6 cursor-pointer ml-10"
-                />
-                <img
-                  src={telegram}
-                  alt="Telegram"
-                  className="w-6 h-6 cursor-pointer ml-10"
-                />
-                <img
-                  src={instagram}
-                  alt="Instagram"
-                  className="w-6 h-6 cursor-pointer ml-10"
-                />
-              </div>
+      {/* Slider */}
+      <Slider {...settings} className="w-[400px] h[500px] px-3 md:px-8  lg:px-1 ">
+        {images.map((d, index) => (
+     <div
+     key={index}
+     className=" bg-white p-4 rounded-lg shadow-lg w-0 h-[480px]  md:w-[300px] text-left"
+   >
+            <img
+              src={d.image}
+              alt={d.name}
+               className="w-full h-64 object-cover transition-transform duration-500"
+            />
+            <h3 className="text-black font-bold text-lg mt-4">{d.name}</h3>
+            <div className="flex mb-2">
+              {Array.from({ length: 5 }, (v, i) => (
+                <span
+                  key={i}
+                  className={`text-2xl ${
+                    i < d.rating ? "text-orange-400" : "text-gray-300"
+                  }`}
+                >
+                  ★
+                </span>
+              ))}
             </div>
-
-            <button onClick={handleNext} className="ml-4">
+            <p className="text-black mb-4">{d.review}</p>
+            <div className="flex space-x-2 justify-end">
               <img
-                src={Forward}
-                alt="Next"
-                className="w-15 h-10 md:w-25 md:h-20 cursor-pointer"
+                src={linked_in}
+                alt="LinkedIn"
+                className="w-6 h-6 cursor-pointer bg-[#25ABC3] p-2 rounded-full"
               />
-            </button>
+              <img
+                src={Facebook}
+                alt="Facebook"
+                className="w-6 h-6 cursor-pointer"
+              />
+              <img
+                src={telegram}
+                alt="Telegram"
+                className="w-6 h-6 cursor-pointer"
+              />
+              <img
+                src={instagram}
+                alt="Instagram"
+                className="w-6 h-6 cursor-pointer"
+              />
+            </div>
           </div>
+        ))}
+      </Slider>
+      </div>
+     
 
-          <div className="flex space-x-2 mt-4">
-            {testimonials.map((_, index) => (
-              <span
-                key={index}
-                className={`w-5 h-5 rounded-full ${
-                  index === currentIndex ? 'bg-yellow-400' : 'bg-gray-300'
-                } cursor-pointer`}
-                onClick={() => setCurrentIndex(index)}
-              ></span>
-            ))}
-          </div>
-        </div>
+      <div className="absolute bottom-[-5%] left-[73%] transform -translate-x-1/2 flex space-x-2  ">
+        {images.map((_, index) => (
+          <div
+            key={index}
+            className={`w-3 h-3 rounded-full ${
+              index === colored ? "bg-yellow-400" : "bg-gray-300"
+            }`}
+          ></div>
+        ))}
       </div>
     </div>
   );
