@@ -128,7 +128,7 @@ export default function Frm1({ formData, setFormData }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-x-7 gap-y-12 mt-10 pl-5 h-fit">
+      <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7">
         {/* First Name */}
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">

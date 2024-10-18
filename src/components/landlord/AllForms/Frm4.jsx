@@ -50,8 +50,8 @@ export default function Frm4({ formData, setFormData }) {
 
   return (
     <>
-      <div className="mt-10 pl-5 h-fit">
-        <div className="mt-14 grid grid-flow-col grid-rows-1 gap-x-10">
+      <div className="mt-10 px-5 h-fit md:pr-0">
+        <div className="mt-14 grid gap-y-10 md:grid-cols-2 md:gap-x-10">
           <div className="text-white flex flex-col gap-y-9 items-start">
             <label className="text-[#FFFFFF] font-bold text-lg leading-6">
               Square Feet Area
@@ -87,10 +87,10 @@ export default function Frm4({ formData, setFormData }) {
           </div>
         </div>
 
-        <div className="mt-14 grid grid-flow-col grid-rows-1 gap-x-10">
+        <div className="mt-14 grid gap-y-10 md:grid-cols-2 md:gap-x-10">
           <div className="flex flex-col gap-3 items-start font-bold text-lg">
             <div className="ml-4">Appliances</div>
-            <div className="mt-5 w-[466px] text-[#000000] text-[16px] leading-[24px] font-normal">
+            <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
               <Select
                 styles={customStyles}
                 placeholder={
@@ -109,7 +109,7 @@ export default function Frm4({ formData, setFormData }) {
 
           <div className="flex flex-col gap-3 items-start font-bold text-lg">
             <div className="text-white ml-4">Amenities</div>
-            <div className="mt-5 w-[466px] text-[#000000] text-[16px] leading-[24px] font-normal">
+            <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
               <Select
                 styles={customStyles}
                 placeholder={
@@ -127,7 +127,7 @@ export default function Frm4({ formData, setFormData }) {
           </div>
         </div>
 
-        <div className="mt-14 grid grid-flow-col grid-rows-1">
+        <div className="mt-14 grid gap-y-10 md:grid-cols-2 md:gap-x-10">
           <div className="text-white flex flex-col gap-y-9 items-start">
             <label className="text-[#FFFFFF] font-bold text-lg leading-6">
               Address Verification
@@ -136,7 +136,7 @@ export default function Frm4({ formData, setFormData }) {
               required
               type="text"
               placeholder="Address Verification"
-              className="bg-black w-[90%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+              className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
               value={formData.addressVerification}
               onChange={(e) => {
                 setFormData((formData) => {
@@ -173,7 +173,7 @@ export default function Frm4({ formData, setFormData }) {
         <div className="mt-10 text-white flex flex-col gap-y-9 items-start">
           <label className="font-bold text-lg">About the property</label>
           <textarea
-            className="bg-black w-[466px] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            className="bg-black min-[320px]:max-md:w-[100%] w-[48%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
             value={formData.aboutTheProperty}
             onChange={(e) => {
               setFormData((formData) => {
