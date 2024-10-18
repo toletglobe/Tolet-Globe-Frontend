@@ -538,7 +538,7 @@ const Listing = () => {
                   }`}
                   disabled={compareProperty.length <= 1}
                 >
-                  Compare
+                  Visit
                   <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
                     {compareProperty.length}
                   </div>
@@ -551,7 +551,7 @@ const Listing = () => {
                 onClick={handleAddPropertybtn}
                 className="mr-2 bg-white w-44 h-14 text-black flex items-center justify-center px-5 rounded-md cursor-pointer"
               >
-                Add Property
+                Add a property
               </a>
             </div>
           </div>
