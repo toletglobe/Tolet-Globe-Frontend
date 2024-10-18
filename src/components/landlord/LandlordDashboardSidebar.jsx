@@ -35,12 +35,12 @@ export default function LandlordDashboardSidebar({
 
   return (
     <>
-      <div className="w-[100%] h-[100%] bg-black text-white p-5 flex flex-col">
-        <div className="flex flex-col">
+      <div className="w-[100%] h-[100%] bg-black text-white p-5 flex flex-col sm:p-1 w[100%] items-center">
+        <div className="flex flex-col sm:w-[100%]">
           <div
             className={`rounded-md px-[14px] py-[10px] max-w-[320px] min-h-[45px] text-xl flex items-center gap-x-4 cursor-pointer ${
               colored == "Welcome" ? "bg-[#C8A117]" : ""
-            } `}
+            } sm:flex items-center `}
             onClick={() => {
               handleOnClick("Welcome");
             }}
