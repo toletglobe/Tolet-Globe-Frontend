@@ -22,7 +22,7 @@ const HiringPartners = () => {
       </h2>
       
       <div className="w-full text-center mt-6"> {/* Pushed down to avoid overlap */}
-        <div className="flex flex-wrap justify-center items-center gap-6 mt-8"> {/* Responsive logo grid */}
+        <div className="flex flex-wrap justify-center items-center gap-12 mt-8"> {/* Increased gap from 6 to 10 */}
           <img
             src={linkedinLogo}
             alt="LinkedIn"
