@@ -1,14 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import userIcon from "../../assets/user-icon.png";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/authSlice";
-import {
-  ArrowLeftStartOnRectangleIcon,
-  ComputerDesktopIcon,
-} from "@heroicons/react/24/outline";
 
 const NavBar = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -17,91 +12,168 @@ const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const avatarRef = useRef();
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, [activeLink]);
 
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
-    // setIsNavOpen(false);
+    setIsMenuOpen(false); // Close the dropdown when a nav link is clicked
   };
 
   const handleLogout = () => {
-    setIsMenuOpen(false);
     localStorage.removeItem("token");
     dispatch(logout());
     navigate("/login");
     toast.success("Logged out!");
+    setIsMenuOpen(false); // Close the dropdown when logging out
   };
-  // hanlding click outside event for avatar
+
+  // Handling click outside avatar dropdown
   useEffect(() => {
-    const handlClickOutside = (event) => {
+    const handleClickOutside = (event) => {
       if (avatarRef.current && !avatarRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handlClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handlClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [avatarRef]);
 
+  const handleDropdownSelection = (path) => {
+    navigate(path); // Navigate to the desired path
+    setIsMenuOpen(false); // Close the dropdown when a selection is made
+  };
+
   return (
     <nav className="z-50">
-      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-20 py-4">
-        <div className="navbar-logo">
+      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-5 lg:px-20 py-8">
+        {/* Logo on the left */}
+        <div className="flex items-center">
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="Logo" className="h-16 lg:h-12 ml-10 lg:ml-0" />
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-12 lg:h-20" // Larger on web and smaller on mobile
+            />
           </Link>
         </div>
-        <div className="flex flex-row">
-          <div className="flex justify-end">
-            <button
-              className="text-white block lg:hidden"
-              // onClick={() => setIsNavOpen(!isNavOpen)}
-              onClick={() =>
-                document
-                  .getElementById("basic-navbar-nav")
-                  .classList.toggle("hidden")
-              }
+
+        {/* Navigation buttons on the right side for desktop */}
+        <div className="hidden lg:flex space-x-4 items-center ml-auto"> {/* Changed to ml-auto to push navigation buttons to the right */}
+          <Link
+            to="/"
+            className={`block px-5 text-gray-300 ${
+              activeLink === "home" ? "text-white bg-teal-500 rounded-md" : ""
+            }`}
+            onClick={() => handleNavLinkClick("home")}
+          >
+            Home
+          </Link>
+          <Link
+            to="/service"
+            className={`block px-5 text-gray-300 ${
+              activeLink === "service" ? "text-white bg-teal-500 rounded-md" : ""
+            }`}
+            onClick={() => handleNavLinkClick("service")}
+          >
+            Service
+          </Link>
+          <Link
+            to="/blog"
+            className={`block px-5 text-gray-300 ${
+              activeLink === "blog" ? "text-white bg-teal-500 rounded-md" : ""
+            }`}
+            onClick={() => handleNavLinkClick("blog")}
+          >
+            Blog
+          </Link>
+          <Link
+            to="/contact"
+            className={`block px-5 text-gray-300 ${
+              activeLink === "contact" ? "text-white bg-teal-500 rounded-md" : ""
+            }`}
+            onClick={() => handleNavLinkClick("contact")}
+          >
+            Contact
+          </Link>
+          <Link
+            to="/aboutus"
+            className={`block px-5 text-gray-300 ${
+              activeLink === "aboutus" ? "text-white bg-teal-500 rounded-md" : ""
+            }`}
+            onClick={() => handleNavLinkClick("aboutus")}
+          >
+            About
+          </Link>
+          <Link
+            to="/property"
+            className={`block px-5 text-gray-300 ${
+              activeLink === "propertyListing" ? "text-white bg-teal-500 rounded-md" : ""
+            }`}
+            onClick={() => handleNavLinkClick("propertyListing")}
+          >
+            Property Listing
+          </Link>
+          {authState.status === true && localStorage.getItem("token") ? (
+            <Link
+              to="/landlord-dashboard"
+              className={`block px-5 text-gray-300 ${
+                activeLink === "dashboard" ? "text-white bg-teal-500 rounded-md" : ""
+              }`}
+              onClick={() => handleNavLinkClick("dashboard")}
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                ></path>
-              </svg>
-            </button>
-          </div>
+              Dashboard
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className={`block px-5 text-gray-300 ${
+                activeLink === "login" ? "text-white bg-teal-500 rounded-md" : ""
+              }`}
+              onClick={() => handleNavLinkClick("login")}
+            >
+              Login
+            </Link>
+          )}
         </div>
+
+        {/* Mobile menu toggle button */}
+        <div className="lg:hidden flex justify-end items-center">
+          <button
+            className="text-white"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile dropdown menu */}
         <div
-          id="basic-navbar-nav"
-          className="hidden lg:flex lg:items-center lg:w-auto w-full"
-          // className={`lg:flex lg:items-center lg:w-auto w-full ${
-          //   isNavOpen ? "" : "hidden"
-          // } absolute lg:relative top-16 left-0 lg:top-0 bg-black lg:bg-transparent lg:p-0 p-4 z-10`}
+          className={`${
+            isMenuOpen ? "block" : "hidden"
+          } lg:hidden absolute top-24 right-0 bg-black w-full p-4 z-40`}
         >
-          <ul className="lg:flex lg:items-center lg:justify-between text-base text-gray-300 pt--1 lg:pt-0">
+          <ul className="flex flex-col space-y-4">
             <li>
               <Link
                 to="/"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "home"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("home")}
+                className={`block px-5 text-gray-300 hover:bg-teal-500 hover:text-white rounded-md`}
+                onClick={() => handleDropdownSelection("/")}
               >
                 Home
               </Link>
@@ -109,13 +181,8 @@ const NavBar = () => {
             <li>
               <Link
                 to="/service"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "service"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("service")}
+                className={`block px-5 text-gray-300 hover:bg-teal-500 hover:text-white rounded-md`}
+                onClick={() => handleDropdownSelection("/service")}
               >
                 Service
               </Link>
@@ -123,13 +190,8 @@ const NavBar = () => {
             <li>
               <Link
                 to="/blog"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "blog"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("blog")}
+                className={`block px-5 text-gray-300 hover:bg-teal-500 hover:text-white rounded-md`}
+                onClick={() => handleDropdownSelection("/blog")}
               >
                 Blog
               </Link>
@@ -137,13 +199,8 @@ const NavBar = () => {
             <li>
               <Link
                 to="/contact"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "contact"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                }`}
-                onClick={() => handleNavLinkClick("contact")}
+                className={`block px-5 text-gray-300 hover:bg-teal-500 hover:text-white rounded-md`}
+                onClick={() => handleDropdownSelection("/contact")}
               >
                 Contact
               </Link>
@@ -151,13 +208,8 @@ const NavBar = () => {
             <li>
               <Link
                 to="/aboutus"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "aboutus"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("aboutus")}
+                className={`block px-5 text-gray-300 hover:bg-teal-500 hover:text-white rounded-md`}
+                onClick={() => handleDropdownSelection("/aboutus")}
               >
                 About
               </Link>
@@ -165,99 +217,33 @@ const NavBar = () => {
             <li>
               <Link
                 to="/property"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "propertyListing"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                  // } hover:bg-[#c8a21c] hover:rounded-md`}
-                } `}
-                onClick={() => handleNavLinkClick("propertyListing")}
+                className={`block px-5 text-gray-300 hover:bg-teal-500 hover:text-white rounded-md`}
+                onClick={() => handleDropdownSelection("/property")}
               >
                 Property Listing
               </Link>
             </li>
-            <li>
-              {/* {authState.status === true ? (
+            {authState.status === true && localStorage.getItem("token") ? (
+              <li>
                 <Link
-                  to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                    activeLink === "logout"
-                      ? "text-white bg-teal-500 rounded-md"
-                      : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
-                  onClick={handleLogout}
+                  to="/landlord-dashboard"
+                  className={`block px-5 text-gray-300 hover:bg-teal-500 hover:text-white rounded-md`}
+                  onClick={() => handleDropdownSelection("/landlord-dashboard")}
                 >
-                  Logout
+                  Dashboard
                 </Link>
-              ) : (
+              </li>
+            ) : (
+              <li>
                 <Link
                   to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                    activeLink === "login"
-                      ? "text-white bg-teal-500 rounded-md"
-                      : ""
-                  } hover:bg-[#c8a21c] hover:rounded-md`}
-                  onClick={() => handleNavLinkClick("login")}
-                >
-                  Login
-                </Link> */}
-              {/* user avatar */}
-              {authState.status === true && localStorage.getItem("token") ? (
-                <div ref={avatarRef}>
-                  <button
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="rounded-full relative flex justify-center items-center w-9 h-9 mx-3 text-white bg-teal-500"
-                  >
-                    <img
-                      src={userIcon}
-                      alt="avatar"
-                      className="w-full h-full rounded-full p-1"
-                    />
-                  </button>
-                  {isMenuOpen && (
-                    <div className="absolute top-20 right-14 w-fit h-fit flex  flex-col justify-center items-center text-[#120404] bg-white rounded-lg">
-                      <ul className="w-ful flex flex-col items-start">
-                        <li className="font-extrabold p-3 w-full text-center bg-gray-200 ">
-                          {authState.userData
-                            ? authState.userData.firstName?.toUpperCase()
-                            : "User"}
-                        </li>
-                        <li
-                          onClick={() => {
-                            navigate("/landlord-dashboard");
-                            setIsMenuOpen(false);
-                          }}
-                          className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg"
-                        >
-                          <ComputerDesktopIcon className="w-[18px] h-[18px] mr-2" />{" "}
-                          Dashboard
-                        </li>
-                        <li
-                          className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg"
-                          onClick={handleLogout}
-                        >
-                          <ArrowLeftStartOnRectangleIcon className="w-[18px] h-[18px] mr-2" />{" "}
-                          Logout
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
-                    activeLink === "login"
-                      ? "text-white bg-teal-500 rounded-md"
-                      : ""
-                    // } hover:bg-[#c8a21c] hover:rounded-md`}
-                  } `}
-                  onClick={() => handleNavLinkClick("login")}
+                  className={`block px-5 text-gray-300 hover:bg-teal-500 hover:text-white rounded-md`}
+                  onClick={() => handleDropdownSelection("/login")}
                 >
                   Login
                 </Link>
-              )}
-            </li>
+              </li>
+            )}
           </ul>
         </div>
       </div>
