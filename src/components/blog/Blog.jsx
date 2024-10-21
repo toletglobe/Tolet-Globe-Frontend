@@ -11,25 +11,22 @@ const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(6);
-  const [totalBlogs, setTotalBlogs] = useState(0);
   const navigate = useNavigate(); // Use useNavigate for navigation
   const [isLatest, setIsLatest] = useState(true);
-  const [backendData, setBackendData] = useState([]); // Store the original data from backend
+  // const [backendData, setBackendData] = useState([]); // Store the original data from backend
   const [loading, setLoading] = useState(true);
-
+  const [sortBy, setSortBy] = useState("latest");
+  const [totalPages, setTotalPages] = useState();
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const allBlogs = await Service.fetchBlog();
-        setBackendData(allBlogs); // Store the fetched data in backendData
-
-        // By default, sort by latest
-        const sortedBlogs = allBlogs.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
+        const allBlogs = await Service.fetchBlog(
+          currentPage,
+          blogsPerPage,
+          sortBy
         );
-        setBlogs(sortedBlogs);
-
-        setTotalBlogs(sortedBlogs.length); // Set the total number of blogs
+        setBlogs(allBlogs.data); // Store the fetched data in backendData
+        setTotalPages(allBlogs?.totalPages);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -38,33 +35,19 @@ const Blog = () => {
     };
 
     fetchBlog();
-  }, []);
+  }, [currentPage, sortBy]);
 
   const handleClickLatest = () => {
-    const sortedBlogs = backendData.sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    );
-    setBlogs(sortedBlogs);
+    setSortBy("latest");
     setIsLatest(true);
     setCurrentPage(1); // Reset to first page
   };
 
   const handleClickTrending = () => {
-    const trendingBlogs = backendData.sort((a, b) => {
-      const sumA = a.views + a.likes;
-      const sumB = b.views + b.likes;
-      return sumB - sumA;
-    });
-    setBlogs(trendingBlogs);
+    setSortBy("trending");
     setIsLatest(false);
     setCurrentPage(1); // Reset to first page
   };
-
-  // Pagination logic
-  const indexOfLastBlog = currentPage * blogsPerPage;
-  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
-  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
-  const totalPages = Math.ceil(totalBlogs / blogsPerPage);
 
   const handleViewBlog = async (slug) => {
     await Service.updateViews(slug);
@@ -110,7 +93,7 @@ const Blog = () => {
         handleClickLatest={handleClickLatest}
         handleClickTrending={handleClickTrending}
       />
-      <BlogList currentBlogs={currentBlogs} handleViewBlog={handleViewBlog} />
+      <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
       <Pagination
         currentPage={currentPage}
         handleNextPage={handleNextPage}

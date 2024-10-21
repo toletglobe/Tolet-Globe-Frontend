@@ -234,10 +234,10 @@ export default function LandlordDashboardAddProperties() {
     <>
       {/* Form */}
 
-      <div className="">
+      <div>
         {/* ProgressBar */}
 
-        <div className="ml-5 flex flex-col gap-2 mt-5 mb-8">
+        <div className="ml-5 mt-5 mb-8 pr-5 flex flex-col gap-2 md:pr-0">
           <h1 className="text-[#FFFFFF] text-[33px] leading-10 font-bold">
             Add New Property
           </h1>
@@ -270,7 +270,7 @@ export default function LandlordDashboardAddProperties() {
             <div>{RenderFormBody(page)}</div>
 
             {/* Form-footer */}
-            <div className="my-10 h-fit flex gap-x-3 justify-end">
+            <div className="my-10 pr-5 h-fit flex gap-x-3 justify-end md:pr-0">
               <input
                 type="button"
                 value="Back"

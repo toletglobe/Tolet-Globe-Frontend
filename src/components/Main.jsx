@@ -8,7 +8,7 @@ import { login } from "../store/authSlice";
 const Main = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-
+  
   // fetching user info whenever auth state changes
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -24,19 +24,19 @@ const Main = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         const data = {
           token: token,
           userData: res.data,
         };
-        
+
         dispatch(login(data));
       } catch (err) {
         console.error("Error fetching user info: ", err);
       }
     };
     fetchUserInfo();
-  }, [authState]);
+  }, []);
 
   return (
     <Routes>

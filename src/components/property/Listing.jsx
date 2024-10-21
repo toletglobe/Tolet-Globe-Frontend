@@ -25,6 +25,7 @@ const Listing = () => {
 
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
+  const [totalPages, setTotalPages] = useState();
   const [properties, setProperties] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -82,16 +83,13 @@ const Listing = () => {
         let propertyObject = {};
         let propertyData = [];
         if (city) {
-            propertyObject = await Service.fetchPropertyByCity(city);
-            setProperties(propertyObject.properties || []); // Ensure propertyData is an array
-            propertyData = propertyObject.properties;
-            console.log(propertyObject);
+          propertyData = await Service.fetchPropertyByCity(city);
+          setProperties(propertyData || []); // Ensure propertyData is an array
         } else {
-            propertyObject = await Service.fetchProperty();
-            setProperties(propertyObject.properties || []);
-            propertyData = propertyObject.properties;
-            console.log(propertyObject);
+          propertyData = await Service.fetchProperty();
+          setProperties(propertyData || []);
         }
+        
 
         // Filter by locality if selected
         if (selectedLocality) {
@@ -165,7 +163,7 @@ const Listing = () => {
     };
 
     fetchAndFilterProperties();
-  }, [city, location.search, selectedLocality]); // Add city to the dependency array
+  }, [city, location.search, selectedLocality, currentPage]); // Add city to the dependency array
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -185,8 +183,6 @@ const Listing = () => {
 
     setProperties(sortedProperties);
   };
-  // Calculate total pages
-  const totalPages = Math.ceil(properties.length / propertiesPerPage);
 
   // Get current properties
   const indexOfLastProperty = currentPage * propertiesPerPage;
@@ -553,7 +549,7 @@ const Listing = () => {
                   }`}
                   disabled={compareProperty.length <= 1}
                 >
-                  Compare
+                  Visit
                   <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
                     {compareProperty.length}
                   </div>
@@ -566,7 +562,7 @@ const Listing = () => {
                 onClick={handleAddPropertybtn}
                 className="mr-2 bg-white w-44 h-14 text-black flex items-center justify-center px-5 rounded-md cursor-pointer"
               >
-                Add Property
+                Add a property
               </a>
             </div>
           </div>
