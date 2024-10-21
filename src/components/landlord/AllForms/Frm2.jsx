@@ -1,9 +1,9 @@
 export default function Frm2({ formData, setFormData }) {
   return (
     <>
-      <div className="mt-8 pl-5 h-fit">
-        <div className="grid gap-x-10 gap-y-4 grid-rows-3 grid-flow-col">
-          <div className="w-[30vw] h-fit flex flex-col gap-3 items-start">
+      <div className="mt-8 pl-5 h-fit sm:-mr-1 md:-mr-4 xl:-mr-10">
+        <div className=" grid md:grid-cols-2 gap-y-4 lg:gap-x-14">
+          <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
             <label className="text-[#FFFFFF] text-base font-medium">
               Pets Allowed
             </label>
@@ -24,7 +24,29 @@ export default function Frm2({ formData, setFormData }) {
             </select>
           </div>
 
-          <div className="w-[30vw] h-fit flex flex-col gap-3 items-start">
+          <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
+            <label className="text-[#FFFFFF] text-base font-medium">
+              Preference
+            </label>
+            <select
+              required
+              className="bg-black px-3 py-3 w-[95%] h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
+              value={formData.preference}
+              onChange={(e) => {
+                setFormData({ ...formData, preference: e.target.value });
+              }}
+            >
+              <option value="" disabled>
+                Select Preference
+              </option>
+              <option value="Bachelors">Bachelors</option>
+              <option value="Family">Family</option>
+              <option value="Any">Any</option>
+              <option value="NA">NA</option>
+            </select>
+          </div>
+
+          <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
             <label className="text-[#FFFFFF] text-base font-medium">
               Bachelors
             </label>
@@ -47,7 +69,27 @@ export default function Frm2({ formData, setFormData }) {
             </select>
           </div>
 
-          <div className="w-[30vw] h-fit flex flex-col gap-3 items-start">
+          <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
+            <label className="text-[#FFFFFF] text-base font-medium">Type</label>
+            <select
+              required
+              className="bg-black px-3 py-3 w-[95%] h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
+              value={formData.type}
+              onChange={(e) => {
+                setFormData({ ...formData, type: e.target.value });
+              }}
+            >
+              <option value="" disabled>
+                Select Type
+              </option>
+              <option value="Not Furnished">Not Furnished</option>
+              <option value="Semi Furnished">Semi Furnished</option>
+              <option value="Fully Furnished">Fully Furnished</option>
+              <option value="NA">NA</option>
+            </select>
+          </div>
+
+          <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
             <label className="text-[#FFFFFF] text-base font-medium">BHK</label>
             <select
               required
@@ -69,49 +111,7 @@ export default function Frm2({ formData, setFormData }) {
             </select>
           </div>
 
-          <div className="w-[30vw] h-fit flex flex-col gap-3 items-start">
-            <label className="text-[#FFFFFF] text-base font-medium">
-              Preference
-            </label>
-            <select
-              required
-              className="bg-black px-3 py-3 w-[95%] h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-              value={formData.preference}
-              onChange={(e) => {
-                setFormData({ ...formData, preference: e.target.value });
-              }}
-            >
-              <option value="" disabled>
-                Select Preference
-              </option>
-              <option value="Bachelors">Bachelors</option>
-              <option value="Family">Family</option>
-              <option value="Any">Any</option>
-              <option value="NA">NA</option>
-            </select>
-          </div>
-
-          <div className="w-[30vw] h-fit flex flex-col gap-3 items-start">
-            <label className="text-[#FFFFFF] text-base font-medium">Type</label>
-            <select
-              required
-              className="bg-black px-3 py-3 w-[95%] h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-              value={formData.type}
-              onChange={(e) => {
-                setFormData({ ...formData, type: e.target.value });
-              }}
-            >
-              <option value="" disabled>
-                Select Type
-              </option>
-              <option value="Not Furnished">Not Furnished</option>
-              <option value="Semi Furnished">Semi Furnished</option>
-              <option value="Fully Furnished">Fully Furnished</option>
-              <option value="NA">NA</option>
-            </select>
-          </div>
-
-          <div className="w-[30vw] h-fit flex flex-col gap-3 items-start">
+          <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
             <label className="text-[#FFFFFF] text-base font-medium">
               Floor
             </label>
@@ -160,12 +160,8 @@ export default function Frm2({ formData, setFormData }) {
               <option value="NA">NA</option>
             </select>
           </div>
-        </div>
 
-        {/* Second grid */}
-
-        <div className="mt-12 grid gap-x-10 gap-y-12  grid-rows-2 grid-flow-col">
-          <div className="w-[30vw] h-fit flex flex-col gap-3 items-start">
+          <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
             <label className="text-[#FFFFFF] text-base font-medium">
               Nearest Landmark
             </label>
@@ -183,32 +179,7 @@ export default function Frm2({ formData, setFormData }) {
             />
           </div>
 
-          <div className="w-[30vw] h-fit flex flex-col gap-3 items-start">
-            <label className="text-[#FFFFFF] text-base font-medium">
-              Cooling Facility
-            </label>
-            <select
-              required
-              className="bg-black px-3 py-3 w-[95%] h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-              value={formData.coolingFacility}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  coolingFacility: e.target.value,
-                });
-              }}
-            >
-              <option value="" disabled>
-                Select Cooling Facility
-              </option>
-              <option value="AC">AC</option>
-              <option value="Fan">Fan</option>
-              <option value="Cooler">Cooler</option>
-              <option value="NA">NA</option>
-            </select>
-          </div>
-
-          <div className="w-[30vw] h-fit flex flex-col gap-3 items-start">
+          <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
             <label className="text-[#FFFFFF] text-base font-medium">
               Type of Washroom
             </label>
@@ -229,6 +200,31 @@ export default function Frm2({ formData, setFormData }) {
               <option value="Western">Western</option>
               <option value="Indian">Indian</option>
               <option value="Both">Both</option>
+              <option value="NA">NA</option>
+            </select>
+          </div>
+
+          <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
+            <label className="text-[#FFFFFF] text-base font-medium">
+              Cooling Facility
+            </label>
+            <select
+              required
+              className="bg-black px-3 py-3 w-[95%] h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
+              value={formData.coolingFacility}
+              onChange={(e) => {
+                setFormData({
+                  ...formData,
+                  coolingFacility: e.target.value,
+                });
+              }}
+            >
+              <option value="" disabled>
+                Select Cooling Facility
+              </option>
+              <option value="AC">AC</option>
+              <option value="Fan">Fan</option>
+              <option value="Cooler">Cooler</option>
               <option value="NA">NA</option>
             </select>
           </div>

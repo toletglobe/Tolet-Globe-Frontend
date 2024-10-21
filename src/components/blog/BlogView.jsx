@@ -2,12 +2,17 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Service from "../../config/config"; // Adjust the import path accordingly
 import { FaRegHeart } from "react-icons/fa6";
+import { IoMdHeart } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import author from "../../assets/property/author.jpg";
-
+import axios from "axios";
+import { useSelector } from "react-redux";
 const BlogView = () => {
   const { slug } = useParams(); // Get the blog ID from the URL
   const [blog, setBlog] = useState(null);
+  const authState = useSelector((state) => state.auth);
+
+  console.log(authState);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -21,6 +26,37 @@ const BlogView = () => {
 
     fetchBlog();
   }, []);
+
+  useEffect(() => {
+    const updateView = async () => {
+      try {
+        const blogData = await Service.updateViews(slug); // Fetch the blog details
+        setBlog(blogData.blog);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    updateView();
+  }, []);
+
+  const updateLike = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const { data } = await axios.get(
+        `http://localhost:8000/api/v1/blog/updateLikes/${blog._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setBlog(data.updatedBlog);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (!blog) return <div>Loading...</div>;
 
@@ -48,9 +84,9 @@ const BlogView = () => {
               <MdOutlineRemoveRedEye />
               {blog.views}
             </div>
-            <div className="flex items-center gap-1">
-              <FaRegHeart />
-              {blog.likes}
+            <div className="flex items-center gap-1" onClick={updateLike}>
+              {blog.likes.includes(authState.userData.id) ? <IoMdHeart /> : <FaRegHeart />}
+              {blog.likes.length}
             </div>
           </div>
           <div className="text-gray-400 underline flex items-center">
@@ -60,13 +96,13 @@ const BlogView = () => {
         <hr />
         <div className="my-2 font-semibold">{blog.intro}</div>
 
-        <div className=" mx-2 my-3">
-          <img
-            src={blog.image}
-            alt={blog.title}
-            className="rounded-md w-full h-full object-cover"
-          />
-        </div>
+         <div className="mx-auto my-3 max-w-3xl">
+  <img
+    src={blog.image}
+    alt={blog.title}
+    className="rounded-md w-full h-96 max-h-full object-cover filter brightness-120"
+  />
+</div>
 
         <div className="">
           <div

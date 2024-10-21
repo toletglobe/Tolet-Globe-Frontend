@@ -120,7 +120,7 @@ export default function Frm3({ formData, setFormData }) {
           </label>
         </div>
 
-        <div className="mt-16 grid grid-flow-col grid-rows-1 gap-x-14">
+        <div className="mt-16 grid gap-y-14 sm:grid-cols-2 sm:gap-x-14">
           <div className=" flex flex-col">
             <label className="w-fit text-gray-200 font-bold text-lg">
               Rent Amount
@@ -169,11 +169,11 @@ export default function Frm3({ formData, setFormData }) {
             <h3 className="text-gray-200 font-bold text-lg">
               Upload Photos / Videos
             </h3>
-            <p className="mt-2 mb-6 text-gray-200 text-sm">
+            <p className="mt-2 mb-6 text-gray-200 text-sm min-[320px]:max-sm:mx-5">
               Add images and videos that showcase your property's best features.
             </p>
 
-            <div className="flex justify-between gap-x-10">
+            <div className="flex justify-between gap-x-10 min-[320px]:max-sm:flex-col gap-y-5">
               <label className="border-2 border-gray-200 rounded-md bg-[#E8EDF2] text-[#0D141C] font-bold px-4 py-2">
                 Add photos
                 <input
@@ -197,7 +197,8 @@ export default function Frm3({ formData, setFormData }) {
           </div>
 
           <p className="mt-14 text-[#C8A117]">
-            You've uploded {formData.images.length}/10 images and {formData.videos.length}/5 videos
+            You've uploded {formData.images.length}/10 images and{" "}
+            {formData.videos.length}/5 videos
           </p>
         </div>
       </div>
