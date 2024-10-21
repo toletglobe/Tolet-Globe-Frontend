@@ -25,7 +25,6 @@ const Listing = () => {
 
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
-  const [totalPages, setTotalPages] = useState();
   const [properties, setProperties] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -72,17 +71,12 @@ const Listing = () => {
       try {
         let propertyData = [];
         if (city) {
-          const fetchedData = await Service.fetchPropertyByCity(city, currentPage);
-          propertyData = fetchedData.properties || []; // Ensure it's an array
-          setProperties(propertyData);
-          setTotalPages(fetchedData.totalPages || 1);
+          propertyData = await Service.fetchPropertyByCity(city);
+          setProperties(propertyData || []); // Ensure propertyData is an array
         } else {
-          const fetchedData = await Service.fetchProperty(currentPage);
-          propertyData = fetchedData.properties || []; // Ensure it's an array
-          setProperties(propertyData);
-          setTotalPages(fetchedData.totalPages || 1);
+          propertyData = await Service.fetchProperty();
+          setProperties(propertyData || []);
         }
-        
 
         // Filter by locality if selected
         if (selectedLocality) {
@@ -156,7 +150,7 @@ const Listing = () => {
     };
 
     fetchAndFilterProperties();
-  }, [city, location.search, selectedLocality, currentPage]); // Add city to the dependency array
+  }, [city, location.search, selectedLocality]); // Add city to the dependency array
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -176,6 +170,8 @@ const Listing = () => {
 
     setProperties(sortedProperties);
   };
+  // Calculate total pages
+  const totalPages = Math.ceil(properties.length / propertiesPerPage);
 
   // Get current properties
   const indexOfLastProperty = currentPage * propertiesPerPage;
@@ -260,7 +256,7 @@ const Listing = () => {
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-3 flex flex-col gap-8 py-6 sticky top-0 z-20 bg-black">
+        <div className="px-3 flex flex-col gap-12 py-7 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
             <p className="lg:text-[45px] md:text-4xl text-2xl text-[#C8A21C] font-bold">
               Property Listing
@@ -490,7 +486,7 @@ const Listing = () => {
                       <p>{selectedLocality}</p>
                     </div>
                   )}
-                  {/* <div
+                  {<div
                     className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
                       }`}
                   >
@@ -503,7 +499,7 @@ const Listing = () => {
                       />
                     </div>
                     <SelectLocation />
-                  </div> */}
+                  </div> }
                   <SelectLocation
                     Location={Location}
                     setLocation={setLocation}
@@ -560,43 +556,43 @@ const Listing = () => {
             </div>
           </div>
         </div>
-
         <div
-          onClick={() => {
-            if (isOpen === true) SetIsOpen(false);
-          }}
-          className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
-            isOpen ? "block" : "hidden"
-          } `}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg"
-          >
-            <Filters
-              SetIsOpen={SetIsOpen}
-              setProperties={setProperties}
-              city={city}
-              updateFilterCount={updateFilterCount}
-              filterCount={filterCount}
-            />
-            <div className="absolute top-1 right-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                onClick={handleOpen}
-                className="cursor-pointer w-5 lg:w-6 md:w-6 z-50 text-red-400 hover:text-red-800 transition-colors duration-300"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
+  onClick={() => {
+    if (isOpen === true) SetIsOpen(false);
+  }}
+  className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
+    isOpen ? "block" : "hidden"
+  }`}
+>
+  <div
+    onClick={(e) => e.stopPropagation()}
+    className="relative w-full max-w-lg p-4" // Added padding for better touch targets
+  >
+    <Filters
+      SetIsOpen={SetIsOpen}
+      setProperties={setProperties}
+      city={city}
+      updateFilterCount={updateFilterCount}
+      filterCount={filterCount}
+    />
+    <div className="absolute top-1 right-1">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        onClick={handleOpen}
+        className="cursor-pointer w-5 md:w-6 lg:w-7 z-50 text-red-400 hover:text-red-800 transition-colors duration-300"
+      >
+        <path
+          fillRule="evenodd"
+          d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+
 
         {properties.length === 0 ? (
           <p className="text-center text-lg font-semibold mt-10">
