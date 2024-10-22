@@ -2,9 +2,11 @@ import axios from "axios";
 import { BASE_URL } from "../constant/constant";
 
 class Service {
-  static async fetchBlog() {
+  static async fetchBlog(page,
+    limit,
+    sortBy) {
     try {
-      const response = await axios.get(`${BASE_URL}blog/blogs`, {
+      const response = await axios.get(`${BASE_URL}blog/blogs?page=${page}&limit=${limit}&sortBy=${sortBy}`, {
         headers: {
           "Content-Type": "application/json",
         },
