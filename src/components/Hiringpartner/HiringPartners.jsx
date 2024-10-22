@@ -2,7 +2,7 @@ import React from 'react';
 import linkedinLogo from '../../assets/Hiring/linkedin.jpg';
 import unstopLogo from '../../assets/Hiring/unstop.jpg';
 import apnaLogo from '../../assets/Hiring/apna.jpg';
-import pregradLogo from '../../assets/Hiring/pregrad.jpg'; // Add more logos as needed
+import pregradLogo from '../../assets/Hiring/pregrad.jpg';
 import sunstoneLogo from '../../assets/Hiring/sunstone.jpg';
 
 const HiringPartners = () => {
@@ -11,8 +11,8 @@ const HiringPartners = () => {
   };
 
   return (
-    <div className="w-full py-8 px-4 bg-black flex flex-col items-center justify-center border border-white rounded-lg shadow-lg mx-auto relative" 
-         style={{ maxWidth: '1212px', height: 'auto' }}> {/* Center component and make width responsive */}
+    <div className="w-full py-12 px-4 md:px-8 bg-black flex flex-col items-center justify-center border border-white rounded-lg shadow-lg mx-auto relative" 
+         style={{ maxWidth: '80%', margin: '20px auto', maxHeight: 'auto' }}> {/* Add margin and adjust width for responsiveness */}
       {/* Text positioned over the border */}
       <h2 
         className="absolute text-[#2e7766] text-3xl md:text-4xl font-bold -top-6 bg-black px-4"
@@ -22,7 +22,7 @@ const HiringPartners = () => {
       </h2>
       
       <div className="w-full text-center mt-6"> {/* Pushed down to avoid overlap */}
-        <div className="flex flex-wrap justify-center items-center gap-12 mt-8"> {/* Increased gap from 6 to 10 */}
+        <div className="flex flex-wrap justify-center items-center gap-12 mt-8"> {/* Increased gap from 6 to 12 */}
           <img
             src={linkedinLogo}
             alt="LinkedIn"
