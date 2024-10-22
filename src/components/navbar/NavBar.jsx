@@ -55,13 +55,13 @@ const NavBar = () => {
             <img
               src={logo}
               alt="Logo"
-              className="h-12 lg:h-20" // Larger on web and smaller on mobile
+              className="h-12 lg:h-16" // Larger on web and smaller on mobile
             />
           </Link>
         </div>
 
         {/* Navigation buttons on the right side for desktop */}
-        <div className="hidden lg:flex space-x-4 items-center ml-auto"> {/* Changed to ml-auto to push navigation buttons to the right */}
+        <div className="hidden lg:flex space-x-6 items-center ml-24"> {/* Added ml-24 for fixed large space between logo and buttons */}
           <Link
             to="/"
             className={`block px-5 text-gray-300 ${
@@ -140,7 +140,7 @@ const NavBar = () => {
         </div>
 
         {/* Mobile menu toggle button */}
-        <div className="lg:hidden flex justify-end items-center">
+        <div className="lg:hidden flex items-center">
           <button
             className="text-white"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
