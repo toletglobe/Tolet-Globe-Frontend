@@ -9,7 +9,7 @@ class Service {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -31,15 +31,29 @@ class Service {
     }
   }
 
-  static async fetchProperty() {
+  static async updateViews(slug) {
     try {
-      //  console.log(`Fetching from: ${BASE_URL}property`);
-      const response = await axios.get(`${BASE_URL}property`, {
+      const response = await axios.get(`${BASE_URL}blog/updateViews/${slug}`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      //  console.log("Response received:", response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  static async fetchProperty(currentPage) {
+    try {
+      //  console.log(`Fetching from: ${BASE_URL}property`);
+      const response = await axios.get(`${BASE_URL}property?page=${currentPage}&limit=9`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+       console.log("Response received:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error in fetchProperty:", error.response || error);
@@ -76,9 +90,21 @@ class Service {
     }
   }
 
-  static async fetchPropertyByCity(city) {
+  static async fetchMyProperties(userId) {
     try {
-      const response = await axios.get(`${BASE_URL}property/city/${city}`, {
+      const response = await axios.get(`${BASE_URL}property/user/${userId}`, {
+        userId,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  static async fetchPropertyByCity(city, currentPage) {
+    try {
+      const response = await axios.get(`${BASE_URL}property/city/${city}?page=${currentPage}&limit=9`, {
         headers: {
           "Content-Type": "application/json",
         },

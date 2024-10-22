@@ -11,14 +11,16 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-    // console.log('action.payload:', action.payload);
+      // console.log('action.payload:', action.payload);
       state.status = true;
       state.token = action.payload.token;
       state.userData = {
-        firstName : action.payload.userData.firstName,
-        email : action.payload.userData.email,
-        role : action.payload.userData.role, 
-      }
+        id: action.payload.userData.id,
+        lastName: action.payload.userData.lastName,
+        firstName: action.payload.userData.firstName,
+        email: action.payload.userData.email,
+        role: action.payload.userData.role,
+      };
     },
     logout: (state) => {
       state.status = false;
@@ -27,7 +29,6 @@ const authSlice = createSlice({
     },
   },
 });
-
 
 export const { login, logout } = authSlice.actions;
 

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { API } from "../../config/axios";
 
 import Frm1 from "./AllForms/Frm1";
@@ -62,6 +61,7 @@ export default function LandlordDashboardAddProperties() {
     pincode: "",
     city: "",
     locality: "",
+    area: "",
     address: "",
     spaceType: "",
     propertyType: "",
@@ -74,16 +74,18 @@ export default function LandlordDashboardAddProperties() {
     nearestLandmark: "",
     typeOfWashroom: "",
     coolingFacility: "",
-    carParking: true,
+    carParking: "",
     rent: "",
     security: "",
     images: [],
+    videos: [],
     squareFeetArea: "",
+    locationLink: "",
     appliances: [],
     amenities: [],
+    addressVerification: "",
+    availabilityStatus: "",
     aboutTheProperty: "",
-    comments: "",
-    locationLink: "",
   });
 
   const RenderFormBody = (page) => {
@@ -120,12 +122,24 @@ export default function LandlordDashboardAddProperties() {
     const updatedFormData = {
       ...formData,
       pincode: Number(formData.pincode),
-      petsAllowed: Boolean(formData.petsAllowed),
-      bhk: Number(formData.bhk),
-      rent: Number(formData.rent),
-      security: Number(formData.security),
-      squareFeetArea: Number(formData.squareFeetArea),
+      // petsAllowed: Boolean(formData.petsAllowed),  NA
+      // bhk: Number(formData.bhk),  NA
+      // rent: Number(formData.rent),  NA
+      // security: Number(formData.security),  NA
+      // squareFeetArea: Number(formData.squareFeetArea), NA
+      appliances: formData.appliances.map((obj) => obj.value),
+      amenities: formData.amenities.map((obj) => obj.value),
     };
+
+    for (const [key, value] of Object.entries(updatedFormData)) {
+      if (key === "userId" || key === "lastName" || key === "images") {
+        continue;
+      }
+
+      if (value === "") {
+        updatedFormData[key] = "NA";
+      }
+    }
 
     const dataToSend = new FormData();
 
@@ -140,10 +154,6 @@ export default function LandlordDashboardAddProperties() {
         dataToSend.append(key, value);
       }
     });
-
-    // for (let [key, value] of dataToSend.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
 
     const token = localStorage.getItem("token");
     console.log("Token: ", token);
@@ -184,6 +194,7 @@ export default function LandlordDashboardAddProperties() {
       pincode: "",
       city: "",
       locality: "",
+      area: "",
       address: "",
       spaceType: "",
       propertyType: "",
@@ -196,16 +207,18 @@ export default function LandlordDashboardAddProperties() {
       nearestLandmark: "",
       typeOfWashroom: "",
       coolingFacility: "",
-      carParking: true,
+      carParking: "",
       rent: "",
       security: "",
       images: [],
+      videos: [],
       squareFeetArea: "",
+      locationLink: "",
       appliances: [],
       amenities: [],
+      addressVerification: "",
+      availabilityStatus: "",
       aboutTheProperty: "",
-      comments: "",
-      locationLink: "",
     });
   };
 
@@ -221,10 +234,10 @@ export default function LandlordDashboardAddProperties() {
     <>
       {/* Form */}
 
-      <div className="">
+      <div>
         {/* ProgressBar */}
 
-        <div className="ml-5 flex flex-col gap-2 mt-5 mb-8">
+        <div className="ml-5 mt-5 mb-8 pr-5 flex flex-col gap-2 md:pr-0">
           <h1 className="text-[#FFFFFF] text-[33px] leading-10 font-bold">
             Add New Property
           </h1>
@@ -257,7 +270,7 @@ export default function LandlordDashboardAddProperties() {
             <div>{RenderFormBody(page)}</div>
 
             {/* Form-footer */}
-            <div className="my-10 h-fit flex gap-x-3 justify-end">
+            <div className="my-10 pr-5 h-fit flex gap-x-3 justify-end md:pr-0">
               <input
                 type="button"
                 value="Back"

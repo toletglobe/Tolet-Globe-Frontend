@@ -25,48 +25,56 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+
 @keyframes marquee {
   0% {
-    transform: translateX(30%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-35%);
+    transform: translateX(-100%);
   }
 }
 
 .animate-marquee {
-  animation: marquee 20s linear infinite; /* Adjust the duration to your liking */
+  animation: marquee 20s linear infinite;
+  animation-play-state: running;
+}
+
+.overflow-hidden {
+  overflow: hidden; /* Prevent overflow */
 }
 
 .marquee {
   display: flex; /* Align images horizontally */
-  width: calc(100% * 3); /* Ensure enough width for smooth scrolling */
-}
-
-.whitespace-nowrap {
   white-space: nowrap; /* Prevent line breaks */
 }
 
-.overflow-hidden {
-  overflow: hidden;  /* //Prevent overflow */
+.animate-marquee:hover {
+  animation-play-state: paused; /* Pause the animation on hover */
 }
 
 @media (max-width: 640px) {
   @keyframes marquee {
     0% {
-      transform: translateX(250%); /* Start fully off the screen */
+      transform: translateX(0); 
     }
     100% {
-      transform: translateX(-290%); /* Move fully off the screen to the left */
+      transform: translateX(-510%);
     }
   }
 
   .animate-marquee {
-    animation: marquee 15s linear infinite; /* Shorter duration for smaller screens */
+    animation: marquee 15s linear infinite;
+    animation-play-state: running;
   }
 
   .marquee {
     display: flex;
     width: max-content; /* Ensure the width wraps around all images */
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
   }
 }

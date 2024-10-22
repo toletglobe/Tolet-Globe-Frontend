@@ -40,11 +40,15 @@ const Login = () => {
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
+
+        console.log(res.data.user);
         dispatch(
           login({
             token: res.data.token,
             userData: {
+              id: res.data.user.id,
               firstName: res.data.user.firstName,
+              lastName: res.data.user.lastName,
               email: res.data.user.email,
               role: res.data.user.role,
             },
@@ -64,7 +68,7 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <div className="login_form_container mx-auto my-40">
           <div className="login_form">
-            <h2>Login</h2>
+            <h2 className="text-2xl font-semibold">Login</h2>
             <div className="input_group">
               <AiOutlineMail className="ml-3 text-white " />
               <input

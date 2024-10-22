@@ -9,10 +9,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
-
+import {Link} from "react-router-dom"
 import { useSelector } from "react-redux";
 
-const LandlordDashboard = () => {
+const LandlordDashboard = ({ myProperties }) => {
   const phoneRef = useRef(null);
   const navigate = useNavigate();
   const phone = 8707727347;
@@ -45,67 +45,18 @@ const LandlordDashboard = () => {
   //   setLikedProperties(updatedLikes);
   // };
 
-  const cardContent = [
-    {
-      id: 1,
-      image: propertyimage1,
-      name: "Name",
-      location: "Gomti Nagar, Lucknow, India",
-      price: "Price",
-    },
-    {
-      id: 2,
-      image: propertyimage2,
-      name: "Name",
-      location: "Gomti Nagar, Lucknow, India",
-      price: "Price",
-    },
-    {
-      id: 3,
-      image: propertyimage3,
-      name: "Name",
-      location: "Gomti Nagar, Lucknow, India",
-      price: "Price",
-    },
-    {
-      id: 4,
-      image: propertyimage3,
-      name: "Name",
-      location: "Gomti Nagar, Lucknow, India",
-      price: "Price",
-    },
-    {
-      id: 5,
-      image: propertyimage2,
-      name: "Name",
-      location: "Gomti Nagar, Lucknow, India",
-      price: "Price",
-    },
-    {
-      id: 6,
-      image: propertyimage1,
-      name: "Name",
-      location: "Gomti Nagar, Lucknow, India",
-      price: "Price",
-    },
-    {
-      id: 7,
-      image: propertyimage1,
-      name: "Name",
-      location: "Gomti Nagar, Lucknow, India",
-      price: "Price",
-    },
-  ];
-
-  const cards = cardContent.map((card) => (
-    <div key={card.id} className=" bg-black p-4 rounded-md">
+  const cards = myProperties.map((property) => (
+    <div key={property._id} className=" bg-black p-4 rounded-md">
       <img
-        src={card.image}
+        src={property.images[0]}
         alt="Property"
-        className=" relative  h-[200px] w-full object-cover rounded-md  mb-4"
+        className=" relative  h-[200px] w-full object-cover rounded-md  mb-4 hover:cursor-pointer"
+        onClick={() => navigate(`/property/${property.slug}`)}
       />
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">{card.name}</h3>
+        <h3 className="text-lg font-semibold">
+          {property?.firstName} {property?.lastName}
+        </h3>
 
         {/* Icons Section */}
         <div className="icon-box flex mr-6 p-2">
@@ -138,8 +89,10 @@ const LandlordDashboard = () => {
           </a>
         </div>
       </div>
-      <p className="text-gray-400">{card.location}</p>
-      <p className="text-gray-400 mt-1">{card.price}</p>
+      <p className="text-gray-400">
+        {property.locality}, {property.city}, India
+      </p>
+      <p className="text-gray-400 mt-1">Rs. {property.rent}</p>
     </div>
   ));
 
@@ -148,7 +101,11 @@ const LandlordDashboard = () => {
       {/* Header (Welcome Message) */}
       <div className="mt-5 mb-8">
         <h1 className="text-4xl font-bold">
-        {authState.userData ? authState.userData.firstName?.charAt(0).toUpperCase() + authState.userData.firstName?.slice(1).toLowerCase() : "User"}! Welcome to your Landlord Dashboard
+          {authState.userData
+            ? authState.userData.firstName?.charAt(0).toUpperCase() +
+              authState.userData.firstName?.slice(1).toLowerCase()
+            : "User"}
+          ! Welcome to your Landlord Dashboard
         </h1>
       </div>
       {/* Quick Actions */}
@@ -186,31 +143,11 @@ const LandlordDashboard = () => {
             <button
               className="bg-gray-800 text-white py-2 px-6 rounded flex items-center cursor-pointer contact-support-box"
               onClick={() => {
-                setShowNumber(!showNumber);
+                navigate("/contact");
               }}
             >
               <span className="mr-2">🎧</span> Contact Support
             </button>
-
-            {showNumber && (
-              <div
-                ref={phoneRef}
-                className="absolute w-[100%] h-[100%] border-[1.5px] border-gray-500 bg-gray-800 text-white py-2 px-6 rounded flex justify-between"
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              >
-                {phone}
-                <FontAwesomeIcon
-                  icon={faCopy}
-                  className="mt-[2px] cursor-pointer"
-                  onClick={() => {
-                    navigator.clipboard.writeText(`${phone}`);
-                    setShowNumber(false);
-                  }}
-                ></FontAwesomeIcon>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -219,17 +156,27 @@ const LandlordDashboard = () => {
         <h2 className="text-2xl text-left font-semibold mb-4">
           Recent Properties
         </h2>
-        <div className="grid grid-cols-3">
-          {cards}
+        {myProperties.length > 0 ? (
+          <>
+            <div className="grid grid-cols-3">
+              {cards.slice(0, 3)}
 
-          {/* import MyProperty */}
-          {/* <MyProperty /> */}
-        </div>
-        <div className="flex justify-end mt-6">
-          <button className="bg-gray-800 text-white py-2 px-4 rounded">
-            View all (3)
-          </button>
-        </div>
+              {/* import MyProperty */}
+              {/* <MyProperty /> */}
+            </div>
+            <div className="flex justify-end mt-6">
+              <button onClick={()=>{
+                navigate("/landlord-dashboard",{state: {content: "MyProperty"}});
+              }} className="bg-gray-800 text-white py-2 px-4 rounded">
+                View all ({myProperties.length})
+              </button>
+            </div>
+          </>
+        ) : (
+          <p className="text-gray-400 text-center text-2xl text-bold py-4">
+            You have no properties yet !
+          </p>
+        )}
       </div>
     </div>
   );

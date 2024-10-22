@@ -5,10 +5,11 @@ export default function card(props) {
     const containerClass = `container ${props.place}`
     // const line = `${props.place + "line"}`
       const line = props.place === 'left'
-      ? 'w-[19%] absolute top-[52%] border-t-4 border-[#6cc0c4] right-[-19%] hidden md:block ' : 'w-[20%] absolute top-[52%] border-t-4 border-[#6cc0c4] left-[-20%] hidden md:block';
+      ? 'w-[19%] absolute top-[52%] border-t-4 border-[#6cc0c4] right-[-19%] hidden md:block ' : 'w-[20%] absolute top-[52%] border-t-4 border-[#6cc0c4] left-[-21%] hidden md:block';
     const paddingStyles = props.place === 'left'
     ? 'md:py-2 md:pr-[10%] md:pl-[4.2%] '
     : 'md:py-2 md:pr-[4.2%] md:pl-[10%] ';
+    
   // Dynamic position styles
   const positionStyles = props.place === 'left'
     ? 'left-0'

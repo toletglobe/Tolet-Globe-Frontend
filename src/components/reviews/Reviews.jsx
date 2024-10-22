@@ -1,179 +1,228 @@
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import ReactStars from 'react-rating-stars-component';
-import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ReactStars from "react-rating-stars-component";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { API } from "../../config/axios";
 
-const App = () => {
+const Reviews = ({ property }) => {
+  // const [currentReviews, setCurrentReviews] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
   const [reviews, setReviews] = useState([]);
-  const [username, setUsername] = useState('');
   const [rating, setRating] = useState(1);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [reviewsPerPage] = useState(5);
-  const [averageRating, setAverageRating] = useState(0);
+  const [totalReviews, setTotalReviews] = useState([])
+  const reviewsPerPage = 2;
+  const navigate = useNavigate();
+
+  const authState = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/reviews');
-        if (response.data.reviews) {
-          setReviews(response.data.reviews);
-          calculateAverageRating(response.data.reviews);
-        } else {
-          toast.error('No reviews found');
+        const initialReviews = await API.get(`reviews/${property._id}`);
+        if (initialReviews.data.reviews.length > 0) {
+          setTotalReviews(initialReviews.data.reviews);
         }
       } catch (error) {
-        console.error('Error fetching reviews:', error);
-        toast.error('Error fetching reviews');
+        console.error("Error fetching reviews:", error);
+        toast.error("Error fetching reviews");
       }
     };
+
     fetchReviews();
   }, []);
 
-  const calculateAverageRating = (reviewsArray) => {
-    if (reviewsArray.length === 0) {
-      setAverageRating(0);
-      return;
-    }
-    const totalRating = reviewsArray.reduce((acc, review) => acc + review.rating, 0);
-    const avgRating = totalRating / reviewsArray.length;
-    setAverageRating(avgRating);
-  };
-
   const handleRatingChange = (newRating) => {
-    setRating(newRating);
+    setRating(Math.max(1, newRating));
+    // setRating(newRating);
   };
 
   const handleAddReview = async (e) => {
     e.preventDefault();
+
     try {
       const newReview = {
-        property: '60c72b2f9b1d8e001c8c8a5e',
-        user: '60c72b2f9b1d8e001c8c8a5f',
-        username,
-        rating,
-        comment,
+        property: property._id,
+        userId: authState.userData.id,
+        firstName: authState.userData.firstName,
+        lastName: authState.userData.lastName,
+        userRating: rating,
+        userComment: comment,
       };
-      await axios.post('http://localhost:5000/api/reviews', newReview);
-      toast.success('Review added successfully');
 
-      const updatedResponse = await axios.get('http://localhost:5000/api/reviews');
-      setReviews(updatedResponse.data.reviews);
-      calculateAverageRating(updatedResponse.data.reviews);
+      const response = await API.post("reviews", newReview);
+      if (response.data.message === "Review created successfully") {
+        toast.success("Review added successfully!");
+      } else {
+        toast.error("Review not added!");
+      }
 
-      setUsername('');
-      setComment('');
-      setRating(1);
+      const fetchedReviews = await API.get(`reviews/${property._id}`);
+      setRating(0);
+      setComment("");
       setShowReviewForm(false);
+      setTotalReviews(fetchedReviews.data.reviews);
     } catch (error) {
-      console.error('Error adding review:', error);
-      toast.error('Error adding review');
+      console.error("Error adding review:", error);
+      toast.error("Error adding review");
     }
   };
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
+  const currentReviews = totalReviews.slice(indexOfFirstReview, indexOfLastReview);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const handleNextPage = () => currentPage < Math.ceil(reviews.length / reviewsPerPage) && setCurrentPage(currentPage + 1);
-  const handlePreviousPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+
+  const handleNextPage = () =>
+    currentPage < Math.ceil(totalReviews.length / reviewsPerPage) &&
+    setCurrentPage(currentPage + 1);
+
+  const handlePreviousPage = () =>
+    currentPage > 1 && setCurrentPage(currentPage - 1);
+
+  console.log(
+    totalReviews.reduce((acc, review) => acc + review.userRating, 0) /
+      totalReviews.length
+  );
 
   return (
     <div className="w-full p-6 bg-white shadow-lg rounded-lg">
       <div className="flex justify-between gap-6 mb-6">
         <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-white">
-          <h2 className="text-2xl font-bold">Average Rating: {averageRating.toFixed(2)} / 5</h2>
-          {averageRating > 0 && (
+          <h2 className="text-2xl font-bold">
+            Average Rating :
+            {totalReviews.length > 0
+              ? totalReviews.reduce(
+                  (acc, review) => acc + review.userRating,
+                  0
+                ) / totalReviews.length
+              : 0}
+            / 5
+          </h2>
+          {
             <ReactStars
               count={5}
-              value={Math.min(Math.max(averageRating, 0), 5)}
+              value={
+                totalReviews.length > 0
+                  ? totalReviews.reduce(
+                      (acc, review) => acc + review.userRating,
+                      0
+                    ) / totalReviews.length
+                  : 0
+              }
               size={40}
               edit={false}
               activeColor="#ffd700"
             />
-          )}
+          }
         </div>
 
         <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-gray-100">
-          <h3 className="text-lg font-semibold">Share your experience with this property.</h3>
+          <h3 className="text-lg font-semibold">
+            Share details of your experience with this property.
+          </h3>
           <button
-            onClick={() => setShowReviewForm(!showReviewForm)}
+            onClick={() => {
+              if (authState.status === true && localStorage.getItem("token")) {
+                setShowReviewForm(!showReviewForm);
+              } else {
+                toast.error("Please Log In first");
+                navigate("/login");
+              }
+            }}
             className="mt-4 w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 border border-black"
           >
-            {showReviewForm ? 'Cancel' : 'Write Review'}
+            {showReviewForm ? "Cancel" : "Write Review"}
           </button>
         </div>
       </div>
 
       {showReviewForm && (
-        <form onSubmit={handleAddReview} className="bg-gray-50 p-4 rounded-lg shadow border border-black">
-          <h2 className="text-lg font-semibold mb-4">Add Review</h2>
-          <div className="mb-4">
-            <label htmlFor="username" className="block font-bold mb-1">Username:</label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="w-full p-2 border border-gray-300 rounded bg-white"
-            />
-          </div>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-gray-50 p-6 rounded-lg shadow-lg border border-black max-w-md w-full relative">
+            <button
+              onClick={() => setShowReviewForm(false)}
+              className="absolute top-2 right-2 text-gray-700 hover:text-black"
+            >
+              ✖
+            </button>
+            <h2 className="text-lg font-semibold mb-4">Add Review</h2>
+            <form onSubmit={handleAddReview}>
+              <div className="mb-4">
+                <label htmlFor="rating" className="block font-bold mb-1">
+                  Rate the property :
+                </label>
+                <ReactStars
+                  count={5}
+                  value={rating}
+                  onChange={handleRatingChange}
+                  size={60}
+                  activeColor="#ffd700"
+                  className="flex justify-center"
+                />
+              </div>
 
-          <div className="mb-4 text-center">
-            <label htmlFor="rating" className="block font-bold mb-1">Rating:</label>
-            <ReactStars
-              count={5}
-              value={rating}
-              onChange={handleRatingChange}
-              size={30}
-              activeColor="#ffd700"
-              className="flex justify-center"
-            />
-          </div>
+              <div className="mb-4">
+                <label htmlFor="comment" className="block font-bold mb-1">
+                  Tell us more!
+                </label>
+                <textarea
+                  id="comment"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  required
+                  className="w-full p-2 border border-gray-300 rounded h-24 resize-none bg-white"
+                ></textarea>
+              </div>
 
-          <div className="mb-4">
-            <label htmlFor="comment" className="block font-bold mb-1">Comment:</label>
-            <textarea
-              id="comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              required
-              className="w-full p-2 border border-gray-300 rounded h-24 resize-none bg-white"
-            ></textarea>
+              <button
+                type="submit"
+                className="w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 border border-black"
+              >
+                Add Review
+              </button>
+            </form>
           </div>
-          <button type="submit" className="w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 border border-black">
-            Add Review
-          </button>
-        </form>
+        </div>
       )}
 
       <h2 className="text-2xl font-bold mb-4">All Reviews</h2>
       <ul className="list-none p-0">
         {currentReviews.length > 0 ? (
           currentReviews.map((review) => (
-            <li key={review._id} className="bg-gray-100 p-4 mb-2 rounded-lg border border-black">
-              <div className="inline-block w-8 h-8 rounded-full bg-gray-500 text-white text-center leading-8 font-bold mr-2">
-                {review.username.charAt(0).toUpperCase()}
+            <li
+              key={review.userId}
+              className="bg-gray-100 p-4 mb-2 rounded-lg border border-black"
+            >
+              <div className="flex items-center">
+                <div className="inline-block w-20 h-20 rounded-full bg-gray-500 text-white text-center leading-8 font-bold mr-2"></div>
+                <div className="ml-2">
+                  <p className="font-bold">
+                    {review.firstName !== "NA" ? review.firstName : "Anonymous"}
+                    {review.lastName !== "NA" ? " " + review.lastName : ""}
+                  </p>
+
+                  <ReactStars
+                    count={5}
+                    value={Number(review.userRating)}
+                    size={24}
+                    edit={false}
+                    activeColor="#ffd700"
+                    className="border border-black rounded-lg p-1"
+                  />
+                </div>
               </div>
-              <strong>{review.username}</strong> ({review.rating} stars):
-              <p>{review.comment}</p>
-              <ReactStars
-                count={5}
-                value={Number(review.rating)}
-                size={24}
-                edit={false}
-                activeColor="#ffd700"
-                className="border border-black rounded-lg p-1"
-              />
-              <small className="block mt-2 text-gray-600">Posted on: {new Date(review.createdAt).toLocaleDateString()}</small>
+
+              <p className="mt-5 ml-2">{review.userComment}</p>
             </li>
           ))
         ) : (
-          <p>No reviews available</p>
+          <p className="text-2xl">Be the first to review this property!</p>
         )}
       </ul>
 
@@ -181,23 +230,32 @@ const App = () => {
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className="bg-gray-400 text-white py-2 px-4 rounded mr-2"
+          className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full mr-2"
         >
           &lt;
         </button>
-        {Array.from({ length: Math.ceil(reviews.length / reviewsPerPage) }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => paginate(index + 1)}
-            className={`py-2 px-4 rounded-lg ${currentPage === index + 1 ? 'bg-teal-500 text-white' : 'bg-gray-300 text-gray-800'}`}
-          >
-            {index + 1}
-          </button>
-        ))}
+        {Array.from(
+          { length: Math.ceil(totalReviews.length / reviewsPerPage) },
+          (_, index) => (
+            <button
+              key={index}
+              onClick={() => paginate(index + 1)}
+              className={`py-2 px-2 w-10 rounded-full ${
+                currentPage === index + 1
+                  ? "bg-teal-500 text-white"
+                  : "bg-gray-300 text-gray-800"
+              }`}
+            >
+              {index + 1}
+            </button>
+          )
+        )}
         <button
           onClick={handleNextPage}
-          disabled={currentPage === Math.ceil(reviews.length / reviewsPerPage)}
-          className="bg-gray-400 text-white py-2 px-4 rounded ml-2"
+          disabled={
+            currentPage === Math.ceil(totalReviews.length / reviewsPerPage)
+          }
+          className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full ml-2"
         >
           &gt;
         </button>
@@ -208,4 +266,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Reviews;
