@@ -1,12 +1,22 @@
-import React from 'react'
-import {FaRegHeart} from "react-icons/fa";
+import React from "react";
+import { FaRegHeart } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { IoMdHeart } from "react-icons/io";
+const Likes = ({ data }) => {
+  const authState = useSelector((state) => state.auth);
 
-const Likes = ({data}) => {
-    return (
-        <div className="flex flex-row gap-1 items-center">
-            <FaRegHeart /> {data?.likes.length}
-        </div>
-    )
-}
+  return (
+    <div className="flex flex-row gap-1 items-center">
+      {!authState && <FaRegHeart />}
+      {authState?.userData?.id &&
+      data?.likes?.includes(authState.userData.id) ? (
+        <IoMdHeart />
+      ) : (
+        <FaRegHeart />
+      )}
+      {data?.likes.length}
+    </div>
+  );
+};
 
-export default Likes
+export default Likes;
