@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Service from "../../config/config"; // Adjust the import path accordingly
 import { FaRegHeart } from "react-icons/fa6";
@@ -7,11 +7,12 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import author from "../../assets/property/author.jpg";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 const BlogView = () => {
   const { slug } = useParams(); // Get the blog ID from the URL
   const [blog, setBlog] = useState(null);
   const authState = useSelector((state) => state.auth);
-
+const navigate = useNavigate();
   console.log(authState);
 
   useEffect(() => {
@@ -23,7 +24,6 @@ const BlogView = () => {
         console.log(error);
       }
     };
-
     fetchBlog();
   }, []);
 
@@ -41,7 +41,13 @@ const BlogView = () => {
 
   const updateLike = async () => {
     try {
+      if (!authState.userData) {
+        toast.error('Login First!')
+        return navigate("/login", { replace: true });
+      }
+
       const token = localStorage.getItem("token");
+
       if (!token) return;
 
       const { data } = await axios.get(
@@ -84,8 +90,17 @@ const BlogView = () => {
               <MdOutlineRemoveRedEye />
               {blog.views}
             </div>
-            <div className="flex items-center gap-1 cursor-pointer" onClick={updateLike}>
-              {blog.likes.includes(authState.userData.id) ? <IoMdHeart /> : <FaRegHeart />}
+            <div
+              className="flex items-center gap-1 cursor-pointer"
+              onClick={updateLike}
+            >
+              {!authState && <FaRegHeart />}
+              {authState?.userData?.id &&
+              blog.likes.includes(authState.userData.id) ? (
+                <IoMdHeart />
+              ) : (
+                <FaRegHeart />
+              )}
               {blog.likes.length}
             </div>
           </div>
