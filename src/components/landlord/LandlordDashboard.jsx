@@ -18,7 +18,7 @@ export default function LandlordDashboard() {
 
   const authState = useSelector((state) => state.auth.userData);
 
-  console.log(authState);
+  // console.log(authState);
 
   useEffect(() => {
     if (location.state && location.state.content) {
@@ -31,7 +31,7 @@ export default function LandlordDashboard() {
     const fetchMyProperties = async () => {
       try {
         const properties = await Service.fetchMyProperties(authState.id);
-        console.log(properties);
+        // console.log(properties);
         setMyProperties(properties); // Store the fetched data in backendData
 
         // By default, sort by latest
@@ -96,7 +96,7 @@ export default function LandlordDashboard() {
           />
         </div>
 
-        <div className="ml-2 w-[80%] sm:ml-0 lg:w-[65%]">
+        <div className="ml-2 sm:ml-0 lg:w-[65%]">
           {ShowMainContent(mainContent)}
         </div>
       </div>
