@@ -25,7 +25,10 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
-
+ 
+.margin{
+  margin: 60px;
+}
 
 @keyframes marquee {
   0% {
@@ -60,7 +63,7 @@ body {
       transform: translateX(0); 
     }
     100% {
-      transform: translateX(-510%);
+      transform: translateX(-720%);
     }
   }
 
@@ -76,5 +79,8 @@ body {
 
   .animate-marquee:hover {
     animation-play-state: paused;
+  }
+  .margin{
+    margin: 30px;
   }
 }

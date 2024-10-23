@@ -36,9 +36,9 @@ export default function LandlordDashboardSidebar({
   return (
     <>
       <div className="w-[100%] h-[100%] bg-black text-white p-5 flex flex-col">
-        <div className="flex flex-col">
+        <div className="flex sm:flex-col">
           <div
-            className={`rounded-md px-[14px] py-[10px] max-w-[320px] min-h-[45px] text-xl flex items-center gap-x-4 cursor-pointer ${
+            className={`rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer lg:max-w-[320px] lg:min-h-[45px]  ${
               colored == "Welcome" ? "bg-[#C8A117]" : ""
             } `}
             onClick={() => {
@@ -46,21 +46,21 @@ export default function LandlordDashboardSidebar({
             }}
           >
             <FontAwesomeIcon icon={faChartSimple} className="text-xl" />
-            <span>Dashboard</span>
+            <span className="hidden lg:block">Dashboard</span>
           </div>
           <div
-            className={`rounded-md px-[14px] py-[10px] max-w-[320px] min-h-[45px] text-xl flex items-center gap-x-4 cursor-pointer ${
+            className={`rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer lg:max-w-[320px] lg:min-h-[45px] ${
               colored == "MyProperty" ? "bg-[#C8A117]" : ""
             } `}
             onClick={() => {
               handleOnClick("MyProperty");
             }}
           >
-            <FontAwesomeIcon icon={faHouse} className="text-xl" />
-            <span>My Properties</span>
+            <FontAwesomeIcon icon={faHouse} className="-ml-[2px] text-xl" />
+            <span className="hidden lg:block">My Properties</span>
           </div>
           <div
-            className={`rounded-md px-[14px] py-[10px] max-w-[320px] min-h-[45px] text-xl flex items-center gap-x-4 cursor-pointer ${
+            className={`rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer lg:max-w-[320px] lg:min-h-[45px] ${
               colored == "AddProperty" ? "bg-[#C8A117]" : ""
             } `}
             onClick={() => {
@@ -71,11 +71,11 @@ export default function LandlordDashboardSidebar({
             }}
           >
             <FontAwesomeIcon icon={faPlus} className="text-xl" />
-            <span>Add Property</span>
+            <span className="hidden lg:block">Add Property</span>
           </div>
 
           <div
-            className={`rounded-md max-w-[320px] min-h-[45px] text-xl cursor-pointer`}
+            className={`rounded-md max-w-[320px] min-h-[45px] text-xl min-[320px]:max-sm:flex cursor-pointer`}
           >
             <div
               className={`rounded-md px-[14px] py-[10px] flex items-center gap-x-4 h-[45px] ${
@@ -87,11 +87,11 @@ export default function LandlordDashboardSidebar({
               }}
             >
               <FontAwesomeIcon icon={faGear} className="text-xl" />
-              <span>Settings</span>
+              <span className="hidden lg:block">Settings</span>
             </div>
 
             {toggelSetting && (
-              <ul className="mt-4 ml-8 flex flex-col gap-y-[2px]">
+              <ul className="-ml-1 flex sm:flex-col gap-y-[2px] lg:mt-4 lg:ml-8">
                 <li
                   className={`rounded-md px-[14px] py-[10px] flex items-center gap-x-4 cursor-pointer ${
                     colored == "Profile" ? "bg-[#C8A117]" : ""
@@ -100,7 +100,8 @@ export default function LandlordDashboardSidebar({
                     handleOnClick("Profile");
                   }}
                 >
-                  <img src={profileLogo} alt="" /> Profile
+                  <img className="min-w-5" src={profileLogo} alt="" />
+                  <span className="hidden lg:block">Profile</span>
                 </li>
                 <li
                   className={`rounded-md px-[14px] py-[10px] flex items-center gap-x-4 cursor-pointer ${
@@ -110,8 +111,8 @@ export default function LandlordDashboardSidebar({
                     handleOnClick("AccountSecurity");
                   }}
                 >
-                  <img src={accountSecurityImg} alt="" />
-                  Account Security
+                  <img className="min-w-5" src={accountSecurityImg} alt="" />
+                  <span className="hidden lg:block">Account Security</span>
                 </li>
               </ul>
             )}
@@ -136,7 +137,7 @@ export default function LandlordDashboardSidebar({
               icon={faArrowRightFromBracket}
               className="text-xl "
             />
-            <span>Logout</span>
+            <span className="hidden lg:block">Logout</span>
           </div>
         </div>
       </div>
