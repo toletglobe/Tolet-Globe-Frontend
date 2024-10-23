@@ -25,8 +25,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
-
-
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -60,7 +58,7 @@ body {
       transform: translateX(0); 
     }
     100% {
-      transform: translateX(-510%);
+      transform: translateX(-290%); /* Move fully off the screen to the left */
     }
   }
 
@@ -72,9 +70,5 @@ body {
   .marquee {
     display: flex;
     width: max-content; /* Ensure the width wraps around all images */
-  }
-
-  .animate-marquee:hover {
-    animation-play-state: paused;
   }
 }

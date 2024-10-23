@@ -84,9 +84,9 @@ const BlogView = () => {
               <MdOutlineRemoveRedEye />
               {blog.views}
             </div>
-            <div className="flex items-center gap-1" onClick={updateLike}>
-              {blog.likes.includes(authState.userData.id) ? <IoMdHeart /> : <FaRegHeart />}
-              {blog.likes.length}
+            <div className="flex items-center gap-1">
+              <FaRegHeart />
+              {blog.likes}
             </div>
           </div>
           <div className="text-gray-400 underline flex items-center">

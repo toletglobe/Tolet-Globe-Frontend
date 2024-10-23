@@ -31,7 +31,7 @@ const Institution = () => {
   ];
 
   return (
-    <div className="m-5">
+    <div className="margin">
       <div className="flex flex-col items-center justify-cente">
         <h3 className="w-full max-w-[1078.22px] h-auto font-poppins font-medium text-[24px] leading-[36px] text-center text-[#1D5F58] sm:text-[36px] sm:leading-[48px] md:text-[42.6667px] md:leading-[64px]">
           Partnered Universities
