@@ -90,11 +90,6 @@ const navigate = useNavigate();
               <MdOutlineRemoveRedEye />
               {blog.views}
             </div>
-<<<<<<< HEAD
-            <div className="flex items-center gap-1">
-              <FaRegHeart />
-              {blog.likes}
-=======
             <div
               className="flex items-center gap-1 cursor-pointer"
               onClick={updateLike}
@@ -107,7 +102,6 @@ const navigate = useNavigate();
                 <FaRegHeart />
               )}
               {blog.likes.length}
->>>>>>> e9c462d0c1c985340d4800d69a04ea61367776bc
             </div>
           </div>
           <div className="text-gray-400 underline flex items-center">
