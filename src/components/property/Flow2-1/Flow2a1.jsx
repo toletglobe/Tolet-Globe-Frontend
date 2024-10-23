@@ -350,7 +350,7 @@ const Flow2a = () => {
           </div>
           <div>
             <p className="block text-gray-400">
-              {property?.ownersContactNumber}
+              {property?.ownersContactNumber.slice(0, -5) + 'XXXXX'}
             </p>
           </div>
           <div className="rounded-lg" style={{ backgroundColor: "#40B5A8" }}>
