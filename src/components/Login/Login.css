@@ -1,26 +1,23 @@
 body {
   background-color: #000000;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
 }
 
 .login_form_container {
   position: relative;
-  width: 90%; /* Use percentage for responsiveness */
+  width: 400px;
+  height: 470px;
   max-width: 400px;
-  height: auto; /* Allow height to adjust */
+  max-height: 470px;
   background: #000000 !important;
   border-radius: 50px 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin: 70px auto; /* Center horizontally */
+  margin-top: 70px;
+  margin-left: 550px;
 }
-
-.login_form_container::before,
-.login_form_container::after {
+.login_form_container::before {
   position: absolute;
   width: 170%;
   height: 170%;
@@ -33,17 +30,20 @@ body {
   );
   animation: rotate_border 6s linear infinite;
 }
-
 .login_form_container::after {
+  position: absolute;
+  width: 170%;
+  height: 170%;
+  content: "";
   background-image: conic-gradient(
     transparent,
     transparent,
     transparent,
     #c8a217
   );
+  animation: rotate_border 6s linear infinite;
   animation-delay: -3s;
 }
-
 @keyframes rotate_border {
   0% {
     transform: rotate(0deg);
@@ -52,23 +52,21 @@ body {
     transform: rotate(360deg);
   }
 }
-
 .login_form {
   position: absolute;
+  content: "";
   background-color: #000000;
   border-radius: 50px 5px;
   inset: 5px;
-  padding: 50px 20px; /* Adjust padding for smaller screens */
+  padding: 50px 40px;
   z-index: 10;
   color: #ffffff;
 }
-
 h2 {
-  font-size: 2.5rem; /* Use rem for scalability */
+  font-size: 40px;
   font-weight: 600;
   text-align: center;
 }
-
 .input_group {
   margin-top: 40px;
   position: relative;
@@ -76,7 +74,6 @@ h2 {
   align-items: center;
   justify-content: start;
 }
-
 .input_text {
   width: 95%;
   height: 30px;
@@ -84,30 +81,26 @@ h2 {
   border: none;
   outline: none;
   border-bottom: 1px solid #ffffff;
-  font-size: 1.2rem; /* Use rem for scalability */
+  font-size: 20px;
   padding-left: 10px;
   color: #ffffff;
 }
-
 ::placeholder {
-  font-size: 0.9rem; /* Use rem for scalability */
-  color: white;
+  font-size: 15px;
+  /* color: #3CBDB1; */
+  color: whi;
   letter-spacing: 1px;
 }
-
 .fa {
-  font-size: 1.2rem; /* Use rem for scalability */
+  font-size: 20px;
 }
-
 #login_button {
   position: relative;
-  width: 100%; /* Full width for responsiveness */
-  max-width: 300px; /* Limit maximum width */
+  width: 300px;
   height: 40px;
   transition: 1s;
   margin-top: 70px;
 }
-
 #login_button button {
   position: absolute;
   width: 100%;
@@ -115,7 +108,7 @@ h2 {
   text-decoration: none;
   z-index: 10;
   cursor: pointer;
-  font-size: 1.5rem; /* Use rem for scalability */
+  font-size: 22px;
   letter-spacing: 2px;
   border: 1px solid #c8a217;
   border-radius: 50px;
@@ -125,69 +118,134 @@ h2 {
   align-items: center;
   color: #ffffff;
 }
-
 #login_button button:hover {
   background-color: #c8a217;
 }
-
 .fotter {
   margin-top: 30px;
   display: flex;
   justify-content: space-between;
 }
-
 .fotter a {
   text-decoration: none;
   cursor: pointer;
-  font-size: 1.2rem; /* Use rem for scalability */
+  font-size: 18px;
   color: #3cbdb1;
 }
-
 .glowIcon {
   text-shadow: 0 0 10px #3cbdb1;
 }
 
-/* Media Queries for responsiveness */
-@media (max-width: 768px) {
-  .login_form_container {
-    width: 95%; /* Use more width on smaller screens */
-  }
+/* Media Queries for Responsiveness */
 
-  h2 {
-    font-size: 2rem; /* Adjust font size */
-  }
-
-  .input_text {
-    font-size: 1rem; /* Adjust font size */
-  }
-
-  #login_button button {
-    font-size: 1.2rem; /* Adjust font size */
-  }
-
-  .fotter a {
-    font-size: 1rem; /* Adjust font size */
-  }
-}
-
+/* Small screens (phones) */
 @media (max-width: 480px) {
-  .login_form {
-    padding: 30px 10px; /* Reduce padding for very small screens */
+  .login_form_container {
+    width: 95%; /* Full width on small screens */
+    margin-left: 0;
+    padding: 10px;
+    border-radius: 20px; /* Tighter border-radius for small screens */
   }
 
   h2 {
-    font-size: 1.5rem ; /* Adjust font size */
+    font-size: 24px; /* Reduce font size for smaller screens */
+  }
+
+  .input_group {
+    margin-top: 20px; /* Smaller margin for inputs */
   }
 
   .input_text {
-    font-size: 0.8rem; /* Adjust font size */
+    font-size: 16px; /* Reduce input text size */
+    height: 25px;
   }
 
-  #login_button button {
-    font-size: 1rem; /* Adjust font size */
+  #login_button {
+    width: 100%; /* Full width button */
+    max-width: 280px;
   }
 
   .fotter a {
-    font-size: 0.8rem; /* Adjust font size */
+    font-size: 14px; /* Smaller font size for footer links */
   }
 }
+
+/* Medium screens (tablets) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .login_form_container {
+    width: 80%; /* Slightly larger container on tablets */
+    max-width: 350px;
+    margin-left: 0;
+  }
+
+  h2 {
+    font-size: 30px; /* Adjust heading font size */
+  }
+
+  .input_text {
+    font-size: 18px;
+    height: 28px;
+  }
+
+  #login_button {
+    max-width: 300px;
+  }
+
+  .fotter a {
+    font-size: 16px;
+  }
+}
+
+/* Large screens (desktops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .login_form_container {
+    width: 70%;
+    max-width: 400px;
+    margin-left: 0;
+  }
+
+  h2 {
+    font-size: 36px;
+  }
+
+  .input_text {
+    font-size: 20px;
+    height: 30px;
+  }
+
+  #login_button {
+    max-width: 320px;
+  }
+
+  .fotter a {
+    font-size: 18px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1025px) {
+  .login_form_container {
+    width: 60%;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  h2 {
+    font-size: 40px;
+  }
+
+  .input_text {
+    font-size: 20px;
+    height: 30px;
+  }
+
+  #login_button {
+    max-width: 320px;
+  }
+
+  .fotter a {
+    font-size: 18px;
+  }
+}
+

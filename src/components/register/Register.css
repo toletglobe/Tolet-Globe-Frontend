@@ -1,141 +1,124 @@
-/* Base styles */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #000; /* Background color */
+body{
+  background-color: #000000;
 }
 
-.register_form_container {
-  position: relative;
-  width: 90%; /* Full width with some margin */
-  max-width: 400px; /* Maximum width for larger screens */
-  margin: 70px auto; /* Center horizontally with margin */
-  border-radius: 20px; /* Rounded corners */
-  overflow: hidden; /* Hide overflow */
-}
 
-.register_form_container::before,
-.register_form_container::after {
-  position: absolute;
-  width: 200%; /* Full width for the rotating background */
-  height: 200%; /* Full height for the rotating background */
+/* Transition Animition css*/
+.register_form_container::before {
+  @apply absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#3cbdb1)] animate-rotate_border;
   content: '';
-  background: conic-gradient(transparent, transparent, transparent, #3cbdb1);
-  animation: rotate_border 6s linear infinite; /* Animation for the border */
 }
 
 .register_form_container::after {
-  background: conic-gradient(transparent, transparent, transparent, #c8a217);
-  animation-delay: -3s; /* Delay for the second animation */
+  @apply absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#c8a217)] animate-rotate_border;
+  content: '';
+  animation-delay: -3s;
 }
 
-@keyframes rotate_border {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+/* Media Queries for Responsiveness */
 
-.register_form {
-  position: absolute;
-  background-color: #000; /* Form background color */
-  border-radius: 20px; /* Rounded corners */
-  inset: 5px; /* Padding around the form */
-  padding: 50px 20px; /* Padding for form */
-  color: #ffffff; /* Text color */
-  z-index: 10; /* Ensure it's above the background */
-}
-
-h2 {
-  font-size: 2.5rem; /* Responsive font size */
-  font-weight: 600;
-  text-align: center; /* Center text */
-}
-
-.input_group {
-  margin-top: 20px; /* Margin for input groups */
-  display: flex; /* Flex layout */
-  align-items: center; /* Center items */
-}
-
-.input_text {
-  width: 100%; /* Full width for input */
-  height: 40px; /* Height for input */
-  background: transparent; /* Transparent background */
-  border: none; /* No border */
-  outline: none; /* No outline */
-  border-bottom: 1px solid #ffffff; /* Bottom border */
-  font-size: 1.2rem; /* Responsive font size */
-  padding-left: 10px; /* Padding for input */
-  color: #ffffff; /* Text color */
-}
-
-::placeholder {
-  color: white; /* Placeholder color */
-  opacity: 0.8; /* Opacity for placeholder */
-}
-
-#register_button {
-  position: relative;
-  width: 100%; /* Full width for button */
-  height: 50px; /* Height for button */
-  margin-top: 30px; /* Margin for button */
-}
-
-#register_button button {
-  position: absolute;
-  width: 100%; /* Full width for button */
-  height: 100%; /* Full height for button */
-  text-decoration: none; /* No text decoration */
-  z-index: 10; /* Ensure it's above other elements */
-  cursor: pointer; /* Pointer cursor */
-  font-size: 1.5rem; /* Responsive font size */
-  border: 1px solid #c8a217; /* Border for button */
-  border-radius: 20px; /* Rounded corners */
-  background-color: #000; /* Background color */
-  color: #ffffff; /* Text color */
-  display: flex; /* Flex layout */
-  justify-content: center; /* Center text */
-  align-items: center; /* Center text */
-}
-
-#register_button button:hover {
-  background-color: #c8a217; /* Change background on hover */
-}
-
-/* Media Queries for responsiveness */
-@media (max-width: 768px) {
-  .register_form_container {
-    width: 95%; /* More width on smaller screens */
-  }
-
-  h2 {
-    font-size: 2rem; /* Smaller font size */
-  }
-
-  .input_text {
-    font-size: 1rem; /* Smaller font size */
-  }
-
-  #register_button button {
-    font-size: 1.2rem; /* Smaller button font size */
-  }
-}
-
+/* Small screens (phones) */
 @media (max-width: 480px) {
-  .register_form {
-    padding: 30px 10px; /* Reduce padding for very small screens */
+  .register_form_container {
+    width: 95%; /* Full width on small screens */
+    max-width: 100%; /* No restriction on width */
+    padding: 15px; /* Adjust padding for smaller screens */
+    border-radius: 10px; /* Reduce border radius for small screens */
   }
 
   h2 {
-    font-size: 1.5rem; /* Smaller font size */
+    font-size: 24px; /* Smaller font size for headings */
+  }
+
+  .input_group {
+    margin-top: 20px; /* Reduce margin for smaller screens */
   }
 
   .input_text {
-    font-size : 0.8rem; /* Smaller font size */
+    font-size: 16px; /* Adjust input text size */
   }
 
-  #register_button button {
-    font-size: 1rem; /* Smaller button font size */
+  #register_button {
+    width: 100%; /* Full width button */
+    max-width: 280px; /* Max width for small screens */
+  }
+
+  .fotter a {
+    font-size: 14px; /* Smaller font size for footer links */
   }
 }
 
+/* Medium screens (tablets) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .register_form_container {
+    width: 80%; /* Slightly larger container on tablets */
+    max-width: 350px; /* Limit maximum width */
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 28px; /* Adjust heading font size */
+  }
+
+  .input_text {
+    font-size: 18px;
+  }
+
+  #register_button {
+    max-width: 300px;
+  }
+
+  .fotter a {
+    font-size: 16px;
+  }
+}
+
+/* Large screens (desktops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .register_form_container {
+    width: 70%; /* Width adjustment for large screens */
+    max-width: 400px;
+    padding: 25px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  .input_text {
+    font-size: 20px;
+  }
+
+  #register_button {
+    max-width: 320px;
+  }
+
+  .fotter a {
+    font-size: 18px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1025px) {
+  .register_form_container {
+    width: 60%; /* Further width adjustment */
+    max-width: 450px; /* Maximum width for larger displays */
+    padding: 30px;
+  }
+
+  h2 {
+    font-size: 36px;
+  }
+
+  .input_text {
+    font-size: 22px;
+  }
+
+  #register_button {
+    max-width: 340px;
+  }
+
+  .fotter a {
+    font-size: 18px;
+  }
+}
