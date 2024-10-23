@@ -9,6 +9,7 @@ import {
   MdFitnessCenter,
   MdDirectionsBus,
 } from "react-icons/md";
+import { RiLock2Fill } from "react-icons/ri";
 
 const LocationComponent = ({ property, selectComp }) => {
   // State to track which category is selected
@@ -67,7 +68,8 @@ const LocationComponent = ({ property, selectComp }) => {
         </div>
 
         <div className="flex flex-col md:flex-row">
-          <div className="md:w-4/5 mb-2">
+          <div className="md:w-4/5 mb-2 relative">
+          <div className="w-full h-full absolute backdrop-blur-sm bg-black/40 flex justify-center items-center"><RiLock2Fill color="#ffffff" size={30} /></div>
             <div className="w-full">
               <iframe
                 key={selectedCategory} // Add this key prop
