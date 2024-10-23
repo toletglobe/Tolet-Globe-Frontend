@@ -41,7 +41,7 @@ const Login = () => {
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
 
-        console.log(res.data.user);
+        // console.log(res.data.user);
         dispatch(
           login({
             token: res.data.token,
