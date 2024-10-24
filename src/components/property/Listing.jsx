@@ -20,6 +20,7 @@ import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import { useStateValue } from "../../StateProvider";
 
 const Listing = () => {
+  // {a=["yogesh","jaya","deepika"]}
   const { city } = useParams();
   const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ const Listing = () => {
   const [mode, setMode] = useState(false);
   const [showCity, setShowCity] = useState(false);
   const [Location, setLocation] = useState(false);
+  const [area, setArea] = useState(false);
   const location = useLocation();
   const propertiesPerPage = 9;
 
@@ -274,7 +276,7 @@ const Listing = () => {
 
           <div className="flex justify-between gap-14 w-full flex-wrap">
             <div className="flex items-center justify-between gap-20 md:gap-36 lg:gap-36 ml-4 flex-col md:flex-row lg:flex-row">
-              <div className="bg-white h-14 w-64 md:w-80 lg:w-80 flex items-center justify-between text-black px-4 rounded-md">
+              <div className="bg-white h-14 w-64 md:w-80 lg:w-96 flex items-center justify-between text-black px-4 rounded-md">
                 <div className="w-1/4 flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-r-2 h-3/4 border-black">
                   <p className="text-black">Sort</p>
                   <img
@@ -327,7 +329,7 @@ const Listing = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
-                  <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
+                  <div className="text-sm py-1 px-3 bg-[#EED98B] rounded-full hover:cursor-pointer">
                     <p onClick={handleLocation}>
                       {!city ? "Select City" : city}
                     </p>
@@ -347,7 +349,7 @@ const Listing = () => {
                       >
                         <p
                           className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Gomti Nagar")}
+                          onClick={() => {handleLocalitySelect("Gomti Nagar")}}
                         >
                           Gomti Nagar
                         </p>
@@ -490,6 +492,16 @@ const Listing = () => {
                       <p>{selectedLocality}</p>
                     </div>
                   )}
+                  <div className="w-3/4">
+                    <select id="area" className="bg-[#EED98B] rounded-lg p-1">
+                      <option value="" disabled selected className="bg-white">select area</option>
+                      {/* { {a.map((ind) => {<option className="bg-white">{a[ind]}</option>})} } */}
+                      <option value="area 1">area1</option>
+                      <option value="area 2" className="bg-white">area2</option>
+                      <option value="area 3" className="bg-white">area3</option>
+                      <option value="area 4" className="bg-white">area4</option>
+                    </select>
+                  </div>
                   {/* <div
                     className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
                       }`}

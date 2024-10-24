@@ -35,18 +35,21 @@ export default function LandlordDashboardSidebar({
 
   return (
     <>
-      <div className="w-[100%] h-[100%] bg-black text-white p-5 flex flex-col">
-        <div className="flex sm:flex-col">
+      {/* <div className="w-[100%] h-[100%] bg-black text-white p-5 flex flex-col">
+        <div className="flex sm:flex-col"> */}
+      <div className="w-[100%] h-[100%] bg-black text-white p-5 flex flex-col sm:p-1 w[100%] items-center">
+        <div className="flex flex-col sm:flex-row lg:flex-col">
           <div
             className={`rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer lg:max-w-[320px] lg:min-h-[45px]  ${
               colored == "Welcome" ? "bg-[#C8A117]" : ""
-            } `}
+            // } `}
+               } sm:flex items-center `}
             onClick={() => {
               handleOnClick("Welcome");
             }}
           >
             <FontAwesomeIcon icon={faChartSimple} className="text-xl" />
-            <span className="hidden lg:block">Dashboard</span>
+            <span className="hidden xl:block">Dashboard</span>
           </div>
           <div
             className={`rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer lg:max-w-[320px] lg:min-h-[45px] ${
@@ -57,7 +60,7 @@ export default function LandlordDashboardSidebar({
             }}
           >
             <FontAwesomeIcon icon={faHouse} className="-ml-[2px] text-xl" />
-            <span className="hidden lg:block">My Properties</span>
+            <span className="hidden xl:block">My Properties</span>
           </div>
           <div
             className={`rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer lg:max-w-[320px] lg:min-h-[45px] ${
@@ -71,7 +74,7 @@ export default function LandlordDashboardSidebar({
             }}
           >
             <FontAwesomeIcon icon={faPlus} className="text-xl" />
-            <span className="hidden lg:block">Add Property</span>
+            <span className="hidden xl:block">Add Property</span>
           </div>
 
           <div
@@ -87,7 +90,7 @@ export default function LandlordDashboardSidebar({
               }}
             >
               <FontAwesomeIcon icon={faGear} className="text-xl" />
-              <span className="hidden lg:block">Settings</span>
+              <span className="hidden xl:block">Settings</span>
             </div>
 
             {toggelSetting && (
@@ -101,7 +104,7 @@ export default function LandlordDashboardSidebar({
                   }}
                 >
                   <img className="min-w-5" src={profileLogo} alt="" />
-                  <span className="hidden lg:block">Profile</span>
+                  <span className="hidden xl:block">Profile</span>
                 </li>
                 <li
                   className={`rounded-md px-[14px] py-[10px] flex items-center gap-x-4 cursor-pointer ${
@@ -112,7 +115,7 @@ export default function LandlordDashboardSidebar({
                   }}
                 >
                   <img className="min-w-5" src={accountSecurityImg} alt="" />
-                  <span className="hidden lg:block">Account Security</span>
+                  <span className="hidden xl:block">Account Security</span>
                 </li>
               </ul>
             )}
@@ -137,7 +140,7 @@ export default function LandlordDashboardSidebar({
               icon={faArrowRightFromBracket}
               className="text-xl "
             />
-            <span className="hidden lg:block">Logout</span>
+            <span className="hidden xl:block">Logout</span>
           </div>
         </div>
       </div>
