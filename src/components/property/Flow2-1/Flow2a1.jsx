@@ -308,10 +308,10 @@ const Flow2a = () => {
                     />
                   </button>
                 }
-                position={"left center"}
+                position={"center"}
               >
                 {(close) => (
-                  <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90 mt-10 -ml-6">
+                  <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90 mt-20 -ml-8">
                     <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
                       <div className="px-2 py-2 text-sm truncate w-32">
                         {property?.firstName + " "} {property?.lastName}

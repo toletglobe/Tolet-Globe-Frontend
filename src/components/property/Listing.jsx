@@ -78,7 +78,7 @@ const Listing = () => {
           setTotalPages(fetchedData.totalPages || 1);
         } else {
           const fetchedData = await Service.fetchProperty(currentPage);
-          propertyData = fetchedData.properties || []; // Ensure it's an array
+          propertyData = fetchedData || []; // Ensure it's an array
           setProperties(propertyData);
           setTotalPages(fetchedData.totalPages || 1);
         }
