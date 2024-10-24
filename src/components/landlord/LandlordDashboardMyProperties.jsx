@@ -66,9 +66,9 @@ export default function MyProperties({ myProperties }) {
 
   return (
     <>
-      <div className="mt-8">
+      <div className="mt-8 mb-8">
         {myProperties.length > 0 ? (
-          <div className="grid grid-cols-3">{cards}</div>
+          <div className="grid grid-cols-1 min-[600px]:grid-cols-2 min-[1200px]:grid-cols-3 gap-4">{cards}</div>
         ) : (
           <h6 className="text-gray-400 text-center text-3xl font-bold ">
             You have no properties yet !
