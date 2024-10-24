@@ -17,28 +17,27 @@ const Footer = () => {
   };
 
   return (
-    <div className="text-white mx-20">
-
+    <div className="text-white mx-20 sm:mx-2">
       <hr className="my-3"/>
-
-      <div className="flex justify-around gap-20 py-2 px-2">
-        <div>
+      <div className="flex flex-col py-2 px-2 sm:align-center md:flex-row md:flex-wrap lg:flex-wrap xl:flex-nowrap">
+        <div className="sm:flex flex-col items-center md:w-1/2 p-4">
           <h1 className="text-2xl font-semibold text-teal-500">REACH US</h1>
           <ul className="mt-5">
-            <li className="flex flex-row items-center mb-2 gap-2">
+            <li className="flex flex-row items-center mb-2 gap-2 sm:justify-center">
               <IoIosCall /> +91-8707727347
             </li>
-            <li className="flex flex-row items-center mb-2 gap-2">
+            <li className="flex flex-row items-center mb-2 gap-2 sm:justify-center">
               <IoIosMail /> hello@toletglobe.in
             </li>
-            <li className="flex flex-row items-center mb-2 gap-2 text-sm">
-              <FaLocationDot /> D1/122 Vipulkhand, Gomtinagar Lucknow,Uttar
-              Pradesh
+            <li className="flex items-center mb-2 text-sm sm:justify-center gap-2">
+              <FaLocationDot />
+              <p className="text-center"> D1/122 Vipulkhand,Gomtinagar <p> Lucknow,Uttar
+              Pradesh</p></p>
             </li>
           </ul>
         </div>
-        <div className="">
-          <h1 className="text-2xl font-semibold whitespace-nowrap text-teal-500  ">QUICK LINKS</h1>
+        <div className="sm:flex flex-col items-center text-center md:w-1/2 p-4">
+          <h1 className="text-2xl font-semibold whitespace-nowrap text-teal-500">QUICK LINKS</h1>
           <ul className="mt-5 gap-3">
             <li className="mb-2">
               <Link
@@ -69,7 +68,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div>
+        <div className="sm:flex flex-col items-center text-center md:w-1/2 p-4">
           <h1 className="text-2xl font-semibold text-teal-500">SERVICES</h1>
           <ul className="mt-5 gap-3">
             <li>Paying Guest</li>
@@ -78,7 +77,7 @@ const Footer = () => {
             <li>Shops and Godown</li>
           </ul>
         </div>
-        <div className="flex flex-col justify-center items-center ">
+        <div className="flex flex-col justify-center items-center sm:py-2 md:w-1/2 p-4">
           <div>
             <img src={logo} alt="" />
           </div>
