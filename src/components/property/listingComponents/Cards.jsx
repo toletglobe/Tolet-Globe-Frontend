@@ -72,11 +72,11 @@ const Cards = ({ properties, propertyAction }) => {
 
   return (
     <div>
-      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
         {normalizedProperties.map((property) => (
           <li
             key={property._id}
-            className="property-card bg-white border border-grey-200 shadow-lg relative"
+            className="property-card bg-white border border-grey-200 shadow-lg relative p-2 md:p-4"
           >
             <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
               {property.images.length > 1 ? (
@@ -103,7 +103,7 @@ const Cards = ({ properties, propertyAction }) => {
                 </div>
               )}
               
-              y9876<div
+              <div
                 className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
                 style={{
                   backgroundColor:
@@ -140,14 +140,14 @@ const Cards = ({ properties, propertyAction }) => {
                 </div>
               </div>
             </figure>
-            <div className="card-content p-6">
+            <div className="card-content p-4 md:p-6">
               <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-[20px] font-semibold">
+                <h3 className="card-title text-[16px] md:text-[20px] font-semibold">
                   <a href="#">
                     {property.bhk} BHK, {property.propertyType}, On Rent
                   </a>
                 </h3>
-                <div className="icon-box flex space-x-4 p-2">
+                <div className="icon-box flex space-x-2 md:space-x-4 p-2">
                   <Popup arrow={false}
                     trigger={
                       <button>
@@ -251,9 +251,9 @@ const Cards = ({ properties, propertyAction }) => {
                 />
               </div>
             </div>
-            <div className="card-footer p-6 flex justify-between items-center">
+            <div className="card-footer p-4 md:p-6 flex justify-between items-center">
               <div className="card-author flex items-center gap-4">
-                <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full">
+                <figure className="author-avatar w-8 h-8 md:w-10 md:h-10 overflow-hidden rounded-full">
                   <img
                     src={property.images[0]}
                     alt={property.ownerName}
