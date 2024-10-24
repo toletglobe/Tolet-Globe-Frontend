@@ -24,6 +24,7 @@ body{
     max-width: 100%; /* No restriction on width */
     padding: 15px; /* Adjust padding for smaller screens */
     border-radius: 10px; /* Reduce border radius for small screens */
+    margin: 0 auto; /* Center horizontally */
   }
 
   h2 {
@@ -43,7 +44,7 @@ body{
     max-width: 280px; /* Max width for small screens */
   }
 
-  .fotter a {
+  .footer a {
     font-size: 14px; /* Smaller font size for footer links */
   }
 }
@@ -54,6 +55,7 @@ body{
     width: 80%; /* Slightly larger container on tablets */
     max-width: 350px; /* Limit maximum width */
     padding: 20px;
+    margin: 0 auto; /* Center horizontally */
   }
 
   h2 {
@@ -68,7 +70,7 @@ body{
     max-width: 300px;
   }
 
-  .fotter a {
+  .footer a {
     font-size: 16px;
   }
 }
@@ -79,6 +81,8 @@ body{
     width: 70%; /* Width adjustment for large screens */
     max-width: 400px;
     padding: 25px;
+    border-radius: 10px; /* Reduce border radius for small screens */
+    margin: 0 auto; /* Center horizontally */
   }
 
   h2 {
@@ -93,7 +97,7 @@ body{
     max-width: 320px;
   }
 
-  .fotter a {
+  .footer a {
     font-size: 18px;
   }
 }
@@ -104,6 +108,7 @@ body{
     width: 60%; /* Further width adjustment */
     max-width: 450px; /* Maximum width for larger displays */
     padding: 30px;
+    margin: 0 auto; /* Center horizontally */
   }
 
   h2 {
@@ -118,7 +123,16 @@ body{
     max-width: 340px;
   }
 
-  .fotter a {
+  .footer a {
     font-size: 18px;
   }
+}
+
+/* Ensure the form is centered on the page */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
 }

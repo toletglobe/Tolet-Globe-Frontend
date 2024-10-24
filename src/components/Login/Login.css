@@ -16,6 +16,7 @@ body {
   overflow: hidden;
   margin-top: 70px;
   margin-left: 550px;
+  margin-right: 550px;
 }
 .login_form_container::before {
   position: absolute;
@@ -58,7 +59,7 @@ body {
   background-color: #000000;
   border-radius: 50px 5px;
   inset: 5px;
-  padding: 50px 40px;
+  padding: 50px 50px;
   z-index: 10;
   color: #ffffff;
 }
@@ -141,14 +142,16 @@ h2 {
 /* Small screens (phones) */
 @media (max-width: 480px) {
   .login_form_container {
-    width: 95%; /* Full width on small screens */
-    margin-left: 0;
+    width: 100%; /* Full width on small screens */
+    max-width: 320px; /* Restrict width to avoid making it too wide */
     padding: 10px;
-    border-radius: 20px; /* Tighter border-radius for small screens */
+    border-radius: 10px; /* Reduce border radius for small screens */
+    margin: 0; /* Center horizontally */
   }
 
   h2 {
     font-size: 24px; /* Reduce font size for smaller screens */
+    text-align: center; /* Center heading text */
   }
 
   .input_group {
@@ -163,10 +166,13 @@ h2 {
   #login_button {
     width: 100%; /* Full width button */
     max-width: 280px;
+    margin: 0 auto; /* Center the button horizontally */
   }
 
-  .fotter a {
+  .footer a {
     font-size: 14px; /* Smaller font size for footer links */
+    text-align: center; /* Center footer text */
+    display: block;
   }
 }
 
@@ -175,7 +181,7 @@ h2 {
   .login_form_container {
     width: 80%; /* Slightly larger container on tablets */
     max-width: 350px;
-    margin-left: 0;
+    margin: 0 auto; /* Center horizontally */
   }
 
   h2 {
@@ -191,7 +197,7 @@ h2 {
     max-width: 300px;
   }
 
-  .fotter a {
+  .footer a {
     font-size: 16px;
   }
 }
@@ -201,7 +207,7 @@ h2 {
   .login_form_container {
     width: 70%;
     max-width: 400px;
-    margin-left: 0;
+    margin: 0 auto; /* Center horizontally */
   }
 
   h2 {
@@ -217,7 +223,7 @@ h2 {
     max-width: 320px;
   }
 
-  .fotter a {
+  .footer a {
     font-size: 18px;
   }
 }
@@ -227,8 +233,7 @@ h2 {
   .login_form_container {
     width: 60%;
     max-width: 450px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto; /* Center horizontally */
   }
 
   h2 {
@@ -244,8 +249,18 @@ h2 {
     max-width: 320px;
   }
 
-  .fotter a {
+  .footer a {
     font-size: 18px;
   }
 }
+
+/* Ensure the form is centered on the page */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
 
