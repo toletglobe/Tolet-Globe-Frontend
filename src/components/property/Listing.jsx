@@ -272,9 +272,9 @@ const Listing = () => {
             />
           </div>
 
-          <div className="flex justify-between gap-14 w-full flex-wrap">
+          <div className="flex flex-col gap-4 md:flex-row md:flex-wrap lg:flex-nowrap lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-20 md:gap-36 lg:gap-36 ml-4 flex-col md:flex-row lg:flex-row">
-              <div className="bg-white h-14 w-64 md:w-80 lg:w-80 flex items-center justify-between text-black px-4 rounded-md">
+              <div className="bg-white h-14 w-full  lg:w-80 flex items-center justify-between text-black px-4 rounded-md">
                 <div className="w-1/4 flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-r-2 h-3/4 border-black">
                   <p className="text-black">Sort</p>
                   <img
@@ -514,7 +514,7 @@ const Listing = () => {
                   />
                 </div>
               </div>
-              <div className="h-14 w-56 bg-white text-black flex items-start justify-between px-5 rounded-md">
+              <div className="h-14 w-full lg:w-56 bg-white text-black flex items-start justify-between px-5 rounded-md">
                 <div className="flex items-center justify-start gap-4 h-full w-2/4">
                   <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
                     {filterCount}
@@ -532,10 +532,10 @@ const Listing = () => {
               </div>
             </div>
 
-            <div className="compare" onClick={compare}>
+            <div className="compare w-full md:w-auto" onClick={compare}>
               {compareProperty.length >= 0 && (
                 <button
-                  className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
+                  className={`bg-white h-14 w-full md:w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
                     compareProperty.length <= 1
                       ? "opacity-50 grayscale cursor-not-allowed"
                       : ""
@@ -550,10 +550,10 @@ const Listing = () => {
               )}
             </div>
 
-            <div>
+            <div className="w-full md:w-auto">
               <a
                 onClick={handleAddPropertybtn}
-                className="mr-2 bg-white w-44 h-14 text-black flex items-center justify-center px-5 rounded-md cursor-pointer"
+                className="mr-2 bg-white h-14 text-black flex items-center justify-center px-5 rounded-md cursor-pointer w-full md:w-44 "
               >
                 Add a property
               </a>
