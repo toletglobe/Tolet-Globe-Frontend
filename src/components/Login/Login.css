@@ -16,6 +16,7 @@ body {
   overflow: hidden;
   margin-top: 70px;
   margin-left: 550px;
+  margin-right: 550px;
 }
 .login_form_container::before {
   position: absolute;
@@ -58,7 +59,7 @@ body {
   background-color: #000000;
   border-radius: 50px 5px;
   inset: 5px;
-  padding: 50px 40px;
+  padding: 50px 50px;
   z-index: 10;
   color: #ffffff;
 }
@@ -135,3 +136,131 @@ h2 {
 .glowIcon {
   text-shadow: 0 0 10px #3cbdb1;
 }
+
+/* Media Queries for Responsiveness */
+
+/* Small screens (phones) */
+@media (max-width: 480px) {
+  .login_form_container {
+    width: 100%; /* Full width on small screens */
+    max-width: 320px; /* Restrict width to avoid making it too wide */
+    padding: 10px;
+    border-radius: 10px; /* Reduce border radius for small screens */
+    margin: 0; /* Center horizontally */
+  }
+
+  h2 {
+    font-size: 24px; /* Reduce font size for smaller screens */
+    text-align: center; /* Center heading text */
+  }
+
+  .input_group {
+    margin-top: 20px; /* Smaller margin for inputs */
+  }
+
+  .input_text {
+    font-size: 16px; /* Reduce input text size */
+    height: 25px;
+  }
+
+  #login_button {
+    width: 100%; /* Full width button */
+    max-width: 280px;
+    margin: 0 auto; /* Center the button horizontally */
+  }
+
+  .footer a {
+    font-size: 14px; /* Smaller font size for footer links */
+    text-align: center; /* Center footer text */
+    display: block;
+  }
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .login_form_container {
+    width: 80%; /* Slightly larger container on tablets */
+    max-width: 350px;
+    margin: 0 auto; /* Center horizontally */
+  }
+
+  h2 {
+    font-size: 30px; /* Adjust heading font size */
+  }
+
+  .input_text {
+    font-size: 18px;
+    height: 28px;
+  }
+
+  #login_button {
+    max-width: 300px;
+  }
+
+  .footer a {
+    font-size: 16px;
+  }
+}
+
+/* Large screens (desktops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .login_form_container {
+    width: 70%;
+    max-width: 400px;
+    margin: 0 auto; /* Center horizontally */
+  }
+
+  h2 {
+    font-size: 36px;
+  }
+
+  .input_text {
+    font-size: 20px;
+    height: 30px;
+  }
+
+  #login_button {
+    max-width: 320px;
+  }
+
+  .footer a {
+    font-size: 18px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1025px) {
+  .login_form_container {
+    width: 60%;
+    max-width: 450px;
+    margin: 0 auto; /* Center horizontally */
+  }
+
+  h2 {
+    font-size: 40px;
+  }
+
+  .input_text {
+    font-size: 20px;
+    height: 30px;
+  }
+
+  #login_button {
+    max-width: 320px;
+  }
+
+  .footer a {
+    font-size: 18px;
+  }
+}
+
+/* Ensure the form is centered on the page */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+
