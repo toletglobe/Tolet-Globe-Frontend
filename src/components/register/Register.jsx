@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./Register.css";
 import {
   FaUser,
   FaLock,
@@ -75,6 +74,8 @@ const Register = () => {
         role === "user" ? "h-[785px]" : "h-[700px]"
       } w-[400px]  max-w-[400px] max-h-[785px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16 `}
     >
+      <div className="absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#3cbdb1)] animate-rotate_border"></div>
+      <div className="absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#c8a217)] animate-rotate_border" style={{animationDelay: "-3s"}}></div>
       <div className="absolute inset-1 bg-black rounded-[50px_5px] p-[43px_40px] text-white z-10 min-h-[650px] border-4 border-transparent">
         {" "}
         <h2 className="text-4xl font-semibold text-center">Register</h2>
