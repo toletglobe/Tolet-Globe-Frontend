@@ -28,7 +28,6 @@ const LandlordDashboardAccountSecurity = () => {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Check if all password criteria are met
     const allCriteriaMet = Object.values(passwordCriteria).every(
       (criterion) => criterion
     );
@@ -70,14 +69,9 @@ const LandlordDashboardAccountSecurity = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black flex flex-col p-4">
-      {" "}
-      {/* Main container with padding */}
-      {/* First div for heading and instructions */}
+    <div className="min-h-screen bg-black flex flex-col p-4 sm:p-6 md:p-8 lg:p-10">
       <div className="mb-4">
-        {" "}
-        {/* Minimal bottom margin for spacing */}
-        <h2 className="text-3xl text-white font-semibold text-left">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl text-white font-semibold text-left">
           Account Security
         </h2>
         <p className="text-xs sm:text-sm md:text-base text-teal-400 p-2 text-left">
@@ -85,10 +79,8 @@ const LandlordDashboardAccountSecurity = () => {
           something too obvious like your pet's name.
         </p>
       </div>
-      {/* Second div for the form */}
-      <div className="w-full max-w-md mb-4">
-        {" "}
-        {/* Keep the form aligned to the left with a bottom margin */}
+      
+      <div className="w-full max-w-full sm:max-w-md mb-4">
         <form onSubmit={handleSubmit} className="mb-0">
           <div className="mb-4">
             <label className="block text-white mb-2">Current Password</label>
@@ -115,37 +107,25 @@ const LandlordDashboardAccountSecurity = () => {
             />
             <ul className="mt-4 space-y-1">
               {!passwordCriteria.length && newPassword && (
-                <li
-                  className="text-sm pl-2 flex items-center text-[#ff3300]"
-                  style={{ fontFamily: "'SF Pro Display', sans-serif" }}
-                >
+                <li className="text-sm pl-2 flex items-center text-[#ff3300]">
                   <span className="mr-2 text-[#ff3300]">✗</span>
                   At least 8 characters long
                 </li>
               )}
               {!passwordCriteria.uppercase && newPassword && (
-                <li
-                  className="text-sm pl-2 flex items-center text-[#ff3300]"
-                  style={{ fontFamily: "'SF Pro Display', sans-serif" }}
-                >
+                <li className="text-sm pl-2 flex items-center text-[#ff3300]">
                   <span className="mr-2 text-[#ff3300]">✗</span>
                   Contains at least one uppercase letter
                 </li>
               )}
               {!passwordCriteria.lowercase && newPassword && (
-                <li
-                  className="text-sm pl-2 flex items-center text-[#ff3300]"
-                  style={{ fontFamily: "'SF Pro Display', sans-serif" }}
-                >
+                <li className="text-sm pl-2 flex items-center text-[#ff3300]">
                   <span className="mr-2 text-[#ff3300]">✗</span>
                   Contains at least one lowercase letter
                 </li>
               )}
               {!passwordCriteria.number && newPassword && (
-                <li
-                  className="text-sm pl-2 flex items-center text-[#ff3300]"
-                  style={{ fontFamily: "'SF Pro Display', sans-serif" }}
-                >
+                <li className="text-sm pl-2 flex items-center text-[#ff3300]">
                   <span className="mr-2 text-[#ff3300]">✗</span>
                   Contains at least one number
                 </li>
@@ -154,9 +134,7 @@ const LandlordDashboardAccountSecurity = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-white mb-2">
-              Confirm New Password
-            </label>
+            <label className="block text-white mb-2">Confirm New Password</label>
             <input
               type="password"
               value={confirmPassword}
@@ -165,7 +143,8 @@ const LandlordDashboardAccountSecurity = () => {
               className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
           </div>
-          <div className="flex justify-end translate-x-3/4 translate-y-10">
+
+          <div className="flex justify-end mt-8 sm:mt-10">
             <button
               type="submit"
               className="bg-teal-500 text-white px-5 py-2 rounded-md hover:bg-teal-600 transition duration-300"
