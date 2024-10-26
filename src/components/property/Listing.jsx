@@ -31,6 +31,7 @@ const Listing = () => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(false);
   const [showCity, setShowCity] = useState(false);
+  const [showArea, setShowArea] = useState(false);
   const [Location, setLocation] = useState(false);
   const location = useLocation();
   const propertiesPerPage = 9;
@@ -40,10 +41,44 @@ const Listing = () => {
   const [filterCount, setFilterCount] = useState(0);
 
   const authState = useSelector((state) => state.auth);
-
   const [noPropertiesFound, setNoPropertiesFound] = useState(false);
-
   const [selectedLocality, setSelectedLocality] = useState("");
+  const [selectedArea, setSelectedArea] = useState([]);
+  const [moreArea, setMoreArea] = useState(false);
+  // const [selectedCity, setSelectedCity] = useState("");
+
+  
+  const citylocalities = {      // Respected Localities of Particular City
+    Lucknow: [
+      "Gomti Nagar",
+      "Aliganj",
+      "Indira Nagar",
+      "Chinhat",
+      "Hazratganj",
+      "Aashiana",
+      "Aminabad",
+      "Surender Nagar",
+      "Chowk",
+      "Jankipuram",
+      "Rajajipuram ",
+      "Mahanagar ",
+    ],
+    Ayodhya: ["ayodhya1", "ayodhya2"], 
+    Vellore: ["vellore1", "vellore2"],
+    Kota: ["kota1", "kota2"],
+  };
+  const localityareas = {  // Respected Area of Particular Locality
+    "Gomti Nagar": ["Vibhuti Khand", "Viram Khand", "Vijay Khand", "Vikas Khand", "Vipul Khand", "Vardan Khand", "Vinay Khand", "Gomti Nagar Extension", "Patrakarpuram", "Faizabad Road (nearby)"],
+    "Aliganj": ["Sector A", "Sector B", "Sector C", "Sector D", "Sector E", "Sector F", "Purania", "Kapoorthala", "Tedhi Pulia"],
+    "Indira Nagar": ["Sector 1", "Sector 2", "Sector 3", "Sector 5", "Sector 9", "Sector 11", "Sector 14", "Sector 16", "Sector 18", "Sector 19", "Munshipulia (nearby junction)"],
+    "Hazratganj": ["Ganj Market", "Janpath Market", "MG Marg (Mahatma Gandhi Marg)", "GPO (General Post Office)", "Hazratganj Crossing", "Sikandar Bagh (nearby)"],
+    "Aashiana": ["Aashiana Phase 1", "Aashiana Phase 2", "Aashiana Phase 3", "LDA Colony", "Kanpur Road", "Ruchi Khand", "Ratan Khand", "South City (adjacent)"],
+    "Aminabad": ["Gandhi Market", "Pratap Market", "Latouche Road", "Aminabad Bazaar", "Kesar Bagh", "Hanuman Temple"],
+    "Chowk": ["Gol Darwaza", "Nakhas Market", "Tunday Kababi Lane", "Akbari Gate", "Kashmiri Mohalla", "Chikan Market"],
+    "Jankipuram": ["Sector A", "Sector B", "Sector C", "Jankipuram Extension", "Kursi Road (nearby)", "Engineering College Crossing"],
+    "Rajajipuram": ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 6", "Sector 7", "C Block", "G Block", "H Block"],
+    "Mahanagar": ["Mahanagar Extension", "Sector A", "Sector B", "Sector C", "Sector D", "Gol Market (within Mahanagar)", "Nishatganj (adjacent)"]
+};
 
   function refresh() {
     window.location.reload(false);
@@ -63,7 +98,24 @@ const Listing = () => {
     setMode(!mode);
   }
   function handleShowCity() {
-    setShowCity(!showCity);
+    if (city) {
+      setShowCity(!showCity);
+    }
+  }
+  function handleShowArea() {
+    if (selectedLocality) {
+      setShowArea(!showArea);
+    }
+  }
+  function addLocality(area) {
+    setSelectedArea(area);
+    // console.log(area);
+    if (selectedArea.includes(area)) {
+      selectedArea.splice(selectedArea.indexOf(area), 1);
+      setSelectedArea([...selectedArea]);
+    } else {
+      setSelectedArea([...selectedArea, area]);
+    }
   }
 
   useEffect(() => {
@@ -72,17 +124,19 @@ const Listing = () => {
       try {
         let propertyData = [];
         if (city) {
-          const fetchedData = await Service.fetchPropertyByCity(city, currentPage);
-          propertyData = fetchedData.properties || []; // Ensure it's an array
+          const fetchedData = await Service.fetchPropertyByCity(
+            city,
+            currentPage
+          );
+          propertyData = fetchedData.properties || [];
           setProperties(propertyData);
           setTotalPages(fetchedData.totalPages || 1);
         } else {
           const fetchedData = await Service.fetchProperty(currentPage);
-          propertyData = fetchedData || []; // Ensure it's an array
+          propertyData = fetchedData.properties || []; // Ensure it's an array
           setProperties(propertyData);
           setTotalPages(fetchedData.totalPages || 1);
         }
-        
 
         // Filter by locality if selected
         if (selectedLocality) {
@@ -90,7 +144,17 @@ const Listing = () => {
             (property) => property.locality === selectedLocality
           );
         }
+        if ((selectedArea.length > 0) && selectedLocality) {
+          propertyData = propertyData.filter(
+            (property) => property.locality === selectedLocality
+          );
+          
+          propertyData = propertyData.filter(
+            (property) => selectedArea.includes(property.area)
+          );
+          // console.log(propertyData);
 
+        }
         // Sort by created date
         propertyData.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -130,11 +194,11 @@ const Listing = () => {
         }
 
         // Apply filtering based on locality
-        if (selectedLocality) {
-          filteredProperties = filteredProperties.filter(
-            (property) => property.locality === selectedLocality
-          );
-        }
+        // if (selectedLocality ) {
+        //   filteredProperties = filteredProperties.filter(
+        //      (property) => property.locality === selectedLocality && property.area ===  selectedArea
+        //   );
+        // }
 
         // Set filtered properties
         setProperties(filteredProperties);
@@ -147,7 +211,6 @@ const Listing = () => {
         if (sortType) {
           sortProperties(filteredProperties, sortType);
         }
-
         setLoading(false);
       } catch (error) {
         console.error("Error fetching properties:", error);
@@ -156,7 +219,7 @@ const Listing = () => {
     };
 
     fetchAndFilterProperties();
-  }, [city, location.search, selectedLocality, currentPage]); // Add city to the dependency array
+  }, [city, location.search, selectedLocality, currentPage, selectedArea]); // Add city to the dependency array
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -178,11 +241,11 @@ const Listing = () => {
   };
 
   // Get current properties
-  const indexOfLastProperty = currentPage * propertiesPerPage;
-  const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  const currentProperties = Array.isArray(properties)
-    ? properties.slice(indexOfFirstProperty, indexOfLastProperty)
-    : [];
+  // const indexOfLastProperty = currentPage * propertiesPerPage;
+  // const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
+  // const currentProperties = Array.isArray(properties)
+  //   ? properties.slice(indexOfFirstProperty, indexOfLastProperty)
+  //   : [];
 
   const handleSortClick = (sortType) => {
     const queryParams = new URLSearchParams(location.search);
@@ -192,6 +255,7 @@ const Listing = () => {
 
   const handleLocalitySelect = (locality) => {
     setSelectedLocality(locality); // Update selected locality
+    // console.log(locality);
   };
 
   // Render locality options dynamically based on city
@@ -200,7 +264,6 @@ const Listing = () => {
   //     Lucknow: ["Gomati Nagar", "Kharagpur", "Kamta", "Nishat Ganj", "Chinhat"],
   //     // Add more cities and localities here
   //   };
-
   //   return localities[city]?.map((locality) => (
   //     <p
   //       key={locality}
@@ -219,7 +282,6 @@ const Listing = () => {
       </div>
     );
   }
-
   const handleAddPropertybtn = () => {
     if (authState.status === true && localStorage.getItem("token")) {
       navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
@@ -228,15 +290,12 @@ const Listing = () => {
       navigate("/login");
     }
   };
-
   const compare = () => {
     navigate("/compare-property");
   };
-
   const updateFilterCount = (count) => {
     setFilterCount(count);
   };
-
   return (
     <>
       <div
@@ -244,11 +303,9 @@ const Listing = () => {
           if (Location === true) setLocation(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
-          isOpen || Hamburger || Location ? "block" : "hidden"
-        }`}
+        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${isOpen || Hamburger || Location ? "block" : "hidden"
+          }`}
       ></div>
-
       <section
         onClick={() => {
           if (mode === true) setMode(false);
@@ -271,25 +328,22 @@ const Listing = () => {
               className="cursor-pointer lg:w-12 md:w-11 w-9 h-auto"
             />
           </div>
-
-          <div className="flex flex-col gap-4 md:flex-row md:flex-wrap lg:flex-nowrap lg:items-center lg:justify-between">
-            <div className="flex items-center justify-between gap-20 md:gap-36 lg:gap-36 ml-4 flex-col md:flex-row lg:flex-row">
-              <div className="bg-white h-14 w-full  lg:w-80 flex items-center justify-between text-black px-4 rounded-md">
-                <div className="w-1/4 flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-r-2 h-3/4 border-black">
+          <div className="flex justify-between gap-14 w-full flex-wrap">
+            <div className="flex items-center justify-between gap-20 md:gap-36 lg:gap-36 flex-col md:flex-row lg:flex-row">
+              <div className="bg-white h-14 w-64 md:w-fit lg:w-fit flex items-center justify-between text-black px-4 rounded-md">
+                <div className="flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-r-2 h-3/4 border-black">
                   <p className="text-black">Sort</p>
                   <img
                     src={drop}
                     alt="Dropdown"
-                    className={`${
-                      mode ? "rotate-180" : "rotate-0"
-                    } mt-1 cursor-pointer`}
+                    className={`${mode ? "rotate-180" : "rotate-0"
+                      } mt-1 cursor-pointer`}
                     onClick={handleMode}
                   />
                   <div className="relative">
                     <div
-                      className={`${
-                        mode ? "block" : "hidden"
-                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
+                      className={`${mode ? "block" : "hidden"
+                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
                     >
                       <p
                         className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
@@ -326,7 +380,7 @@ const Listing = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-center w-3/4 gap-4 pl-2">
+                <div className="flex items-center justify-center  gap-4 pl-2">
                   <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
                     <p onClick={handleLocation}>
                       {!city ? "Select City" : city}
@@ -339,157 +393,123 @@ const Listing = () => {
                       className="hover:cursor-pointer"
                       onClick={handleShowCity}
                     />
-                    <div className="relative">
-                      <div
-                        className={`${
-                          showCity && city == "Lucknow" ? "block" : "hidden"
-                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
-                      >
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Gomti Nagar")}
+                    {showCity ? (
+                      <div className="relative">
+                        <div
+                          className={`z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
                         >
-                          Gomti Nagar
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Khargapur")}
-                        >
-                          Khargapur
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Kamta")}
-                        >
-                          Kamta
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Nishat Ganj")}
-                        >
-                          Nishat Ganj
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Chinhat")}
-                        >
-                          Chinhat
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Hazratganj")}
-                        >
-                          Hazratganj
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Indira Nagar")}
-                        >
-                          Indira Nagar
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Sunder Nagar")}
-                        >
-                          Sunder Nagar
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Surender Nagar")}
-                        >
-                          Surender Nagar
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Aliganj")}
-                        >
-                          Aliganj
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() =>
-                            handleLocalitySelect("Amity university")
-                          }
-                        >
-                          Amity University
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() =>
-                            handleLocalitySelect("Awadh Vihar Colony")
-                          }
-                        >
-                          Awadh Vihar Colony
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Chinhat Tiraha")}
-                        >
-                          Chinhat Tiraha
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Dayal Paradise")}
-                        >
-                          Dayal Paradise
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() =>
-                            handleLocalitySelect("Gomti Nagar Extension")
-                          }
-                        >
-                          Gomti Nagar Extension
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Ismailganj")}
-                        >
-                          Ismailganj
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() =>
-                            handleLocalitySelect("Nagar Nigam Degree College")
-                          }
-                        >
-                          Nagar Nigam Degree College
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Patrakar Puram")}
-                        >
-                          Patrakar Puram
-                        </p>
-
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Rajajipuram")}
-                        >
-                          Rajajipuram
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleLocalitySelect("Shakti Nagar")}
-                        >
-                          Shakti Nagar
-                        </p>
-                        <p
-                          className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() =>
-                            handleLocalitySelect("Sushant Golf City")
-                          }
-                        >
-                          Sushant Golf City
-                        </p>
+                          {citylocalities[city].map((locality, index) => {
+                            // console.log(area, index);
+                            return (
+                              <p
+                                className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                                onClick={() => handleLocalitySelect(locality)}
+                                key={index}
+                              >
+                                {locality}
+                              </p>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
-                  {selectedLocality && (
-                    <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
-                      <p>{selectedLocality}</p>
-                    </div>
+                  {selectedLocality ? (
+                    <>
+                      <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
+                        <p>{selectedLocality}</p>
+                      </div>
+                      <div>
+                        <img
+                          src={loc}
+                          alt="Location"
+                          className="hover:cursor-pointer"
+                          onClick={handleShowArea}
+                        />
+                        {showArea ? (
+                          <div className="relative">
+                            <div
+                              className={`z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
+                            >
+                              {localityareas[selectedLocality].map(
+                                (area, index) => {
+                                  // console.log(locality, index);
+
+
+                                  return (
+                                    <p
+                                      className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                                      onClick={() => addLocality(area)}
+                                      key={index}
+                                    >
+                                      {area}
+                                    </p>
+                                  );
+
+                                }
+                              )}
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    ""
                   )}
+                  {selectedArea.length > 0
+                    ? (
+                      <>
+                        {
+                          selectedArea.slice(0, 1).map((e, i) => {
+                            if (i < 1) {
+                              return (
+                                <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
+                                  <p>{e}</p>
+                                </div>
+                              );
+                            }
+                          })}
+                        {
+                          selectedArea.length > 1 && (
+                            <p className="cursor-pointer" onClick={()=>setMoreArea(!moreArea)}>+{selectedArea.length - 1}
+                              {
+                                moreArea && (
+                                  <div className="relative">
+                                    <div
+                                className={`z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
+                              >
+                                {selectedArea.slice(1,selectedArea.length).map(
+                                  (area, index) => {
+                                    // console.log(locality, index);
+
+
+                                    return (
+                                      <p
+                                        className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                                        onClick={() => addLocality(area)}
+                                        key={index}
+                                      >
+                                        {area}
+                                      </p>
+                                    );
+
+                                  }
+                                )}
+                              </div>
+                                  </div>
+                                )
+                              }
+                            </p>
+                          )
+                        }
+
+                      </>
+                    )
+                    : ""}
                   {/* <div
                     className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
                       }`}
@@ -514,7 +534,7 @@ const Listing = () => {
                   />
                 </div>
               </div>
-              <div className="h-14 w-full lg:w-56 bg-white text-black flex items-start justify-between px-5 rounded-md">
+              <div className="h-14 w-56 bg-white text-black flex items-start justify-between px-5 rounded-md">
                 <div className="flex items-center justify-start gap-4 h-full w-2/4">
                   <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
                     {filterCount}
@@ -532,14 +552,13 @@ const Listing = () => {
               </div>
             </div>
 
-            <div className="compare w-full md:w-auto" onClick={compare}>
+            <div className="compare" onClick={compare}>
               {compareProperty.length >= 0 && (
                 <button
-                  className={`bg-white h-14 w-full md:w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
-                    compareProperty.length <= 1
-                      ? "opacity-50 grayscale cursor-not-allowed"
-                      : ""
-                  }`}
+                  className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${compareProperty.length <= 1
+                    ? "opacity-50 grayscale cursor-not-allowed"
+                    : ""
+                    }`}
                   disabled={compareProperty.length <= 1}
                 >
                   Visit
@@ -550,10 +569,10 @@ const Listing = () => {
               )}
             </div>
 
-            <div className="w-full md:w-auto">
+            <div>
               <a
                 onClick={handleAddPropertybtn}
-                className="mr-2 bg-white h-14 text-black flex items-center justify-center px-5 rounded-md cursor-pointer w-full md:w-44 "
+                className="mr-2 bg-white w-44 h-14 text-black flex items-center justify-center px-5 rounded-md cursor-pointer"
               >
                 Add a property
               </a>
@@ -565,9 +584,8 @@ const Listing = () => {
           onClick={() => {
             if (isOpen === true) SetIsOpen(false);
           }}
-          className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
-            isOpen ? "block" : "hidden"
-          } `}
+          className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${isOpen ? "block" : "hidden"
+            } `}
         >
           <div
             onClick={(e) => e.stopPropagation()}
