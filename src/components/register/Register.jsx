@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./Register.css";
 import {
   FaUser,
   FaLock,
@@ -11,7 +10,6 @@ import { AiOutlineMail } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API } from "../../config/axios";
-
 const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,11 +24,9 @@ const Register = () => {
     setRole(e.target.value);
     if (e.target.value !== "user" && userType !== "owner") setUserType("owner");
   };
-
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
   };
-
   const resetFields = () => {
     setFirstName("");
     setLastName("");
@@ -41,7 +37,6 @@ const Register = () => {
     setUserType("");
     setAnswer("");
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -68,13 +63,14 @@ const Register = () => {
       console.log(error.response.data);
     }
   };
-
   return (
     <div
       className={`register_form_container relative flex items-center justify-center my-10 overflow-hidden ${
         role === "user" ? "h-[785px]" : "h-[700px]"
       } w-[400px]  max-w-[400px] max-h-[785px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16 `}
     >
+      <div className="absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#3cbdb1)] animate-rotate_border"></div>
+      <div className="absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#c8a217)] animate-rotate_border" style={{animationDelay: "-3s"}}></div>
       <div className="absolute inset-1 bg-black rounded-[50px_5px] p-[43px_40px] text-white z-10 min-h-[650px] border-4 border-transparent">
         {" "}
         <h2 className="text-4xl font-semibold text-center">Register</h2>
@@ -92,7 +88,6 @@ const Register = () => {
               required
             />
           </div>
-
           {/* Last Name Field */}
           <div className="mt-10 flex items-center">
             <FaUser className="ml-3 text-white" />
@@ -215,5 +210,4 @@ const Register = () => {
     </div>
   );
 };
-
 export default Register;
