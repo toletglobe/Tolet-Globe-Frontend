@@ -10,7 +10,7 @@ import {
   ComputerDesktopIcon,
 } from "@heroicons/react/24/outline";
 
-const NavBar = ({ userInfo }) => { // Correctly destructuring props
+const NavBar = ({ userInfo }) => {
   const [activeLink, setActiveLink] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const authState = useSelector((state) => state.auth);
@@ -21,12 +21,13 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
     localStorage.setItem("activeLink", link);
+    setIsMenuOpen(false); // Close dropdown after selecting an option
   };
 
   useEffect(() => {
     const savedLink = localStorage.getItem("activeLink");
     if (savedLink) {
-      setActiveLink(savedLink); // Retrieve active link from localStorage
+      setActiveLink(savedLink);
     }
   }, []);
 
@@ -54,21 +55,20 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
 
   return (
     <nav className="z-50">
-      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-20 py-4">
+      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-4 lg:px-20 py-4">
+        {/* Logo on the left corner */}
         <div className="navbar-logo">
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="Logo" className="h-16 lg:h-12 ml-10 lg:ml-0" />
+            <img src={logo} alt="Logo" className="h-16 lg:h-12 ml-0" />
           </Link>
         </div>
+
+        {/* Menu button on the right corner for mobile view */}
         <div className="flex flex-row">
           <div className="flex justify-end">
             <button
               className="text-white block lg:hidden"
-              onClick={() =>
-                document
-                  .getElementById("basic-navbar-nav")
-                  .classList.toggle("hidden")
-              }
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <svg
                 className="w-6 h-6"
@@ -87,15 +87,19 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
             </button>
           </div>
         </div>
+
+        {/* Navbar items */}
         <div
           id="basic-navbar-nav"
-          className="hidden lg:flex lg:items-center lg:w-auto w-full"
+          className={`${
+            isMenuOpen ? "block" : "hidden"
+          } lg:flex lg:items-center lg:w-auto w-full absolute lg:static top-full left-0 bg-black lg:bg-transparent`}
         >
-          <ul className="lg:flex lg:items-center lg:justify-between text-base text-gray-300 pt--1 lg:pt-0">
+          <ul className="lg:flex lg:items-center lg:justify-between text-base text-gray-300 pt-1 lg:pt-0">
             <li>
               <Link
                 to="/"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
+                className={`block px-5 py-2 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "home"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
@@ -108,7 +112,7 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
             <li>
               <Link
                 to="/service"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
+                className={`block px-5 py-2 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "service"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
@@ -121,7 +125,7 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
             <li>
               <Link
                 to="/blog"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
+                className={`block px-5 py-2 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "blog"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
@@ -134,7 +138,7 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
             <li>
               <Link
                 to="/contact"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
+                className={`block px-5 py-2 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "contact"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
@@ -147,7 +151,7 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
             <li>
               <Link
                 to="/aboutus"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
+                className={`block px-5 py-2 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "aboutus"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
@@ -160,7 +164,7 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
             <li>
               <Link
                 to="/property-listing"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
+                className={`block px-5 py-2 lg:inline-block mt-4 lg:mt-0 mx-2 ${
                   activeLink === "propertyListing"
                     ? "text-white bg-teal-500 rounded-md"
                     : ""
@@ -214,7 +218,7 @@ const NavBar = ({ userInfo }) => { // Correctly destructuring props
               ) : (
                 <Link
                   to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
+                  className={`block px-5 py-2 lg:inline-block mt-4 lg:mt-0 ${
                     activeLink === "login"
                       ? "text-white bg-teal-500 rounded-md"
                       : ""
