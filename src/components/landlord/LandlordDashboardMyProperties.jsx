@@ -66,12 +66,22 @@ export default function MyProperties({ myProperties }) {
 
   return (
     <>
-      <div className="mt-8 mb-8">
+      <div className="mt-8 flex justify-start space-x-4 mb-6">
+        {/* Filter Buttons */}
+        <button className="px-4 py-2 bg-yellow-500 text-black font-semibold rounded-md hover:bg-yellow-600">
+          Available
+        </button>
+        <button className="px-4 py-2 bg-white text-black font-semibold rounded-md border border-gray-400 hover:bg-gray-200">
+          Rent Out
+        </button>
+      </div>
+
+      <div className="mt-8">
         {myProperties.length > 0 ? (
-          <div className="grid grid-cols-1 min-[600px]:grid-cols-2 min-[1200px]:grid-cols-3 gap-4">{cards}</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">{cards}</div>
         ) : (
           <h6 className="text-gray-400 text-center text-3xl font-bold ">
-            You have no properties yet !
+            You have no properties yet!
           </h6>
         )}
       </div>
