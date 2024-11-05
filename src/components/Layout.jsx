@@ -67,8 +67,8 @@ const Layout = () => {
   if (loading) return <p>Loading...</p>; // Optionally show loading state
 
   return (
-    <div className="flex flex-col min-h-screen w-full">
-      <div className="nav fixed top-0 left-0 right-0 z-50 bg-white">
+    <div className="flex flex-col min-h-screen w-full bg-black">
+      <div className="fixed top-0 z-50 left-0 right-0 bg-black">
         <NavBar userInfo={userInfo} />
       </div>
 
