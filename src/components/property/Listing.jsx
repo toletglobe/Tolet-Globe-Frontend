@@ -121,21 +121,27 @@ const Listing = () => {
   useEffect(() => {
     const fetchAndFilterProperties = async () => {
       setLoading(true);
+      // try {
+      //   let propertyObject = {};
+      //   let propertyData = [];
+      //   if (city) {
+      //     propertyData = await Service.fetchPropertyByCity(city);
+      //     setProperties(propertyData || []); // Ensure propertyData is an array
+      //   } else {
+      //     propertyData = await Service.fetchProperty();
+      //     setProperties(propertyData || []);
+      //   }
       try {
+        let propertyObject = {};
         let propertyData = [];
         if (city) {
-          const fetchedData = await Service.fetchPropertyByCity(
-            city,
-            currentPage
-          );
-          propertyData = fetchedData.properties || [];
-          setProperties(propertyData);
-          setTotalPages(fetchedData.totalPages || 1);
-        } else {
-          const fetchedData = await Service.fetchProperty(currentPage);
+          const fetchedData = await Service.fetchPropertyByCity(city, currentPage);
           propertyData = fetchedData.properties || []; // Ensure it's an array
           setProperties(propertyData);
           setTotalPages(fetchedData.totalPages || 1);
+        } else {
+          propertyData = await Service.fetchProperty();
+          setProperties(propertyData || []);
         }
 
         // Filter by locality if selected
