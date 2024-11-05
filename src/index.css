@@ -1,6 +1,5 @@
-
-@import 'slick-carousel/slick/slick.css';
-@import 'slick-carousel/slick/slick-theme.css';
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -25,8 +24,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
- 
-.margin{
+
+.margin {
   margin: 60px;
 }
 
@@ -60,7 +59,7 @@ body {
 @media (max-width: 640px) {
   @keyframes marquee {
     0% {
-      transform: translateX(0); 
+      transform: translateX(0);
     }
     100% {
       transform: translateX(-720%);
@@ -80,7 +79,11 @@ body {
   .animate-marquee:hover {
     animation-play-state: paused;
   }
-  .margin{
+  .margin {
     margin: 30px;
   }
+}
+
+.active hr {
+  @apply block;
 }
