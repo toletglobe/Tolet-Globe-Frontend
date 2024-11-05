@@ -43,7 +43,7 @@ const HomeDown = () => {
           <div
             className={` absolute transform transition-all lg:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms] ease-in-out w-[20%] ${
               isScrolled
-                ? "left-[5%] w-[20%] top-[42%] lg:top-[53%] lg:w-[33%] opacity-100"
+                ? "left-[5%] w-[20%] top-[42%] lg:top-[59%] lg:w-[33%] opacity-100"
                 : "left-[30%] w-[20%] top-[39%] lg:top-[56%] lg:w-[33%] opacity-0"
             } `}
             id="inputGroup"

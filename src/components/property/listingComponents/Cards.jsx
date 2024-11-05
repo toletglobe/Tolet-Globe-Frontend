@@ -98,51 +98,51 @@ const Cards = ({ properties, propertyAction }) => {
                     alt={property.propertyType}
                     className="w-full h-full object-cover"
                   />
-                  <PrevArrow onClick={() => {}} />
-                  <NextArrow onClick={() => {}} />
+                  <PrevArrow onClick={() => { }} />
+                  <NextArrow onClick={() => { }} />
                 </div>
               )}
               
-              <div
+              y9876<div
                 className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
                 style={{
                   backgroundColor:
                     property.availabilityStatus === 'Available'
-                    ? '#236b62' // Green for available
-                    : property.availabilityStatus === 'Rented Out'
-                    ? '#c71221' // Red for rented
-                    : '#999999', // Gray for not available (NA)
+                      ? '#236b62' // Green for available
+                      : property.availabilityStatus === 'Rented Out'
+                        ? '#c71221' // Red for rented
+                        : '#999999', // Gray for not available (NA)
                   textTransform: 'capitalize',
                 }}
               >
                 {property.availabilityStatus === 'Available'
                   ? 'Available'
                   : property.availabilityStatus === 'Rented Out'
-                  ? 'Rent Out'
-                  : 'NA'}
+                    ? 'Rent Out'
+                    : 'NA'}
               </div>
 
-              <div className="banner-actions absolute bottom-4 left-4 right-4 flex gap-4 justify-between">
+              <div className="banner-actions absolute bottom-10 left-4 right-4 flex gap-4 justify-between">
                 <div>
                   <button className="banner-actions-btn flex items-center gap-1 text-white">
-                    <FaLocationDot className="text-xl" />
+                    <FaLocationDot className="text-base" />
                     <address>{`${property.locality}, ${property.city}`}</address>
                   </button>
                 </div>
                 <div className="flex gap-4">
                   <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                    <FaVideo className="text-xl" />
+                    <FaVideo className="text-base" />
                   </button>
                   <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                    <FaRegImage className="text-xl" />
+                    <FaRegImage className="text-base" />
                     {property.images.length}
                   </button>
                 </div>
               </div>
             </figure>
-            <div className="card-content p-4 md:p-6">
+            <div className="card-content p-6">
               <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-[16px] md:text-[20px] font-semibold">
+                <h3 className="card-title text-[20px] font-semibold">
                   <a href="#">
                     {property.bhk} BHK, {property.propertyType}, On Rent
                   </a>
@@ -214,8 +214,8 @@ const Cards = ({ properties, propertyAction }) => {
               </div>
 
               <div className="card-details flex flex-col items-start">
-                <div className="card-price font-poppins text-s font-normal text-grey-700 mt-1">
-                  RS. {property.rent}
+                <div className="card-price font-poppins text-sm font-normal text-grey-700 mt-1">
+                  RS. {parseInt(property.rent, 10).toLocaleString('en-IN')}
                 </div>
                 <div className="card-text font-poppins text-lg font-medium text-black">
                   {property.type}, {property.floor}
@@ -238,7 +238,7 @@ const Cards = ({ properties, propertyAction }) => {
                   {property.squareFeetArea} ft²
                 </li>
               </ul>
-              <div className="divider-container">
+              {/* <div className="divider-container">
                 <hr
                   className="custom-hr"
                   style={{
@@ -249,11 +249,11 @@ const Cards = ({ properties, propertyAction }) => {
                     marginBottom: "-2.3rem",
                   }}
                 />
-              </div>
+              </div> */}
             </div>
-            <div className="card-footer p-4 md:p-6 flex justify-between items-center">
+            <div className="card-footer p-6 flex justify-between items-center">
               <div className="card-author flex items-center gap-4">
-                <figure className="author-avatar w-8 h-8 md:w-10 md:h-10 overflow-hidden rounded-full">
+                <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full">
                   <img
                     src={property.images[0]}
                     alt={property.ownerName}
