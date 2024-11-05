@@ -8,13 +8,12 @@ import author from "../../assets/property/author.jpg";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { BASE_URL } from "../../constant/constant";
 const BlogView = () => {
   const { slug } = useParams(); // Get the blog ID from the URL
   const [blog, setBlog] = useState(null);
   const authState = useSelector((state) => state.auth);
-const navigate = useNavigate();
-  console.log(authState);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchBlog = async () => {
       try {
@@ -41,17 +40,20 @@ const navigate = useNavigate();
 
   const updateLike = async () => {
     try {
-      if (!authState.userData) {
-        toast.error('Login First!')
+      if (!authState.status) {
+        toast.error("Login First!");
         return navigate("/login", { replace: true });
       }
 
       const token = localStorage.getItem("token");
 
-      if (!token) return;
+      if (!token) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
 
       const { data } = await axios.get(
-        `http://localhost:8000/api/v1/blog/updateLikes/${blog._id}`,
+        `${BASE_URL}blog/updateLikes/${blog._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -111,13 +113,13 @@ const navigate = useNavigate();
         <hr />
         <div className="my-2 font-semibold">{blog.intro}</div>
 
-         <div className="mx-auto my-3 max-w-3xl">
-  <img
-    src={blog.image}
-    alt={blog.title}
-    className="rounded-md w-full h-96 max-h-full object-cover filter brightness-120"
-  />
-</div>
+        <div className="mx-auto my-3 max-w-3xl">
+          <img
+            src={blog.image}
+            alt={blog.title}
+            className="rounded-md w-full h-96 max-h-full object-cover filter brightness-120"
+          />
+        </div>
 
         <div className="">
           <div

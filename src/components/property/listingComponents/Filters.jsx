@@ -219,7 +219,7 @@ const Filters = ({ SetIsOpen, setProperties, updateFilterCount }) => {
               House Type
             </p>
             <div className="flex flex-wrap items-start gap-2">
-              {["Fully-Furnished", "Semi-Furnished", "Non-Furnished"].map(
+              {["Fully Furnished", "Semi Furnished", "Not Furnished"].map(
                 (type, index) => (
                   <div
                     key={index}
