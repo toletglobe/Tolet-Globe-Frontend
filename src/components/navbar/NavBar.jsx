@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/authSlice";
 import { IoMdClose } from "react-icons/io";
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
 import {
   ArrowLeftStartOnRectangleIcon,
   ComputerDesktopIcon,
@@ -27,6 +27,16 @@ const NavBar = ({ userInfo }) => {
     toast.success("Logged out!");
   };
 
+  // Array of navigation links
+  const navLinks = [
+    { label: "Home", path: "/" },
+    { label: "Service", path: "/service" },
+    { label: "Blog", path: "/blog" },
+    { label: "Contact", path: "/contact" },
+    { label: "About Us", path: "/aboutus" },
+    { label: "Property Listing", path: "/property-listing" },
+  ];
+
   return (
     <div className="bg-black flex items-center justify-between p-4 mb-5">
       <div>
@@ -34,31 +44,15 @@ const NavBar = ({ userInfo }) => {
           <img src={logo} alt="Logo" className="h-12" />
         </NavLink>
       </div>
-      <ul className="md:flex items-center gap-5 font-medium hidden">
-        <NavLink to="/">
-          <li className="py-1">Home</li>
-          <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
-        </NavLink>
-        <NavLink to="/service">
-          <li className="py-1">Service</li>
-          <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
-        </NavLink>
-        <NavLink to="/blog">
-          <li className="py-1">Blog</li>
-          <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
-        </NavLink>
-        <NavLink to="/contact">
-          <li className="py-1">Contact</li>
-          <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
-        </NavLink>
-        <NavLink to="/aboutus">
-          <li className="py-1">About Us</li>
-          <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
-        </NavLink>
-        <NavLink to="/property-listing">
-          <li className="py-1">Property Listing</li>
-          <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
-        </NavLink>
+      
+      {/* Desktop Menu */}
+      <ul className="lg:flex items-center gap-5 font-medium hidden">
+        {navLinks.map((link, index) => (
+          <NavLink key={index} to={link.path}>
+            <li className="py-1">{link.label}</li>
+            <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
+          </NavLink>
+        ))}
         <div>
           {authState.status && token ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
@@ -67,20 +61,24 @@ const NavBar = ({ userInfo }) => {
                 src={userInfo?.profilePicture || userIcon}
                 alt="User"
               />
-              <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
-                <div className="min-w-40 bg-gray-50 rounded flex flex-col gap-4 p-4">
+              <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-700 z-20 hidden group-hover:block">
+                <div className="min-w-40 bg-white rounded shadow-lg flex flex-col gap-1 p-4">
+                  <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-center rounded">
+                    <HiUser size={20} className="w-5 mr-2" />
+                    {userInfo.firstName || "User"}
+                  </p>
                   <p
                     onClick={() => navigate("/landlord-dashboard")}
-                    className=" flex items-center py-1 hover:text-black cursor-pointer"
+                    className="flex items-center py-2 px-3 hover:bg-gray-100 cursor-pointer justify-center rounded"
                   >
-                    <ComputerDesktopIcon className="w-5 mr-3" />
+                    <ComputerDesktopIcon className="w-5 mr-2" />
                     Dashboard
                   </p>
                   <p
                     onClick={handleLogout}
-                    className=" flex items-center py-1 hover:text-black cursor-pointer"
+                    className="flex items-center py-2 px-3 hover:bg-red-100 cursor-pointer justify-center text-red-500 rounded"
                   >
-                    <ArrowLeftStartOnRectangleIcon className="w-5 mr-3" />
+                    <ArrowLeftStartOnRectangleIcon className="w-5 mr-2" />
                     Logout
                   </p>
                 </div>
@@ -89,7 +87,7 @@ const NavBar = ({ userInfo }) => {
           ) : (
             <button
               onClick={() => navigate("/login")}
-              className="bg-teal-500 text-white px-4 py-1 rounded-full hidden md:block"
+              className="bg-teal-500 text-white px-4 py-1 rounded-full hidden lg:block"
             >
               Login
             </button>
@@ -99,7 +97,7 @@ const NavBar = ({ userInfo }) => {
 
       {/* ---- Mobile Menu ---- */}
       <div
-        className={`md:hidden fixed inset-0 bg-black text-white z-100 transition-transform transform ${
+        className={`lg:hidden fixed inset-0 bg-black text-white z-100 transition-transform transform ${
           showMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -115,24 +113,11 @@ const NavBar = ({ userInfo }) => {
           </button>
         </div>
         <ul className="flex flex-col items-center gap-4 mt-5 px-5 text-lg font-medium">
-          <NavLink onClick={() => setShowMenu(false)} to="/">
-            Home
-          </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/service">
-            Service
-          </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/blog">
-            Blog
-          </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/contact">
-            Contact
-          </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/aboutus">
-            About Us
-          </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/property-listing">
-            Property Listing
-          </NavLink>
+          {navLinks.map((link, index) => (
+            <NavLink key={index} onClick={() => setShowMenu(false)} to={link.path}>
+              {link.label}
+            </NavLink>
+          ))}
 
           {/* ---- Profile Information for Mobile View ---- */}
           {authState.status && token ? (
@@ -167,7 +152,7 @@ const NavBar = ({ userInfo }) => {
                 navigate("/login");
                 setShowMenu(false);
               }}
-              className="mt-3 bg-teal-500 text-white  px-4 py-1 rounded-full"
+              className="mt-3 bg-teal-500 text-white px-4 py-1 rounded-full"
             >
               Login
             </button>
@@ -178,7 +163,7 @@ const NavBar = ({ userInfo }) => {
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="md:hidden flex items-center p-2"
+        className="lg:hidden flex items-center p-2"
       >
         <HiOutlineMenuAlt3 size={25} />
       </button>
