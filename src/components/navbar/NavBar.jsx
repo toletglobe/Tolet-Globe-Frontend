@@ -38,13 +38,13 @@ const NavBar = ({ userInfo }) => {
   ];
 
   return (
-    <div className="bg-black flex items-center justify-between p-4 mb-5">
+    <div className="bg-black flex items-center justify-between p-4">
       <div>
         <NavLink to="/">
           <img src={logo} alt="Logo" className="h-12" />
         </NavLink>
       </div>
-      
+
       {/* Desktop Menu */}
       <ul className="lg:flex items-center gap-5 font-medium hidden">
         {navLinks.map((link, index) => (
@@ -114,7 +114,11 @@ const NavBar = ({ userInfo }) => {
         </div>
         <ul className="flex flex-col items-center gap-4 mt-5 px-5 text-lg font-medium">
           {navLinks.map((link, index) => (
-            <NavLink key={index} onClick={() => setShowMenu(false)} to={link.path}>
+            <NavLink
+              key={index}
+              onClick={() => setShowMenu(false)}
+              to={link.path}
+            >
               {link.label}
             </NavLink>
           ))}

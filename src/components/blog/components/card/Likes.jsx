@@ -14,7 +14,7 @@ const Likes = ({ data }) => {
       ) : (
         <FaRegHeart />
       )}
-      {data?.likes.length}
+      {data?.likes?.length}
     </div>
   );
 };
