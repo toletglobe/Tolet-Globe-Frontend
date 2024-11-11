@@ -13,14 +13,15 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export const PropertyCarousel = () => {
   // Custom arrow components
-  const CustomPrevArrow = (props) => (
-    <div {...props} className="custom-arrow custom-prev-arrow">
+  
+  const CustomPrevArrow = ({ onClick }) => (
+    <div onClick={onClick} className="custom-arrow custom-prev-arrow">
       <FaChevronLeft size={30} />
     </div>
   );
 
-  const CustomNextArrow = (props) => (
-    <div {...props} className="custom-arrow custom-next-arrow">
+  const CustomNextArrow = ({ onClick }) => (
+    <div onClick={onClick} className="custom-arrow custom-next-arrow">
       <FaChevronRight size={30} />
     </div>
   );
@@ -107,7 +108,7 @@ export const PropertyCarousel = () => {
           ))}
         </Slider>
       </div>
-      <style jsx>{`
+      <style>{`
         .custom-slider-container :global(.slick-prev),
         .custom-slider-container :global(.slick-next) {
           display: none !important;
