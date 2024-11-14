@@ -16,10 +16,11 @@ const Footer = () => {
   };
 
   return (
-    <div className="text-white px-6 sm:px-10 md:px-20 py-6">
-      <hr className="my-3" />
+    <div className="text-white px-6 sm:px-10 md:px-20 py-6 bg-gray-900">
+      <hr className="my-3 border-gray-700" />
 
-      <div className="flex flex-col md:flex-row justify-around gap-8 md:gap-20 py-2">
+      <div className="flex flex-col md:flex-row justify-around gap-8 md:gap-20 py-4">
+        {/* Reach Us Section */}
         <div className="flex-1">
           <h1 className="text-2xl font-semibold text-teal-500">REACH US</h1>
           <ul className="mt-5">
@@ -35,6 +36,7 @@ const Footer = () => {
           </ul>
         </div>
 
+        {/* Quick Links Section */}
         <div className="flex-1">
           <h1 className="text-2xl font-semibold text-teal-500">QUICK LINKS</h1>
           <ul className="mt-5 space-y-2">
@@ -68,6 +70,7 @@ const Footer = () => {
           </ul>
         </div>
 
+        {/* Services Section */}
         <div className="flex-1">
           <h1 className="text-2xl font-semibold text-teal-500">SERVICES</h1>
           <ul className="mt-5 space-y-2">
@@ -78,9 +81,10 @@ const Footer = () => {
           </ul>
         </div>
 
+        {/* Logo and Description Section */}
         <div className="flex flex-col items-center flex-1">
           <img src={logo} alt="Logo" className="w-20 md:w-32" />
-          <p className="text-center mt-3">
+          <p className="text-center mt-3 text-sm md:text-base">
             One-stop solution for all your <br /> brokerage-free rental needs
           </p>
         </div>
