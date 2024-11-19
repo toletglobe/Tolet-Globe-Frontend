@@ -70,16 +70,18 @@ const Cards = ({ properties, propertyAction }) => {
     ? properties
     : [properties]; // Ensure properties is an array
 
+  console.log("NORM", normalizedProperties);
+
   return (
     <div>
       <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-        {normalizedProperties.map((property) => (
+        {normalizedProperties[0].properties.map((property) => (
           <li
             key={property._id}
             className="property-card bg-white border border-grey-200 shadow-lg relative p-2 md:p-4"
           >
             <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
-              {property.images.length > 1 ? (
+              {property.images?.length > 1 ? (
                 <Slider {...settings}>
                   {property.images.map((photo, index) => (
                     <div key={index}>
@@ -98,30 +100,29 @@ const Cards = ({ properties, propertyAction }) => {
                     alt={property.propertyType}
                     className="w-full h-full object-cover"
                   />
-                  <PrevArrow onClick={() => { }} />
-                  <NextArrow onClick={() => { }} />
+                  <PrevArrow onClick={() => {}} />
+                  <NextArrow onClick={() => {}} />
                 </div>
               )}
-              
-              y9876<div
+              y9876
+              <div
                 className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
                 style={{
                   backgroundColor:
-                    property.availabilityStatus === 'Available'
-                      ? '#236b62' // Green for available
-                      : property.availabilityStatus === 'Rented Out'
-                        ? '#c71221' // Red for rented
-                        : '#999999', // Gray for not available (NA)
-                  textTransform: 'capitalize',
+                    property.availabilityStatus === "Available"
+                      ? "#236b62" // Green for available
+                      : property.availabilityStatus === "Rented Out"
+                      ? "#c71221" // Red for rented
+                      : "#999999", // Gray for not available (NA)
+                  textTransform: "capitalize",
                 }}
               >
-                {property.availabilityStatus === 'Available'
-                  ? 'Available'
-                  : property.availabilityStatus === 'Rented Out'
-                    ? 'Rent Out'
-                    : 'NA'}
+                {property.availabilityStatus === "Available"
+                  ? "Available"
+                  : property.availabilityStatus === "Rented Out"
+                  ? "Rent Out"
+                  : "NA"}
               </div>
-
               <div className="banner-actions absolute bottom-10 left-4 right-4 flex gap-4 justify-between">
                 <div>
                   <button className="banner-actions-btn flex items-center gap-1 text-white">
@@ -135,7 +136,7 @@ const Cards = ({ properties, propertyAction }) => {
                   </button>
                   <button className="banner-img_video-btn flex items-center gap-2 text-white">
                     <FaRegImage className="text-base" />
-                    {property.images.length}
+                    {property.images?.length}
                   </button>
                 </div>
               </div>
@@ -148,7 +149,8 @@ const Cards = ({ properties, propertyAction }) => {
                   </a>
                 </h3>
                 <div className="icon-box flex space-x-2 md:space-x-4 p-2">
-                  <Popup arrow={false}
+                  <Popup
+                    arrow={false}
                     trigger={
                       <button>
                         <CiShare2
@@ -215,7 +217,7 @@ const Cards = ({ properties, propertyAction }) => {
 
               <div className="card-details flex flex-col items-start">
                 <div className="card-price font-poppins text-sm font-normal text-grey-700 mt-1">
-                  RS. {parseInt(property.rent, 10).toLocaleString('en-IN')}
+                  RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                 </div>
                 <div className="card-text font-poppins text-lg font-medium text-black">
                   {property.type}, {property.floor}
