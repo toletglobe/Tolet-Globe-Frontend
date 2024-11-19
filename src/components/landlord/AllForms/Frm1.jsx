@@ -288,6 +288,23 @@ export default function Frm1({ formData, setFormData }) {
           />
         </div>
 
+        {/* House No. */}
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            House No.
+          </label>
+          <input
+            type="text"
+            placeholder="Enter House No."
+            required
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            value={formData.houseNo}
+            onChange={(e) => {
+              setFormData({ ...formData, houseNo: e.target.value });
+            }}
+          />
+        </div>
+
         {/* Space Type */}
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
