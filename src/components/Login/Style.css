@@ -1,0 +1,29 @@
+/* Apply Tailwind utilities for position and size, use custom CSS for gradient and animation */
+.login_form_container::before,
+.login_form_container::after {
+  @apply absolute w-[170%] h-[170%] content-[''] animate-rotate-border;
+}
+
+.login_form_container::before {
+  background-image: conic-gradient(transparent, transparent, transparent, #3cbdb1);
+}
+
+.login_form_container::after {
+  background-image: conic-gradient(transparent, transparent, transparent, #c8a217);
+  animation-delay: -3s;
+}
+
+/* Custom keyframe animation for rotation */
+@keyframes rotate_border {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Apply the animation to both the pseudo-elements */
+.animate-rotate-border {
+  animation: rotate_border 6s linear infinite;
+}
