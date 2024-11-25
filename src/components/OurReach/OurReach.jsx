@@ -37,7 +37,7 @@ export default function OurReach() {
   }, [])
 
   return (
-    <div ref={containerRef} className="bg-black p-6 border border-white rounded-[10px] mx-auto max-w-[1212px] h-auto sm:p-10" >
+    <div ref={containerRef} className="bg-black p-6 border border-white rounded-[10px] mx-auto max-w-[90%] md:max-w-[80%] lg:max-w-[1212px] w-full h-auto sm:p-10" >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18.14px] p-[18.14px] mx-[51.55px] my-auto">
         {stats.map((stat, index) => (
           <div key={index} className="bg-transparent p-[27.22px] my-6 rounded-[13.61px] border border-white w-full mx-auto min-w-[179.18px] h-auto border-1.34">
