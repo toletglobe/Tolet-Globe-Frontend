@@ -46,7 +46,7 @@ const LandlordDashboard = ({ myProperties }) => {
   // };
 
   const cards = myProperties.map((property) => (
-    <div key={property._id} className=" bg-black p-4 rounded-md">
+    <div key={property._id} className=" bg-black p-4 rounded-md sm:px-1 py-4">
       <img
         src={property.images[0]}
         alt="Property"
@@ -97,10 +97,10 @@ const LandlordDashboard = ({ myProperties }) => {
   ));
 
   return (
-    <div className="flex-1 bg-black text-white">
+    <div className="bg-black text-white">
       {/* Header (Welcome Message) */}
-      <div className="mt-5 mb-8">
-        <h1 className="text-4xl font-bold">
+      <div className="mt-5 mb-8 sm:text-center xl:mt-10 xl:mb-6">
+        <h1 className="text-4xl font-bold sm:text-xl md:text-2xl lg:text-3xl xl:text-left">
           {authState.userData
             ? authState.userData.firstName?.charAt(0).toUpperCase() +
               authState.userData.firstName?.slice(1).toLowerCase()
@@ -109,17 +109,17 @@ const LandlordDashboard = ({ myProperties }) => {
         </h1>
       </div>
       {/* Quick Actions */}
-      <div className="flex flex-col gap-y-8">
-        <h2 className="text-xl font-bold text-left">Quick Actions</h2>
-        <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl">
+      <div className="flex flex-col gap-y-8 xl:gap-y-7">
+        <h2 className="text-xl font-bold sm:text-lg text-center md:text-xl lg:text-2xl xl:text-left xl:text-lg">Quick Actions</h2>
+        <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl sm:flex-col lg:flex-row lg:w-[100%] lg:p-2 xl:p-4">
           <div>
-            <h2 className="text-lg font-bold text-left">Add a new property</h2>
-            <p className="text-gray-400">
+            <h2 className="text-lg font-bold text-left sm:text-center lg:text-xl xl:text-base xl:text-left px-2">Add a new property</h2>
+            <p className="text-gray-400 py-2 sm:text-sm text-center md:text-base lg:text-lg xl:text-sm xl:text-left px-2 xl:py-1">
               Easily add a property to your account
             </p>
           </div>
           <button
-            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer"
+            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer lg:text-lg xl:text-sm"
             onClick={() => {
               navigate("/landlord-dashboard", {
                 state: { content: "AddProperty" },
@@ -130,12 +130,12 @@ const LandlordDashboard = ({ myProperties }) => {
           </button>
         </div>
 
-        <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl">
+        <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl sm:flex-col lg:flex-row lg:w-[100%] lg:p-2 xl:p-4">
           <div>
-            <h2 className="text-lg font-bold text-left">
+            <h2 className="text-lg font-bold text-left sm:text-center lg:text-xl xl:text-base xl:text-left px-2">
               Get help with an issue
             </h2>
-            <p className="text-lg leading-7 text-[#ABADB0]">
+            <p className="text-lg leading-7 text-gray-400 py-2 sm:text-sm text-center md:text-base lg:text-lg px-2 xl:text-sm xl:text-left xl:py-1">
               Need help with something? We're here to help
             </p>
           </div>
@@ -146,19 +146,19 @@ const LandlordDashboard = ({ myProperties }) => {
                 navigate("/contact");
               }}
             >
-              <span className="mr-2">🎧</span> Contact Support
+              <span className="mr-2">🎧</span><span className="sm:text-sm md:text-base lg:text-lg xl:text-sm"> Contact Support </span>
             </button>
           </div>
         </div>
       </div>
       {/* Recent Properties */}
       <div className="mt-8">
-        <h2 className="text-2xl text-left font-semibold mb-4">
+        <h2 className="text-2xl text-left font-semibold mb-4 sm:text-center xl:text-lg xl:text-left">
           Recent Properties
         </h2>
         {myProperties.length > 0 ? (
           <>
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-3 sm:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3">
               {cards.slice(0, 3)}
 
               {/* import MyProperty */}
@@ -173,7 +173,7 @@ const LandlordDashboard = ({ myProperties }) => {
             </div>
           </>
         ) : (
-          <p className="text-gray-400 text-center text-2xl text-bold py-4">
+          <p className="text-gray-400 text-center text-2xl text-bold py-4 sm:text-lg md:text-xl xl:text-xl">
             You have no properties yet !
           </p>
         )}

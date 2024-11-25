@@ -28,14 +28,20 @@ const Flow2a = () => {
   const [isLocation, setIsLocation] = useState(false);
   const [isImage, setIsImage] = useState(true);
   const [currentVideo, setCurrentVideo] = useState(null);
+  // const [isAddedToVisit, setIsAddedToVisit] = useState(false);
+  const [buttonStatus, setButtonStatus] = useState("Add To Visit");
   const { slug } = useParams();
+
   useEffect(() => {
     const fetchProperty = async () => {
       try {
         const propertyList = await Service.fetchPropertyBySlug(slug);
         //  console.log(propertyList);
-
         setProperty(propertyList);
+        const compareProperties = JSON.parse(localStorage.getItem("compareProperties")) || [];
+        if (compareProperties.some((item) => item.slug === propertyList.slug)) {
+          setButtonStatus("Added to Visit"); // If already added, set status to "Added to Visit"
+        }
       } catch (error) {
         console.error("Error fetching property:", error);
       }
@@ -96,6 +102,28 @@ const Flow2a = () => {
         setIsImage(false);
         setIsLocation(true);
         break;
+    }
+  };
+
+  const handleAddToVisit = async () => {
+    setButtonStatus("Adding...");
+
+    try {
+      // Simulate a delay for adding the property
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const compareProperties = JSON.parse(localStorage.getItem("compareProperties")) || [];
+
+      // Check if the property is already added to avoid duplication
+      if (!compareProperties.some((item) => item.slug === property.slug)) {
+        compareProperties.push(property);
+        localStorage.setItem("compareProperties", JSON.stringify(compareProperties));
+      }
+
+      setButtonStatus("Added to Visit"); // Change the button text to "Added to Visit"
+    } catch (error) {
+      console.error("Error adding property to compare list:", error);
+      setButtonStatus("Add To Visit"); // Revert button text if there's an error
     }
   };
 
@@ -308,10 +336,10 @@ const Flow2a = () => {
                     />
                   </button>
                 }
-                position={"left center"}
+                position={"center"}
               >
                 {(close) => (
-                  <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90 mt-10 -ml-6">
+                  <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90 mt-20 -ml-8">
                     <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
                       <div className="px-2 py-2 text-sm truncate w-32">
                         {property?.firstName + " "} {property?.lastName}
@@ -353,10 +381,12 @@ const Flow2a = () => {
               {property?.ownersContactNumber.slice(0, -5) + 'XXXXX'}
             </p>
           </div>
+
           <div className="rounded-lg" style={{ backgroundColor: "#40B5A8" }}>
-            <button className="flex w-full justify-evenly p-2 font-semibold">
+            <button className="flex w-full justify-evenly p-2 font-semibold" onClick={handleAddToVisit}
+              disabled={buttonStatus === "Added to Visit"}>
               <img src={fav} alt="favorite" className="inline h-6 w-5" />
-              Add To Visit
+              {buttonStatus}
             </button>
           </div>
         </div>
