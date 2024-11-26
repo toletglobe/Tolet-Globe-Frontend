@@ -1,3 +1,6 @@
+// import{ useGSAP } from '@gsap/react';
+// import { gsap } from 'gsap';
+// import React, { useRef} from 'react'
 import { BrowserRouter } from "react-router-dom";
 import Main from "./components/Main";
 import { Toaster } from "react-hot-toast";
@@ -8,6 +11,14 @@ import "slick-carousel/slick/slick-theme.css";
 
 
 function App() {
+  // const browRef = useRef()
+  //  useGSAP(()=>{
+  //   gsap.fromTo(browRef.current, {x: -100, opacity: 0
+  //  })
+  //  })
+ 
+
+
   return (
     <div className="bg-black h-full w-full overflow-x-hidden">
       <BrowserRouter>

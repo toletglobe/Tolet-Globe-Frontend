@@ -47,30 +47,30 @@ const BottomImages = () => {
     }
   });
   return (
-    <div className="-translate-y-[550px] translate-x-[17rem]">
+    <div className="-translate-y-[550px] translate-x-[17rem] sm:-translate-y-[470px] sm:translate-x-[17rem] md:-translate-y-[500px] md:translate-x-[17rem]">
       <div className="relative bottom-img">
         <img src={bg2} alt="" className="bg-2" />
         <img src={bg1} alt="" className="bg-1" />
 
         {/* ---------- Birds Image ---------- */}
-        <img src={bird1} alt="Home Img" className="bird-1" />
-        <img src={bird2} alt="Home Img" className="bird-2" />
+        <img src={bird1} alt="Home Img" className="bird-1 w-[100px] sm:w-[80px] md:w-[60px]" />
+        <img src={bird2} alt="Home Img" className="bird-2 w-[100px] sm:w-[80px] md:w-[60px]" />
 
         {/* -----------Cloud Images---------- */}
-        <img src={cloud1} alt="" className="cloud-1" />
-        <img src={cloud2} alt="" className="cloud-2" />
-        <img src={cloud3} alt="" className="cloud-3" />
+        <img src={cloud1} alt="" className="cloud-1  w-[150px] sm:w-[100px] md:w-[80px]" />
+        <img src={cloud2} alt="" className="cloud-2  w-[150px] sm:w-[100px] md:w-[80px]" />
+        <img src={cloud3} alt="" className="cloud-3  w-[150px] sm:w-[100px] md:w-[80px]" />
 
         {/*----------Sun Image -------------- */}
 
-        <img src={sun} alt="Home Img" className="sun-circle" />
+        <img src={sun} alt="Home Img" className="sun-circle w-[200px] sm:w-[150px] md:w-[100px] relative sm:top-[5rem] sm:left-[-10rem]" />
 
         {/* -----------Plant Imaages----------- */}
-        <img src={plant1} alt="" className="plant-1" />
-        <img src={plant2} alt="" className="plant-2" />
+        <img src={plant1} alt="" className="plant-1  w-[80px] sm:w-[60px] md:w-[40px]" />
+        <img src={plant2} alt="" className="plant-2  w-[80px] sm:w-[60px] md:w-[40px]" />
 
         {/* ----------Home Images------------ */}
-        <img src={roof3} alt="" className="roof-3" />
+        <img src={roof3} alt="" className="roof-3 w-[400px] sm:w-[300px] md:w-[200px]" />
         <img src={wall1} alt="" className="wall-1" />
         <img src={wall2} alt="" className="wall-2" />
         <img src={gate} alt="" className="gate" />
@@ -83,7 +83,7 @@ const BottomImages = () => {
         <img src={roof1} alt="" className="roof-1" />
         <img src={roof4} alt="" className="roof-4" />
         <img src={roof2} alt="" className="roof-2" />
-        <img src={chimney} alt="" className="chimney" />
+        <img src={chimney} alt="" className="chimney w-[80px] sm:w-[60px] md:w-[40px]" />
 
         {/* -----------Hand Images----------- */}
         <img src={hand} alt="" className="hand" />

@@ -115,23 +115,7 @@
         transform: translate3d(800px, -100px, 0);
     }
     
-    /* ------------------Cloud CSS------------------- */
-    
-    /* Line 42 */
-    
-    /* box-sizing: border-box;
-    
-    position: absolute;
-    width: 366.72px;
-    height: 0px;
-    left: 572px;
-    top: 1632px;
-    
-    background: #6CBFC4;
-    border: 5px solid #6CBFC4;
-    transform: matrix(0.97, 0.24, 0.24, -0.97, 0, 0); */
-    
-    
+    /* ------------------Cloud CSS------------------- */ 
     .Tcloud-1{
         position: absolute;
         opacity: 0.3;
@@ -257,7 +241,8 @@
         z-index: 2;
         width: 470px;
         height: 400px;
-        opacity: 1;
+        /* opacity: 1; */
+        right:17rem;
         transform: translate(120%,10%);
     }
     
@@ -795,7 +780,7 @@
         opacity: 0.9;
         width: 80px;
         height: 60px;
-        transform: translate(750px,-270px);
+        transform: translate(50px,-270px);
         transition: all 2s ease-in-out;
     }
     
