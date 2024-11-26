@@ -1006,7 +1006,7 @@
 }
 
   .scrolled .sun-circle{
-    left: -32rem; 
+    left: -34rem; 
     top: 7rem; 
   }
 }
@@ -1931,9 +1931,9 @@
   }
 
   .scrolled .bg-1{
-    width: 400px;
-    top: 2.5rem;
-    right: 58rem;
+    width: 500px;
+    top: -2rem;
+    right: 52rem;
   }
 
   .scrolled .bird-1 {
@@ -1958,8 +1958,8 @@
 .scrolled .cloud-1 {
   width: 90px;
   height: 40px;
-  left: -41.2rem;
-  top: 16rem;
+  left: -44rem;
+  top: 15.5rem;
 }
 
 .scrolled .cloud-2 {

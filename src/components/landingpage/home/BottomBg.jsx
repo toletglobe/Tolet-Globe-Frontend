@@ -63,7 +63,7 @@ const BottomImages = () => {
 
         {/*----------Sun Image -------------- */}
 
-        <img src={sun} alt="Home Img" className="sun-circle w-[200px] sm:w-[150px] md:w-[100px]" />
+        <img src={sun} alt="Home Img" className="sun-circle w-[200px] sm:w-[150px] md:w-[100px] relative sm:top-[5rem] sm:left-[-10rem]" />
 
         {/* -----------Plant Imaages----------- */}
         <img src={plant1} alt="" className="plant-1  w-[80px] sm:w-[60px] md:w-[40px]" />
