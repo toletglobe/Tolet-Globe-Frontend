@@ -24,7 +24,7 @@ import {
 } from "./index";
 import Landing from "./Landing";
 import ResetPassword from "./resetpassword/ResetPassword";
-import Reviews from "./reviews/Reviews";
+import Reviews from "./PropertyComp/Reviews";
 import AddProperty from "./property/create-prop/AddProperty";
 import CompareProperty from "./property/compare-prop/CompareProperty";
 import LandlordDashboardMyProperties from "./landlord/LandlordDashboardMyProperties";

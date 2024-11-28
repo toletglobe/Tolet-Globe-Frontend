@@ -4,7 +4,7 @@ import logo from "../../assets/logo.png";
 import userIcon from "../../assets/user-icon.png"; // Fallback image
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/authSlice";
+import { logout } from "../../redux/store/authSlice";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
 import {
