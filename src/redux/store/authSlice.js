@@ -3,46 +3,45 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   status: false,
   token: null,
-  userData: null,
-  profilePicture: '',
-
+  userData: {
+    userId: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    profilePicture: '', // Default empty profile picture
+  },
 };
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    userData: {
-      userId: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      profilePicture: '',
-    }
-  },
+  initialState,
   reducers: {
     login: (state, action) => {
-      // console.log('action.payload:', action.payload);
       state.status = true;
+      state.token = action.payload.token; // Save token if needed
       state.userData = {
-        id: action.payload.userData.id,
-        lastName: action.payload.userData.lastName,
-        firstName: action.payload.userData.firstName,
-        email: action.payload.userData.email,
-        role: action.payload.userData.role,
-        profilePicture: action.payload.userData.profilePicture, // Add profilePicture field
+        ...action.payload.userData, // Directly spread userData to avoid repetitive assignments
+        profilePicture: action.payload.userData.profilePicture || '', // Ensure profilePicture fallback
       };
     },
     logout: (state) => {
       state.status = false;
       state.token = null;
-      state.userData = null;
+      state.userData = {
+        userId: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        profilePicture: '', // Reset profilePicture
+      };
     },
-    updateProfilePicture(state, action) {
-      // Update the profile picture in the state
-      state.userData.profilePicture = action.payload;
+    updateProfilePicture: (state, action) => {
+      if (state.userData) {
+        state.userData.profilePicture = action.payload || ''; // Update profile picture or reset to empty
+      }
     },
-
   },
 });
 

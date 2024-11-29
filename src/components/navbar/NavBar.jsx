@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import userIcon from "../../assets/user-icon.png"; // Fallback image
@@ -10,14 +10,25 @@ import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
 import {
   ArrowLeftStartOnRectangleIcon,
   ComputerDesktopIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 
-const NavBar = ({ userInfo }) => {
+const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
+
+  // Redux state for auth
   const authState = useSelector((state) => state.auth);
+  const userInfo = authState?.userData || {}; // Extract userData from authState
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
+
+  // Debugging to check values
+  useEffect(() => {
+    // console.log("AuthState:", authState);
+    // console.log("Token:", token);
+    // console.log("UserInfo:", userInfo);
+  }, [authState, token, userInfo]);
 
   const handleLogout = () => {
     setShowMenu(false);
@@ -39,6 +50,7 @@ const NavBar = ({ userInfo }) => {
 
   return (
     <div className="bg-black flex items-center justify-between p-4">
+      {/* Logo */}
       <div>
         <NavLink to="/">
           <img src={logo} alt="Logo" className="h-12" />
@@ -50,7 +62,6 @@ const NavBar = ({ userInfo }) => {
         {navLinks.map((link, index) => (
           <NavLink key={index} to={link.path}>
             <li className="py-1">{link.label}</li>
-            <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
           </NavLink>
         ))}
         <div>
@@ -60,12 +71,13 @@ const NavBar = ({ userInfo }) => {
                 className="w-10 rounded-full"
                 src={userInfo?.profilePicture || userIcon}
                 alt="User"
+                onError={(e) => (e.target.src = userIcon)} // Fallback if the image fails to load
               />
               <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-700 z-20 hidden group-hover:block">
                 <div className="min-w-40 bg-white rounded shadow-lg flex flex-col gap-1 p-4">
                   <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-center rounded">
                     <HiUser size={20} className="w-5 mr-2" />
-                    {userInfo.firstName || "User"}
+                    {userInfo.firstName || "User"} {/* Fixed fallback */}
                   </p>
                   <p
                     onClick={() => navigate("/landlord-dashboard")}
@@ -95,7 +107,7 @@ const NavBar = ({ userInfo }) => {
         </div>
       </ul>
 
-      {/* ---- Mobile Menu ---- */}
+      {/* Mobile Menu */}
       <div
         className={`lg:hidden fixed inset-0 bg-black text-white z-100 transition-transform transform ${
           showMenu ? "translate-x-0" : "translate-x-full"
@@ -123,29 +135,29 @@ const NavBar = ({ userInfo }) => {
             </NavLink>
           ))}
 
-          {/* ---- Profile Information for Mobile View ---- */}
+          {/* Profile Information for Mobile View */}
           {authState.status && token ? (
             <div className="flex flex-col items-center mt-5">
               <img
                 className="w-16 h-16 rounded-full"
-                src={userInfo?.profilePicture || userIcon}
+                src={userInfo.profilePicture || userIcon}
                 alt="User"
               />
               <p className="text-base font-medium mt-2">
-                {userInfo?.firstName || "User"}
+                {userInfo.firstName || "User"}
               </p>
               <button
                 onClick={() => {
                   navigate("/landlord-dashboard");
                   setShowMenu(false);
                 }}
-                className="mt-3 bg-gray-200 text-black px-6 py-2 rounded-full "
+                className="mt-3 bg-gray-200 text-black px-6 py-2 rounded-full"
               >
                 Dashboard
               </button>
               <button
                 onClick={handleLogout}
-                className="mt-2 bg-red-500 text-white px-6 py-2 rounded-full "
+                className="mt-2 bg-red-500 text-white px-6 py-2 rounded-full"
               >
                 Logout
               </button>

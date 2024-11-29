@@ -9,12 +9,11 @@ import { lazy } from "react";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
+import LandlordDashboard from '../pages/Dashboard/landlord/LandlordDashboard.jsx'
 
 const Landing = lazy(() => import("../pages/Landing"));
 const Contact = lazy(() => import("../pages/Contact"));
 const Service = lazy(() => import("../pages/Service"));
-
-
 
 import {
   // Landing.jsx imports
@@ -45,7 +44,6 @@ import {
 
   // forgotpassword imports
   ForgotPassword,
-
 } from "../pages/pagesIndex.js";
 
 const Routing = () => {
@@ -63,24 +61,24 @@ const Routing = () => {
           {/* <Route path="/property-listing" element={<Listing />} /> */}
 
           {/* Authenticated Route */}
-          {/* <Route
+          <Route
             path="/landlord-dashboard"
             element={
               <PrivateRoute>
                 <LandlordDashboard />
               </PrivateRoute>
             }
-          /> */}
+          />
 
           {/* Role Based Route */}
-          {/* <Route
+          <Route
             path="/landlord-dashboard"
             element={
               <PrivateRoute>
                 <LandlordDashboard />
               </PrivateRoute>
             }
-          /> */}
+          />
         </Route>
 
         <Route element={<AuthLayout />}>
