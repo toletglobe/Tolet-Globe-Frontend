@@ -3,31 +3,29 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   status: false,
   token: null,
-  userData: null,
-  profilePicture: '',
-
+  userData: {
+    userId: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    role: "",
+    phoneNumber: "",
+    profilePicture: "",
+  },
 };
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    userData: {
-      userId: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      profilePicture: '',
-    }
-  },
+  initialState,
   reducers: {
     login: (state, action) => {
       // console.log('action.payload:', action.payload);
       state.status = true;
+      state.token = action.payload.token;
       state.userData = {
         id: action.payload.userData.id,
-        lastName: action.payload.userData.lastName,
         firstName: action.payload.userData.firstName,
+        lastName: action.payload.userData.lastName,
         email: action.payload.userData.email,
         role: action.payload.userData.role,
         profilePicture: action.payload.userData.profilePicture, // Add profilePicture field
@@ -36,7 +34,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.status = false;
       state.token = null;
-      state.userData = null;
+      state.userData = {...initialState.userData};
     },
     updateProfilePicture(state, action) {
       // Update the profile picture in the state

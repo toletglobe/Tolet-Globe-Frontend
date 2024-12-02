@@ -8,7 +8,7 @@ import Routing from "../routes/Routing";
 
 const Main = () => {
   const dispatch = useDispatch();
-  const authState = useSelector((state) => state.auth);
+  // const authState = useSelector((state) => state.auth);
   
   // fetching user info whenever auth state changes
   useEffect(() => {
