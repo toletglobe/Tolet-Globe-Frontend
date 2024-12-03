@@ -26,7 +26,7 @@ export default function LandlordDashboardAddProperties() {
       yellowDivs.push(
         <div
           key={`yellow-${p}`}
-          className="bg-yellow-500 rounded-lg w-[25%] h-2 "
+          className="bg-yellow-500 rounded-lg w-[24%] h-2 "
         ></div>
       );
     }
@@ -44,7 +44,7 @@ export default function LandlordDashboardAddProperties() {
       whiteDivs.push(
         <div
           key={`white-${p}`}
-          className="bg-white rounded-lg w-[25%] h-2 "
+          className="bg-white rounded-lg w-[24%] h-2 "
         ></div>
       );
     }
@@ -238,7 +238,7 @@ export default function LandlordDashboardAddProperties() {
         {/* ProgressBar */}
 
         <div className="ml-5 mt-5 mb-8 pr-5 flex flex-col gap-2 md:pr-0">
-          <h1 className="text-[#FFFFFF] text-[33px] leading-10 font-bold">
+          <h1 className="text-center text-[#FFFFFF] text-[33px] leading-10 font-bold md:text-left">
             Add New Property
           </h1>
           <div className="mt-8 flex gap-4">

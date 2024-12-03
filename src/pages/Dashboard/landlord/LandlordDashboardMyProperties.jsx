@@ -1,14 +1,36 @@
 // import propertyimage1 from "../../../assets/property/blog-1.png";
 // import propertyimage2 from "../../../assets/property/blog-2.jpg";
 // import propertyimage3 from "../../../assets/property/blog-3.jpg";
-// import Service from "../../../config/config";
+import Service from "../../../config/config";
 
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { MdMoreVert } from "react-icons/md";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-export default function MyProperties({ myProperties }) {
+export default function MyProperties() {
+
+  const [myProperties, setMyProperties] = useState([]);
+  const authState = useSelector((state) => state.auth);
+  useEffect(() => {
+    const fetchMyProperties = async () => {
+      try {
+        if (!authState?.userData?.id) {
+          return;
+        }
+        const properties = await Service.fetchMyProperties(
+          authState.userData.id
+        );
+        setMyProperties(properties); // Store the fetched data in backendData
+      } catch (error) {
+        console.log("this is the error", error);
+      }
+    };
+
+    fetchMyProperties();
+  }, [authState?.userData?.id]);
+
   const navigate = useNavigate();
   const cards = myProperties.map((property) => (
     <div

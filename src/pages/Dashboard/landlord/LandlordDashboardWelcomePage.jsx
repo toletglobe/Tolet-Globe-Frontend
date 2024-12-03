@@ -6,19 +6,42 @@ import { CiHeart, CiShare2 } from "react-icons/ci";
 import { MdMoreVert } from "react-icons/md";
 
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCopy } from "@fortawesome/free-solid-svg-icons";
 // import {Link} from "react-router-dom"
 import { useSelector } from "react-redux";
+import Service from "../../../config/config";
 
-const LandlordDashboard = ({ myProperties }) => {
+
+
+
+const LandlordDashboardWelcomePage = () => {
+
+  const [myProperties, setMyProperties] = useState([]);
+  const authState = useSelector((state) => state.auth);
+  useEffect(() => {
+    const fetchMyProperties = async () => {
+      try {
+        if (!authState?.userData?.id) {
+          return;
+        }
+        const properties = await Service.fetchMyProperties(authState.userData.id);
+        setMyProperties(properties); // Store the fetched data in backendData
+      } catch (error) {
+        console.log("this is the error", error);
+      }
+    };
+
+    fetchMyProperties();
+  }, [authState?.userData?.id]);
+
   const phoneRef = useRef(null);
   const navigate = useNavigate();
   const phone = 8707727347;
   const [showNumber, setShowNumber] = useState(false);
 
-  const authState = useSelector((state) => state.auth);
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -110,24 +133,24 @@ const LandlordDashboard = ({ myProperties }) => {
       </div>
       {/* Quick Actions */}
       <div className="flex flex-col gap-y-8 xl:gap-y-7">
-        <h2 className="text-xl font-bold sm:text-lg text-center md:text-xl lg:text-2xl xl:text-left xl:text-lg">Quick Actions</h2>
+        <h2 className="text-xl font-bold sm:text-lg text-center md:text-xl lg:text-2xl xl:text-left xl:text-lg">
+          Quick Actions
+        </h2>
         <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl sm:flex-col lg:flex-row lg:w-[100%] lg:p-2 xl:p-4">
           <div>
-            <h2 className="text-lg font-bold text-left sm:text-center lg:text-xl xl:text-base xl:text-left px-2">Add a new property</h2>
+            <h2 className="text-lg font-bold text-left sm:text-center lg:text-xl xl:text-base xl:text-left px-2">
+              Add a new property
+            </h2>
             <p className="text-gray-400 py-2 sm:text-sm text-center md:text-base lg:text-lg xl:text-sm xl:text-left px-2 xl:py-1">
               Easily add a property to your account
             </p>
           </div>
-          <button
-            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer lg:text-lg xl:text-sm"
-            onClick={() => {
-              navigate("/landlord-dashboard", {
-                state: { content: "AddProperty" },
-              });
-            }}
+          <Link
+            to="add-properties"
+            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer"
           >
             Add Property
-          </button>
+          </Link>
         </div>
 
         <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl sm:flex-col lg:flex-row lg:w-[100%] lg:p-2 xl:p-4">
@@ -146,7 +169,11 @@ const LandlordDashboard = ({ myProperties }) => {
                 navigate("/contact");
               }}
             >
-              <span className="mr-2">🎧</span><span className="sm:text-sm md:text-base lg:text-lg xl:text-sm"> Contact Support </span>
+              <span className="mr-2">🎧</span>
+              <span className="sm:text-sm md:text-base lg:text-lg xl:text-sm">
+                {" "}
+                Contact Support{" "}
+              </span>
             </button>
           </div>
         </div>
@@ -165,11 +192,12 @@ const LandlordDashboard = ({ myProperties }) => {
               {/* <MyProperty /> */}
             </div>
             <div className="flex justify-end mt-6">
-              <button onClick={()=>{
-                navigate("/landlord-dashboard",{state: {content: "MyProperty"}});
-              }} className="bg-gray-800 text-white py-2 px-4 rounded">
+              <Link
+                to="my-properties"
+                className="bg-gray-800 text-white py-2 px-4 rounded"
+              >
                 View all ({myProperties.length})
-              </button>
+              </Link>
             </div>
           </>
         ) : (
@@ -182,4 +210,4 @@ const LandlordDashboard = ({ myProperties }) => {
   );
 };
 
-export default LandlordDashboard;
+export default LandlordDashboardWelcomePage;

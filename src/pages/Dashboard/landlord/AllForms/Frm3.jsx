@@ -58,7 +58,7 @@ export default function Frm3({ formData, setFormData }) {
 
   return (
     <>
-      <div className="mt-10 pl-5 h-fit">
+      <div className="mt-10 h-fit px-5 md:pl-5 md:px-0">
         <div className="text-gray-200 font-bold text-lg w-fit">Car Parking</div>
         <div className="mt-16 w-fit">
           <input

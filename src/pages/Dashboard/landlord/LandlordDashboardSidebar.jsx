@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { logout } from "../../../redux/store/authSlice";
 import profileLogo from "../../../assets/landlord/profileLogo.png";
@@ -16,131 +16,141 @@ import accountSecurityImg from "../../../assets/landlord/accountSecurityImg.png"
 import { useState } from "react";
 
 export default function LandlordDashboardSidebar({
-  mainContent,
-  setMainContent,
-  colored,
-  setColored,
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const authState = useSelector((state) => state.auth);
-
   const [toggelSetting, setToggelSetting] = useState(false);
 
-  const handleOnClick = (text) => {
-    setMainContent((mainContent) => (mainContent = text));
-    setColored(text);
-  };
+  const linkStyle_1 =
+    "rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer md:max-w-[320px] md:min-h-[45px]";
+  
+  const linkStyle_2 =
+    "rounded-md px-[14px] py-[10px] flex items-center gap-x-4 cursor-pointer";
 
-  return (
-    <>
-      <div className="w-[100%] h-[100%] bg-black text-white p-5 flex flex-col sm:p-1 w[100%] items-center">
-        <div className="flex flex-col sm:flex-row lg:flex-col">
-          <div
-            className={`rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer lg:max-w-[320px] lg:min-h-[45px]  ${
-              colored == "Welcome" ? "bg-[#C8A117]" : ""
-            } `}
-            onClick={() => {
-              handleOnClick("Welcome");
-            }}
-          >
-            <FontAwesomeIcon icon={faChartSimple} className="text-xl" />
-            <span className="hidden xl:block">Dashboard</span>
-          </div>
-          <div
-            className={`rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer lg:max-w-[320px] lg:min-h-[45px] ${
-              colored == "MyProperty" ? "bg-[#C8A117]" : ""
-            } `}
-            onClick={() => {
-              handleOnClick("MyProperty");
-            }}
-          >
-            <FontAwesomeIcon icon={faHouse} className="-ml-[2px] text-xl" />
-            <span className="hidden xl:block">My Properties</span>
-          </div>
-          <div
-            className={`rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer lg:max-w-[320px] lg:min-h-[45px] ${
-              colored == "AddProperty" ? "bg-[#C8A117]" : ""
-            } `}
-            onClick={() => {
-              handleOnClick("AddProperty");
-              navigate("/landlord-dashboard", {
-                state: { content: "AddProperty" },
-              });
-            }}
-          >
-            <FontAwesomeIcon icon={faPlus} className="text-xl" />
-            <span className="hidden xl:block">Add Property</span>
-          </div>
+   return (
+     <>
+       <div className="w-[100%] h-[100%] bg-black text-white p-2 flex flex-col lg:p-5">
+         <div className="flex sm:flex-col">
+           <NavLink
+             className={({ isActive }) =>
+               ` ${linkStyle_1} ${isActive ? "bg-[#C8A117]" : ""} `
+             }
+              end to="/landlord-dashboard"
+           >
+             <div>
+               <FontAwesomeIcon icon={faChartSimple} className="text-xl" />
+               <span className="hidden text-base md:block lg:text-xl">
+                 Dashboard
+               </span>
+             </div>
+           </NavLink>
 
-          <div
-            className={`rounded-md max-w-[320px] min-h-[45px] text-xl min-[320px]:max-sm:flex cursor-pointer`}
-          >
-            <div
-              className={`rounded-md px-[14px] py-[10px] flex items-center gap-x-4 h-[45px] ${
-                colored == "Settings" ? "bg-[#C8A117]" : ""
-              } `}
-              onClick={() => {
-                setColored("Settings");
-                setToggelSetting(!toggelSetting);
-              }}
-            >
-              <FontAwesomeIcon icon={faGear} className="text-xl" />
-              <span className="hidden xl:block">Settings</span>
-            </div>
+           <NavLink
+             to="my-properties"
+             className={({ isActive }) =>
+               ` ${linkStyle_1} ${isActive ? "bg-[#C8A117]" : ""} `
+             }
+           >
+             <div>
+               <FontAwesomeIcon icon={faHouse} className="-ml-[2px] text-xl" />
+               <span className="hidden text-base md:block lg:text-xl">
+                 My Properties
+               </span>
+             </div>
+           </NavLink>
 
-            {toggelSetting && (
-              <ul className="-ml-1 flex sm:flex-col gap-y-[2px] lg:mt-4 lg:ml-8">
-                <li
-                  className={`rounded-md px-[14px] py-[10px] flex items-center gap-x-4 cursor-pointer ${
-                    colored == "Profile" ? "bg-[#C8A117]" : ""
-                  } `}
-                  onClick={() => {
-                    handleOnClick("Profile");
-                  }}
-                >
-                  <img className="min-w-5" src={profileLogo} alt="" />
-                  <span className="hidden xl:block">Profile</span>
-                </li>
-                <li
-                  className={`rounded-md px-[14px] py-[10px] flex items-center gap-x-4 cursor-pointer ${
-                    colored == "AccountSecurity" ? "bg-[#C8A117]" : ""
-                  } `}
-                  onClick={() => {
-                    handleOnClick("AccountSecurity");
-                  }}
-                >
-                  <img className="min-w-5" src={accountSecurityImg} alt="" />
-                  <span className="hidden xl:block">Account Security</span>
-                </li>
-              </ul>
-            )}
-          </div>
+           <NavLink
+             to="add-properties"
+             className={({ isActive }) =>
+               ` ${linkStyle_1} ${isActive ? "bg-[#C8A117]" : ""} `
+             }
+           >
+             <div>
+               <FontAwesomeIcon icon={faPlus} className="text-xl" />
+               <span className="hidden text-base md:block lg:text-xl">
+                 Add Property
+               </span>
+             </div>
+           </NavLink>
 
-          <div
-            className={`rounded-md px-[14px] py-[10px] max-w-[320px] min-min-h-[45px] text-xl text-[#FF0000] flex items-center gap-x-4 cursor-pointer ${
-              colored == "Logout" ? "bg-[#C8A117]" : ""
-            } `}
-            onClick={() => {
-              if (authState.status === true && localStorage.getItem("token")) {
-                localStorage.removeItem("token");
-                dispatch(logout());
-                navigate("/login");
-                toast.success("Logged Out!");
-              } else {
-                toast.error("Please login first!");
-              }
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faArrowRightFromBracket}
-              className="text-xl"
-            />
-            <span className="hidden xl:block">Logout</span>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+           <div
+             className={`rounded-md max-w-[320px] min-h-[45px] text-xl min-[320px]:max-sm:flex cursor-pointer`}
+           >
+             <NavLink
+               to="settings/profile"
+               className={({ isActive }) =>
+                 `rounded-md px-[14px] py-[10px] flex items-center gap-x-4 h-[45px] ${
+                   isActive ? setToggelSetting(true) : setToggelSetting(false)
+                 } `
+               }
+             >
+               <div>
+                 <FontAwesomeIcon icon={faGear} className="text-xl" />
+                 <span className="hidden text-base md:block lg:text-xl">
+                   Settings
+                 </span>
+               </div>
+             </NavLink>
+
+             {toggelSetting && (
+               <ul className="-ml-1 flex sm:flex-col gap-y-[2px] lg:mt-4 lg:ml-8">
+                 <NavLink
+                   to="settings/profile"
+                   className={({ isActive }) =>
+                     ` ${linkStyle_2} ${isActive ? "bg-[#C8A117]" : ""} `
+                   }
+                 >
+                   <li>
+                     <img className="min-w-5" src={profileLogo} alt="" />
+                     <span className="hidden text-base md:block lg:text-xl">
+                       Profile
+                     </span>
+                   </li>
+                 </NavLink>
+                 <NavLink
+                   to="settings/account-security"
+                   className={({ isActive }) =>
+                     ` ${linkStyle_2} ${isActive ? "bg-[#C8A117]" : ""} `
+                   }
+                 >
+                   <li>
+                     <img className="min-w-5" src={accountSecurityImg} alt="" />
+                     <span className="hidden text-base md:block lg:text-xl">
+                       Account Security
+                     </span>
+                   </li>
+                 </NavLink>
+               </ul>
+             )}
+           </div>
+
+           <div
+             className={
+               `rounded-md px-[14px] py-[10px] max-w-[320px] min-min-h-[45px] text-xl text-[#FF0000] flex items-center gap-x-4 cursor-pointer`
+             }
+             onClick={() => {
+               if (authState.status === true && localStorage.getItem("token")) {
+                 localStorage.removeItem("token");
+                 dispatch(logout());
+                 navigate("/login");
+                 toast.success("Logged Out!");
+               } else {
+                 toast.error("Please login first!");
+               }
+             }}
+           >
+             <FontAwesomeIcon
+               icon={faArrowRightFromBracket}
+               className="text-xl "
+             />
+             <span className="hidden text-base md:block lg:text-xl">
+               Logout
+             </span>
+           </div>
+         </div>
+       </div>
+     </>
+   );
 }

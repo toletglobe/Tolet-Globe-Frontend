@@ -1,8 +1,8 @@
 export default function Frm2({ formData, setFormData }) {
   return (
     <>
-      <div className="mt-8 pl-5 h-fit sm:-mr-1 md:-mr-4 xl:-mr-10">
-        <div className=" grid md:grid-cols-2 gap-y-4 lg:gap-x-14">
+      <div className="mt-8 pl-5 h-fit">
+        <div className=" grid md:grid-cols-2 gap-y-4 lg:gap-x-16 xl:gap-x-24">
           <div className="min-w-[30vw] h-fit flex flex-col gap-3 items-start">
             <label className="text-[#FFFFFF] text-base font-medium">
               Pets Allowed
