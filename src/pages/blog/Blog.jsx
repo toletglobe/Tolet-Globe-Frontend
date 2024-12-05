@@ -25,6 +25,7 @@ const Blog = () => {
           blogsPerPage,
           sortBy
         );
+        console.log(allBlogs);
         setBlogs(allBlogs.data); // Store the fetched data in backendData
         setTotalPages(allBlogs?.totalPages);
         setLoading(false);
@@ -79,6 +80,7 @@ const Blog = () => {
       </div>
     );
   }
+
 
   return (
     <div className="bg-black my-5">
