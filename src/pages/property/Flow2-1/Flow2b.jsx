@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 
 import LocationComponent from "./Location.jsx";
-import Reviews from "../../../components/index.js";
+import Reviews from "../../../components/PropertyComp/Reviews.jsx";
+// import Reviews from "../../../components/index.js";
 import Features from "./Flow2bcomponents/Features.jsx";
 import About from "./Flow2bcomponents/About.jsx";
 import Amenities from "./Flow2bcomponents/Amenities.jsx";

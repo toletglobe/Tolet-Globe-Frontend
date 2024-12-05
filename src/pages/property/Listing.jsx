@@ -162,7 +162,7 @@ const Listing = () => {
 
         }
         // Sort by created date
-        propertyData.sort(
+        propertyData.properties.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
 

@@ -71,7 +71,6 @@ const Cards = ({ properties, propertyAction }) => {
     : [properties]; // Ensure properties is an array
 
   let norm=normalizedProperties[0].properties||normalizedProperties
-  console.log("NORM", normalizedProperties);
 
   return (
     <div>

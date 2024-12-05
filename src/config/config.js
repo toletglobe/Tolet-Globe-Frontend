@@ -56,7 +56,7 @@ class Service {
           "Content-Type": "application/json",
         },
       });
-      console.log("Response received:", response.data);
+      // console.log("Response received:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error in fetchProperty:", error.response || error);

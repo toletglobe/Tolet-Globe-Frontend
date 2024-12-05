@@ -28,7 +28,7 @@ const LandlordDashboardMyProperties = lazy(() => import("../pages/Dashboard/land
 const LandlordDashboardAddProperties = lazy(() => import("../pages/Dashboard/landlord/LandlordDashboardAddProperties.jsx"));
 const LandlordDashboardProfileForm = lazy(() => import("../pages/Dashboard/landlord/LandlordDashboardProfileForm.jsx"));
 const LandlordDashboardAccountSecurity = lazy(() => import("../pages/Dashboard/landlord/LandlordDashboardAccountSecurity.jsx"));
-
+const Flow2a = lazy(() => import("../pages/property/Flow2-1/Flow2a1.jsx"));
 
 
 
@@ -49,8 +49,8 @@ const Routing = () => {
           <Route path="/property" element={<Property />} />
           <Route path="/property-listing" element={<Listing />} />
           <Route path="/compare-property" element={<CompareProperty />} />
-          {/* <Route path="/property-listing/:city" element={<Listing />} /> */}
-          {/* <Route path="/property/:slug" element={<Flow2a />} /> */}
+          <Route path="/property-listing/:city" element={<Listing />} />
+          <Route path="/property/:slug" element={<Flow2a />} />
           {/* <Route path="/property/reviews" element={<Reviews />} /> */}
 
           {/* Authenticated Route */}
