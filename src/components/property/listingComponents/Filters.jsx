@@ -90,6 +90,7 @@ const Filters = ({ SetIsOpen, setProperties, updateFilterCount }) => {
 
     try {
       const response = await axios.get(url);
+      console.log("Response received:", response)
       setProperties(response.data.data); // Update properties with the filtered results
       if (response.data.data.length === 0) {
         console.log("No results found");

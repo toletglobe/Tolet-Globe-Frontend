@@ -33,6 +33,8 @@ const NextArrow = ({ onClick }) => (
 );
 
 const Cards = ({ properties, propertyAction }) => {
+
+  console.log("PROPS in Cards", properties);
   const [{ compareProperty }, dispatch] = useStateValue();
 
   const addToCompare = (property) => {
@@ -70,12 +72,13 @@ const Cards = ({ properties, propertyAction }) => {
     ? properties
     : [properties]; // Ensure properties is an array
 
-  console.log("NORM", normalizedProperties);
+  let norm=normalizedProperties[0].properties||normalizedProperties
+  console.log("NORM", normalizedProperties[0].properties);
 
   return (
     <div>
       <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-        {normalizedProperties[0].properties.map((property) => (
+        {norm.map((property) => (
           <li
             key={property._id}
             className="property-card bg-white border border-grey-200 shadow-lg relative p-2 md:p-4"

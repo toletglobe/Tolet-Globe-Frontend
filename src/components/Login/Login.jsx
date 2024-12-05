@@ -8,7 +8,7 @@ import { API } from "../../config/axios";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/authSlice";
 
-const Login = () => {
+const Login = ({ setUserInfo }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -40,6 +40,7 @@ const Login = () => {
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
+        // setUserInfo(res.data.token);
 
         // console.log(res.data.user);
         dispatch(

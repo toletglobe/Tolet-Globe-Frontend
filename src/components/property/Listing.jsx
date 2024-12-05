@@ -142,6 +142,7 @@ const Listing = () => {
         } else {
           propertyData = await Service.fetchProperty();
           setProperties(propertyData || []);
+
         }
 
         // Filter by locality if selected
@@ -162,7 +163,7 @@ const Listing = () => {
 
         }
         // Sort by created date
-        propertyData.sort(
+        propertyData.properties.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
 
