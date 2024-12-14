@@ -1,6 +1,5 @@
-
-@import 'slick-carousel/slick/slick.css';
-@import 'slick-carousel/slick/slick-theme.css';
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -26,50 +25,49 @@ body {
   min-height: 100vh;
 }
 
+.margin {
+  margin: 60px;
+}
 
 @keyframes marquee {
   0% {
-    transform: translateX(50%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-100%);
   }
 }
 
 .animate-marquee {
-  animation: marquee 20s linear infinite; 
+  animation: marquee 20s linear infinite;
   animation-play-state: running;
+}
+
+.overflow-hidden {
+  overflow: hidden; /* Prevent overflow */
 }
 
 .marquee {
   display: flex; /* Align images horizontally */
-  width: calc(100% * 3); /* Ensure enough width for smooth scrolling */
-}
-
-.whitespace-nowrap {
   white-space: nowrap; /* Prevent line breaks */
 }
 
-
 .animate-marquee:hover {
   animation-play-state: paused; /* Pause the animation on hover */
-}
-.overflow-hidden {
-  overflow: hidden;  /* //Prevent overflow */
 }
 
 @media (max-width: 640px) {
   @keyframes marquee {
     0% {
-      transform: translateX(350%); /* Start fully off the screen */
+      transform: translateX(0);
     }
     100% {
-      transform: translateX(-350%); /* Move fully off the screen to the left */
+      transform: translateX(-720%);
     }
   }
 
   .animate-marquee {
-    animation: marquee 15s linear infinite; /* Shorter duration for smaller screens */
+    animation: marquee 15s linear infinite;
     animation-play-state: running;
   }
 
@@ -77,7 +75,15 @@ body {
     display: flex;
     width: max-content; /* Ensure the width wraps around all images */
   }
+
   .animate-marquee:hover {
     animation-play-state: paused;
   }
+  .margin {
+    margin: 30px;
+  }
+}
+
+.active hr {
+  @apply block;
 }

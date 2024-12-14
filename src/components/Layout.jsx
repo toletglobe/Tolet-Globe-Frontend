@@ -24,12 +24,13 @@ import {
 } from "./index";
 import Landing from "./Landing";
 import ResetPassword from "./resetpassword/ResetPassword";
-import Reviews from "./reviews/Reviews";
+import Reviews from "./PropertyComp/Reviews";
 import AddProperty from "./property/create-prop/AddProperty";
 import CompareProperty from "./property/compare-prop/CompareProperty";
-import LandlordDashboardMyProperties from "./landlord/LandlordDashboardMyProperties"
+import LandlordDashboardMyProperties from "./landlord/LandlordDashboardMyProperties";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { BASE_URL } from "../constant/constant";
 
 const Layout = () => {
   const location = useLocation();
@@ -41,10 +42,11 @@ const Layout = () => {
     const fetchUserInfo = async () => {
       try {
         const token = localStorage.getItem("token");
+
         if (!token) return;
 
         const response = await axios.get(
-          `http://localhost:8000/api/v1/user/info?token=${token}`,
+          `${BASE_URL}user/info?token=${token}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -65,8 +67,8 @@ const Layout = () => {
   if (loading) return <p>Loading...</p>; // Optionally show loading state
 
   return (
-    <div className="flex flex-col min-h-screen w-full">
-      <div className="nav fixed top-0 left-0 right-0 z-50 bg-white">
+    <div className="flex flex-col min-h-screen w-full bg-black">
+      <div className="fixed top-0 z-50 left-0 right-0 bg-black">
         <NavBar userInfo={userInfo} />
       </div>
 
@@ -98,10 +100,8 @@ const Layout = () => {
           <Route
             path="/landlord-dashboard/"
             element={<LandlordDashboard setUserInfo={setUserInfo} />}
-          >
-          </Route>
+          ></Route>
           <Route path="/compare-property" element={<CompareProperty />} />
-          
         </Routes>
       </div>
       <div className="footer mt-5">

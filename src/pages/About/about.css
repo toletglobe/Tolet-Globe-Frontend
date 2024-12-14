@@ -1,0 +1,25 @@
+.timeline::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: var(--scroll-position, 0%); /* Use the custom property for height */
+  background: #6cc0c4;
+  top: -14px;
+  left: 50%;
+  margin-left: -3px;
+}
+
+.timeline-dot {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: rgb(196, 149, 20); /* Yellow dot */
+  border-radius: 50%;
+  left: 50.2%;
+
+  margin-left: -10px; /* Center the dot horizontally */
+  top: calc(var(--scroll-position, 0%) - 15px); /* Align with the bottom of the vertical line */
+  transition: top 0.0s ease; /* Smooth scrolling effect */
+}
+
