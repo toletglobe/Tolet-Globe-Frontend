@@ -1,0 +1,137 @@
+.property-list {
+  @apply grid grid-cols-1 gap-8 p-4 md:grid-cols-2 lg:grid-cols-3;
+}
+.property-list a {
+  @apply no-underline text-[black];
+}
+
+/* Property Card */
+.property-card {
+  @apply border overflow-hidden relative transition-shadow duration-[0.3s] ease-[ease] p-4 rounded-none border-solid border-[#ccc];
+
+  /* Base border color */
+}
+
+/*  Image Container */
+.card-banner {
+  @apply overflow-hidden relative transition-[border] duration-[0.3s] ease-[ease];
+}
+
+/* Card Banner Image */
+.card-banner img {
+  @apply w-full h-[350px] object-cover transition-[border] duration-[0.3s] ease-[ease] border rounded-[5px] border-solid border-[#D9D9D9];
+
+  /* Ensure the image covers the container */
+}
+
+/* Card Banner */
+
+/* Added cursor pointer to carousel slides */
+.slick-slide {
+  @apply cursor-pointer;
+}
+.slick-arrow {
+  @apply cursor-pointer;
+}
+
+/* Add styles for carousel dots (optional) */
+.slick-dots li button:before {
+  @apply text-black;
+
+  /* Change dot color */
+}
+
+/* Adjust styles for carousel dots on hover (optional) */
+.slick-dots li.slick-active button:before {
+  @apply text-[#c8a217];
+
+  /* Change active dot color */
+}
+
+/* Container for the card details */
+.card-details {
+  @apply flex flex-col items-start gap-2;
+}
+
+/* Style for the type labels (Flat, Shop, House) */
+.card-type {
+  @apply text-sm font-medium text-black mb-2;
+  font-family: Poppins, sans-serif;
+}
+
+/* Style for the price */
+.card-price {
+  @apply text-xs font-normal leading-[18px] text-[#808080] p-[0.3px];
+  font-family: Poppins, sans-serif;
+}
+.cate-price {
+  @apply mr-5;
+}
+.card-text {
+  @apply ml-[-1.5px];
+}
+
+/* Style for the list items */
+.custom-card-list {
+  @apply list-none flex gap-4 flex-wrap m-0 p-0;
+}
+.card-item {
+  @apply flex items-center text-sm text-[#333];
+
+  /* Text color */
+}
+.card_icon {
+  @apply w-[25px] h-[25px] flex items-center justify-center w-[25px] h-[25px] gap-0 bg-[#D9D9D917] opacity-100 flex items-center justify-center rounded-none border-[0.5px] border-solid border-[#00000066] border-[0.5px] border-solid border-[#00000066];
+}
+
+/* Heart icon specific styling */
+.card_icons a:last-child .card_icon {
+  @apply text-[red];
+
+  /* Red color for heart icon */
+}
+
+/* CSS for SHOW MORE button */
+.card-footer-actions-btn {
+  @apply text-xs font-normal leading-[18px] text-center border rounded text-white px-4 py-2 border-solid border-[#ddd];
+  font-family: Poppins, sans-serif;
+
+  /* Use Poppins font */
+  background: #40b5a8;
+}
+.card-list {
+  @apply mt-3;
+}
+.bed {
+  @apply text-[#767676];
+}
+.bath {
+  @apply text-[#767676];
+}
+.pi {
+  @apply text-[#7C7C7C];
+}
+.author-name {
+  @apply text-[#767676];
+}
+
+/* Group box for icons */
+.card_icons {
+  @apply flex gap-4 border p-2 rounded-none border-solid border-[#ddd];
+  background: #f9f9f9;
+
+  /* Remove rounded corners to make the box square */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Individual icon styles as Figma */
+.card_icon {
+  /* Square edges */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+.card_icons a:nth-child(2) .card_icon {
+  @apply text-[small];
+}
+#property {
+  scrollbar-width: none;
+}
