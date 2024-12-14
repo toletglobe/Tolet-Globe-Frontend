@@ -123,15 +123,15 @@ const TestimonialCard = () => {
         {images.map((d, index) => (
      <div
      key={index}
-     className=" bg-white p-4 rounded-lg shadow-lg w-0 h-[480px]  md:w-[300px] text-left"
+     className=" bg-white p-4 rounded-lg shadow-lg w-0 h-[480px]  md:w-[300px] text-left leading-tight tracking-tight"
    >
             <img
               src={d.image}
               alt={d.name}
-               className="w-full h-64 object-cover transition-transform duration-500"
+               className="w-full h-64 object-cover transition-transform duration-500 rounded-md"
             />
-            <h3 className="text-black font-bold text-lg mt-4">{d.name}</h3>
-            <div className="flex mb-2">
+            <h3 className="text-black font-bold text-lg -mb-2 pt-2">{d.name}</h3>
+            <div className="flex mb-1">
               {Array.from({ length: 5 }, (v, i) => (
                 <span
                   key={i}
@@ -143,8 +143,8 @@ const TestimonialCard = () => {
                 </span>
               ))}
             </div>
-            <p className="text-black mb-4">{d.review}</p>
-            <div className="flex space-x-2 justify-end">
+            <p className="text-black font-normal h-12">{d.review}</p>
+            <div className="flex space-x-3 justify-end mr-6 pt-12">
               <img
                 src={linked_in}
                 alt="LinkedIn"
