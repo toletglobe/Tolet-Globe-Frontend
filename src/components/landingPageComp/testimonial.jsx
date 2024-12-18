@@ -104,7 +104,7 @@ const TestimonialCard = () => {
   };
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto justify-center ">
+    <div className="relative w-full max-w-4xl mx-auto justify-center hidden ">
       <div className="flex flex-col items-center justify-center">
         <h3 className="font-poppins font-medium text-[24px] leading-[36px] text-center text-[#1D5F58] sm:text-[36px] sm:leading-[48px] md:text-[42.6667px] md:leading-[64px]">
           Testimonials
