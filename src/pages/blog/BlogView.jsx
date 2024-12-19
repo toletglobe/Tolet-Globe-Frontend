@@ -26,17 +26,6 @@ const BlogView = () => {
     fetchBlog();
   }, []);
 
-  useEffect(() => {
-    const updateView = async () => {
-      try {
-        const blogData = await Service.updateViews(slug); // Fetch the blog details
-        setBlog(blogData.blog);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    updateView();
-  }, []);
 
   const updateLike = async () => {
     try {
