@@ -105,6 +105,19 @@ class Service {
     }
   }
 
+ static isTokenExpired = (token) => {
+      if(!token) return true;
+      try{
+          const decodeToken = jwtDecode(token);
+          const currentTime = Date.now() /1000;
+          return decodeToken.exp < currentTime;
+      }catch(error){
+          console.error('Error decoding token: ', error);
+          return true;
+      }
+  };
+
+
   static async fetchPropertyByCity(city, currentPage) {
     try {
       const response = await axios.get(`${BASE_URL}property/city/${city}?page=${currentPage}&limit=9`, {
