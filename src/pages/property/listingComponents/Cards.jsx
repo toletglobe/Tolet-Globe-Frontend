@@ -2,7 +2,6 @@ import React from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { FaRegCopy } from "react-icons/fa6";
-// import { IoAdd, IoBedOutline } from "react-icons/io5";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import Popup from "reactjs-popup";
 import { LuBath } from "react-icons/lu";
@@ -36,10 +35,12 @@ const Cards = ({ properties, propertyAction }) => {
   const [{ compareProperty }, dispatch] = useStateValue();
 
   const addToCompare = (property) => {
-    dispatch({
-      type: "ADD_TO_COMPARE",
-      item: property,
-    });
+    if (compareProperty.length < 4 && !isInCompareList(property)) {
+      dispatch({
+        type: "ADD_TO_COMPARE",
+        item: property,
+      });
+    }
   };
 
   const removeFromCompare = (property) => {
@@ -70,7 +71,7 @@ const Cards = ({ properties, propertyAction }) => {
     ? properties
     : [properties]; // Ensure properties is an array
 
-  let norm=normalizedProperties[0].properties||normalizedProperties
+  let norm = normalizedProperties[0].properties || normalizedProperties;
 
   return (
     <div>
@@ -104,7 +105,6 @@ const Cards = ({ properties, propertyAction }) => {
                   <NextArrow onClick={() => {}} />
                 </div>
               )}
-              y9876
               <div
                 className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
                 style={{
@@ -240,18 +240,6 @@ const Cards = ({ properties, propertyAction }) => {
                   {property.squareFeetArea} ft²
                 </li>
               </ul>
-              {/* <div className="divider-container">
-                <hr
-                  className="custom-hr"
-                  style={{
-                    border: "none",
-                    borderTop: "2.8px solid #ccc",
-                    width: "calc(100% + 0.001rem)",
-                    marginTop: "1.4rem",
-                    marginBottom: "-2.3rem",
-                  }}
-                />
-              </div> */}
             </div>
             <div className="card-footer p-6 flex justify-between items-center">
               <div className="card-author flex items-center gap-4">
