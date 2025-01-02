@@ -40,9 +40,9 @@ const BlogView = () => {
         toast.error("Login First!");
         return navigate("/login", { replace: true });
       }
-
+      
       const { data } = await axios.get(
-        `${BASE_URL}blog/updateLikes/${blog._id}`,
+        `${BASE_URL}blog/updateLikes/${blog.slug}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,13 +85,13 @@ const BlogView = () => {
               className="flex items-center gap-1 cursor-pointer"
               onClick={updateLike}
             >
-              {!authState && <FaRegHeart />}
-              {authState?.userData?.id &&
-              blog.likes.includes(authState.userData.id) ? (
-                <IoMdHeart />
-              ) : (
-                <FaRegHeart />
-              )}
+               {!authState && <FaRegHeart />}
+                  {(blog.likes.includes(parseInt(authState.userData.id.slice(0,3))) && authState.status 
+                   ) ? 
+                     <IoMdHeart />
+                   : 
+                     <FaRegHeart />
+                   }
               {blog.likes.length}
             </div>
           </div>
