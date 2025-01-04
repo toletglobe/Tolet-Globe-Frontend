@@ -38,6 +38,7 @@ const Login = () => {
       });
 
       //     console.log(res.data);
+      console.log(res.data);
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
@@ -52,6 +53,7 @@ const Login = () => {
               lastName: res.data.user.lastName,
               email: res.data.user.email,
               role: res.data.user.role,
+              profilePicture: res.data.user.profilePicture,
             },
           })
         );
