@@ -119,8 +119,15 @@ const NavBar = () => {
             </div>
           ) : (
             <button
-              onClick={() => navigate("/login")}
-              className="hover:bg-teal-500 hover:text-white px-4 py-1 hover:rounded-full hidden lg:block"
+              onClick={() => {
+                setActiveNavbarMenu("login");
+                navigate("/login");
+              }}
+              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-full ${
+                activeNavbarMenu === "login"
+                  ? "bg-teal-500 text-white rounded-full"
+                  : ""
+              }  `}
             >
               Login
             </button>
