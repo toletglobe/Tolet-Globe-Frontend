@@ -236,8 +236,6 @@ const Listing = () => {
     setLoading(true);
 
     try {
-      let propertyData = [];
-
       let cleanedFilters = {
         ...filters,
         bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
@@ -282,51 +280,34 @@ const Listing = () => {
       queryString = queryString + `&page=${currentPage}`;
 
       const url = `${BASE_URL}property/filter?${queryString}`;
-      console.log("Genr URL: ", url);
 
       try {
         const response = await axios.get(url);
-        setProperties(response.data.data); // Update properties with the filtered results
+        let propertyData = response.data.data; // Store the response data
+
+        // Sort by created date if needed
+        if (propertyData && Array.isArray(propertyData)) {
+          propertyData.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+        }
+
+        setProperties(propertyData); // Update properties with the sorted results
         setTotalPages(response.data.totalPages || 1);
-        // setCurrentPage(1);
-        if (response.data.data.length === 0) {
-          console.log("No results found");
+
+        // Check if no properties were found
+        setNoPropertiesFound(propertyData.length === 0);
+
+        // Handle sorting if needed
+        const searchParams = new URLSearchParams(location.search);
+        const sortType = searchParams.get("sort");
+        if (sortType && Array.isArray(propertyData)) {
+          sortProperties(propertyData, sortType);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
 
-      // Filter by locality if selected
-      if (selectedLocality) {
-        propertyData = propertyData.filter(
-          (property) => property.locality === selectedLocality
-        );
-      }
-      if (selectedArea.length > 0 && selectedLocality) {
-        propertyData = propertyData.filter(
-          (property) => property.locality === selectedLocality
-        );
-
-        propertyData = propertyData.filter((property) =>
-          selectedArea.includes(property.area)
-        );
-      }
-      // Sort by created date
-      propertyData.properties.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
-
-      // Set filtered properties
-      setProperties(filteredProperties);
-
-      // Check if no properties were found
-      setNoPropertiesFound(filteredProperties.length === 0);
-
-      // Check for sorting
-      const sortType = searchParams.get("sort");
-      if (sortType) {
-        sortProperties(filteredProperties, sortType);
-      }
       setLoading(false);
     } catch (error) {
       console.error("Error fetching properties:", error);
