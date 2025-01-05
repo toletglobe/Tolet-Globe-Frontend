@@ -67,9 +67,9 @@ const Login = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="w-full min-h-screen flex justify-center items-center">
       <form onSubmit={handleSubmit}>
-        <div className="login_form_container mx-auto my-40">
+        <div className="login_form_container">
           <div className="login_form">
             <h2 className="text-2xl font-semibold">Login</h2>
             <div className="input_group">

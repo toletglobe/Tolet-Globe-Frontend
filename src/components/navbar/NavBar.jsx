@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import userIcon from "../../assets/user-icon.png"; // Fallback image
 import toast from "react-hot-toast";
@@ -17,19 +17,31 @@ const NavBar = () => {
   // Move Redux state declarations to the top
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
 
   // Then declare component state
   const [showMenu, setShowMenu] = useState(false);
-  const [activeNavbarMenu, setActiveNavbarMenu] = useState(
-    () => localStorage.getItem("activeNavbarMenu") || "Home"
-  );
+  const [activeNavbarMenu, setActiveNavbarMenu] = useState("Home");
 
-  // Update localStorage when activeNavbarMenu changes
+  // Add this effect to update activeNavbarMenu based on URL
   useEffect(() => {
-    localStorage.setItem("activeNavbarMenu", activeNavbarMenu);
-  }, [activeNavbarMenu]);
+    const path = location.pathname;
+    if (path === "/") {
+      setActiveNavbarMenu("Home");
+    } else if (path === "/login") {
+      setActiveNavbarMenu("login");
+    } else {
+      // Get the first segment of the path (ignoring parameters and query strings)
+      const baseRoute = path.split("/")[1];
+      const pageName = baseRoute
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+      setActiveNavbarMenu(pageName);
+    }
+  }, [location]);
 
   const userInfo = authState?.userData || {}; // Extract userData from authState
 

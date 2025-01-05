@@ -1,6 +1,6 @@
-body {
+/* body {
   background-color: #000000;
-}
+} */
 
 .login_form_container {
   position: relative;
@@ -15,7 +15,6 @@ body {
   justify-content: center;
   overflow: hidden;
   margin-top: 70px;
-  margin-left: 550px;
 }
 .login_form_container::before {
   position: absolute;

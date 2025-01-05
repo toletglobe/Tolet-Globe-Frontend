@@ -3,10 +3,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens: {
-      'sm': '0px',
-      'md': '360px',
-      'lg': '500px',
-      'xl': '820px',
+      sm: "0px",
+      md: "360px",
+      lg: "500px",
+      xl: "820px",
     },
     extend: {
       transitionProperty: {
@@ -26,6 +26,10 @@ export default {
           "conic-gradient(transparent, transparent, transparent, #C8A217)",
         "gradient-conic-2":
           "conic-gradient(transparent, transparent, transparent, #3CBDB1)",
+      },
+      colors: {
+        "custom-teal": "#3cbdb1",
+        "custom-gold": "#c8a217",
       },
     },
   },
