@@ -13,11 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Service from "../../../config/config";
 
-
-
-
 const LandlordDashboardWelcomePage = () => {
-
   const [myProperties, setMyProperties] = useState([]);
   const authState = useSelector((state) => state.auth);
   useEffect(() => {
@@ -26,7 +22,9 @@ const LandlordDashboardWelcomePage = () => {
         if (!authState?.userData?.id) {
           return;
         }
-        const properties = await Service.fetchMyProperties(authState.userData.id);
+        const properties = await Service.fetchMyProperties(
+          authState.userData.id
+        );
         setMyProperties(properties); // Store the fetched data in backendData
       } catch (error) {
         console.log("this is the error", error);
@@ -40,8 +38,6 @@ const LandlordDashboardWelcomePage = () => {
   const navigate = useNavigate();
   const phone = 8707727347;
   const [showNumber, setShowNumber] = useState(false);
-
-  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -122,13 +118,13 @@ const LandlordDashboardWelcomePage = () => {
   return (
     <div className="bg-black text-white">
       {/* Header (Welcome Message) */}
-      <div className="mt-5 mb-8 sm:text-center xl:mt-10 xl:mb-6">
+      <div className="mb-8 sm:text-center xl:mt-10 xl:mb-6">
         <h1 className="text-4xl font-bold sm:text-xl md:text-2xl lg:text-3xl xl:text-left">
           {authState.userData
             ? authState.userData.firstName?.charAt(0).toUpperCase() +
               authState.userData.firstName?.slice(1).toLowerCase()
             : "User"}
-          ! Welcome to your Landlord Dashboard
+          ! Welcome to your Dashboard.
         </h1>
       </div>
       {/* Quick Actions */}

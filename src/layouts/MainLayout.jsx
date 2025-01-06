@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/Navbar/NavBar.jsx";
+import NavBar from "../components/navbar/NavBar.jsx";
 import Footer from "../components/Footer.jsx";
 
 const MainLayout = () => {
