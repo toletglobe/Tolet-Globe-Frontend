@@ -14,12 +14,10 @@ export default function About() {
       // Get the vertical line element
       const verticalLine = document.querySelector(".timeline");
       const timelineDot = document.querySelector(".timeline-dot");
+      // Calculate the new height based on scroll position
+      const scrollPosition = window.scrollY / 0.9;
 
       if (verticalLine) {
-        // Calculate the new height based on scroll position
-        const scrollPosition = window.scrollY / 0.9;
-        console.log("check");
-
         // Update the height of the ::after pseudo-element using a CSS custom property
         verticalLine.style.setProperty(
           "--scroll-position",
@@ -28,12 +26,9 @@ export default function About() {
       }
 
       if (timelineDot) {
-      timelineDot.style.top = `calc(${scrollPosition}px - 10px)`;
-    }
+        timelineDot.style.top = `calc(${scrollPosition}px - 10px)`;
+      }
     };
-
-    
-
 
     // Attach the scroll event listener
     window.addEventListener("scroll", handleScroll);
@@ -53,7 +48,7 @@ export default function About() {
           </h1>
         </div>
         <div className="timeline relative max-w-[1450px] m-auto pt-40 overflow-hidden after:hidden md:after:block">
-        <div className="timeline-dot hidden md:block"></div>
+          <div className="timeline-dot hidden md:block"></div>
           <About_Card
             head="Who we are?"
             paragraph="At To-Let, we are more than just property managers – we are dedicated partners in your property management journey. Established with a commitment to redefining the standards of property management, To-Let brings a wealth of expertise to the dynamic property management landscape."

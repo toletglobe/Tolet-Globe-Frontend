@@ -5,7 +5,6 @@ import { API } from "../../../config/axios";
 import { useDispatch } from "react-redux"; // Import useDispatch
 import { updateProfilePicture } from "../../../redux/store/authSlice"; // Import the action
 
-
 const LandlordDashboardProfileForm = () => {
   const dispatch = useDispatch(); // Initialize dispatch
   const [userInfo, setUserInfo] = useState({
@@ -38,6 +37,8 @@ const LandlordDashboardProfileForm = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        console.log("USER DATA: ", response.data);
 
         // Use 'id' as the 'userId'
         setUserInfo({

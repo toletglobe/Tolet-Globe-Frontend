@@ -3,16 +3,26 @@ import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../constant/constant";
 
-const Filters = ({ SetIsOpen, setProperties, updateFilterCount }) => {
-
-  const [filters, setFilters] = useState({
-    bhk: [],
-    residential: [],
-    commercial: [],
-    preferenceHousing: "",
-    genderPreference: "",
-    houseType: [],
-  });
+const Filters = ({
+  SetIsOpen,
+  setProperties,
+  updateFilterCount,
+  city,
+  setTotalPages,
+  filters,
+  setFilters,
+  resetFilters,
+  fetchAndFilterProperties,
+  setCurrentPage,
+}) => {
+  // const [filters, setFilters] = useState({
+  //   bhk: [],
+  //   residential: [],
+  //   commercial: [],
+  //   preferenceHousing: "",
+  //   genderPreference: "",
+  //   houseType: [],
+  // });
 
   useEffect(() => {
     const countAppliedFilters = (filters) => {
@@ -55,50 +65,57 @@ const Filters = ({ SetIsOpen, setProperties, updateFilterCount }) => {
     });
   };
 
-  const resetFilters = () => {
-    setFilters({
-      bhk: [],
-      residential: [],
-      commercial: [],
-      preferenceHousing: "",
-      genderPreference: "",
-      houseType: [],
-    });
-  };
+  // const resetFilters = () => {
+  //   setFilters({
+  //     bhk: [],
+  //     residential: [],
+  //     commercial: [],
+  //     preferenceHousing: "",
+  //     genderPreference: "",
+  //     houseType: [],
+  //   });
+  // };
 
   const seeResults = async () => {
-    const cleanedFilters = {
-      ...filters,
-      bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
-    };
+    setCurrentPage(1);
+    fetchAndFilterProperties();
+    // const cleanedFilters = {
+    //   ...filters,
+    //   bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
+    // };
 
-    // Create a query string from the filters, without city-specific logic
-    const queryString = Object.keys(cleanedFilters)
-      .filter(
-        (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
-      )
-      .map((key) => {
-        const value = Array.isArray(cleanedFilters[key])
-          ? cleanedFilters[key].map(encodeURIComponent).join(",")
-          : encodeURIComponent(cleanedFilters[key]);
-        return `${encodeURIComponent(key)}=${value}`;
-      })
-      .join("&");
+    // let queryString = Object.keys(cleanedFilters)
+    //   .filter(
+    //     (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
+    //   )
+    //   .map((key) => {
+    //     const value = Array.isArray(cleanedFilters[key])
+    //       ? cleanedFilters[key].map(encodeURIComponent).join(",")
+    //       : encodeURIComponent(cleanedFilters[key]);
+    //     return `${encodeURIComponent(key)}=${value}`;
+    //   })
+    //   .join("&");
 
-    const url = `${BASE_URL}property/filter?${queryString}`;
-    console.log(url);
+    // if (city) {
+    //   queryString = queryString + `&city=${city}`;
+    // }
 
-    try {
-      const response = await axios.get(url);
-      setProperties(response.data.data); // Update properties with the filtered results
-      if (response.data.data.length === 0) {
-        console.log("No results found");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      SetIsOpen(false);
-    }
+    // const url = `${BASE_URL}property/filter?${queryString}`;
+    // console.log(url);
+
+    // try {
+    //   const response = await axios.get(url);
+    //   setProperties(response.data.data); // Update properties with the filtered results
+    //   setTotalPages(response.data.totalPages || 1);
+    //   // setCurrentPage(1);
+    //   if (response.data.data.length === 0) {
+    //     console.log("No results found");
+    //   }
+    // } catch (error) {
+    //   console.error("Error fetching data:", error);
+    // } finally {
+    SetIsOpen(false);
+    // }
   };
 
   return (

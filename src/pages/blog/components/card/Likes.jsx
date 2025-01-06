@@ -63,11 +63,14 @@ const Likes = ({ data }) => {
     }
   };
 
+  console.log(data);
+  console.log(authState)
+
 
   return (
     <div className="flex flex-row gap-1 items-center" onClick={updateLike}>
        {!authState && <FaRegHeart />}
-     {(data.likes.includes(parseInt(authState.userData.id.slice(0,3))) &&authState.status 
+     {(data.likes.includes(parseInt(authState.userData.id.slice(0,3))) && authState.status 
       ) ? 
         <IoMdHeart />
       : 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import userIcon from "../../assets/user-icon.png"; // Fallback image
 import toast from "react-hot-toast";
@@ -14,14 +14,36 @@ import {
 } from "@heroicons/react/24/outline";
 
 const NavBar = () => {
-  const [showMenu, setShowMenu] = useState(false);
-
-  // Redux state for auth
+  // Move Redux state declarations to the top
   const authState = useSelector((state) => state.auth);
-  const userInfo = authState?.userData || {}; // Extract userData from authState
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
+
+  // Then declare component state
+  const [showMenu, setShowMenu] = useState(false);
+  const [activeNavbarMenu, setActiveNavbarMenu] = useState("Home");
+
+  // Add this effect to update activeNavbarMenu based on URL
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === "/") {
+      setActiveNavbarMenu("Home");
+    } else if (path === "/login") {
+      setActiveNavbarMenu("login");
+    } else {
+      // Get the first segment of the path (ignoring parameters and query strings)
+      const baseRoute = path.split("/")[1];
+      const pageName = baseRoute
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+      setActiveNavbarMenu(pageName);
+    }
+  }, [location]);
+
+  const userInfo = authState?.userData || {}; // Extract userData from authState
 
   const handleLogout = () => {
     setShowMenu(false);
@@ -41,6 +63,12 @@ const NavBar = () => {
     { label: "Property Listing", path: "/property-listing" },
   ];
 
+  // Add error handling for profile picture
+  const [imgError, setImgError] = useState(false);
+
+  const profilePicture =
+    imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
+
   return (
     <div className="bg-black flex items-center justify-between p-4">
       {/* Logo */}
@@ -51,10 +79,22 @@ const NavBar = () => {
       </div>
 
       {/* Desktop Menu */}
-      <ul className="lg:flex items-center gap-5 font-medium hidden">
+      <ul className="lg:flex items-center gap-4 font-medium hidden">
         {navLinks.map((link, index) => (
-          <NavLink key={index} to={link.path}>
-            <li className="py-1">{link.label}</li>
+          <NavLink
+            key={index}
+            to={link.path}
+            onClick={() => setActiveNavbarMenu(link.label)}
+          >
+            <li
+              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-full ${
+                activeNavbarMenu === link.label
+                  ? "bg-teal-500 text-white rounded-full"
+                  : ""
+              }  `}
+            >
+              {link.label}
+            </li>
           </NavLink>
         ))}
         <div>
@@ -62,26 +102,26 @@ const NavBar = () => {
             <div className="flex items-center gap-2 cursor-pointer group relative">
               <img
                 className="w-10 rounded-full"
-                src={userInfo?.profilePicture || userIcon}
+                src={profilePicture}
                 alt="User"
-                onError={(e) => (e.target.src = userIcon)} // Fallback if the image fails to load
+                onError={() => setImgError(true)}
               />
               <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-700 z-30 hidden group-hover:block">
                 <div className="min-w-40 bg-white rounded shadow-lg flex flex-col gap-1 p-4">
-                  <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-center rounded">
+                  <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-start rounded">
                     <HiUser size={20} className="w-5 mr-2" />
                     {userInfo.firstName || "User"} {/* Fixed fallback */}
                   </p>
                   <p
                     onClick={() => navigate("/landlord-dashboard")}
-                    className="flex items-center py-2 px-3 hover:bg-gray-100 cursor-pointer justify-center rounded"
+                    className="flex items-center py-2 px-3 hover:bg-gray-100 cursor-pointer justify-start rounded"
                   >
                     <ComputerDesktopIcon className="w-5 mr-2" />
                     Dashboard
                   </p>
                   <p
                     onClick={handleLogout}
-                    className="flex items-center py-2 px-3 hover:bg-red-100 cursor-pointer justify-center text-red-500 rounded"
+                    className="flex items-center py-2 px-3 hover:bg-red-100 cursor-pointer justify-start text-red-500 rounded"
                   >
                     <ArrowLeftStartOnRectangleIcon className="w-5 mr-2" />
                     Logout
@@ -91,8 +131,15 @@ const NavBar = () => {
             </div>
           ) : (
             <button
-              onClick={() => navigate("/login")}
-              className="bg-teal-500 text-white px-4 py-1 rounded-full hidden lg:block"
+              onClick={() => {
+                setActiveNavbarMenu("login");
+                navigate("/login");
+              }}
+              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-full ${
+                activeNavbarMenu === "login"
+                  ? "bg-teal-500 text-white rounded-full"
+                  : ""
+              }  `}
             >
               Login
             </button>
@@ -102,7 +149,7 @@ const NavBar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden fixed inset-0 bg-black text-white z-100 transition-transform transform ${
+        className={`lg:hidden fixed inset-0 bg-black text-white z-50 transition-transform transform ${
           showMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -133,8 +180,9 @@ const NavBar = () => {
             <div className="flex flex-col items-center mt-5">
               <img
                 className="w-16 h-16 rounded-full"
-                src={userInfo.profilePicture || userIcon}
+                src={profilePicture}
                 alt="User"
+                onError={() => setImgError(true)}
               />
               <p className="text-base font-medium mt-2">
                 {userInfo.firstName || "User"}

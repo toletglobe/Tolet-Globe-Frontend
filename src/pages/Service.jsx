@@ -5,7 +5,7 @@ import flat from "../assets/service/image21.png";
 import house from "../assets/service/image23.png";
 import shop from "../assets/service/image25.png";
 import office from "../assets/service/image27.png";
-import {Card} from "../components/index";
+import { Card } from "../components/index";
 
 const Service = () => {
   const services = [
@@ -13,7 +13,7 @@ const Service = () => {
       img: pg,
       title: "Paying Guest",
       bg: "bg-[#6CC1B6]",
-      path: "/property-listing?type=PayingGuest",
+      path: "/property-listing?residential=PG",
       description:
         "Find budget-friendly and convenient paying guest accommodations for a comfortable stay away from home",
     },
@@ -21,7 +21,7 @@ const Service = () => {
       img: flat,
       title: "Flat",
       bg: "bg-[#CCB454]",
-      path: "/property-listing?type=Flat",
+      path: "/property-listing?residential=Flat",
       description:
         "Discover a diverse range of apartments for rent, customize to suit your lifestyle and budget",
     },
@@ -29,7 +29,7 @@ const Service = () => {
       img: house,
       title: "House",
       bg: "bg-[#6CC1B6]",
-      path: "/property-listing?type=House/Villa",
+      path: "/property-listing?residential=House",
       description:
         "Search for your dream home, available for rent or sale, tailored to your lifestyle and preferences",
     },
@@ -37,7 +37,7 @@ const Service = () => {
       img: shop,
       title: "Shop",
       bg: "bg-[#CCB454]",
-      path: "/property-listing?type=Shop",
+      path: "/property-listing?commercial=Shop",
       description:
         "Explore a variety of retail spaces and shops available for lease, ideal for growing your business",
     },
@@ -45,7 +45,7 @@ const Service = () => {
       img: office,
       title: "Office",
       bg: "bg-[#6CC1B6]",
-      path: "/property-listing?type=Office",
+      path: "/property-listing?commercial=Office",
       description:
         "Elevate your workspace and productivity with modern office spaces for rent, designed for success",
     },
@@ -53,7 +53,7 @@ const Service = () => {
       img: warehouse,
       title: "Warehouse",
       bg: "bg-[#CCB454]",
-      path: "/property-listing?type=Warehouse",
+      path: "/property-listing?commercial=Warehouse",
       description:
         "Secure the perfect godown space for rent, offering ample storage and logistics solutions",
     },

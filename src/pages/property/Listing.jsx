@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
 
 import "./listing.css";
-import Service from "../../config/config";
-import author from "../../assets/property/author.jpg";
 import hamburger from "../../assets/property/hamburger.png";
 import drop from "../../assets/property/drop.png";
 import loc from "../../assets/property/location.png";
-import cross from "../../assets/property/cross.png";
-import SideOpt from "./listingComponents/SideOpt";
 import SelectLocation from "./listingComponents/SelectLocation";
 import Filters from "./listingComponents/Filters";
 import Cards from "./listingComponents/Cards";
 import Pagination from "./listingComponents/Pagination";
 import { ClipLoader } from "react-spinners";
-import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import { useStateValue } from "../../StateProvider";
+import { BASE_URL } from "../../constant/constant";
+import axios from "axios";
 
 const Listing = () => {
   const { city } = useParams();
@@ -47,8 +43,27 @@ const Listing = () => {
   const [moreArea, setMoreArea] = useState(false);
   // const [selectedCity, setSelectedCity] = useState("");
 
-  
-  const citylocalities = {      // Respected Localities of Particular City
+  // Extract query string from the URL
+  const queryString = location.search;
+
+  // Decode the query string
+  const params = new URLSearchParams(queryString);
+  const residential = params.get("residential"); // Example: Get the value of 'param1'
+  const commercial = params.get("commercial"); // Example: Get the value of 'param1'
+
+  // console.log("Got the type", residential, commercial);
+
+  const [filters, setFilters] = useState({
+    bhk: [],
+    residential: [],
+    commercial: [],
+    preferenceHousing: "",
+    genderPreference: "",
+    houseType: [],
+  });
+
+  const citylocalities = {
+    // Respected Localities of Particular City
     Lucknow: [
       "Gomti Nagar",
       "Aliganj",
@@ -63,22 +78,111 @@ const Listing = () => {
       "Rajajipuram ",
       "Mahanagar ",
     ],
-    Ayodhya: ["ayodhya1", "ayodhya2"], 
+    Ayodhya: ["ayodhya1", "ayodhya2"],
     Vellore: ["vellore1", "vellore2"],
     Kota: ["kota1", "kota2"],
   };
-  const localityareas = {  // Respected Area of Particular Locality
-    "Gomti Nagar": ["Vibhuti Khand", "Viram Khand", "Vijay Khand", "Vikas Khand", "Vipul Khand", "Vardan Khand", "Vinay Khand", "Gomti Nagar Extension", "Patrakarpuram", "Faizabad Road (nearby)"],
-    "Aliganj": ["Sector A", "Sector B", "Sector C", "Sector D", "Sector E", "Sector F", "Purania", "Kapoorthala", "Tedhi Pulia"],
-    "Indira Nagar": ["Sector 1", "Sector 2", "Sector 3", "Sector 5", "Sector 9", "Sector 11", "Sector 14", "Sector 16", "Sector 18", "Sector 19", "Munshipulia (nearby junction)"],
-    "Hazratganj": ["Ganj Market", "Janpath Market", "MG Marg (Mahatma Gandhi Marg)", "GPO (General Post Office)", "Hazratganj Crossing", "Sikandar Bagh (nearby)"],
-    "Aashiana": ["Aashiana Phase 1", "Aashiana Phase 2", "Aashiana Phase 3", "LDA Colony", "Kanpur Road", "Ruchi Khand", "Ratan Khand", "South City (adjacent)"],
-    "Aminabad": ["Gandhi Market", "Pratap Market", "Latouche Road", "Aminabad Bazaar", "Kesar Bagh", "Hanuman Temple"],
-    "Chowk": ["Gol Darwaza", "Nakhas Market", "Tunday Kababi Lane", "Akbari Gate", "Kashmiri Mohalla", "Chikan Market"],
-    "Jankipuram": ["Sector A", "Sector B", "Sector C", "Jankipuram Extension", "Kursi Road (nearby)", "Engineering College Crossing"],
-    "Rajajipuram": ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 6", "Sector 7", "C Block", "G Block", "H Block"],
-    "Mahanagar": ["Mahanagar Extension", "Sector A", "Sector B", "Sector C", "Sector D", "Gol Market (within Mahanagar)", "Nishatganj (adjacent)"]
-};
+  const localityareas = {
+    // Respected Area of Particular Locality
+    "Gomti Nagar": [
+      "Vibhuti Khand",
+      "Viram Khand",
+      "Vijay Khand",
+      "Vikas Khand",
+      "Vipul Khand",
+      "Vardan Khand",
+      "Vinay Khand",
+      "Gomti Nagar Extension",
+      "Patrakarpuram",
+      "Faizabad Road (nearby)",
+    ],
+    Aliganj: [
+      "Sector A",
+      "Sector B",
+      "Sector C",
+      "Sector D",
+      "Sector E",
+      "Sector F",
+      "Purania",
+      "Kapoorthala",
+      "Tedhi Pulia",
+    ],
+    "Indira Nagar": [
+      "Sector 1",
+      "Sector 2",
+      "Sector 3",
+      "Sector 5",
+      "Sector 9",
+      "Sector 11",
+      "Sector 14",
+      "Sector 16",
+      "Sector 18",
+      "Sector 19",
+      "Munshipulia (nearby junction)",
+    ],
+    Hazratganj: [
+      "Ganj Market",
+      "Janpath Market",
+      "MG Marg (Mahatma Gandhi Marg)",
+      "GPO (General Post Office)",
+      "Hazratganj Crossing",
+      "Sikandar Bagh (nearby)",
+    ],
+    Aashiana: [
+      "Aashiana Phase 1",
+      "Aashiana Phase 2",
+      "Aashiana Phase 3",
+      "LDA Colony",
+      "Kanpur Road",
+      "Ruchi Khand",
+      "Ratan Khand",
+      "South City (adjacent)",
+    ],
+    Aminabad: [
+      "Gandhi Market",
+      "Pratap Market",
+      "Latouche Road",
+      "Aminabad Bazaar",
+      "Kesar Bagh",
+      "Hanuman Temple",
+    ],
+    Chowk: [
+      "Gol Darwaza",
+      "Nakhas Market",
+      "Tunday Kababi Lane",
+      "Akbari Gate",
+      "Kashmiri Mohalla",
+      "Chikan Market",
+    ],
+    Jankipuram: [
+      "Sector A",
+      "Sector B",
+      "Sector C",
+      "Jankipuram Extension",
+      "Kursi Road (nearby)",
+      "Engineering College Crossing",
+    ],
+    Rajajipuram: [
+      "Sector 1",
+      "Sector 2",
+      "Sector 3",
+      "Sector 4",
+      "Sector 6",
+      "Sector 7",
+      "C Block",
+      "G Block",
+      "H Block",
+    ],
+    Mahanagar: [
+      "Mahanagar Extension",
+      "Sector A",
+      "Sector B",
+      "Sector C",
+      "Sector D",
+      "Gol Market (within Mahanagar)",
+      "Nishatganj (adjacent)",
+    ],
+  };
 
   function refresh() {
     window.location.reload(false);
@@ -109,7 +213,6 @@ const Listing = () => {
   }
   function addLocality(area) {
     setSelectedArea(area);
-    // console.log(area);
     if (selectedArea.includes(area)) {
       selectedArea.splice(selectedArea.indexOf(area), 1);
       setSelectedArea([...selectedArea]);
@@ -118,114 +221,112 @@ const Listing = () => {
     }
   }
 
-  useEffect(() => {
-    const fetchAndFilterProperties = async () => {
-      setLoading(true);
-      // try {
-      //   let propertyObject = {};
-      //   let propertyData = [];
-      //   if (city) {
-      //     propertyData = await Service.fetchPropertyByCity(city);
-      //     setProperties(propertyData || []); // Ensure propertyData is an array
-      //   } else {
-      //     propertyData = await Service.fetchProperty();
-      //     setProperties(propertyData || []);
-      //   }
-      try {
-        let propertyObject = {};
-        let propertyData = [];
-        if (city) {
-          const fetchedData = await Service.fetchPropertyByCity(city, currentPage);
-          propertyData = fetchedData.properties || []; // Ensure it's an array
-          setProperties(propertyData);
-          setTotalPages(fetchedData.totalPages || 1);
-        } else {
-          propertyData = await Service.fetchProperty();
-          setProperties(propertyData || []);
-        }
+  const resetFilters = () => {
+    setFilters({
+      bhk: [],
+      residential: [],
+      commercial: [],
+      preferenceHousing: "",
+      genderPreference: "",
+      houseType: [],
+    });
+  };
 
-        // Filter by locality if selected
+  const fetchAndFilterProperties = async () => {
+    setLoading(true);
+
+    try {
+      let cleanedFilters = {
+        ...filters,
+        bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
+      };
+
+      if (residential) {
+        cleanedFilters = {
+          ...filters,
+          residential: [residential],
+        };
+      }
+
+      if (commercial) {
+        cleanedFilters = {
+          ...filters,
+          commercial: [commercial],
+        };
+      }
+
+      let queryString = Object.keys(cleanedFilters)
+        .filter(
+          (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
+        )
+        .map((key) => {
+          const value = Array.isArray(cleanedFilters[key])
+            ? cleanedFilters[key].map(encodeURIComponent).join(",")
+            : encodeURIComponent(cleanedFilters[key]);
+          return `${encodeURIComponent(key)}=${value}`;
+        })
+        .join("&");
+
+      if (city) {
+        queryString = queryString + `&city=${city}`;
         if (selectedLocality) {
-          propertyData = propertyData.filter(
-            (property) => property.locality === selectedLocality
-          );
+          queryString = queryString + `&locality=${selectedLocality}`;
+          if (selectedArea.length > 0) {
+            queryString = queryString + `&area=${selectedArea.join(",")}`;
+          }
         }
-        if ((selectedArea.length > 0) && selectedLocality) {
-          propertyData = propertyData.filter(
-            (property) => property.locality === selectedLocality
-          );
-          
-          propertyData = propertyData.filter(
-            (property) => selectedArea.includes(property.area)
-          );
-          // console.log(propertyData);
+      }
 
-        }
-        // Sort by created date
-        propertyData.properties.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
+      queryString = queryString + `&page=${currentPage}`;
 
-        // Check for filters
-        const searchParams = new URLSearchParams(location.search);
-        const type = searchParams.get("type");
+      const url = `${BASE_URL}property/filter?${queryString}`;
 
-        let filteredProperties = propertyData; // Start with all properties
+      try {
+        const response = await axios.get(url);
+        let propertyData = response.data.data; // Store the response data
 
-        // Apply filtering based on property type
-        if (type === "Flat") {
-          filteredProperties = propertyData.filter(
-            (a) => a.propertyType === "Flat"
-          );
-        } else if (type === "House/Villa") {
-          filteredProperties = propertyData.filter(
-            (a) => a.propertyType === "House" || a.propertyType === "Villa"
-          );
-        } else if (type === "Shop") {
-          filteredProperties = propertyData.filter(
-            (a) => a.propertyType === "Shop"
-          );
-        } else if (type === "Office") {
-          filteredProperties = propertyData.filter(
-            (a) => a.propertyType === "Office"
-          );
-        } else if (type === "Warehouse") {
-          filteredProperties = propertyData.filter(
-            (a) => a.propertyType === "Ware house"
-          );
-        } else if (type === "PayingGuest") {
-          filteredProperties = propertyData.filter(
-            (a) => a.propertyType === "Paying Guest"
+        // Sort by created date if needed
+        if (propertyData && Array.isArray(propertyData)) {
+          propertyData.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
           );
         }
 
-        // Apply filtering based on locality
-        // if (selectedLocality ) {
-        //   filteredProperties = filteredProperties.filter(
-        //      (property) => property.locality === selectedLocality && property.area ===  selectedArea
-        //   );
-        // }
-
-        // Set filtered properties
-        setProperties(filteredProperties);
+        setProperties(propertyData); // Update properties with the sorted results
+        setTotalPages(response.data.totalPages || 1);
 
         // Check if no properties were found
-        setNoPropertiesFound(filteredProperties.length === 0);
+        setNoPropertiesFound(propertyData.length === 0);
 
-        // Check for sorting
+        // Handle sorting if needed
+        const searchParams = new URLSearchParams(location.search);
         const sortType = searchParams.get("sort");
-        if (sortType) {
-          sortProperties(filteredProperties, sortType);
+        if (sortType && Array.isArray(propertyData)) {
+          sortProperties(propertyData, sortType);
         }
-        setLoading(false);
       } catch (error) {
-        console.error("Error fetching properties:", error);
-        setLoading(false);
+        console.error("Error fetching data:", error);
       }
-    };
 
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching properties:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setCurrentPage(1);
     fetchAndFilterProperties();
-  }, [city, location.search, selectedLocality, currentPage, selectedArea]); // Add city to the dependency array
+  }, [city, location.search, selectedLocality, selectedArea]); // Add city to the dependency array
+
+  useEffect(() => {
+    fetchAndFilterProperties();
+  }, [currentPage]);
+
+  // useEffect(() => {
+  //   setCurrentPage(1); // Reset to page 1 when these filters change
+  // }, [city, selectedLocality, selected Area]);
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -264,23 +365,6 @@ const Listing = () => {
     // console.log(locality);
   };
 
-  // Render locality options dynamically based on city
-  // const renderLocalities = () => {
-  //   const localities = {
-  //     Lucknow: ["Gomati Nagar", "Kharagpur", "Kamta", "Nishat Ganj", "Chinhat"],
-  //     // Add more cities and localities here
-  //   };
-  //   return localities[city]?.map((locality) => (
-  //     <p
-  //       key={locality}
-  //       className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-  //       onClick={() => handleLocalitySelect(locality)}
-  //     >
-  //       {locality}
-  //     </p>
-  //   ));
-  // };
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -302,6 +386,7 @@ const Listing = () => {
   const updateFilterCount = (count) => {
     setFilterCount(count);
   };
+
   return (
     <>
       <div
@@ -309,8 +394,9 @@ const Listing = () => {
           if (Location === true) setLocation(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${isOpen || Hamburger || Location ? "block" : "hidden"
-          }`}
+        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
+          isOpen || Hamburger || Location ? "block" : "hidden"
+        }`}
       ></div>
       <section
         onClick={() => {
@@ -342,14 +428,16 @@ const Listing = () => {
                   <img
                     src={drop}
                     alt="Dropdown"
-                    className={`${mode ? "rotate-180" : "rotate-0"
-                      } mt-1 cursor-pointer`}
+                    className={`${
+                      mode ? "rotate-180" : "rotate-0"
+                    } mt-1 cursor-pointer`}
                     onClick={handleMode}
                   />
                   <div className="relative">
                     <div
-                      className={`${mode ? "block" : "hidden"
-                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
+                      className={`${
+                        mode ? "block" : "hidden"
+                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
                     >
                       <p
                         className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
@@ -443,7 +531,6 @@ const Listing = () => {
                                 (area, index) => {
                                   // console.log(locality, index);
 
-
                                   return (
                                     <p
                                       className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
@@ -453,7 +540,6 @@ const Listing = () => {
                                       {area}
                                     </p>
                                   );
-
                                 }
                               )}
                             </div>
@@ -466,32 +552,32 @@ const Listing = () => {
                   ) : (
                     ""
                   )}
-                  {selectedArea.length > 0
-                    ? (
-                      <>
-                        {
-                          selectedArea.slice(0, 1).map((e, i) => {
-                            if (i < 1) {
-                              return (
-                                <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
-                                  <p>{e}</p>
-                                </div>
-                              );
-                            }
-                          })}
-                        {
-                          selectedArea.length > 1 && (
-                            <p className="cursor-pointer" onClick={()=>setMoreArea(!moreArea)}>+{selectedArea.length - 1}
-                              {
-                                moreArea && (
-                                  <div className="relative">
-                                    <div
+                  {selectedArea.length > 0 ? (
+                    <>
+                      {selectedArea.slice(0, 1).map((e, i) => {
+                        if (i < 1) {
+                          return (
+                            <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
+                              <p>{e}</p>
+                            </div>
+                          );
+                        }
+                      })}
+                      {selectedArea.length > 1 && (
+                        <p
+                          className="cursor-pointer"
+                          onClick={() => setMoreArea(!moreArea)}
+                        >
+                          +{selectedArea.length - 1}
+                          {moreArea && (
+                            <div className="relative">
+                              <div
                                 className={`z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
                               >
-                                {selectedArea.slice(1,selectedArea.length).map(
-                                  (area, index) => {
+                                {selectedArea
+                                  .slice(1, selectedArea.length)
+                                  .map((area, index) => {
                                     // console.log(locality, index);
-
 
                                     return (
                                       <p
@@ -502,20 +588,16 @@ const Listing = () => {
                                         {area}
                                       </p>
                                     );
-
-                                  }
-                                )}
+                                  })}
                               </div>
-                                  </div>
-                                )
-                              }
-                            </p>
-                          )
-                        }
-
-                      </>
-                    )
-                    : ""}
+                            </div>
+                          )}
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    ""
+                  )}
                   {/* <div
                     className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
                       }`}
@@ -534,6 +616,7 @@ const Listing = () => {
                     Location={Location}
                     setLocation={setLocation}
                     onLocationSelect={(selectedCity) => {
+                      resetFilters();
                       navigate(`/property-listing/${selectedCity}`);
                       setLocation(false);
                     }}
@@ -561,10 +644,11 @@ const Listing = () => {
             <div className="compare" onClick={compare}>
               {compareProperty.length >= 0 && (
                 <button
-                  className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${compareProperty.length <= 1
-                    ? "opacity-50 grayscale cursor-not-allowed"
-                    : ""
-                    }`}
+                  className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
+                    compareProperty.length <= 1
+                      ? "opacity-50 grayscale cursor-not-allowed"
+                      : ""
+                  }`}
                   disabled={compareProperty.length <= 1}
                 >
                   Visit
@@ -590,8 +674,9 @@ const Listing = () => {
           onClick={() => {
             if (isOpen === true) SetIsOpen(false);
           }}
-          className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${isOpen ? "block" : "hidden"
-            } `}
+          className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
+            isOpen ? "block" : "hidden"
+          } `}
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -603,6 +688,12 @@ const Listing = () => {
               city={city}
               updateFilterCount={updateFilterCount}
               filterCount={filterCount}
+              setTotalPages={setTotalPages}
+              filters={filters}
+              setFilters={setFilters}
+              resetFilters={resetFilters}
+              fetchAndFilterProperties={fetchAndFilterProperties}
+              setCurrentPage={setCurrentPage}
             />
             <div className="absolute top-1 right-1">
               <svg

@@ -38,6 +38,7 @@ const Login = () => {
       });
 
       //     console.log(res.data);
+      console.log(res.data);
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
@@ -52,6 +53,7 @@ const Login = () => {
               lastName: res.data.user.lastName,
               email: res.data.user.email,
               role: res.data.user.role,
+              profilePicture: res.data.user.profilePicture,
             },
           })
         );
@@ -65,9 +67,9 @@ const Login = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="w-full min-h-screen flex justify-center items-center">
       <form onSubmit={handleSubmit}>
-        <div className="login_form_container mx-auto my-40">
+        <div className="login_form_container">
           <div className="login_form">
             <h2 className="text-2xl font-semibold">Login</h2>
             <div className="input_group">
