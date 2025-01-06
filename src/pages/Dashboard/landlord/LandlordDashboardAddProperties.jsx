@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
 import { ClipLoader } from "react-spinners";
+import { useSelector } from "react-redux";
 
 export default function LandlordDashboardAddProperties() {
   // For changing and showing page number
@@ -116,11 +117,15 @@ export default function LandlordDashboardAddProperties() {
     }
   };
 
+  const authState = useSelector((state) => state.auth);
+  const userInfo = authState?.userData || {};
+
   // Submitting form Data
   const submitForm = async (formData) => {
     setLoading(true);
     const updatedFormData = {
       ...formData,
+      userId: userInfo.id,
       pincode: Number(formData.pincode),
       // petsAllowed: Boolean(formData.petsAllowed),  NA
       // bhk: Number(formData.bhk),  NA

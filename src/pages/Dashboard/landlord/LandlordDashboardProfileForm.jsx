@@ -38,8 +38,6 @@ const LandlordDashboardProfileForm = () => {
           },
         });
 
-        console.log("USER DATA: ", response.data);
-
         // Use 'id' as the 'userId'
         setUserInfo({
           userId: response.data.id,
