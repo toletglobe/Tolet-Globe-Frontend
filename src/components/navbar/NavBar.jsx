@@ -1,226 +1,230 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import userIcon from "../../assets/user-icon.png"; // Fallback image
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/authSlice";
+import { logout } from "../../redux/store/authSlice";
+import { IoMdClose } from "react-icons/io";
+import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
 import {
   ArrowLeftStartOnRectangleIcon,
   ComputerDesktopIcon,
+  // UserIcon,
 } from "@heroicons/react/24/outline";
 
-const NavBar = ({ userInfo }) => { // Correctly destructuring props
-  const [activeLink, setActiveLink] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const NavBar = () => {
+  // Move Redux state declarations to the top
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const avatarRef = useRef();
+  const token = localStorage.getItem("token");
 
-  const handleNavLinkClick = (link) => {
-    setActiveLink(link);
-  };
+  // Then declare component state
+  const [showMenu, setShowMenu] = useState(false);
+  const [activeNavbarMenu, setActiveNavbarMenu] = useState("Home");
+
+  // Add this effect to update activeNavbarMenu based on URL
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === "/") {
+      setActiveNavbarMenu("Home");
+    } else if (path === "/login") {
+      setActiveNavbarMenu("login");
+    } else {
+      // Get the first segment of the path (ignoring parameters and query strings)
+      const baseRoute = path.split("/")[1];
+      const pageName = baseRoute
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+      setActiveNavbarMenu(pageName);
+    }
+  }, [location]);
+
+  const userInfo = authState?.userData || {}; // Extract userData from authState
 
   const handleLogout = () => {
-    setIsMenuOpen(false);
+    setShowMenu(false);
     localStorage.removeItem("token");
     dispatch(logout());
     navigate("/login");
     toast.success("Logged out!");
   };
 
-  // Handling click outside event for avatar
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (avatarRef.current && !avatarRef.current.contains(event.target)) {
-        setIsMenuOpen(false);
-      }
-    };
+  // Array of navigation links
+  const navLinks = [
+    { label: "Home", path: "/" },
+    { label: "Service", path: "/service" },
+    { label: "Blog", path: "/blog" },
+    { label: "Contact", path: "/contact" },
+    { label: "About Us", path: "/aboutus" },
+    { label: "Property Listing", path: "/property-listing" },
+  ];
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [avatarRef]);
+  // Add error handling for profile picture
+  const [imgError, setImgError] = useState(false);
+
+  const profilePicture =
+    imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
 
   return (
-    <nav className="z-50">
-      <div className="w-full bg-black top-0 flex justify-between fixed items-center px-20 py-4">
-        <div className="navbar-logo">
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Logo" className="h-16 lg:h-12 ml-10 lg:ml-0" />
-          </Link>
-        </div>
-        <div className="flex flex-row">
-          <div className="flex justify-end">
-            <button
-              className="text-white block lg:hidden"
-              onClick={() =>
-                document
-                  .getElementById("basic-navbar-nav")
-                  .classList.toggle("hidden")
-              }
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div
-          id="basic-navbar-nav"
-          className="hidden lg:flex lg:items-center lg:w-auto w-full"
-        >
-          <ul className="lg:flex lg:items-center lg:justify-between text-base text-gray-300 pt--1 lg:pt-0">
-            <li>
-              <Link
-                to="/"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "home"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                }`}
-                onClick={() => handleNavLinkClick("home")}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/service"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "service"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                }`}
-                onClick={() => handleNavLinkClick("service")}
-              >
-                Service
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/blog"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "blog"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                }`}
-                onClick={() => handleNavLinkClick("blog")}
-              >
-                Blog
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "contact"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                }`}
-                onClick={() => handleNavLinkClick("contact")}
-              >
-                Contact
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/aboutus"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "aboutus"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                }`}
-                onClick={() => handleNavLinkClick("aboutus")}
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/property-listing"
-                className={`block px-5 lg:inline-block mt-4 lg:mt-0 mx-2 ${
-                  activeLink === "propertyListing"
-                    ? "text-white bg-teal-500 rounded-md"
-                    : ""
-                }`}
-                onClick={() => handleNavLinkClick("propertyListing")}
-              >
-                Property Listing
-              </Link>
-            </li>
-            <li>
-              {/* User avatar or login button */}
-              {authState.status === true && localStorage.getItem("token") ? (
-                <div ref={avatarRef}>
-                  <button
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="rounded-full relative flex justify-center items-center w-9 h-9 mx-3 text-white bg-teal-500"
-                  >
-                    <img
-                      src={userInfo?.profilePicture || userIcon} // Use fallback image if profilePicture is undefined
-                      alt="avatar"
-                      className="w-full h-full rounded-full p-1"
-                    />
-                  </button>
-                  {isMenuOpen && (
-                    <div className="absolute top-20 right-14 w-fit h-fit flex flex-col justify-center items-center text-[#120404] bg-white rounded-lg">
-                      <ul className="w-full flex flex-col items-start">
-                        <li className="font-extrabold p-3 w-full text-center bg-gray-200 ">
-                          {authState.userData?.firstName?.toUpperCase() || "User"}
-                        </li>
-                        <li
-                          onClick={() => {
-                            navigate("/landlord-dashboard");
-                            setIsMenuOpen(false);
-                          }}
-                          className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg"
-                        >
-                          <ComputerDesktopIcon className="w-[18px] h-[18px] mr-2" />{" "}
-                          Dashboard
-                        </li>
-                        <li
-                          className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-200 rounded-lg"
-                          onClick={handleLogout}
-                        >
-                          <ArrowLeftStartOnRectangleIcon className="w-[18px] h-[18px] mr-2" />{" "}
-                          Logout
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  to="/login"
-                  className={`block px-5 lg:inline-block mt-4 lg:mt-0 ${
-                    activeLink === "login"
-                      ? "text-white bg-teal-500 rounded-md"
-                      : ""
-                  }`}
-                  onClick={() => handleNavLinkClick("login")}
-                >
-                  Login
-                </Link>
-              )}
-            </li>
-          </ul>
-        </div>
+    <div className="bg-black flex items-center justify-between p-4">
+      {/* Logo */}
+      <div>
+        <NavLink to="/">
+          <img src={logo} alt="Logo" className="h-12" />
+        </NavLink>
       </div>
-    </nav>
+
+      {/* Desktop Menu */}
+      <ul className="lg:flex items-center gap-4 font-medium hidden">
+        {navLinks.map((link, index) => (
+          <NavLink
+            key={index}
+            to={link.path}
+            onClick={() => setActiveNavbarMenu(link.label)}
+          >
+            <li
+              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-full ${
+                activeNavbarMenu === link.label
+                  ? "bg-teal-500 text-white rounded-full"
+                  : ""
+              }  `}
+            >
+              {link.label}
+            </li>
+          </NavLink>
+        ))}
+        <div>
+          {authState.status && token ? (
+            <div className="flex items-center gap-2 cursor-pointer group relative">
+              <img
+                className="w-10 rounded-full"
+                src={profilePicture}
+                alt="User"
+                onError={() => setImgError(true)}
+              />
+              <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-700 z-30 hidden group-hover:block">
+                <div className="min-w-40 bg-white rounded shadow-lg flex flex-col gap-1 p-4">
+                  <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-start rounded">
+                    <HiUser size={20} className="w-5 mr-2" />
+                    {userInfo.firstName || "User"} {/* Fixed fallback */}
+                  </p>
+                  <p
+                    onClick={() => navigate("/landlord-dashboard")}
+                    className="flex items-center py-2 px-3 hover:bg-gray-100 cursor-pointer justify-start rounded"
+                  >
+                    <ComputerDesktopIcon className="w-5 mr-2" />
+                    Dashboard
+                  </p>
+                  <p
+                    onClick={handleLogout}
+                    className="flex items-center py-2 px-3 hover:bg-red-100 cursor-pointer justify-start text-red-500 rounded"
+                  >
+                    <ArrowLeftStartOnRectangleIcon className="w-5 mr-2" />
+                    Logout
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                setActiveNavbarMenu("login");
+                navigate("/login");
+              }}
+              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-full ${
+                activeNavbarMenu === "login"
+                  ? "bg-teal-500 text-white rounded-full"
+                  : ""
+              }  `}
+            >
+              Login
+            </button>
+          )}
+        </div>
+      </ul>
+
+      {/* Mobile Menu */}
+      <div
+        className={`lg:hidden fixed inset-0 bg-black text-white z-50 transition-transform transform ${
+          showMenu ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between p-4">
+          <img
+            src={logo}
+            className="h-12 cursor-pointer"
+            onClick={() => setShowMenu(false)}
+            alt="Logo"
+          />
+          <button onClick={() => setShowMenu(false)}>
+            <IoMdClose size={25} />
+          </button>
+        </div>
+        <ul className="flex flex-col items-center gap-4 mt-5 px-5 text-lg font-medium">
+          {navLinks.map((link, index) => (
+            <NavLink
+              key={index}
+              onClick={() => setShowMenu(false)}
+              to={link.path}
+            >
+              {link.label}
+            </NavLink>
+          ))}
+
+          {/* Profile Information for Mobile View */}
+          {authState.status && token ? (
+            <div className="flex flex-col items-center mt-5">
+              <img
+                className="w-16 h-16 rounded-full"
+                src={profilePicture}
+                alt="User"
+                onError={() => setImgError(true)}
+              />
+              <p className="text-base font-medium mt-2">
+                {userInfo.firstName || "User"}
+              </p>
+              <button
+                onClick={() => {
+                  navigate("/landlord-dashboard");
+                  setShowMenu(false);
+                }}
+                className="mt-3 bg-gray-200 text-black px-6 py-2 rounded-full"
+              >
+                Dashboard
+              </button>
+              <button
+                onClick={handleLogout}
+                className="mt-2 bg-red-500 text-white px-6 py-2 rounded-full"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("/login");
+                setShowMenu(false);
+              }}
+              className="mt-3 bg-teal-500 text-white px-4 py-1 rounded-full"
+            >
+              Login
+            </button>
+          )}
+        </ul>
+      </div>
+
+      {/* Mobile Menu Toggle Button */}
+      <button
+        onClick={() => setShowMenu(!showMenu)}
+        className="lg:hidden flex items-center p-2"
+      >
+        <HiOutlineMenuAlt3 size={25} />
+      </button>
+    </div>
   );
 };
 
