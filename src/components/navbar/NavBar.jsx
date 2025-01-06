@@ -13,7 +13,7 @@ import {
   // UserIcon,
 } from "@heroicons/react/24/outline";
 
-const Navbar = () => {
+const NavBar = () => {
   // Move Redux state declarations to the top
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -228,4 +228,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavBar;
