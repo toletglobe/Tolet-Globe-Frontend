@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function MyProperties() {
-
   const [myProperties, setMyProperties] = useState([]);
   const authState = useSelector((state) => state.auth);
   useEffect(() => {
@@ -88,19 +87,11 @@ export default function MyProperties() {
 
   return (
     <>
-      <div className="mt-8 flex justify-start space-x-4 mb-6">
-        {/* Filter Buttons */}
-        <button className="px-4 py-2 bg-yellow-500 text-black font-semibold rounded-md hover:bg-yellow-600">
-          Available
-        </button>
-        <button className="px-4 py-2 bg-white text-black font-semibold rounded-md border border-gray-400 hover:bg-gray-200">
-          Rent Out
-        </button>
-      </div>
-
       <div className="mt-8">
         {myProperties.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">{cards}</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {cards}
+          </div>
         ) : (
           <h6 className="text-gray-400 text-center text-3xl font-bold ">
             You have no properties yet!
