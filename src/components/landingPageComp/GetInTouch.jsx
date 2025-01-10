@@ -51,105 +51,89 @@ const GetInTouch = () => {
 
   const googlemaps =
     "https://www.google.com/maps/place/To-Let+Globe/@26.8465566,80.9797793,15z/data=!4m6!3m5!1s0x399bfd77577ba78f:0xd2d6f22d1b246815!8m2!3d26.8465566!4d80.9797793!16s%2Fg%2F11vhrqqb45?entry=ttu";
-  return (
-    <div
-      className="my-10 mx-20 lg:h-[85vh] flex lg:justify-end "
-      style={{
-        backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.6) 100%), 
+ return (
+  <div
+    className="relative bg-black bg-opacity-80 px-6 py-12 lg:px-20 lg:py-16 min-h-[calc(100vh-80px)]"
+    style={{
+      backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.6) 100%), 
       linear-gradient(to right, rgba(0, 0, 0, 0.6) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.6) 100%), 
       url(${location})`,
-        backgroundSize: "cover",
-      }}
-    >
-      <a href={googlemaps}>
-        <div className="text-start  h-[100%] lg:w-[860px] flex items-end ">
-          {/* <div className="text-white font-semibold lg:text-5xl text-left pb-5 mb-10 -ml-20 text-shadow-lg -stroke-2 -stroke-white lg:block hidden translate-y-[-50px] ">
-            CONTACT US
-          </div> */}
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}
+  >
+    <div className="container mx-auto flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-8">
+      {/* Map Section */}
+      <a href={googlemaps} target="_blank" rel="noopener noreferrer" className="lg:w-1/2 w-full">
+        <div className="text-white font-semibold text-4xl lg:text-5xl leading-tight">
+          CONTACT US
         </div>
       </a>
-      <div className=" text-start -mt-2 bg-black opacity-100 p-10  lg:h-[100%] lg:w-[380px] w-full rounded-md bg-gradient-to-r from-black via-black to-transparent shadow-[0_0_10px_rgba(0,0,0,0.2)] ">
-        <p className="text-yellow-300 font-normal text-4xl text-left pb-5">
-          GET IN TOUCH
-        </p>
-        <p className="text-gray-500 m-0 text-left pb-4">Have some questions?</p>
-        <p className="text-gray-500 text-left m-0 pb-4">
-          Feel free to ask them anytime
-        </p>
-
-        <form
-          className="w-full flex flex-col justify-between text-white "
-          onSubmit={handleSubmit}
-        >
-          <div className="flex flex-col">
-            <select
-              className=" bg-black border-b-2 border-gray-400 text-gray-400 focus:outline-none my-6 "
-              id="topic"
-              value={formData.topic}
-              name="topic"
-              onChange={handleChange}
-              required
-            >
-              <option className=" text-black" value="">
-                Topic
-              </option>
-              <option value="Residential">Residential</option>
-              <option value="Commercial">Commercial</option>
-              <option value="Others">Others</option>
-            </select>
-          </div>
-          <input
-            type="text"
-            placeholder="Name"
-            value={formData.name}
-            name="name"
-            className=" bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
+   <div className="flex">
+      {/* Contact Form */}
+      <div className="sm:w-[300px] w-full bg-opacity-90 p-8 rounded-lg shadow-lg sm:ml-80">
+        <p className="text-yellow-300 text-3xl font-bold mb-4">GET IN TOUCH</p>
+        <p className="text-gray-400 mb-2">Have some questions?</p>
+        <p className="text-gray-400 mb-6">Feel free to ask them anytime.</p>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <select
+            id="topic"
+            name="topic"
+            value={formData.topic}
             onChange={handleChange}
             required
+            className="w-full bg-black border-b border-gray-500 text-gray-300 py-2 focus:outline-none focus:border-yellow-300"
+          >
+            <option value="">Select a Topic</option>
+            <option value="Residential">Residential</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Others">Others</option>
+          </select>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full bg-black border-b border-gray-500 text-gray-300 py-2 focus:outline-none focus:border-yellow-300"
           />
           <input
             type="email"
+            name="email"
             placeholder="Email"
             value={formData.email}
-            name="email"
-            className="bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
             onChange={handleChange}
             required
+            className="w-full bg-black border-b border-gray-500 text-gray-300 py-2 focus:outline-none focus:border-yellow-300"
           />
           <input
             type="text"
+            name="phone"
             placeholder="Phone"
             value={formData.phone}
-            name="phone"
-            className="bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
             onChange={handleChange}
+            className="w-full bg-black border-b border-gray-500 text-gray-300 py-2 focus:outline-none focus:border-yellow-300"
           />
-          <input
-            type="text"
+          <textarea
+            name="msg"
             placeholder="Message"
             value={formData.msg}
-            name="msg"
-            className="bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
             onChange={handleChange}
             required
+            className="w-full bg-black border-b border-gray-500 text-gray-300 py-2 focus:outline-none focus:border-yellow-300"
           />
-          {loading ? (
-            <div className="flex items-center space-x-2 bg-black bg-opacity-70">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-              <span className="text-yellow-300">Sending...</span>
-            </div>
-          ) : (
-            <input
-              type="submit"
-              value="Send Message →"
-              className="text-yellow-300 ml-0 cursor-pointer self-start font-semibold"
-            />
-          )}
+          <button
+            type="submit"
+            className="w-full text-yellow-300 py-2 rounded font-bold transition"
+            disabled={loading}
+          >
+            {loading ? "Sending..." : "Send Message →"}
+          </button>
         </form>
       </div>
+     </div>
     </div>
-  );
-};
-
-
+  </div>
+)};
 export default GetInTouch;

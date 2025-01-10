@@ -7,9 +7,9 @@ import {
   Institution,
   TestimonialCard,
   GetInTouch,
+  
 } from "../components/index";
 import Service from "./Service";
-
 const Landing = () => {
   return (
     <div>
@@ -22,7 +22,6 @@ const Landing = () => {
         <OurReach />
 
         <Institution />
-        <TestimonialCard />
       </div>
       <GetInTouch />
     </div>
