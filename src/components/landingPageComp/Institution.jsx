@@ -37,7 +37,7 @@ const Institution = () => {
           Partnered Universities
         </h3>
 
-        <p className="w-full max-w-[1078.22px] h-auto font-poppins font-medium text-[11.5556px] leading-[17px] text-center text-[#C8A117] sm:w-[1078.22px]">
+        <p className="w-full max-w-[1078.22px] h-auto font-poppins font-medium text-[11.5556px] leading-[17px] text-center text-[#C8A117]">
           We are proud to collaborate with some of the most prestigious colleges
           and universities across the country for college placements, including:
         </p>
