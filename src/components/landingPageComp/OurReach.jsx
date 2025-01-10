@@ -37,10 +37,10 @@ export default function OurReach() {
   }, [])
 
   return (
-    <div ref={containerRef} className="bg-black p-6 border border-white rounded-[10px] mx-auto max-w-[1212px] h-auto sm:p-10" >
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18.14px] p-[18.14px] mx-[51.55px] my-auto">
+    <div ref={containerRef} className="bg-black p-6 border border-white rounded-[10px]  max-w-[1212px] h-auto mx-2" >
+      <div className="grid grid-cols-1 sm:grid-cols-1 sm:gap-10 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 xl:gap-9 mx-auto my-auto lg:gap-y-3">
         {stats.map((stat, index) => (
-          <div key={index} className="bg-transparent p-[27.22px] my-6 rounded-[13.61px] border border-white w-full mx-auto min-w-[179.18px] h-auto border-1.34">
+          <div key={index} className="bg-transparent p-[27.22px] my-6 rounded-[13.61px] border border-white w-full mx-auto min-w-[179.18px] h-auto border-1.34 md:min-w-[150px]">
             <h3 className="text-white text-sm font-medium mb-1 w-full h-auto">{stat.title}</h3>
             <p className="text-white text-2xl font-bold w-full h-auto">
               {isVisible ? (
