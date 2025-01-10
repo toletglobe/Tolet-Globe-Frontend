@@ -86,7 +86,7 @@ const BlogView = () => {
               onClick={updateLike}
             >
                {!authState && <FaRegHeart />}
-                  {(blog.likes.includes(parseInt(authState.userData.id.slice(0,3))) && authState.status 
+                  {(blog.likes.includes(authState.userData.id) && authState.status 
                    ) ? 
                      <IoMdHeart />
                    : 
