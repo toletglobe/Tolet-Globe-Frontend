@@ -10,7 +10,7 @@ function BlogList({ Blogs, handleViewBlog }) {
                  md:grid-cols-1
                  sm:grid-cols-1
                  grid-cols-1
-                 px-4 md:px-20
+                 px-2 sm:px-4 md:px-6 lg:px-10
                  mt-10">
       {Blogs.map((data, index) => (   
         <BlogItem key={index} data={data} handleViewBlog={handleViewBlog}/>
