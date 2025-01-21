@@ -19,8 +19,8 @@ const Flow2a = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showPrompt, setShowPrompt] = useState(false); // state to show prompt
-  const [errorMessage, setErrorMessage] = useState(""); // state to show error message when property is already added to compare
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -56,37 +56,32 @@ const Flow2a = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex + 1) % (property?.images?.length || 1)
     );
-    setSelectedImage(property.images[currentIndex]);
+    setSelectedImage(property?.images[currentIndex]);
   };
 
-  // Handle adding to compare and showing the prompt
   const addToCompare = (property) => {
-    // Check if property is already in compare list
     const alreadyInCompare = compareProperty.find(
       (item) => item.slug === property.slug
     );
 
-    // Show error message if property is already in compare list
     if (alreadyInCompare) {
       setErrorMessage("This property is already in the compare list!");
-      setTimeout(() => setErrorMessage(""), 3000); // Clear error message after 3 seconds
+      setTimeout(() => setErrorMessage(""), 3000);
       return;
     }
 
-    // Check if there are already 4 properties in the compare list
     if (compareProperty.length >= 4) {
       setErrorMessage("You can only compare up to 4 properties.");
-      setTimeout(() => setErrorMessage(""), 3000); // Clear error message after 3 seconds
+      setTimeout(() => setErrorMessage(""), 3000);
       return;
     }
 
-    // Add property to compare list
     dispatch({
       type: "ADD_TO_COMPARE",
       item: property,
     });
-    setShowPrompt(true); // Show the prompt for successful addition
-    setTimeout(() => setShowPrompt(false), 1000); // Hide the prompt after 1 second
+    setShowPrompt(true);
+    setTimeout(() => setShowPrompt(false), 1000);
   };
 
   if (!property) {
@@ -99,7 +94,6 @@ const Flow2a = () => {
 
   return (
     <div className="px-4 py-4 relative">
-      {/* Show success prompt message when property is added */}
       {showPrompt && (
         <div
           className="fixed top-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg z-50"
@@ -109,7 +103,6 @@ const Flow2a = () => {
         </div>
       )}
 
-      {/* Show error message if property is already in compare */}
       {errorMessage && (
         <div
           className="fixed top-4 right-4 bg-red-500 text-white p-4 rounded shadow-lg z-50"
@@ -119,47 +112,73 @@ const Flow2a = () => {
         </div>
       )}
 
-      {/* Image Carousel Section */}
       {property.images.length > 0 ? (
-        <div className="flex flex-wrap md:flex-nowrap gap-1 relative">
-          {/* Main Image */}
-          <div
-            className={`w-full ${property.images.length > 1 ? "md:w-1/2" : ""}`}
-          >
-            <img
-              src={property.images[0]}
-              alt={property.propertyType}
-              className="w-full h-[400px] object-cover cursor-pointer"
-              onClick={() => openModal(property.images[0], 0)}
-            />
+        <div className="relative">
+          <div className="hidden md:flex gap-2 h-[500px]">
+            <div className="w-1/2">
+              <img
+                src={property.images[0]}
+                alt={property.propertyType}
+                className="w-full h-full object-cover rounded-lg cursor-pointer"
+                onClick={() => openModal(property.images[0], 0)}
+              />
+            </div>
+
+            <div className="w-1/2 grid grid-cols-2 gap-2">
+              {property.images.slice(1, 5).map((image, index) => (
+                <div key={index + 1} className="relative">
+                  <img
+                    src={image}
+                    alt={`${property.propertyType} ${index + 2}`}
+                    className="w-full h-[246px] object-cover rounded-lg cursor-pointer"
+                    onClick={() => openModal(image, index + 1)}
+                  />
+                  {index === 3 && property.images.length > 5 && (
+                    <div 
+                      className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center cursor-pointer rounded-lg"
+                      onClick={() => openModal(image, index + 1)}
+                    >
+                      <span className="text-white text-lg font-medium">See all</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Additional Images */}
-          {property.images.length > 1 && (
-            <div
-              className={`w-full md:w-1/2 grid ${
-                property.images.length === 2 ? "grid-cols-1" : "grid-cols-2"
-              } gap-1`}
-            >
-              {property.images.slice(1, 5).map((image, index) => (
-                <img
-                  key={index + 1}
-                  src={image}
-                  alt={`${property.propertyType} ${index + 2}`}
-                  className={`w-full ${property.images.length <= 3 ? "h-[400px]" : "h-[200px]"} object-cover cursor-pointer`}
-                  onClick={() => openModal(image, index + 1)}
-                />
-              ))}
-              {property.images.length > 5 && (
-                <div
-                  className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full cursor-pointer"
-                  onClick={() => openModal(property.images[4], 4)}
-                >
-                  +{property.images.length - 5} more
-                </div>
-              )}
+          <div className="md:hidden">
+            <div className="w-full mb-2">
+              <img
+                src={property.images[0]}
+                alt={property.propertyType}
+                className="w-full h-[300px] object-cover rounded-lg cursor-pointer"
+                onClick={() => openModal(property.images[0], 0)}
+              />
             </div>
-          )}
+
+            {property.images.length > 1 && (
+              <div className="grid grid-cols-2 gap-2">
+                {property.images.slice(1, 5).map((image, index) => (
+                  <div key={index + 1} className="relative">
+                    <img
+                      src={image}
+                      alt={`${property.propertyType} ${index + 2}`}
+                      className="w-full h-[150px] object-cover rounded-lg cursor-pointer"
+                      onClick={() => openModal(image, index + 1)}
+                    />
+                    {index === 3 && property.images.length > 5 && (
+                      <div 
+                        className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center cursor-pointer rounded-lg"
+                        onClick={() => openModal(image, index + 1)}
+                      >
+                        <span className="text-white text-lg font-medium">See all</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       ) : (
         <div className="py-40 text-center text-4xl font-semibold">
@@ -167,16 +186,46 @@ const Flow2a = () => {
         </div>
       )}
 
-      {/* Caption Section */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col">
+          <div className="flex justify-between items-center p-4 text-white">
+            <h3 className="text-lg font-medium">Images and Videos</h3>
+            <button 
+              onClick={closeModal}
+              className="text-white text-3xl hover:text-gray-300"
+            >
+              ×
+            </button>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="max-w-4xl mx-auto space-y-4">
+              {property.images.map((image, index) => (
+                <div key={index} className="w-full">
+                  <img
+                    src={image}
+                    alt={`${property.propertyType} ${index + 1}`}
+                    className="w-full h-auto rounded-lg"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="p-4 text-center text-white bg-black bg-opacity-50">
+            Photos | Videos | Property Map
+          </div>
+        </div>
+      )}
+
       <div className="text-center -mt-4 relative">
         <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
           Photos | Videos | Property Map
         </p>
       </div>
 
-      {/* Property Details Section */}
       <div className="md:flex justify-between pt-8">
-        <div>
+        <div className="w-full">
           <h1 className="text-left text-white text-4xl">
             {property?.propertyType}
             <span>
@@ -198,7 +247,7 @@ const Flow2a = () => {
             </p>
           </div>
 
-          <div className="border border-gray-600 rounded-lg flex justify-between gap-x-4 pl-3 pr-3 mb-4 md:mb-0">
+          <div className="border border-gray-600 rounded-lg flex justify-between gap-x-4 pl-3 pr-3 mb-8">
             <div className="p-1">
               <p className="block text-center text-gray-400">Monthly Rent</p>
               <h3 className="text-white text-center text-3xl md:text-2xl">
@@ -221,39 +270,38 @@ const Flow2a = () => {
             </div>
           </div>
         </div>
-
-        {/* Request Visit Section */}
-        <div className="border-1 bg-white rounded-lg lg:w-1/4 md:w-1/2 p-4">
-          <div className="flex justify-between">
-            <p className="text-black text-lg font-semibold">Request a visit</p>
-            <div className="flex">
-              <CiShare2 className="text-[#2E6A64] mt-1" />
-              <IoIosAdd className="mt-1" />
-              <CiHeart className="text-[#FF0B0B] mt-1" />
-            </div>
-          </div>
-          <div className="flex">
-            <img src={profile} alt="owner" className="h-8 w-8 inline" />
-            <p className="pt-1 pl-3 text-gray-800">
-              {property?.firstName} {property?.lastName}
-            </p>
-          </div>
-          <div>
-            <p className="block text-gray-400">{property?.ownersContactNumber}</p>
-          </div>
-          <div className="rounded-lg" style={{ backgroundColor: "#40B5A8" }}>
-            <button
-              className="flex w-full justify-evenly p-2 font-semibold"
-              onClick={() => addToCompare(property)}
-            >
-              <img src={fav} alt="favorite" className="inline h-6 w-5" />
-              Add To Visit
-            </button>
-          </div>
-        </div>
       </div>
 
-      {/* Flow2b Section */}
+      <div className="w-full bg-white rounded-lg p-6 mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <p className="text-black text-lg font-semibold">Request a visit</p>
+          <div className="flex gap-3">
+            <CiShare2 className="text-[#2E6A64] text-xl cursor-pointer" />
+            <IoIosAdd className="text-xl cursor-pointer" />
+            <CiHeart className="text-[#FF0B0B] text-xl cursor-pointer" />
+          </div>
+        </div>
+        
+        <div className="flex items-center mb-3">
+          <img src={profile} alt="owner" className="h-10 w-10 rounded-full" />
+          <div className="ml-3">
+            <p className="text-gray-800 font-medium">
+              {property?.firstName} {property?.lastName}
+            </p>
+            <p className="text-gray-500">{property?.ownersContactNumber}</p>
+          </div>
+        </div>
+        
+        <button
+          className="w-full py-3 px-4 rounded-lg flex items-center justify-center gap-2 text-white font-semibold"
+          style={{ backgroundColor: "#40B5A8" }}
+          onClick={() => addToCompare(property)}
+        >
+          <img src={fav} alt="favorite" className="h-6 w-5" />
+          Add To Visit
+        </button>
+      </div>
+
       <Flow2b property={property} />
     </div>
   );
