@@ -65,7 +65,7 @@ const PropertyCarousel = () => {
               </div>
 
               {/* Text Content */}
-              <div className="p-6 text-white">
+              <div className="p-6 text-white bg-gray-800">
                 <h2 className="text-3xl md:text-4xl font-normal mb-2 text-center">
                   Find the best To-Let in {slide.city}
                 </h2>
