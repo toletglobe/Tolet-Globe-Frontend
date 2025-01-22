@@ -74,7 +74,7 @@ const PropertyCarousel = () => {
                 </p>
                 <Link
                   to={`/property-listing/${slide.city}`}
-                  className="inline-block px-7 py-2 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors flex items-center justify-center"
+                  className="px-7 py-2 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors flex items-center justify-center"
                 >
                   JOIN US
                 </Link>
