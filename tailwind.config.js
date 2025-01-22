@@ -27,6 +27,9 @@ export default {
         "gradient-conic-2":
           "conic-gradient(transparent, transparent, transparent, #3CBDB1)",
       },
+      colors: {
+        customBlack: "#232323",
+      },
     },
   },
   plugins: [],

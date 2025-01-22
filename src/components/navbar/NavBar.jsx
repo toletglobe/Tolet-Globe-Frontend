@@ -38,62 +38,72 @@ const NavBar = ({ userInfo }) => {
   ];
 
   return (
-    <div className="bg-black flex items-center justify-between p-4">
-      <div>
+    <div className="bg-customBlack flex items-center justify-between p-4">
+      {/* <div>
         <NavLink to="/">
           <img src={logo} alt="Logo" className="h-12" />
         </NavLink>
-      </div>
+      </div> */}
 
       {/* Desktop Menu */}
-      <ul className="lg:flex items-center gap-5 font-medium hidden">
-        {navLinks.map((link, index) => (
-          <NavLink key={index} to={link.path}>
-            <li className="py-1">{link.label}</li>
-            <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
+      <div className="lg:flex hidden items-center justify-between w-full">
+          {/* Logo */}
+          <div>
+          <NavLink to="/">
+            <img src={logo} alt="Logo" className="h-12" />
           </NavLink>
-        ))}
-        <div>
-          {authState.status && token ? (
-            <div className="flex items-center gap-2 cursor-pointer group relative">
-              <img
-                className="w-10 rounded-full"
-                src={userInfo?.profilePicture || userIcon}
-                alt="User"
-              />
-              <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-700 z-20 hidden group-hover:block">
-                <div className="min-w-40 bg-white rounded shadow-lg flex flex-col gap-1 p-4">
-                  <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-center rounded">
-                    <HiUser size={20} className="w-5 mr-2" />
-                    {userInfo.firstName || "User"}
-                  </p>
-                  <p
-                    onClick={() => navigate("/landlord-dashboard")}
-                    className="flex items-center py-2 px-3 hover:bg-gray-100 cursor-pointer justify-center rounded"
-                  >
-                    <ComputerDesktopIcon className="w-5 mr-2" />
-                    Dashboard
-                  </p>
-                  <p
-                    onClick={handleLogout}
-                    className="flex items-center py-2 px-3 hover:bg-red-100 cursor-pointer justify-center text-red-500 rounded"
-                  >
-                    <ArrowLeftStartOnRectangleIcon className="w-5 mr-2" />
-                    Logout
-                  </p>
+        </div>
+        {/* Menu */}
+        <ul className="lg:flex items-center gap-5 font-medium hidden">
+          {navLinks.map((link, index) => (
+            <NavLink key={index} to={link.path}>
+              <li className="py-1">{link.label}</li>
+              <hr className="border-none outline-none h-0.5 bg-teal-500 w-3/5 m-auto hidden" />
+            </NavLink>
+          ))}
+          
+          <div>
+            {authState.status && token ? (
+              <div className="flex items-center gap-2 cursor-pointer group relative">
+                <img
+                  className="w-10 rounded-full"
+                  src={userInfo?.profilePicture || userIcon}
+                  alt="User"
+                />
+                <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-700 z-20 hidden group-hover:block">
+                  <div className="min-w-40 bg-white rounded shadow-lg flex flex-col gap-1 p-4">
+                    <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-center rounded">
+                      <HiUser size={20} className="w-5 mr-2" />
+                      {userInfo.firstName || "User"}
+                    </p>
+                    <p
+                      onClick={() => navigate("/landlord-dashboard")}
+                      className="flex items-center py-2 px-3 hover:bg-gray-100 cursor-pointer justify-center rounded"
+                    >
+                      <ComputerDesktopIcon className="w-5 mr-2" />
+                      Dashboard
+                    </p>
+                    <p
+                      onClick={handleLogout}
+                      className="flex items-center py-2 px-3 hover:bg-red-100 cursor-pointer justify-center text-red-500 rounded"
+                    >
+                      <ArrowLeftStartOnRectangleIcon className="w-5 mr-2" />
+                      Logout
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <button
-              onClick={() => navigate("/login")}
-              className="bg-teal-500 text-white px-4 py-1 rounded-full hidden lg:block"
-            >
-              Login
-            </button>
-          )}
-        </div>
-      </ul>
+            ) : (
+              <button
+                onClick={() => navigate("/login")}
+                className="bg-teal-500 text-white px-4 py-1 rounded-full hidden lg:block"
+              >
+                Login
+              </button>
+            )}
+          </div>
+        </ul>
+      </div>
 
       {/* ---- Mobile Menu ---- */}
       <div
@@ -163,6 +173,8 @@ const NavBar = ({ userInfo }) => {
           )}
         </ul>
       </div>
+      {/* Logo */}
+      
 
       {/* Mobile Menu Toggle Button */}
       <button
@@ -171,6 +183,11 @@ const NavBar = ({ userInfo }) => {
       >
         <HiOutlineMenuAlt3 size={25} />
       </button>
+      <div className="lg:hidden flex items-center justify-center w-full">
+          <NavLink to="/">
+            <img src={logo} alt="Logo" className="h-12" />
+          </NavLink>
+      </div>
     </div>
   );
 };
