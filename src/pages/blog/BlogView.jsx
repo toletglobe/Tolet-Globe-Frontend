@@ -59,7 +59,7 @@ const BlogView = () => {
 
   return (
     <div className="bg-black text-white my-5 md:my-10 px-10">
-      <div className="mb-4 md:mx-16">
+      <div className="mb-4">
         <p className="text-gray-400">
           {new Date(blog.date).toDateString()} |{" "}
           <span className="underline">{blog.category}</span>

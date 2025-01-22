@@ -1,8 +1,3 @@
-.timeline {
-  position: relative; /* Position context for ::after pseudo-element */
-  z-index: 0; /* Ensure the timeline stays in the background */
-}
-
 .timeline::after {
   content: "";
   position: absolute;
@@ -12,7 +7,6 @@
   top: -14px;
   left: 50%;
   margin-left: -3px;
-  z-index: -1; /* Ensure the line is behind the cards */
 }
 
 .timeline-dot {
@@ -32,27 +26,3 @@
   z-index: 1; /* Bring cards above the timeline */
 }
 
-.text-box {
-  position: relative; /* Maintain text alignment within cards */
-  z-index: 2; /* Keep text clearly above everything else */
-  border: 2px solid #6cc0c4; /* Card border */
-  background-color: #000; /* Card background color */
-  border-radius: 24px; /* Rounded corners */
-  padding: 16px; /* Internal padding */
-  color: #fff; /* Text color */
-}
-
-/* Responsive Design for Mobile */
-@media (max-width: 768px) {
-  .timeline {
-    z-index: 0; /* Timeline stays in the background */
-  }
-
-  .timeline::after {
-    z-index: -1; /* Keep the timeline line behind cards */
-  }
-
-  .container {
-    z-index: 1; /* Bring cards to the front */
-  }
-}
