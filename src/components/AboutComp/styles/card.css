@@ -54,11 +54,22 @@
         box-shadow: 0 0 0.5em #6cc0c4;
         width: 3.9em;
         height: 4em;
-       position: absolute;
+        position: absolute;
         right: 92.5%;
         top: 46%;
         border-radius: 50%; 
         z-index: 1;
     }
 
+}
+
+@media (max-width: 635px) {
+    .left::after{
+        left: 90%;
+        top: 49%;
+    }
+    .right::after{
+        right: 90%;
+        top: 49%; 
+}
 }
