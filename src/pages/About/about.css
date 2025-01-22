@@ -2,24 +2,27 @@
   content: "";
   position: absolute;
   width: 5px;
-  height: var(--scroll-position, 0%); /* Use the custom property for height */
-  background: #6cc0c4;
+  height: var(--scroll-position, 0%); /* Dynamic height based on scroll */
+  background: #6cc0c4; /* Timeline line color */
   top: -14px;
   left: 50%;
   margin-left: -3px;
 }
 
 .timeline-dot {
-  content: "";
   position: absolute;
   width: 15px;
   height: 15px;
-  background-color: rgb(196, 149, 20); /* Yellow dot */
+  background-color: rgb(196, 149, 20); /* Yellow dot color */
   border-radius: 50%;
   left: 50.2%;
-
   margin-left: -10px; /* Center the dot horizontally */
-  top: calc(var(--scroll-position, 0%) - 15px); /* Align with the bottom of the vertical line */
-  transition: top 0.0s ease; /* Smooth scrolling effect */
+  top: calc(var(--scroll-position, 0%) - 15px); /* Align with the line */
+  transition: top 0.2s ease; /* Smooth movement for the dot */
+  z-index: 1; /* Ensure the dot stays above the line */
+}
+
+.container {
+  z-index: 1; /* Bring cards above the timeline */
 }
 

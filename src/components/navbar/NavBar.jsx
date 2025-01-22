@@ -70,16 +70,28 @@ const NavBar = () => {
     imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
 
   return (
-    <div className="bg-black flex items-center justify-between p-4">
-      {/* Logo */}
-      <div>
-        <NavLink to="/">
-          <img src={logo} alt="Logo" className="h-12" />
-        </NavLink>
+    <div className="bg-black flex items-center justify-center p-4">
+
+      {/* Mobile Menu Toggle Button */}
+      <button
+        onClick={() => setShowMenu(!showMenu)}
+        className="lg:hidden flex items-center p-2"
+      >
+        <HiOutlineMenuAlt3 size={25} className="text-white"/>
+      </button>
+
+      <div className="bg-black flex items-center justify-center w-full max-w-screen-md md:max-w-screen-lg-text-center lg:max-w-screen-xl-text-center">
+        {/* Logo */} 
+          <div className="flex-glow text-center lg:text-center justify-center px-2 sm:text-center">
+            <NavLink to="/">
+              <img src={logo} alt="Logo" className="h-12 mx-auto lg:mx-0"/>
+            </NavLink>
+          </div>
       </div>
+  
 
       {/* Desktop Menu */}
-      <ul className="lg:flex items-center gap-4 font-medium hidden">
+      <ul className="lg:flex items-center gap-4 font-medium hidden lg:text-sm">
         {navLinks.map((link, index) => (
           <NavLink
             key={index}
@@ -91,7 +103,7 @@ const NavBar = () => {
                 activeNavbarMenu === link.label
                   ? "bg-teal-500 text-white rounded-full"
                   : ""
-              }  `}
+              } `}
             >
               {link.label}
             </li>
@@ -101,7 +113,7 @@ const NavBar = () => {
           {authState.status && token ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
               <img
-                className="w-10 rounded-full"
+                className="h-8 w-8 rounded-full"
                 src={profilePicture}
                 alt="User"
                 onError={() => setImgError(true)}
@@ -215,15 +227,7 @@ const NavBar = () => {
             </button>
           )}
         </ul>
-      </div>
-
-      {/* Mobile Menu Toggle Button */}
-      <button
-        onClick={() => setShowMenu(!showMenu)}
-        className="lg:hidden flex items-center p-2"
-      >
-        <HiOutlineMenuAlt3 size={25} />
-      </button>
+      </div>     
     </div>
   );
 };
