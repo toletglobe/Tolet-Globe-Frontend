@@ -65,7 +65,7 @@ const PropertyCarousel = () => {
               </div>
 
               {/* Text Content */}
-              <div className="p-6 text-white bg-gray-800">
+              <div className="p-6 text-white">
                 <h2 className="text-3xl md:text-4xl font-normal mb-2 text-center">
                   Find the best To-Let in {slide.city}
                 </h2>
@@ -74,7 +74,7 @@ const PropertyCarousel = () => {
                 </p>
                 <Link
                   to={`/property-listing/${slide.city}`}
-                  className="px-7 py-2 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors flex items-center justify-center"
+                  className="inline-block px-7 py-2 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors flex items-center justify-center"
                 >
                   JOIN US
                 </Link>

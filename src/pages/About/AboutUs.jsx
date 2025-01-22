@@ -43,14 +43,13 @@ export default function About() {
     <>
       <div className="aboutustimeline my-24 ">
         <div className="aboutus text-center mb-4 ">
-          <h1 className="border-[3px] border-[#6cc0c4] rounded-xl text-[#e59948] inline sm:text-3xl text-3xl py-1 px-20 font-bold">
+          <h1 className="border-[3px] border-[#6cc0c4] rounded-xl text-[#e59948] inline sm:text-5xl text-3xl py-1 px-20 font-bold">
             About Us
           </h1>
         </div>
-        <div className="timeline relative max-w-[1450px] m-auto pt-40 overflow-hidden   md:after:block"
-        >
-          <div className="timeline-dot hidden md:block sm:hidden "></div>
-         <About_Card
+        <div className="timeline relative max-w-[1450px] m-auto pt-40 overflow-hidden after:hidden md:after:block">
+          <div className="timeline-dot hidden md:block"></div>
+          <About_Card
             head="Who we are?"
             paragraph="At To-Let, we are more than just property managers – we are dedicated partners in your property management journey. Established with a commitment to redefining the standards of property management, To-Let brings a wealth of expertise to the dynamic property management landscape."
             place="left"

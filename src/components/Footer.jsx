@@ -57,13 +57,13 @@ const Footer = () => {
           <h1 className="text-xl font-semibold text-teal-500">REACH US</h1>
           <ul className="mt-5 space-y-4">
             <li className="flex items-center gap-2 justify-center">
-              <IoIosCall className="text-xl" /> +91-8707727347
+              <IoIosCall /> +91-8707727347
             </li>
             <li className="flex items-center gap-2 justify-center">
-              <IoIosMail className="text-xl" /> hello@toletglobe.in
+              <IoIosMail /> hello@toletglobe.in
             </li>
-            <li className="flex items-center gap-2 justify-center">
-              <FaLocationDot className="text-xl" /> D1/122 Vipulkhand, Gomtinagar, Lucknow, Uttar Pradesh
+            <li className="flex items-center gap-2 text-sm justify-center">
+              <FaLocationDot /> D1/122 Vipulkhand, Gomtinagar, Lucknow, Uttar Pradesh
             </li>
           </ul>
         </div>
