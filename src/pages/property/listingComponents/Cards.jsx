@@ -9,6 +9,7 @@ import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../../StateProvider";
+import "./card.css";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
