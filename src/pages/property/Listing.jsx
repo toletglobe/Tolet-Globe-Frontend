@@ -284,7 +284,6 @@ const Listing = () => {
       try {
         const response = await axios.get(url);
         let propertyData = response.data.data; // Store the response data
-
         // Sort by created date if needed
         if (propertyData && Array.isArray(propertyData)) {
           propertyData.sort(
