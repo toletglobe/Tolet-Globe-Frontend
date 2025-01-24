@@ -91,7 +91,7 @@ export default function About() {
           <div className="image hidden md:block pr-1">
             <img src={image} alt="" />
           </div>
-          <div className="team-images flex items-center flex-wrap -mt-5 max-w-[1200px] justify-around  ">
+          <div className="team-images flex items-center  -mt-5 max-w-[1200px] justify-around  ">
             <Flip
               image={CEO1}
               linkedin="https://www.linkedin.com/in/mayur-kukreja-280b71b4/"

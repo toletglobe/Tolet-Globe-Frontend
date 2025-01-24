@@ -63,3 +63,35 @@
   width: 100%;
   object-fit: cover;
 }
+@media screen and (max-width: 768px) {
+  .team-images {
+    display: flex;
+    width: 100%;
+    height: 200px;
+  }
+
+  .team-images img {
+    max-width:450px;
+    max-height: 160px;
+    /* Adjust the size of the images */
+
+  }
+}
+/* Responsive Design for Small Screens */
+@media screen and (max-width: 461px) {
+  .team-images {
+    display: flex;
+    justify-content: start; /* Center the images horizontally */
+    gap: 10px; /* Add spacing between images */
+    width: 100%;
+    align-items: end;
+  }
+
+  .team-images img {
+    object-fit: cover; /* Ensure the images are not distorted */
+    min-width: 120px;
+    min-height: 50px;
+    max-height: 100px;
+
+  }
+}
