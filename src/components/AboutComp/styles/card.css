@@ -1,19 +1,18 @@
-
-.left::after{
+.left::after {
     content: "";
     background-image: url(../../../assets/logo1.jpeg);
     background-size: contain;
-    box-shadow: 0 0 0.5em #6cc0c4;  
+    box-shadow: 0 0 0.5em #6cc0c4;
     width: 3.9em;
     height: 4em;
     position: absolute;
     left: 94.4%;
     top: 43%;
-    border-radius: 50%; 
+    border-radius: 50%;
     z-index: 1;
-}
-
-.right::after{
+  }
+  
+  .right::after {
     content: "";
     background-image: url(../../../assets/logo1.jpeg);
     background-position: cover;
@@ -21,55 +20,90 @@
     box-shadow: 0 0 0.5em #6cc0c4;
     width: 3.9em;
     height: 4em;
-   position: absolute;
+    position: absolute;
     right: 95.5%;
     top: 43%;
-    border-radius: 50%; 
+    border-radius: 50%;
     z-index: 1;
-}
-
-
+  }
+  
   /* Media query for small screen */
-@media (max-width: 990px) {
-
+  @media (max-width: 990px) {
+    .left::after {
+      content: "";
+      background-image: url(../../../assets/logo1.jpeg);
+      background-size: contain;
+      box-shadow: 0 0 0.5em #6cc0c4;
+      width: 3.9em;
+      height: 4em;
+      position: absolute;
+      left: 89%;
+      top: 43%;
+      border-radius: 50%;
+      z-index: 1;
+    }
+  
+    .right::after {
+      content: "";
+      background-image: url(../../../assets/logo1.jpeg);
+      background-position: cover;
+      background-size: contain;
+      box-shadow: 0 0 0.5em #6cc0c4;
+      width: 3.9em;
+      height: 4em;
+      position: absolute;
+      right: 92.5%;
+      top: 46%;
+      border-radius: 50%;
+      z-index: 1;
+    }
+  }
+  
+  
+  
+  @media ((min-width:360px) and (max-width: 380px)) {
+    .text-box {
+      min-width: 21rem;
+      min-height: 15rem;
+      text-align: center;
+    }
+    .left::after {
+      display: none;
+    }
+    .right::after {
+      display: none;
+    }
+  }
+  
+  
+  @media ((min-width: 380px) and (max-width:400px)) {
+    .text-box {
+      margin-left: 1rem;
+      min-width: 19rem;
+    }
+  }
+  
+  @media ((min-width:400px) and (max-width:500px)) {
+    .text-box{
+      min-width: 23rem;
+      margin-left: .9rem;
+    }
+  }
+  
+  @media ((min-width: 500px) and (max-width:680)) {
+    .left::after {
+      left: 90%;
+      top: 43%;
+    }
+  }
+  
+  @media (max-width:500px) {
     .left::after{
-        content: "";
-        background-image: url(../../../assets/logo1.jpeg);
-        background-size: contain;
-        box-shadow: 0 0 0.5em #6cc0c4;  
-        width: 3.9em;
-        height: 4em;
-        position: absolute;
-        left: 92.4%;
-        top: 43%;
-        border-radius: 50%; 
-        z-index: 1;
-    }
-
-    .right::after{
-        content: "";
-        background-image: url(../../../assets/logo1.jpeg);
-        background-position: cover;
-        background-size: contain;
-        box-shadow: 0 0 0.5em #6cc0c4;
-        width: 3.9em;
-        height: 4em;
-        position: absolute;
-        right: 92.5%;
-        top: 46%;
-        border-radius: 50%; 
-        z-index: 1;
-    }
-
-}
-
-@media (max-width: 635px) {
-    .left::after{
-        left: 90%;
-        top: 49%;
+    display: none;
     }
     .right::after{
-        right: 90%;
-        top: 49%; 
-}
-}
+  display: none;
+    }
+  }
+
+  

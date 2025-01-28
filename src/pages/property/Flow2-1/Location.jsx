@@ -9,6 +9,7 @@ import {
   MdFitnessCenter,
   MdDirectionsBus,
 } from "react-icons/md";
+import { RiLock2Fill } from "react-icons/ri";
 
 const LocationComponent = ({ property, selectComp }) => {
   const [selectedCategory, setSelectedCategory] = useState("location");
@@ -60,21 +61,15 @@ const LocationComponent = ({ property, selectComp }) => {
             <h2 className="text-xl font-semibold text-gray-900">Location</h2>
             <p className="text-sm text-gray-600">Vinamra Khand 1/35</p>
           </div>
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-              property?.address || "Vinamra Khand 1/35"
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-teal-600 text-sm"
-          >
-            Get Direction ▲
-          </a>
+          <p className="text-teal-600 text-sm">
+            Get Direction
+          </p>
         </div>
       </div>
 
       {/* Map */}
       <div className="w-full h-64">
+      <div className="w-full h-64 absolute backdrop-blur-sm bg-black/40 flex justify-center items-center"><RiLock2Fill color="#ffffff" size={30} /></div>
         <iframe
           src={getMapSrc()}
           width="100%"

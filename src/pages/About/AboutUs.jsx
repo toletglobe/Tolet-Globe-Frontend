@@ -5,7 +5,7 @@ import "../../index.css";
 import image from "../../assets/about/download.png";
 import CEO1 from "../../assets/about/first.png";
 import CEO2 from "../../assets/about/CEO2.jpg";
-import CEO3 from "../../assets/about/CEO3.jpeg";
+import CEO3 from "../../assets/about/CEO3.png";
 
 export default function About() {
   useEffect(() => {
@@ -43,13 +43,13 @@ export default function About() {
     <>
       <div className="aboutustimeline my-24 ">
         <div className="aboutus text-center mb-4 ">
-          <h1 className="border-[3px] border-[#6cc0c4] rounded-xl text-[#e59948] inline sm:text-3xl text-3xl py-1 px-20 font-bold">
+          <h1 className="border-[3px] border-[#6cc0c4] rounded-xl text-[#e59948] inline text-xl sm:text-2xl md:lg:text-3xl py-2 px-10 md:px-16 lg:px-20  md:lg:py-1  font-bold">
             About Us
           </h1>
         </div>
-        <div className="timeline relative max-w-[1450px] m-auto pt-40 overflow-hidden   md:after:block"
+        <div className="timeline relative max-w-[1450px] m-auto pt-40 overflow-hidden md:after:block"
         >
-          <div className="timeline-dot hidden md:block sm:hidden "></div>
+          <div className="timeline-dot hidden  lg:block "></div>
          <About_Card
             head="Who we are?"
             paragraph="At To-Let, we are more than just property managers – we are dedicated partners in your property management journey. Established with a commitment to redefining the standards of property management, To-Let brings a wealth of expertise to the dynamic property management landscape."
@@ -91,7 +91,7 @@ export default function About() {
           <div className="image hidden md:block pr-1">
             <img src={image} alt="" />
           </div>
-          <div className="team-images flex items-center  -mt-5 max-w-[1200px] justify-around  ">
+          <div className="team-images flex items-center -mt-5 max-w-[1200px] justify-around  ">
             <Flip
               image={CEO1}
               linkedin="https://www.linkedin.com/in/mayur-kukreja-280b71b4/"

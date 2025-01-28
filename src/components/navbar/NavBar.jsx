@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import userIcon from "../../assets/user-icon.png"; // Fallback image
+import userIcon from "../../assets/user-icon.png";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/store/authSlice";
@@ -10,22 +10,18 @@ import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
 import {
   ArrowLeftStartOnRectangleIcon,
   ComputerDesktopIcon,
-  // UserIcon,
 } from "@heroicons/react/24/outline";
 
 const NavBar = () => {
-  // Move Redux state declarations to the top
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
 
-  // Then declare component state
   const [showMenu, setShowMenu] = useState(false);
   const [activeNavbarMenu, setActiveNavbarMenu] = useState("Home");
 
-  // Add this effect to update activeNavbarMenu based on URL
   useEffect(() => {
     const path = location.pathname;
     if (path === "/") {
@@ -33,7 +29,6 @@ const NavBar = () => {
     } else if (path === "/login") {
       setActiveNavbarMenu("login");
     } else {
-      // Get the first segment of the path (ignoring parameters and query strings)
       const baseRoute = path.split("/")[1];
       const pageName = baseRoute
         .split("-")
@@ -43,7 +38,7 @@ const NavBar = () => {
     }
   }, [location]);
 
-  const userInfo = authState?.userData || {}; // Extract userData from authState
+  const userInfo = authState?.userData || {};
 
   const handleLogout = () => {
     setShowMenu(false);
@@ -53,7 +48,6 @@ const NavBar = () => {
     toast.success("Logged out!");
   };
 
-  // Array of navigation links
   const navLinks = [
     { label: "Home", path: "/" },
     { label: "Service", path: "/service" },
@@ -63,23 +57,37 @@ const NavBar = () => {
     { label: "Property Listing", path: "/property-listing" },
   ];
 
-  // Add error handling for profile picture
   const [imgError, setImgError] = useState(false);
 
   const profilePicture =
     imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
 
   return (
-    <div className="bg-black flex items-center justify-between p-4">
-      {/* Logo */}
-      <div>
+    <div className="bg-gray-800 lg:bg-black flex items-center justify-between p-4 mx-auto relative">
+      {/* Mobile Menu Toggle Button */}
+      <button
+        onClick={() => setShowMenu(!showMenu)}
+        className="lg:hidden flex items-center p-2"
+      >
+        <HiOutlineMenuAlt3 size={25} className="text-white" />
+      </button>
+
+      {/* Mobile Logo - Centered only on mobile */}
+      <div className="lg:hidden absolute left-1/2 transform -translate-x-1/2">
         <NavLink to="/">
           <img src={logo} alt="Logo" className="h-12" />
         </NavLink>
       </div>
 
-      {/* Desktop Menu */}
-      <ul className="lg:flex items-center gap-4 font-medium hidden">
+      {/* Desktop Logo */}
+      <div className="flex-shrink-0 hidden lg:block">
+        <NavLink to="/">
+          <img src={logo} alt="Logo" className="h-12 mx-0 flex justify-start" />
+        </NavLink>
+      </div>
+
+      {/* Desktop Navigation */}
+      <ul className="hidden lg:flex items-center font-medium lg:text-sm w-full md:w-auto flex-col md:flex-row md:space-x-4">
         {navLinks.map((link, index) => (
           <NavLink
             key={index}
@@ -91,7 +99,7 @@ const NavBar = () => {
                 activeNavbarMenu === link.label
                   ? "bg-teal-500 text-white rounded-full"
                   : ""
-              }  `}
+              }`}
             >
               {link.label}
             </li>
@@ -101,7 +109,7 @@ const NavBar = () => {
           {authState.status && token ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
               <img
-                className="w-10 rounded-full"
+                className="h-8 w-8 rounded-full"
                 src={profilePicture}
                 alt="User"
                 onError={() => setImgError(true)}
@@ -110,7 +118,7 @@ const NavBar = () => {
                 <div className="min-w-40 bg-white rounded shadow-lg flex flex-col gap-1 p-4">
                   <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-start rounded">
                     <HiUser size={20} className="w-5 mr-2" />
-                    {userInfo.firstName || "User"} {/* Fixed fallback */}
+                    {userInfo.firstName || "User"}
                   </p>
                   <p
                     onClick={() => navigate("/landlord-dashboard")}
@@ -139,7 +147,7 @@ const NavBar = () => {
                 activeNavbarMenu === "login"
                   ? "bg-teal-500 text-white rounded-full"
                   : ""
-              }  `}
+              }`}
             >
               Login
             </button>
@@ -147,13 +155,14 @@ const NavBar = () => {
         </div>
       </ul>
 
-      {/* Mobile Menu */}
+      {/* Mobile Navigation */}
       <div
-        className={`lg:hidden fixed inset-0 bg-black text-white z-50 transition-transform transform ${
+        className={`lg:hidden fixed inset-0 bg-gray-800 text-white z-50 transition-transform transform ${
           showMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between p-4">
+          <div className="w-8"></div>
           <img
             src={logo}
             className="h-12 cursor-pointer"
@@ -175,7 +184,6 @@ const NavBar = () => {
             </NavLink>
           ))}
 
-          {/* Profile Information for Mobile View */}
           {authState.status && token ? (
             <div className="flex flex-col items-center mt-5">
               <img
@@ -216,14 +224,6 @@ const NavBar = () => {
           )}
         </ul>
       </div>
-
-      {/* Mobile Menu Toggle Button */}
-      <button
-        onClick={() => setShowMenu(!showMenu)}
-        className="lg:hidden flex items-center p-2"
-      >
-        <HiOutlineMenuAlt3 size={25} />
-      </button>
     </div>
   );
 };

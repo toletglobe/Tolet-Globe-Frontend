@@ -1,10 +1,7 @@
-// import propertyimage1 from "../../../assets/property/blog-1.png";
-// import propertyimage2 from "../../../assets/property/blog-2.jpg";
-// import propertyimage3 from "../../../assets/property/blog-3.jpg";
 import Service from "../../../config/config";
 import { BASE_URL } from "../../../constant/constant";
 import { CiHeart, CiShare2 } from "react-icons/ci";
-import { MdDelete, MdMoreVert } from "react-icons/md";
+import { MdDelete, MdEdit, MdMoreVert } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -28,25 +25,31 @@ export default function MyProperties() {
         const properties = await Service.fetchMyProperties(
           authState.userData.id
         );
-        setMyProperties(properties); // Store the fetched data in backendData
+        setMyProperties(properties);
       } catch (error) {
-        console.log("this is the error", error);
+        console.log("Error fetching properties:", error);
       }
     };
-
     fetchMyProperties();
   }, [authState?.userData?.id]);
 
+  // Add Edit button and handleEdit function
+  const handleEdit = (property) => {
 
-  
- // Handle Delete function
+    navigate(`/landlord-dashboard/edit-properties/${property._id}`);
+  };
+
+
+
+  // Handle Delete function
   const handleDelete = async (property) => {
     try {
       const response = await fetch(`${BASE_URL}property/${property}`, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" ,
-        Authorization: `Bearer ${authState?.userData?.id}`,
-        },        
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authState?.userData?.id}`,
+        },
       });
 
       if (response.ok) {
@@ -80,8 +83,6 @@ export default function MyProperties() {
         <h3 className="text-lg font-semibold">
           {property?.firstName} {property?.lastName}
         </h3>
-
-        {/* Icons Section */}
         <div className="icon-box flex mr-6 p-2">
           <a
             href="#"
@@ -130,6 +131,14 @@ export default function MyProperties() {
                 />
                 Delete
               </button>
+
+              <button
+                className="text-[17px] font-medium text-white hover:text-blue-500 flex justify-center items-center mx-2 gap-2"
+                onClick={() => handleEdit(property)}
+              >
+                <MdEdit size={20} style={{ color: "#808080" }} /> Edit
+              </button>
+
             </div>
           )}
         </div>
@@ -138,6 +147,7 @@ export default function MyProperties() {
         {property.locality}, {property.city}, India
       </p>
       <p className="text-gray-400 mt-1">Rs. {property.rent}</p>
+
     </div>
   ));
 

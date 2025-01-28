@@ -5,7 +5,7 @@ import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
-    <div className="bg-gray-900 text-white px-5 py-10">
+    <div className="bg-black text-white px-5 py-10">
       <hr className="my-3 border-gray-700" />
 
       {/* Responsive Grid Layout */}
@@ -53,17 +53,17 @@ const Footer = () => {
         </div>
 
         {/* Reach Us Section */}
-        <div className="flex flex-col items-center text-center">
+        <div className="flex flex-col items-center text-center w-64">
           <h1 className="text-xl font-semibold text-teal-500">REACH US</h1>
           <ul className="mt-5 space-y-4">
             <li className="flex items-center gap-2 justify-center">
-              <IoIosCall /> +91-8707727347
+              <IoIosCall className="text-xl" /> +91-8707727347
             </li>
             <li className="flex items-center gap-2 justify-center">
-              <IoIosMail /> hello@toletglobe.in
+              <IoIosMail className="text-xl" /> hello@toletglobe.in
             </li>
-            <li className="flex items-center gap-2 text-sm justify-center">
-              <FaLocationDot /> D1/122 Vipulkhand, Gomtinagar, Lucknow, Uttar Pradesh
+            <li className="flex items-center gap-0.5 justify-center">
+              <FaLocationDot className="text-xl" /> D1/122 Vipulkhand, Gomtinagar, Lucknow, Uttar Pradesh
             </li>
           </ul>
         </div>
