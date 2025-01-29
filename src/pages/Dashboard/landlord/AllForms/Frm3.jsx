@@ -1,60 +1,62 @@
+import React from "react";
+
 export default function Frm3({ formData, setFormData }) {
   const handleImageSubmit = (e) => {
-    if (formData.images.length >= 10) {
+    const images = formData.images || []; // Ensure images is not null or undefined
+    if (images.length >= 10) {
       alert("We admit at most 10 images");
       return;
     }
 
-    if (e.target.files.length == 1) {
+    if (e.target.files.length === 1) {
       const file = e.target.files[0];
 
-      setFormData((formData) => {
-        return {
-          ...formData,
-          images: [...formData.images, file],
-        };
-      });
+      setFormData((formData) => ({
+        ...formData,
+        images: [...(formData.images || []), file],
+      }));
 
-      e.target.value = ""; // if you want that user do not put same file multiple times then use it.
+      e.target.value = ""; // Reset the file input to allow re-upload of the same file
     } else if (e.target.files.length > 1) {
-      if (formData.images.length + e.target.files.length > 10) {
+      if (images.length + e.target.files.length > 10) {
         alert("We admit at most 10 images");
         return;
       }
 
       const filesArray = Array.from(e.target.files);
 
-      setFormData((formData) => {
-        return {
-          ...formData,
-          images: [...formData.images, ...filesArray],
-        };
-      });
+      setFormData((formData) => ({
+        ...formData,
+        images: [...(formData.images || []), ...filesArray],
+      }));
     }
   };
 
-   const handleVideoSubmit = (e) => {
-     if (formData.videos.length + e.target.files.length > 5) {
-       alert("We admit at most 5 videos");
-       return;
-     }
+  const handleVideoSubmit = (e) => {
+    const videos = formData.videos || []; // Ensure videos is not null or undefined
+    if (videos.length + e.target.files.length > 5) {
+      alert("We admit at most 5 videos");
+      return;
+    }
 
-     if (e.target.files.length === 1) {
-       const file = e.target.files[0];
+    if (e.target.files.length === 1) {
+      const file = e.target.files[0];
 
-       setFormData((formData) => {
-         return { ...formData, videos: [...formData.videos, file] };
-       });
+      setFormData((formData) => ({
+        ...formData,
+        videos: [...(formData.videos || []), file],
+      }));
 
-       e.target.value = "";
-     } else {
-       const filesArray = Array.from(e.target.files);
+      e.target.value = "";
+    } else {
+      const filesArray = Array.from(e.target.files);
 
-       setFormData((formData) => {
-         return { ...formData, videos: [...formData.videos, ...filesArray] };
-       });
-     }
-   };
+      setFormData((formData) => ({
+        ...formData,
+        videos: [...(formData.videos || []), ...filesArray],
+      }));
+    }
+  };
 
   return (
     <>
@@ -69,23 +71,19 @@ export default function Frm3({ formData, setFormData }) {
             value="Yes"
             onChange={(e) => {
               if (e.target.checked) {
-                setFormData((formData) => {
-                  formData = {
-                    ...formData,
-                    carParking: e.target.value,
-                  };
-                  return formData;
-                });
+                setFormData((formData) => ({
+                  ...formData,
+                  carParking: e.target.value,
+                }));
               }
             }}
           />
           <label
             htmlFor="yes_btn"
-            className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4 ${
-              formData.carParking === "Yes"
-                ? "text-black bg-gray-200"
-                : "text-gray-200"
-            }`}
+            className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4 ${formData.carParking === "Yes"
+              ? "text-black bg-gray-200"
+              : "text-gray-200"
+              }`}
           >
             Yes
           </label>
@@ -98,30 +96,26 @@ export default function Frm3({ formData, setFormData }) {
             value="No"
             onChange={(e) => {
               if (e.target.checked) {
-                setFormData((formData) => {
-                  formData = {
-                    ...formData,
-                    carParking: e.target.value,
-                  };
-                  return formData;
-                });
+                setFormData((formData) => ({
+                  ...formData,
+                  carParking: e.target.value,
+                }));
               }
             }}
           />
           <label
             htmlFor="no_btn"
-            className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4  ${
-              formData.carParking === "No"
-                ? "text-black bg-white"
-                : "text-gray-200"
-            }`}
+            className={`border-2 border-gray-200 rounded-md py-3 px-4 mr-4  ${formData.carParking === "No"
+              ? "text-black bg-white"
+              : "text-gray-200"
+              }`}
           >
             No
           </label>
         </div>
 
         <div className="mt-16 grid gap-y-14 sm:grid-cols-2 sm:gap-x-14">
-          <div className=" flex flex-col">
+          <div className="flex flex-col">
             <label className="w-fit text-gray-200 font-bold text-lg">
               Rent Amount
             </label>
@@ -129,13 +123,13 @@ export default function Frm3({ formData, setFormData }) {
               required
               type="text"
               placeholder=" ₹ 2500"
-              // pattern="^(NA|\d+)$"
               className="mt-10 bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
               value={formData.rent}
               onChange={(e) => {
-                setFormData((formData) => {
-                  return { ...formData, rent: e.target.value };
-                });
+                setFormData((formData) => ({
+                  ...formData,
+                  rent: e.target.value,
+                }));
               }}
             />
           </div>
@@ -148,13 +142,13 @@ export default function Frm3({ formData, setFormData }) {
               required
               type="text"
               placeholder=" ₹ 5000"
-              // pattern="^(NA|\d+)$"
               className="mt-10 bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
               value={formData.security}
               onChange={(e) => {
-                setFormData((formData) => {
-                  return { ...formData, security: e.target.value };
-                });
+                setFormData((formData) => ({
+                  ...formData,
+                  security: e.target.value,
+                }));
               }}
             />
           </div>
@@ -197,8 +191,8 @@ export default function Frm3({ formData, setFormData }) {
           </div>
 
           <p className="mt-14 text-[#C8A117]">
-            You've uploded {formData.images.length}/10 images and{" "}
-            {formData.videos.length}/5 videos
+            You've uploaded {formData.images?.length || 0}/10 images and{" "}
+            {formData.videos?.length || 0}/5 videos
           </p>
         </div>
       </div>

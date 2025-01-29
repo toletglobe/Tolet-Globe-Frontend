@@ -37,27 +37,45 @@ export default function OurReach() {
   }, [])
 
   return (
-    <div ref={containerRef} className="bg-black p-6 border border-white rounded-[10px]  max-w-[1212px] h-auto mx-2" >
-      <div className="grid grid-cols-1 sm:grid-cols-1 sm:gap-10 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 xl:gap-9 mx-auto my-auto lg:gap-y-3">
-        {stats.map((stat, index) => (
-          <div key={index} className="bg-transparent p-[27.22px] my-6 rounded-[13.61px] border border-white w-full mx-auto min-w-[179.18px] h-auto border-1.34 md:min-w-[150px]">
-            <h3 className="text-white text-sm font-medium mb-1 w-full h-auto">{stat.title}</h3>
-            <p className="text-white text-2xl font-bold w-full h-auto">
-              {isVisible ? (
-                <CountUp
-                  start={0}
-                  end={stat.value}
-                  duration={2}
-                  delay={index * 0.5}
-                  separator=","
-                />
-              ) : (
-                '0'
-              )}
-              {stat.suffix}
-            </p>
-          </div>
-        ))}
+    <div className="w-full px-4 py-8">
+      <div 
+        ref={containerRef} 
+        className="bg-black p-6 border border-white rounded-[10px] mx-auto max-w-[1212px] h-auto"
+      >
+        {/* Grid container with responsive classes */}
+        <div className="grid grid-cols-1 gap-6
+          max-[450px]:mx-2
+          min-[450px]:grid-cols-2 min-[450px]:p-[18.14px] min-[450px]:mx-[51.55px]
+          lg:grid-cols-4">
+          {stats.map((stat, index) => (
+            <div 
+              key={index} 
+              className="border border-white rounded-xl transition-transform
+                max-[450px]:p-[27.22px] max-[450px]:my-6 max-[450px]:min-w-[179.18px]
+                min-[450px]:p-6 min-[450px]:hover:scale-105"
+            >
+              <h3 className="text-white text-sm font-medium mb-2">
+                {stat.title}
+              </h3>
+              <p className="text-white font-bold
+                max-[450px]:text-2xl
+                min-[450px]:text-3xl">
+                {isVisible ? (
+                  <CountUp
+                    start={0}
+                    end={stat.value}
+                    duration={2}
+                    delay={index * (window.innerWidth <= 450 ? 0.5 : 0.2)}
+                    separator=","
+                  />
+                ) : (
+                  '0'
+                )}
+                {stat.suffix}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

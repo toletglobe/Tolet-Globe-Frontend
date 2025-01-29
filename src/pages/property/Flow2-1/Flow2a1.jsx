@@ -22,6 +22,14 @@ const Flow2a = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const maskPhoneNumber = (phoneNumber) => {
+    if (!phoneNumber) return "";
+    const numberStr = phoneNumber.toString();
+    const visiblePart = numberStr.slice(0, -4);
+    const maskedPart = "XXXX";
+    return `${visiblePart}${maskedPart}`;
+  };
+
   useEffect(() => {
     const fetchProperty = async () => {
       try {
@@ -288,7 +296,9 @@ const Flow2a = () => {
             <p className="text-gray-800 font-medium">
               {property?.firstName} {property?.lastName}
             </p>
-            <p className="text-gray-500">{property?.ownersContactNumber}</p>
+            <p className="text-gray-500">
+              {maskPhoneNumber(property?.ownersContactNumber)}
+            </p>
           </div>
         </div>
         

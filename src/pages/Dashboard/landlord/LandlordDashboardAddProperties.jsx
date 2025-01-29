@@ -279,11 +279,10 @@ export default function LandlordDashboardAddProperties() {
               <input
                 type="button"
                 value="Back"
-                className={`border-[0.5px] rounded-md font-bold px-7 py-[10px] ${
-                  page == 3
-                    ? "bg-[#E8EDF2] text-black"
-                    : "border-amber-500  text-white"
-                }  `}
+                className={`border-[0.5px] rounded-md font-bold px-7 py-[10px] ${page == 3
+                  ? "bg-[#E8EDF2] text-black"
+                  : "border-amber-500  text-white"
+                  }  `}
                 onClick={() => {
                   setPage((page) => page - 1);
                 }}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { FaLocationDot, FaRegCopy, FaRegImage, FaVideo } from "react-icons/fa6";
 import Popup from "reactjs-popup";
@@ -18,10 +17,11 @@ import "./compareProperty.css";
 
 export default function CompareProperty() {
   const navigate = useNavigate();
-  const authState = useSelector((state) => state.auth);
+
   const [{ compareProperty }, dispatch] = useStateValue();
 
   const [showOnlyDifferences, setShowOnlyDifferences] = useState(false);
+
   useEffect(() => {
     if (!compareProperty.length) {
       navigate("/property-listing");
@@ -34,6 +34,7 @@ export default function CompareProperty() {
       item: property,
     });
   };
+
   // Check if a column has differences between properties
   const hasDifferences = (key) => {
     const firstValue = compareProperty[0][key];
@@ -296,26 +297,6 @@ export default function CompareProperty() {
               </React.Fragment>
             ))}
           </table>
-        </div>
-        <div>
-          <form method="POST" action="http://localhost:8000/send-email">
-              <input
-                type="hidden"
-                name="compareProperty"
-                value={JSON.stringify(compareProperty)}
-              />
-              <input
-                type="hidden"
-                name="authState"
-                value={JSON.stringify(authState)} // Convert authState to JSON string
-              />
-              <button
-                className="px-6 py-2 bg-[#40B5A8] text-white rounded-lg hover:cursor-pointer"
-                type="submit"
-              >
-                Submit
-              </button>
-            </form>
         </div>
       </div>
     </>

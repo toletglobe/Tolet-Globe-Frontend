@@ -128,7 +128,7 @@ const Filters = ({
           <div className="w-full mb-3">
             <p className="text-base font-medium text-[#696969] mb-2">BHK</p>
             <div className="flex flex-wrap items-start gap-2 hover:cursor-pointer">
-              {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ 5 BHK"].map(
+              {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ >4 BHK"].map(
                 (bhk, index) => (
                   <div
                     key={index}
@@ -205,8 +205,7 @@ const Filters = ({
               </select>
               <select
                 className={`h-7 w-28 text-xs font-light border rounded-md ${
-                  filters.preferenceHousing === "Family" ||
-                  filters.preferenceHousing === "Any"
+                  filters.preferenceHousing === "Family"
                     ? "border-gray-300 text-gray-400 bg-gray-100"
                     : "border-[#4A7F79] text-black bg-white"
                 }`}
@@ -214,22 +213,17 @@ const Filters = ({
                 onChange={(e) =>
                   handleFilterChange("genderPreference", e.target.value)
                 }
-                disabled={
-                  filters.preferenceHousing === "Family" ||
-                  filters.preferenceHousing === "Any"
-                }
+                disabled={filters.preferenceHousing === "Family"}
               >
                 <option value="">
                   {filters.preferenceHousing === "Family"
                     ? "N/A for Family"
-                    : filters.preferenceHousing === "Any"
-                    ? "N/A for Any"
                     : "Select Gender"}
                 </option>
                 {filters.preferenceHousing !== "Family" && (
                   <>
-                    <option value="Boys">Male</option>
-                    <option value="Girls">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                     <option value="Others">Others</option>
                   </>
                 )}

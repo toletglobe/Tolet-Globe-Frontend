@@ -53,7 +53,7 @@ const GetInTouch = () => {
     "https://www.google.com/maps/place/To-Let+Globe/@26.8465566,80.9797793,15z/data=!4m6!3m5!1s0x399bfd77577ba78f:0xd2d6f22d1b246815!8m2!3d26.8465566!4d80.9797793!16s%2Fg%2F11vhrqqb45?entry=ttu";
   return (
     <div
-      className="my-10 mx-20 lg:h-[85vh] flex lg:justify-end "
+      className="my-10  lg:h-[85vh] flex lg:justify-end "
       style={{
         backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.6) 100%), 
       linear-gradient(to right, rgba(0, 0, 0, 0.6) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.6) 100%), 
@@ -69,11 +69,11 @@ const GetInTouch = () => {
         </div>
       </a>
       <div className=" text-start -mt-2 bg-black opacity-100 p-10  lg:h-[100%] lg:w-[380px] w-full rounded-md bg-gradient-to-r from-black via-black to-transparent shadow-[0_0_10px_rgba(0,0,0,0.2)] ">
-        <p className="text-yellow-300 font-normal text-4xl text-left pb-5">
+        <p className="text-yellow-300 font-normal text-4xl text-left pb-5 flex justify-center items-center">
           GET IN TOUCH
         </p>
-        <p className="text-gray-500 m-0 text-left pb-4">Have some questions?</p>
-        <p className="text-gray-500 text-left m-0 pb-4">
+        <p className="text-white m-0 text-left pb-4 flex justify-center items-center">Have some questions?</p>
+        <p className="text-white text-left m-0 pb-4 flex justify-center items-center">
           Feel free to ask them anytime
         </p>
 
@@ -83,7 +83,7 @@ const GetInTouch = () => {
         >
           <div className="flex flex-col">
             <select
-              className=" bg-black border-b-2 border-gray-400 text-gray-400 focus:outline-none my-6 "
+              className=" bg-black border-b-2 text-white focus:outline-none my-6 "
               id="topic"
               value={formData.topic}
               name="topic"
@@ -103,7 +103,7 @@ const GetInTouch = () => {
             placeholder="Name"
             value={formData.name}
             name="name"
-            className=" bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
+            className=" bg-black border-b-2 text-white focus:outline-none my-6"
             onChange={handleChange}
             required
           />
@@ -112,7 +112,7 @@ const GetInTouch = () => {
             placeholder="Email"
             value={formData.email}
             name="email"
-            className="bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
+            className="bg-black border-b-2 text-white focus:outline-none my-6"
             onChange={handleChange}
             required
           />
@@ -121,7 +121,7 @@ const GetInTouch = () => {
             placeholder="Phone"
             value={formData.phone}
             name="phone"
-            className="bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
+            className="bg-black border-b-2 text-white focus:outline-none my-6"
             onChange={handleChange}
           />
           <input
@@ -129,7 +129,7 @@ const GetInTouch = () => {
             placeholder="Message"
             value={formData.msg}
             name="msg"
-            className="bg-black border-b-2 border-gray-400 text-white focus:outline-none my-6"
+            className="bg-black border-b-2 text-white focus:outline-none my-6"
             onChange={handleChange}
             required
           />
