@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useRef, useState } from 'react'
 import CountUp from 'react-countup'
 
@@ -40,32 +38,25 @@ export default function OurReach() {
     <div className="w-full px-4 py-8">
       <div 
         ref={containerRef} 
-        className="bg-black p-6 border border-white rounded-[10px] mx-auto max-w-[1212px] h-auto"
+        className="bg-black p-6 border border-white rounded-[10px] mx-auto max-w-[1212px]"
       >
-        {/* Grid container with responsive classes */}
-        <div className="grid grid-cols-1 gap-6
-          max-[450px]:mx-2
-          min-[450px]:grid-cols-2 min-[450px]:p-[18.14px] min-[450px]:mx-[51.55px]
-          lg:grid-cols-4">
+        {/* Modified grid container with mobile-first approach */}
+        <div className="grid grid-cols-2 gap-4 max-[450px]:mx-auto max-[450px]:max-w-md min-[450px]:grid-cols-4">
           {stats.map((stat, index) => (
             <div 
               key={index} 
-              className="border border-white rounded-xl transition-transform
-                max-[450px]:p-[27.22px] max-[450px]:my-6 max-[450px]:min-w-[179.18px]
-                min-[450px]:p-6 min-[450px]:hover:scale-105"
+              className="border border-white rounded-lg p-4 max-[450px]:aspect-square max-[450px]:flex max-[450px]:flex-col max-[450px]:justify-center min-[450px]:p-6 min-[450px]:hover:scale-105 transition-transform"
             >
               <h3 className="text-white text-sm font-medium mb-2">
                 {stat.title}
               </h3>
-              <p className="text-white font-bold
-                max-[450px]:text-2xl
-                min-[450px]:text-3xl">
+              <p className="text-white font-bold text-xl max-[450px]:text-2xl min-[450px]:text-3xl">
                 {isVisible ? (
                   <CountUp
                     start={0}
                     end={stat.value}
                     duration={2}
-                    delay={index * (window.innerWidth <= 450 ? 0.5 : 0.2)}
+                    delay={index * 0.2}
                     separator=","
                   />
                 ) : (

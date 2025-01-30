@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Card = ({ img, title, bg, path, description, onClick }) => {
+const Card = ({ img, title, bg, path, description}) => {
   const navigate = useNavigate();
 
   return (
     <div
       className="group relative bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl w-full transition-shadow duration-300 cursor-pointer"
-      onClick={onClick}
+      
     >
       <div className="flex justify-center items-center p-4">
         <img 
@@ -25,8 +25,9 @@ const Card = ({ img, title, bg, path, description, onClick }) => {
       </div>
       <div
         className={`absolute inset-0 flex flex-col items-center justify-center p-4 ${bg} bg-opacity-90 opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+        onClick={() => navigate(path)}
       >
-        <h1 className="text-base sm:text-lg md:text-xl font-bold mb-2 text-center">
+        <h1 className="text-base sm:text-lg md:text-xl font-bold mb-2 text-center" >
           {title}
         </h1>
         <p className="text-sm text-center">

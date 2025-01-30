@@ -9,7 +9,7 @@ import { API } from "../../config/axios";
 const Reviews = ({ property }) => {
   const [averageRating, setAverageRating] = useState(0);
   const [reviews, setReviews] = useState([]);
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(0); // Changed initial rating to 0
   const [comment, setComment] = useState("");
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,11 +45,16 @@ const Reviews = ({ property }) => {
   };
 
   const handleRatingChange = (newRating) => {
-    setRating(Math.max(1, newRating));
+    setRating(newRating);
   };
 
   const handleAddReview = async (e) => {
     e.preventDefault();
+
+    if (rating === 0) {
+      toast.error("Please provide a rating");
+      return;
+    }
 
     try {
       const formData = new FormData();
@@ -166,6 +171,20 @@ const Reviews = ({ property }) => {
             </p>
 
             <form onSubmit={handleAddReview} className="space-y-6">
+              <div>
+                <h3 className="text-lg mb-2">Rate your experience</h3>
+                <div className="p-4 rounded-lg">
+                  <ReactStars
+                    count={5}
+                    onChange={handleRatingChange}
+                    size={40}
+                    value={rating}
+                    activeColor="#ffd700"
+                    isHalf={false}
+                  />
+                </div>
+              </div>
+
               <div>
                 <h3 className="text-lg mb-4">How long have you stayed here?</h3>
                 <div className="flex flex-wrap gap-3">
