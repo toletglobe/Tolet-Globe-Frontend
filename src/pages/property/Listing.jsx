@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import "./listing.css";
+// import "./listing.css";
 import hamburger from "../../assets/property/hamburger.png";
 import drop from "../../assets/property/drop.png";
 import loc from "../../assets/property/location.png";
@@ -405,11 +405,11 @@ const Listing = () => {
           if (showCity === true) setShowCity(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className="property h-[100vh] pb-14 px-10 w-full overflow-y-auto"
+        className="property h-[100vh] pb-14 px-1 w-full stroke-[1.5] overflow-y-auto"
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-3 flex flex-col gap-8 py-6 sticky top-0 z-20 bg-black">
+        <div className="px-3 flex flex-col gap-8 py-6 static top-0 z-20 bg-black ">
           <div className="flex items-center justify-between">
             <p className="lg:text-[45px] md:text-4xl text-2xl text-[#C8A21C] font-bold">
               Property Listing
@@ -669,6 +669,8 @@ const Listing = () => {
             </div>
           </div>
         </div>
+
+        {/* card starting */}
 
         <div
           onClick={() => {

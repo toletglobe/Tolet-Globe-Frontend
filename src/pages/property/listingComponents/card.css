@@ -1,4 +1,4 @@
-.property-list {
+/* .property-list {
     display: grid;
     grid-template-columns: 1fr; 
     gap: 25px;
@@ -15,4 +15,4 @@
       grid-template-columns: repeat(3, 1fr);
     }
   }
-  
+   */

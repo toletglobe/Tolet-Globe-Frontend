@@ -254,29 +254,32 @@ const Flow2a = () => {
               {property?.reviews ? property?.reviews?.length : 0} (Reviews)
             </p>
           </div>
+          
+              <div className="border border-gray-600 rounded-lg p-3 mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 w-full">
+                {/* Monthly Rent Section */}
+                <div className="text-center w-full sm:w-auto">
+                  <p className="text-gray-400">Monthly Rent</p>
+                  <h3 className="text-white text-2xl sm:text-xl">Rs. {property?.rent}</h3>
+                </div>
 
-          <div className="border border-gray-600 rounded-lg flex justify-between gap-x-4 pl-3 pr-3 mb-8">
-            <div className="p-1">
-              <p className="block text-center text-gray-400">Monthly Rent</p>
-              <h3 className="text-white text-center text-3xl md:text-2xl">
-                Rs. {property?.rent}
-              </h3>
-            </div>
-            <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
-            <div className="p-1 text-gray-400">
-              <p className="block text-center">Bhk</p>
-              <h3 className="text-white text-center text-3xl md:text-2xl">
-                {property?.bhk} Bhk
-              </h3>
-            </div>
-            <div className="border-l border-gray-600 mx-4 h-[50px] mt-[10px]"></div>
-            <div className="p-1 text-gray-400">
-              <p className="block text-center">Floor</p>
-              <h3 className="text-white text-center text-3xl md:text-2xl">
-                {property?.floor}
-              </h3>
-            </div>
-          </div>
+                {/* Divider (Adjusts Based on Screen Size) */}
+                <div className="border-t sm:border-l border-gray-600 w-full sm:w-auto h-[1px] sm:h-[50px]"></div>
+
+                {/* BHK Section */}
+                <div className="text-center w-full sm:w-auto">
+                  <p className="text-gray-400">Bhk</p>
+                  <h3 className="text-white text-2xl sm:text-xl">{property?.bhk} Bhk</h3>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t sm:border-l border-gray-600 w-full sm:w-auto h-[1px] sm:h-[50px]"></div>
+
+                {/* Floor Section */}
+                <div className="text-center w-full sm:w-auto">
+                  <p className="text-gray-400">Floor</p>
+                  <h3 className="text-white text-2  xl sm:text-xl">{property?.floor}</h3>
+                </div>
+              </div>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 .property-list {
-  @apply grid grid-cols-1 gap-8 p-4 md:grid-cols-2 lg:grid-cols-3;
+  @apply grid grid-cols-1 gap-8 p-4 md:grid-cols-1 lg:grid-cols-3;
 }
 .property-list a {
   @apply no-underline text-[black];
@@ -7,7 +7,7 @@
 
 /* Property Card */
 .property-card {
-  @apply border overflow-hidden relative transition-shadow duration-[0.3s] ease-[ease] p-4 rounded-none border-solid border-[#ccc];
+  @apply border overflow-hidden relative transition-shadow duration-[0.3s] ease-[ease] p-4 border-solid border-[#ccc];
 
   /* Base border color */
 }
@@ -97,7 +97,7 @@
   font-family: Poppins, sans-serif;
 
   /* Use Poppins font */
-  background: #40b5a8;
+  background: black;
 }
 .card-list {
   @apply mt-3;
