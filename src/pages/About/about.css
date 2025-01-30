@@ -1,18 +1,23 @@
 .timeline {
-  position: relative; /* Position context for ::after pseudo-element */
-  z-index: 0; /* Ensure the timeline stays in the background */
+  position: relative;
+  /* Position context for ::after pseudo-element */
+  z-index: 0;
+  /* Ensure the timeline stays in the background */
 }
 
 .timeline::after {
   content: "";
   position: absolute;
   width: 5px;
-  height: var(--scroll-position, 0%); /* Dynamic height based on scroll */
-  background: #6cc0c4; /* Timeline line color */
+  height: var(--scroll-position, 0%);
+  /* Dynamic height based on scroll */
+  background: #6cc0c4;
+  /* Timeline line color */
   top: -14px;
   left: 50%;
   margin-left: -3px;
-  z-index: -1; /* Ensure the line is behind the cards */
+  z-index: -1;
+  /* Ensure the line is behind the cards */
 }
 
 .timeline-dot {
@@ -20,83 +25,103 @@
   position: absolute;
   width: 15px;
   height: 15px;
-  background-color: rgb(196, 149, 20); /* Yellow dot */
+  background-color: rgb(196, 149, 20);
+  /* Yellow dot */
   border-radius: 50%;
   left: 50.2%;
-  margin-left: -10px; /* Center the dot horizontally */
-  top: calc(var(--scroll-position, 0%) - 15px); /* Align with the bottom of the vertical line */
-  transition: top 0.0s ease; /* Smooth scrolling effect */
+  margin-left: -10px;
+  /* Center the dot horizontally */
+  top: calc(var(--scroll-position, 0%) - 15px);
+  /* Align with the bottom of the vertical line */
+  transition: top 0.0s ease;
+  /* Smooth scrolling effect */
 }
 
 .container {
-  z-index: 1; /* Bring cards above the timeline */
+  z-index: 1;
+  /* Bring cards above the timeline */
 }
 
 .text-box {
-  position: relative; /* Maintain text alignment within cards */
-  z-index: 2; /* Keep text clearly above everything else */
-  border: 2px solid #6cc0c4; /* Card border */
-  background-color: #000; /* Card background color */
-  border-radius: 24px; /* Rounded corners */
-  padding: 16px; /* Internal padding */
-  color: #fff; /* Text color */
+  position: relative;
+  /* Maintain text alignment within cards */
+  z-index: 2;
+  /* Keep text clearly above everything else */
+  border: 2px solid #6cc0c4;
+  /* Card border */
+  background-color: #000;
+  /* Card background color */
+  border-radius: 24px;
+  /* Rounded corners */
+  padding: 16px;
+  /* Internal padding */
+  color: #fff;
+  /* Text color */
 }
 
-.team-images img {
+/* .team-images img {
   height: 200px;
   width: 100%;
   object-fit: cover;
-}
+} */
+
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {
   .timeline {
-    z-index: 0; /* Timeline stays in the background */
+     z-index: 0;
+     /* Timeline stays in the background */
   }
 
   .timeline::after {
-    z-index: -1; /* Keep the timeline line behind cards */
+     z-index: -1;
+     /* Keep the timeline line behind cards */
   }
 
   .container {
-    z-index: 1; /* Bring cards to the front */
+     z-index: 1;
+     /* Bring cards to the front */
   }
 }
 
 @media (min-width:425px) {
   .timeline-dot {
-    display: block;
+     display: block;
   }
 }
 
 @media screen and (max-width: 768px) {
   .team-images {
-    display: flex;
-    width: 100%;
-    height: 200px;
+     display: flex;
+     width: 100%;
+     height: 200px;
   }
 
   .team-images img {
-    max-width:450px;
-    max-height: 160px;
-    /* Adjust the size of the images */
+     max-width: 450px;
+     max-height: 160px;
+     /* Adjust the size of the images */
 
   }
 }
+
 /* Responsive Design for Small Screens */
 @media screen and (max-width: 461px) {
   .team-images {
-    display: flex;
-    justify-content: start; /* Center the images horizontally */
-    gap: 10px; /* Add spacing between images */
-    width: 100%;
-    align-items: end;
+     display: flex;
+     justify-content: start;
+     /* Center the images horizontally */
+     gap: 10px;
+     /* Add spacing between images */
+     width: 100%;
+     align-items: end;
   }
 
   .team-images img {
-    object-fit: cover; /* Ensure the images are not distorted */
-    min-width: 120px;
-    min-height: 50px;
-    max-height: 100px;
+     object-fit: cover;
+     /* Ensure the images are not distorted */
+     min-width: 120px;
+     min-height: 50px;
+     max-height: 100px;
 
   }
 }

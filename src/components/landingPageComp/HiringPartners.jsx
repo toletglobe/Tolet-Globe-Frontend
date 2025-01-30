@@ -50,7 +50,7 @@ const HiringPartners = () => {
 
   return (
     <div className="margin">
-      <div className=" w-full px-10 py-2 bg-black  flex flex-col items-center justify-center relative border border-white rounded-lg shadow-lg">
+      <div className=" w-full px-3 py-2 bg-black  flex flex-col items-center justify-center relative border border-white rounded-lg shadow-lg">
         <div
           className="bg-black z-20 -mx-2 my-6  inline-block text-center "
           style={{

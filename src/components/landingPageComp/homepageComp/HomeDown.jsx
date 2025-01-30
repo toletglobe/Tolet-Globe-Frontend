@@ -32,7 +32,7 @@ const HomeDown = () => {
             Welcome to To-Let Globe
           </h1>
           <h6
-            className={`absolute transform text-center text-[#c8a21c] font-light transition-all lg:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms]  ease-in-out ${
+            className={`absolute transform  mt-1 text-center text-[#c8a21c] font-light transition-all lg:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms]  ease-in-out ${
               isScrolled
                 ? "left-[5%] top-[17rem] lg:left-[8%] lg:top-[23rem] opacity-100"
                 : "left-[30%] top-[17rem] lg:top-[23rem] opacity-0"
