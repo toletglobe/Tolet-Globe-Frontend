@@ -1,0 +1,19 @@
+.chat-screen {
+    max-width: 360px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px dashed violet;
+  }
+  
+  .chat-body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-footer input {
+    border-radius: 20px;
+  }
+  
+  button {
+    border: none;
+  }
