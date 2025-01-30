@@ -76,13 +76,14 @@ const Cards = ({ properties, propertyAction }) => {
 
   return (
     <div>
-      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-9">
         {norm.map((property) => (
           <li
             key={property._id}
-            className="property-card bg-white border border-grey-200 shadow-lg relative p-2 md:p-4"
+            className="rounded-[10px] overflow-hidden shadow-lg border border-gray-200 "
           >
-            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
+            <div className="property-card bg-white rounded-[10px] w-full max-w[400px] ">
+            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden ">
               {property.images?.length > 1 ? (
                 <Slider {...settings}>
                   {property.images.map((photo, index) => (
@@ -100,7 +101,7 @@ const Cards = ({ properties, propertyAction }) => {
                   <img
                     src={property.images[0]}
                     alt={property.propertyType}
-                    className="w-full h-full object-cover"
+                    className="w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-full object-cover"
                   />
                   <PrevArrow onClick={() => {}} />
                   <NextArrow onClick={() => {}} />
@@ -144,7 +145,7 @@ const Cards = ({ properties, propertyAction }) => {
             </figure>
             <div className="card-content p-6">
               <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-[20px] font-semibold">
+                <h3 className="card-title text-[18px] font-medium">
                   <a href="#">
                     {property.bhk} BHK, {property.propertyType}, On Rent
                   </a>
@@ -267,6 +268,7 @@ const Cards = ({ properties, propertyAction }) => {
                   SHOW MORE
                 </button>
               </div>
+            </div>
             </div>
           </li>
         ))}
