@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import location from "../../assets/Map1.jpg";
 
 const GetInTouch = () => {
   const [formData, setFormData] = useState({
@@ -46,25 +47,32 @@ const GetInTouch = () => {
     }
   };
 
+  const googlemaps =
+    "https://www.google.com/maps/place/To-Let+Globe/@26.8465566,80.9797793,15z/data=!4m6!3m5!1s0x399bfd77577ba78f:0xd2d6f22d1b246815!8m2!3d26.8465566!4d80.9797793!16s%2Fg%2F11vhrqqb45?entry=ttu";
+
   return (
     <div className="relative w-full h-screen flex items-center justify-end">
-      {/* Full-screen map background */}
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.328314905671!2d80.97977931504363!3d26.846556583153824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfd77577ba78f%3A0xd2d6f22d1b246815!2sTo-Let%20Globe!5e0!3m2!1sen!2sin!4v1647425388883!5m2!1sen!2sin"
-        className="absolute top-0 left-0 w-full h-full insect-shadow-3xl bg-black"
-        style={{ border: 0, filter: "invert(100%) hue-rotate(180deg)", boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.5)", }}
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      ></iframe>
+      {/* Make the map image clickable */}
+      <a href={googlemaps} target="_blank" rel="noopener noreferrer">
+        <img
+          src={location}
+          alt="Background"
+          className="absolute top-0 left-0 w-full h-full object-cover"
+        />
+        {/* Add gradient overlay */}
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-black/90 to-transparent"></div>
+      </a>
 
       {/* Contact Form */}
-      <div className="relative z-10 p-10 lg:w-[380px] w-full text-white bg-black bg-opacity-90 shadow-2xl">
-        <p className="text-yellow-300 font-semibold text-4xl pb-5">GET IN TOUCH</p>
-        <p className="text-gray-300 pb-4">Have some questions? Feel free to ask them anytime.</p>
+      <div className="relative z-10 p-10 lg:w-[380px] w-full text-white">
+        <p className="text-yellow-300 font-semibold text-4xl pb-5">
+          GET IN TOUCH
+        </p>
+        <p className="text-gray-300 pb-4">
+          Have some questions? Feel free to ask them anytime.
+        </p>
 
         <form className="flex flex-col" onSubmit={handleSubmit}>
-          
           <input
             type="text"
             placeholder="Name"
@@ -113,6 +121,12 @@ const GetInTouch = () => {
             />
           )}
         </form>
+      </div>
+      <div
+        className="absolute bottom-32 left-10 p-4 text-white hidden lg:block"
+        style={{ fontSize: "80px" }}
+      >
+        CONTACT US
       </div>
     </div>
   );

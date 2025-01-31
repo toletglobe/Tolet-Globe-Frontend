@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaMagnifyingGlass } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 
 import "./listing.css";
 import hamburger from "../../assets/property/hamburger.png";
@@ -15,7 +15,6 @@ import { ClipLoader } from "react-spinners";
 import { useStateValue } from "../../StateProvider";
 import { BASE_URL } from "../../constant/constant";
 import axios from "axios";
-import FiltersBox from "./Filters";
 
 const Listing = () => {
   const { city } = useParams();
@@ -33,6 +32,8 @@ const Listing = () => {
   const [Location, setLocation] = useState(false);
   const location = useLocation();
   const propertiesPerPage = 9;
+  const [showSelectCity, setShowSelectCity] = useState(false);
+  // let selectedCity = false;
 
   const [{ compareProperty }, dispatch] = useStateValue();
 
@@ -43,9 +44,6 @@ const Listing = () => {
   const [selectedLocality, setSelectedLocality] = useState("");
   const [selectedArea, setSelectedArea] = useState([]);
   const [moreArea, setMoreArea] = useState(false);
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
   // const [selectedCity, setSelectedCity] = useState("");
 
   // Extract query string from the URL
@@ -67,36 +65,8 @@ const Listing = () => {
     houseType: [],
   });
 
-  // const [isOpenFilter, setIsOpenFilter] = useState(false);
-  // const filterRef = useRef(null);
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (filterRef.current && !filterRef.current.contains(event.target)) {
-  //       setIsOpenFilter(false);
-  //     }
-  //   };
-
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
-
-  // const handleOpenFilter = () => {
-  //   setIsOpenFilter((prev) => !prev); // Toggle filter box visibility
-  // };
-  const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const filterRef = useRef(null);
-
-  const handleOpenFilter = () => {
-    setIsOpenFilter((prev) => !prev); // Toggle filter box visibility
-  };
-
-  const handleCloseFilter = () => {
-    setIsOpenFilter(false); // Close filter modal
-  };
-
-  const cityLocalities = {
+  // To be Updated
+  const citylocalities = {
     // Respected Localities of Particular City
     Lucknow: [
       "Gomti Nagar",
@@ -116,162 +86,1517 @@ const Listing = () => {
     Vellore: ["vellore1", "vellore2"],
     Kota: ["kota1", "kota2"],
   };
-  const localityareas = {
-    // Respected Area of Particular Locality
-    "Gomti Nagar": [
-      "Vibhuti Khand",
-      "Viram Khand",
-      "Vijay Khand",
-      "Vikas Khand",
-      "Vipul Khand",
-      "Vardan Khand",
-      "Vinay Khand",
-      "Gomti Nagar Extension",
-      "Patrakarpuram",
-      "Faizabad Road (nearby)",
-    ],
-    Aliganj: [
-      "Sector A",
-      "Sector B",
-      "Sector C",
-      "Sector D",
-      "Sector E",
-      "Sector F",
-      "Purania",
-      "Kapoorthala",
-      "Tedhi Pulia",
-    ],
-    "Indira Nagar": [
-      "Sector 1",
-      "Sector 2",
-      "Sector 3",
-      "Sector 5",
-      "Sector 9",
-      "Sector 11",
-      "Sector 14",
-      "Sector 16",
-      "Sector 18",
-      "Sector 19",
-      "Munshipulia (nearby junction)",
-    ],
-    Hazratganj: [
-      "Ganj Market",
-      "Janpath Market",
-      "MG Marg (Mahatma Gandhi Marg)",
-      "GPO (General Post Office)",
-      "Hazratganj Crossing",
-      "Sikandar Bagh (nearby)",
-    ],
-    Aashiana: [
-      "Aashiana Phase 1",
-      "Aashiana Phase 2",
-      "Aashiana Phase 3",
-      "LDA Colony",
-      "Kanpur Road",
-      "Ruchi Khand",
-      "Ratan Khand",
-      "South City (adjacent)",
-    ],
-    Aminabad: [
-      "Gandhi Market",
-      "Pratap Market",
-      "Latouche Road",
-      "Aminabad Bazaar",
-      "Kesar Bagh",
-      "Hanuman Temple",
-    ],
-    Chowk: [
-      "Gol Darwaza",
-      "Nakhas Market",
-      "Tunday Kababi Lane",
-      "Akbari Gate",
-      "Kashmiri Mohalla",
-      "Chikan Market",
-    ],
-    Jankipuram: [
-      "Sector A",
-      "Sector B",
-      "Sector C",
-      "Jankipuram Extension",
-      "Kursi Road (nearby)",
-      "Engineering College Crossing",
-    ],
-    Rajajipuram: [
-      "Sector 1",
-      "Sector 2",
-      "Sector 3",
-      "Sector 4",
-      "Sector 6",
-      "Sector 7",
-      "C Block",
-      "G Block",
-      "H Block",
-    ],
-    Mahanagar: [
-      "Mahanagar Extension",
-      "Sector A",
-      "Sector B",
-      "Sector C",
-      "Sector D",
-      "Gol Market (within Mahanagar)",
-      "Nishatganj (adjacent)",
-    ],
-  };
 
-  const handleSearchChange = (searchTerm) => {
-    setSearchTerm(searchTerm);
-    handleLocalitySelect(searchTerm);
-    setShowSuggestions(true); // Show suggestions when searchTerm changes
-  };
+  const areas = [
+    "Aadarsh Nagar",
+    "Aashiana",
+    "Aashiyana",
+    "Aastha Nagar",
+    "Abhay Khand",
+    "Abhishek Puram",
+    "Abhshekpuram",
+    "Achalikhera",
+    "Adarsh Colony",
+    "Adarsh Nagar",
+    "Adarsh Vihar Colony",
+    "Adhar Khera",
+    "Adil Nagar",
+    "Aditi Pujan",
+    "Agra",
+    "Ahibaranpur",
+    "Ahimamau",
+    "Ahiran Khera",
+    "Ahiyapur",
+    "Ahmamau",
+    "Ahok Vihar Colony",
+    "Aishbagh",
+    "Ajadnagar",
+    "Ajay Nagar",
+    "Ajgain",
+    "Ajith Ganj Colony",
+    "Akash Enclave",
+    "Akbar Nagar",
+    "Akbari Gate",
+    "Akhilesh Yadav Road Area",
+    "Alam Bagh",
+    "Alam Nagar",
+    "Alambagh",
+    "Alamgir",
+    "Alamnagar",
+    "Alamnagar.",
+    "Alampur",
+    "Alia Colony",
+    "Aliganj",
+    "Aliganj Sector N",
+    "Aligarh",
+    "Alinagar Sonhara",
+    "Alinar Khurd",
+    "Allu Nagar Diguria",
+    "Allu Nagar Diguruia",
+    "Almas Bagh",
+    "Almasbagh",
+    "Aluwa",
+    "Alwar",
+    "Aman Vihar",
+    "Amar Shaheed Path",
+    "Amausi",
+    "Amausi Airport Locality",
+    "Ambedkar Nagar",
+    "Amber Ganj",
+    "Ameer Nagar",
+    "Amethi",
+    "Amina Hamza Bazaar",
+    "Aminabad",
+    "Amraigaon",
+    "Amrapali Market",
+    "Amrudhi Bagh",
+    "Anamika Enclave",
+    "Anand Nagar",
+    "Andhpur",
+    "Anora",
+    "Ansal Shaheed Path",
+    "Araipur",
+    "Arand",
+    "Aravali Marg",
+    "Arjun Ganj",
+    "Arjun Nagar",
+    "Arjun Vihar",
+    "Arjunganj",
+    "Arthik Azadi",
+    "Arya Nagar",
+    "Asharfabad",
+    "Asharfabad Extension",
+    "Ashiana",
+    "Ashiyana",
+    "Ashiyana Colony",
+    "Ashiyana Vistar",
+    "Ashok Vihar",
+    "Ashraf Nagar",
+    "Ashraf Vihar Colony",
+    "Ashutosh Nagar",
+    "Aslam Nagar",
+    "Asutosh Nagar",
+    "Ataria",
+    "Atifvihar",
+    "Atrauli",
+    "Atwat",
+    "Aurangabad Khalsa",
+    "Autrouli",
+    "Avadh Shilpgram",
+    "Avadh Vihar Colony",
+    "Avadh Vihar Yojna Phase 2",
+    "Avas Vikas Colony",
+    "Awadh Bus Station",
+    "Awadh Vihar Yojna",
+    "Awadhpuri Khand",
+    "Awho Colony",
+    "Ayodhya",
+    "Azad Guest House",
+    "Azad Nagar",
+    "Azadpur",
+    "Aziz Nagar",
+    "B Block",
+    "B-Block",
+    "Baba Haider Ali Colony",
+    "Babu Ganj",
+    "Babu Purva Colony",
+    "Babuganj",
+    "Babupurwa",
+    "Bachhrawan",
+    "Bada Bharwara",
+    "Bada Chauraha",
+    "Bada Gaon",
+    "Badan Khera",
+    "Badhamau",
+    "Badi Bakri",
+    "Badi Jugoli",
+    "Badruk",
+    "Badsha Ji Bagh",
+    "Badshah Nagar",
+    "Badshahnagar",
+    "Bagiamau",
+    "Bahadur Shah Colony",
+    "Bahadurpur",
+    "Bahar B",
+    "Baheriya",
+    "Bajrang Colony",
+    "Bajrang Vihar Colony",
+    "Bajrangbali Nagar",
+    "Bakhtiyar Nagar",
+    "Bakkas",
+    "Baksaria",
+    "Bakshi Ka Talab",
+    "Bal Singh Khera",
+    "Bal Vihar Extension",
+    "Balaganj",
+    "Balakganj",
+    "Balalganj",
+    "Balapur",
+    "Balda Colony",
+    "Balrampur",
+    "Balrampur Garden",
+    "Banarsi Tola",
+    "Bandariya Bag Railway Colony",
+    "Bandariya Bagh",
+    "Bandariya Bagh Railway Colony",
+    "Bangaon",
+    "Bangla Bazar",
+    "Banpurwa",
+    "Bans Mandi",
+    "Bansmandi",
+    "Banthra",
+    "Bara Bharwara",
+    "Bara Chandganj",
+    "Barabirwa",
+    "Baragaon",
+    "Baraula",
+    "Barauli Khalilabad",
+    "Barauna",
+    "Baraura Hussain Bari",
+    "Barawan Kalan",
+    "Barde Bagha",
+    "Barethi",
+    "Barha",
+    "Barhauli",
+    "Barhni Chafa",
+    "Bari Lal Kurti Bazar",
+    "Bari Lalkurti Bazzar",
+    "Bariya Pur",
+    "Baroliya",
+    "Baruwa",
+    "Bas Mandi",
+    "Basaha",
+    "Basant Kunj",
+    "Basant Vihar Colony",
+    "Basantpur",
+    "Basrehya",
+    "Bbd University Area",
+    "Begaumabad",
+    "Behri Mandi",
+    "Behsa",
+    "Behta",
+    "Behtajabi",
+    "Behtwa",
+    "Belagavi",
+    "Belava",
+    "Belwa",
+    "Beni Ganj",
+    "Bhaavya Kapur",
+    "Bhadoi",
+    "Bhadruk",
+    "Bhagwant Nagar",
+    "Bhagwantnagar",
+    "Bhaisora",
+    "Bhamraulli Shah Pur",
+    "Bhankur",
+    "Bharat Nagar",
+    "Bharavara",
+    "Bharawamau",
+    "Bharawan",
+    "Bharwara",
+    "Bhat Purwa",
+    "Bhatia Tower",
+    "Bhatkheri",
+    "Bhatpur",
+    "Bhavyapuram",
+    "Bheem Nagar",
+    "Bhera Mandi",
+    "Bheri Mandi",
+    "Bhitargaon",
+    "Bhitauli",
+    "Bhitauli Crossing",
+    "Bhitauli Khurd",
+    "Bhitoli Khurd",
+    "Bhogipura",
+    "Bhola Khera",
+    "Bhomu Khera",
+    "Bhoohar",
+    "Bhujasa",
+    "Bhusa Mandi",
+    "Bibiapur",
+    "Bibipur",
+    "Bichhiya",
+    "Bichhiya Railway Colony",
+    "Bighapur",
+    "Bijnaur",
+    "Bijnor",
+    "Bijnour",
+    "Bilahari",
+    "Birahu",
+    "Birua",
+    "Bkt (Bakshi Ka Talab)",
+    "Bliss Colony",
+    "Block A",
+    "Block B",
+    "Block C",
+    "Block F",
+    "Block I",
+    "Blunt Square",
+    "Borumau",
+    "Braham Nagar",
+    "Brahampuri Colony",
+    "Brahmapuri Colony",
+    "Buddha Colony",
+    "Budheshwar Colony",
+    "Buniyad Bagh",
+    "Buniyadbagh",
+    "Butler Colony",
+    "Canal Colony",
+    "Cantonment",
+    "Cantonment Area",
+    "Cash And Pay Colony",
+    "Cganga Vihar",
+    "Chaata Meel",
+    "Chachenda",
+    "Chak Bibipur",
+    "Chak Kajehra",
+    "Chak Kashirpuri",
+    "Chak Kjehra.",
+    "Chakdadanpur",
+    "Chakeri Ward",
+    "Chakganjagiri",
+    "Chakmirpur",
+    "Chakoli",
+    "Chamraoli",
+    "Chand Ganj",
+    "Chand Saray",
+    "Chanda Coder",
+    "Chander Nagar",
+    "Chandganj",
+    "Chandganj Garden",
+    "Chandiyamau",
+    "Chandoli",
+    "Chandpur",
+    "Chandpur Industrial Area",
+    "Chandpur Khanipur",
+    "Chandra Lok",
+    "Chandralok Colony",
+    "Chandraval",
+    "Chandrawal",
+    "Chandresh",
+    "Charan Bagh",
+    "Charbagh",
+    "Charkop",
+    "Chaupatiyan",
+    "Chauri",
+    "Chhata Meel",
+    "Chhatha Meel",
+    "Chhota Bhoolakheri",
+    "Chhoti Lal Kurti",
+    "Chikamberpur",
+    "Chillawan",
+    "Chiloki",
+    "Chinat",
+    "Chinhat",
+    "Chinnat",
+    "Chota Chandganj",
+    "Chota Imambara",
+    "Chowk",
+    "Churamanpur",
+    "Civil Lines",
+    "Community Center Khand 3",
+    "Csir Colony",
+    "D - Block",
+    "D Block",
+    "D-Block",
+    "D2 Block",
+    "Dabauli",
+    "Dahiya",
+    "Dahiyar",
+    "Dalibagh",
+    "Dalibagh Colony",
+    "Daliganj",
+    "Dandiya Bazar",
+    "Dasdoi",
+    "Dashauli",
+    "Daud Nagar",
+    "Daulatganj",
+    "Daulatpur",
+    "Daulatpur Grant",
+    "Dayal Bagh",
+    "Deen Dayal Nagar",
+    "Defence Colony",
+    "Dehwa",
+    "Deoghar",
+    "Deokaliya Baksi",
+    "Devamau",
+    "Devareya",
+    "Devariya",
+    "Devkali",
+    "Devpur",
+    "Dha Dha Khera",
+    "Dharmapur",
+    "Dhatingra",
+    "Dhawa",
+    "Dhikunni",
+    "Dhovaila",
+    "Digara",
+    "Diguria",
+    "Diguriya",
+    "Dihmehdi",
+    "Dilar Nagar",
+    "Dilshad Colony",
+    "Divya Nagar",
+    "Divya Nagar Vistar",
+    "Dlf Colony",
+    "Dlf Garden City",
+    "Dobhi",
+    "Dubagga",
+    "Dubbaga",
+    "Durgapuri",
+    "E Block",
+    "E-Block",
+    "Eco Garden",
+    "Ekata Nagar",
+    "Ekta Nagar",
+    "Eldeco Udyan",
+    "Eldeco Udyan Ii",
+    "Eldeco Udyani",
+    "Evershine Nagar",
+    "Faehganj",
+    "Faizabad",
+    "Faizabad .",
+    "Faizabad Locality",
+    "Faizabad Road",
+    "Faizullaganj",
+    "Faridipur",
+    "Fazal Ganj",
+    "Fazulla Ganj",
+    "Fazullaganj",
+    "Fazullahganj",
+    "Firozpur",
+    "Funtura Lucknow",
+    "Gaddhipurwa",
+    "Gadhewa",
+    "Gahalwara",
+    "Gahmar Kunj",
+    "Gahru",
+    "Gajpur Grint",
+    "Gandan Kera",
+    "Gandharvi",
+    "Ganesh Ganj",
+    "Ganesh Nagar",
+    "Ganeshganj",
+    "Ganeshpur",
+    "Ganga Vihar",
+    "Ganga Vihar Colony",
+    "Gangjor",
+    "Gangotri Vihar",
+    "Garhi Sajar Khan",
+    "Gaura",
+    "Gaurabagh",
+    "Gaurav Vihar Colony",
+    "Gauri Bazaar",
+    "Gauri Bazar",
+    "Gautam Palli",
+    "Gaya",
+    "Gayatri Nagar",
+    "Gayatri Vihar",
+    "Geeta Palli",
+    "Geeta Puri",
+    "Ghaila",
+    "Ghalia",
+    "Ghasyari Mandi",
+    "Ghausal Kalan",
+    "Ghuswal Kalan",
+    "Gindan Kera",
+    "Gindan Khera",
+    "Gindar Khera",
+    "Gobindpur",
+    "Goila",
+    "Gokhale Vihar",
+    "Gokulpur",
+    "Gol Market",
+    "Gola Ganj",
+    "Golaganj",
+    "Golf City",
+    "Golg City",
+    "Gomti Nagar",
+    "Gomti Nagar Extension",
+    "Gondwa",
+    "Gopal Nagar",
+    "Gopal Puri",
+    "Gopalpuri",
+    "Gopeshkhund",
+    "Gopeshkunj",
+    "Gopramau",
+    "Goraiya",
+    "Gorkha Rifles",
+    "Gosai Purwa",
+    "Gosaiganj",
+    "Gosainganj",
+    "Govind Nagar",
+    "Green Avenue Colony",
+    "Green City Colony",
+    "Green View Apartments",
+    "Green Woods Colony",
+    "Gudamba",
+    "Gudamba Thana",
+    "Gujaini",
+    "Gulab Vatika",
+    "Gulabrai",
+    "Gularai",
+    "Gulzar Colony",
+    "Gvalpur",
+    "Gwari Village",
+    "Gyanpur",
+    "H.A.L. Colony",
+    "H1 Block",
+    "H2 Block",
+    "Habibpur",
+    "Habibulla Nagar",
+    "Hahnemann Chauraha",
+    "Haibat Mau",
+    "Haiderganj",
+    "Haivatpur",
+    "Hajrat Ganj",
+    "Hal Colony",
+    "Hamidia",
+    "Hamidpur",
+    "Hans Khera",
+    "Hanumant Puram 2Nd",
+    "Haraipur",
+    "Hardoi .",
+    "Hardoi Road",
+    "Hari Nagar",
+    "Hari Om Nagar",
+    "Harihar Nagar",
+    "Hariharpur",
+    "Hariherpur",
+    "Harinagar",
+    "Hariom Nagar",
+    "Harsewakpur No. 2",
+    "Hasanganj",
+    "Hasangarden Colony",
+    "Hasanpur",
+    "Hathi Pur",
+    "Hathipur",
+    "Havelock Road Colony",
+    "Hayat Nagar",
+    "Hazaratpur",
+    "Hazrat Ganj",
+    "Hazratganj",
+    "Heera Lal Nagar",
+    "Hidu Khera",
+    "Himalayan City",
+    "Himmatpur",
+    "Hind Nagar",
+    "Hodson Lines",
+    "Hriday Kheda",
+    "Hulas Khera",
+    "Husainabad",
+    "Husainganj",
+    "Husariya",
+    "Huseria",
+    "Hussainganj",
+    "Ibrahimpur Manjhara",
+    "Iffco Bazar",
+    "Iim Road",
+    "Ilyasganj",
+    "Indira Nagar",
+    "Indira Nagari",
+    "Indiranagar B-Block Extension",
+    "Indra Nagar",
+    "Indraprastha Estate",
+    "Indrapuri Colony",
+    "Inhauna",
+    "Iradat Nagar",
+    "Ismail Nagar",
+    "Ismailganj",
+    "It Crossing",
+    "Itarora Pikhini",
+    "Itaunja",
+    "J Block",
+    "J-Block",
+    "Jafar Khera",
+    "Jafaria Colony",
+    "Jagasura",
+    "Jagdishpur",
+    "Jai Narayan Nagar",
+    "Jail Road",
+    "Jail Road Colony",
+    "Jajhanpur",
+    "Jalalpur",
+    "Jalayu Vihar",
+    "Jalvayu Vihar",
+    "Jamalpur Daduri",
+    "Janakipuram",
+    "Janki Nagar",
+    "Jankipuram",
+    "Jankipuram Extension",
+    "Jankipuram Garden",
+    "Jankipuram Phase 1",
+    "Jankipuram Phase 2",
+    "Jankipuram Vistar",
+    "Jawahar Nagar",
+    "Jehta",
+    "Jiamau",
+    "Jiamau Extension",
+    "Jogamau",
+    "Johari Mohalla",
+    "Juggaur",
+    "Jugor",
+    "Junab Ganj",
+    "K Block",
+    "K-Block",
+    "Kabir",
+    "Kabirppur",
+    "Kachhawa",
+    "Kailashpuri",
+    "Kaisarbagh",
+    "Kaiser Bagh",
+    "Kaiserbagh",
+    "Kaiserganj",
+    "Kajiapur",
+    "Kakadev",
+    "Kakoli",
+    "Kakori",
+    "Kakrabad",
+    "Kala Kankar Colony",
+    "Kaliya Khera",
+    "Kalli Paschim",
+    "Kalli Pashchim",
+    "Kalli Poorab",
+    "Kalpi Road",
+    "Kalyan Pur",
+    "Kalyanpur",
+    "Kalyanpur East",
+    "Kalyanpur West",
+    "Kalyanpur(East)",
+    "Kamalabad Barhauli",
+    "Kamayani Nagar",
+    "Kamla Nehru Nagar",
+    "Kamlabad",
+    "Kamta",
+    "Kamta Chauraha",
+    "Kamta Manas Garden Colony",
+    "Kanak City",
+    "Kanausi",
+    "Kanc",
+    "Kanchan Vihar Colony",
+    "Kanchanpur",
+    "Kankaha",
+    "Kanpur",
+    "Kanpur Road",
+    "Kanpur Road Sector C",
+    "Kanpur Road Sector H",
+    "Kanpurroad",
+    "Kanshiram Colony",
+    "Kapera Madarpur.",
+    "Kapoorthala",
+    "Kapoorthla",
+    "Karaundi",
+    "Karbigawan Salempur",
+    "Karbigawansadh",
+    "Karbigwan",
+    "Karim Ganj",
+    "Karimabad",
+    "Karowa",
+    "Kasimpur Patri",
+    "Kasons Lane",
+    "Katari Tola",
+    "Kathar",
+    "Katibagiya",
+    "Katra Bazar",
+    "Katra Bizan Beg",
+    "Katra Bizanbeg",
+    "Katra Nagram",
+    "Kendriya Vidyalya-2",
+    "Kesa Colony",
+    "Kesar Bagh",
+    "Kesarbagh",
+    "Kesari Nagar",
+    "Keshav Nagar",
+    "Khadra",
+    "Khadra Lane",
+    "Khaga",
+    "Khajuha",
+    "Khand 2",
+    "Khand-2",
+    "Khandedev",
+    "Khandra",
+    "Khanpur",
+    "Khargapur",
+    "Khargapur Jagir",
+    "Khasarbara",
+    "Khataiya",
+    "Khatkeyana",
+    "Khatwara",
+    "Khayaliganj",
+    "Khazoor Gaon",
+    "Khurram Nagar",
+    "Khurrampur",
+    "Khushal Ganj",
+    "Kiora Lucknow",
+    "Kisan Path",
+    "Kishan Bagh",
+    "Kishunpur Kodia",
+    "Kochha Bhanwar",
+    "Kodararaypur",
+    "Kolhapur",
+    "Kondri Bholi",
+    "Koriyani",
+    "Koyla Nagar",
+    "Krishna Nagar",
+    "Krishna Nagar Colony",
+    "Krishna Vihar",
+    "Krishna Vihar Colony",
+    "Krishnapuri Colony",
+    "Kucha Tiwari",
+    "Kuchi Khand",
+    "Kudrat Vihar Colony",
+    "Kuithar",
+    "Kukri",
+    "Kukura",
+    "Kuriyani",
+    "Kursi Nagar",
+    "Kushbhita",
+    "Kusumbhi",
+    "Kutubpur",
+    "Lajpat Nagar",
+    "Lakhana Khera",
+    "Lal Bagh",
+    "Lal Kuan",
+    "Lala Ka Purwa",
+    "Lalbagh",
+    "Lalkhera",
+    "Lalkuan",
+    "Laulai",
+    "Lauly",
+    "Launga Khera Kharika",
+    "Laxmanpuri",
+    "Laxmi Bai Marg",
+    "Laxmi Nagar",
+    "Laxmi Upwan",
+    "Lda Colony",
+    "Lda Sector 12",
+    "Lda Sector 8",
+    "Lehertara Industrial Estate",
+    "Lilauli",
+    "Lohta Bazar",
+    "Lolai",
+    "Lonha",
+    "Lotus Panache",
+    "Maanak Nagar",
+    "Madhapur",
+    "Madhawa Jalalpur",
+    "Madhuban Colony",
+    "Madhuban Nagar",
+    "Madipur",
+    "Maditaon",
+    "Madiyanva",
+    "Madiyaon",
+    "Mahadevapuram Colony",
+    "Mahak Nagar",
+    "Mahanagar",
+    "Mahanagar Colony",
+    "Mahanagar Extension",
+    "Maharaja Puram",
+    "Maharia",
+    "Maharshi Nagar",
+    "Mahatva",
+    "Mahavir Nagar",
+    "Mahipatmau",
+    "Mahmoodpur",
+    "Mahtava",
+    "Maityari",
+    "Majhgaon",
+    "Makanpur Colony",
+    "Makhdoompur",
+    "Makkaganj",
+    "Malesemau",
+    "Malhaur",
+    "Malhour",
+    "Malhour Station Area",
+    "Malihabad",
+    "Mall Avenue",
+    "Mallpur",
+    "Malsemau",
+    "Malwa",
+    "Malwan",
+    "Manak Nagar",
+    "Manas Nagar",
+    "Manas Vihar",
+    "Mandiyanva",
+    "Mangal Pandey Marg",
+    "Mangalwara",
+    "Manjhauli",
+    "Mannapur",
+    "Manrauli",
+    "Mansarovar Colony",
+    "Mansarovar Yojana",
+    "Manwa Khera",
+    "Marble Market",
+    "Martin Purva",
+    "Maruti Puram",
+    "Mastemau",
+    "Mati Parvar Paschim",
+    "Matiyari",
+    "Matiyari Chauraha",
+    "Mauaima",
+    "Maukhera",
+    "Maulviganj",
+    "Maumiyan",
+    "Maura",
+    "Mausam Bagh",
+    "Mawaiya",
+    "Mawaiyya",
+    "Mawaya",
+    "Mayur Vihar",
+    "Medhi Ganj",
+    "Meenapur",
+    "Meerut",
+    "Mehboobganj",
+    "Mehdauli",
+    "Mehdiganj",
+    "Mehendiganj",
+    "Mehndi Tola",
+    "Mehndia",
+    "Mehndiganj",
+    "Mehora",
+    "Mendauli",
+    "Mg Colony",
+    "Millat Nagar",
+    "Mini Stadium Area",
+    "Mirai",
+    "Mirza Ganj",
+    "Mirzapur",
+    "Misripur",
+    "Miyaganj",
+    "Model Town Colony",
+    "Mohal Ganj",
+    "Mohammadpur Majra",
+    "Mohan",
+    "Mohan Ganj",
+    "Mohan Nagar",
+    "Mohanlal Ganj",
+    "Mohanlalganj",
+    "Mohanlalgar",
+    "Mohibulla Pur",
+    "Mohibullapur",
+    "Moolchand",
+    "Moosabagh",
+    "Moti Bagh",
+    "Moti Jheel Colony",
+    "Moti Nagar",
+    "Mubarakpur",
+    "Mufti Ganj",
+    "Mufti Gunj",
+    "Muftiganj",
+    "Muhiuddinpur",
+    "Mukaim Nagar",
+    "Mulayam Nagar",
+    "Munnu Khera",
+    "Munshi Pulia",
+    "Munshipuliya",
+    "Murg Khana",
+    "Musahib Ganj",
+    "Musahibganj",
+    "Muslim Nagar",
+    "Mutkipur",
+    "Mutkkipur",
+    "Nadarganj",
+    "Nagram",
+    "Nai Basti",
+    "Naibasti",
+    "Najirabad",
+    "Naka Hindola",
+    "Nakhas",
+    "Nakkhas",
+    "Nanda Nagar",
+    "Nandan Kanan",
+    "Nanded",
+    "Narayan Colony",
+    "Narayan Nagar",
+    "Narayan Puri",
+    "Narayanpuri",
+    "Narharpur",
+    "Narhi",
+    "Narpat Khera",
+    "Narpatkhera",
+    "Narwal",
+    "Naseem Badh",
+    "Nashik",
+    "Natkur",
+    "Nau Gawn",
+    "Naubasta",
+    "Naubasta Kala",
+    "Nauigawan Gautam",
+    "Nauraiya Khera",
+    "Navinagar",
+    "Nawab Ganj",
+    "Nawal Kishore",
+    "Naya Ganj",
+    "Naya Gaon",
+    "Naya Gaon East",
+    "Naya Haidarabad",
+    "Naya Khara",
+    "Naya Khera",
+    "Naya Purwa",
+    "Nayaganj",
+    "Nayagoan",
+    "Nayapurwa",
+    "Neelam Vihar Society",
+    "Neelkanth Park",
+    "Nehru Enclave",
+    "Nehru Nagar",
+    "Nehru Nagar A",
+    "Neil Lines",
+    "Ner Loco Colony",
+    "New Azad Nagar",
+    "New Colony",
+    "New Defence Colony",
+    "New Friends Colony",
+    "New Ganeshganj",
+    "New Haidar Ganj",
+    "New Jail Road Area",
+    "New Mahakali Nagar",
+    "New Mehdauri",
+    "New Najaf Rustam Nagar",
+    "New Para Colony",
+    "New Rahim Nagar",
+    "Newazganj",
+    "Nijampur",
+    "Nijampur Majhigaon",
+    "Nilmantha Cant",
+    "Nilmatha",
+    "Nilmatha Cantt",
+    "Nindoora",
+    "Nirala Nagar",
+    "Nishat Ganj",
+    "Nishatganj",
+    "Niyazganj",
+    "Nizampur East",
+    "Noorpur Behata",
+    "Nowgong",
+    "Nweazganj",
+    "Nyay Vihar Colony",
+    "Nyaya Vihar Colony",
+    "Officers Colony",
+    "Om Nagar",
+    "Om Nagar Rajajipuram",
+    "Omaxe City",
+    "Orhar",
+    "P & T Quarters",
+    "P And T Colony",
+    "Pac Mod",
+    "Paharpur",
+    "Pahiaajampur",
+    "Paikaramau",
+    "Pakri",
+    "Palenhada",
+    "Palhri",
+    "Pambhipur",
+    "Pampapur Ghusval",
+    "Pampapurghusval",
+    "Panchvati Colony",
+    "Pandey Ka Talab Colony",
+    "Pani Gaon",
+    "Panki Padaw",
+    "Paper Mill Colony",
+    "Papnamau",
+    "Parakamal",
+    "Paramhans Nagar",
+    "Parsa",
+    "Parsadi Khera Lucknow",
+    "Parvar Poorab",
+    "Pashchim Kshetra",
+    "Patan",
+    "Patel Nagar",
+    "Pathak Pur",
+    "Patna",
+    "Patrakar Puram",
+    "Patrakarpuram Colony",
+    "Pawanpuri",
+    "Pgi",
+    "Phase 2",
+    "Phase-2",
+    "Phool Bagh",
+    "Phoolbagh",
+    "Pic Up Colopny",
+    "Pichhor",
+    "Piparsand",
+    "Pirthi Nagar",
+    "Pocket 9",
+    "Pokhra Kalan",
+    "Prabhat Nagar",
+    "Prabhat Puram",
+    "Pragati Kunj",
+    "Prasad Nagar Colony",
+    "Preeti Nagar",
+    "Prem Nagar",
+    "Prem Nagar Colony",
+    "Prembagh",
+    "Priyadarshini Colony",
+    "Punjabi Tola",
+    "Puraina",
+    "Purana Qila",
+    "Purana Quilla",
+    "Purana Topkhana",
+    "Purani Chungi",
+    "Purania",
+    "Purseni",
+    "Purwa",
+    "Pusgawan",
+    "Pyare Pur",
+    "Qaisarbagh",
+    "Qaiser Bagh",
+    "Qazi Ganj",
+    "Rabindra Palli Colony",
+    "Raebareli",
+    "Raebareli Road",
+    "Raghunath Nagar",
+    "Raheem Nagar",
+    "Rahim Nagar",
+    "Rahimabad",
+    "Rahimbadh",
+    "Rahimnagar Padhiyana",
+    "Rahmanpur",
+    "Rahmapur",
+    "Rail Nagar",
+    "Rail Vihar Colony",
+    "Railway Colony",
+    "Raipur",
+    "Raipur Phulwari",
+    "Raipur Raja",
+    "Rais Manjil",
+    "Raitha",
+    "Raj Bhawan Colony",
+    "Raj Parapur",
+    "Rajaji Puram",
+    "Rajajipuram",
+    "Rajapur Garheva",
+    "Rajat Khand",
+    "Rajeev Nagar",
+    "Rajendra Nagar",
+    "Rajendranagar",
+    "Rajepur",
+    "Rajiv Nagar",
+    "Rajkot",
+    "Rajkumar",
+    "Rajni Khand",
+    "Rakabganj",
+    "Ram Nagar",
+    "Ram Nagar Colony",
+    "Ram Tej Swarup Singh",
+    "Rambhan Khera",
+    "Ramganj",
+    "Ramgarh Urf Rajhi",
+    "Ramjan Nagar",
+    "Ramnagar",
+    "Ramprasadkhera",
+    "Rampur",
+    "Rampuri",
+    "Ran Swaad",
+    "Rani Laxmi Bai Park Area",
+    "Rania",
+    "Raniya Mau",
+    "Raqba",
+    "Rashmi Khand",
+    "Rasoolpur Iduria",
+    "Rasoolpur Kasaytha",
+    "Rasoolpur Sadat",
+    "Rastogi Nagar",
+    "Rasulabad",
+    "Ratan Khand",
+    "Ratan Khand-Ii",
+    "Ratanpur",
+    "Ratapur",
+    "Rathindra Nagar",
+    "Ravindrapalli",
+    "Raya Bazar",
+    "Rayabazar",
+    "Rebha",
+    "Rehmatnagar",
+    "Rishi Nagar",
+    "Rishita Manhattan",
+    "River Bank Colony",
+    "Robert Lines",
+    "Roberts Lines",
+    "Rooma",
+    "Royal Nagar",
+    "Ruchi Khand",
+    "Ruchi Khand 2",
+    "Ruchi Khand-Ii",
+    "Rupkheda",
+    "Saadatganj",
+    "Saadatganj Baraura Hussain Bari",
+    "Sabji Mandi",
+    "Sabrahad",
+    "Sachivalay Colony",
+    "Sadar Bazaar",
+    "Sadar Bazar",
+    "Sadarpur Karora",
+    "Saddatganj",
+    "Sadhiya",
+    "Sadhupur",
+    "Sadrauna",
+    "Sahabad Grant",
+    "Sahara City",
+    "Sahara Estates",
+    "Sahara States",
+    "Sahinoor Colony",
+    "Sahiyapur",
+    "Sahzadpur",
+    "Sai City",
+    "Sai Mandir Road",
+    "Saidapur",
+    "Saidpur Jagir",
+    "Sainik Nagar",
+    "Saitha",
+    "Sajjadbagh Colony",
+    "Sajjadbahg Colony",
+    "Saleh Nagar",
+    "Samar Vihar Colony",
+    "Samesee",
+    "Sandhi Tola",
+    "Sangam Vihar",
+    "Sangam Vihar Colony",
+    "Sanjay Gandhi Puram",
+    "Sanjay Nagar",
+    "Sanjaygandhi Puram",
+    "Sanskriti Enclave",
+    "Sapru",
+    "Sarafa Bazar",
+    "Sarai Gopal",
+    "Sarai Gopi",
+    "Sarai Hawa Khawah",
+    "Sarai Khawaja",
+    "Sarai Madho",
+    "Sarai Mali Khera",
+    "Sarai Sahjadi",
+    "Sarai Sekh",
+    "Sarai Shekh",
+    "Sarai Teli",
+    "Sarainkalu",
+    "Saraipasi",
+    "Saraishekh",
+    "Saraiya",
+    "Saraswati Nagar",
+    "Saraswati Puram",
+    "Saray Karora",
+    "Sarfarazganj",
+    "Sari Pura",
+    "Sarojini Nagar",
+    "Sarora",
+    "Sarosa Bharosa",
+    "Sarsanda",
+    "Sarsawa",
+    "Sarsawan",
+    "Sarson",
+    "Sarswan",
+    "Sarvoday Nagar",
+    "Sarvodaya Nagar",
+    "Satetipatti Gaja",
+    "Satrikh",
+    "Satrikh Road",
+    "Schumacher Colony",
+    "Sec Tor 18",
+    "Sector - F",
+    "Sector 1",
+    "Sector 10",
+    "Sector 11",
+    "Sector 12",
+    "Sector 13",
+    "Sector 14",
+    "Sector 16",
+    "Sector 18",
+    "Sector 18, Indira Nagar",
+    "Sector 19",
+    "Sector 2",
+    "Sector 20",
+    "Sector 22",
+    "Sector 3",
+    "Sector 4",
+    "Sector 5",
+    "Sector 6",
+    "Sector 6 A",
+    "Sector 6C",
+    "Sector 7",
+    "Sector 7 A",
+    "Sector 7A",
+    "Sector 8",
+    "Sector 82",
+    "Sector 9",
+    "Sector 9 B",
+    "Sector 93",
+    "Sector 9B",
+    "Sector A",
+    "Sector B",
+    "Sector B Ansal Api",
+    "Sector C",
+    "Sector D",
+    "Sector D1",
+    "Sector E",
+    "Sector F",
+    "Sector F Extension",
+    "Sector G",
+    "Sector H",
+    "Sector K",
+    "Sector M",
+    "Sector M, Jankipuram",
+    "Sector M1",
+    "Sector N",
+    "Sector N1",
+    "Sector P",
+    "Sector Q",
+    "Sector-1",
+    "Sector-12",
+    "Sector-7",
+    "Sector-B",
+    "Sekhana Pur",
+    "Semra",
+    "Semra Gauri",
+    "Senani Vihar",
+    "Shagun City",
+    "Shaheed Nagar",
+    "Shaheed Path",
+    "Shaheed Path Localities",
+    "Shahganj",
+    "Shahinoor Colony",
+    "Shahmau",
+    "Shahmina",
+    "Shahmina Road",
+    "Shahpur",
+    "Shaidham Colony",
+    "Shakti Nagar",
+    "Shalimar Garden Main B-Block",
+    "Shalimar Square",
+    "Shankar Khera",
+    "Shankar Puri",
+    "Shankar Vihar Colony",
+    "Shanker Khera",
+    "Shanker Vihar",
+    "Shanti Nagar",
+    "Sharakpur",
+    "Sharda Colony",
+    "Sharda Nagar",
+    "Shaurya Vihar Colony",
+    "Sheikhpur",
+    "Sheikhpur Kasaila",
+    "Shekhpur",
+    "Shekhpura",
+    "Shekhupura",
+    "Sherwani Nagar",
+    "Shia Lines",
+    "Shishupur",
+    "Shiv Puri Colony",
+    "Shivaji Puram",
+    "Shivajipuram",
+    "Shivani Vihar",
+    "Shivari",
+    "Shivgarh",
+    "Shivlok",
+    "Shivpuram Colony",
+    "Shyam Enclave",
+    "Shyam Nagar",
+    "Shyam Nagar West",
+    "Shyam Vihar",
+    "Shyam Vihar Colony",
+    "Sibt Ganj",
+    "Siddhartha Nagar",
+    "Sikandar Bagh",
+    "Sikander Khurd",
+    "Sikander Pur",
+    "Sikandrur Karan",
+    "Sikar",
+    "Sikrauri",
+    "Siliguri",
+    "Simardha",
+    "Sindhu Nagar",
+    "Sindhunagar",
+    "Singar Nagar",
+    "Singrawan",
+    "Sisandi",
+    "Sita Vihar Colony",
+    "Sitapur Bypass",
+    "Sitapur Locality",
+    "Sitapur Road",
+    "Site No.1",
+    "Smriti Vihar",
+    "Somnath Dwar",
+    "Sondhi Tola",
+    "Sonu Gupta",
+    "South City",
+    "Staff Colony",
+    "Subhash Nagar",
+    "Subhauli",
+    "Suirish",
+    "Sujanpura",
+    "Sujanpura Crossing",
+    "Sujatganj",
+    "Sulsa Mau",
+    "Sultanpur",
+    "Sultanpur .",
+    "Sultanpur Road",
+    "Sun City Colony",
+    "Sunder Nagar",
+    "Sunrise Apartments",
+    "Suraksha Enclave",
+    "Surender Nagar",
+    "Surya Nagar",
+    "Sushanpura",
+    "Sushant Golf City",
+    "Swapnalok Colony",
+    "Swapnlok Colony",
+    "Swarnim Vihar",
+    "Swastik Granite",
+    "Tadikhana",
+    "Tadkeshwar",
+    "Tahseen Ganj",
+    "Tajganj",
+    "Takrohi",
+    "Talkatora",
+    "Tamoriya",
+    "Tarabganj",
+    "Targaon",
+    "Tarhia",
+    "Taura",
+    "Tedhi Pulia",
+    "Tedhipuliya Crossing",
+    "Tehri Puliya",
+    "Tejipur",
+    "Telibagh",
+    "Telibagh Extension",
+    "Tera Khas",
+    "Thakur Gunj",
+    "Thakurganj",
+    "Thakurganj.",
+    "Tharepah",
+    "Thasemau",
+    "The Mall Avenue",
+    "Tikait Rai Talab",
+    "Tikaitganj",
+    "Tikapur",
+    "Tikari Khurd",
+    "Tikariya",
+    "Tikri",
+    "Tindola",
+    "Tiwari Bagh",
+    "Tiwariganj",
+    "Tiwaripur",
+    "Tiwaripura",
+    "Transport Nagar",
+    "Trilokpur",
+    "Trimurti Nagar",
+    "Tripathi Nagar",
+    "Triveni Nagar",
+    "Tulsi Das Khera",
+    "Tulsidas Ghat",
+    "Turaiganj",
+    "Turi Raja Sahib",
+    "Turichhabnath",
+    "Tusail",
+    "Type 2 Pwd Colony",
+    "Type Iii Pwd Colony",
+    "Uattardhona",
+    "Udaiganj",
+    "Udayganj",
+    "Udyan",
+    "Udyan-Ii Colony",
+    "Ujariyaon",
+    "Umambhari",
+    "Umar Bhari",
+    "Umarbhari",
+    "Unity City Colony",
+    "Usman Pur",
+    "Vadodara",
+    "Vardaan Khand",
+    "Vardan Khand",
+    "Vasai-Virar",
+    "Vasant Khand",
+    "Vasant Kunj",
+    "Vasant Vihar",
+    "Vastu Khand",
+    "Veer Bahadur Puram",
+    "Vibhav Khand",
+    "Vibhuti Khand",
+    "Vidya Nagar",
+    "Vigyan Khand",
+    "Vijaipur Colony",
+    "Vijay Khand",
+    "Vijay Nagar",
+    "Vijayant Khand",
+    "Vijyant Khand",
+    "Vikalp Khand",
+    "Vikas Khand",
+    "Vikas Nagar",
+    "Vikas Vihar Colony",
+    "Vikram Nagar",
+    "Vikram Shila Colony",
+    "Vikramshila Colony",
+    "Vikrant Khand",
+    "Vinamra Khand",
+    "Vinay Khand",
+    "Vinay Khand-3",
+    "Vinay Khand-4",
+    "Vinay Nagar",
+    "Vineet Khand",
+    "Vinnet Khand",
+    "Vinnet Khand 1",
+    "Vipul Khand",
+    "Vipul Khand-2",
+    "Viraj Khand",
+    "Viraj Khand-1",
+    "Viram Khand",
+    "Viram Khand 1",
+    "Viram Khand 5",
+    "Viram Khand-1",
+    "Virat Khand",
+    "Virat Khand 2",
+    "Virat Nagar",
+    "Vishal Khand",
+    "Vishal Khand 3",
+    "Vishal Khand Extension",
+    "Vishesh Khand",
+    "Vishesh Khand-4",
+    "Vishnulok Colony",
+    "Vishwas Khand",
+    "Visnhu Lok Colony",
+    "Viunamra Khand",
+    "Vivek Khand",
+    "Vivek Khand-2",
+    "Vivek Khand-3",
+    "Vivekanand Puri",
+    "Vivekananda Colony",
+    "Vrindavan Colony",
+    "Vrindavan Yojna",
+    "Vrindavan Yojna - 2",
+    "Vrindavan Yojna-2",
+    "W Block",
+    "Wazirbagh Mohallah",
+    "Y Block",
+    "Yahiyaganj",
+    "Yamunapuram Colony",
+    "Yaseen Ganj",
+    "Yusuf Nagar",
+    "Zehra Colony",
+  ];
 
-  const handleLocalitySelect = (locality) => {
-    // handle locality selection logic here
-    setSearchTerm(locality); // Set input value to selected locality
+  // const localityareas = {
+  //   // Respected Area of Particular Locality
+  //   "Gomti Nagar": [
+  //     "Vibhuti Khand",
+  //     "Viram Khand",
+  //     "Vijay Khand",
+  //     "Vikas Khand",
+  //     "Vipul Khand",
+  //     "Vardan Khand",
+  //     "Vinay Khand",
+  //     "Gomti Nagar Extension",
+  //     "Patrakarpuram",
+  //     "Faizabad Road (nearby)",
+  //   ],
+  //   Aliganj: [
+  //     "Sector A",
+  //     "Sector B",
+  //     "Sector C",
+  //     "Sector D",
+  //     "Sector E",
+  //     "Sector F",
+  //     "Purania",
+  //     "Kapoorthala",
+  //     "Tedhi Pulia",
+  //   ],
+  //   "Indira Nagar": [
+  //     "Sector 1",
+  //     "Sector 2",
+  //     "Sector 3",
+  //     "Sector 5",
+  //     "Sector 9",
+  //     "Sector 11",
+  //     "Sector 14",
+  //     "Sector 16",
+  //     "Sector 18",
+  //     "Sector 19",
+  //     "Munshipulia (nearby junction)",
+  //   ],
+  //   Hazratganj: [
+  //     "Ganj Market",
+  //     "Janpath Market",
+  //     "MG Marg (Mahatma Gandhi Marg)",
+  //     "GPO (General Post Office)",
+  //     "Hazratganj Crossing",
+  //     "Sikandar Bagh (nearby)",
+  //   ],
+  //   Aashiana: [
+  //     "Aashiana Phase 1",
+  //     "Aashiana Phase 2",
+  //     "Aashiana Phase 3",
+  //     "LDA Colony",
+  //     "Kanpur Road",
+  //     "Ruchi Khand",
+  //     "Ratan Khand",
+  //     "South City (adjacent)",
+  //   ],
+  //   Aminabad: [
+  //     "Gandhi Market",
+  //     "Pratap Market",
+  //     "Latouche Road",
+  //     "Aminabad Bazaar",
+  //     "Kesar Bagh",
+  //     "Hanuman Temple",
+  //   ],
+  //   Chowk: [
+  //     "Gol Darwaza",
+  //     "Nakhas Market",
+  //     "Tunday Kababi Lane",
+  //     "Akbari Gate",
+  //     "Kashmiri Mohalla",
+  //     "Chikan Market",
+  //   ],
+  //   Jankipuram: [
+  //     "Sector A",
+  //     "Sector B",
+  //     "Sector C",
+  //     "Jankipuram Extension",
+  //     "Kursi Road (nearby)",
+  //     "Engineering College Crossing",
+  //   ],
+  //   Rajajipuram: [
+  //     "Sector 1",
+  //     "Sector 2",
+  //     "Sector 3",
+  //     "Sector 4",
+  //     "Sector 6",
+  //     "Sector 7",
+  //     "C Block",
+  //     "G Block",
+  //     "H Block",
+  //   ],
+  //   Mahanagar: [
+  //     "Mahanagar Extension",
+  //     "Sector A",
+  //     "Sector B",
+  //     "Sector C",
+  //     "Sector D",
+  //     "Gol Market (within Mahanagar)",
+  //     "Nishatganj (adjacent)",
+  //   ],
+  // };
 
-    setShowSuggestions(false);
-  };
+  // Add this new state for search
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // const filteredLocalities = cityLocalities[city]
-  //   ? cityLocalities[city].filter((locality) =>
-  //       locality.toLowerCase().startsWith(searchTerm.toLowerCase())
-  //     )
-  //   : [];
-  const filteredLocalities = searchTerm
-    ? cityLocalities[city]
-      ? cityLocalities[city]
-          .filter((locality) =>
-            locality.toLowerCase().startsWith(searchTerm.toLowerCase())
-          )
-          .map((locality) => ({
-            name: locality,
-            type: "location", // Mark as a location
-          }))
-      : []
-    : [];
+  // Add new state for search results
+  const [searchResults, setSearchResults] = useState({
+    localities: [],
+    areas: [],
+  });
+  const [showSearchPanel, setShowSearchPanel] = useState(false);
 
-  // Filtering areas under each locality
-  const filteredAreas = searchTerm
-    ? Object.entries(localityareas).reduce((areas, [locality, areaList]) => {
-        if (locality.toLowerCase().startsWith(searchTerm.toLowerCase())) {
-          // If locality matches the search term, include areas under that locality
-          return [
-            ...areas,
-            ...areaList
-              .filter((area) =>
-                area.toLowerCase().startsWith(searchTerm.toLowerCase())
-              )
-              .map((area) => ({
-                name: area,
-                type: "area", // Mark as an area
-              })),
-          ];
-        }
-        return areas;
-      }, [])
-    : [];
+  // Add this state for tracking window width
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // Combine filtered localities and areas
-  const filteredResults = [...filteredLocalities, ...filteredAreas];
+  // Add useEffect to handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   function refresh() {
     window.location.reload(false);
@@ -285,6 +1610,7 @@ const Listing = () => {
   }
   function handleLocation() {
     setLocation(!Location);
+    setShowSelectCity(!showSelectCity);
   }
   const { slug } = useParams();
   function handleMode() {
@@ -449,6 +1775,51 @@ const Listing = () => {
     navigate(`?${queryParams.toString()}`); // Update URL with new sort query
   };
 
+  const handleLocalitySelect = (locality) => {
+    setSelectedLocality(locality); // Update selected locality
+    // console.log(locality);
+  };
+
+  // Add this function to handle search
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    if (query.length === 0) {
+      setShowSearchPanel(false);
+      return;
+    }
+
+    // Filter localities based on selected city
+    const matchingLocalities = city
+      ? citylocalities[city].filter((locality) =>
+          locality.toLowerCase().includes(query)
+        )
+      : [];
+
+    // Filter areas
+    const matchingAreas = areas.filter((area) =>
+      area.toLowerCase().includes(query)
+    );
+
+    setSearchResults({
+      localities: matchingLocalities,
+      areas: matchingAreas,
+    });
+    setShowSearchPanel(true);
+  };
+
+  // Add new function to handle selection
+  const handleSearchSelection = (value, type) => {
+    if (type === "locality") {
+      handleLocalitySelect(value);
+    } else {
+      addLocality(value);
+    }
+    setSearchQuery("");
+    setShowSearchPanel(false);
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -493,22 +1864,179 @@ const Listing = () => {
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-3 flex flex-col gap-8 py-6 sticky top-0 z-20 bg-black">
+        <div className="px-3 flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
             <p className="lg:text-[45px] md:text-4xl text-2xl text-[#C8A21C] font-bold">
-              {/* Property Listing */}
+              Property Listing
             </p>
             <img
               src={hamburger}
               alt="Hamburger Menu"
-              className="cursor-pointer lg:w-12 md:w-11 w-9 h-auto"
+              className=" lg:w-12 md:w-11 w-9 h-auto"
             />
           </div>
-          <div className="flex justify-between gap-14 w-full flex-wrap rounded">
-            <div className="flex items-center justify-between  flex-col md:flex-row lg:flex-row">
-              <div className="bg-white w-[739px] h-[65px] top-[151px] left-[52px] flex items-center justify-between text-black px-4 rounded-xl">
-                {/* <div className="flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-r-2 h-3/4 border-black">
-                  <p className="text-black">Sort</p>
+          <div className="flex justify-between gap-4 w-full flex-wrap">
+            <div className="flex items-center justify-between gap-20 md:gap-36 lg:gap-36 flex-col md:flex-row lg:flex-row">
+              <div className="bg-white h-16 w-[40vw] md:w-[74vw] lg:w-[50vw] flex items-center justify-between text-black px-2 rounded-xl">
+                {/* Location Logic */}
+                <div className="flex items-center justify-center gap-4 pl-2 border-r">
+                  <div className="text-md py-1 px-1 hover:cursor-pointer whitespace-nowrap">
+                    <p>{!city || Location ? "Select Your City" : city}</p>
+                  </div>
+                  <div className="h-full flex items-center justify-center w-1/4 cursor-pointer rounded-full">
+                    <img
+                      src={drop}
+                      alt="Dropdown"
+                      onClick={handleLocation}
+                      className="cursor-pointer"
+                    />
+                  </div>
+
+                  {/* <div
+                    className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
+                      }`}
+                  >
+                    <div>
+                      <img
+                        src={cross}
+                        alt="Close"
+                        onClick={()=>{handleLocation(); refresh();}}
+                        className="cursor-pointer"
+                      />
+                    </div>
+                    <SelectLocation />
+                  </div> */}
+                  <SelectLocation
+                    Location={Location}
+                    setLocation={setLocation}
+                    onLocationSelect={(selectedCity) => {
+                      resetFilters();
+                      navigate(`/property-listing/${selectedCity}`);
+                      setLocation(false);
+                    }}
+                  />
+                </div>
+
+                {/* Search Input */}
+                <div className="flex items-center gap-2 px-4 relative">
+                  <FaSearch className="text-black" />
+                  <div className="flex flex-wrap gap-2 items-center w-64">
+                    {selectedLocality && (
+                      <div className="flex items-center gap-1 bg-[#EED98B] px-2 py-1 rounded-full">
+                        <span className="text-sm">{selectedLocality}</span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 cursor-pointer"
+                          onClick={() => {
+                            setSelectedLocality("");
+                            setSelectedArea([]); // Clear areas when locality is cleared
+                          }}
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                    {selectedArea.map((area) => (
+                      <div
+                        key={area}
+                        className="flex items-center gap-1 bg-[#EED98B] px-2 py-1 rounded-full"
+                      >
+                        <span className="text-sm">{area}</span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 cursor-pointer"
+                          onClick={() => {
+                            const newAreas = selectedArea.filter(
+                              (a) => a !== area
+                            );
+                            setSelectedArea(newAreas);
+                          }}
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    ))}
+                    <input
+                      type="text"
+                      placeholder={
+                        windowWidth < 768
+                          ? "Search..."
+                          : "Search by locality or area..."
+                      }
+                      value={searchQuery}
+                      onChange={handleSearch}
+                      className="outline-none flex-1 min-w-[100px] text-lg bg-transparent text-black placeholder-gray-500"
+                    />
+                  </div>
+
+                  {/* Search Results Panel */}
+                  {showSearchPanel &&
+                    (searchResults.localities.length > 0 ||
+                      searchResults.areas.length > 0) && (
+                      <div className="absolute top-full left-0 mt-2 w-full bg-white rounded-lg shadow-lg z-50 max-h-[300px] overflow-y-auto">
+                        {[
+                          ...searchResults.localities,
+                          ...searchResults.areas,
+                        ].map((item, index) => {
+                          const isLocality =
+                            searchResults.localities.includes(item);
+                          return (
+                            <div
+                              key={`${
+                                isLocality ? "locality" : "area"
+                              }-${index}`}
+                              className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-black flex items-center justify-between"
+                              onClick={() =>
+                                handleSearchSelection(
+                                  item,
+                                  isLocality ? "locality" : "area"
+                                )
+                              }
+                            >
+                              <span className="text-black">{item}</span>
+                              <span className="text-gray-500 min-w-[60px]">
+                                {isLocality ? "Locality" : "Area"}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                </div>
+
+                {/* Filters logic */}
+                <div className="flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-l pl-3 h-3/4 border-black ">
+                  <div className="flex items-center justify-start gap-4 h-full w-2/4">
+                    {/* <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
+                      {filterCount}
+                    </div> */}
+                    <div className="text-lg">Filters</div>
+                  </div>
+                  <div className="h-full flex items-center justify-center w-1/4 cursor-pointer rounded-full">
+                    <img
+                      src={drop}
+                      alt="Dropdown"
+                      onClick={handleOpen}
+                      className="cursor-pointer"
+                    />
+                  </div>
+                </div>
+
+                {/* SORT LOGIC */}
+                <div className="flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-l pl-3 h-3/4 border-black ">
+                  <p className="text-black text-lg">Sort</p>
                   <img
                     src={drop}
                     alt="Dropdown"
@@ -557,322 +2085,14 @@ const Listing = () => {
                       </p>
                     </div>
                   </div>
-                </div> */}
-                <div className="flex flex-row items-center justify-center  gap-4 pl-2">
-                  {/* <div className="text-lg py-1 px-4
-                   
-                   rounded-full hover:cursor-pointer">
-                    <p onClick={handleLocation}>
-                      {!city ? "Select Your City" : city}<img
-                      src={loc}
-                      alt="Location"
-                      className="hover:cursor-pointer inline size-5 p-2"
-                      onClick={handleShowCity}
-                    />
-                    </p>
-                    
-                  </div> */}
-                  <div className="flex flex-row items-center justify-center gap-3 whitespace-nowrap">
-                    <div className="text-lg  rounded-full hover:cursor-pointer flex items-center gap-1">
-                      <p
-                        onClick={handleLocation}
-                        className="flex items-center gap-2"
-                      >
-                        {!city ? "Select Your City" : city}
-                        {/* <img
-        src={loc}
-        alt="Location"
-        className="hover:cursor-pointer inline-block size-5"
-        onClick={handleShowCity}
-      /> */}
-                        <img
-                          src={drop}
-                          alt="Dropdown"
-                          onClick={handleShowCity}
-                          className="cursor-pointer"
-                        />
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="w-[1px] h-12 bg-black m-3 rounded"></div>
-                  {/* <div>
-                    <img
-                      src={loc}
-                      alt="Location"
-                      className="hover:cursor-pointer"
-                      onClick={handleShowCity}
-                    />
-                    {showCity ? (
-                      <div className="relative">
-                        <div
-                          className={`z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
-                        >
-                          {citylocalities[city].map((locality, index) => {
-                            // console.log(area, index);
-                            return (
-                              <p
-                                className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                                onClick={() => handleLocalitySelect(locality)}
-                                key={index}
-                              >
-                                {locality}
-                              </p>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div> */}
-                  {/* <div>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => handleSearchChange(e.target.value)}
-        placeholder="Search localities or areas"
-        className="w-40 py-1 px-2 border border-gray-300 rounded-lg"
-      />
-      {showSuggestions && filteredResults.length > 0 && (
-        <div className="relative">
-          <div className={`z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}>
-            {filteredResults.map((locality, index) => (
-              <p
-                className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                onClick={() => handleLocalitySelect(locality)}
-                key={index}
-              >
-                {locality}
-              </p>
-            ))}
-          </div>
-        </div>
-      )}
-    </div> */}
-                  <div className="flex justify-around">
-                    <FaMagnifyingGlass className="p-1 size-8" />
-                    <input
-                      type="text"
-                      value={searchTerm}
-                      onChange={(e) => handleSearchChange(e.target.value)}
-                      placeholder="Search by Localities or Area....."
-                      className="w-72 py-1 px-2 border-white outline-none bg-white"
-                    />
-                    {showSuggestions && filteredResults.length > 0 && (
-                      <div className="relative mt-8">
-                        <div className="z-50 absolute bg-white shadow-lg rounded-lg text-center w-64 top-[25px] left-[-280px]">
-                          {filteredResults.map((result, index) => (
-                            <p
-                              className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100 flex justify-between px-4"
-                              onClick={() => handleLocalitySelect(result.name)}
-                              key={index}
-                            >
-                              <span className="text-left">{result.name}</span>
-                              <span className="text-sm text-gray-500 text-right">
-                                {result.type}
-                              </span>
-                            </p>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  {selectedLocality ? (
-                    <>
-                      <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
-                        <p>{selectedLocality}</p>
-                      </div>
-                      <div>
-                        <img
-                          src={loc}
-                          alt="Location"
-                          className="hover:cursor-pointer"
-                          onClick={handleShowArea}
-                        />
-                        {showArea ? (
-                          <div className="relative">
-                            <div
-                              className={`z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
-                            >
-                              {localityareas[selectedLocality].map(
-                                (area, index) => {
-                                  // console.log(locality, index);
-
-                                  return (
-                                    <p
-                                      className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                                      onClick={() => addLocality(area)}
-                                      key={index}
-                                    >
-                                      {area}
-                                    </p>
-                                  );
-                                }
-                              )}
-                            </div>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                  {selectedArea.length > 0 ? (
-                    <>
-                      {selectedArea.slice(0, 1).map((e, i) => {
-                        if (i < 1) {
-                          return (
-                            <div className="text-sm py-1 px-4 bg-[#EED98B] rounded-full hover:cursor-pointer">
-                              <p>{e}</p>
-                            </div>
-                          );
-                        }
-                      })}
-                      {selectedArea.length > 1 && (
-                        <p
-                          className="cursor-pointer"
-                          onClick={() => setMoreArea(!moreArea)}
-                        >
-                          +{selectedArea.length - 1}
-                          {moreArea && (
-                            <div className="relative">
-                              <div
-                                className={`z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[25px] left-[-110px]`}
-                              >
-                                {selectedArea
-                                  .slice(1, selectedArea.length)
-                                  .map((area, index) => {
-                                    // console.log(locality, index);
-
-                                    return (
-                                      <p
-                                        className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                                        onClick={() => addLocality(area)}
-                                        key={index}
-                                      >
-                                        {area}
-                                      </p>
-                                    );
-                                  })}
-                              </div>
-                            </div>
-                          )}
-                        </p>
-                      )}
-                    </>
-                  ) : (
-                    ""
-                  )}
-                  {/* <div
-                    className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
-                      }`}
-                  >
-                    <div>
-                      <img
-                        src={cross}
-                        alt="Close"
-                        onClick={()=>{handleLocation(); refresh();}}
-                        className="cursor-pointer"
-                      />
-                    </div>
-                    <SelectLocation />
-                  </div> */}
-                  <SelectLocation
-                    Location={Location}
-                    setLocation={setLocation}
-                    onLocationSelect={(selectedCity) => {
-                      resetFilters();
-                      navigate(`/property-listing/${selectedCity}`);
-                      setLocation(false);
-                    }}
-                  />
-                  <div className="w-[1px] h-12 bg-black m-3 rounded"></div>
-                </div>
-
-                <div className="h-14 w-[80px] bg-white text-black flex items-start justify-between ">
-                  <div className="flex items-center h-full">
-                    {/* <div className="h-6 w-5 bg-[#EED98B] rounded-full flex items-center justify-center">
-                    {filterCount}
-                  </div> */}
-                    <div>
-                      <p className="text-lg">Filter</p>
-                    </div>
-                  </div>
-                  <div className="h-full flex items-center justify-center  cursor-pointer rounded-full">
-                    <img
-                      src={drop}
-                      alt="Dropdown"
-                      onClick={handleOpenFilter}
-                      className="cursor-pointer m-2"
-                    />
-                  </div>
-                  {/* <div className="m-20  -ml-[100px]">
-                  <FiltersBox/>
-                </div> */}
-
-                  {isOpenFilter && (
-                    <div className="m-20 -ml-[550px]" ref={filterRef}>
-                      <FiltersBox handleCloseFilter={handleCloseFilter} />
-                    </div>
-                  )}
-                </div>
-
-                <div className="w-[1px] h-12 bg-black rounded"></div>
-                <div
-                  className="flex items-center justify-around bg-white"
-                  onClick={handleMode}
-                >
-                  <p className="text-black p-2 text-lg">Sort</p>
-                  <img
-                    src={drop}
-                    alt="Dropdown"
-                    className={`${
-                      mode ? "rotate-180" : "rotate-0"
-                    }  cursor-pointer p-2`}
-                  />
-                  <div className="relative text-black">
-                    <div
-                      className={`${
-                        mode ? "block" : "hidden"
-                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 top-[40px] left-[-110px]`}
-                    >
-                      <p
-                        className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => {
-                          handleSortClick("price-low-high"), setMode(false);
-                        }}
-                      >
-                        Price: Low to High
-                      </p>
-                      <p
-                        className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => {
-                          handleSortClick("price-high-low"), setMode(false);
-                        }}
-                      >
-                        Price: High to Low
-                      </p>
-                      <p
-                        className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
-                        onClick={() => {
-                          handleSortClick("most-trending"), setMode(false);
-                        }}
-                      >
-                        Most Trending
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
 
-            {/* <div className="compare" onClick={compare}>
+            <div className="compare" onClick={compare}>
               {compareProperty.length >= 0 && (
                 <button
-                  className={`bg-white h-14 w-44 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
+                  className={`bg-white h-14 w-24 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
                     compareProperty.length <= 1
                       ? "opacity-50 grayscale cursor-not-allowed"
                       : ""
@@ -890,11 +2110,11 @@ const Listing = () => {
             <div>
               <a
                 onClick={handleAddPropertybtn}
-                className="mr-2 bg-white w-44 h-14 text-black flex items-center justify-center px-5 rounded-md cursor-pointer"
+                className="mr-2 bg-white w-30 h-14 text-black flex items-center justify-center px-5 rounded-md cursor-pointer"
               >
                 Add a property
               </a>
-            </div> */}
+            </div>
           </div>
         </div>
 
@@ -908,7 +2128,7 @@ const Listing = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg"
+            className="relative w-full max-w-lg top-28 right-[78.8rem]"
           >
             <Filters
               SetIsOpen={SetIsOpen}
@@ -923,7 +2143,7 @@ const Listing = () => {
               fetchAndFilterProperties={fetchAndFilterProperties}
               setCurrentPage={setCurrentPage}
             />
-            <div className="absolute top-1 right-1">
+            {/* <div className="absolute top-1 right-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -937,7 +2157,7 @@ const Listing = () => {
                   clipRule="evenodd"
                 />
               </svg>
-            </div>
+            </div> */}
           </div>
         </div>
 

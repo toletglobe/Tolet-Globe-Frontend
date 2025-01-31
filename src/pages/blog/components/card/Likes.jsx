@@ -39,7 +39,7 @@ const Likes = ({ data }) => {
         toast.error("Login First!");
         return navigate("/login", { replace: true });
       }
-console.log(data.slug);
+      console.log(data.slug);
       const updateddata = await axios.get(
         `${BASE_URL}blog/updateLikes/${data.slug}`,
         {
