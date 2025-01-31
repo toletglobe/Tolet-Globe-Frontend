@@ -9,6 +9,7 @@ import { lazy } from "react";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
+import Favorites from "../pages/property/listingComponents/Favorites.jsx";
 
 const Landing = lazy(() => import("../pages/Landing"));
 const Contact = lazy(() => import("../pages/Contact"));
@@ -68,7 +69,7 @@ const Routing = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          {/* <Route path="/property/reviews" element={<Reviews />} /> */}
+         
 
           {/* Authenticated Route */}
           <Route
@@ -83,6 +84,10 @@ const Routing = () => {
             <Route
               path="my-properties"
               element={<LandlordDashboardMyProperties />}
+            />
+            <Route
+              path="favorites"
+              element={<Favorites />}
             />
             <Route
               path="add-properties"

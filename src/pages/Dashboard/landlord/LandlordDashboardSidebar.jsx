@@ -5,6 +5,8 @@ import {
   faHouse,
   faChartSimple,
   faGear,
+  faHeart,
+  
 } from "@fortawesome/free-solid-svg-icons";
 import { AiOutlineHome } from "react-icons/ai";
 import { IoAddOutline } from "react-icons/io5";
@@ -18,6 +20,8 @@ import { logout } from "../../../redux/store/authSlice";
 import profileLogo from "../../../assets/landlord/profileLogo.png";
 import accountSecurityImg from "../../../assets/landlord/accountSecurityImg.png";
 import { useState } from "react";
+
+
 
 export default function LandlordDashboardSidebar({}) {
   const navigate = useNavigate();
@@ -76,6 +80,19 @@ export default function LandlordDashboardSidebar({}) {
               <span>My Properties</span>
             </div>
           </NavLink>
+
+           {/* Added Favorites Button */}
+        <NavLink
+          to="favorites"
+          className={({ isActive }) =>
+            ` ${linkStyle_1} ${isActive ? "bg-[#C8A117]" : ""} `
+          }
+        >
+          <div className="flex text-white-700">
+            <FontAwesomeIcon icon={faHeart} size="lg" className="mr-3" />
+            <span>Favorites</span>
+          </div>
+        </NavLink>
 
           <NavLink
             to="add-properties"

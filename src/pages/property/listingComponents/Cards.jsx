@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { FaRegCopy } from "react-icons/fa6";
@@ -9,7 +9,11 @@ import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../../StateProvider";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import "./card.css";
+import { BASE_URL } from "../../../constant/constant";
+import { IoMdHeart } from "react-icons/io";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
@@ -32,8 +36,13 @@ const NextArrow = ({ onClick }) => (
   </div>
 );
 
+
+
+
 const Cards = ({ properties, propertyAction }) => {
   const [{ compareProperty }, dispatch] = useStateValue();
+  const authState = useSelector((state) => state.auth);
+  const [count,setCount] = useState(0);
 
   const addToCompare = (property) => {
     if (compareProperty.length < 4 && !isInCompareList(property)) {
@@ -44,6 +53,47 @@ const Cards = ({ properties, propertyAction }) => {
     }
   };
 
+  const updateFavorites = async (property) => {
+    try {
+      if (!authState.status) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+  
+      const token = localStorage.getItem("token");
+  
+      if (!token) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+      console.log(property.property.slug)
+      const { data } = await axios.get(
+        `${BASE_URL}property/updateFavorites/${property.property.slug}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
+      console.log(data)
+      property = data.updatedProperty;
+      console.log(property.favorites.includes(authState.userData.id))
+      if(property.favorites.includes(authState.userData.id)){
+        setCount(count + 1);
+        console.log(count)
+        console.log('yes')
+      }else{
+        setCount(count - 1);
+        console.log(count)
+        console.log('no')
+      }
+      console.log(property)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   const removeFromCompare = (property) => {
     dispatch({
       type: "REMOVE_FROM_COMPARE",
@@ -211,9 +261,16 @@ const Cards = ({ properties, propertyAction }) => {
                       />
                     )}
                   </a>
-                  <a href="#">
-                    <CiHeart className="card_icon text-red-500" />
-                  </a>
+                  <div onClick={() => {updateFavorites({property})}}>
+                  
+                   {!authState && <FaRegHeart />}
+                  { (property.favorites.includes(authState.userData.id) && authState.status 
+                   ) ? 
+                     <IoMdHeart className="card_icon text-red-500"/>
+                   : 
+                   <CiHeart  className="card_icon text-red-500" />
+                   }
+                    </div>
                 </div>
               </div>
 
