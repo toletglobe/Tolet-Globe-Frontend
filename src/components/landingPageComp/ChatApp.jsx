@@ -1,50 +1,56 @@
-import React, { useState } from 'react';
-import { Card, Form, InputGroup, Button } from 'react-bootstrap';
-import { BsFillSendFill } from 'react-icons/bs';
-import { FaRegUserCircle, FaTimes } from 'react-icons/fa';
-
-import { API } from '../../config/axios';
-import chatIcon from '../../assets/chatbot/chat-icon.jpeg'; // Ensure this image is in the assets folder
-
+import React, { useEffect, useState, useRef } from "react";
+import { Card, Form, InputGroup, Button } from "react-bootstrap";
+import { BsFillSendFill } from "react-icons/bs";
+import { FaRegUserCircle, FaTimes } from "react-icons/fa";
+// import React, { useEffect, useRef } from 'react';
+import { API } from "../../config/axios";
+import chatIcon from "../../assets/chatbot/chat-icon.jpeg"; // Ensure this image is in the assets folder
 
 const ChatApp = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState([
-    { text: 'How can I help you?', from: 'bot' }
+    { text: "How can I help you?", from: "bot" },
   ]);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = async () => {
-    if (userInput.trim() !== '') {
+    if (userInput.trim() !== "") {
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text: userInput, from: 'user' }
+        { text: userInput, from: "user" },
       ]);
 
-
       try {
-        // const response = await API.get(`faq=query?message=${encodeURIComponent(userInput)}`);
-        const response = await API.get(`faq?query=${encodeURIComponent(userInput)}`);
-
-        // const response = await API.get(`faq/`);
+        const response = await API.get(
+          `faq?query=${encodeURIComponent(userInput)}`
+        );
 
         const data = response.data;
 
-        const botResponse = data.answer || 'Sorry, I didn’t understand that.';
+        const botResponse = data.answer || "Sorry, I didn't understand that.";
 
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: botResponse, from: 'bot' }
+          { text: botResponse, from: "bot" },
         ]);
       } catch (error) {
-        console.error('Error fetching response:', error);
+        console.error("Error fetching response:", error);
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: 'Sorry, something went wrong.', from: 'bot' }
+          { text: "Sorry, something went wrong.", from: "bot" },
         ]);
       }
 
-      setUserInput('');
+      setUserInput("");
     }
   };
 
@@ -60,7 +66,7 @@ const ChatApp = () => {
       )}
 
       {isChatOpen && (
-        <div className="fixed bottom-5 right-5 w-11/12 sm:w-80 md:w-96 lg:w-[400px] xl:w-[450px] h-[500px] bg-black text-white rounded-lg overflow-hidden border-2 border-gray-700 z-50 flex flex-col shadow-lg">
+        <div className="fixed bottom-5 right-5 w-11/12 md:w-80 lg:w-[400px] xl:w-[450px] h-[500px] bg-black text-white rounded-lg overflow-hidden border-2 border-gray-700 z-50 flex flex-col shadow-lg">
           <Card className="bg-black text-white border-b border-gray-700">
             <Card.Body className="p-2 flex items-center justify-between">
               <div className="flex items-center">
@@ -81,25 +87,36 @@ const ChatApp = () => {
                 <div
                   key={index}
                   className={`max-w-[80%] p-2 mb-2 rounded-xl ${
-                    message.from === 'user' ? 'bg-gray-800 self-end text-white' : 'bg-gray-600 self-start'
+                    message.from === "user"
+                      ? "bg-gray-800 self-end text-white"
+                      : "bg-gray-600 self-start"
                   }`}
                 >
                   {message.text}
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
           </div>
 
-          <div className="p-2 bg-black">
+          <div className="m-2 p-4">
             <InputGroup>
               <Form.Control
                 type="text"
-                placeholder="Aa"
-                className="bg-black text-white border border-gray-600 rounded-full"
+                className="bg-black p-3 text-white border border-gray-600 rounded-full w-[88%] h-10"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSendMessage(); // Call the function to send the message
+                  }
+                }}
               />
-              <Button variant="dark" className="bg-black text-white" onClick={handleSendMessage}>
+              <Button
+                variant="dark"
+                className="bg-black text-white mx-3"
+                onClick={handleSendMessage}
+              >
                 <BsFillSendFill size={20} />
               </Button>
             </InputGroup>

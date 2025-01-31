@@ -63,7 +63,7 @@ const NavBar = () => {
     imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
 
   return (
-    <div className="bg-gray-800 lg:bg-black flex items-center justify-between p-4 mx-auto relative">
+    <div className="bg-gray-800 lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setShowMenu(!showMenu)}
@@ -157,7 +157,7 @@ const NavBar = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`lg:hidden fixed inset-0 bg-gray-800 text-white z-50 transition-transform transform ${
+        className={`lg:hidden fixed inset-0 bg-gray-800 text-white z-[1000] transition-transform transform ${
           showMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
