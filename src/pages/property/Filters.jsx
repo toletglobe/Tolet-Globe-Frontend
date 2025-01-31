@@ -1,3 +1,5 @@
+
+
 import { useState, useCallback } from "react";
 import {
   Home,
@@ -17,7 +19,7 @@ import {
 } from "@mui/material";
 import { ArrowDropDown } from "@mui/icons-material";
 
-const FiltersBox = ({handleCloseFilter}) => {
+const FiltersBox = ({ handleCloseFilter }) => {
   const [anchors, setAnchors] = useState({
     houses: null,
     flats: null,
@@ -100,7 +102,7 @@ const FiltersBox = ({handleCloseFilter}) => {
         sx: {
           width: category === "payingGuests" ? 300 : 500,
           padding: 3,
-          borderRadius: "12px",
+          borderRadius: "10px",
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         },
       }}
@@ -268,26 +270,37 @@ const FiltersBox = ({handleCloseFilter}) => {
           Done
         </Button>
         <Button
-    onClick={handleCloseFilter}
-    sx={{
-      color: "#4A7F79",
-      textTransform: "none",
-      fontSize: "0.875rem",
-      fontWeight: 500,
-    }}
-  >
-    Close
-  </Button>
+          onClick={handleCloseFilter}
+          sx={{
+            color: "#4A7F79",
+            textTransform: "none",
+            fontSize: "0.875rem",
+            fontWeight: 500,
+          }}
+        >
+          Close
+        </Button>
       </Box>
     </Menu>
   );
 
   return (
-    <div className="w-full bg-white px-4 py-2 flex items-center gap-2">
+    <Box
+      sx={{
+        width: "770px",
+        height: "81.73px",
+        gap: "8.51px",
+        borderRadius: "10px 10px 10px 10px",
+        backgroundColor: "white",
+        display: "flex",
+        alignItems: "center",
+        padding: "0 16px",
+      }}
+    >
       {categories.map((cat) => (
         <Button
           key={cat.label}
-          variant="outlined"
+          variant="text"
           startIcon={cat.icon}
           endIcon={cat.hasDropdown ? <ArrowDropDown /> : null}
           onClick={(e) => cat.hasDropdown && handleMenuOpen(e, cat.key)}
@@ -295,7 +308,6 @@ const FiltersBox = ({handleCloseFilter}) => {
             minWidth: "auto",
             padding: "6px 12px",
             borderRadius: "8px",
-            borderColor: "#4A7F79",
             color: "#4A7F79",
             textTransform: "none",
             "&:hover": {
@@ -306,6 +318,7 @@ const FiltersBox = ({handleCloseFilter}) => {
               },
             },
             pointerEvents: cat.hasDropdown ? "auto" : "none",
+            border: "none",
           }}
         >
           <span className="text-xs font-medium">{cat.label}</span>
@@ -314,7 +327,7 @@ const FiltersBox = ({handleCloseFilter}) => {
 
       {/* Render all dropdown menus */}
       {categories.map((cat) => cat.hasDropdown && renderMenu(cat.key))}
-    </div>
+    </Box>
   );
 };
 
