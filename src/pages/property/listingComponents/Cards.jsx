@@ -82,8 +82,8 @@ const Cards = ({ properties, propertyAction }) => {
             key={property._id}
             className="rounded-[10px] overflow-hidden shadow-lg border border-gray-200 "
           >
-            <div className="property-card bg-white rounded-[10px] w-full  ">
-            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden ">
+            <div className="property-card bg-white rounded-[10px] w-full">
+            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
               {property.images?.length > 1 ? (
                 <Slider {...settings}>
                   {property.images.map((photo, index) => (
