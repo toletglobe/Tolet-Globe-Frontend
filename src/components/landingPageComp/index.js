@@ -6,6 +6,7 @@ import OurReach from "./OurReach";
 import Institution from "./Institution";
 import TestimonialCard from "./testimonial";
 import GetInTouch from "./GetInTouch";
+import ChatApp from "./ChatApp";
 
 
 export {
@@ -16,5 +17,6 @@ export {
     OurReach,
     Institution,
     TestimonialCard,
-    GetInTouch
+    GetInTouch,
+    ChatApp
 }

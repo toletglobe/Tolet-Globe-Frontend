@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
 import { BsFillSendFill } from 'react-icons/bs';
 import { FaRegUserCircle, FaTimes } from 'react-icons/fa';
-import chatIcon from '../assets/chat-icon.jpeg'; // Ensure this image is in the assets folder
+
 import { API } from '../../config/axios';
+import chatIcon from '../../assets/chatbot/chat-icon.jpeg'; // Ensure this image is in the assets folder
+
 
 const ChatApp = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);

@@ -7,6 +7,7 @@ import {
   Institution,
   TestimonialCard,
   GetInTouch,
+  ChatApp
 } from "../components/index";
 import Service from "./Service";
 
@@ -20,11 +21,11 @@ const Landing = () => {
       <div className="flex flex-col gap-9">
         <PropertyCarousel />
         <OurReach />
-
         <Institution />
         <TestimonialCard />
       </div>
       <GetInTouch />
+      <ChatApp />
     </div>
   );
 };
