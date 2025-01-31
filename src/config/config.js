@@ -2,13 +2,16 @@ import axios from "axios";
 import { BASE_URL } from "../constant/constant";
 
 class Service {
-  static async fetchBlog() {
+  static async fetchBlog(page,
+    limit,
+    sortBy) {
     try {
-      const response = await axios.get(`${BASE_URL}blog/blogs`, {
+      const response = await axios.get(`${BASE_URL}blog/blogs?page=${page}&limit=${limit}&sortBy=${sortBy}`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+      
       // console.log(response.data);
       return response.data;
     } catch (error) {
@@ -45,15 +48,15 @@ class Service {
     }
   }
 
-  static async fetchProperty() {
+  static async fetchProperty(currentPage) {
     try {
-      //  console.log(`Fetching from: ${BASE_URL}property`);
-      const response = await axios.get(`${BASE_URL}property`, {
+      console.log(`Fetching from: ${BASE_URL}property`);
+      const response = await axios.get(`${BASE_URL}property?page=${currentPage}&limit=9`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      //  console.log("Response received:", response.data);
+      // console.log("Response received:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error in fetchProperty:", error.response || error);
@@ -102,9 +105,22 @@ class Service {
     }
   }
 
-  static async fetchPropertyByCity(city) {
+ static isTokenExpired = (token) => {
+      if(!token) return true;
+      try{
+          const decodeToken = jwtDecode(token);
+          const currentTime = Date.now() /1000;
+          return decodeToken.exp < currentTime;
+      }catch(error){
+          console.error('Error decoding token: ', error);
+          return true;
+      }
+  };
+
+
+  static async fetchPropertyByCity(city, currentPage) {
     try {
-      const response = await axios.get(`${BASE_URL}property/city/${city}`, {
+      const response = await axios.get(`${BASE_URL}property/city/${city}?page=${currentPage}&limit=9`, {
         headers: {
           "Content-Type": "application/json",
         },

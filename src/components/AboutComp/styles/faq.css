@@ -1,0 +1,7 @@
+.answer.active {
+  max-height: max-content;
+}
+
+.question i {
+  color: #D3A01F;
+}
