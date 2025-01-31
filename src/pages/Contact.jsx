@@ -1,7 +1,9 @@
+/* eslint-disable react/no-unescaped-entities */
+
 import { BsChatRightDots } from "react-icons/bs";
 import { IoCallOutline } from "react-icons/io5";
-import { useState } from "react";
-import { API } from "../config/axios";
+import { useRef, useState } from "react";
+import { API } from "../config/axios"
 import { toast } from "react-hot-toast";
 
 const Contact = () => {
@@ -14,7 +16,7 @@ const Contact = () => {
   });
 
   const [loading, setLoading] = useState(false);
-
+  
   const handleChange = (evt) => {
     setFormData((prev) => ({
       ...prev,
@@ -49,127 +51,102 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black p-4 sm:p-6 md:p-8 lg:p-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row lg:space-x-12 space-y-8 lg:space-y-0">
-          {/* Contact Details Section */}
-          <div className="w-full lg:w-1/2 space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-white text-3xl md:text-4xl font-semibold leading-tight">
-                Contact Us, We're Ready to Help!
-              </h1>
-              <div className="space-y-2">
-                <p className="text-gray-400">
-                  We strive to provide you with the best experience and the best platform to find your choice.
-                </p>
-                <p className="text-gray-400">
-                  Post us any queries and we'll get back to you.
-                </p>
-              </div>
-            </div>
+    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-5 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
+      {/* Contact Details Section */}
+      <div className="w-full lg:w-1/2 px-4 lg:px-5 mt-[50px]">
+        <div>
+          <h1 className="text-white text-3xl md:text-4xl font-semibold">
+            Contact Us, We're Ready to Help!
+          </h1>
+          <p className="mt-5 text-gray-400">
+            We strive to provide you with the best experience and the best platform to find your choice.
+          </p>
+          <p className="mt-2 text-gray-400">
+            Post us any queries and we’ll get back to you.
+          </p>
+        </div>
 
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <BsChatRightDots className="text-white text-2xl md:text-3xl flex-shrink-0 mt-1" />
-                <div className="space-y-2">
-                  <h2 className="text-white text-xl md:text-2xl">Chat with us !!</h2>
-                  <p className="text-gray-400">Our friendly team is here to help</p>
-                  <p className="text-[#6CC1B6] hover:underline cursor-pointer">
-                    hello@toletglobe.in
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <IoCallOutline className="text-white text-2xl md:text-3xl flex-shrink-0 mt-1" />
-                <div className="space-y-2">
-                  <h2 className="text-white text-xl md:text-2xl">Call us...</h2>
-                  <p className="text-gray-400">Mon - Sat, 8 AM to 10 PM</p>
-                  <p className="text-[#6CC1B6] hover:underline cursor-pointer">
-                    +91 8707727347
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Form Section */}
-          <div className="w-full lg:w-1/2">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="topic" className="block text-gray-400">
-                  Topic
-                </label>
-                <select
-                  id="topic"
-                  value={formData.topic}
-                  name="topic"
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-600 bg-transparent text-gray-300 focus:ring-2 focus:ring-[#6CC1B6] focus:border-transparent transition-colors"
-                >
-                  <option value="" className="bg-gray-900">Select a topic</option>
-                  <option value="Residential" className="bg-gray-900">Residential</option>
-                  <option value="Commercial" className="bg-gray-900">Commercial</option>
-                  <option value="Others" className="bg-gray-900">Others</option>
-                </select>
-              </div>
-
-              {[
-                { id: 'name', label: 'Name', type: 'text', placeholder: 'John Doe' },
-                { id: 'email', label: 'Email', type: 'email', placeholder: 'name@provider.com' },
-                { id: 'phone', label: 'Phone', type: 'tel', placeholder: '+91 8945678323' }
-              ].map((field) => (
-                <div key={field.id} className="space-y-2">
-                  <label htmlFor={field.id} className="block text-gray-400">
-                    {field.label}
-                  </label>
-                  <input
-                    type={field.type}
-                    id={field.id}
-                    name={field.id}
-                    placeholder={field.placeholder}
-                    value={formData[field.id]}
-                    onChange={handleChange}
-                    required={field.id !== 'phone'}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-600 bg-transparent text-gray-300 focus:ring-2 focus:ring-[#6CC1B6] focus:border-transparent transition-colors"
-                  />
-                </div>
-              ))}
-
-              <div className="space-y-2">
-                <label htmlFor="msg" className="block text-gray-400">
-                  Message
-                </label>
-                <textarea
-                  id="msg"
-                  name="msg"
-                  rows="4"
-                  placeholder="Type your message..."
-                  value={formData.msg}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-600 bg-transparent text-gray-300 focus:ring-2 focus:ring-[#6CC1B6] focus:border-transparent transition-colors resize-y min-h-[100px]"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3 px-4 rounded-lg bg-[#6CC1B6] text-black font-medium hover:bg-[#5AA99E] transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-[#6CC1B6] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
-                    <span>Sending...</span>
-                  </div>
-                ) : (
-                  'Submit Query'
-                )}
-              </button>
-            </form>
+        <div className="flex flex-row gap-4 mt-10 md:mt-20">
+          <BsChatRightDots className="text-white text-3xl md:text-4xl" />
+          <div>
+            <h1 className="text-white text-xl md:text-2xl">Chat with us !!</h1>
+            <p className="text-gray-300/50 mt-1">Our friendly team is here to help</p>
+            <p className="text-[#6CC1B6]">hello@toletglobe.in</p>
           </div>
         </div>
+        <div className="flex flex-row gap-4 mt-8 md:mt-10">
+          <IoCallOutline className="text-white text-3xl md:text-4xl" />
+          <div>
+            <h1 className="text-white text-xl md:text-2xl">Call us...</h1>
+            <p className="text-gray-300/50 mt-1">Mon - Sat, 8 AM to 10 PM</p>
+            <p className="text-[#6CC1B6]">+91 8707727347</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Form Section */}
+      <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 lg:px-5 mt-10 lg:mt-0">
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col">
+            <label htmlFor="topic" className="text-gray-400">Topic</label>
+            <select
+              id="topic"
+              value={formData.topic}
+              name="topic"
+              onChange={handleChange}
+              required
+              className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
+            >
+              <option value="">Select a topic</option>
+              <option value="Residential">Residential</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+          {['name', 'email', 'phone'].map((field, index) => (
+            <div key={index} className="mt-5 flex flex-col">
+              <label htmlFor={field} className="text-gray-400">
+                {field.charAt(0).toUpperCase() + field.slice(1)}
+              </label>
+              <input
+                type={field === 'email' ? 'email' : 'text'}
+                id={field}
+                placeholder={
+                  field === 'name' ? "Rohit Kapur" : field === 'email' ? "name@provider.com" : "+91 8945678323"
+                }
+                value={formData[field]}
+                name={field}
+                onChange={handleChange}
+                className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
+                required={field !== 'phone'}
+              />
+            </div>
+          ))}
+          <div className="mt-5 flex flex-col">
+            <label htmlFor="msg" className="text-gray-400">Message</label>
+            <textarea
+              id="msg"
+              placeholder="Type your message..."
+              value={formData.msg}
+              name="msg"
+              onChange={handleChange}
+              required
+              className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
+            />
+          </div>
+          <div className="mt-6">
+            {loading ? (
+              <div className="flex items-center justify-center space-x-2 bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                <span className="text-black">Sending...</span>
+              </div>
+            ) : (
+              <button type="submit" className="bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg">
+                Submit Query
+              </button>
+            )}
+          </div>
+        </form>
       </div>
     </div>
   );

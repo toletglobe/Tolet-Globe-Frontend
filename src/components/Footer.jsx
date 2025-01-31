@@ -9,7 +9,7 @@ const Footer = () => {
       <hr className="my-3 border-gray-700" />
 
       {/* Responsive Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-5 justify-items-center">
+      <div className="grid  lg:grid-cols-4 gap-10 py-5 justify-items-center">
 
         {/* Logo and Tagline Section */}
         <div className="flex flex-col items-center text-center">
@@ -34,7 +34,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link to="/property" className="hover:text-gray-400">
+              <Link to="/property-listing" className="hover:text-gray-400">
                 Property
               </Link>
             </li>
@@ -48,7 +48,7 @@ const Footer = () => {
             <li>Paying Guest</li>
             <li>Flat and House</li>
             <li>Office</li>
-            <li>Shops and Godown</li>
+            <li>Shops and Warehouses</li>
           </ul>
         </div>
 
