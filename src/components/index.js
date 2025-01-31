@@ -110,6 +110,7 @@ import {
   Institution,
   TestimonialCard,
   GetInTouch,
+  ChatApp
 } from "./landingPageComp/index";
 
 // ServiceComp imports
@@ -146,6 +147,7 @@ export {
   Institution,
   TestimonialCard,
   GetInTouch,
+  ChatApp,
 
   // ServiceComp exports
   Card,
