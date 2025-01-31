@@ -26,6 +26,9 @@ const Register = lazy(() => import("../pages/register/Register.jsx"));
 const ForgotPassword = lazy(() =>
   import("../pages/forgotpassword/ForgotPassword.jsx")
 );
+const ResetPassword = lazy(() =>
+  import("../pages/resetpassword/ResetPassword.jsx")
+);
 const LandlordDashboard = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboard.jsx")
 );
@@ -68,6 +71,8 @@ const Routing = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/auth/reset-password" element={<ResetPassword />} />
+
           {/* <Route path="/property/reviews" element={<Reviews />} /> */}
 
           {/* Authenticated Route */}

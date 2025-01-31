@@ -2,7 +2,7 @@ import React from "react";
 import linkedinLogo from "../../assets/Hiring/linkedin.jpg";
 import unstopLogo from "../../assets/Hiring/unstop.jpg";
 import apnaLogo from "../../assets/Hiring/apna.jpg";
-import pregradLogo from "../../assets/Hiring/pregrad.jpg"; // Add more logos as needed
+import pregradLogo from "../../assets/Hiring/pregrad.jpg";
 import sunstoneLogo from "../../assets/Hiring/sunstone.jpg";
 
 const images = [
@@ -50,9 +50,9 @@ const HiringPartners = () => {
 
   return (
     <div className="margin">
-      <div className=" w-full px-3 py-2 bg-black  flex flex-col items-center justify-center relative border border-white rounded-lg shadow-lg">
+      <div className="w-full px-3 py-2 bg-black flex flex-col items-center justify-center relative border border-white rounded-lg shadow-lg">
         <div
-          className="bg-black z-20 -mx-2 my-6  inline-block text-center "
+          className="bg-black z-20 -mx-2 my-6 inline-block text-center"
           style={{
             width: "fit-content",
             padding: "0 16px",
@@ -66,8 +66,8 @@ const HiringPartners = () => {
           </h2>
         </div>
         <div className="w-full text-center overflow-hidden">
-          <div className=" animate-marquee flex justify-center items-center flex-wrap gap-10 md:gap-10  ">
-            <div className="marquee ">
+          <div className="animate-marquee flex justify-center items-center flex-wrap gap-10 md:gap-10">
+            <div className="marquee">
               {images.concat(images).map((image, idy) => (
                 <div
                   key={idy}
@@ -75,9 +75,9 @@ const HiringPartners = () => {
                 >
                   <img
                     src={image.src}
-                    alt={image.title}
-                    className="max-w-[900px] max-h-[900px]"
-                    onClick={() => handleLogoClick(`${image.url}`)}
+                    alt={image.title || image.alt}
+                    className="max-w-[900px] max-h-[900px] cursor-pointer hover:opacity-80 transition-opacity"
+                    onClick={() => handleLogoClick(image.url)}
                   />
                 </div>
               ))}

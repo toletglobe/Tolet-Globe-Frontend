@@ -5,6 +5,10 @@
   /* Ensure the timeline stays in the background */
 }
 
+#team-head h2 {
+  font-size: 1.5rem;
+}
+
 .timeline::after {
   content: "";
   position: absolute;

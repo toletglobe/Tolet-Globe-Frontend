@@ -81,10 +81,7 @@ export default function About() {
                />
             </div>
             <div className="teamcontainer flex items-center  flex-col h-auto mx-auto mt-0 mb-40 w-full">
-               <div
-                  id="team-head"
-                  className="bg-black border-[3px] border-[#6cc0c4] rounded-3xl text-[#e59948] inline py-3 px-24"
-               >
+               <div id="team-head" className="bg-black border-[3px] border-[#6cc0c4] rounded-3xl text-[#e59948] inline py-3 md:px-24 px-20">
                   <h2 className="sm:text-5xl text-2xl font-normal">Our Team </h2>
                </div>
                <div className="image hidden md:block pr-1">

@@ -9,7 +9,7 @@ const SelectLocation = ({ Location, setLocation, onLocationSelect }) => {
 
   return (
     <div
-      className={`absolute lg:left-7 top-48 left-[-20px] flex lg:gap-3 z-50 ${
+      className={`absolute lg:left-3 top-44 left-[-20px] flex lg:gap-3 z-50 ${
         Location ? "block" : "hidden"
       }`}
     >
@@ -23,19 +23,19 @@ const SelectLocation = ({ Location, setLocation, onLocationSelect }) => {
       </div> */}
 
       <div>
-        <div className="lg:w-[450px] md:min-w-[300px] md:max-w-full  w-screen bg-white text-black flex items-start px-4 flex-col justify-center rounded-lg shadow-md">
-          <p className="text-2xl font-medium py-2 flex items-center justify-center gap-4 ">
+        <div className="lg:w-[130px] md:min-w-[130px] md:max-w-full  w-screen bg-white text-black flex items-start flex-col justify-center rounded-lg shadow-md ml-7">
+          {/* <p className="text-2xl font-medium py-2 flex items-center justify-center gap-4 ">
             Select City
-          </p>
-          <div className="flex items-center justify-between w-full py-4 flex-wrap ">
+          </p> */}
+          <div className="flex flex-col items-center justify-around flex-wrap">
             {["Lucknow", "Ayodhya", "Vellore", "Kota"].map((city) => (
-              <p
+              <h2
                 key={city}
-                className="h-8 w-20 text-xs sm:text-sm font-light border-2 border-[#4A7F79] rounded-lg flex items-center justify-center cursor-pointer"
+                className="h-8 w-35  sm:text-lg  text-lg font-medium rounded-lg flex items-center justify-center cursor-pointer p-6 ml-1"
                 onClick={() => onLocationSelect(city)}
               >
                 {city}
-              </p>
+              </h2>
             ))}
           </div>
         </div>

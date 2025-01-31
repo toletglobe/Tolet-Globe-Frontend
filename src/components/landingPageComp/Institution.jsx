@@ -1,6 +1,6 @@
+import React from "react";
 import ibs from "../../assets/Institution/ibs.svg";
 import ipcpsimg from "../../assets/Institution/IpcpsImg.svg";
-// import ipcpsText from "../../assets/Institution/IpcpText.svg";
 import UniversityOgLakhnaw from "../../assets/Institution/UniversityOfLakhnaw.svg";
 import NPGC from "../../assets/Institution/NPGC.svg";
 import RCD from "../../assets/Institution/RCd.svg";
@@ -32,7 +32,7 @@ const Institution = () => {
 
   return (
     <div className="margin">
-      <div className="flex flex-col items-center justify-cente">
+      <div className="flex flex-col items-center justify-center">
         <h3 className="w-full max-w-[1078.22px] h-auto font-poppins font-medium text-[24px] leading-[36px] text-center text-[#1D5F58] sm:text-[36px] sm:leading-[48px] md:text-[42.6667px] md:leading-[64px]">
           Partnered Universities
         </h3>
@@ -54,7 +54,7 @@ const Institution = () => {
                 <img
                   src={image.src}
                   alt={image.title}
-                  className="max-w-[900px] max-h-[900px]"
+                  className="max-w-[900px] max-h-[900px] cursor-pointer hover:opacity-80 transition-opacity"
                 />
               </div>
             ))}
