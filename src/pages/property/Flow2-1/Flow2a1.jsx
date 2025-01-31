@@ -202,7 +202,7 @@ const Flow2a = () => {
               onClick={closeModal}
               className="text-white text-3xl hover:text-gray-300"
             >
-              ×
+          
             </button>
           </div>
           

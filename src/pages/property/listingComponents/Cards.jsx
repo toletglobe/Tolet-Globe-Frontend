@@ -76,13 +76,13 @@ const Cards = ({ properties, propertyAction }) => {
 
   return (
     <div>
-      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-9">
+      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-9 p-4">
         {norm.map((property) => (
           <li
             key={property._id}
             className="rounded-[10px] overflow-hidden shadow-lg border border-gray-200 "
           >
-            <div className="property-card bg-white rounded-[10px] w-full max-w[400px] ">
+            <div className="property-card bg-white rounded-[10px] w-full  ">
             <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden ">
               {property.images?.length > 1 ? (
                 <Slider {...settings}>
@@ -143,14 +143,14 @@ const Cards = ({ properties, propertyAction }) => {
                 </div>
               </div>
             </figure>
-            <div className="card-content p-6">
-              <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-[18px] font-medium">
+            <div className="card-content lg:p-1 sm:p-1">
+              <div className="name_icon flex justify-between sm:gap-4 lg:gap-12 items-center">
+                <h3 className="card-title lg:text-[24px] sm:text-[16px] lg:font-semibold sm:font-medium">
                   <a href="#">
                     {property.bhk} BHK, {property.propertyType}, On Rent
                   </a>
                 </h3>
-                <div className="icon-box flex space-x-2 md:space-x-4 p-2">
+                <div className="icon-box flex space-x-2 md:space-x-4 p-1">
                   <Popup
                     arrow={false}
                     trigger={
@@ -221,11 +221,11 @@ const Cards = ({ properties, propertyAction }) => {
                 <div className="card-price font-poppins text-sm font-normal text-grey-700 mt-1">
                   RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                 </div>
-                <div className="card-text font-poppins text-lg font-medium text-black">
+                <div className="card-text font-poppins  lg:text-[24px] sm:text-[14px] text-lg font-medium text-black">
                   {property.type}, {property.floor}
                 </div>
               </div>
-              <ul className="card-list custom-card-list mt-4">
+              <ul className="card-list custom-card-list my-2">
                 <li className="bed card-item flex items-center text-base">
                   <IoBedOutline style={{ fontSize: "1.6rem" }} />
                   &nbsp;
@@ -243,9 +243,9 @@ const Cards = ({ properties, propertyAction }) => {
                 </li>
               </ul>
             </div>
-            <div className="card-footer p-6 flex justify-between items-center">
-              <div className="card-author flex items-center gap-4">
-                <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full">
+            <div className="card-footer lg:py-8 sm:p-1 flex justify-between items-center">
+              <div className="card-author flex items-center gap-1">
+                <figure className="author-avatar w-8 h-8 overflow-hidden rounded-full">
                   <img
                     src={property.images[0]}
                     alt={property.ownerName}
@@ -253,7 +253,7 @@ const Cards = ({ properties, propertyAction }) => {
                   />
                 </figure>
                 <div>
-                  <p className="author-name text-gray-900 text-sm font-medium">
+                  <p className="author-name text-gray-900 sm:text-sm  lg:text-lg sm:font-light lg:font-medium">
                     <a href="#">
                       {property.firstName} {property.lastName}
                     </a>
@@ -263,7 +263,7 @@ const Cards = ({ properties, propertyAction }) => {
               <div className="card-footer-actions">
                 <button
                   onClick={() => navigate(`/property/${property.slug}`)}
-                  className="card-footer-actions-btn"
+                  className="card-footer-actions-btn sm:w-[95px] sm:h-[24px] lg:w-[150px] lg:h-[36px]"
                 >
                   SHOW MORE
                 </button>

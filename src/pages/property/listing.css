@@ -19,7 +19,7 @@
 
 /* Card Banner Image */
 .card-banner img {
-  @apply w-full h-[350px] object-cover transition-[border] duration-[0.3s] ease-[ease] border rounded-[5px] border-solid border-[#D9D9D9];
+  @apply w-full lg:h-[350px] sm:h-[170px] object-cover transition-[border] duration-[0.3s] ease-[ease] border rounded-[5px] border-solid border-[#D9D9D9];
 
   /* Ensure the image covers the container */
 }
@@ -50,7 +50,7 @@
 
 /* Container for the card details */
 .card-details {
-  @apply flex flex-col items-start gap-2;
+  @apply flex flex-col items-start lg:gap-6 sm:gap-0;
 }
 
 /* Style for the type labels (Flat, Shop, House) */
@@ -93,14 +93,14 @@
 
 /* CSS for SHOW MORE button */
 .card-footer-actions-btn {
-  @apply text-xs font-normal leading-[18px] text-center border rounded text-white px-4 py-2 border-solid border-[#ddd];
+  @apply text-xs font-normal leading-[18px] text-center border rounded text-white  border-solid border-[#ddd];
   font-family: Poppins, sans-serif;
 
   /* Use Poppins font */
   background: black;
 }
 .card-list {
-  @apply mt-3;
+  @apply sm:my-2 lg:py-2;
 }
 .bed {
   @apply text-[#767676];
