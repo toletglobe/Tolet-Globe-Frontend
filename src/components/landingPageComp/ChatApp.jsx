@@ -22,7 +22,8 @@ const ChatApp = () => {
       ]);
 
       try {
-        const response = await API.get(`faq=query?message=${encodeURIComponent(userInput)}`);
+        // const response = await API.get(`faq=query?message=${encodeURIComponent(userInput)}`);
+        const response = await API.get(`faq?query=${encodeURIComponent(userInput)}`);
         const data = response.data;
         const botResponse = data.answer || 'Sorry, I didn’t understand that.';
 
