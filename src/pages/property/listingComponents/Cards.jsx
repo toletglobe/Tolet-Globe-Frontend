@@ -108,7 +108,7 @@ const Cards = ({ properties, propertyAction }) => {
                 </div>
               )}
               <div
-                className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
+                className="card-badge-left absolute top-2 left-2 text-white text-xs uppercase px-3 py-1"
                 style={{
                   backgroundColor:
                     property.availabilityStatus === "Available"
@@ -125,7 +125,7 @@ const Cards = ({ properties, propertyAction }) => {
                   ? "Rent Out"
                   : "NA"}
               </div>
-              <div className="banner-actions absolute bottom-10 left-4 right-4 flex gap-4 justify-between">
+              <div className="banner-actions absolute bottom-4 left-3 right-4 flex gap-6 justify-between">
                 <div>
                   <button className="banner-actions-btn flex items-center gap-1 text-white">
                     <FaLocationDot className="text-base" />

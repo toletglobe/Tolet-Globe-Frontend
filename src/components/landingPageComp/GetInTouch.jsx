@@ -51,8 +51,8 @@ const GetInTouch = () => {
       {/* Full-screen map background */}
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.328314905671!2d80.97977931504363!3d26.846556583153824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfd77577ba78f%3A0xd2d6f22d1b246815!2sTo-Let%20Globe!5e0!3m2!1sen!2sin!4v1647425388883!5m2!1sen!2sin"
-        className="absolute top-0 left-0 w-full h-full insect-shadow-3xl bg-black"
-        style={{ border: 0, filter: "invert(100%) hue-rotate(180deg)", boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.5)", }}
+        className="absolute top-0 left-0 w-full h-full  "
+        style={{ border: 0, filter: "invert(100%) hue-rotate(180deg)", boxShadow:"50px 10px 5px lightblueinset", }}
         allowFullScreen
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
