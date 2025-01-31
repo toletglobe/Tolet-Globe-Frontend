@@ -421,7 +421,7 @@ const Listing = () => {
             />
           </div>
           <div className="flex justify-between gap-14 w-full flex-wrap">
-            <div className="flex items-center justify-between gap-20 md:gap-36 lg:gap-36 flex-col md:flex-row lg:flex-row">
+            <div className="flex flex-wrap items-center justify-between gap-20 md:gap-12 lg:gap-36 flex-col md:flex-row lg:flex-row">
               <div className="bg-white h-14 w-64 md:w-fit lg:w-fit flex items-center justify-between text-black px-4 rounded-md">
                 <div className="flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-r-2 h-3/4 border-black">
                   <p className="text-black">Sort</p>

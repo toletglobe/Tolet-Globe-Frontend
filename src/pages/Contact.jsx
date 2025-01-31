@@ -40,7 +40,7 @@ const Contact = () => {
       setLoading(true);
       const response = await API.post("contact/submit-data", formData);
       handleReset();
-      toast.success("Enquiry Sent! We will get in touch with you shortly.");
+      toast.success("Enquiry Sent! We will  with you shortly.");
       setLoading(false);
       console.log(response);
     } catch (error) {
