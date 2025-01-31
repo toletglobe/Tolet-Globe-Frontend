@@ -32,12 +32,29 @@ const Reviews = ({ property }) => {
         }
       } catch (error) {
         console.error("Error fetching reviews:", error);
-        toast.error("Error fetching reviews");
+        // toast.error("Error fetching reviews");
       }
     };
 
     fetchReviews();
   }, []);
+
+  const roundToHalfStar = (value) => {
+    return Math.round(value * 2) / 2; // Round to the nearest half
+  };
+
+  useEffect(() => {
+    if (totalReviews.length > 0) {
+      const avg =
+        totalReviews.reduce((acc, review) => acc + review.userRating, 0) /
+        totalReviews.length;
+      setAverageRating(roundToHalfStar(avg));
+    } else {
+      setAverageRating(0);
+    }
+  }, [totalReviews]);
+
+  console.log("averageRating:", averageRating, typeof averageRating);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -94,7 +111,10 @@ const Reviews = ({ property }) => {
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  const currentReviews = totalReviews.slice(indexOfFirstReview, indexOfLastReview);
+  const currentReviews = totalReviews.slice(
+    indexOfFirstReview,
+    indexOfLastReview
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -110,23 +130,13 @@ const Reviews = ({ property }) => {
       <div className="flex justify-between gap-6 mb-6">
         <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-white">
           <h2 className="text-2xl font-bold">
-            Average Rating:{" "}
-            {totalReviews.length > 0
-              ? (
-                  totalReviews.reduce((acc, review) => acc + review.userRating, 0) /
-                  totalReviews.length
-                ).toFixed(1)
-              : 0}
-            / 5
+            Average Rating: {totalReviews.length > 0 ? averageRating : 0}/5
           </h2>
           <ReactStars
             count={5}
-            value={
-              totalReviews.length > 0
-                ? totalReviews.reduce((acc, review) => acc + review.userRating, 0) /
-                  totalReviews.length
-                : 0
-            }
+            key={averageRating}
+            value={averageRating}
+            isHalf={true}
             size={40}
             edit={false}
             activeColor="#ffd700"
@@ -165,7 +175,7 @@ const Reviews = ({ property }) => {
                 ✖
               </button>
             </div>
-            
+
             <p className="text-gray-300 mb-8">
               Help others choose wisely by reviewing your neighborhood!
             </p>
@@ -188,7 +198,13 @@ const Reviews = ({ property }) => {
               <div>
                 <h3 className="text-lg mb-4">How long have you stayed here?</h3>
                 <div className="flex flex-wrap gap-3">
-                  {["0-1 year", "2 years", "3 years", "4 years", "+4 years"].map((duration) => (
+                  {[
+                    "0-1 year",
+                    "2 years",
+                    "3 years",
+                    "4 years",
+                    "+4 years",
+                  ].map((duration) => (
                     <button
                       key={duration}
                       type="button"
@@ -209,10 +225,12 @@ const Reviews = ({ property }) => {
                 <h3 className="text-lg text-teal-400 mb-4">
                   Tell Us What You Think About Your Locality!
                 </h3>
-                
+
                 <div className="space-y-4">
                   <div>
-                    <label className="block mb-2">What do you like about your locality?</label>
+                    <label className="block mb-2">
+                      What do you like about your locality?
+                    </label>
                     <textarea
                       value={likesAboutLocality}
                       onChange={(e) => setLikesAboutLocality(e.target.value)}
@@ -222,7 +240,9 @@ const Reviews = ({ property }) => {
                   </div>
 
                   <div>
-                    <label className="block mb-2">What do you dislike about your locality?</label>
+                    <label className="block mb-2">
+                      What do you dislike about your locality?
+                    </label>
                     <textarea
                       value={dislikesAboutLocality}
                       onChange={(e) => setDislikesAboutLocality(e.target.value)}
@@ -238,8 +258,19 @@ const Reviews = ({ property }) => {
                 <p className="text-gray-400 mb-2">Images/Videos</p>
                 <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center">
                   <div className="flex flex-col items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-10 w-10 text-gray-400 mb-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                      />
                     </svg>
                     <p className="text-gray-400 mb-2">Drop a file here</p>
                     <input
@@ -285,7 +316,6 @@ const Reviews = ({ property }) => {
                     {review.firstName !== "NA" ? review.firstName : "Anonymous"}
                     {review.lastName !== "NA" ? " " + review.lastName : ""}
                   </p>
-
                   <ReactStars
                     count={5}
                     value={Number(review.userRating)}
@@ -296,8 +326,11 @@ const Reviews = ({ property }) => {
                   />
                 </div>
               </div>
-
-              <p className="mt-5 ml-2">{review.userComment}</p>
+              <p>Stay Duration: {review.stayDuration}</p>
+              <p> Like about the Locality: {review.likesAboutLocality}</p>
+              <p>Don't like about the Locality: {review.dislikesAboutLocality}</p>
+              <img src={review.media[1]} alt="" className="mt-4"/>
+              <img src={review.media[0]} alt="" />
             </li>
           ))
         ) : (
