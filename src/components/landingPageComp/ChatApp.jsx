@@ -4,7 +4,7 @@ import { BsFillSendFill } from "react-icons/bs";
 import { FaRegUserCircle, FaTimes } from "react-icons/fa";
 // import React, { useEffect, useRef } from 'react';
 import { API } from "../../config/axios";
-import chatIcon from "../../assets/chatbot/chat-icon.jpeg"; // Ensure this image is in the assets folder
+import chatIcon from "../../assets/chatbot/chatbot-icon.png"; // Ensure this image is in the assets folder
 
 const ChatApp = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -71,7 +71,7 @@ const ChatApp = () => {
             <Card.Body className="p-2 flex items-center justify-between">
               <div className="flex items-center">
                 <FaRegUserCircle size={30} className="mr-2" />
-                <Card.Title className="mb-0">To Let Bot</Card.Title>
+                <Card.Title>To Let Bot</Card.Title>
               </div>
               <FaTimes
                 size={20}

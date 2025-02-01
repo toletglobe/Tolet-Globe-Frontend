@@ -31,10 +31,10 @@ export default function Faq() {
 
    return (
       <>
-         <div className="faq-container bg-black w-full m-auto  ">
+         <div className="faq-container bg-black w-[90%] m-auto">
             <div className="row">
                <div className="faq-wrapper">
-                  <div className="header rounded-t-3xl pt-5 pb-16 text-2xl bg-[#6cc0c4]  text-white w-full flex items-center justify-center">
+                  <div className="header rounded-t-3xl py-8 text-2xl bg-[#6cc0c4]  text-white w-full flex items-center justify-center">
                      <h1 className='text-4xl'>FAQs</h1>
                   </div>
                   <div className="faqinner border-2 border-[#6cc0c4] cursor-pointer py-3">

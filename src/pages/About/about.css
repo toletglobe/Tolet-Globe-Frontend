@@ -93,20 +93,20 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .team-images {
      display: flex;
      width: 100%;
-     height: 200px;
-  }
+     /* height: 200px; */
+  /* }  */
 
-  .team-images img {
-     max-width: 450px;
-     max-height: 160px;
+  /* .team-images img { */
+     /* max-width: 450px; */
+     /* max-height: 160px; */
      /* Adjust the size of the images */
 
-  }
-}
+  /* } */
+/* } */
 
 /* Responsive Design for Small Screens */
 @media screen and (max-width: 461px) {
