@@ -99,11 +99,11 @@ const ChatApp = () => {
             </div>
           </div>
 
-          <div className="m-2 p-4">
+          <div className="m-2">
             <InputGroup>
               <Form.Control
                 type="text"
-                className="bg-black p-3 text-white border border-gray-600 rounded-full w-[88%] h-10"
+                className="bg-black p-3 text-white border border-gray-600 rounded-full w-[83%] h-10"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 onKeyDown={(e) => {
@@ -114,7 +114,7 @@ const ChatApp = () => {
               />
               <Button
                 variant="dark"
-                className="bg-black text-white mx-3"
+                className="bg-black text-white mx-2"
                 onClick={handleSendMessage}
               >
                 <BsFillSendFill size={20} />

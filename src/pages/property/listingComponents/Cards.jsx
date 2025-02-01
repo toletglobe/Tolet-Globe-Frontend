@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "./card.css";
+import defaultHouse from "../../../assets/defaultHouse/defaultHouse.jpg";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
@@ -121,6 +122,13 @@ const Cards = ({ properties, propertyAction }) => {
     }
   };
 
+  // Add this new function to handle broken images
+  const handleImageError = (e) => {
+    e.target.src = defaultHouse; // Replace with your fallback image path
+    // Or remove the broken image entirely
+    // e.target.style.display = "none";
+  };
+
   return (
     <div>
       <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-9 p-4">
@@ -139,6 +147,7 @@ const Cards = ({ properties, propertyAction }) => {
                           src={photo}
                           alt={property.propertyType}
                           className="w-full h-full object-cover"
+                          onError={handleImageError}
                         />
                       </div>
                     ))}
@@ -149,6 +158,7 @@ const Cards = ({ properties, propertyAction }) => {
                       src={property.images[0]}
                       alt={property.propertyType}
                       className="w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-full object-cover"
+                      onError={handleImageError}
                     />
                     <PrevArrow onClick={() => {}} />
                     <NextArrow onClick={() => {}} />
@@ -299,6 +309,7 @@ const Cards = ({ properties, propertyAction }) => {
                       src={property.images[0]}
                       alt={property.ownerName}
                       className="w-full h-full object-cover"
+                      onError={handleImageError}
                     />
                   </figure>
                   <div>
