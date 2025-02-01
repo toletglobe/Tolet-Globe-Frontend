@@ -2128,7 +2128,7 @@ const Listing = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg top-28 right-[78.8rem]"
+            className="relative w-full max-w-lg top-28 right-[28.8rem]"
           >
             <Filters
               SetIsOpen={SetIsOpen}

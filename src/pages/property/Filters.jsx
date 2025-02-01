@@ -15,6 +15,14 @@ import {
   Box,
   Typography,
 } from "@mui/material";
+import {
+  BsHouseDoor,
+  BsBuilding,
+  BsPeople,
+  BsBriefcase,
+  BsShop,
+  BsBox,
+} from "react-icons/bs";
 import { ArrowDropDown } from "@mui/icons-material";
 
 const FiltersBox = ({ handleCloseFilter }) => {
