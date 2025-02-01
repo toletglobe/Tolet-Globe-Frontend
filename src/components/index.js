@@ -43,12 +43,10 @@
 // //Service Component
 // import Service from "../pages/Service.jsx";
 
-
 // //About us page component
 // import AboutUs from "../pages/About/AboutUs.jsx";
 
 // //Landlord Page
-
 
 // import LandlordDashboard from "./landlord/LandlordDashboard.jsx";
 
@@ -90,14 +88,11 @@
 
 // };
 
-
-
 // Common imports
 
 import Button from "./Common/Button";
 import Input from "./Common/Input";
 import Select from "./Common/Select";
-
 
 // landingPageComp imports
 
@@ -110,12 +105,12 @@ import {
   Institution,
   TestimonialCard,
   GetInTouch,
+  ChatApp,
 } from "./landingPageComp/index";
 
 // ServiceComp imports
 
-import Card from './ServiceComp/Card'
-
+import Card from "./ServiceComp/Card";
 
 // AboutComp imports
 
@@ -123,20 +118,16 @@ import About_Card from "./AboutComp/About_Card";
 import Flip from "./AboutComp/Flip";
 import Faq from "./AboutComp/Faq";
 
-
 // PropertyComp imports
 
 import Reviews from "./PropertyComp/Reviews";
-
-
-
 
 export {
   // Common exports
   Input,
   Select,
   Button,
-  
+
   // landingPageComp exports
   Homepage,
   About,
@@ -146,6 +137,7 @@ export {
   Institution,
   TestimonialCard,
   GetInTouch,
+  ChatApp,
 
   // ServiceComp exports
   Card,
@@ -156,7 +148,5 @@ export {
   Faq,
 
   // PropertyComp exports
-
   Reviews,
-
 };

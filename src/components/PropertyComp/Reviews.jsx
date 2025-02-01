@@ -7,14 +7,17 @@ import { useSelector } from "react-redux";
 import { API } from "../../config/axios";
 
 const Reviews = ({ property }) => {
-  // const [currentReviews, setCurrentReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const [reviews, setReviews] = useState([]);
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(0); // Changed initial rating to 0
   const [comment, setComment] = useState("");
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalReviews, setTotalReviews] = useState([])
+  const [totalReviews, setTotalReviews] = useState([]);
+  const [stayDuration, setStayDuration] = useState("");
+  const [likesAboutLocality, setLikesAboutLocality] = useState("");
+  const [dislikesAboutLocality, setDislikesAboutLocality] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const reviewsPerPage = 2;
   const navigate = useNavigate();
 
@@ -29,32 +32,63 @@ const Reviews = ({ property }) => {
         }
       } catch (error) {
         console.error("Error fetching reviews:", error);
-        toast.error("Error fetching reviews");
+        // toast.error("Error fetching reviews");
       }
     };
 
     fetchReviews();
   }, []);
 
+  const roundToHalfStar = (value) => {
+    return Math.round(value * 2) / 2; // Round to the nearest half
+  };
+
+  useEffect(() => {
+    if (totalReviews.length > 0) {
+      const avg =
+        totalReviews.reduce((acc, review) => acc + review.userRating, 0) /
+        totalReviews.length;
+      setAverageRating(roundToHalfStar(avg));
+    } else {
+      setAverageRating(0);
+    }
+  }, [totalReviews]);
+
+  console.log("averageRating:", averageRating, typeof averageRating);
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedFiles(files);
+  };
+
   const handleRatingChange = (newRating) => {
-    setRating(Math.max(1, newRating));
-    // setRating(newRating);
+    setRating(newRating);
   };
 
   const handleAddReview = async (e) => {
     e.preventDefault();
 
-    try {
-      const newReview = {
-        property: property._id,
-        userId: authState.userData.id,
-        firstName: authState.userData.firstName,
-        lastName: authState.userData.lastName,
-        userRating: rating,
-        userComment: comment,
-      };
+    if (rating === 0) {
+      toast.error("Please provide a rating");
+      return;
+    }
 
-      const response = await API.post("reviews", newReview);
+    try {
+      const formData = new FormData();
+      formData.append("property", property._id);
+      formData.append("userId", authState.userData.id);
+      formData.append("firstName", authState.userData.firstName);
+      formData.append("lastName", authState.userData.lastName);
+      formData.append("userRating", rating);
+      formData.append("stayDuration", stayDuration);
+      formData.append("likesAboutLocality", likesAboutLocality);
+      formData.append("dislikesAboutLocality", dislikesAboutLocality);
+
+      selectedFiles.forEach((file) => {
+        formData.append("media", file);
+      });
+
+      const response = await API.post("reviews", formData);
       if (response.data.message === "Review created successfully") {
         toast.success("Review added successfully!");
       } else {
@@ -63,7 +97,10 @@ const Reviews = ({ property }) => {
 
       const fetchedReviews = await API.get(`reviews/${property._id}`);
       setRating(0);
-      setComment("");
+      setStayDuration("");
+      setLikesAboutLocality("");
+      setDislikesAboutLocality("");
+      setSelectedFiles([]);
       setShowReviewForm(false);
       setTotalReviews(fetchedReviews.data.reviews);
     } catch (error) {
@@ -74,7 +111,10 @@ const Reviews = ({ property }) => {
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  const currentReviews = totalReviews.slice(indexOfFirstReview, indexOfLastReview);
+  const currentReviews = totalReviews.slice(
+    indexOfFirstReview,
+    indexOfLastReview
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -85,41 +125,22 @@ const Reviews = ({ property }) => {
   const handlePreviousPage = () =>
     currentPage > 1 && setCurrentPage(currentPage - 1);
 
-  console.log(
-    totalReviews.reduce((acc, review) => acc + review.userRating, 0) /
-      totalReviews.length
-  );
-
   return (
     <div className="w-full p-6 bg-white shadow-lg rounded-lg">
       <div className="flex justify-between gap-6 mb-6">
         <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-white">
           <h2 className="text-2xl font-bold">
-            Average Rating :
-            {totalReviews.length > 0
-              ? totalReviews.reduce(
-                  (acc, review) => acc + review.userRating,
-                  0
-                ) / totalReviews.length
-              : 0}
-            / 5
+            Average Rating: {totalReviews.length > 0 ? averageRating : 0}/5
           </h2>
-          {
-            <ReactStars
-              count={5}
-              value={
-                totalReviews.length > 0
-                  ? totalReviews.reduce(
-                      (acc, review) => acc + review.userRating,
-                      0
-                    ) / totalReviews.length
-                  : 0
-              }
-              size={40}
-              edit={false}
-              activeColor="#ffd700"
-            />
-          }
+          <ReactStars
+            count={5}
+            key={averageRating}
+            value={averageRating}
+            isHalf={true}
+            size={40}
+            edit={false}
+            activeColor="#ffd700"
+          />
         </div>
 
         <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-gray-100">
@@ -144,47 +165,136 @@ const Reviews = ({ property }) => {
 
       {showReviewForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-gray-50 p-6 rounded-lg shadow-lg border border-black max-w-md w-full relative">
-            <button
-              onClick={() => setShowReviewForm(false)}
-              className="absolute top-2 right-2 text-gray-700 hover:text-black"
-            >
-              ✖
-            </button>
-            <h2 className="text-lg font-semibold mb-4">Add Review</h2>
-            <form onSubmit={handleAddReview}>
-              <div className="mb-4">
-                <label htmlFor="rating" className="block font-bold mb-1">
-                  Rate the property :
-                </label>
-                <ReactStars
-                  count={5}
-                  value={rating}
-                  onChange={handleRatingChange}
-                  size={60}
-                  activeColor="#ffd700"
-                  className="flex justify-center"
-                />
+          <div className="bg-black text-white p-6 rounded-lg shadow-lg w-full max-w-2xl h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-semibold">Write a Review</h1>
+              <button
+                onClick={() => setShowReviewForm(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✖
+              </button>
+            </div>
+
+            <p className="text-gray-300 mb-8">
+              Help others choose wisely by reviewing your neighborhood!
+            </p>
+
+            <form onSubmit={handleAddReview} className="space-y-6">
+              <div>
+                <h3 className="text-lg mb-2">Rate your experience</h3>
+                <div className="p-4 rounded-lg">
+                  <ReactStars
+                    count={5}
+                    onChange={handleRatingChange}
+                    size={40}
+                    value={rating}
+                    activeColor="#ffd700"
+                    isHalf={false}
+                  />
+                </div>
               </div>
 
-              <div className="mb-4">
-                <label htmlFor="comment" className="block font-bold mb-1">
-                  Tell us more!
-                </label>
-                <textarea
-                  id="comment"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  required
-                  className="w-full p-2 border border-gray-300 rounded h-24 resize-none bg-white"
-                ></textarea>
+              <div>
+                <h3 className="text-lg mb-4">How long have you stayed here?</h3>
+                <div className="flex flex-wrap gap-3">
+                  {[
+                    "0-1 year",
+                    "2 years",
+                    "3 years",
+                    "4 years",
+                    "+4 years",
+                  ].map((duration) => (
+                    <button
+                      key={duration}
+                      type="button"
+                      onClick={() => setStayDuration(duration)}
+                      className={`px-4 py-2 rounded-full border ${
+                        stayDuration === duration
+                          ? "bg-teal-500 border-teal-500"
+                          : "border-gray-600 hover:border-teal-500"
+                      }`}
+                    >
+                      {duration}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-lg text-teal-400 mb-4">
+                  Tell Us What You Think About Your Locality!
+                </h3>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block mb-2">
+                      What do you like about your locality?
+                    </label>
+                    <textarea
+                      value={likesAboutLocality}
+                      onChange={(e) => setLikesAboutLocality(e.target.value)}
+                      className="w-full h-32 bg-black border border-gray-600 rounded-lg p-3 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                      placeholder="Please share your thoughts"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block mb-2">
+                      What do you dislike about your locality?
+                    </label>
+                    <textarea
+                      value={dislikesAboutLocality}
+                      onChange={(e) => setDislikesAboutLocality(e.target.value)}
+                      className="w-full h-32 bg-black border border-gray-600 rounded-lg p-3 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                      placeholder="Please share your thoughts"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-lg text-teal-400 mb-4">Upload Media</h3>
+                <p className="text-gray-400 mb-2">Images/Videos</p>
+                <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center">
+                  <div className="flex flex-col items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-10 w-10 text-gray-400 mb-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                      />
+                    </svg>
+                    <p className="text-gray-400 mb-2">Drop a file here</p>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={handleFileChange}
+                      className="hidden"
+                      id="file-upload"
+                    />
+                    <label
+                      htmlFor="file-upload"
+                      className="bg-gray-700 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-600"
+                    >
+                      Browse
+                    </label>
+                  </div>
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 border border-black"
+                className="w-full bg-teal-500 text-white py-3 rounded-lg hover:bg-teal-600 transition-colors"
               >
-                Add Review
+                Submit Review
               </button>
             </form>
           </div>
@@ -206,7 +316,6 @@ const Reviews = ({ property }) => {
                     {review.firstName !== "NA" ? review.firstName : "Anonymous"}
                     {review.lastName !== "NA" ? " " + review.lastName : ""}
                   </p>
-
                   <ReactStars
                     count={5}
                     value={Number(review.userRating)}
@@ -217,8 +326,11 @@ const Reviews = ({ property }) => {
                   />
                 </div>
               </div>
-
-              <p className="mt-5 ml-2">{review.userComment}</p>
+              <p>Stay Duration: {review.stayDuration}</p>
+              <p> Like about the Locality: {review.likesAboutLocality}</p>
+              <p>Don't like about the Locality: {review.dislikesAboutLocality}</p>
+              <img src={review.media[1]} alt="" className="mt-4"/>
+              <img src={review.media[0]} alt="" />
             </li>
           ))
         ) : (

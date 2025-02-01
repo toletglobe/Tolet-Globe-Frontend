@@ -40,7 +40,7 @@ const Contact = () => {
       setLoading(true);
       const response = await API.post("contact/submit-data", formData);
       handleReset();
-      toast.success("Enquiry Sent! We will get in touch with you shortly.");
+      toast.success("Enquiry Sent! We will  with you shortly.");
       setLoading(false);
       console.log(response);
     } catch (error) {
@@ -51,7 +51,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-5 lg:gap-9 sm:px-10 md:px-20 mx-4 md:mx-6 lg:mx-10 justify-between ">
+    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-5 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
       {/* Contact Details Section */}
       <div className="w-full lg:w-1/2 px-4 lg:px-5 mt-[50px]">
         <div>

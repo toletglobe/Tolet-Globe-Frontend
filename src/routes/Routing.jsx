@@ -26,6 +26,9 @@ const Register = lazy(() => import("../pages/register/Register.jsx"));
 const ForgotPassword = lazy(() =>
   import("../pages/forgotpassword/ForgotPassword.jsx")
 );
+const ResetPassword = lazy(() =>
+  import("../pages/resetpassword/ResetPassword.jsx")
+);
 const LandlordDashboard = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboard.jsx")
 );
@@ -38,6 +41,9 @@ const LandlordDashboardMyProperties = lazy(() =>
 const LandlordDashboardAddProperties = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboardAddProperties.jsx")
 );
+const LandlordDashboardEditProperties = lazy(() =>
+  import("../pages/Dashboard/landlord/LandlordDashboardEditProperties.jsx")
+);
 const LandlordDashboardProfileForm = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboardProfileForm.jsx")
 );
@@ -45,9 +51,6 @@ const LandlordDashboardAccountSecurity = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboardAccountSecurity.jsx")
 );
 const Flow2a = lazy(() => import("../pages/property/Flow2-1/Flow2a1.jsx"));
-
-// import {
-// } from "../pages/pagesIndex.js";
 
 const Routing = () => {
   const router = createBrowserRouter(
@@ -68,6 +71,8 @@ const Routing = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/auth/reset-password" element={<ResetPassword />} />
+
           {/* <Route path="/property/reviews" element={<Reviews />} /> */}
 
           {/* Authenticated Route */}
@@ -87,6 +92,10 @@ const Routing = () => {
             <Route
               path="add-properties"
               element={<LandlordDashboardAddProperties />}
+            />
+            <Route
+              path="edit-properties/:id"
+              element={<LandlordDashboardEditProperties />}
             />
             <Route
               path="settings/profile"

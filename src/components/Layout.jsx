@@ -86,7 +86,7 @@ const Layout = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogView />} />
           <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/property" element={<Property />} />
+          {/* <Route path="/property" element={<Property />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
