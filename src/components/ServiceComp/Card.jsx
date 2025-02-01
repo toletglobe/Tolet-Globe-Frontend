@@ -8,6 +8,7 @@ const Card = ({ img, title, bg, path, description}) => {
     <div
       className="group relative bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl w-full transition-shadow duration-300 cursor-pointer"
       
+      
     >
       <div className="flex justify-center items-center p-4">
         <img 
