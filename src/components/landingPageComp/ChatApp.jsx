@@ -4,7 +4,7 @@ import { BsFillSendFill } from "react-icons/bs";
 import { FaRegUserCircle, FaTimes } from "react-icons/fa";
 // import React, { useEffect, useRef } from 'react';
 import { API } from "../../config/axios";
-import chatIcon from "../../assets/chatbot/chat-icon.jpeg"; // Ensure this image is in the assets folder
+import chatIcon from "../../assets/chatbot/chatbot-icon.png"; // Ensure this image is in the assets folder
 
 const ChatApp = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -71,7 +71,7 @@ const ChatApp = () => {
             <Card.Body className="p-2 flex items-center justify-between">
               <div className="flex items-center">
                 <FaRegUserCircle size={30} className="mr-2" />
-                <Card.Title className="mb-0">To Let Bot</Card.Title>
+                <Card.Title>To Let Bot</Card.Title>
               </div>
               <FaTimes
                 size={20}
@@ -99,11 +99,11 @@ const ChatApp = () => {
             </div>
           </div>
 
-          <div className="m-2 p-4">
+          <div className="m-2">
             <InputGroup>
               <Form.Control
                 type="text"
-                className="bg-black p-3 text-white border border-gray-600 rounded-full w-[88%] h-10"
+                className="bg-black p-3 text-white border border-gray-600 rounded-full w-[83%] h-10"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 onKeyDown={(e) => {
@@ -114,7 +114,7 @@ const ChatApp = () => {
               />
               <Button
                 variant="dark"
-                className="bg-black text-white mx-3"
+                className="bg-black text-white mx-2"
                 onClick={handleSendMessage}
               >
                 <BsFillSendFill size={20} />

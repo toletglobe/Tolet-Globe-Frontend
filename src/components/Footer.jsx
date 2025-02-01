@@ -10,7 +10,6 @@ const Footer = () => {
 
       {/* Responsive Grid Layout */}
       <div className="grid  lg:grid-cols-4 gap-10 py-5 justify-items-center">
-
         {/* Logo and Tagline Section */}
         <div className="flex flex-col items-center text-center">
           <img src={logo} alt="To-Let Globe Logo" className="w-20 md:w-28" />
@@ -45,10 +44,38 @@ const Footer = () => {
         <div className="flex flex-col items-center text-center">
           <h1 className="text-xl font-semibold text-teal-500">SERVICES</h1>
           <ul className="mt-5 space-y-2">
-            <li>Paying Guest</li>
-            <li>Flat and House</li>
-            <li>Office</li>
-            <li>Shops and Warehouses</li>
+            <li>
+              <Link
+                to="/property-listing?residential=PG"
+                className="hover:text-gray-400"
+              >
+                Paying Guest
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/property-listing?residential=Flat,House"
+                className="hover:text-gray-400"
+              >
+                Flat and House
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/property-listing?commercial=Office"
+                className="hover:text-gray-400"
+              >
+                Office
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/property-listing?commercial=Shop,Warehouse"
+                className="hover:text-gray-400"
+              >
+                Shops and Warehouses
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -63,11 +90,11 @@ const Footer = () => {
               <IoIosMail className="text-xl" /> hello@toletglobe.in
             </li>
             <li className="flex items-center gap-0.5 justify-center">
-              <FaLocationDot className="text-xl" /> D1/122 Vipulkhand, Gomtinagar, Lucknow, Uttar Pradesh
+              <FaLocationDot className="text-xl" /> D1/122 Vipulkhand,
+              Gomtinagar, Lucknow, Uttar Pradesh
             </li>
           </ul>
         </div>
-
       </div>
 
       {/* Footer Bottom */}

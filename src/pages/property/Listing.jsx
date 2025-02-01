@@ -1879,8 +1879,8 @@ const Listing = () => {
             <div className="flex items-center justify-between gap-20 md:gap-36 lg:gap-36 flex-col md:flex-row lg:flex-row">
               <div className="bg-white h-16 w-[40vw] md:w-[74vw] lg:w-[50vw] flex items-center justify-between text-black px-2 rounded-xl">
                 {/* Location Logic */}
-                <div className="flex items-center justify-center gap-4 pl-2 border-r">
-                  <div className="text-md py-1 px-1 hover:cursor-pointer whitespace-nowrap">
+                <div className="flex items-center justify-center gap-4 p-2 border-r border-black">
+                  <div className="text-lg py-1 px-1 hover:cursor-pointer whitespace-nowrap">
                     <p>{!city || Location ? "Select Your City" : city}</p>
                   </div>
                   <div className="h-full flex items-center justify-center w-1/4 cursor-pointer rounded-full">
