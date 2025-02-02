@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { FaRegCopy } from "react-icons/fa6";
@@ -10,9 +10,12 @@ import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
 import { useStateValue } from "../../../StateProvider";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import toast from "react-hot-toast";
 import "./card.css";
 import defaultHouse from "../../../assets/defaultHouse/defaultHouse.jpg";
+import { BASE_URL } from "../../../constant/constant";
+// import { useEffect } from "react";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
@@ -35,6 +38,7 @@ const NextArrow = ({ onClick }) => (
   </div>
 );
 
+// Component Card
 const Cards = ({ properties, propertyAction }) => {
   const [{ compareProperty }, dispatch] = useStateValue();
 
@@ -79,54 +83,42 @@ const Cards = ({ properties, propertyAction }) => {
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  const addToFavourites = async () => {
-    console.log("Fired!");
+  const addToFavourites = async (propertyId) => {
+    console.log(authState);
+
     try {
       if (!authState.status) {
         toast.error("Login First!");
         return navigate("/login", { replace: true });
       }
 
-      const isTokenExpired = (token) => {
-        if (!token) return true;
-        try {
-          const decodeToken = jwtDecode(token);
-          const currentTime = Date.now() / 1000;
-          return decodeToken.exp < currentTime;
-        } catch (error) {
-          console.error("Error decoding token: ", error);
-          return true;
-        }
-      };
+      console.log(authState.userData.id);
 
       const token = localStorage.getItem("token");
 
-      if (isTokenExpired(token)) {
-        localStorage.removeItem("token");
-        toast.error("Login First!");
-        return navigate("/login", { replace: true });
-      }
-      // const updateddata = await axios.get(
-      //   `${BASE_URL}blog/updateLikes/${data.slug}`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-      // setadata(updateddata.data.updatedBlog);
+      const updateddata = await axios.post(
+        `${BASE_URL}user/addToFavourites`,
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      // data.likes = updateddata.data.updatedBlog.likes;
+      toast.success("Added to favorites!");
     } catch (error) {
       console.log(error);
+      toast.error("Failed to add to favorites");
     }
   };
 
   // Add this new function to handle broken images
   const handleImageError = (e) => {
     e.target.src = defaultHouse; // Replace with your fallback image path
-    // Or remove the broken image entirely
-    // e.target.style.display = "none";
   };
 
   return (
@@ -246,33 +238,64 @@ const Cards = ({ properties, propertyAction }) => {
                       )}
                     </Popup>
 
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (isInCompareList(property)) {
-                          removeFromCompare(property);
-                        } else {
-                          addToCompare(property);
-                        }
-                      }}
-                      key={property._id}
+                    {/* SHORTLIST FOR VISIT */}
+                    <Popup
+                      trigger={
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (isInCompareList(property)) {
+                              removeFromCompare(property);
+                            } else {
+                              addToCompare(property);
+                            }
+                          }}
+                          key={property._id}
+                        >
+                          {isInCompareList(property) ? (
+                            <IoRemove
+                              className="card_icon"
+                              style={{ color: "#ff0000", fontSize: "12px" }}
+                            />
+                          ) : (
+                            <IoAdd
+                              className="card_icon"
+                              style={{ color: "#000000", fontSize: "12px" }}
+                            />
+                          )}
+                        </a>
+                      }
+                      position="top center"
+                      on="hover"
+                      arrow={true}
                     >
-                      {isInCompareList(property) ? (
-                        <IoRemove
-                          className="card_icon"
-                          style={{ color: "#ff0000", fontSize: "12px" }}
-                        />
-                      ) : (
-                        <IoAdd
-                          className="card_icon"
-                          style={{ color: "#000000", fontSize: "12px" }}
-                        />
-                      )}
-                    </a>
-                    <a href="#" onClick={addToFavourites}>
-                      <CiHeart className="card_icon text-red-500" />
-                    </a>
+                      <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                        Shortlist for Visit
+                      </div>
+                    </Popup>
+
+                    {/* ADD TO FAVOURITES */}
+                    <Popup
+                      trigger={
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            addToFavourites(property._id);
+                          }}
+                        >
+                          <CiHeart className="card_icon text-red-500" />
+                        </a>
+                      }
+                      position="top center"
+                      on="hover"
+                      arrow={true}
+                    >
+                      <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                        Add to Favourites
+                      </div>
+                    </Popup>
                   </div>
                 </div>
 

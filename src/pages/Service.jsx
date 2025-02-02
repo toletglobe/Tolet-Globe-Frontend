@@ -68,7 +68,7 @@ const Service = () => {
         SKIP THE MIDDLEMAN : RENT OR LEASE DIRECTLY ON TO-LET GLOBE
       </p>
       <div className="w-full ">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16 text-black mx-auto justify-items-center">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-10 mt-16 text-black mx-auto justify-items-center">
           {services.map((service, index) => (
             <Card
               key={index}
@@ -84,6 +84,5 @@ const Service = () => {
     </div>
   );
 };
-
 
 export default Service;
