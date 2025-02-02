@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 import { logout } from "../../../redux/store/authSlice";
 import profileLogo from "../../../assets/landlord/profileLogo.png";
 import accountSecurityImg from "../../../assets/landlord/accountSecurityImg.png";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function LandlordDashboardSidebar({}) {
   const navigate = useNavigate();
@@ -25,12 +25,23 @@ export default function LandlordDashboardSidebar({}) {
 
   const authState = useSelector((state) => state.auth);
   const [toggelSetting, setToggelSetting] = useState(false);
+  const settingsRef = useRef(null);
 
   const linkStyle_1 =
     "rounded-md px-[14px] py-[10px] max-w-[46px] text-xl flex items-center gap-x-4 cursor-pointer md:max-w-[320px] md:min-h-[45px]";
 
   const linkStyle_2 =
     "rounded-md px-[14px] py-[10px] flex items-center gap-x-4 cursor-pointer";
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (settingsRef.current && !settingsRef.current.contains(event.target)) {
+        setToggelSetting(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <>
@@ -59,7 +70,8 @@ export default function LandlordDashboardSidebar({}) {
                   fill="white"
                 />
               </svg>
-              <span className="hidden text-base md:block lg:text-xl">
+              {/* <span className="hidden text-base md:block lg:text-xl"> */}
+              <span className="hidden text-base sm:block lg:text-xl">
                 Dashboard
               </span>
             </div>
@@ -73,7 +85,9 @@ export default function LandlordDashboardSidebar({}) {
           >
             <div className="flex text-white-700 ">
               <AiOutlineHome size={27} className="mr-3" />
-              <span>My Properties</span>
+              <span className="hidden text-base sm:block lg:text-xl">
+                My Properties
+              </span>
             </div>
           </NavLink>
 
@@ -85,7 +99,9 @@ export default function LandlordDashboardSidebar({}) {
           >
             <div className="flex text-white-700 ">
               <AiOutlineHeart size={27} className="mr-3" />
-              <span>Favourites</span>
+              <span className="hidden text-base sm:block lg:text-xl">
+                Favourites
+              </span>
             </div>
           </NavLink>
 
@@ -97,50 +113,67 @@ export default function LandlordDashboardSidebar({}) {
           >
             <div className="flex text-white-700 ">
               <IoAddOutline size={27} className="mr-3" />
-              <span>Add Property</span>
+              <span className="hidden text-base sm:block lg:text-xl">
+                Add Property
+              </span>
             </div>
           </NavLink>
 
           <div
-            className={`rounded-md max-w-[320px] min-h-[45px] text-xl min-[320px]:max-sm:flex cursor-pointer`}
+            ref={settingsRef}
+            className={`rounded-md max-w-[320px] min-h-[45px] text-xl relative cursor-pointer`}
           >
             <NavLink
               to="settings/profile"
               className={({ isActive }) =>
-                `rounded-md px-[14px] py-[10px] flex items-center gap-x-4 h-[45px] `
+                `rounded-md px-[14px] py-[10px] flex items-center gap-x-4 h-[45px] ${
+                  isActive ? "bg-[#C8A117]" : ""
+                }`
               }
               onClick={() => {
                 setToggelSetting(!toggelSetting);
               }}
             >
-              <div className="flex text-white-700  w-full text-left">
-                <IoSettingsOutline size={27} className="mr-3" />{" "}
-                <span>Settings</span>
+              <div className="flex text-white-700 w-full text-left">
+                <IoSettingsOutline size={27} className="mr-3" />
+                <span className="hidden text-base sm:block lg:text-xl">
+                  Settings
+                </span>
               </div>
             </NavLink>
 
             {toggelSetting && (
-              <ul className="-ml-1 flex sm:flex-col gap-y-[2px] lg:mt-4 lg:ml-8">
+              <ul className="sm:flex sm:flex-col max-sm:ml-5 gap-y-[2px] lg:mt-4 lg:ml-8 max-sm:absolute max-sm:top-full max-sm:left-0 max-sm:w-full max-sm:bg-black max-sm:z-10 max-sm:flex max-sm:flex-row max-sm:justify-around max-sm:p-2">
                 <NavLink
                   to="settings/profile"
                   className={({ isActive }) =>
-                    ` ${linkStyle_2} ${isActive ? "bg-[#C8A117]" : ""} `
+                    `${linkStyle_2} ${
+                      isActive ? "sm:bg-[#C8A117]" : ""
+                    } max-sm:flex-1 max-sm:justify-center`
                   }
+                  onClick={() => setToggelSetting(false)}
                 >
-                  <li className="flex">
-                    <GoPerson size={27} className="mr-3" />
-                    <span>Profile</span>
+                  <li className="flex max-sm:justify-center">
+                    <GoPerson size={27} className="mr-3 max-sm:mr-0" />
+                    <span className="hidden text-base sm:block lg:text-xl">
+                      Profile
+                    </span>
                   </li>
                 </NavLink>
                 <NavLink
                   to="settings/account-security"
                   className={({ isActive }) =>
-                    ` ${linkStyle_2} ${isActive ? "bg-[#C8A117]" : ""} `
+                    `${linkStyle_2} ${
+                      isActive ? "bg-[#C8A117]" : ""
+                    } max-sm:flex-1 max-sm:justify-center`
                   }
+                  onClick={() => setToggelSetting(false)}
                 >
-                  <li className="flex">
-                    <MdLockOutline size={27} className="mr-3" />
-                    <span>Account Security</span>
+                  <li className="flex max-sm:justify-center">
+                    <MdLockOutline size={27} className="mr-3 max-sm:mr-0" />
+                    <span className="hidden text-base sm:block lg:text-xl">
+                      Account Security
+                    </span>
                   </li>
                 </NavLink>
               </ul>

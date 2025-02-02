@@ -120,8 +120,6 @@
   height: 30px;
   /* transform: translate3d(640px, -190px, 0) !important; */
   transform: translate3d(-75vw, -22vh, 0) !important;
-
-
 }
 
 .Tbird-2 {
@@ -154,8 +152,7 @@
   /* transform: translate3d(-20px, -60px, 0); */
   transform: translate3d(-2vw, -5vh, 0);
 
-    /* transfor: translate(-130px, -370px); */
-  
+  /* transfor: translate(-130px, -370px); */
 }
 
 /* ------------------Cloud CSS------------------- */
@@ -188,7 +185,7 @@
   width: 100px;
   height: 40px;
   /* transform: translate3d(-340px, -340px, 0) !important; */
-  transform: translate3d(-90vw, -46vh, 0) !important
+  transform: translate3d(-90vw, -46vh, 0) !important;
 }
 
 .Tcloud-2 {
@@ -251,7 +248,7 @@
   width: 260px;
   height: 40px;
   /* transform: translate3d(-136px, -260px, 0); */
-  transform: translate3d(-38vw, -35vh, 0)
+  transform: translate3d(-38vw, -35vh, 0);
 }
 
 /* -------------------Hand CSS ------------------ */
@@ -713,9 +710,10 @@
   opacity: 0.9;
   width: 80px;
   height: 60px;
+  /* right: 70rem; */
   /* transform: translate(870px, -270px); */
   /* transform: translate(-130px, -370px); */
-  transform: translate(-36vw, -103vw);
+  transform: translate(-6rem, -18rem);
   transition: all 2s ease-in-out;
 }
 .hand {

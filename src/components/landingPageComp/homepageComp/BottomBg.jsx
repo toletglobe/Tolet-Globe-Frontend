@@ -48,7 +48,7 @@ const BottomImages = () => {
   });
   return (
     <div className="-translate-y-[550px] translate-x-[17rem]">
-      <div className="relative bottom-img">
+      <div className="relative bottom-img ">
         <img src={bg2} alt="" className="bg-2" />
         <img src={bg1} alt="" className="bg-1" />
 

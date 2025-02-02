@@ -171,9 +171,12 @@ export default function MyProperties() {
             {cards}
           </div>
         ) : (
-          <h6 className="text-gray-400 text-center text-3xl font-bold ">
-            You have no favourites yet!
-          </h6>
+          <div>
+            <h6 className="text-white text-center text-3xl font-bold ">Your Favourites!</h6>
+            <h6 className="text-gray-400 text-center text-xl sm:text-3xl font-bold py-4">
+              You have no favourites yet!
+            </h6>
+          </div>
         )}
       </div>
     </>
