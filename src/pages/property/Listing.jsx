@@ -34,7 +34,7 @@ const Listing = () => {
   const propertiesPerPage = 9;
   const [showSelectCity, setShowSelectCity] = useState(false);
   // let selectedCity = false;
-
+  const [favouriteList, setFavouriteList] = useState([]);
   const [{ compareProperty }, dispatch] = useStateValue();
 
   const [filterCount, setFilterCount] = useState(0);
@@ -1473,108 +1473,6 @@ const Listing = () => {
     "Zehra Colony",
   ];
 
-  // const localityareas = {
-  //   // Respected Area of Particular Locality
-  //   "Gomti Nagar": [
-  //     "Vibhuti Khand",
-  //     "Viram Khand",
-  //     "Vijay Khand",
-  //     "Vikas Khand",
-  //     "Vipul Khand",
-  //     "Vardan Khand",
-  //     "Vinay Khand",
-  //     "Gomti Nagar Extension",
-  //     "Patrakarpuram",
-  //     "Faizabad Road (nearby)",
-  //   ],
-  //   Aliganj: [
-  //     "Sector A",
-  //     "Sector B",
-  //     "Sector C",
-  //     "Sector D",
-  //     "Sector E",
-  //     "Sector F",
-  //     "Purania",
-  //     "Kapoorthala",
-  //     "Tedhi Pulia",
-  //   ],
-  //   "Indira Nagar": [
-  //     "Sector 1",
-  //     "Sector 2",
-  //     "Sector 3",
-  //     "Sector 5",
-  //     "Sector 9",
-  //     "Sector 11",
-  //     "Sector 14",
-  //     "Sector 16",
-  //     "Sector 18",
-  //     "Sector 19",
-  //     "Munshipulia (nearby junction)",
-  //   ],
-  //   Hazratganj: [
-  //     "Ganj Market",
-  //     "Janpath Market",
-  //     "MG Marg (Mahatma Gandhi Marg)",
-  //     "GPO (General Post Office)",
-  //     "Hazratganj Crossing",
-  //     "Sikandar Bagh (nearby)",
-  //   ],
-  //   Aashiana: [
-  //     "Aashiana Phase 1",
-  //     "Aashiana Phase 2",
-  //     "Aashiana Phase 3",
-  //     "LDA Colony",
-  //     "Kanpur Road",
-  //     "Ruchi Khand",
-  //     "Ratan Khand",
-  //     "South City (adjacent)",
-  //   ],
-  //   Aminabad: [
-  //     "Gandhi Market",
-  //     "Pratap Market",
-  //     "Latouche Road",
-  //     "Aminabad Bazaar",
-  //     "Kesar Bagh",
-  //     "Hanuman Temple",
-  //   ],
-  //   Chowk: [
-  //     "Gol Darwaza",
-  //     "Nakhas Market",
-  //     "Tunday Kababi Lane",
-  //     "Akbari Gate",
-  //     "Kashmiri Mohalla",
-  //     "Chikan Market",
-  //   ],
-  //   Jankipuram: [
-  //     "Sector A",
-  //     "Sector B",
-  //     "Sector C",
-  //     "Jankipuram Extension",
-  //     "Kursi Road (nearby)",
-  //     "Engineering College Crossing",
-  //   ],
-  //   Rajajipuram: [
-  //     "Sector 1",
-  //     "Sector 2",
-  //     "Sector 3",
-  //     "Sector 4",
-  //     "Sector 6",
-  //     "Sector 7",
-  //     "C Block",
-  //     "G Block",
-  //     "H Block",
-  //   ],
-  //   Mahanagar: [
-  //     "Mahanagar Extension",
-  //     "Sector A",
-  //     "Sector B",
-  //     "Sector C",
-  //     "Sector D",
-  //     "Gol Market (within Mahanagar)",
-  //     "Nishatganj (adjacent)",
-  //   ],
-  // };
-
   // Add this new state for search
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -1587,6 +1485,39 @@ const Listing = () => {
 
   // Add this state for tracking window width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const fetchFavouriteProperties = async () => {
+      try {
+        if (!authState?.userData?.id) {
+          return;
+        }
+
+        const token = localStorage.getItem("token");
+
+        const response = await axios.post(
+          `${BASE_URL}user/getFavourites`,
+          {
+            userId: authState.userData.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const favouriteList = response.data.favouritesList.favourites;
+
+        console.log(favouriteList);
+
+        setFavouriteList(favouriteList);
+      } catch (error) {
+        console.log("Error fetching favourite properties:", error);
+      }
+    };
+    fetchFavouriteProperties();
+  }, []);
 
   // Add useEffect to handle window resize
   useEffect(() => {
@@ -1860,13 +1791,13 @@ const Listing = () => {
           if (showCity === true) setShowCity(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className="property h-[100vh] pb-14 px-10 w-full overflow-y-auto"
+        className="property h-[100vh] pb-14 w-full overflow-y-auto"
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
         <div className="px-3 flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
-            <p className="lg:text-[45px] md:text-4xl text-2xl text-[#C8A21C] font-bold">
+            <p className="lg:text-[45px] md:text-4xl text-[#C8A21C] font-bold">
               Property Listing
             </p>
             <img
@@ -2166,7 +2097,11 @@ const Listing = () => {
             No properties found
           </p>
         ) : (
-          <Cards properties={properties} />
+          <Cards
+            properties={properties}
+            favouriteList={favouriteList}
+            setFavouriteList={setFavouriteList}
+          />
         )}
       </section>
 

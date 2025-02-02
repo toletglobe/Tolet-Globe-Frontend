@@ -39,7 +39,6 @@ const Likes = ({ data }) => {
         toast.error("Login First!");
         return navigate("/login", { replace: true });
       }
-      console.log(data.slug);
       const updateddata = await axios.get(
         `${BASE_URL}blog/updateLikes/${data.slug}`,
         {
@@ -48,6 +47,10 @@ const Likes = ({ data }) => {
           },
         }
       );
+
+      
+
+      console.log(updateddata);
       setadata(updateddata.data.updatedBlog);
 
       data.likes = updateddata.data.updatedBlog.likes;

@@ -38,6 +38,9 @@ const LandlordDashboardWelcomePage = lazy(() =>
 const LandlordDashboardMyProperties = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboardMyProperties.jsx")
 );
+const LandlordDashboardMyFavourites = lazy(() =>
+  import("../pages/Dashboard/landlord/LandlordDashboardMyFavourites.jsx")
+);
 const LandlordDashboardAddProperties = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboardAddProperties.jsx")
 );
@@ -88,6 +91,10 @@ const Routing = () => {
             <Route
               path="my-properties"
               element={<LandlordDashboardMyProperties />}
+            />
+            <Route
+              path="favourites"
+              element={<LandlordDashboardMyFavourites />}
             />
             <Route
               path="add-properties"
