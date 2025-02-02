@@ -60,7 +60,7 @@ const Service = () => {
   ];
 
   return (
-    <div className="my-24 mx-auto w-[90%] bg-black cursor-pointer ">
+    <div className="max-sm:my-5  my-24 mx-auto w-[90%] bg-black cursor-pointer ">
       <h1 className="text-6xl text-center font-bold text-white mb-3">
         Services
       </h1>

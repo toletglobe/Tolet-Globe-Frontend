@@ -121,7 +121,6 @@ import Faq from "./AboutComp/Faq";
 // PropertyComp imports
 
 import Reviews from "./PropertyComp/Reviews";
-
 export {
   // Common exports
   Input,
