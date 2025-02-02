@@ -2019,6 +2019,7 @@ const Listing = () => {
                 </div>
               </div>
             </div>
+            
 
             <div className="compare" onClick={compare}>
               {compareProperty.length >= 0 && (

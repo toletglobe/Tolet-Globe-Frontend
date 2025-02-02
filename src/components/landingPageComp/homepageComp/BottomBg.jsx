@@ -1,5 +1,5 @@
 import "./style/background.css";
-import "animate.css";
+// import "animate.css";
 
 // -----------Birds Img------------
 import bird1 from "../../../assets/birds/bird1.svg";
