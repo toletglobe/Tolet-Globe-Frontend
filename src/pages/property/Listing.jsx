@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaSearch } from "react-icons/fa";
@@ -1125,7 +1125,7 @@ const Listing = () => {
     "Sabrahad",
     "Sachivalay Colony",
     "Sadar Bazaar",
-    "Sadar Bazar",
+    "Sadar Bazaar",
     "Sadarpur Karora",
     "Saddatganj",
     "Sadhiya",
@@ -1486,6 +1486,29 @@ const Listing = () => {
   // Add this state for tracking window width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  // Add a new ref for the search panel
+  const searchPanelRef = useRef(null);
+
+  // Add useEffect to handle clicks outside the panel
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        searchPanelRef.current &&
+        !searchPanelRef.current.contains(event.target)
+      ) {
+        setShowSearchPanel(false);
+      }
+    }
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchFavouriteProperties = async () => {
       try {
@@ -1693,13 +1716,6 @@ const Listing = () => {
     setProperties(sortedProperties);
   };
 
-  // Get current properties
-  // const indexOfLastProperty = currentPage * propertiesPerPage;
-  // const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  // const currentProperties = Array.isArray(properties)
-  //   ? properties.slice(indexOfFirstProperty, indexOfLastProperty)
-  //   : [];
-
   const handleSortClick = (sortType) => {
     const queryParams = new URLSearchParams(location.search);
     queryParams.set("sort", sortType);
@@ -1708,7 +1724,6 @@ const Listing = () => {
 
   const handleLocalitySelect = (locality) => {
     setSelectedLocality(locality); // Update selected locality
-    // console.log(locality);
   };
 
   // Add this function to handle search
@@ -1806,15 +1821,16 @@ const Listing = () => {
               className=" lg:w-12 md:w-11 w-9 h-auto"
             />
           </div>
-          <div className="flex justify-between gap-4 w-full flex-wrap">
-            <div className="flex items-center justify-between gap-20 md:gap-36 lg:gap-36 flex-col md:flex-row lg:flex-row">
-              <div className="bg-white h-16 w-[40vw] md:w-[74vw] lg:w-[50vw] flex items-center justify-between text-black px-2 rounded-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 text-sm md:text-lg">
+            {/* Search bar section - spans 8 columns on larger screens */}
+            <div className="bg-white sm:col-span-8 md:col-span-6 rounded-xl w-full">
+              <div className="min-h-[2.75rem] sm:min-h-[3.5rem] flex flex-wrap items-center text-black px-2 text-sm md:text-lg">
                 {/* Location Logic */}
-                <div className="flex items-center justify-center gap-4 p-2 border-r border-black">
-                  <div className="text-lg py-1 px-1 hover:cursor-pointer whitespace-nowrap">
-                    <p>{!city || Location ? "Select Your City" : city}</p>
+                <div className="flex items-center gap-4 p-2 border-r border-black shrink-0">
+                  <div className="py-1 px-1 hover:cursor-pointer">
+                    <p>{!city || Location ? "City" : city}</p>
                   </div>
-                  <div className="h-full flex items-center justify-center w-1/4 cursor-pointer rounded-full">
+                  <div className="items-center cursor-pointer">
                     <img
                       src={drop}
                       alt="Dropdown"
@@ -1822,21 +1838,6 @@ const Listing = () => {
                       className="cursor-pointer"
                     />
                   </div>
-
-                  {/* <div
-                    className={`absolute lg:left-28 left-[-20px] flex lg:gap-3 z-50 ${Location ? "block" : "hidden"
-                      }`}
-                  >
-                    <div>
-                      <img
-                        src={cross}
-                        alt="Close"
-                        onClick={()=>{handleLocation(); refresh();}}
-                        className="cursor-pointer"
-                      />
-                    </div>
-                    <SelectLocation />
-                  </div> */}
                   <SelectLocation
                     Location={Location}
                     setLocation={setLocation}
@@ -1849,11 +1850,11 @@ const Listing = () => {
                 </div>
 
                 {/* Search Input */}
-                <div className="flex items-center gap-2 px-4 relative">
-                  <FaSearch className="text-black" />
-                  <div className="flex flex-wrap gap-2 items-center w-64">
+                <div className="flex-1 min-w-0 flex items-center gap-2 px-4 text-sm md:text-lg">
+                  <FaSearch className="text-black shrink-0" />
+                  <div className="flex flex-wrap items-center gap-1 py-2 w-full overflow-x-hidden">
                     {selectedLocality && (
-                      <div className="flex items-center gap-1 bg-[#EED98B] px-2 py-1 rounded-full">
+                      <div className="flex items-center gap-1 bg-[#EED98B] px-2 py-1 rounded-full shrink-0">
                         <span className="text-sm">{selectedLocality}</span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1876,7 +1877,7 @@ const Listing = () => {
                     {selectedArea.map((area) => (
                       <div
                         key={area}
-                        className="flex items-center gap-1 bg-[#EED98B] px-2 py-1 rounded-full"
+                        className="flex items-center bg-[#EED98B] px-2 py-1 rounded-full shrink-0"
                       >
                         <span className="text-sm">{area}</span>
                         <svg
@@ -1908,7 +1909,7 @@ const Listing = () => {
                       }
                       value={searchQuery}
                       onChange={handleSearch}
-                      className="outline-none flex-1 min-w-[100px] text-lg bg-transparent text-black placeholder-gray-500"
+                      className="outline-none bg-transparent text-black placeholder-gray-500 min-w-[100px] flex-1"
                     />
                   </div>
 
@@ -1916,7 +1917,10 @@ const Listing = () => {
                   {showSearchPanel &&
                     (searchResults.localities.length > 0 ||
                       searchResults.areas.length > 0) && (
-                      <div className="absolute top-full left-0 mt-2 w-full bg-white rounded-lg shadow-lg z-50 max-h-[300px] overflow-y-auto">
+                      <div
+                        ref={searchPanelRef}
+                        className="absolute top-full left-28 mt-2 w-1/3 bg-white rounded-lg shadow-lg z-50 max-h-[300px] overflow-y-auto"
+                      >
                         {[
                           ...searchResults.localities,
                           ...searchResults.areas,
@@ -1948,14 +1952,11 @@ const Listing = () => {
                 </div>
 
                 {/* Filters logic */}
-                <div className="flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-l pl-3 h-3/4 border-black ">
-                  <div className="flex items-center justify-start gap-4 h-full w-2/4">
-                    {/* <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
-                      {filterCount}
-                    </div> */}
-                    <div className="text-lg">Filters</div>
-                  </div>
-                  <div className="h-full flex items-center justify-center w-1/4 cursor-pointer rounded-full">
+                <div className="flex items-center gap-2 border-l pl-3 h-3/4 border-black shrink-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm md:text-lg whitespace-nowrap">
+                      Filters
+                    </span>
                     <img
                       src={drop}
                       alt="Dropdown"
@@ -1966,24 +1967,26 @@ const Listing = () => {
                 </div>
 
                 {/* SORT LOGIC */}
-                <div className="flex items-center justify-start gap-2 md:gap-4 lg:gap-4 border-l pl-3 h-3/4 border-black ">
-                  <p className="text-black text-lg">Sort</p>
+                <div className="flex items-center gap-2 border-l pl-3 h-3/4 border-black shrink-0">
+                  <span className="text-sm md:text-lg whitespace-nowrap">
+                    Sort
+                  </span>
                   <img
                     src={drop}
                     alt="Dropdown"
                     className={`${
                       mode ? "rotate-180" : "rotate-0"
-                    } mt-1 cursor-pointer`}
+                    } cursor-pointer`}
                     onClick={handleMode}
                   />
-                  <div className="relative">
+                  <div className="relative text-sm lg:text-lg">
                     <div
                       className={`${
                         mode ? "block" : "hidden"
-                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[50px] left-[-110px]`}
+                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[50px] sm:left-[-110px]`}
                     >
                       <p
-                        className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                        className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                         onClick={() => {
                           handleSortClick("price-low-high"), setMode(false);
                         }}
@@ -1991,7 +1994,7 @@ const Listing = () => {
                         Price: Low to High
                       </p>
                       <p
-                        className="border-b-2 py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                        className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                         onClick={() => {
                           handleSortClick("price-high-low"), setMode(false);
                         }}
@@ -1999,7 +2002,7 @@ const Listing = () => {
                         Price: High to Low
                       </p>
                       <p
-                        className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                        className="py-2 font-medium cursor-pointer hover:bg-gray-100"
                         onClick={() => {
                           handleSortClick("most-trending"), setMode(false);
                         }}
@@ -2007,7 +2010,7 @@ const Listing = () => {
                         Most Trending
                       </p>
                       <p
-                        className="py-2 text-lg font-medium cursor-pointer hover:bg-gray-100"
+                        className="py-2 font-medium cursor-pointer hover:bg-gray-100"
                         onClick={() => {
                           handleSortClick("date-uploaded"), setMode(false);
                         }}
@@ -2019,33 +2022,35 @@ const Listing = () => {
                 </div>
               </div>
             </div>
-            
 
-            <div className="compare" onClick={compare}>
-              {compareProperty.length >= 0 && (
-                <button
-                  className={`bg-white h-14 w-24 text-black rounded-md flex gap-5 text-center items-center py-3 px-6 font-medium ${
-                    compareProperty.length <= 1
-                      ? "opacity-50 grayscale cursor-not-allowed"
-                      : ""
-                  }`}
-                  disabled={compareProperty.length <= 1}
+            {/* Compare and Add Property buttons - span 4 columns together */}
+            <div className="sm:col-span-4 md:col-span-6 flex gap- items-center justify-between">
+              <div className="compare" onClick={compare}>
+                {compareProperty.length >= 0 && (
+                  <button
+                    className={`bg-white h-12 sm:h-14 w-24 text-black rounded-lg flex gap-5 text-center items-center py-3 px-6 font-medium ${
+                      compareProperty.length <= 1
+                        ? "opacity-50 grayscale cursor-not-allowed"
+                        : ""
+                    }`}
+                    disabled={compareProperty.length <= 1}
+                  >
+                    Visit
+                    <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
+                      {compareProperty.length}
+                    </div>
+                  </button>
+                )}
+              </div>
+
+              <div>
+                <a
+                  onClick={handleAddPropertybtn}
+                  className="bg-white w-30 h-12 sm:h-14 text-black flex items-center justify-center px-5 rounded-lg cursor-pointer"
                 >
-                  Visit
-                  <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
-                    {compareProperty.length}
-                  </div>
-                </button>
-              )}
-            </div>
-
-            <div>
-              <a
-                onClick={handleAddPropertybtn}
-                className="mr-2 bg-white w-30 h-14 text-black flex items-center justify-center px-5 rounded-md cursor-pointer"
-              >
-                Add a property
-              </a>
+                  Add a property
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -2060,7 +2065,7 @@ const Listing = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg top-28 right-[28.8rem]"
+            className="relative w-full max-w-lg top-[89px] sm:top-28 -right-[13px] sm:right-[28.8rem]"
           >
             <Filters
               SetIsOpen={SetIsOpen}
@@ -2085,7 +2090,7 @@ const Listing = () => {
               >
                 <path
                   fillRule="evenodd"
-                  d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                  d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L8.586 12 5.47 6.53a.75.75 0 010-1.414z"
                   clipRule="evenodd"
                 />
               </svg>
