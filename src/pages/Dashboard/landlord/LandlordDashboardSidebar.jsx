@@ -6,7 +6,7 @@ import {
   faChartSimple,
   faGear,
 } from "@fortawesome/free-solid-svg-icons";
-import { AiOutlineHome } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineHeart } from "react-icons/ai";
 import { IoAddOutline } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import { GoPerson } from "react-icons/go";
@@ -74,6 +74,18 @@ export default function LandlordDashboardSidebar({}) {
             <div className="flex text-white-700 ">
               <AiOutlineHome size={27} className="mr-3" />
               <span>My Properties</span>
+            </div>
+          </NavLink>
+
+          <NavLink
+            to="favourites"
+            className={({ isActive }) =>
+              ` ${linkStyle_1} ${isActive ? "bg-[#C8A117]" : ""} `
+            }
+          >
+            <div className="flex text-white-700 ">
+              <AiOutlineHeart size={27} className="mr-3" />
+              <span>Favourites</span>
             </div>
           </NavLink>
 

@@ -2,12 +2,6 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    // screens: {
-    //   sm: "0px",
-    //   md: "360px",
-    //   lg: "500px",
-    //   xl: "820px",
-    // },
     extend: {
       transitionProperty: {
         all: "all",

@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import "./card.css";
 import defaultHouse from "../../../assets/defaultHouse/defaultHouse.jpg";
 import { BASE_URL } from "../../../constant/constant";
+import { FaHeart } from "react-icons/fa";
 // import { useEffect } from "react";
 
 // Custom Arrow Components
@@ -39,7 +40,7 @@ const NextArrow = ({ onClick }) => (
 );
 
 // Component Card
-const Cards = ({ properties, propertyAction }) => {
+const Cards = ({ properties, favouriteList, setFavouriteList }) => {
   const [{ compareProperty }, dispatch] = useStateValue();
 
   const addToCompare = (property) => {
@@ -110,9 +111,40 @@ const Cards = ({ properties, propertyAction }) => {
       );
 
       toast.success("Added to favorites!");
+      setFavouriteList([...favouriteList, propertyId]);
     } catch (error) {
       console.log(error);
       toast.error("Failed to add to favorites");
+    }
+  };
+
+  const removeFromFavourites = async (propertyId) => {
+    try {
+      if (!authState.status) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+
+      const token = localStorage.getItem("token");
+
+      await axios.post(
+        `${BASE_URL}user/removeFromFavourites`,
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Removed from favorites!");
+      setFavouriteList(favouriteList.filter((id) => id !== propertyId));
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to remove from favorites");
     }
   };
 
@@ -282,10 +314,18 @@ const Cards = ({ properties, propertyAction }) => {
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            addToFavourites(property._id);
+                            if (favouriteList.includes(property._id)) {
+                              removeFromFavourites(property._id);
+                            } else {
+                              addToFavourites(property._id);
+                            }
                           }}
                         >
-                          <CiHeart className="card_icon text-red-500" />
+                          {favouriteList.includes(property._id) ? (
+                            <FaHeart className="card_icon text-red-500" />
+                          ) : (
+                            <CiHeart className="card_icon text-red-500" />
+                          )}
                         </a>
                       }
                       position="top center"
@@ -293,7 +333,7 @@ const Cards = ({ properties, propertyAction }) => {
                       arrow={true}
                     >
                       <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
-                        Add to Favourites
+                        Favourite
                       </div>
                     </Popup>
                   </div>

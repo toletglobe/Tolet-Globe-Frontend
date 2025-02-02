@@ -34,7 +34,7 @@ const Listing = () => {
   const propertiesPerPage = 9;
   const [showSelectCity, setShowSelectCity] = useState(false);
   // let selectedCity = false;
-
+  const [favouriteList, setFavouriteList] = useState([]);
   const [{ compareProperty }, dispatch] = useStateValue();
 
   const [filterCount, setFilterCount] = useState(0);
@@ -1486,6 +1486,39 @@ const Listing = () => {
   // Add this state for tracking window width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const fetchFavouriteProperties = async () => {
+      try {
+        if (!authState?.userData?.id) {
+          return;
+        }
+
+        const token = localStorage.getItem("token");
+
+        const response = await axios.post(
+          `${BASE_URL}user/getFavourites`,
+          {
+            userId: authState.userData.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const favouriteList = response.data.favouritesList.favourites;
+
+        console.log(favouriteList);
+
+        setFavouriteList(favouriteList);
+      } catch (error) {
+        console.log("Error fetching favourite properties:", error);
+      }
+    };
+    fetchFavouriteProperties();
+  }, []);
+
   // Add useEffect to handle window resize
   useEffect(() => {
     const handleResize = () => {
@@ -2064,7 +2097,11 @@ const Listing = () => {
             No properties found
           </p>
         ) : (
-          <Cards properties={properties} />
+          <Cards
+            properties={properties}
+            favouriteList={favouriteList}
+            setFavouriteList={setFavouriteList}
+          />
         )}
       </section>
 
