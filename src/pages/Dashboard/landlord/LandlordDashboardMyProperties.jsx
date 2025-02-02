@@ -35,11 +35,8 @@ export default function MyProperties() {
 
   // Add Edit button and handleEdit function
   const handleEdit = (property) => {
-
     navigate(`/landlord-dashboard/edit-properties/${property._id}`);
   };
-
-
 
   // Handle Delete function
   const handleDelete = async (property) => {
@@ -138,7 +135,6 @@ export default function MyProperties() {
               >
                 <MdEdit size={20} style={{ color: "#808080" }} /> Edit
               </button>
-
             </div>
           )}
         </div>
@@ -147,7 +143,6 @@ export default function MyProperties() {
         {property.locality}, {property.city}, India
       </p>
       <p className="text-gray-400 mt-1">Rs. {property.rent}</p>
-
     </div>
   ));
 
@@ -159,9 +154,14 @@ export default function MyProperties() {
             {cards}
           </div>
         ) : (
-          <h6 className="text-gray-400 text-center text-3xl font-bold ">
-            You have no properties yet!
-          </h6>
+          <div>
+            <h6 className="text-white text-center text-3xl font-bold ">
+              Your Properties!
+            </h6>
+            <h6 className="text-gray-400 text-center text-xl sm:text-3xl font-bold py-4">
+              You have no properties yet!
+            </h6>
+          </div>
         )}
       </div>
     </>

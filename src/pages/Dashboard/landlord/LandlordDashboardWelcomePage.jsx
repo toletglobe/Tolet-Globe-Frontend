@@ -118,8 +118,8 @@ const LandlordDashboardWelcomePage = () => {
   return (
     <div className="bg-black text-white">
       {/* Header (Welcome Message) */}
-      <div className="mb-8 sm:text-center xl:mt-10 xl:mb-6">
-        <h1 className="text-4xl font-bold sm:text-xl md:text-2xl lg:text-3xl xl:text-left">
+      <div className="mb-8 mx-3 sm:text-center max-sm:mt-4 xl:mt-4 xl:mb-6">
+        <h1 className="max-sm:text-center text-3xl font-bold sm:text-xl md:text-2xl lg:text-3xl xl:text-left max-sm:pt-4">
           {authState.userData
             ? authState.userData.firstName?.charAt(0).toUpperCase() +
               authState.userData.firstName?.slice(1).toLowerCase()
@@ -128,7 +128,7 @@ const LandlordDashboardWelcomePage = () => {
         </h1>
       </div>
       {/* Quick Actions */}
-      <div className="flex flex-col gap-y-8 xl:gap-y-7">
+      <div className="flex flex-col gap-y-8 xl:gap-y-7 m-3">
         <h2 className="text-xl font-bold sm:text-lg text-center md:text-xl lg:text-2xl xl:text-left xl:text-lg">
           Quick Actions
         </h2>
@@ -175,7 +175,7 @@ const LandlordDashboardWelcomePage = () => {
         </div>
       </div>
       {/* Recent Properties */}
-      <div className="mt-8">
+      <div className="mt-8 mx-3">
         <h2 className="text-2xl text-left font-semibold mb-4 sm:text-center xl:text-lg xl:text-left">
           Recent Properties
         </h2>

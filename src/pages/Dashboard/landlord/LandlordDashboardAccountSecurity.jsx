@@ -71,7 +71,7 @@ const LandlordDashboardAccountSecurity = () => {
   return (
     <div className="min-h-screen bg-black flex flex-col p-4 sm:p-6 md:p-8 lg:p-10">
       <div className="mb-4">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl text-white font-semibold text-left">
+        <h2 className="max-sm:text-center text-3xl text-white font-semibold text-left pb-2">
           Account Security
         </h2>
         <p className="text-xs sm:text-sm md:text-base text-teal-400 p-2 text-left">
@@ -79,8 +79,8 @@ const LandlordDashboardAccountSecurity = () => {
           something too obvious like your pet's name.
         </p>
       </div>
-      
-      <div className="w-full max-w-full sm:max-w-md mb-4">
+
+      <div className="sm:max-w-md mb-4 mx-2">
         <form onSubmit={handleSubmit} className="mb-0">
           <div className="mb-4">
             <label className="block text-white mb-2">Current Password</label>
@@ -134,7 +134,9 @@ const LandlordDashboardAccountSecurity = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-white mb-2">Confirm New Password</label>
+            <label className="block text-white mb-2">
+              Confirm New Password
+            </label>
             <input
               type="password"
               value={confirmPassword}

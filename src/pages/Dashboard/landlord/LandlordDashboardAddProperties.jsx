@@ -242,8 +242,8 @@ export default function LandlordDashboardAddProperties() {
       <div>
         {/* ProgressBar */}
 
-        <div className="ml-5 mt-5 mb-8 pr-5 flex flex-col gap-2 md:pr-0">
-          <h1 className="text-center text-[#FFFFFF] text-[33px] leading-10 font-bold md:text-left">
+        <div className="mx-16 sm:my-5 mt-7 mb-8  flex flex-col gap-2 md:pr-0">
+          <h1 className="text-center text-[#FFFFFF] text-3xl leading-10 font-bold md:text-left">
             Add New Property
           </h1>
           <div className="mt-8 flex gap-4">
@@ -279,10 +279,11 @@ export default function LandlordDashboardAddProperties() {
               <input
                 type="button"
                 value="Back"
-                className={`border-[0.5px] rounded-md font-bold px-7 py-[10px] ${page == 3
-                  ? "bg-[#E8EDF2] text-black"
-                  : "border-amber-500  text-white"
-                  }  `}
+                className={`border-[0.5px] rounded-md font-bold px-7 py-[10px] ${
+                  page == 3
+                    ? "bg-[#E8EDF2] text-black"
+                    : "border-amber-500  text-white"
+                }  `}
                 onClick={() => {
                   setPage((page) => page - 1);
                 }}
