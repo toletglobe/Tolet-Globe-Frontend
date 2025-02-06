@@ -4,7 +4,7 @@ export default function Flip(props) {
   return (
     <>
       <div>
-        <div className="relative text-center transition-transform duration-700 flex justify-center h-[100px] md:h-[200px] w-[100px] md:w-[200px] [perspective:1000px] group">
+        <div className="relative text-center transition-transform duration-700 flex justify-center h-[100px] md:h-[250px] w-[100px] md:w-[250px] [perspective:1000px] group">
           <div className="relative w-full h-full transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
             <div className="absolute flex justify-center items-center w-full h-full">
               <img
