@@ -1728,7 +1728,7 @@ const Listing = () => {
 
   // Add this function to handle search
   const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
+    const query = e.target.value;
     setSearchQuery(query);
 
     if (query.length === 0) {
@@ -1739,13 +1739,13 @@ const Listing = () => {
     // Filter localities based on selected city
     const matchingLocalities = city
       ? citylocalities[city].filter((locality) =>
-          locality.toLowerCase().includes(query)
+          locality.toLowerCase().startsWith(query.toLowerCase())
         )
       : [];
 
     // Filter areas
     const matchingAreas = areas.filter((area) =>
-      area.toLowerCase().includes(query)
+      area.toLowerCase().startsWith(query.toLowerCase())
     );
 
     setSearchResults({
@@ -1755,16 +1755,36 @@ const Listing = () => {
     setShowSearchPanel(true);
   };
 
-  // Add new function to handle selection
   const handleSearchSelection = (value, type) => {
+    const queryParams = new URLSearchParams(location.search);
+    
     if (type === "locality") {
       handleLocalitySelect(value);
+      queryParams.set("locality", value);
+      navigate(`${location.pathname}?${queryParams.toString()}`);
     } else {
       addLocality(value);
+      // Get current areas and add new one
+      const currentAreas = selectedArea.includes(value) 
+        ? selectedArea.filter(area => area !== value) 
+        : [...selectedArea, value];
+      
+      if (currentAreas.length > 0) {
+        queryParams.set("area", currentAreas.join(","));
+        navigate(`${location.pathname}?${queryParams.toString()}`);
+      } else {
+        // If no areas are selected, remove the area parameter and navigate
+        queryParams.delete("area");
+        const newUrl = queryParams.toString() 
+          ? `${location.pathname}?${queryParams.toString()}`
+          : location.pathname;
+        navigate(newUrl);
+      }
     }
+    
     setSearchQuery("");
     setShowSearchPanel(false);
-  };
+  };  
 
   if (loading) {
     return (
@@ -1795,7 +1815,7 @@ const Listing = () => {
           if (Location === true) setLocation(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
+        className={`bg-black opacity-80 h-[2600px] absolute z-20 ${
           isOpen || Hamburger || Location ? "block" : "hidden"
         }`}
       ></div>
@@ -1810,8 +1830,8 @@ const Listing = () => {
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-3 flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
-          <div className="flex items-center justify-between">
+        <div className="px-4 flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
+          {/* <div className="flex items-center justify-between">
             <p className="lg:text-[45px] md:text-4xl text-[#C8A21C] font-bold">
               Property Listing
             </p>
@@ -1820,13 +1840,14 @@ const Listing = () => {
               alt="Hamburger Menu"
               className=" lg:w-12 md:w-11 w-9 h-auto"
             />
-          </div>
+          </div> */}
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 text-sm md:text-lg">
             {/* Search bar section - spans 8 columns on larger screens */}
             <div className="bg-white sm:col-span-8 md:col-span-6 rounded-xl w-full">
               <div className="min-h-[2.75rem] sm:min-h-[3.5rem] flex flex-wrap items-center text-black px-2 text-sm md:text-lg">
                 {/* Location Logic */}
-                <div className="flex items-center gap-4 p-2 border-r border-black shrink-0">
+                <div className="flex items-center gap-4 px-2 border-r border-black shrink-0 cursor-pointer" 
+                      onClick={handleLocation}>
                   <div className="py-1 px-1 hover:cursor-pointer">
                     <p>{!city || Location ? "City" : city}</p>
                   </div>
@@ -1834,7 +1855,6 @@ const Listing = () => {
                     <img
                       src={drop}
                       alt="Dropdown"
-                      onClick={handleLocation}
                       className="cursor-pointer"
                     />
                   </div>
@@ -1952,7 +1972,7 @@ const Listing = () => {
                 </div>
 
                 {/* Filters logic */}
-                <div className="flex items-center gap-2 border-l pl-3 h-3/4 border-black shrink-0">
+                <div className="flex items-center gap-2 border-l pl-3 h-3/4 px-2  border-black shrink-0 cursor-pointer" onClick={handleOpen}>
                   <div className="flex items-center gap-2">
                     <span className="text-sm md:text-lg whitespace-nowrap">
                       Filters
@@ -1960,14 +1980,13 @@ const Listing = () => {
                     <img
                       src={drop}
                       alt="Dropdown"
-                      onClick={handleOpen}
                       className="cursor-pointer"
                     />
                   </div>
                 </div>
 
                 {/* SORT LOGIC */}
-                <div className="flex items-center gap-2 border-l pl-3 h-3/4 border-black shrink-0">
+                <div className="flex items-center gap-2 pl-3 h-3/4 border-l px-2 border-black shrink-0 cursor-pointer" onClick={handleMode}>
                   <span className="text-sm md:text-lg whitespace-nowrap">
                     Sort
                   </span>
@@ -1977,7 +1996,7 @@ const Listing = () => {
                     className={`${
                       mode ? "rotate-180" : "rotate-0"
                     } cursor-pointer`}
-                    onClick={handleMode}
+                    
                   />
                   <div className="relative text-sm lg:text-lg">
                     <div
@@ -2028,15 +2047,15 @@ const Listing = () => {
               <div className="compare" onClick={compare}>
                 {compareProperty.length >= 0 && (
                   <button
-                    className={`bg-white h-12 sm:h-14 w-24 text-black rounded-lg flex gap-5 text-center items-center py-3 px-6 font-medium ${
+                    className={`bg-white h-12 sm:h-14 w-24 text-black rounded-lg flex gap-5 text-center items-center py-3 px-4 font-medium ${
                       compareProperty.length <= 1
-                        ? "opacity-50 grayscale cursor-not-allowed"
+                        ? "opacity-0 grayscale cursor-not-allowed"
                         : ""
                     }`}
                     disabled={compareProperty.length <= 1}
                   >
                     Visit
-                    <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
+                    <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center  justify-center">
                       {compareProperty.length}
                     </div>
                   </button>
