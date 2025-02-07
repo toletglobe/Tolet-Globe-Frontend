@@ -50,7 +50,7 @@ const NavBar = () => {
 
   const navLinks = [
     { label: "Home", path: "/" },
-    { label: "Service", path: "/service" },
+    // { label: "Service", path: "/service" },
     { label: "Blog", path: "/blog" },
     { label: "Contact", path: "/contact" },
     { label: "About Us", path: "/aboutus" },

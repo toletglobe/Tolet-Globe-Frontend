@@ -1,4 +1,3 @@
-// src/pages/Service.jsx
 import warehouse from "../assets/service/image29.png";
 import pg from "../assets/service/image18.png";
 import flat from "../assets/service/image21.png";
@@ -15,7 +14,7 @@ const Service = () => {
       bg: "bg-[#6CC1B6]",
       path: "/property-listing?residential=PG",
       description:
-        "Find budget-friendly and convenient paying guest accommodations for a comfortable stay away from home",
+        "Find budget-friendly and convenient paying guest accommodations for a comfortable stay away from home.",
     },
     {
       img: flat,
@@ -23,7 +22,7 @@ const Service = () => {
       bg: "bg-[#CCB454]",
       path: "/property-listing?residential=Flat",
       description:
-        "Discover a diverse range of apartments for rent, customize to suit your lifestyle and budget",
+        "Discover a diverse range of apartments for rent, customized to suit your lifestyle and budget.",
     },
     {
       img: house,
@@ -31,7 +30,7 @@ const Service = () => {
       bg: "bg-[#6CC1B6]",
       path: "/property-listing?residential=House",
       description:
-        "Search for your dream home, available for rent or sale, tailored to your lifestyle and preferences",
+        "Search for your dream home, available for rent or sale, tailored to your lifestyle and preferences.",
     },
     {
       img: shop,
@@ -39,7 +38,7 @@ const Service = () => {
       bg: "bg-[#CCB454]",
       path: "/property-listing?commercial=Shop",
       description:
-        "Explore a variety of retail spaces and shops available for lease, ideal for growing your business",
+        "Explore a variety of retail spaces and shops available for lease, ideal for growing your business.",
     },
     {
       img: office,
@@ -47,7 +46,7 @@ const Service = () => {
       bg: "bg-[#6CC1B6]",
       path: "/property-listing?commercial=Office",
       description:
-        "Elevate your workspace and productivity with modern office spaces for rent, designed for success",
+        "Elevate your workspace and productivity with modern office spaces for rent, designed for success.",
     },
     {
       img: warehouse,
@@ -55,20 +54,20 @@ const Service = () => {
       bg: "bg-[#CCB454]",
       path: "/property-listing?commercial=Warehouse",
       description:
-        "Secure the perfect godown space for rent, offering ample storage and logistics solutions",
+        "Secure the perfect godown space for rent, offering ample storage and logistics solutions.",
     },
   ];
 
   return (
-    <div className="max-sm:my-5  my-24 mx-auto w-[90%] bg-black cursor-pointer ">
+    <div className="max-sm:my-5 my-24 mx-auto w-[90%] bg-black cursor-pointer">
       <h1 className="text-6xl text-center font-bold text-white mb-3">
-        Services
+        Choose a Service
       </h1>
       <p className="text-xs text-center text-[#CCB454]">
         SKIP THE MIDDLEMAN : RENT OR LEASE DIRECTLY ON TO-LET GLOBE
       </p>
-      <div className="w-full ">
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-10 mt-16 text-black mx-auto justify-items-center">
+      <div className="w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-16 text-black mx-auto justify-items-center">
           {services.map((service, index) => (
             <Card
               key={index}
