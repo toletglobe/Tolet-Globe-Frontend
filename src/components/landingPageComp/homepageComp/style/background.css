@@ -713,7 +713,7 @@
   /* right: 70rem; */
   /* transform: translate(870px, -270px); */
   /* transform: translate(-130px, -370px); */
-  transform: translate(-6rem, -18rem);
+  transform: translate(-6rem,-450%);
   transition: all 2s ease-in-out;
 }
 .hand {

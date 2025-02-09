@@ -62,7 +62,7 @@ const Service = () => {
   return (
     <div className="max-sm:my-5  my-24 mx-auto w-[90%] bg-black cursor-pointer ">
       <h1 className="text-6xl text-center font-bold text-white mb-3">
-        Services
+        Choose a Service
       </h1>
       <p className="text-xs text-center text-[#CCB454]">
         SKIP THE MIDDLEMAN : RENT OR LEASE DIRECTLY ON TO-LET GLOBE

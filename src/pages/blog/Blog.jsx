@@ -10,7 +10,7 @@ import Pagination from "./components/Pagination";
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [blogsPerPage] = useState(6);
+  const [blogsPerPage] = useState(9);
   const navigate = useNavigate(); // Use useNavigate for navigation
   const [isLatest, setIsLatest] = useState(true);
   // const [backendData, setBackendData] = useState([]); // Store the original data from backend
@@ -80,7 +80,6 @@ const Blog = () => {
       </div>
     );
   }
-
 
   return (
     <div className="bg-black my-5">
