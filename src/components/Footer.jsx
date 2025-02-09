@@ -9,7 +9,7 @@ const Footer = () => {
       <hr className="my-3 border-gray-700" />
 
       {/* Responsive Grid Layout */}
-      <div className="grid  lg:grid-cols-4 gap-10 py-5 justify-items-center">
+      <div className="grid lg:grid-cols-4 gap-10 py-5 justify-items-center">
         {/* Logo and Tagline Section */}
         <div className="flex flex-col items-center text-center">
           <img src={logo} alt="To-Let Globe Logo" className="w-20 md:w-28" />
@@ -89,9 +89,9 @@ const Footer = () => {
             <li className="flex items-center gap-2 justify-center">
               <IoIosMail className="text-xl" /> hello@toletglobe.in
             </li>
-            <li className="flex items-center gap-0.5 justify-center">
-              <FaLocationDot className="text-xl" /> D1/122 Vipulkhand,
-              Gomtinagar, Lucknow, Uttar Pradesh
+            <li className="flex items-start gap-2 justify-center text-center">
+              <FaLocationDot className="text-xl mt-1" />
+              <span>D1/122 Vipulkhand, Gomtinagar, Lucknow, Uttar Pradesh</span>
             </li>
           </ul>
         </div>

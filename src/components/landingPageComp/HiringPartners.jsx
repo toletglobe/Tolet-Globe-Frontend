@@ -6,42 +6,15 @@ import pregradLogo from "../../assets/Hiring/pregrad.jpg";
 import sunstoneLogo from "../../assets/Hiring/sunstone.jpg";
 
 const images = [
-  {
-    src: linkedinLogo,
-    alt: "LinkedIn",
-    url: "https://www.linkedin.com/company/to-let-globe/posts/?feedView=all",
-  },
-  {
-    src: unstopLogo,
-    title: "Unstop",
-    url: "https://unstop.com",
-  },
-  {
-    src: apnaLogo,
-    title: "Apna",
-    url: "https://apna.co",
-  },
-  {
-    src: pregradLogo,
-    title: "Pregrad",
-    url: "https://www.pregrad.in/",
-  },
-  {
-    src: sunstoneLogo,
-    title: "Sunstone",
-    url: "https://sunstone.in",
-  },
-  {
-    src: linkedinLogo,
-    alt: "LinkedIn",
-    url: "https://www.linkedin.com/company/to-let-globe/posts/?feedView=all",
-  },
-  {
-    src: unstopLogo,
-    title: "Unstop",
-    url: "https://unstop.com",
-  },
+  { src: unstopLogo, title: "Unstop", url: "https://unstop.com" },
+  { src: apnaLogo, title: "Apna", url: "https://apna.co" },
+  { src: pregradLogo, title: "Pregrad", url: "https://www.pregrad.in/" },
+  { src: sunstoneLogo, title: "Sunstone", url: "https://sunstone.in" },
+  { src: linkedinLogo, alt: "LinkedIn", url: "https://www.linkedin.com/company/to-let-globe/posts/?feedView=all" },
 ];
+
+// Duplicate images to create a seamless effect
+const repeatedImages = [...images, ...images];
 
 const HiringPartners = () => {
   const handleLogoClick = (url) => {
@@ -65,26 +38,35 @@ const HiringPartners = () => {
             Our Hiring Partners
           </h2>
         </div>
-        <div className="w-full text-center overflow-hidden">
-          <div className="animate-marquee flex justify-center items-center flex-wrap gap-10 md:gap-10">
-            <div className="marquee">
-              {images.concat(images).map((image, idy) => (
-                <div
-                  key={idy}
-                  className="flex flex-col justify-center mx-9 my-5"
-                >
-                  <img
-                    src={image.src}
-                    alt={image.title || image.alt}
-                    className="max-w-[900px] max-h-[900px] cursor-pointer hover:opacity-80 transition-opacity"
-                    onClick={() => handleLogoClick(image.url)}
-                  />
-                </div>
-              ))}
-            </div>
+
+        {/* Marquee Scrolling Effect */}
+        <div className="w-full overflow-hidden relative">
+          <div className="flex w-max gap-10 animate-[marquee_25s_linear_infinite]">
+            {repeatedImages.map((image, index) => (
+              <div key={index} className="flex-shrink-0">
+                <img
+                  src={image.src}
+                  alt={image.title || image.alt}
+                  className="w-40 h-40 object-contain cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={() => handleLogoClick(image.url)}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Tailwind Custom Animation (Inline CSS) */}
+      <style jsx>{`
+        @keyframes marquee {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
     </div>
   );
 };
