@@ -124,7 +124,7 @@
 
 .Tbird-2 {
   position: absolute;
-  opacity: 0.5;
+  opacity: 0.2;
   width: 100px;
   height: 40px;
   transform: translate3d(-310px, 420px, 0);
@@ -713,7 +713,7 @@
   /* right: 70rem; */
   /* transform: translate(870px, -270px); */
   /* transform: translate(-130px, -370px); */
-  transform: translate(-6rem, -18rem);
+  transform: translate(-6rem, -450%);
   transition: all 2s ease-in-out;
 }
 .hand {

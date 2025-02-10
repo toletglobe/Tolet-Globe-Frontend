@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/store/authSlice";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { RxHamburgerMenu } from "react-icons/rx";
 import {
   ArrowLeftStartOnRectangleIcon,
   Bars3Icon,
@@ -64,13 +66,13 @@ const NavBar = () => {
     imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
 
   return (
-    <div className="bg-[#232323] lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
+    <div className="bg-gray-800 lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setShowMenu(!showMenu)}
         className="lg:hidden flex items-center p-2 -ml-3"
       >
-        <Bars3Icon size={25} className="h-6 w-6 text-white" />
+        <HiOutlineMenuAlt3 size={25} className="text-white" />
       </button>
 
       {/* Mobile Logo - Centered only on mobile */}
@@ -162,7 +164,7 @@ const NavBar = () => {
           showMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between p-4">
+        <div className="bg-[#1a1a1a] flex items-center justify-between p-4">
           <div className="w-8"></div>
           <img
             src={logo}
