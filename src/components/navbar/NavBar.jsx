@@ -9,6 +9,7 @@ import { IoMdClose } from "react-icons/io";
 import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
 import {
   ArrowLeftStartOnRectangleIcon,
+  Bars3Icon,
   ComputerDesktopIcon,
 } from "@heroicons/react/24/outline";
 
@@ -63,13 +64,13 @@ const NavBar = () => {
     imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
 
   return (
-    <div className="bg-gray-800 lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
+    <div className="bg-[#232323] lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="lg:hidden flex items-center p-2"
+        className="lg:hidden flex items-center p-2 -ml-3"
       >
-        <HiOutlineMenuAlt3 size={25} className="text-white" />
+        <Bars3Icon size={25} className="h-6 w-6 text-white" />
       </button>
 
       {/* Mobile Logo - Centered only on mobile */}
@@ -157,7 +158,7 @@ const NavBar = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`lg:hidden fixed inset-0 bg-gray-800 text-white z-[1000] transition-transform transform ${
+        className={`lg:hidden fixed inset-0 bg-[#232323] text-white z-[1000] transition-transform transform ${
           showMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
