@@ -1,5 +1,4 @@
 import {
-  Homepage,
   About,
   HiringPartners,
   PropertyCarousel,
@@ -10,11 +9,12 @@ import {
   ChatApp
 } from "../components/index";
 import Service from "./Service";
+import HomeMain from "../components/landingPageComp/homepageComp/HomeMain";
 
 const Landing = () => {
   return (
     <div>
-      <Homepage />
+      <HomeMain />
       <Service />
       <About />
       <HiringPartners />
