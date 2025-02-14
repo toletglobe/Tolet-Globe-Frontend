@@ -105,32 +105,25 @@ const LandlordDashboardAccountSecurity = () => {
               placeholder="Enter New Password"
               className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
-            <ul className="mt-4 space-y-1">
-              {!passwordCriteria.length && newPassword && (
-                <li className="text-sm pl-2 flex items-center text-[#ff3300]">
-                  <span className="mr-2 text-[#ff3300]">✗</span>
-                  At least 8 characters long
-                </li>
-              )}
-              {!passwordCriteria.uppercase && newPassword && (
-                <li className="text-sm pl-2 flex items-center text-[#ff3300]">
-                  <span className="mr-2 text-[#ff3300]">✗</span>
-                  Contains at least one uppercase letter
-                </li>
-              )}
-              {!passwordCriteria.lowercase && newPassword && (
-                <li className="text-sm pl-2 flex items-center text-[#ff3300]">
-                  <span className="mr-2 text-[#ff3300]">✗</span>
-                  Contains at least one lowercase letter
-                </li>
-              )}
-              {!passwordCriteria.number && newPassword && (
-                <li className="text-sm pl-2 flex items-center text-[#ff3300]">
-                  <span className="mr-2 text-[#ff3300]">✗</span>
-                  Contains at least one number
-                </li>
-              )}
-            </ul>
+           <ul className="mt-4 space-y-1">
+            <li className={`text-sm pl-2 flex items-center ${passwordCriteria.length ? "text-[#00cc00]" : "text-[#ff3300]"}`}>
+              <span className="mr-2">{passwordCriteria.length ? "✓" : "✗"}</span>
+              At least 8 characters long
+            </li>
+            <li className={`text-sm pl-2 flex items-center ${passwordCriteria.uppercase ? "text-[#00cc00]" : "text-[#ff3300]"}`}>
+              <span className="mr-2">{passwordCriteria.uppercase ? "✓" : "✗"}</span>
+              Contains at least one uppercase letter
+            </li>
+            <li className={`text-sm pl-2 flex items-center ${passwordCriteria.lowercase ? "text-[#00cc00]" : "text-[#ff3300]"}`}>
+              <span className="mr-2">{passwordCriteria.lowercase ? "✓" : "✗"}</span>
+              Contains at least one lowercase letter
+            </li>
+            <li className={`text-sm pl-2 flex items-center ${passwordCriteria.number ? "text-[#00cc00]" : "text-[#ff3300]"}`}>
+              <span className="mr-2">{passwordCriteria.number ? "✓" : "✗"}</span>
+              Contains at least one number
+            </li>
+          </ul>
+
           </div>
 
           <div className="mb-4">
@@ -145,17 +138,17 @@ const LandlordDashboardAccountSecurity = () => {
               className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
           </div>
-
+        </form>
+      </div>
           <div className="flex justify-end mt-8 sm:mt-10">
             <button
               type="submit"
+              onClick={handleSubmit}
               className="bg-teal-500 text-white px-5 py-2 rounded-md hover:bg-teal-600 transition duration-300"
             >
               Save Changes
             </button>
           </div>
-        </form>
-      </div>
     </div>
   );
 };
