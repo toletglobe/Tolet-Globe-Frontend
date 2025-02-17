@@ -82,7 +82,7 @@ const NavBar = () => {
       {/* Desktop Logo */}
       <div className="flex-shrink-0 hidden lg:block">
         <NavLink to="/">
-          <img src={logo} alt="Logo" className="h-12 mx-0 flex justify-start" />
+          <img src={logo} alt="Logo" className="h-20 mx-0 flex justify-start" />
         </NavLink>
       </div>
 
@@ -95,9 +95,9 @@ const NavBar = () => {
             onClick={() => setActiveNavbarMenu(link.label)}
           >
             <li
-              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-full ${
+              className={`py-1 hover:text-yellow-500 text-lg px-3 hover:rounded-full ${
                 activeNavbarMenu === link.label
-                  ? "bg-teal-500 text-white rounded-full"
+                  ? " text-yellow-500 rounded-full"
                   : ""
               }`}
             >
@@ -109,7 +109,7 @@ const NavBar = () => {
           {authState.status && token ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
               <img
-                className="h-8 w-8 rounded-full"
+                className="h-12 w-12 mr-5 rounded-full"
                 src={profilePicture}
                 alt="User"
                 onError={() => setImgError(true)}

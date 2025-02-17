@@ -69,9 +69,9 @@ const LandlordDashboardAccountSecurity = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black flex flex-col p-4 sm:p-6 md:p-8 lg:p-10">
+    <div className="min-h-screen bg-black flex font- flex-col p-4 sm:p-6 md:p-8 lg:p-10">
       <div className="mb-4">
-        <h2 className="max-sm:text-center text-3xl text-white font-semibold text-left pb-2">
+        <h2 className="max-sm:text-center text-3xl text-white font-bold text-left pb-2">
           Account Security
         </h2>
         <p className="text-xs sm:text-sm md:text-base text-teal-400 p-2 text-left">
@@ -144,7 +144,7 @@ const LandlordDashboardAccountSecurity = () => {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="bg-teal-500 text-white px-5 py-2 rounded-md hover:bg-teal-600 transition duration-300"
+              className="bg-teal-500 text-white px-2 py-2 font-bold rounded-md hover:bg-teal-600 transition duration-300"
             >
               Save Changes
             </button>
