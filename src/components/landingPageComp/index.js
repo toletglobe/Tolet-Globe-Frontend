@@ -1,4 +1,3 @@
-import Homepage from "./Homepage";
 import About from "./About"
 import HiringPartners from "./HiringPartners";
 import PropertyCarousel from "./PropertyCarousel";
@@ -10,7 +9,6 @@ import ChatApp from "./ChatApp";
 
 
 export {
-    Homepage,
     About,
     HiringPartners,
     PropertyCarousel,

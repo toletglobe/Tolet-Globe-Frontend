@@ -19,6 +19,8 @@ export default {
       backgroundImage: {
         "gradient-conic":
           "conic-gradient(transparent, transparent, transparent, #C8A217)",
+        "home-bg": 
+          "url('Tolet-Globe-Frontend/src/assets/background.png')",
         "gradient-conic-2":
           "conic-gradient(transparent, transparent, transparent, #3CBDB1)",
       },
