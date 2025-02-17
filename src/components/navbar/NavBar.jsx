@@ -50,11 +50,11 @@ const NavBar = () => {
 
   const navLinks = [
     { label: "Home", path: "/" },
-    { label: "Service", path: "/service" },
-    { label: "Blog", path: "/blog" },
+    { label: "Properties Listing", path: "/property-listing" },
+    { label: "About", path: "/aboutus" },
+    
     { label: "Contact", path: "/contact" },
-    { label: "About Us", path: "/aboutus" },
-    { label: "Property Listing", path: "/property-listing" },
+    { label: "Blog", path: "/blog" },
   ];
 
   const [imgError, setImgError] = useState(false);
