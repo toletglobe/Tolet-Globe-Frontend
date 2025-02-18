@@ -2078,13 +2078,13 @@ const Listing = () => {
           onClick={() => {
             if (isOpen === true) SetIsOpen(false);
           }}
-          className={`min-w-full min-h-fit absolute z-30 top-32 flex items-center justify-center ${
+          className={`min-w-full min-h-fit absolute z-30 top-10 flex items-center justify-center ${
             isOpen ? "block" : "hidden"
           } `}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg top-[89px] sm:top-28 -right-[13px] sm:right-[28.8rem]"
+            className="relative w-full max-w-[18rem] top-[89px] sm:top-28 -right-[0px] m-4 sm:right-[28.8rem]"
           >
             <Filters
               SetIsOpen={SetIsOpen}

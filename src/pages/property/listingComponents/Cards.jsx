@@ -223,7 +223,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
               </figure>
               <div className="card-content lg:p-1 sm:p-1">
                 <div className="name_icon flex justify-between pt-2 ">
-                  <h3 className="card-title lg:text-[24px] text-[15px] lg:font-semibold font-medium font-poppins ">
+                  <h3 className="card-title lg:text-[24px] text-[14px] lg:font-semibold font-medium font-poppins ">
                     <a href="#">
                       {property.bhk} BHK, {property.propertyType}, On Rent
                     </a>

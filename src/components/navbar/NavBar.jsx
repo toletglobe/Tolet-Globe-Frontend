@@ -66,13 +66,13 @@ const NavBar = () => {
     imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
 
   return (
-    <div className="bg-gray-800 lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
+    <div className="bg-[#232323] lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="lg:hidden flex items-center p-2 -ml-3"
+        className="lg:hidden flex items-center p-1 -ml-3"
       >
-        <HiOutlineMenuAlt3 size={25} className="text-white" />
+        <Bars3Icon  className="text-white h-6 w-6" />
       </button>
 
       {/* Mobile Logo - Centered only on mobile */}
