@@ -122,14 +122,14 @@ const HomeMobile = () => {
 
   return (
     <div
-      className="h-screen bg-contain bg-center bg-no-repeat"
+      className="h-screen bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${background})` }}
     >
       {/* Main Content */}
       <div className="relative z-10 px-4 pt-20">
         {/* Logo and Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mt-28">
+          <h1 className="text-2xl font-bold text-white mt-12">
             Welcome to To-Let Globe
           </h1>
           <p className="text-[#3cbdb1] text-lg">
@@ -160,7 +160,7 @@ const HomeMobile = () => {
             </div>
 
             {/* Search Input */}
-            <div className="flex-1 flex items-center px-4">
+            <div className="flex-1 flex items-center px-2">
               <FaSearch className="text-gray-400 mr-2" />
               <input
                 type="text"
