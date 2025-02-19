@@ -14,13 +14,32 @@ const LandlordDashboardProfileForm = () => {
     email: "",
     phoneNumber: "",
     profilePicture: "",
+    newPassword: "",
+    role: "",
+    confirmPassword: "",
   });
+
+  const [checkboxes, setCheckboxes] = useState({
+    terms: false,
+    privacy: false,
+    notifications: false,
+  });
+
+  const allChecked = checkboxes.terms && checkboxes.privacy && checkboxes.notifications;
+
+  // Handle checkbox change
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setCheckboxes((prev) => ({ ...prev, [name]: checked }));
+  };
 
   const [isChanged, setIsChanged] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null); // State for image upload
   const fileInputRef = useRef(null); // Create a ref for the file input
+  const [confirmPassword, setConfirmPassword] = useState(""); // State for confirm password
+ 
 
   // Fetch user data on component mount
   useEffect(() => {
@@ -235,47 +254,180 @@ const LandlordDashboardProfileForm = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-col gap-2 sm:gap-3">
-              <label
-                htmlFor="email"
-                className="font-medium text-base sm:text-lg"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                disabled={true}
-                value={userInfo.email}
-                onChange={handleInputChange}
-                placeholder="Enter Your Email ID"
-                className="border-2 rounded-[5px] bg-transparent w-full sm:w-[476px] h-9 p-4"
-              />
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:gap-8 gap-4">
+              <div className="flex flex-col gap-2 sm:gap-3 w-full sm:w-auto">
+                <label
+                  htmlFor="email"
+                  className="font-medium text-base sm:text-lg"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  disabled={true}
+                  value={userInfo.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter Your Email ID"
+                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 p-4"
+                />
+              </div>
+              <div className="flex flex-col gap-2 sm:gap-3 w-full sm:w-auto">
+                <label
+                  htmlFor="phoneNumber"
+                  className="font-medium text-base sm:text-lg"
+                >
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  name="phoneNumber"
+                  value={userInfo.phoneNumber}
+                  onChange={handleInputChange}
+                  placeholder="Enter Your Phone Number"
+                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 p-4"
+                />
+              </div>
             </div>
-            <div className="flex flex-col gap-2 sm:gap-3">
-              <label
-                htmlFor="phoneNumber"
-                className="font-medium text-base sm:text-lg"
-              >
-                Phone Number
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:gap-8 gap-4">
+              <div className="flex flex-col gap-2 sm:gap-3 w-full sm:w-auto">
+                <label
+                  htmlFor="role"
+                  className=" font-medium text-base sm:text-lg"
+                >
+                  Role
+                </label>
+                <select
+                  name="role"
+                  value={userInfo.role}
+                  onChange={handleInputChange}
+                  className="border-2 text-white-900 rounded-[5px] bg-gray-800 w-full sm:w-56 h-9 "
+                >
+                  <option value="" disabled className="text-gray-400">
+                    Select one
+                  </option>
+                  <option value="landlord" className="text-gray-400 ">
+                    Admin
+                  </option>
+                  <option value="landlord" className="text-gray-400 ">
+                    Content Creater
+                  </option>
+                  <option value="tenant" className="text-gray-400">
+                    User
+                  </option>
+                </select>
+
+                <input
+                  type="text"
+                  name="firstName"
+                  value={userInfo.firstName}
+                  onChange={handleInputChange}
+                  placeholder="Enter Your First Name"
+                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 p-4"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:gap-8 gap-4">
+              <div className="flex flex-col gap-2 sm:gap-3 w-full sm:w-auto">
+                <label
+                  htmlFor="currentPassword"
+                  className="font-medium text-base sm:text-lg"
+                >
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  name="currentPassword"
+                  disabled={true}
+                  value={userInfo.currentPassword}
+                  onChange={handleInputChange}
+                  placeholder="Confirm Password"
+                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 p-4"
+                />
+              </div>
+              <div className="flex flex-col gap-2 sm:gap-3 w-full sm:w-auto">
+                <label
+                  htmlFor="newPassword"
+                  className="font-medium text-base sm:text-lg"
+                >
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  name="newPassword"
+                  value={userInfo.newPassword}
+                  onChange={handleInputChange}
+                  placeholder="Enter Your New Password"
+                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 p-4"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:gap-8 gap-4">
+              <div className="flex flex-col gap-2 sm:gap-3 w-full sm:w-auto">
+                <label
+                  htmlFor="confirmPassword"
+                  className="font-medium text-base sm:text-lg"
+                >
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  //  disabled={true}
+                  value={userInfo.confirmPassword}
+                  onChange={handleInputChange}
+                  placeholder="Current Password"
+                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 p-4"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              {/* <p className="font-bold text-lg">Agreements</p> */}
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  name="terms"
+                  checked={checkboxes.terms}
+                  onChange={handleCheckboxChange}
+                />
+                Receive product updates, event, and offers
               </label>
-              <input
-                type="text"
-                name="phoneNumber"
-                value={userInfo.phoneNumber}
-                onChange={handleInputChange}
-                placeholder="Enter Your Phone Number"
-                className="border-2 rounded-[5px] bg-transparent w-full sm:w-[476px] h-9 p-4"
-              />
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  name="privacy"
+                  checked={checkboxes.privacy}
+                  onChange={handleCheckboxChange}
+                />
+                Receive marketing communications
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  name="notifications"
+                  checked={checkboxes.notifications}
+                  onChange={handleCheckboxChange}
+                />
+                Receive training and certification communications
+              </label>
             </div>
             <button
-              type="button"
-              onClick={handleSaveChanges}
-              disabled={!isChanged || isSubmitting}
-              className="rounded-[5px] bg-[#00B74D] text-white font-bold p-2 w-32"
-            >
-              {isSubmitting ? "Saving..." : "Save Changes"}
-            </button>
+  type="button"
+  onClick={handleSaveChanges}
+  disabled={!allChecked || !isChanged || isSubmitting}
+  className={`rounded-[5px] text-white font-bold p-2 w-32 ${
+    !allChecked || !isChanged || isSubmitting
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-[#00B74D] hover:bg-green-600"
+  }`}
+>
+  {isSubmitting ? "Saving..." : "Save Changes"}
+</button>
+
           </form>
         </div>
       </main>
