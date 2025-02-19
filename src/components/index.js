@@ -97,7 +97,6 @@ import Select from "./Common/Select";
 // landingPageComp imports
 
 import {
-  Homepage,
   About,
   HiringPartners,
   PropertyCarousel,
@@ -128,7 +127,6 @@ export {
   Button,
 
   // landingPageComp exports
-  Homepage,
   About,
   HiringPartners,
   PropertyCarousel,

@@ -43,7 +43,9 @@ const NavBar = () => {
         onClick={() => setShowMenu(!showMenu)}
         className="lg:hidden flex items-center p-2"
       >
-        <HiOutlineMenuAlt3 size={25} className="text-white" />
+        <RxHamburgerMenu size={25} className="text-white" />
+        {/* <GiHamburgerMenu size={25} className="text-white" /> */}
+        {/* <HiOutlineMenuAlt3 size={25} className="text-white" /> */}
       </button>
 
       {/* Logo */}
@@ -64,7 +66,7 @@ const NavBar = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`lg:hidden fixed inset-0 bg-gray-800 text-white z-[1000] transition-transform transform ${
+        className={`lg:hidden fixed inset-0 bg-[#232323] text-white z-[1000] transition-transform transform ${
           showMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
