@@ -9,7 +9,7 @@ const SelectLocation = ({ Location, setLocation, onLocationSelect }) => {
 
   return (
     <div
-      className={`absolute lg:left-3 top-[140px] sm:top-44 left-[-20px] flex lg:gap-3 z-50 ${
+      className={`absolute lg:left-3 top-[70px] sm:top-44 left-[-20px] flex lg:gap-3 z-50 ${
         Location ? "block" : "hidden"
       }`}
     >

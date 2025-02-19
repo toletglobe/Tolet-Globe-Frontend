@@ -20,21 +20,19 @@ import { FaHeart } from "react-icons/fa";
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 left-1 transform -translate-y-1/2  bg-white/30 hover:bg-slate-200 text-black  rounded-full cursor-pointer z-10 flex items-end justify-center w-5 h-5 lg:w-9 lg:h-9"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }}
   >
-    <span className="text-2xl">&#8249;</span>
+    <span className="text-2xl leading-none justify-center flex items-center lg:text-5xl">&#8249;</span>
   </div>
 );
 
 const NextArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 right-1  transform -translate-y-1/2 bg-white/30  hover:bg-slate-200 text-black rounded-full cursor-pointer z-10 flex items-end justify-center w-5 h-5 lg:w-9 lg:h-9"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }}
-  >
-    <span className="text-2xl">&#8250;</span>
+      >
+    <span className="text-2xl leading-none justify-center flex items-center lg:text-5xl">&#8250;</span>
   </div>
 );
 
@@ -158,10 +156,9 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
         {norm.map((property) => (
           <li
             key={property._id}
-            className="rounded-[10px] overflow-hidden shadow-lg border border-gray-200 "
+            className="property-card rounded-[8px] overflow-hidden shadow-lg border border-gray-200 bg-white lg:p-4 p-2.5 "
           >
-            <div className="property-card bg-white rounded-[10px] w-full">
-              <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
+              <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden w-full lg:h-[350px] h-[180px] sm:h-[200px]">
                 {property.images?.length > 1 ? (
                   <Slider {...settings}>
                     {property.images.map((photo, index) => (
@@ -169,7 +166,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                         <img
                           src={photo}
                           alt={property.propertyType}
-                          className="w-full h-full object-cover"
+                          className="w-full h-[180px] object-cover lg:h-[350px] sm:h-[180px]"
                           onError={handleImageError}
                         />
                       </div>
@@ -180,7 +177,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                     <img
                       src={property.images[0]}
                       alt={property.propertyType}
-                      className="w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-full object-cover"
+                      className="w-full h-[180px] sm:h-[200px] md:h-[400px] lg:h-full object-cover"
                       onError={handleImageError}
                     />
                     <PrevArrow onClick={() => {}} />
@@ -188,8 +185,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   </div>
                 )}
                 <div
-                  className="card-badge-left absolute top-2 left-2 text-white text-xs uppercase px-3 py-1"
-                  // className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
+                  className="card-badge-left absolute top-2 left-2 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1"
                   style={{
                     backgroundColor:
                       property.availabilityStatus === "Available"
@@ -206,39 +202,40 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                     ? "Rent Out"
                     : "NA"}
                 </div>
-                {/* <div className="banner-actions absolute bottom-4 left-3 right-4 flex gap-6 justify-between"></div> */}
-                <div className="banner-actions absolute bottom-4 left-3 right-4 flex gap-6 justify-between">
-                  <div>
-                    <button className="banner-actions-btn flex items-center gap-1 text-white">
-                      <FaLocationDot />
-                      <address className="text-sm md:text-lg !font-normal !m-0 !p-0 inline-block">{`${property.locality}, ${property.city}`}</address>
+                <div className="banner-actions absolute bottom-0.5 left-2 right-4 flex  justify-between">
+                  <div className="item-center">
+                    <button className="banner-actions-btn flex items-center text-white">
+                      <FaLocationDot className="text-xs lg:text-base drop-shadow-2xl shadow-black"/>
+                    <address className="text-xs lg:text-base p-0  shadow-black text-shadow">
+                      {`${property.locality}, ${property.city}`}</address>
                     </button>
                   </div>
-                  <div className="flex gap-4">
-                    <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                      <FaVideo className="text-base" />
+                  <div className="flex gap-4 text-sm">
+                    <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                      <FaVideo className="lg:text-xl text-xs " />
                     </button>
-                    <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                      <FaRegImage className="text-base" />
+                    <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                      <FaRegImage className="lg:text-xl text-xs " />
                       {property.images?.length}
                     </button>
                   </div>
                 </div>
               </figure>
               <div className="card-content lg:p-1 sm:p-1">
-                <div className="name_icon flex justify-between sm:gap-4 lg:gap-12 items-center">
-                  <h3 className="card-title lg:text-[24px] sm:text-[16px] lg:font-semibold sm:font-medium">
+                <div className="name_icon flex justify-between pt-2 ">
+                  <h3 className="card-title lg:text-[24px] text-[14px] lg:font-semibold font-medium font-poppins ">
                     <a href="#">
                       {property.bhk} BHK, {property.propertyType}, On Rent
                     </a>
                   </h3>
-                  <div className="icon-box flex space-x-2 md:space-x-4 p-1">
+                  
+                  <div className="icon-box flex items-start space-x-1 md:space-x-4 p-1 ">
                     <Popup
                       arrow={false}
                       trigger={
                         <button>
                           <CiShare2
-                            className="card_icon"
+                            className="card_icon  "
                             style={{ color: "#40B5A8" }}
                           />
                         </button>
@@ -339,34 +336,34 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 </div>
 
                 <div className="card-details flex flex-col items-start">
-                  <div className="card-price font-poppins text-sm font-normal text-grey-700 mt-1">
+                  <div className="card-price font-poppins text-xs font-normal text-[#808080] -mt-2 lg:mt-1">
                     RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                   </div>
-                  <div className="card-text font-poppins  lg:text-[24px] sm:text-[14px] text-lg font-medium text-black">
+                  <div className="card-text font-poppins lg:text-[24px] text-xs py-3 font-normal text-[#505050]">
                     {property.type}, {property.floor}
                   </div>
                 </div>
-                <ul className="card-list custom-card-list my-2">
+                <ul className="card-list custom-card-list py-2 lg:py-2 ">
                   <li className="bed card-item flex items-center text-base">
-                    <IoBedOutline style={{ fontSize: "1.6rem" }} />
+                    <IoBedOutline className="text-lg lg:text-3xl" />
                     &nbsp;
                     {property.bhk}
                   </li>
                   <li className="bath card-item flex items-center text-base">
-                    <LuBath style={{ fontSize: "1.6rem" }} />
+                    <LuBath className="text-lg lg:text-3xl" />
                     &nbsp;
                     {property.typeOfWashroom}
                   </li>
                   <li className="pi card-item flex items-center text-base">
-                    <PiGridFour style={{ fontSize: "1.6rem" }} />
+                    <PiGridFour className="text-lg lg:text-3xl" />
                     &nbsp;
                     {property.squareFeetArea} ft²
                   </li>
                 </ul>
               </div>
-              <div className="card-footer lg:py-8 sm:p-1 flex justify-between items-center">
+              <div className="card-footer lg:py-8 pt-6 flex justify-between ">
                 <div className="card-author flex items-center gap-1">
-                  <figure className="author-avatar w-8 h-8 overflow-hidden rounded-full">
+                  <figure className="author-avatar lg:w-8 lg:h-8 w-6 h-6 overflow-hidden rounded-full">
                     <img
                       src={property.images[0]}
                       alt={property.ownerName}
@@ -375,7 +372,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                     />
                   </figure>
                   <div>
-                    <p className="author-name text-gray-900 sm:text-sm  lg:text-lg sm:font-light lg:font-medium">
+                    <p className="author-name text-[10px] lg:text-lg sm:font-light lg:font-medium">
                       <a href="#">
                         {property.firstName} {property.lastName}
                       </a>
@@ -385,13 +382,12 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 <div className="card-footer-actions">
                   <button
                     onClick={() => navigate(`/property/${property.slug}`)}
-                    className="card-footer-actions-btn sm:w-[95px] sm:h-[24px] lg:w-[150px] lg:h-[36px]"
+                    className="card-footer-actions-btn w-[95px] h-[24px] lg:w-[150px] lg:h-[36px]"
                   >
                     SHOW MORE
                   </button>
                 </div>
               </div>
-            </div>
           </li>
         ))}
       </ul>

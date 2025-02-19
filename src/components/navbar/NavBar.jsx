@@ -11,6 +11,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import {
   ArrowLeftStartOnRectangleIcon,
+  Bars3Icon,
   ComputerDesktopIcon,
 } from "@heroicons/react/24/outline";
 
@@ -65,15 +66,13 @@ const NavBar = () => {
     imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
 
   return (
-    <div className="bg-[#1a1a1a] lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
+    <div className="bg-[#232323] lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="lg:hidden flex items-center p-2"
+        className="lg:hidden flex items-center p-1 -ml-3"
       >
-        <RxHamburgerMenu size={25} className="text-white" />
-        {/* <GiHamburgerMenu size={25} className="text-white" /> */}
-        {/* <HiOutlineMenuAlt3 size={25} className="text-white" /> */}
+        <Bars3Icon  className="text-white h-6 w-6" />
       </button>
 
       {/* Mobile Logo - Centered only on mobile */}
