@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import ibs from "../../assets/Institution/ibs.svg";
 import ipcpsimg from "../../assets/Institution/IpcpsImg.svg";
 import UniversityOgLakhnaw from "../../assets/Institution/UniversityOfLakhnaw.svg";
@@ -23,41 +22,73 @@ const Institution = () => {
     { src: RCD, title: "Ramjas College, Delhi", link: "https://ramjas.du.ac.in/" },
     { src: NMIMS, title: "NMIMS, Mumbai", link: "https://mba.nmims.edu/" },
     { src: IIM, title: "IIM Kashipur", link: "https://www.iimkashipur.ac.in/" },
-    { src: ipcpsimg, title: "Public College of Professional Studies, Lucknow", link: "https://lpcps.org.in/" },
+    {
+      src: ipcpsimg,
+      title: "Public College of Professional Studies, Lucknow",
+      className: "bg-white", link: "https://lpcps.org.in/"
+    },
     { src: Jaipiria, title: "Jaipuria College, Lucknow", link: "https://www.jaipuria.ac.in/" },
   ];
 
   return (
     <div className="margin">
       <div className="flex flex-col items-center justify-center">
-        <h3 className="w-full max-w-[1078.22px] font-poppins font-medium text-[24px] leading-[36px] text-center text-[#1D5F58] sm:text-[36px] md:text-[42.6667px]">
+        <h3 className="w-full max-w-[1078.22px] h-auto font-poppins font-medium text-[24px] leading-[36px] text-center text-[#1D5F58] sm:text-[36px] sm:leading-[48px] md:text-[42.6667px] md:leading-[64px] mobile-text">
           Partnered Universities
         </h3>
-        <p className="w-full max-w-[1078.22px] font-poppins font-medium text-[11.5556px] leading-[17px] text-center text-[#C8A117]">
+
+        {/* Added margin-top to create gap between title and subtitle */}
+        <p className="w-full max-w-[1078.22px] h-auto font-poppins font-small text-[11.5556px] leading-[17px] text-center text-[#C8A117] mt-4">
           We are proud to collaborate with some of the most prestigious colleges
           and universities across the country for college placements, including:
         </p>
       </div>
 
-      <div className="overflow-hidden mt-10">
-        <motion.div
-          className="flex items-center justify-center"
-          animate={{ x: [0, -1000] }}
-          transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
-        >
-          <div className="flex">
-            {images.concat(images).map((image, idx) => (
-              <a href={image.link} key={idx} className="mx-9 my-5">
-                <img
-                  src={image.src}
-                  alt={image.title}
-                  className="max-w-[200px] max-h-[200px] cursor-pointer hover:opacity-80 transition-opacity"
-                />
-              </a>
-            ))}
-          </div>
-        </motion.div>
+      <div className="overflow-hidden mt-[107px]">
+        <div className="flex" style={{ animation: "marquee 25s linear infinite", width: "200%" }}>
+          {images.concat(images).map((image, idx) => (
+            <div
+              key={idx}
+              className="flex flex-col items-center justify-center px-[40px]"
+            >
+              <img
+                src={image.src}
+                alt={image.title}
+                className="max-w-[900px] max-h-[900px] cursor-pointer hover:opacity-80 transition-opacity"
+              />
+            </div>
+          ))}
+        </div>
       </div>
+
+      <style>
+        {`
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+
+          /* Mobile-specific styles */
+          @media (max-width: 768px) {
+            .overflow-hidden {
+              margin-top: 41.67px; /* Adjust the gap for mobile view */
+            }
+
+            /* Increase the width of the "Partnered Universities" title */
+            .mobile-text {
+              width: 100%; /* Make the text take up the full width */
+              max-width: none; /* Remove the max-width constraint */
+              font-size: 32px; /* Adjust the font size to fit well */
+            }
+
+            /* Reduce text size further for mobile */
+            .text-small-mobile {
+              font-size: 6px; /* Adjusted to make the text even smaller */
+              line-height: 9px; /* Adjusted line height */
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
