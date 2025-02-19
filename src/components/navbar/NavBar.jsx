@@ -1,3 +1,13 @@
+// import { useState, useEffect } from "react";
+// import { NavLink, useNavigate, useLocation } from "react-router-dom";
+// import logo from "../../assets/logo.png";
+// import userIcon from "../../assets/user-icon.png";
+// import toast from "react-hot-toast";
+// import { useDispatch, useSelector } from "react-redux";
+// import { logout } from "../../redux/store/authSlice";
+// import { IoMdClose } from "react-icons/io";
+// import { HiOutlineMenuAlt3 } from "react-icons/hi";
+
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
@@ -6,7 +16,14 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/store/authSlice";
 import { IoMdClose } from "react-icons/io";
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { RxHamburgerMenu } from "react-icons/rx";
+import {
+  ArrowLeftStartOnRectangleIcon,
+  ComputerDesktopIcon,
+} from "@heroicons/react/24/outline";
+
 
 const NavBar = () => {
   const authState = useSelector((state) => state.auth);
