@@ -1,37 +1,17 @@
 export default function Frm1({ formData, setFormData }) {
-
   const optionRenderFun = (value) => (
     <option key={value} value={value}>
       {value}
     </option>
   );
 
-  const cityOptions = [
-    "Lucknow",
-    "Ayodhya",
-    "Vellore",
-    "Kota",
-  ];
+  const cityOptions = ["Lucknow", "Ayodhya", "Vellore", "Kota"];
 
-  const spaceTypeOptions = [
-    "Residential",
-    "Commercial",
-    "NA",
-  ];
+  const spaceTypeOptions = ["Residential", "Commercial", "NA"];
 
-  const residentialOptions = [
-    "House",
-    "Flat",
-    "PG",
-    "NA",
-  ];
+  const residentialOptions = ["House", "Flat", "PG", "NA"];
 
-  const commercialOptions = [
-    "Office",
-    "Shop",
-    "Warehouse",
-    "NA",
-  ];
+  const commercialOptions = ["Office", "Shop", "Warehouse", "NA"];
 
   const allOptions = [
     "House",
@@ -42,6 +22,8 @@ export default function Frm1({ formData, setFormData }) {
     "Warehouse",
     "NA",
   ];
+
+
 
   const cityLocalityData = {
     Lucknow: {
@@ -128,7 +110,8 @@ export default function Frm1({ formData, setFormData }) {
 
   return (
     <>
-      <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7">
+     
+      <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
         {/* First Name */}
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
@@ -185,12 +168,12 @@ export default function Frm1({ formData, setFormData }) {
         {/* Owner's Alternate Contact Number */}
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Alternate Contact Number
+            Owner's Alternate Contact Number
           </label>
           <input
             type="text"
-            placeholder="Owner's Contact Number"
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            placeholder="Owner's Alternate Contact Number"
+            className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-[14px] !placeholder:text-[8px] sm:placeholder:text-base"
             value={formData.ownersAlternateContactNumber}
             onChange={(e) => {
               setFormData({
