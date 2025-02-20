@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
-import HomeUp from "./homepageComp/HomeUp";
-import HomeDown from "./homepageComp/HomeDown";
+import HomeUp from "./HomeUp";
+import HomeLap from "./HomeLap";
+import HomeMobile from "./HomeMobile";
 
-const Homepage = () => {
-  // const [scrollPos, setScrollPos] = useState(0);
+const HomeMain = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Function to check screen size and update isMobile state
+  const checkScreenSize = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
   const [isScrolled, setIsScrolled] = useState(false);
 
   const handleScroll = () => {
@@ -19,16 +26,13 @@ const Homepage = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  // const handleScroll = () => {
-  //   setScrollPos(window.scrollY);
-  // };
-  //   window.addEventListener("scroll", handleScroll);
+  useEffect(() => {
+    window.addEventListener("resize", checkScreenSize);
 
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+    };
+  }, []);
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
@@ -44,10 +48,12 @@ const Homepage = () => {
           isScrolled ? "opacity-100" : "opacity-0"
         } absolute w-full h-full`}
       >
-        <HomeDown />
+        {isMobile ? <HomeMobile /> : <HomeLap />}
       </div>
     </section>
   );
 };
 
-export default Homepage;
+export default HomeMain;
+
+

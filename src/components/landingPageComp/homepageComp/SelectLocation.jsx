@@ -1,6 +1,6 @@
 import React from "react";
 import cross from "../../../assets/property/cross.png";
-import "../listing.css";
+import "../../../pages/property/listing.css";
 
 const SelectLocation = ({ Location, setLocation, onLocationSelect }) => {
   function handleLocation() {
@@ -9,7 +9,7 @@ const SelectLocation = ({ Location, setLocation, onLocationSelect }) => {
 
   return (
     <div
-      className={`absolute lg:left-3 top-[70px] sm:top-44 left-[-20px] flex lg:gap-3 z-50 ${
+      className={`absolute top-[70px] left-[-20px] flex lg:gap-3 z-50 ${
         Location ? "block" : "hidden"
       }`}
     >

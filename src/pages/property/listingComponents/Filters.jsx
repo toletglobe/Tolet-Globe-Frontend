@@ -109,8 +109,8 @@ const Filters = ({
 
   return (
     <>
-      <div className="w-fit bg-white p-0 sm:p-2  shadow-sm m-0 sm:m-4 rounded-xl">
-        <div className="flex sm:gap-6">
+      <div className="w-fit  bg-white p-0 sm:p-2  shadow-sm m-0 sm:m-4 rounded-xl">
+        <div className="flex flex-wrap sm:gap-6 ">
           {[
             { icon: BsHouseDoor, text: "HOUSES" },
             { icon: BsBuilding, text: "FLATS" },
@@ -134,11 +134,11 @@ const Filters = ({
       </div>
 
       {selectedCategory === "HOUSES" && (
-        <div className="w-fit bg-white p-4 shadow-md sm:ml-4 rounded-xl">
+        <div className="w-fit bg-white p-2 m-1 shadow-md sm:ml-4 rounded-xl">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
               <h3 className="text-left font-medium mb-3 text-black">BHK</h3>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row flex-wrap gap-4">
                 {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ 5 BHK"].map(
                   (bhk) => (
                     <label
@@ -160,11 +160,11 @@ const Filters = ({
               </div>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col ">
               <h3 className="text-left font-medium mb-3 text-black">
                 House Type
               </h3>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row flex-wrap gap-4">
                 {["Fully Furnished", "Semi Furnished", "Not Furnished"].map(
                   (type) => (
                     <label
@@ -190,7 +190,7 @@ const Filters = ({
               <h3 className="text-left font-medium mb-3 text-black">
                 Preference
               </h3>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row flex-wrap gap-4">
                 {["Family", "Bachelors"].map((preference) => (
                   <label
                     key={preference}
@@ -231,11 +231,11 @@ const Filters = ({
       )}
 
       {selectedCategory === "FLATS" && (
-        <div className="w-fit bg-white p-4 shadow-md ml-0 sm:ml-4 rounded-xl">
+        <div className=" bg-white p-2 shadow-md m-1 sm:ml-4 rounded-xl">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
               <h3 className="text-left font-medium mb-3 text-black">BHK</h3>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row flex-wrap gap-4">
                 {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ 5 BHK"].map(
                   (bhk) => (
                     <label
@@ -261,7 +261,7 @@ const Filters = ({
               <h3 className="text-left font-medium mb-3 text-black">
                 Flats Type
               </h3>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row flex-wrap gap-4">
                 {["Fully Furnished", "Semi Furnished", "Not Furnished"].map(
                   (type) => (
                     <label
