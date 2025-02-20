@@ -159,19 +159,19 @@ const Flow2a = () => {
               <img
                 src={property.images[0]}
                 alt={property.propertyType}
-                className="w-full h-[300px] object-cover rounded-lg cursor-pointer"
+                className="w-full h-[235px] object-cover rounded-lg cursor-pointer"
                 onClick={() => openModal(property.images[0], 0)}
               />
             </div>
 
             {property.images.length > 1 && (
-              <div className="grid grid-cols-2 gap-2">
-                {property.images.slice(1, 5).map((image, index) => (
+              <div className="grid grid-cols-3  gap-2">
+                {property.images.slice(1, 4).map((image, index) => (
                   <div key={index + 1} className="relative">
                     <img
                       src={image}
                       alt={`${property.propertyType} ${index + 2}`}
-                      className="w-full h-[150px] object-cover rounded-lg cursor-pointer"
+                      className="w-[116px] h-[67px] object-cover rounded-lg cursor-pointer"
                       onClick={() => openModal(image, index + 1)}
                     />
                     {index === 3 && property.images.length > 5 && (
@@ -226,25 +226,25 @@ const Flow2a = () => {
         </div>
       )}
 
-      <div className="text-center -mt-4 relative">
+      {/* <div className="text-center -mt-4 relative">
         <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
           Photos | Videos | Property Map
         </p>
-      </div>
+      </div> */}
 
       <div className="md:flex justify-between pt-8">
         <div className="w-full">
-          <h1 className="text-left text-white text-4xl">
+          <h1 className="text-left text-white text-base lg:text-4xl">
             {property?.propertyType}
             <span>
-              <img src={shield} alt="shield" className="h-10 w-10 inline" />
+              <img src={shield} alt="shield" className="lg:h-10 lg:w-10 h-[18px] w-18px inline" />
             </span>
           </h1>
-          <p className="text-gray-400 block">
+          <p className="text-gray-400 block text-sm py-1">
             {property?.address}, {property?.city}
           </p>
 
-          <div className="flex">
+          <div className="flex pb-2">
             <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
             <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
             <MdStarOutline className="text-[#FFFEFE] mt-1" />
@@ -255,35 +255,35 @@ const Flow2a = () => {
             </p>
           </div>
           
-              <div className="border border-gray-600 rounded-lg p-3 mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 w-full">
+              <div className="border border-gray-600 rounded-lg p-3 mb-8 flex lg:flex-col sm:flex-row justify-between items-center gap-4 w-full">
                 {/* Monthly Rent Section */}
                 <div className="text-center w-full sm:w-auto">
-                  <p className="text-gray-400">Monthly Rent</p>
-                  <h3 className="text-white text-2xl sm:text-xl">Rs. {property?.rent}</h3>
+                  <p className="text-gray-400 text-sm">Monthly Rent</p>
+                  <h3 className="text-white lg:text-2xl text-base">Rs. {property?.rent}</h3>
                 </div>
 
                 {/* Divider (Adjusts Based on Screen Size) */}
-                <div className="border-t sm:border-l border-gray-600 w-full sm:w-auto h-[1px] sm:h-[50px]"></div>
+                <div className="lg:border-t border-l border-gray-600 lg:w-full w-[1px] h-[50px] lg:h-[1px]"></div>
 
                 {/* BHK Section */}
                 <div className="text-center w-full sm:w-auto">
                   <p className="text-gray-400">Bhk</p>
-                  <h3 className="text-white text-2xl sm:text-xl">{property?.bhk} Bhk</h3>
+                  <h3 className="text-white lg:text-2xl text-base">{property?.bhk} Bhk</h3>
                 </div>
 
                 {/* Divider */}
-                <div className="border-t sm:border-l border-gray-600 w-full sm:w-auto h-[1px] sm:h-[50px]"></div>
+                <div className="lg:border-t border-l border-gray-600 lg:w-full w-[1px] lg:h-[1px] h-[50px]"></div>
 
                 {/* Floor Section */}
                 <div className="text-center w-full sm:w-auto">
                   <p className="text-gray-400">Floor</p>
-                  <h3 className="text-white text-2  xl sm:text-xl">{property?.floor}</h3>
+                  <h3 className="text-white lg:text-2xl text-base">{property?.floor}</h3>
                 </div>
               </div>
         </div>
       </div>
 
-      <div className="w-full bg-white rounded-lg p-6 mb-8">
+      <div className="w-full bg-white rounded-lg lg:p-6 p-2 mb-8">
         <div className="flex justify-between items-center mb-4">
           <p className="text-black text-lg font-semibold">Request a visit</p>
           <div className="flex gap-3">

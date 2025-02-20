@@ -152,13 +152,13 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
 
   return (
     <div>
-      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-9 p-4">
+      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-9 p-4 lg:mx-14  ">
         {norm.map((property) => (
           <li
             key={property._id}
             className="property-card rounded-[8px] overflow-hidden shadow-lg border border-gray-200 bg-white lg:p-4 p-2.5 "
           >
-              <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden w-full lg:h-[350px] h-[180px] sm:h-[200px]">
+              <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden w-full lg:h-[250px] h-[180px] sm:h-[200px]">
                 {property.images?.length > 1 ? (
                   <Slider {...settings}>
                     {property.images.map((photo, index) => (
@@ -166,7 +166,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                         <img
                           src={photo}
                           alt={property.propertyType}
-                          className="w-full h-[180px] object-cover lg:h-[350px] sm:h-[180px]"
+                          className="w-full h-[180px] object-cover lg:h-[250px] sm:h-[180px]"
                           onError={handleImageError}
                         />
                       </div>
@@ -223,7 +223,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
               </figure>
               <div className="card-content lg:p-1 sm:p-1">
                 <div className="name_icon flex justify-between pt-2 ">
-                  <h3 className="card-title lg:text-[24px] text-[14px] lg:font-semibold font-medium font-poppins ">
+                  <h3 className="card-title lg:text-lg text-[14px]  font-medium font-['Poppins] ">
                     <a href="#">
                       {property.bhk} BHK, {property.propertyType}, On Rent
                     </a>
@@ -336,10 +336,10 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 </div>
 
                 <div className="card-details flex flex-col items-start">
-                  <div className="card-price font-poppins text-xs font-normal text-[#808080] -mt-2 lg:mt-1">
+                  <div className="card-price font-['Poppins']  text-xs lg:text-sm font-normal text-[#808080] -mt-2 lg:mt-0">
                     RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                   </div>
-                  <div className="card-text font-poppins lg:text-[24px] text-xs py-3 font-normal text-[#505050]">
+                  <div className="card-text font-poppins lg:text-base text-xs pb-3 font-normal lg:font-medium font-['Poppins'] capitalize text-[#4f4f4f] ">
                     {property.type}, {property.floor}
                   </div>
                 </div>
@@ -361,7 +361,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   </li>
                 </ul>
               </div>
-              <div className="card-footer lg:py-8 pt-6 flex justify-between ">
+              <div className="card-footer lg:py-5 pt-6 flex justify-between ">
                 <div className="card-author flex items-center gap-1">
                   <figure className="author-avatar lg:w-8 lg:h-8 w-6 h-6 overflow-hidden rounded-full">
                     <img

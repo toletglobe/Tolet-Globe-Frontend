@@ -2102,7 +2102,7 @@ const Listing = () => {
             {/* <div className="absolute top-1 right-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
+                viewBox="0 0 20 20"
                 fill="currentColor"
                 onClick={handleOpen}
                 className="cursor-pointer w-5 lg:w-6 md:w-6 z-50 text-red-400 hover:text-red-800 transition-colors duration-300"

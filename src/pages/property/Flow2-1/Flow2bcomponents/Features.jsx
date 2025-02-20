@@ -7,11 +7,11 @@ import { MdBedroomParent, MdOutlineBathroom } from "react-icons/md";
 const Features = ({ selectComp, property }) => {
   return (
     <div
-      className={`bg-white w-full rounded-lg p-3 mb-4 ${
+      className={`bg-white sw-full rounded-lg p-2 mb-4   ${
         selectComp > 1 ? "hidden" : ""
       }`}
     >
-      <p className="text-black block font-semibold text-xl">Features</p>
+      <p className="text-black block font-semibold text-base py-1">Features</p>
       <div className="flex flex-wrap gap-3">
         <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
           <MdBedroomParent className="h-6 w-6 mr-2 text-black bg-white" />
