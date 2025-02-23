@@ -1,4 +1,3 @@
-
 import React from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
@@ -70,36 +69,43 @@ const PropertyCarousel = () => {
           <div className="flex items-center justify-center flex-col gap-3 w-full my-5 mb-8">
             <h1 className="text-4xl text-[#1b5f58] font-bold">Top Locations</h1>
             <p className="w-3/4 text-[14px] text-[#CCB454] text-center">
-              We proudly offer our services in these major cities, having successfully connected with numerous satisfied members along the way.
+              We proudly offer our services in these major cities, having
+              successfully connected with numerous satisfied members along the
+              way.
             </p>
           </div>
         </div>
         <div className="w-[86%] ml-20 px-4 py-8 custom-slider-container mt-[10px] relative">
           <Slider {...settings}>
             {slides.map((slide, index) => (
-              <div key={index} className="bg-black shadow-lg rounded-lg overflow-hidden">
-                <div className="flex flex-row">
-                  <div className="w-1/2 h-[287px]">
+              <div
+                key={index}
+                className="bg-black shadow-lg rounded-lg overflow-hidden"
+              >
+                <div className="flex flex-row h-[280px]">
+                  <div className="w-1/2 h-full">
                     <img
                       src={slide.image}
                       className="object-cover w-full h-full"
                       alt={slide.city}
                     />
                   </div>
-                  <div className="w-1/2 pl-8 flex flex-col justify-between items-start p-0.5">
+                  <div className="w-1/2 pl-8 flex flex-col justify-between items-start">
                     <div>
                       <h2 className="text-[40px] font-normal text-white text-left">
-                        Find the best To-Let <br />in {slide.city}
+                        Find the best To-Let <br />
+                        in {slide.city}
                       </h2>
                       <p className="text-[#CCB454] text-left pt-2">
-                        With No Brokerage on rental PGs | Flats | Houses | Offices.
+                        With No Brokerage on rental PGs | Flats | Houses |
+                        Offices.
                       </p>
                     </div>
                     <Link
                       to={`/property-listing/${slide.city}`}
                       className="px-7 py-2 bg-[#d3d3d3] text-black rounded-sm mt-4"
                     >
-                      Explore Now
+                      JOIN US
                     </Link>
                   </div>
                 </div>
@@ -117,12 +123,14 @@ const PropertyCarousel = () => {
           </div>
         </div>
 
-        <div className="relative w-11/12 mx-auto">
-          <div className="overflow-hidden rounded-lg shadow-lg relative">
+        <div className="relative w-10/12 mx-auto">
+          <div className="overflow-hidden rounded-lg shadow-lg">
             {slides.map((slide, index) => (
               <div
                 key={index}
-                className={`${index === currentSlide ? "block" : "hidden"} bg-black`}
+                className={`${
+                  index === currentSlide ? "block" : "hidden"
+                } bg-black`}
               >
                 <div className="w-full h-64">
                   <img
@@ -131,8 +139,8 @@ const PropertyCarousel = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-6 text-white bg-[#232323] text-center">
-                  <h2 className="text-xl font-normal mb-2">
+                <div className="py-4 text-white bg-[#232323] text-center">
+                  <h2 className="text-2xl font-normal mb-2">
                     Find the best To-Let in {slide.city}
                   </h2>
                   <p className="text-[#CCB454] mb-4 text-xs">
@@ -140,27 +148,27 @@ const PropertyCarousel = () => {
                   </p>
                   <Link
                     to={`/property-listing/${slide.city}`}
-                    className="mx-auto px-4 py-1 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors inline-block"
+                    className="mx-auto px-4 py-2  my-4 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors inline-block"
                   >
                     Explore Now
                   </Link>
                 </div>
               </div>
             ))}
-
-            <button
-              onClick={prevSlide}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white z-10"
-            >
-              <FaChevronLeft size={24} />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white z-10"
-            >
-              <FaChevronRight size={24} />
-            </button>
           </div>
+
+          <button
+            onClick={prevSlide}
+            className="absolute -left-7 top-1/2 transform -translate-y-1/2 text-white z-10"
+          >
+            <FaChevronLeft size={24} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute -right-7 top-1/2 transform -translate-y-1/2 text-white z-10"
+          >
+            <FaChevronRight size={24} />
+          </button>
 
           <div className="flex justify-center gap-2 mt-4">
             {slides.map((_, index) => (
@@ -168,7 +176,7 @@ const PropertyCarousel = () => {
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`w-3 h-3 rounded-full ${
-                  index === currentSlide ? "bg-[#1b5f58]" : "bg-gray-300"
+                  index === currentSlide ? "bg-[#1b5f58]" : "bg-[#1a1a1a]"
                 }`}
               />
             ))}
@@ -180,4 +188,3 @@ const PropertyCarousel = () => {
 };
 
 export default PropertyCarousel;
-
