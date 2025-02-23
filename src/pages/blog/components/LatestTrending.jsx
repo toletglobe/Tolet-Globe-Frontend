@@ -3,22 +3,26 @@ import { useState } from "react";
 function LatestTrending({ isLatest, handleClickLatest, handleClickTrending }) {
     return (
         <div className="my-8 flex justify-center">
-            <div className="bg-white/20 p-3 text-white rounded-lg flex flex-row gap-5">
-                <button
-                    onClick={handleClickLatest}
-                    className={`${isLatest ? "text-[#6CC1B6]" : "text-white"}`}
-                >
-                    Latest
-                </button>
+            <div className="bg-white/20 p-1 text-white rounded-lg flex flex-row gap-1">
                 <button
                     onClick={handleClickTrending}
-                    className={`${!isLatest ? "text-[#6CC1B6]" : "text-white"}`}
+                    className={`px-4 py-2 rounded-md ${
+                        !isLatest ? "bg-black text-[#6CC1B6]" : "bg-transparent text-white"
+                    }`}
                 >
                     Trending
                 </button>
+                <button
+                    onClick={handleClickLatest}
+                    className={`px-4 py-2 rounded-md ${
+                        isLatest ? "bg-black text-[#6CC1B6]" : "bg-transparent text-white"
+                    }`}
+                >
+                    Latest
+                </button>
             </div>
         </div>
-    )
+    );
 }
 
-export default LatestTrending
+export default LatestTrending;

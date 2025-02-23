@@ -2,11 +2,9 @@
 
 import Landing from "./Landing";
 
-
 // Service.jsx imports
 
 import Service from "./Service";
-
 
 //  Blog imports
 import Blog from "./blog/Blog.jsx";
@@ -16,29 +14,24 @@ import BlogView from "./blog/BlogView.jsx";
 
 import Contact from "./Contact.jsx";
 
-
 // About imports
 
-import AboutUs from "./About/AboutUs"
-
+import AboutUs from "./About/AboutUs";
 
 //property imports
 import Property from "./property/Property";
 import Listing from "./property/Listing.jsx";
+import Filters from "./property/listingComponents/Filters.jsx";
 // import Flow2a from "./property/Flow2-1/Flow2a1";
 
-
 // Login imports
-import Login from "./Login/Login.jsx"
-
+import Login from "./Login/Login.jsx";
 
 // register imports
-import Register from "./register/Register.jsx"
+import Register from "./register/Register.jsx";
 
 // forgotpassword imports
-import ForgotPassword from "./forgotpassword/ForgotPassword.jsx"
-
-
+import ForgotPassword from "./forgotpassword/ForgotPassword.jsx";
 
 export {
   // Landing.jsx exports
@@ -57,16 +50,16 @@ export {
   // About exports
   AboutUs,
 
-    //property exports
-    Property,
-    Listing,
-  
-    // Login exports
-    Login,
+  //property exports
+  Property,
+  Listing,
 
-    // register exports
-    Register,
+  // Login exports
+  Login,
 
-    // forgotpassword exports
-    ForgotPassword,
+  // register exports
+  Register,
+
+  // forgotpassword exports
+  ForgotPassword,
 };
