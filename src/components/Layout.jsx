@@ -67,12 +67,14 @@ const Layout = () => {
   if (loading) return <p>Loading...</p>; // Optionally show loading state
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-black">
-      <div className="fixed top-0 z-50 left-0 right-0 bg-black">
-        <NavBar userInfo={userInfo} />
-      </div>
+    <div className="flex flex-col min-h-screen w-full bg-black relative">
+      <header className="sticky top-0 z-[1000] w-full bg-black shadow-md transition-all duration-300">
+        <div className="relative">
+          <NavBar userInfo={userInfo} />
+        </div>
+      </header>
 
-      <div className="main flex-1 pt-16">
+      <main className="flex-1 relative z-[1]">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/contact" element={<Contact />} />
@@ -103,10 +105,11 @@ const Layout = () => {
           ></Route>
           <Route path="/compare-property" element={<CompareProperty />} />
         </Routes>
-      </div>
-      <div className="footer mt-5">
+        {/* </div> */}
+      </main>
+      <footer className="relative z-[1] mt-5">
         <Footer />
-      </div>
+      </footer>
     </div>
   );
 };

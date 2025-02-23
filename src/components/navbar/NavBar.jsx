@@ -7,7 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/store/authSlice";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
-import { Bars3Icon, ComputerDesktopIcon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  ComputerDesktopIcon,
+  ArrowLeftStartOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 
 const NavBar = () => {
   const authState = useSelector((state) => state.auth);
@@ -32,33 +36,41 @@ const NavBar = () => {
 
   const navLinks = [
     { label: "Home", path: "/" },
-    { label: "Properties Listing", path: "/property-listing" },
     { label: "About", path: "/aboutus" },
-    { label: "Contact", path: "/contact" },
     { label: "Blog", path: "/blog" },
+    { label: "Contact", path: "/contact" },
+    { label: "Property Listing", path: "/property-listing" },
   ];
 
   return (
-    <div className="bg-[#232323] lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
-      {/* Mobile Menu Toggle Button */}
-      <button onClick={() => setShowMenu(!showMenu)} className="lg:hidden flex items-center p-1 -ml-3">
+    <div className="bg-[#232323] lg:bg-black flex items-center justify-between p-2 mx-auto sticky top-0 z-[1000]">
+      <button
+        onClick={() => setShowMenu(!showMenu)}
+        className="lg:hidden flex items-center p-1 -ml-3"
+      >
         <Bars3Icon className="text-white h-6 w-6" />
       </button>
 
       {/* Logo */}
       <div className="flex-shrink-0">
         <NavLink to="/">
-          <img src={logo} alt="Logo" className="h-12" />
+          <img src={logo} alt="Logo" className="h-16" />
         </NavLink>
       </div>
 
       {/* Desktop Navigation */}
       <ul className="hidden lg:flex items-center font-medium lg:text-sm space-x-6">
         {navLinks.map((link, index) => (
-          <NavLink key={index} to={link.path} onClick={() => setActiveNavbarMenu(link.label)}>
+          <NavLink
+            key={index}
+            to={link.path}
+            onClick={() => setActiveNavbarMenu(link.label)}
+          >
             <li
-              className={`py-1 hover:text-yellow-500 text-lg px-3 hover:rounded-full ${
-                activeNavbarMenu === link.label ? "text-yellow-500 rounded-full" : ""
+              className={`py-1 hover:bg-teal-500 hover:text-white hover:rounded-md text-md px-3 ${
+                activeNavbarMenu === link.label
+                  ? "bg-teal-500 text-white rounded-md"
+                  : ""
               }`}
             >
               {link.label}
@@ -68,7 +80,11 @@ const NavBar = () => {
         <div>
           {authState.status ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
-              <img className="h-12 w-12 mr-5 rounded-full" src={userIcon} alt="User" />
+              <img
+                className="h-12 w-12 mr-5 rounded-full"
+                src={userIcon}
+                alt="User"
+              />
               <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-700 z-30 hidden group-hover:block">
                 <div className="min-w-40 bg-white rounded shadow-lg flex flex-col gap-1 p-4">
                   <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-start rounded">
@@ -98,11 +114,13 @@ const NavBar = () => {
                 setActiveNavbarMenu("login");
                 navigate("/login");
               }}
-              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-full ${
-                activeNavbarMenu === "login" ? "bg-teal-500 text-white rounded-full" : ""
+              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-md text-md  ${
+                activeNavbarMenu === "login"
+                  ? "bg-teal-500 text-white rounded-md"
+                  : ""
               }`}
             >
-              Login
+              Login / Signup
             </button>
           )}
         </div>
@@ -116,14 +134,23 @@ const NavBar = () => {
       >
         <div className="bg-[#1a1a1a] flex items-center justify-between p-4">
           <div className="w-8"></div>
-          <img src={logo} className="h-12 cursor-pointer" onClick={() => setShowMenu(false)} alt="Logo" />
+          <img
+            src={logo}
+            className="h-12 cursor-pointer"
+            onClick={() => setShowMenu(false)}
+            alt="Logo"
+          />
           <button onClick={() => setShowMenu(false)}>
             <IoMdClose size={25} />
           </button>
         </div>
         <ul className="flex flex-col items-center gap-4 mt-5 px-5 text-lg font-medium">
           {navLinks.map((link, index) => (
-            <NavLink key={index} onClick={() => setShowMenu(false)} to={link.path}>
+            <NavLink
+              key={index}
+              onClick={() => setShowMenu(false)}
+              to={link.path}
+            >
               {link.label}
             </NavLink>
           ))}
