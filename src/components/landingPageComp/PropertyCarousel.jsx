@@ -1,3 +1,4 @@
+
 import React from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
@@ -29,15 +30,23 @@ const PropertyCarousel = () => {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
 
-  // Custom arrows for desktop slider
-  const CustomPrevArrow = ({ onClick }) => (
-    <div onClick={onClick} className="custom-arrow custom-prev-arrow">
+  // Custom arrows for desktop slider (positioned outside the carousel container)
+  const CustomPrevArrow = ({ onClick, style, className }) => (
+    <div
+      onClick={onClick}
+      className="absolute top-1/2 transform -translate-y-1/2 text-white z-10 cursor-pointer"
+      style={{ ...style, left: "-50px" }}
+    >
       <FaChevronLeft size={30} />
     </div>
   );
 
-  const CustomNextArrow = ({ onClick }) => (
-    <div onClick={onClick} className="custom-arrow custom-next-arrow">
+  const CustomNextArrow = ({ onClick, style, className }) => (
+    <div
+      onClick={onClick}
+      className="absolute top-1/2 transform -translate-y-1/2 text-white z-10 cursor-pointer"
+      style={{ ...style, right: "-50px" }}
+    >
       <FaChevronRight size={30} />
     </div>
   );
@@ -55,28 +64,31 @@ const PropertyCarousel = () => {
 
   return (
     <>
-      {/* Desktop View (min-width: 768px) */}
+      {/* Desktop (Laptop) View */}
       <div className="hidden min-[768px]:block min-w-[768px]">
         <div className="bg-black text-white flex items-center justify-center flex-col p-5 mt-10 mb-10 w-full">
           <div className="flex items-center justify-center flex-col gap-3 w-full my-5 mb-8">
             <h1 className="text-4xl text-[#1b5f58] font-bold">Top Locations</h1>
             <p className="w-3/4 text-[14px] text-[#CCB454] text-center">
-              We proudly offer our services in these major cities, having
-              successfully connected with numerous satisfied members along the way.
+              We proudly offer our services in these major cities, having successfully connected with numerous satisfied members along the way.
             </p>
           </div>
         </div>
-        <div className="w-[85%] mx-auto px-4 py-8 custom-slider-container">
+        <div className="w-[86%] ml-20 px-4 py-8 custom-slider-container mt-[10px] relative">
           <Slider {...settings}>
             {slides.map((slide, index) => (
               <div key={index} className="bg-black shadow-lg rounded-lg overflow-hidden">
                 <div className="flex flex-row">
-                  <div className="w-1/2 h-[400px]">
-                    <img src={slide.image} className="object-cover w-full h-full" alt={slide.city} />
+                  <div className="w-1/2 h-[287px]">
+                    <img
+                      src={slide.image}
+                      className="object-cover w-full h-full"
+                      alt={slide.city}
+                    />
                   </div>
-                  <div className="w-1/2 pl-8 flex flex-col justify-between items-start p-8">
+                  <div className="w-1/2 pl-8 flex flex-col justify-between items-start p-0.5">
                     <div>
-                      <h2 className="text-[40px] font-normal text-white">
+                      <h2 className="text-[40px] font-normal text-white text-left">
                         Find the best To-Let <br />in {slide.city}
                       </h2>
                       <p className="text-[#CCB454] text-left pt-2">
@@ -87,7 +99,7 @@ const PropertyCarousel = () => {
                       to={`/property-listing/${slide.city}`}
                       className="px-7 py-2 bg-[#d3d3d3] text-black rounded-sm mt-4"
                     >
-                      JOIN US
+                      Explore Now
                     </Link>
                   </div>
                 </div>
@@ -97,7 +109,7 @@ const PropertyCarousel = () => {
         </div>
       </div>
 
-      {/* Mobile View (max-width: 450px) */}
+      {/* Mobile View */}
       <div className="block min-[768px]:hidden max-w-[450px]">
         <div className="bg-black text-white flex items-center justify-center flex-col p-5 mt-10 mb-10">
           <div className="flex items-center justify-center flex-col gap-3 w-full my-1 mb-1">
@@ -106,7 +118,7 @@ const PropertyCarousel = () => {
         </div>
 
         <div className="relative w-11/12 mx-auto">
-          <div className="overflow-hidden rounded-lg shadow-lg">
+          <div className="overflow-hidden rounded-lg shadow-lg relative">
             {slides.map((slide, index) => (
               <div
                 key={index}
@@ -119,36 +131,36 @@ const PropertyCarousel = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-6 text-white bg-gray-800">
-                  <h2 className="text-3xl font-normal mb-2 text-center">
+                <div className="p-6 text-white bg-[#232323] text-center">
+                  <h2 className="text-xl font-normal mb-2">
                     Find the best To-Let in {slide.city}
                   </h2>
-                  <p className="text-[#CCB454] mb-4 text-center">
+                  <p className="text-[#CCB454] mb-4 text-xs">
                     With No Brokerage on rental PGs | Flats | Houses | Offices.
                   </p>
                   <Link
                     to={`/property-listing/${slide.city}`}
-                    className="px-7 py-2 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors flex items-center justify-center"
+                    className="mx-auto px-4 py-1 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors inline-block"
                   >
-                    JOIN US
+                    Explore Now
                   </Link>
                 </div>
               </div>
             ))}
-          </div>
 
-          <button
-            onClick={prevSlide}
-            className="absolute left-0 top-1/3 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-r"
-          >
-            ←
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-0 top-1/3 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-l"
-          >
-            →
-          </button>
+            <button
+              onClick={prevSlide}
+              className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white z-10"
+            >
+              <FaChevronLeft size={24} />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white z-10"
+            >
+              <FaChevronRight size={24} />
+            </button>
+          </div>
 
           <div className="flex justify-center gap-2 mt-4">
             {slides.map((_, index) => (
@@ -163,29 +175,9 @@ const PropertyCarousel = () => {
           </div>
         </div>
       </div>
-
-      <style>{`
-        .custom-slider-container .slick-prev,
-        .custom-slider-container .slick-next {
-          display: none !important;
-        }
-        .custom-arrow {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 1;
-          cursor: pointer;
-          color: white;
-        }
-        .custom-prev-arrow {
-          left: -40px;
-        }
-        .custom-next-arrow {
-          right: -40px;
-        }
-      `}</style>
     </>
   );
 };
 
 export default PropertyCarousel;
+
