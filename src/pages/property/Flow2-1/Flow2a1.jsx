@@ -240,22 +240,22 @@ const Flow2a = () => {
               <img src={shield} alt="shield" className="lg:h-10 lg:w-10 h-[18px] w-18px inline" />
             </span>
           </h1>
-          <p className="text-gray-400 block text-sm py-1">
+          <p className="text-gray-400 block text-sm py-1 lg:text-xl lg:opacity-50 lg:text-[#f9f9f9] font-medium font-['Poppins'] capitalize tracking-wide">
             {property?.address}, {property?.city}
           </p>
 
-          <div className="flex pb-2">
+          <div className="flex pb-2 lg:text-2xl">
             <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
             <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
             <MdStarOutline className="text-[#FFFEFE] mt-1" />
             <MdStarOutline className="text-[#FFFEFE] mt-1" />
             <MdStarOutline className="text-[#FFFEFE] mt-1" />
-            <p className="ml-2 text-gray-400">
+            <p className="ml-2 text-gray-400 lg:opacity-50  lg:text-[#f9f9f9] lg:text-xl font-medium font-['Poppins'] capitalize tracking-wide">
               {property?.reviews ? property?.reviews?.length : 0} (Reviews)
             </p>
           </div>
           
-              <div className="border border-gray-600 rounded-lg p-3 mb-8 flex lg:flex-col sm:flex-row justify-between items-center gap-4 w-full">
+              <div className="border border-gray-600 rounded-lg p-3 mb-8 flex lg:flex-row sm:flex-row place-content-evenly items-center gap-4 lg:w-[30%]">
                 {/* Monthly Rent Section */}
                 <div className="text-center w-full sm:w-auto">
                   <p className="text-gray-400 text-sm">Monthly Rent</p>
@@ -263,7 +263,7 @@ const Flow2a = () => {
                 </div>
 
                 {/* Divider (Adjusts Based on Screen Size) */}
-                <div className="lg:border-t border-l border-gray-600 lg:w-full w-[1px] h-[50px] lg:h-[1px]"></div>
+                <div className="lg:border-t border-l border-gray-600 lg:w-[1px] w-[1px] h-[50px] lg:h-[100px]"></div>
 
                 {/* BHK Section */}
                 <div className="text-center w-full sm:w-auto">
@@ -272,7 +272,7 @@ const Flow2a = () => {
                 </div>
 
                 {/* Divider */}
-                <div className="lg:border-t border-l border-gray-600 lg:w-full w-[1px] lg:h-[1px] h-[50px]"></div>
+                <div className="lg:border-t border-l border-gray-600  w-[1px] lg:h-[100px] h-[50px]"></div>
 
                 {/* Floor Section */}
                 <div className="text-center w-full sm:w-auto">
@@ -281,9 +281,40 @@ const Flow2a = () => {
                 </div>
               </div>
         </div>
+        <div className="w-full lg:w-[40%] bg-white rounded-lg lg:p-6 p-2  ">
+        <div className="flex justify-between items-center mb-4 lg:mb-11">
+          <p className="text-black text-lg font-semibold lg:text-[22px] lg:font-medium font-['Poppins'] capitalize tracking-wide">Request a visit</p>
+          <div className="flex gap-3">
+            <CiShare2 className="text-[#2E6A64] text-xl cursor-pointer" />
+            <IoIosAdd className="text-xl cursor-pointer" />
+            <CiHeart className="text-[#FF0B0B] text-xl cursor-pointer" />
+          </div>
+        </div>
+        
+        <div className="flex items-center mb-3 lg:mb-11 lg:gap-5">
+          <img src={profile} alt="owner" className="h-10 w-10 lg:h-14 lg:w-14 rounded-full" />
+          <div className="ml-3">
+            <p className="text-gray-800 font-medium lg:text-xl">
+              {property?.firstName} {property?.lastName}
+            </p>
+            <p className="text-gray-500">
+              {maskPhoneNumber(property?.ownersContactNumber)}
+            </p>
+          </div>
+        </div>
+        
+        <button
+          className="w-full py-3 px-4 rounded-lg flex items-center justify-center gap-2 text-white font-semibold"
+          style={{ backgroundColor: "#40B5A8" }}
+          onClick={() => addToCompare(property)}
+        >
+          <img src={fav} alt="favorite" className="h-6 w-5" />
+          Add To Visit
+        </button>
+      </div>
       </div>
 
-      <div className="w-full bg-white rounded-lg lg:p-6 p-2 mb-8">
+      {/* <div className="w-full lg:w-[20%] bg-white rounded-lg lg:p-6 p-2 mb-8">
         <div className="flex justify-between items-center mb-4">
           <p className="text-black text-lg font-semibold">Request a visit</p>
           <div className="flex gap-3">
@@ -313,7 +344,7 @@ const Flow2a = () => {
           <img src={fav} alt="favorite" className="h-6 w-5" />
           Add To Visit
         </button>
-      </div>
+      </div> */}
 
       <Flow2b property={property} />
     </div>

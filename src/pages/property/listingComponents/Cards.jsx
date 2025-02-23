@@ -166,7 +166,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                         <img
                           src={photo}
                           alt={property.propertyType}
-                          className="w-full h-[180px] object-cover lg:h-[250px] sm:h-[180px]"
+                          className="w-full h-[180px] object-cover lg:h-[250px] "
                           onError={handleImageError}
                         />
                       </div>
@@ -177,7 +177,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                     <img
                       src={property.images[0]}
                       alt={property.propertyType}
-                      className="w-full h-[180px] sm:h-[200px] md:h-[400px] lg:h-full object-cover"
+                      className="w-full h-[180px] sm:h-[200px] md:h-[400px] lg:h-[250px] object-cover"
                       onError={handleImageError}
                     />
                     <PrevArrow onClick={() => {}} />
@@ -336,32 +336,33 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 </div>
 
                 <div className="card-details flex flex-col items-start">
-                  <div className="card-price font-['Poppins']  text-xs lg:text-sm font-normal text-[#808080] -mt-2 lg:mt-0">
+                  <div className="card-price font-poppins  text-xs lg:text-sm font-normal text-[#808080] -mt-2 lg:-mt-1">
                     RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                   </div>
-                  <div className="card-text font-poppins lg:text-base text-xs pb-3 font-normal lg:font-medium font-['Poppins'] capitalize text-[#4f4f4f] ">
+                  <div className="card-text lg:text-base text-xs py-3 lg:py-2  font-normal lg:font-medium font-['Poppins'] capitalize text-[#4f4f4f] ">
                     {property.type}, {property.floor}
                   </div>
                 </div>
                 <ul className="card-list custom-card-list py-2 lg:py-2 ">
                   <li className="bed card-item flex items-center text-base">
-                    <IoBedOutline className="text-lg lg:text-3xl" />
+                    <IoBedOutline className="text-lg lg:text-2xl" />
                     &nbsp;
-                    {property.bhk}
+                    <p className="text-xs lg:text-base font-medium font-['Poppins]">{property.bhk}</p>
                   </li>
                   <li className="bath card-item flex items-center text-base">
-                    <LuBath className="text-lg lg:text-3xl" />
+                    <LuBath className="text-lg lg:text-2xl" />
                     &nbsp;
-                    {property.typeOfWashroom}
+                    <p className="text-xs lg:text-base font-medium font-['Poppins]">{property.typeOfWashroom}</p>
                   </li>
                   <li className="pi card-item flex items-center text-base">
-                    <PiGridFour className="text-lg lg:text-3xl" />
+                    <PiGridFour className="text-lg lg:text-2xl" />
                     &nbsp;
-                    {property.squareFeetArea} ft²
+                    <p className="text-xs lg:text-base font-medium font-['Poppins]">{property.squareFeetArea} ft²</p> 
                   </li>
                 </ul>
-              </div>
-              <div className="card-footer lg:py-5 pt-6 flex justify-between ">
+            </div>
+            <div className="w-ful h-[0px] border border-[#7c7c7c]/50"></div>
+              <div className="card-footer lg:py-5 lg:pb-0 pt-2 flex justify-between ">
                 <div className="card-author flex items-center gap-1">
                   <figure className="author-avatar lg:w-8 lg:h-8 w-6 h-6 overflow-hidden rounded-full">
                     <img
@@ -372,7 +373,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                     />
                   </figure>
                   <div>
-                    <p className="author-name text-[10px] lg:text-lg sm:font-light lg:font-medium">
+                    <p className="author-name text-[10px] lg:text-base sm:font-light lg:font-medium font-['Poppins'] capitalize">
                       <a href="#">
                         {property.firstName} {property.lastName}
                       </a>
@@ -382,7 +383,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 <div className="card-footer-actions">
                   <button
                     onClick={() => navigate(`/property/${property.slug}`)}
-                    className="card-footer-actions-btn w-[95px] h-[24px] lg:w-[150px] lg:h-[36px]"
+                    className="card-footer-actions-btn w-[95px] h-[24px] lg:w-[110px] lg:h-[36px] bg-black text-[11px] lg:text-sm font-light text-center border rounded text-[#d4ded8]  border-solid border-[#ddd] font-['Poppins'] uppercase"
                   >
                     SHOW MORE
                   </button>
