@@ -6,6 +6,13 @@ import SelectLocation from "./SelectLocation";
 import { FaSearch } from "react-icons/fa";
 import areas from "./areas";
 
+const citylocalities = {
+  Lucknow: ["Gomti Nagar", "Aliganj", "Indira Nagar", "Chinhat", "Hazratganj"],
+  Delhi: ["Connaught Place", "Saket", "Dwarka", "Rohini", "Karol Bagh"],
+  Mumbai: ["Andheri", "Bandra", "Juhu", "Dadar", "Colaba"],
+  // Add more cities and their localities here
+};
+
 // Typewriter Effect Component
 const TypewriterEffect = () => {
   const words = [" PGS", " FLATS", " HOUSES", " OFFICES"];
@@ -50,6 +57,7 @@ const HomeMobile = () => {
   const [selectedArea, setSelectedArea] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearchPanel, setShowSearchPanel] = useState(false);
+  const [searchResults, setSearchResults] = useState({ localities: [], areas: [] });
   const searchPanelRef = useRef(null);
   const [city, setCity] = useState("");
   const location = useLocation();
@@ -94,7 +102,7 @@ const HomeMobile = () => {
     if (type === "locality") {
       handleLocalitySelect(value);
       queryParams.set("locality", value);
-      navigate(`/property-listing/?${queryParams.toString()}`);
+      navigate(`/property-listing/${city}?${queryParams.toString()}`);
     } else {
       addLocality(value);
       const currentAreas = selectedArea.includes(value)
@@ -103,7 +111,7 @@ const HomeMobile = () => {
 
       if (currentAreas.length > 0) {
         queryParams.set("area", currentAreas.join(","));
-        navigate(`/property-listing/?${queryParams.toString()}`);
+        navigate(`/property-listing/${city}?${queryParams.toString()}`);
       }
     }
     setSearchQuery("");
@@ -111,12 +119,30 @@ const HomeMobile = () => {
   };
 
   const handleSearch = (e) => {
-    const query = e.target.value;
+    const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    if (!query) {
+
+    if (query.length === 0) {
       setShowSearchPanel(false);
       return;
     }
+
+    // Filter localities based on selected city
+    const matchingLocalities = city
+      ? citylocalities[city]?.filter((locality) =>
+          locality.toLowerCase().startsWith(query)
+        ) || []
+      : [];
+
+    // Filter areas
+    const matchingAreas = areas.filter((area) =>
+      area.toLowerCase().startsWith(query)
+    );
+
+    setSearchResults({
+      localities: matchingLocalities,
+      areas: matchingAreas,
+    });
     setShowSearchPanel(true);
   };
 
@@ -152,8 +178,8 @@ const HomeMobile = () => {
                 Location={Location}
                 setLocation={setLocation}
                 onLocationSelect={(selectedCity) => {
+                  setCity(selectedCity);
                   resetFilters();
-                  navigate(`/property-listing/${selectedCity}`);
                   setLocation(false);
                 }}
               />
@@ -166,6 +192,12 @@ const HomeMobile = () => {
                 type="text"
                 placeholder="Search House, PG, Flats, etc"
                 value={searchQuery}
+                onClick={(e) => {
+                  if (!city) {
+                    alert("Please select a city first");
+                    return;
+                  }
+                }}
                 onChange={handleSearch}
                 className="w-full outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent"
               />
@@ -178,7 +210,17 @@ const HomeMobile = () => {
               ref={searchPanelRef}
               className="bg-white rounded-2xl shadow-lg mt-2 max-h-[300px] overflow-y-auto"
             >
-              {areas.map((area, index) => (
+              {searchResults.localities.map((locality, index) => (
+                <div
+                  key={index}
+                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
+                  onClick={() => handleSearchSelection(locality, "locality")}
+                >
+                  <span>{locality}</span>
+                  <span className="text-gray-500 text-sm">Locality</span>
+                </div>
+              ))}
+              {searchResults.areas.map((area, index) => (
                 <div
                   key={index}
                   className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"

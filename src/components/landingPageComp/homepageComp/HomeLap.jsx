@@ -7,6 +7,13 @@ import SelectLocation from "./SelectLocation";
 import { FaSearch } from "react-icons/fa";
 import areas from "./areas";
 
+const citylocalities = {
+  Lucknow: ["Gomti Nagar", "Aliganj", "Indira Nagar", "Chinhat", "Hazratganj"],
+  Delhi: ["Connaught Place", "Saket", "Dwarka", "Rohini", "Karol Bagh"],
+  Mumbai: ["Andheri", "Bandra", "Juhu", "Dadar", "Colaba"],
+  // Add more cities and their localities here
+};
+
 const HomeLap = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const handleScroll = () => {
@@ -27,6 +34,7 @@ const HomeLap = () => {
   const [selectedArea, setSelectedArea] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearchPanel, setShowSearchPanel] = useState(false);
+  const [searchResults, setSearchResults] = useState({ localities: [], areas: [] });
   const searchPanelRef = useRef(null);
   const [city, setCity] = useState("");
   const location = useLocation();
@@ -71,7 +79,7 @@ const HomeLap = () => {
     if (type === "locality") {
       handleLocalitySelect(value);
       queryParams.set("locality", value);
-      navigate(`/property-listing/?${queryParams.toString()}`);
+      navigate(`/property-listing/${city}?${queryParams.toString()}`);
     } else {
       addLocality(value);
       const currentAreas = selectedArea.includes(value)
@@ -80,7 +88,7 @@ const HomeLap = () => {
 
       if (currentAreas.length > 0) {
         queryParams.set("area", currentAreas.join(","));
-        navigate(`/property-listing/?${queryParams.toString()}`);
+        navigate(`/property-listing/${city}?${queryParams.toString()}`);
       }
     }
     setSearchQuery("");
@@ -88,12 +96,30 @@ const HomeLap = () => {
   };
 
   const handleSearch = (e) => {
-    const query = e.target.value;
+    const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    if (!query) {
+
+    if (query.length === 0) {
       setShowSearchPanel(false);
       return;
     }
+
+    // Filter localities based on selected city
+    const matchingLocalities = city
+      ? citylocalities[city]?.filter((locality) =>
+          locality.toLowerCase().startsWith(query)
+        ) || []
+      : [];
+
+    // Filter areas
+    const matchingAreas = areas.filter((area) =>
+      area.toLowerCase().startsWith(query)
+    );
+
+    setSearchResults({
+      localities: matchingLocalities,
+      areas: matchingAreas,
+    });
     setShowSearchPanel(true);
   };
 
@@ -123,25 +149,11 @@ const HomeLap = () => {
           <div
             className={` absolute transform transition-all max-sm:top-52 g:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms] ease-in-out w-[20%] ${
               isScrolled
-                ? "left-[5%] w-[20%] top-[42%] lg:top-[52%] lg:w-[33%] opacity-100"
+                ? "left-[5%] w-[30%] lg:w-[33%] opacity-100"
                 : "left-[30%] w-[20%] top-[39%] lg:top-[56%] lg:w-[33%] opacity-0"
             } `}
             id="inputGroup"
           >
-            {/* <div className="flex">
-              <input
-                className="flex-1 py-2 px-4 border border-gray-300 bg-white rounded-l-md"
-                placeholder="Search PG, Flats and Houses"
-                aria-label="Search PG, Flats and Houses"
-              />
-              <button
-                className="bg-[#40b5a8] text-white rounded-r-md px-4"
-                onClick={() => console.log("connect")}
-              >
-                Search
-              </button>
-            </div> */}
-            {/* <Filters /> */}
             <div className="max-w-xl mx-auto">
               <div className="bg-white rounded-lg flex items-center p-1">
                 {/* City Selection */}
@@ -155,8 +167,8 @@ const HomeLap = () => {
                     Location={Location}
                     setLocation={setLocation}
                     onLocationSelect={(selectedCity) => {
+                      setCity(selectedCity);
                       resetFilters();
-                      navigate(`/property-listing/${selectedCity}`);
                       setLocation(false);
                     }}
                   />
@@ -169,6 +181,12 @@ const HomeLap = () => {
                     type="text"
                     placeholder="Search House, PG, Flats, etc"
                     value={searchQuery}
+                    onClick={(e) => {
+                      if (!city) {
+                        alert("Please select a city first");
+                        return;
+                      }
+                    }}
                     onChange={handleSearch}
                     className="w-full outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent"
                   />
@@ -181,7 +199,17 @@ const HomeLap = () => {
                   ref={searchPanelRef}
                   className="bg-white rounded-2xl shadow-lg mt-2 max-h-[300px] overflow-y-auto"
                 >
-                  {areas.map((area, index) => (
+                  {searchResults.localities.map((locality, index) => (
+                    <div
+                      key={index}
+                      className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
+                      onClick={() => handleSearchSelection(locality, "locality")}
+                    >
+                      <span>{locality}</span>
+                      <span className="text-gray-500 text-sm">Locality</span>
+                    </div>
+                  ))}
+                  {searchResults.areas.map((area, index) => (
                     <div
                       key={index}
                       className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
