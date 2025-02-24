@@ -33,24 +33,32 @@ export default function Faq() {
         <div className="row">
           <div className="faq-wrapper">
             <div className="header rounded-t-3xl py-2 sm:py-8 text-2xl bg-[#6cc0c4]  text-white w-full flex items-center justify-center">
-              <h1 className="text-md sm:text-4xl font-bold">FAQs</h1>
+              <h1 className="px-2 text-md sm:text-4xl font-bold text-center">
+                Frequently Asked Questions FAQs
+              </h1>
             </div>
             <div className="faqinner border-2 border-[#6cc0c4] cursor-pointer py-3">
               {/* First Question */}
               <div
-                className="question py-1 px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
                 onClick={toggleFAQ1}
               >
                 <h4 className="text-xl">What are To-Let's operating hours?</h4>
                 <h1
-                  className={`icon text-white text-4xl mr-4 transition-transform duration-200 active:rotate-180  ${
+                  className={`icon text-white text-4xl   transition-transform duration-200 active:rotate-180  ${
                     isOpen1 ? "active" : ""
                   }`}
                 >
                   {isOpen1 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i
+                      className="fa-solid fa-minus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i
+                      className="fa-solid fa-plus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   )}
                 </h1>
               </div>
@@ -73,21 +81,27 @@ export default function Faq() {
 
               {/* Second Question */}
               <div
-                className="question py-1 px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
                 onClick={toggleFAQ2}
               >
                 <h4 className="text-xl">
                   What is To-Let's cancellation policy?
                 </h4>
                 <h1
-                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${
+                  className={`icon  text-white text-4xl   transition-transform duration-200 ${
                     isOpen2 ? "active" : ""
                   }`}
                 >
                   {isOpen2 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i
+                      className="fa-solid fa-minus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i
+                      className="fa-solid fa-plus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   )}
                 </h1>
               </div>
@@ -115,19 +129,25 @@ export default function Faq() {
 
               {/* Third Question */}
               <div
-                className="question py-1 px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
                 onClick={toggleFAQ3}
               >
                 <h4 className="text-xl">Are To-Let's services safe to use?</h4>
                 <h1
-                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${
+                  className={`icon  text-white text-4xl   transition-transform duration-200 ${
                     isOpen3 ? "active" : ""
                   }`}
                 >
                   {isOpen3 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i
+                      className="fa-solid fa-minus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i
+                      className="fa-solid fa-plus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   )}
                 </h1>
               </div>
@@ -157,21 +177,27 @@ export default function Faq() {
 
               {/* Fourth Question */}
               <div
-                className="question py-1 px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
                 onClick={toggleFAQ4}
               >
                 <h4 className="text-xl">
                   Can I speak directly to the real owner at To-Let?
                 </h4>
                 <h1
-                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${
+                  className={`icon  text-white text-4xl   transition-transform duration-200 ${
                     isOpen4 ? "active" : ""
                   }`}
                 >
                   {isOpen4 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i
+                      className="fa-solid fa-minus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i
+                      className="fa-solid fa-plus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   )}
                 </h1>
               </div>
@@ -200,19 +226,25 @@ export default function Faq() {
 
               {/* Fifth Question */}
               <div
-                className="question py-1 px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
                 onClick={toggleFAQ5}
               >
                 <h4 className="text-xl">What is To-Let's mission?</h4>
                 <h1
-                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${
+                  className={`icon  text-white text-4xl transition-transform duration-200 ${
                     isOpen5 ? "active" : ""
                   }`}
                 >
                   {isOpen5 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i
+                      className="fa-solid fa-minus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i
+                      className="fa-solid fa-plus"
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    ></i>
                   )}
                 </h1>
               </div>

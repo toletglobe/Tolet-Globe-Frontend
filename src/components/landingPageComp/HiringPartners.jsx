@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useRef, useState } from "react";
 import linkedinLogo from "../../assets/Hiring/linkedin.jpg";
 import unstopLogo from "../../assets/Hiring/unstop.jpg";
@@ -8,8 +6,16 @@ import pregradLogo from "../../assets/Hiring/pregrad.jpg";
 import sunstoneLogo from "../../assets/Hiring/sunstone.jpg";
 
 const images = [
-  { src: linkedinLogo, alt: "LinkedIn", url: "https://www.linkedin.com/company/to-let-globe/posts/?feedView=all" },
-  { src: unstopLogo, title: "Unstop", url: "https://unstop.com/c/to-let-globe-911784" },
+  {
+    src: linkedinLogo,
+    alt: "LinkedIn",
+    url: "https://www.linkedin.com/company/to-let-globe/posts/?feedView=all",
+  },
+  {
+    src: unstopLogo,
+    title: "Unstop",
+    url: "https://unstop.com/c/to-let-globe-911784",
+  },
   { src: apnaLogo, title: "Apna", url: "https://apna.co" },
   { src: pregradLogo, title: "Pregrad", url: "https://www.pregrad.in/" },
   { src: sunstoneLogo, title: "Sunstone", url: "https://sunstone.in" },
@@ -64,7 +70,7 @@ const HiringPartners = () => {
   return (
     <div className="margin">
       {/* Outer (white bordered) container with increased vertical padding */}
-      <div className="w-full px-3 py-6 md:py-8 bg-black flex flex-col items-center justify-center relative border border-white rounded-lg shadow-lg">
+      <div className="w-full px-6 py-8 md:py-10 bg-black flex flex-col items-center justify-center relative border border-white rounded-lg shadow-lg">
         {/* Absolutely positioned heading container */}
         <div
           className="bg-black z-20 inline-block text-center absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -75,7 +81,7 @@ const HiringPartners = () => {
         >
           <h2
             ref={headingRef}
-            className="text-[#2e7766] text-2xl md:text-4xl font-bold whitespace-nowrap md:whitespace-normal"
+            className="text-[#1b5f58] text-2xl md:text-5xl font-bold whitespace-nowrap md:whitespace-normal"
           >
             Our Hiring Partners
           </h2>
@@ -88,24 +94,25 @@ const HiringPartners = () => {
             marginTop: headingHeight / 2,
           }}
         >
-          {/* Desktop View – Marquee Effect */}
-          <div className="hidden md:flex animate-marquee justify-center items-center gap-0">
-            {images.concat(images).map((image, idx) => (
+          {/* Desktop View – Static Row with Rectangular Images */}
+          <div className="hidden md:flex justify-center items-center gap-[40px] px-3 py-9">
+            {images.map((image, idx) => (
               <div
                 key={idx}
-                className={`flex flex-col justify-center mx-9 my-5 ${idx === 0 ? "ml-[26.61px]" : ""} ${idx === images.length - 1 ? "mr-[26.61px]" : ""}`}
+                className="flex justify-center items-center bg-white rounded-lg p-2"
+                style={{ width: "220px", height: "100px" }} // Rectangular aspect ratio
               >
                 <img
                   src={image.src}
                   alt={image.title || image.alt}
-                  className="max-w-[900px] max-h-[900px] cursor-pointer hover:opacity-80 transition-opacity"
+                  className="w-auto h-full object-contain cursor-pointer hover:opacity-80 transition-opacity"
                   onClick={() => window.open(image.url, "_blank")}
                 />
               </div>
             ))}
           </div>
 
-          {/* Mobile View – Scrollable List with 26px gap */}
+          {/* Mobile View – Scrollable List */}
           <div
             ref={scrollRef}
             className="flex md:hidden overflow-x-scroll cursor-grab whitespace-nowrap items-center scroll-smooth"

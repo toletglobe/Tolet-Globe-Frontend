@@ -31,7 +31,7 @@ const HomeUp = () => {
             Welcome to To-Let Globe
           </h1>
           <h6
-            className={`absolute text-2xl mt-3 top-2/3 left-0 right-0 text-center text-[#c8a21c] font-light capitalize transition-all duration-[1800ms] ease-in-out ${
+            className={`absolute text-2xl max-sm:text-lg mt-3 top-2/3 left-0 right-0 text-center text-[#c8a21c] font-light capitalize transition-all duration-[1800ms] ease-in-out ${
               isScrolled
                 ? "transform -translate-x-80 scale-75 opacity-0"
                 : "transform translate-x-0 scale-100 opacity-100"

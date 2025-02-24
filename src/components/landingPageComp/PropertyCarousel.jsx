@@ -67,7 +67,7 @@ const PropertyCarousel = () => {
       <div className="hidden min-[768px]:block min-w-[768px]">
         <div className="bg-black text-white flex items-center justify-center flex-col p-5 mt-10 mb-10 w-full">
           <div className="flex items-center justify-center flex-col gap-3 w-full my-5 mb-8">
-            <h1 className="text-4xl text-[#1b5f58] font-bold">Top Locations</h1>
+            <h1 className="text-5xl text-[#1b5f58] font-bold">Top Locations</h1>
             <p className="w-3/4 text-[14px] text-[#CCB454] text-center">
               We proudly offer our services in these major cities, having
               successfully connected with numerous satisfied members along the
@@ -92,11 +92,11 @@ const PropertyCarousel = () => {
                   </div>
                   <div className="w-1/2 pl-8 flex flex-col justify-between items-start">
                     <div>
-                      <h2 className="text-[40px] font-normal text-white text-left">
+                      <h2 className="text-5xl font-normal text-white text-left">
                         Find the best To-Let <br />
                         in {slide.city}
                       </h2>
-                      <p className="text-[#CCB454] text-left pt-2">
+                      <p className="text-[#CCB454] text-xl text-left pt-2">
                         With No Brokerage on rental PGs | Flats | Houses |
                         Offices.
                       </p>
@@ -143,14 +143,14 @@ const PropertyCarousel = () => {
                   <h2 className="text-2xl font-normal mb-2">
                     Find the best To-Let in {slide.city}
                   </h2>
-                  <p className="text-[#CCB454] mb-4 text-xs">
+                  <p className="text-[#CCB454] text-xs mb-4">
                     With No Brokerage on rental PGs | Flats | Houses | Offices.
                   </p>
                   <Link
                     to={`/property-listing/${slide.city}`}
                     className="mx-auto px-4 py-2  my-4 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors inline-block"
                   >
-                    Explore Now
+                    JOIN US
                   </Link>
                 </div>
               </div>
