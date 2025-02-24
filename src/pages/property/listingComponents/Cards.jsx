@@ -65,7 +65,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
   };
 
   const settings = {
-    dots: true,
+    // dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -162,7 +162,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
             key={property._id}
             className="property-card rounded-[8px] overflow-hidden shadow-lg border border-gray-200 bg-white lg:p-4 p-2.5 "
           >
-            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden w-full lg:h-[350px] h-[180px] sm:h-[200px]">
+            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden w-full">
               {property.images?.length > 1 ? (
                 <Slider {...settings}>
                   {property.images.map((photo, index) => (
@@ -170,7 +170,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                       <img
                         src={photo}
                         alt={property.propertyType}
-                        className="w-full h-[180px] object-cover lg:h-[350px] sm:h-[180px]"
+                        className="w-full h-[160px] md:h-[260px] object-cover"
                         onError={handleImageError}
                       />
                     </div>
@@ -181,7 +181,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   <img
                     src={property.images[0]}
                     alt={property.propertyType}
-                    className="w-full h-[180px] sm:h-[200px] md:h-[400px] lg:h-full object-cover"
+                    className="w-full h-[160px] md:h-[260px] object-cover"
                     onError={handleImageError}
                   />
                   <PrevArrow onClick={() => {}} />
@@ -189,7 +189,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 </div>
               )}
               <div
-                className="card-badge-left absolute top-2 left-2 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1"
+                className="card-badge-left absolute top-4 left-4 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1 rounded-md"
                 style={{
                   backgroundColor:
                     property.availabilityStatus === "Available"
@@ -206,7 +206,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   ? "Rent Out"
                   : "NA"}
               </div>
-              <div className="banner-actions absolute bottom-0.5 left-2 right-4 flex  justify-between">
+              <div className="banner-actions absolute bottom-4 left-2 right-4 flex  justify-between">
                 <div className="item-center">
                   <button className="banner-actions-btn flex items-center text-white">
                     <FaLocationDot className="text-xs lg:text-base drop-shadow-2xl shadow-black" />
@@ -228,13 +228,13 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
             </figure>
             <div className="card-content lg:p-1 sm:p-1">
               <div className="name_icon flex justify-between pt-2 ">
-                <h3 className="card-title lg:text-[24px] text-[14px] lg:font-semibold font-medium font-poppins ">
+                <h3 className="card-title lg:text-xl text-[14px] lg:font-semibold font-medium font-poppins ">
                   <a href="#">
-                    {property.bhk} BHK, {property.propertyType}, On Rent
+                    {property.bhk} BHK {property.propertyType} On Rent
                   </a>
                 </h3>
 
-                <div className="icon-box flex items-start space-x-1 md:space-x-4 p-1 ">
+                <div className="icon-box flex items-start space-x-1 md:space-x-2 p-1 ">
                   <Popup
                     arrow={false}
                     trigger={
@@ -341,43 +341,43 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
               </div>
 
               <div className="card-details flex flex-col items-start">
-                <div className="card-price font-poppins text-xs font-normal text-[#808080] -mt-2 lg:mt-1">
+                <div className="card-price font-poppins text-md font-normal text-[#808080] -mt-2 lg:mt-0">
                   RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                 </div>
-                <div className="card-text font-poppins lg:text-[24px] text-xs py-3 font-normal text-[#505050]">
+                <div className="card-text font-poppins lg:text-lg text-xs font-bold text-[#505050]">
                   {property.type}, {property.floor}
                 </div>
               </div>
               <ul className="card-list custom-card-list py-2 lg:py-2 ">
                 <li className="bed card-item flex items-center text-base">
-                  <IoBedOutline className="text-lg lg:text-3xl" />
+                  <IoBedOutline className="text-lg lg:text-2xl" />
                   &nbsp;
-                  {property.bhk}
+                  <span className="text-sm">{property.bhk}</span>
                 </li>
                 <li className="bath card-item flex items-center text-base">
-                  <LuBath className="text-lg lg:text-3xl" />
+                  <LuBath className="text-lg lg:text-2xl" />
                   &nbsp;
-                  {property.typeOfWashroom}
+                  <span className="text-sm">{property.typeOfWashroom}</span>
                 </li>
                 <li className="pi card-item flex items-center text-base">
-                  <PiGridFour className="text-lg lg:text-3xl" />
+                  <PiGridFour className="text-lg lg:text-2xl" />
                   &nbsp;
-                  {property.squareFeetArea} ft²
+                  <span className="text-sm">{property.squareFeetArea} ft²</span>
                 </li>
               </ul>
             </div>
-            <div className="card-footer lg:py-8 pt-6 flex justify-between ">
+            <div className="card-footer pt-6 lg:pt-3 flex justify-between border-t-2 ">
               <div className="card-author flex items-center gap-1">
                 <figure className="author-avatar lg:w-8 lg:h-8 w-6 h-6 overflow-hidden rounded-full">
                   <img
-                    src={property.images[0]}
+                    src={property.ownerProfilePicture || defaultHouse}
                     alt={property.ownerName}
                     className="w-full h-full object-cover"
                     onError={handleImageError}
                   />
                 </figure>
                 <div>
-                  <p className="author-name text-[10px] lg:text-lg sm:font-light lg:font-medium">
+                  <p className="author-name text-[10px] lg:text-sm sm:font-light lg:font-medium">
                     <a href="#">
                       {property.firstName} {property.lastName}
                     </a>
@@ -387,7 +387,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
               <div className="card-footer-actions">
                 <button
                   onClick={() => navigate(`/property/${property.slug}`)}
-                  className="card-footer-actions-btn w-[95px] h-[24px] lg:w-[150px] lg:h-[36px]"
+                  className="card-footer-actions-btn w-[95px] h-[24px] lg:w-[120px] lg:h-[28px] text-sm"
                 >
                   SHOW MORE
                 </button>
