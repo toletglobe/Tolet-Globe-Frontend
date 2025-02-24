@@ -1958,7 +1958,7 @@ const Listing = () => {
                       searchResults.areas.length > 0) && (
                       <div
                         ref={searchPanelRef}
-                        className="absolute top-full left-28 mt-2 w-1/3 bg-white rounded-lg shadow-lg z-50 max-h-[300px] overflow-y-auto"
+                        className="absolute top-20 left-36 mt-2 w-1/4 bg-white rounded-lg shadow-lg z-50 max-h-[300px] overflow-y-auto"
                       >
                         {[
                           ...searchResults.localities,
@@ -2022,7 +2022,7 @@ const Listing = () => {
                     <div
                       className={`${
                         mode ? "block" : "hidden"
-                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[50px] sm:left-[-110px]`}
+                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-110px]`}
                     >
                       <p
                         className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
@@ -2064,7 +2064,7 @@ const Listing = () => {
 
             {/* Compare and Add Property buttons - span 4 columns together */}
             <div className="sm:col-span-4 md:col-span-6 flex gap- items-center justify-between">
-              {compareProperty.length >= 1 && (
+              {compareProperty.length >= 2 && (
                 <div className="compare" onClick={compare}>
                   <button
                     className={`bg-white h-12 sm:h-14 w-32 text-black rounded-lg flex gap-5 text-center items-center py-3 px-6 font-medium ${

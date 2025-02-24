@@ -12,10 +12,11 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import defaultHouse from "../../../assets/defaultHouse/defaultHouse.webp";
+import defaultHouse from "../../../assets/defaultHouse/defaultHouse.png";
 import { BASE_URL } from "../../../constant/constant";
 import { FaHeart } from "react-icons/fa";
 // import { useEffect } from "react";
+import defaultUser from "../../../assets/user-icon.png";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
@@ -370,7 +371,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
               <div className="card-author flex items-center gap-1">
                 <figure className="author-avatar lg:w-8 lg:h-8 w-6 h-6 overflow-hidden rounded-full">
                   <img
-                    src={property.ownerProfilePicture || defaultHouse}
+                    src={property.ownerProfilePicture || defaultUser}
                     alt={property.ownerName}
                     className="w-full h-full object-cover"
                     onError={handleImageError}
