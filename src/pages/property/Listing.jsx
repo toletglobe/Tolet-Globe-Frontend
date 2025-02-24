@@ -1834,12 +1834,12 @@ const Listing = () => {
           if (showCity === true) setShowCity(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className="property h-[100vh] pb-14 w-full overflow-y-auto"
+        className="property h-[100vh] pb-14 px-12 w-full overflow-y-auto"
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-4 flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
-          <div className="flex items-center justify-between">
+        <div className=" flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
+          <div className="hidden flex items-center justify-between">
             <p className="lg:text-[45px] md:text-4xl text-[#C8A21C] font-bold">
               Property Listing
             </p>
