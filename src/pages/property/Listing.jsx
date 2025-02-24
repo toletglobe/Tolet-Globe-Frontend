@@ -1642,12 +1642,11 @@ const Listing = () => {
           queryString =
             queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
         }
-          if (selectedArea.length > 0) {
-            queryString =
-              queryString +
-              `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
-          }
-        
+        if (selectedArea.length > 0) {
+          queryString =
+            queryString +
+            `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
+        }
       }
 
       queryString = queryString + `&page=${currentPage}`;
@@ -1656,7 +1655,6 @@ const Listing = () => {
       // console.log("Request URL:", url); // Log the constructed URL
 
       try {
-
         const response = await axios.get(url);
         let propertyData = response.data.data; // Store the response data
         // console.log(propertyData);
@@ -1763,37 +1761,37 @@ const Listing = () => {
   };
 
   const handleSearchSelection = (value, type) => {
-      const queryParams = new URLSearchParams(location.search);
-      
-      if (type === "locality") {
-        handleLocalitySelect(value);
-        queryParams.set("locality", value);
+    const queryParams = new URLSearchParams(location.search);
+
+    if (type === "locality") {
+      handleLocalitySelect(value);
+      queryParams.set("locality", value);
+      navigate(`${location.pathname}?${queryParams.toString()}`);
+    } else {
+      addLocality(value);
+      // Get current areas and add new one
+      const currentAreas = selectedArea.includes(value)
+        ? selectedArea.filter((area) => area !== value)
+        : [...selectedArea, value];
+
+      if (currentAreas.length > 0) {
+        queryParams.set("area", currentAreas.join(","));
         navigate(`${location.pathname}?${queryParams.toString()}`);
       } else {
-        addLocality(value);
-        // Get current areas and add new one
-        const currentAreas = selectedArea.includes(value) 
-          ? selectedArea.filter(area => area !== value) 
-          : [...selectedArea, value];
-        
-        if (currentAreas.length > 0) {
-          queryParams.set("area", currentAreas.join(","));
-          navigate(`${location.pathname}?${queryParams.toString()}`);
-        } else {
-          // If no areas are selected, remove the area parameter and navigate
-          queryParams.delete("area");
-          const newUrl = queryParams.toString() 
-            ? `${location.pathname}?${queryParams.toString()}`
-            : location.pathname;
-          navigate(newUrl);
-        }
+        // If no areas are selected, remove the area parameter and navigate
+        queryParams.delete("area");
+        const newUrl = queryParams.toString()
+          ? `${location.pathname}?${queryParams.toString()}`
+          : location.pathname;
+        navigate(newUrl);
       }
-      
-      setSearchQuery("");
-      setShowSearchPanel(false);
-  
-      // Trigger fetchAndFilterProperties with the selected city and area
-      fetchAndFilterProperties(city, selectedArea);
+    }
+
+    setSearchQuery("");
+    setShowSearchPanel(false);
+
+    // Trigger fetchAndFilterProperties with the selected city and area
+    fetchAndFilterProperties(city, selectedArea);
   };
 
   if (loading) {
@@ -1825,7 +1823,7 @@ const Listing = () => {
           if (Location === true) setLocation(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className={`bg-black opacity-80 w-full h-[2600px] absolute z-20 ${
+        className={`bg-black opacity-80 h-[2600px] absolute z-20 ${
           isOpen || Hamburger || Location ? "block" : "hidden"
         }`}
       ></div>
@@ -1840,7 +1838,7 @@ const Listing = () => {
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className="px-3 flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
+        <div className="px-4 flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
           <div className="flex items-center justify-between">
             <p className="lg:text-[45px] md:text-4xl text-[#C8A21C] font-bold">
               Property Listing
@@ -1853,18 +1851,21 @@ const Listing = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 text-sm md:text-lg">
             {/* Search bar section - spans 8 columns on larger screens */}
-            <div className="bg-white sm:col-span-8 md:col-span-6 rounded-xl w-full">
-              <div className="min-h-[2.75rem] sm:min-h-[3.5rem] flex flex-wrap items-center text-black px-2 text-sm md:text-lg">
+            <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md w-full">
+              <div className="flex flex-wrap items-center text-black  text-sm md:text-lg">
                 {/* Location Logic */}
-                <div className="flex items-center gap-4 p-2 border-r border-black shrink-0">
+                <div
+                  className="flex items-center gap-4 px-3 py-2 my-1  shrink-0 border-r border-black"
+                  onClick={handleLocation}
+                >
                   <div className="py-1 px-1 hover:cursor-pointer">
-                    <p>{!city || Location ? "City" : city}</p>
+                    <p>{!city || Location ? "Select City" : city}</p>
                   </div>
                   <div className="items-center cursor-pointer">
                     <img
                       src={drop}
                       alt="Dropdown"
-                      onClick={handleLocation}
+                      // onClick={handleLocation}
                       className="cursor-pointer"
                     />
                   </div>
@@ -1880,7 +1881,7 @@ const Listing = () => {
                 </div>
 
                 {/* Search Input */}
-                <div className="flex-1 min-w-0 flex items-center gap-2 px-4 text-sm md:text-lg">
+                <div className="flex-1 min-w-0 flex items-center gap-2 px-4 my-1 text-sm md:text-lg">
                   <FaSearch className="text-black shrink-0" />
                   <div className="flex flex-wrap items-center gap-1 py-2 w-full overflow-x-hidden">
                     {selectedLocality && (
@@ -1935,10 +1936,10 @@ const Listing = () => {
                       placeholder={
                         windowWidth < 768
                           ? "Search..."
-                          : "Search by locality or area..."
+                          : "Search by Locality or Area..."
                       }
                       value={searchQuery}
-                      onClick={(e)=>{
+                      onClick={(e) => {
                         if (!city) {
                           alert("Please select a city first");
                           return;
@@ -1990,22 +1991,23 @@ const Listing = () => {
                 </div>
 
                 {/* Filters logic */}
-                <div className="flex items-center gap-2 border-l pl-3 h-3/4 border-black shrink-0">
+                <div
+                  className="flex items-center gap-2 border-l px-3 border-black shrink-0 cursor-pointer"
+                  onClick={handleOpen}
+                >
                   <div className="flex items-center gap-2">
                     <span className="text-sm md:text-lg whitespace-nowrap">
                       Filters
                     </span>
-                    <img
-                      src={drop}
-                      alt="Dropdown"
-                      onClick={handleOpen}
-                      className="cursor-pointer"
-                    />
+                    <img src={drop} alt="Dropdown" className="cursor-pointer" />
                   </div>
                 </div>
 
                 {/* SORT LOGIC */}
-                <div className="flex items-center gap-2 border-l pl-3 h-3/4 border-black shrink-0">
+                <div
+                  className="flex items-center gap-2 border-l pl-3 border-black shrink-0 cursor-pointer"
+                  onClick={handleMode}
+                >
                   <span className="text-sm md:text-lg whitespace-nowrap">
                     Sort
                   </span>
@@ -2015,7 +2017,6 @@ const Listing = () => {
                     className={`${
                       mode ? "rotate-180" : "rotate-0"
                     } cursor-pointer`}
-                    onClick={handleMode}
                   />
                   <div className="relative text-sm lg:text-lg">
                     <div
@@ -2063,10 +2064,10 @@ const Listing = () => {
 
             {/* Compare and Add Property buttons - span 4 columns together */}
             <div className="sm:col-span-4 md:col-span-6 flex gap- items-center justify-between">
-              <div className="compare" onClick={compare}>
-                {compareProperty.length >= 0 && (
+              {compareProperty.length >= 2 && (
+                <div className="compare" onClick={compare}>
                   <button
-                    className={`bg-white h-12 sm:h-14 w-24 text-black rounded-lg flex gap-5 text-center items-center py-3 px-6 font-medium ${
+                    className={`bg-white h-12 sm:h-14 w-32 text-black rounded-lg flex gap-5 text-center items-center py-3 px-6 font-medium ${
                       compareProperty.length <= 1
                         ? "opacity-50 grayscale cursor-not-allowed"
                         : ""
@@ -2074,14 +2075,14 @@ const Listing = () => {
                     disabled={compareProperty.length <= 1}
                   >
                     Visit
-                    <div className="h-6 w-6 bg-[#EED98B] rounded-full flex items-center justify-center">
+                    <div className="bg-[#EED98B] rounded-full flex items-center justify-center px-2">
                       {compareProperty.length}
                     </div>
                   </button>
-                )}
-              </div>
+                </div>
+              )}
 
-              <div>
+              <div className="hidden">
                 <a
                   onClick={handleAddPropertybtn}
                   className="bg-white w-30 h-12 sm:h-14 text-black flex items-center justify-center px-5 rounded-lg cursor-pointer"
