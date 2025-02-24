@@ -18,9 +18,15 @@ const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
 
   const [showMenu, setShowMenu] = useState(false);
   const [activeNavbarMenu, setActiveNavbarMenu] = useState(null);
+
+  const userInfo = authState?.userData || {};
+  const [imgError, setImgError] = useState(false);
+  const profilePicture =
+    imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
 
   useEffect(() => {
     setShowMenu(false);
@@ -45,7 +51,10 @@ const NavBar = () => {
   return (
     <div className="fixed top-0 w-full bg-[#232323] lg:bg-black flex items-center justify-between p-4 z-50 h-[63px] lg:h-[87px]">
       {/* Mobile Menu Toggle Button */}
-      <button onClick={() => setShowMenu(!showMenu)} className="lg:hidden flex items-center p-1 -ml-3">
+      <button
+        onClick={() => setShowMenu(!showMenu)}
+        className="lg:hidden flex items-center p-1 -ml-3"
+      >
         <Bars3Icon className="text-white h-6 w-6" />
       </button>
 
@@ -80,14 +89,14 @@ const NavBar = () => {
             <div className="flex items-center gap-2 cursor-pointer group relative">
               <img
                 className="h-10 w-10 lg:h-12 lg:w-12 rounded-full"
-                src={userIcon}
+                src={profilePicture}
                 alt="User"
               />
               <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-700 z-30 hidden group-hover:block">
                 <div className="min-w-40 bg-white rounded flex flex-col gap-1 p-4">
                   <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-start rounded">
                     <HiUser size={20} className="w-5 mr-2" />
-                    {authState.user?.firstName || "User"}
+                    {userInfo.firstName || "User"}
                   </p>
                   <p
                     onClick={() => navigate("/landlord-dashboard")}
@@ -152,6 +161,44 @@ const NavBar = () => {
               {link.label}
             </NavLink>
           ))}
+          {authState.status && token ? (
+            <div className="flex flex-col items-center mt-5">
+              <img
+                className="w-16 h-16 rounded-full"
+                src={profilePicture}
+                alt="User"
+                onError={() => setImgError(true)}
+              />
+              <p className="text-base font-medium mt-2">
+                {userInfo.firstName || "User"}
+              </p>
+              <button
+                onClick={() => {
+                  navigate("/landlord-dashboard");
+                  setShowMenu(false);
+                }}
+                className="mt-3 bg-gray-200 text-black px-6 py-2 rounded-full"
+              >
+                Dashboard
+              </button>
+              <button
+                onClick={handleLogout}
+                className="mt-2 bg-red-500 text-white px-6 py-2 rounded-full"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("/login");
+                setShowMenu(false);
+              }}
+              className="mt-3 bg-teal-500 text-white px-4 py-1 rounded-full"
+            >
+              Login
+            </button>
+          )}
         </ul>
       </div>
     </div>

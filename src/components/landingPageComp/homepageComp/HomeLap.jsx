@@ -34,7 +34,10 @@ const HomeLap = () => {
   const [selectedArea, setSelectedArea] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearchPanel, setShowSearchPanel] = useState(false);
-  const [searchResults, setSearchResults] = useState({ localities: [], areas: [] });
+  const [searchResults, setSearchResults] = useState({
+    localities: [],
+    areas: [],
+  });
   const searchPanelRef = useRef(null);
   const [city, setCity] = useState("");
   const location = useLocation();
@@ -149,7 +152,7 @@ const HomeLap = () => {
           <div
             className={` absolute transform transition-all max-sm:top-52 g:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms] ease-in-out w-[20%] ${
               isScrolled
-                ? "left-[5%] w-[30%] lg:w-[33%] opacity-100"
+                ? "left-[5%] w-[30%]  top-[53%] lg:w-[33%] opacity-100"
                 : "left-[30%] w-[20%] top-[39%] lg:top-[56%] lg:w-[33%] opacity-0"
             } `}
             id="inputGroup"
@@ -203,7 +206,9 @@ const HomeLap = () => {
                     <div
                       key={index}
                       className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
-                      onClick={() => handleSearchSelection(locality, "locality")}
+                      onClick={() =>
+                        handleSearchSelection(locality, "locality")
+                      }
                     >
                       <span>{locality}</span>
                       <span className="text-gray-500 text-sm">Locality</span>
