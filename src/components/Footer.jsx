@@ -12,7 +12,7 @@ import image from "/image.png";
 
 const Footer = () => {
   return (
-    <div className="bg-black text-white flex flex-col mt-52 sm:mt-60 md:mt-72 lg:mt-32 xl:mt-36">
+    <div className="bg-black text-white flex flex-col ">
       <div className="flex-grow"></div>
 
       {/* Footer */}
