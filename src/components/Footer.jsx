@@ -12,7 +12,7 @@ import image from "/image.png";
 
 const Footer = () => {
   return (
-    <div className="bg-black text-white flex flex-col">
+    <div className="bg-black text-white flex flex-col mt-52 sm:mt-60 md:mt-72 lg:mt-32 xl:mt-36">
       <div className="flex-grow"></div>
 
       {/* Footer */}
@@ -22,7 +22,7 @@ const Footer = () => {
         {/* Responsive Grid Layout */}
         <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row lg:justify-between lg:items-start">
           {/* Logo and Tagline Section */}
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left w-full lg:w-[250.67px] mb-8 lg:mb-0 ">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left w-full lg:w-[250.67px] mb-8 lg:mb-0">
             <img
               src={image}
               alt="To-Let Globe Logo"
@@ -55,7 +55,7 @@ const Footer = () => {
           </div>
           <div className="lg:flex lg:flex-row lg:gap-[40px]">
             {/* Quick Links Section */}
-            <div className="flex flex-col text-center lg:text-left w-full lg:w-[125.04px]  mb-8 lg:mb-0">
+            <div className="flex flex-col text-center lg:text-left w-full lg:w-[125.04px] mb-8 lg:mb-0">
               <h1 className="text-[17.49px] font-semibold text-teal-500">
                 QUICK LINKS
               </h1>

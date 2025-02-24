@@ -3,10 +3,10 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import userIcon from "../../assets/user-icon.png";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux"; // ✅ Fixed import
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/store/authSlice";
 import { IoMdClose } from "react-icons/io";
-import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
+import { HiUser } from "react-icons/hi";
 import {
   Bars3Icon,
   ComputerDesktopIcon,
@@ -14,7 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 const NavBar = () => {
-  const authState = useSelector((state) => state.auth); // ✅ Using useSelector correctly
+  const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const NavBar = () => {
   ];
 
   return (
-    <div className="fixed top-0 w-full bg-[#232323] lg:bg-black flex items-center justify-between p-4 z-50">
+    <div className="fixed top-0 w-full bg-[#232323] lg:bg-black flex items-center justify-between p-4 z-50 h-[63px] lg:h-[87px]">
       {/* Mobile Menu Toggle Button */}
       <button onClick={() => setShowMenu(!showMenu)} className="lg:hidden flex items-center p-1 -ml-3">
         <Bars3Icon className="text-white h-6 w-6" />
@@ -52,7 +52,7 @@ const NavBar = () => {
       {/* Logo */}
       <div className="flex-shrink-0">
         <NavLink to="/">
-          <img src={logo} alt="Logo" className="h-16" />
+          <img src={logo} alt="Logo" className="h-14 lg:h-16" />
         </NavLink>
       </div>
 
@@ -79,7 +79,7 @@ const NavBar = () => {
           {authState.status ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
               <img
-                className="h-12 w-12 mr-5 rounded-full"
+                className="h-10 w-10 lg:h-12 lg:w-12 rounded-full"
                 src={userIcon}
                 alt="User"
               />
@@ -112,7 +112,7 @@ const NavBar = () => {
                 setActiveNavbarMenu("login");
                 navigate("/login");
               }}
-              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-md text-md  ${
+              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-md text-md ${
                 activeNavbarMenu === "login"
                   ? "bg-teal-500 text-white rounded-md"
                   : ""
@@ -130,7 +130,7 @@ const NavBar = () => {
           showMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="bg-[#1a1a1a] flex items-center justify-between p-4">
+        <div className="bg-[#1a1a1a] flex items-center justify-between p-4 h-[63px]">
           <div className="w-8"></div>
           <img
             src={logo}
