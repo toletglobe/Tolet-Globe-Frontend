@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
 
 export default function OurReach() {
-  const [isVisible, setIsVisible] = useState(false);
-  const containerRef = useRef(null);
+  const [isVisibleMobile, setIsVisibleMobile] = useState(false);
+  const [isVisibleDesktop, setIsVisibleDesktop] = useState(false);
+  const mobileRef = useRef(null);
+  const desktopRef = useRef(null);
 
   const stats = [
     { title: "Partnered Universities", value: 20, suffix: "+" },
@@ -12,33 +14,40 @@ export default function OurReach() {
     { title: "Satisfied Customers", value: 2000, suffix: "+" },
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
+  // Observer function
+  const useIntersectionObserver = (ref, setIsVisible) => {
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (ref.current) {
+        observer.observe(ref.current);
       }
-    };
-  }, []);
+
+      return () => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      };
+    }, [ref, setIsVisible]);
+  };
+
+  // Apply observers
+  useIntersectionObserver(mobileRef, setIsVisibleMobile);
+  useIntersectionObserver(desktopRef, setIsVisibleDesktop);
 
   return (
     <div className="w-full px-4 py-8 lg:px-[79.69px] lg:py-[39.85px] flex justify-center items-center">
       {/* Mobile View */}
       <div
-        ref={containerRef}
+        ref={mobileRef}
         className="bg-black p-[15px] border border-white rounded-[10px] mx-auto w-[381px] h-auto flex flex-col gap-[15px] justify-center items-center lg:hidden"
       >
         <div className="flex gap-[15px] w-full justify-center">
@@ -51,7 +60,7 @@ export default function OurReach() {
                 {stat.title}
               </h3>
               <p className="text-white font-bold text-xl w-full">
-                {isVisible ? (
+                {isVisibleMobile ? (
                   <CountUp
                     start={0}
                     end={stat.value}
@@ -77,7 +86,7 @@ export default function OurReach() {
                 {stat.title}
               </h3>
               <p className="text-white font-bold text-xl w-full">
-                {isVisible ? (
+                {isVisibleMobile ? (
                   <CountUp
                     start={0}
                     end={stat.value}
@@ -95,16 +104,16 @@ export default function OurReach() {
         </div>
       </div>
 
-      {/* Laptop and Tablet View (Unchanged) */}
+      {/* Laptop and Tablet View */}
       <div
-        ref={containerRef}
+        ref={desktopRef}
         className="w-[1212px] h-[241.25px] bg-black border border-[#C8C8C8] rounded-[10px] px-[79.69px] py-[55px] relative hidden lg:flex justify-center items-center mx-auto"
       >
         <div className="grid grid-cols-4 gap-[18.15px] w-full">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="w-[95%] min-w-[179.18px] h-[128.77px] border border-white rounded-[13.61px] p-[27.22px] flex flex-col gap-[9.07px] transition-transform duration-300 hover:scale-105"
+              className="w-[90%] min-w-[179.18px] h-[128.77px] border border-white rounded-[13.61px] p-[27.22px] flex flex-col gap-[9.07px] transition-transform duration-300 hover:scale-105"
             >
               <div className="w-[192.84px] h-[28px] flex items-center">
                 <h3 className="text-white text-lg font-medium text-center truncate">
@@ -113,7 +122,7 @@ export default function OurReach() {
               </div>
               <div className="w-[192.84px] h-[35px] flex items-center">
                 <p className="text-white font-bold text-[27.22px] leading-[34.02px] work-sans font-[700]">
-                  {isVisible ? (
+                  {isVisibleDesktop ? (
                     <CountUp
                       start={0}
                       end={stat.value}

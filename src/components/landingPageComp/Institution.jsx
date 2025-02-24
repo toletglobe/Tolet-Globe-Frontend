@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useRef } from "react";
 import ibs from "../../assets/Institution/ibs.svg";
 import ipcpsimg from "../../assets/Institution/IpcpsImg.svg";
 import UniversityOgLakhnaw from "../../assets/Institution/UniversityOfLakhnaw.svg";
@@ -26,38 +25,61 @@ const Institution = () => {
     {
       src: ipcpsimg,
       title: "Public College of Professional Studies, Lucknow",
-      className: "bg-white", link: "https://lpcps.org.in/"
+      className: "bg-white",
+      link: "https://lpcps.org.in/",
     },
     { src: Jaipiria, title: "Jaipuria College, Lucknow", link: "https://www.jaipuria.ac.in/" },
   ];
 
+  const marqueeRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (marqueeRef.current) {
+      marqueeRef.current.style.animationPlayState = "paused";
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (marqueeRef.current) {
+      marqueeRef.current.style.animationPlayState = "running";
+    }
+  };
+
   return (
     <div className="margin">
       <div className="flex flex-col items-center justify-center">
-        {/* Increased the heading font size slightly */}
         <h3 className="w-full max-w-[1078.22px] h-auto font-poppins font-semibold text-[26px] leading-[38px] text-center text-[#1D5F58] sm:text-[38px] sm:leading-[50px] md:text-[45px] md:leading-[65px]">
           Partnered Universities
         </h3>
 
-        {/* Reduced the font size for the yellow subheading so it stays in two lines */}
         <p className="w-full max-w-[1078.22px] h-auto font-poppins font-medium text-[10px] leading-[14px] text-center text-[#C8A117] sm:text-[11px] sm:leading-[16px]">
           We are proud to collaborate with some of the most prestigious colleges
           and universities across the country for college placements, including:
         </p>
       </div>
 
-      <div className="overflow-hidden mt-[35px] sm:mt-[107px]">
-        <div className="flex" style={{ animation: "marquee 25s linear infinite", width: "200%" }}>
-          {images.concat(images).map((image, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col items-center justify-center px-[40px]"
-            >
-              <img
-                src={image.src}
-                alt={image.title}
-                className="max-w-[900px] max-h-[900px] cursor-pointer hover:opacity-80 transition-opacity"
-              />
+      <div className="overflow-hidden relative mt-[35px] sm:mt-[107px]">
+        <div
+          ref={marqueeRef}
+          className="flex whitespace-nowrap"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            animation: "marquee 70s linear infinite", // Slower animation for smooth effect
+            display: "flex",
+            width: "fit-content",
+          }}
+        >
+          {[...images, ...images].map((image, idx) => (
+            <div key={idx} className="flex flex-col items-center justify-center px-[40px]">
+              {/* Image inside an <a> tag for clickable links */}
+              <a href={image.link} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={image.src}
+                  alt={image.title}
+                  className="max-w-[900px] max-h-[900px] cursor-pointer hover:opacity-80 transition-opacity"
+                />
+              </a>
             </div>
           ))}
         </div>
@@ -66,8 +88,8 @@ const Institution = () => {
       <style>
         {`
           @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
           }
         `}
       </style>

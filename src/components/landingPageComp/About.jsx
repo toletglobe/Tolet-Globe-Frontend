@@ -7,7 +7,7 @@ const About = () => {
   return (
     <div className="bg-black w-full px-6 sm:px-12 lg:px-20 py-12 mt-[75px]">
       {/* About Us Heading (Laptop & Tablet) */}
-      <h2 className="text-7xl font-medium leading-[96px] text-[#1D5F58] text-left mb-[54px] w-[290px] h-[96px] hidden md:block">
+      <h2 className="text-7xl font-medium leading-[96px] text-[#1D5F58] text-left mb-[54px] w-auto h-[96px] hidden md:block">
         About Us
       </h2>
 
@@ -66,7 +66,7 @@ const About = () => {
       {/* Mobile View (Fully Responsive) */}
       <div className="block md:hidden w-[90%] max-w-[366px] mx-auto flex flex-col gap-[50px]">
         {/* "About Us" Text - Now Centered */}
-        <h2 className="text-[40px] font-medium leading-[50px] text-white w-[237px] mx-auto text-center mb-3">
+        <h2 className="text-[40px] font-medium leading-[50px] text-white w-auto mx-auto text-center mb-3">
           About Us
         </h2>
 

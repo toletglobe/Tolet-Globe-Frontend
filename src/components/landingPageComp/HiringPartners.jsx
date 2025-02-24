@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useRef, useState } from "react";
 import linkedinLogo from "../../assets/Hiring/linkedin.jpg";
 import unstopLogo from "../../assets/Hiring/unstop.jpg";
@@ -64,7 +62,7 @@ const HiringPartners = () => {
   return (
     <div className="margin">
       {/* Outer (white bordered) container with increased vertical padding */}
-      <div className="w-full px-3 py-6 md:py-8 bg-black flex flex-col items-center justify-center relative border border-white rounded-lg shadow-lg">
+      <div className="w-full px-6 py-8 md:py-10 bg-black flex flex-col items-center justify-center relative border border-white rounded-lg shadow-lg">
         {/* Absolutely positioned heading container */}
         <div
           className="bg-black z-20 inline-block text-center absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -88,24 +86,25 @@ const HiringPartners = () => {
             marginTop: headingHeight / 2,
           }}
         >
-          {/* Desktop View – Marquee Effect */}
-          <div className="hidden md:flex animate-marquee justify-center items-center gap-0">
-            {images.concat(images).map((image, idx) => (
+          {/* Desktop View – Static Row with Rectangular Images */}
+          <div className="hidden md:flex justify-center items-center gap-[85px] px-6">
+            {images.map((image, idx) => (
               <div
                 key={idx}
-                className={`flex flex-col justify-center mx-9 my-5 ${idx === 0 ? "ml-[26.61px]" : ""} ${idx === images.length - 1 ? "mr-[26.61px]" : ""}`}
+                className="flex justify-center items-center bg-white rounded-lg p-2"
+                style={{ width: "180px", height: "90px" }} // Rectangular aspect ratio
               >
                 <img
                   src={image.src}
                   alt={image.title || image.alt}
-                  className="max-w-[900px] max-h-[900px] cursor-pointer hover:opacity-80 transition-opacity"
+                  className="w-auto h-full object-contain cursor-pointer hover:opacity-80 transition-opacity"
                   onClick={() => window.open(image.url, "_blank")}
                 />
               </div>
             ))}
           </div>
 
-          {/* Mobile View – Scrollable List with 26px gap */}
+          {/* Mobile View – Scrollable List */}
           <div
             ref={scrollRef}
             className="flex md:hidden overflow-x-scroll cursor-grab whitespace-nowrap items-center scroll-smooth"
