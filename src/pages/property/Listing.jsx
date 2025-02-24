@@ -2064,11 +2064,11 @@ const Listing = () => {
 
             {/* Compare and Add Property buttons - span 4 columns together */}
             <div className="sm:col-span-4 md:col-span-6 flex gap- items-center justify-between">
-              {compareProperty.length >= 2 && (
+              {compareProperty.length >= 1 && (
                 <div className="compare" onClick={compare}>
                   <button
                     className={`bg-white h-12 sm:h-14 w-32 text-black rounded-lg flex gap-5 text-center items-center py-3 px-6 font-medium ${
-                      compareProperty.length <= 1
+                      compareProperty.length <= 0
                         ? "opacity-50 grayscale cursor-not-allowed"
                         : ""
                     }`}
