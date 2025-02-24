@@ -107,13 +107,13 @@ export default function OurReach() {
       {/* Laptop and Tablet View */}
       <div
         ref={desktopRef}
-        className="w-[1212px] h-[241.25px] bg-black border border-[#C8C8C8] rounded-[10px] px-[79.69px] py-[55px] relative hidden lg:flex justify-center items-center mx-auto"
+        className="w-[1200px] h-[241.25px] bg-black border border-[#C8C8C8] rounded-[10px] px-[79.69px] py-[55px] relative hidden lg:flex justify-center items-center mx-auto"
       >
         <div className="grid grid-cols-4 gap-[18.15px] w-full">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="w-[90%] min-w-[179.18px] h-[128.77px] border border-white rounded-[13.61px] p-[27.22px] flex flex-col gap-[9.07px] transition-transform duration-300 hover:scale-105"
+              className="w-[98%] min-w-[200px] h-[128.77px] border border-white rounded-[13.61px] p-[27.22px] flex flex-col gap-[9.07px] transition-transform duration-300 hover:scale-105"
             >
               <div className="w-[192.84px] h-[28px] flex items-center">
                 <h3 className="text-white text-lg font-medium text-center truncate">
@@ -121,7 +121,7 @@ export default function OurReach() {
                 </h3>
               </div>
               <div className="w-[192.84px] h-[35px] flex items-center">
-                <p className="text-white font-bold text-[27.22px] leading-[34.02px] work-sans font-[700]">
+                <p className="text-white text-[27.22px] leading-[34.02px] work-sans font-[700]">
                   {isVisibleDesktop ? (
                     <CountUp
                       start={0}

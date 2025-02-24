@@ -97,7 +97,7 @@ const Contact = () => {
               required
               className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
             >
-              <option value="">Select a topic</option>
+              <option value="">General Inquiry</option>
               <option value="Residential">Residential</option>
               <option value="Commercial">Commercial</option>
               <option value="Others">Others</option>
@@ -112,7 +112,7 @@ const Contact = () => {
                 type={field === 'email' ? 'email' : 'text'}
                 id={field}
                 placeholder={
-                  field === 'name' ? "Rohit Kapur" : field === 'email' ? "name@provider.com" : "+91 8945678323"
+                  field === 'name' ? "Enter your name" : field === 'email' ? "Enter your email" : "Enter your number"
                 }
                 value={formData[field]}
                 name={field}
