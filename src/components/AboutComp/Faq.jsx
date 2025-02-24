@@ -43,21 +43,19 @@ export default function Faq() {
               >
                 <h4 className="text-xl">What are To-Let's operating hours?</h4>
                 <h1
-                  className={`icon text-white text-4xl mr-4 transition-transform duration-200 active:rotate-180  ${
-                    isOpen1 ? "active" : ""
-                  }`}
+                  className={`icon text-white text-4xl mr-4 transition-transform duration-200 active:rotate-180  ${isOpen1 ? "active" : ""
+                    }`}
                 >
                   {isOpen1 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i className="fa-solid fa-plus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i className="fa-solid fa-minus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   )}
                 </h1>
               </div>
               <div
-                className={`answer text-white overflow-hidden max-h-0 mx-7 active:max-h-max text-left  ${
-                  isOpen1 ? "active" : ""
-                }`}
+                className={`answer text-white overflow-hidden max-h-0 mx-7 active:max-h-max text-left  ${isOpen1 ? "active" : ""
+                  }`}
               >
                 <p className="leading-5 text-[#6cc0c4]">
                   To-Let operates during standard business hours, providing
@@ -80,21 +78,19 @@ export default function Faq() {
                   What is To-Let's cancellation policy?
                 </h4>
                 <h1
-                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${
-                    isOpen2 ? "active" : ""
-                  }`}
+                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${isOpen2 ? "active" : ""
+                    }`}
                 >
                   {isOpen2 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i className="fa-solid fa-plus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i className="fa-solid fa-minus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   )}
                 </h1>
               </div>
               <div
-                className={`answer  text-white overflow-hidden max-h-0 mx-7  text-left ${
-                  isOpen2 ? "active" : ""
-                }`}
+                className={`answer  text-white overflow-hidden max-h-0 mx-7  text-left ${isOpen2 ? "active" : ""
+                  }`}
               >
                 <p className="leading-5 text-[#6cc0c4]">
                   To-Let understands that circumstances may change, and we aim
@@ -120,21 +116,19 @@ export default function Faq() {
               >
                 <h4 className="text-xl">Are To-Let's services safe to use?</h4>
                 <h1
-                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${
-                    isOpen3 ? "active" : ""
-                  }`}
+                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${isOpen3 ? "active" : ""
+                    }`}
                 >
                   {isOpen3 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i className="fa-solid fa-plus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i className="fa-solid fa-minus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   )}
                 </h1>
               </div>
               <div
-                className={`answer  text-white overflow-hidden max-h-0 mx-7  text-left ${
-                  isOpen3 ? "active" : ""
-                }`}
+                className={`answer  text-white overflow-hidden max-h-0 mx-7  text-left ${isOpen3 ? "active" : ""
+                  }`}
               >
                 <p className="leading-5 text-[#6cc0c4]">
                   Yes, To-Let is committed to ensuring the safety and security
@@ -164,21 +158,19 @@ export default function Faq() {
                   Can I speak directly to the real owner at To-Let?
                 </h4>
                 <h1
-                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${
-                    isOpen4 ? "active" : ""
-                  }`}
+                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${isOpen4 ? "active" : ""
+                    }`}
                 >
                   {isOpen4 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i className="fa-solid fa-plus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i className="fa-solid fa-minus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   )}
                 </h1>
               </div>
               <div
-                className={`answer  text-white overflow-hidden max-h-0 mx-7  text-left ${
-                  isOpen4 ? "active" : ""
-                }`}
+                className={`answer  text-white overflow-hidden max-h-0 mx-7  text-left ${isOpen4 ? "active" : ""
+                  }`}
               >
                 <p className="leading-5 text-[#6cc0c4]">
                   At To-Let, we value open communication and transparency. While
@@ -205,21 +197,20 @@ export default function Faq() {
               >
                 <h4 className="text-xl">What is To-Let's mission?</h4>
                 <h1
-                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${
-                    isOpen5 ? "active" : ""
-                  }`}
+                  className={`icon  text-white text-4xl mr-4 transition-transform duration-200 ${isOpen5 ? "active" : ""
+                    }`}
                 >
                   {isOpen5 ? (
-                    <i class="fa-solid fa-sort-up "></i>
+                    <i className="fa-solid fa-plus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   ) : (
-                    <i class="fa-solid fa-sort-down"></i>
+                    <i className="fa-solid fa-minus" style={{ color: "white", fontSize: "1.5rem" }}></i>
                   )}
+
                 </h1>
               </div>
               <div
-                className={`answer  text-white overflow-hidden max-h-0 mx-7  text-left ${
-                  isOpen5 ? "active" : ""
-                }`}
+                className={`answer  text-white overflow-hidden max-h-0 mx-7  text-left ${isOpen5 ? "active" : ""
+                  }`}
               >
                 <p className="leading-5 text-[#6cc0c4]">
                   To-Let's mission is to simplify and elevate the property
