@@ -212,7 +212,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   <button className="banner-actions-btn flex items-center text-white">
                     <FaLocationDot className="text-xs lg:text-base drop-shadow-2xl shadow-black" />
                     <address className="text-xs lg:text-base p-0  shadow-black text-shadow">
-                      {`${property.locality}, ${property.city}`}
+                      {`${property.area}, ${property.locality}`}
                     </address>
                   </button>
                 </div>
