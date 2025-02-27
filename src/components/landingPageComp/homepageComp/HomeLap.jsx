@@ -150,14 +150,15 @@ const HomeLap = () => {
             <span className="max-sm:block">PGS | FLATS | HOUSES | OFFICES</span>
           </h6>
           <div
-            className={` absolute transform transition-all max-sm:top-52 g:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms] ease-in-out w-[20%] ${
+            className={`absolute left-[5%] transform transition-all max-sm:top-52 g:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms] ease-in-out w-[40%]  ${
               isScrolled
-                ? "left-[5%] w-[30%]  top-[53%] lg:w-[33%] opacity-100"
-                : "left-[30%] w-[20%] top-[39%] lg:top-[56%] lg:w-[33%] opacity-0"
-            } `}
+                ? "top-[20.5rem] lg:top-[26rem]"
+                : "left-[20rem] lg:left-[30rem]"
+              // isScrolled ? "top-[20.5rem] lg:top-[26rem] -ml-2" : "left-[20rem] lg:left-[30rem]"
+            }`}
             id="inputGroup"
           >
-            <div className="max-w-xl mx-auto">
+            <div className="max-w-xl mx-">
               <div className="bg-white rounded-lg flex items-center p-1">
                 {/* City Selection */}
                 <div

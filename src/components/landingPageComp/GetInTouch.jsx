@@ -51,10 +51,10 @@ const GetInTouch = () => {
     "https://www.google.com/maps/place/To-Let+Globe/@26.8465566,80.9797793,15z/data=!4m6!3m5!1s0x399bfd77577ba78f:0xd2d6f22d1b246815!8m2!3d26.8465566!4d80.9797793!16s%2Fg%2F11vhrqqb45?entry=ttu";
 
   return (
-    <div className="relative w-full h-screen flex max-sm:flex-col items-center sm:justify-end">
+    <div className="relative w-full h-screen flex max-sm:flex-col items- sm:justify-end">
       {/* Contact Form */}
-      <div className="p-10 z-20 lg:w-[380px] w-full text-white">
-        <p className="text-[#bc5f56] font-semibold text-4xl pb-5">
+      <div className="pt-10 pl-10 pr-10 pb-8 z-20 lg:w-[380px] w-full text-white flex flex-col justify-end">
+        <p className="text-[#bc5f56] font-semibold text-4xl pb-4">
           GET IN TOUCH
         </p>
         <p className="text-gray-300 pb-4">
@@ -112,21 +112,22 @@ const GetInTouch = () => {
         </form>
       </div>
       {/* Make the map image clickable */}
-      <div className="max-sm:w-[90%]">
+      <div className="max-sm:w-[100%] overflow-hidden">
         <a href={googlemaps} target="_blank" rel="noopener noreferrer">
           <img
             src={location}
             alt="Background"
-            className="sm:absolute top-0 left-0 w-full"
+            className="sm:absolute top-0 left-0 w-7/10 h-full w-full object-cover"
           />
           {/* Add gradient overlay */}
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-black/95 to-transparent"></div>
+          {/* Here the gradient is only visible after sm(640px) */}
+          <div className="sm:absolute sm:top-0 sm:left-0 sm:w-full sm:h-full sm:bg-gradient-to-l sm:from-black/95 sm:to-transparent"></div>
         </a>
       </div>
 
       <div
-        className="absolute bottom-32 left-10 p-4 text-white hidden lg:block"
-        style={{ fontSize: "80px" }}
+        className="absolute font-semibold bottom-0 left-0 p-4 text-white hidden lg:block"
+        style={{ fontSize: "60px" }}
       >
         CONTACT US
       </div>
