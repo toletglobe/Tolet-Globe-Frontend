@@ -9,9 +9,36 @@ import { LuPhone } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import image from "/image.png";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+  const ScrollToTop = () => {
+    const { pathname } = useLocation();
+  
+    useEffect(() => {
+      const handleLinkClick = () => {
+        window.scrollTo(0, 0);
+      };
+  
+      // Scroll on route change
+      window.scrollTo(0, 0);
+     
+      // Attach click event listener to links
+      const links = document.querySelectorAll("a");
+      links.forEach(link => link.addEventListener("click", handleLinkClick));
+  
+      // Cleanup event listeners
+      return () => {
+        links.forEach(link => link.removeEventListener("click", handleLinkClick));
+      };
+    }, [pathname]);
+  
+    return null;
+  };
   return (
+    <>
+    <ScrollToTop />
     <div className="bg-black text-white flex flex-col mt-52 sm:mt-60 md:mt-72 lg:mt-[63px] xl:mt-[71px]">
       <div className="flex-grow"></div>
 
@@ -90,6 +117,7 @@ const Footer = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
