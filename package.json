@@ -44,7 +44,8 @@
     "reactjs-popup": "^2.0.6",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
-    "toasty": "^6.0.3"
+    "toasty": "^6.0.3",
+    "tolet-app": "file:"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

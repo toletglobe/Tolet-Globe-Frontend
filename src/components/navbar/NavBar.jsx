@@ -6,10 +6,11 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/store/authSlice";
 import { IoMdClose } from "react-icons/io";
-import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
+import { HiUser } from "react-icons/hi";
 import {
-  ArrowLeftStartOnRectangleIcon,
+  Bars3Icon,
   ComputerDesktopIcon,
+  ArrowLeftStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 
 const NavBar = () => {
@@ -20,25 +21,16 @@ const NavBar = () => {
   const token = localStorage.getItem("token");
 
   const [showMenu, setShowMenu] = useState(false);
-  const [activeNavbarMenu, setActiveNavbarMenu] = useState("Home");
-
-  useEffect(() => {
-    const path = location.pathname;
-    if (path === "/") {
-      setActiveNavbarMenu("Home");
-    } else if (path === "/login") {
-      setActiveNavbarMenu("login");
-    } else {
-      const baseRoute = path.split("/")[1];
-      const pageName = baseRoute
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
-      setActiveNavbarMenu(pageName);
-    }
-  }, [location]);
+  const [activeNavbarMenu, setActiveNavbarMenu] = useState(null);
 
   const userInfo = authState?.userData || {};
+  const [imgError, setImgError] = useState(false);
+  const profilePicture =
+    imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
+
+  useEffect(() => {
+    setShowMenu(false);
+  }, [location]);
 
   const handleLogout = () => {
     setShowMenu(false);
@@ -50,44 +42,31 @@ const NavBar = () => {
 
   const navLinks = [
     { label: "Home", path: "/" },
-    { label: "Service", path: "/service" },
+    { label: "About", path: "/aboutus" },
     { label: "Blog", path: "/blog" },
     { label: "Contact", path: "/contact" },
-    { label: "About Us", path: "/aboutus" },
     { label: "Property Listing", path: "/property-listing" },
   ];
 
-  const [imgError, setImgError] = useState(false);
-
-  const profilePicture =
-    imgError || !userInfo?.profilePicture ? userIcon : userInfo.profilePicture;
-
   return (
-    <div className="bg-gray-800 lg:bg-black flex items-center justify-between p-4 mx-auto relative z-[999]">
+    <div className="fixed top-0 w-full bg-[#232323] lg:bg-black flex items-center justify-between p-4 z-50 h-[63px] lg:h-[62px]">
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="lg:hidden flex items-center p-2"
+        className="lg:hidden flex items-center p-1 -ml-3"
       >
-        <HiOutlineMenuAlt3 size={25} className="text-white" />
+        <Bars3Icon className="text-white h-6 w-6" />
       </button>
 
-      {/* Mobile Logo - Centered only on mobile */}
-      <div className="lg:hidden absolute left-1/2 transform -translate-x-1/2">
+      {/* Logo */}
+      <div className="flex-shrink-0">
         <NavLink to="/">
-          <img src={logo} alt="Logo" className="h-12" />
-        </NavLink>
-      </div>
-
-      {/* Desktop Logo */}
-      <div className="flex-shrink-0 hidden lg:block">
-        <NavLink to="/">
-          <img src={logo} alt="Logo" className="h-12 mx-0 flex justify-start" />
+          <img src={logo} alt="Logo" className="h-14 lg:h-16" />
         </NavLink>
       </div>
 
       {/* Desktop Navigation */}
-      <ul className="hidden lg:flex items-center font-medium lg:text-sm w-full md:w-auto flex-col md:flex-row md:space-x-4">
+      <ul className="hidden lg:flex items-center font-medium lg:text-sm space-x-6">
         {navLinks.map((link, index) => (
           <NavLink
             key={index}
@@ -95,9 +74,9 @@ const NavBar = () => {
             onClick={() => setActiveNavbarMenu(link.label)}
           >
             <li
-              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-full ${
+              className={`py-1 hover:bg-teal-500 hover:text-white hover:rounded-md text-md px-3 ${
                 activeNavbarMenu === link.label
-                  ? "bg-teal-500 text-white rounded-full"
+                  ? "bg-teal-500 text-white rounded-md"
                   : ""
               }`}
             >
@@ -106,16 +85,15 @@ const NavBar = () => {
           </NavLink>
         ))}
         <div>
-          {authState.status && token ? (
+          {authState.status ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
               <img
-                className="h-8 w-8 rounded-full"
+                className="h-10 w-10 lg:h-12 lg:w-12 rounded-full"
                 src={profilePicture}
                 alt="User"
-                onError={() => setImgError(true)}
               />
               <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-700 z-30 hidden group-hover:block">
-                <div className="min-w-40 bg-white rounded shadow-lg flex flex-col gap-1 p-4">
+                <div className="min-w-40 bg-white rounded flex flex-col gap-1 p-4">
                   <p className="flex items-center py-2 px-3 text-black cursor-default bg-gray-200 justify-start rounded">
                     <HiUser size={20} className="w-5 mr-2" />
                     {userInfo.firstName || "User"}
@@ -143,13 +121,13 @@ const NavBar = () => {
                 setActiveNavbarMenu("login");
                 navigate("/login");
               }}
-              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-full ${
+              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-md text-md ${
                 activeNavbarMenu === "login"
-                  ? "bg-teal-500 text-white rounded-full"
+                  ? "bg-teal-500 text-white rounded-md"
                   : ""
               }`}
             >
-              Login
+              Login / Signup
             </button>
           )}
         </div>
@@ -157,11 +135,11 @@ const NavBar = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`lg:hidden fixed inset-0 bg-gray-800 text-white z-[1000] transition-transform transform ${
+        className={`lg:hidden fixed inset-0 bg-[#232323] text-white z-[1000] transition-transform transform ${
           showMenu ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between p-4">
+        <div className="bg-[#1a1a1a] flex items-center justify-between p-4 h-[63px]">
           <div className="w-8"></div>
           <img
             src={logo}
@@ -183,7 +161,6 @@ const NavBar = () => {
               {link.label}
             </NavLink>
           ))}
-
           {authState.status && token ? (
             <div className="flex flex-col items-center mt-5">
               <img

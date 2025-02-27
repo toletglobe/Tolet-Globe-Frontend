@@ -109,8 +109,8 @@ const Filters = ({
 
   return (
     <>
-      <div className="w-fit bg-white p-0 sm:p-2  shadow-sm m-0 sm:m-4 rounded-xl">
-        <div className="flex sm:gap-6">
+      <div className="w-fit  bg-white p-0 sm:p-2 -ml-28 -mt-4 shadow-sm rounded-xl">
+        <div className="flex sm:gap-6 ">
           {[
             { icon: BsHouseDoor, text: "HOUSES" },
             { icon: BsBuilding, text: "FLATS" },
@@ -134,11 +134,11 @@ const Filters = ({
       </div>
 
       {selectedCategory === "HOUSES" && (
-        <div className="w-fit bg-white p-4 shadow-md sm:ml-4 rounded-xl">
+        <div className="w-fit bg-white p-2 m-1 shadow-md sm:ml-4 rounded-xl">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
               <h3 className="text-left font-medium mb-3 text-black">BHK</h3>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-6">
                 {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ 5 BHK"].map(
                   (bhk) => (
                     <label
@@ -153,14 +153,16 @@ const Filters = ({
                         onChange={() => handleFilterChange("bhk", bhk)}
                         className="appearance-none w-4 h-4 rounded-full border-2 border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
                       />
-                      <span className="text-sm text-black">{bhk}</span>
+                      <span className="text-sm text-black overflow-hidden whitespace-nowrap text-ellipsis">
+                        {bhk}
+                      </span>
                     </label>
                   )
                 )}
               </div>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col ">
               <h3 className="text-left font-medium mb-3 text-black">
                 House Type
               </h3>
@@ -190,7 +192,7 @@ const Filters = ({
               <h3 className="text-left font-medium mb-3 text-black">
                 Preference
               </h3>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row  gap-4">
                 {["Family", "Bachelors"].map((preference) => (
                   <label
                     key={preference}
@@ -231,11 +233,11 @@ const Filters = ({
       )}
 
       {selectedCategory === "FLATS" && (
-        <div className="w-fit bg-white p-4 shadow-md ml-0 sm:ml-4 rounded-xl">
+        <div className="w-fit bg-white p-2 shadow-md m-1 sm:ml-4 rounded-xl">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
               <h3 className="text-left font-medium mb-3 text-black">BHK</h3>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-6">
                 {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ 5 BHK"].map(
                   (bhk) => (
                     <label
@@ -250,7 +252,9 @@ const Filters = ({
                         onChange={() => handleFilterChange("bhk", bhk)}
                         className="appearance-none w-4 h-4 rounded-full border-2 border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
                       />
-                      <span className="text-sm text-black">{bhk}</span>
+                      <span className="text-sm text-black overflow-hidden whitespace-nowrap text-ellipsis">
+                        {bhk}
+                      </span>
                     </label>
                   )
                 )}

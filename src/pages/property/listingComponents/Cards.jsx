@@ -12,30 +12,32 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import "./card.css";
-import defaultHouse from "../../../assets/defaultHouse/defaultHouse.jpg";
+import defaultHouse from "../../../assets/defaultHouse/defaultHouse.png";
 import { BASE_URL } from "../../../constant/constant";
 import { FaHeart } from "react-icons/fa";
 // import { useEffect } from "react";
+import defaultUser from "../../../assets/user-icon.png";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 left-1 transform -translate-y-1/2  bg-white/30 hover:bg-slate-200 text-black  rounded-full cursor-pointer z-10 flex items-end justify-center w-5 h-5 lg:w-9 lg:h-9"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }}
   >
-    <span className="text-2xl">&#8249;</span>
+    <span className="text-2xl leading-none justify-center flex items-center lg:text-5xl">
+      &#8249;
+    </span>
   </div>
 );
 
 const NextArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 right-1  transform -translate-y-1/2 bg-white/30  hover:bg-slate-200 text-black rounded-full cursor-pointer z-10 flex items-end justify-center w-5 h-5 lg:w-9 lg:h-9"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }}
   >
-    <span className="text-2xl">&#8250;</span>
+    <span className="text-2xl leading-none justify-center flex items-center lg:text-5xl">
+      &#8250;
+    </span>
   </div>
 );
 
@@ -64,7 +66,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
   };
 
   const settings = {
-    dots: true,
+    // dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -155,242 +157,241 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
 
   return (
     <div>
-      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-9 p-4">
+      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-12 p-4">
         {norm.map((property) => (
           <li
             key={property._id}
-            className="rounded-[10px] overflow-hidden shadow-lg border border-gray-200 "
+            className="property-card rounded-[8px] overflow-hidden shadow-lg border border-gray-200 bg-white lg:p-4 p-2.5 "
           >
-            <div className="property-card bg-white rounded-[10px] w-full">
-              <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
-                {property.images?.length > 1 ? (
-                  <Slider {...settings}>
-                    {property.images.map((photo, index) => (
-                      <div key={index}>
-                        <img
-                          src={photo}
-                          alt={property.propertyType}
-                          className="w-full h-full object-cover"
-                          onError={handleImageError}
-                        />
-                      </div>
-                    ))}
-                  </Slider>
-                ) : (
-                  <div className="relative">
-                    <img
-                      src={property.images[0]}
-                      alt={property.propertyType}
-                      className="w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-full object-cover"
-                      onError={handleImageError}
-                    />
-                    <PrevArrow onClick={() => {}} />
-                    <NextArrow onClick={() => {}} />
-                  </div>
-                )}
-                <div
-                  className="card-badge-left absolute top-2 left-2 text-white text-xs uppercase px-3 py-1"
-                  // className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
-                  style={{
-                    backgroundColor:
-                      property.availabilityStatus === "Available"
-                        ? "#236b62" // Green for available
-                        : property.availabilityStatus === "Rented Out"
-                        ? "#c71221" // Red for rented
-                        : "#999999", // Gray for not available (NA)
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {property.availabilityStatus === "Available"
-                    ? "Available"
-                    : property.availabilityStatus === "Rented Out"
-                    ? "Rent Out"
-                    : "NA"}
+            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden w-full">
+              {property.images?.length > 1 ? (
+                <Slider {...settings}>
+                  {property.images.map((photo, index) => (
+                    <div key={index}>
+                      <img
+                        src={photo}
+                        alt={property.propertyType}
+                        className="w-full h-[160px] md:h-[260px] object-cover"
+                        onError={handleImageError}
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              ) : (
+                <div className="relative">
+                  <img
+                    src={property.images[0]}
+                    alt={property.propertyType}
+                    className="w-full h-[160px] md:h-[260px] object-cover"
+                    onError={handleImageError}
+                  />
+                  <PrevArrow onClick={() => {}} />
+                  <NextArrow onClick={() => {}} />
                 </div>
-                {/* <div className="banner-actions absolute bottom-4 left-3 right-4 flex gap-6 justify-between"></div> */}
-                <div className="banner-actions absolute bottom-4 left-3 right-4 flex gap-6 justify-between">
-                  <div>
-                    <button className="banner-actions-btn flex items-center gap-1 text-white">
-                      <FaLocationDot />
-                      <address className="text-sm md:text-lg !font-normal !m-0 !p-0 inline-block">{`${property.locality}, ${property.city}`}</address>
-                    </button>
-                  </div>
-                  <div className="flex gap-4">
-                    <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                      <FaVideo className="text-base" />
-                    </button>
-                    <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                      <FaRegImage className="text-base" />
-                      {property.images?.length}
-                    </button>
-                  </div>
-                </div>
-              </figure>
-              <div className="card-content lg:p-1 sm:p-1">
-                <div className="name_icon flex justify-between sm:gap-4 lg:gap-12 items-center">
-                  <h3 className="card-title lg:text-[24px] sm:text-[16px] lg:font-semibold sm:font-medium">
-                    <a href="#">
-                      {property.bhk} BHK, {property.propertyType}, On Rent
-                    </a>
-                  </h3>
-                  <div className="icon-box flex space-x-2 md:space-x-4 p-1">
-                    <Popup
-                      arrow={false}
-                      trigger={
-                        <button>
-                          <CiShare2
-                            className="card_icon"
-                            style={{ color: "#40B5A8" }}
-                          />
-                        </button>
-                      }
-                      position={"bottom center"}
-                    >
-                      {(close) => (
-                        <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
-                          <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
-                            <div className="px-2 py-2 text-sm truncate w-32">
-                              {`www.toletglobe.in/property/${property.slug}`}
-                            </div>
-                            <div>
-                              <button
-                                className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
-                                onClick={() => {
-                                  navigator.clipboard.writeText(
-                                    `www.toletglobe.in/property/${property.slug}`
-                                  );
-                                  close();
-                                }}
-                              >
-                                <FaRegCopy />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </Popup>
-
-                    {/* SHORTLIST FOR VISIT */}
-                    <Popup
-                      trigger={
-                        <a
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (isInCompareList(property)) {
-                              removeFromCompare(property);
-                            } else {
-                              addToCompare(property);
-                            }
-                          }}
-                          key={property._id}
-                        >
-                          {isInCompareList(property) ? (
-                            <IoRemove
-                              className="card_icon"
-                              style={{ color: "#ff0000", fontSize: "12px" }}
-                            />
-                          ) : (
-                            <IoAdd
-                              className="card_icon"
-                              style={{ color: "#000000", fontSize: "12px" }}
-                            />
-                          )}
-                        </a>
-                      }
-                      position="top center"
-                      on="hover"
-                      arrow={true}
-                    >
-                      <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
-                        Shortlist for Visit
-                      </div>
-                    </Popup>
-
-                    {/* ADD TO FAVOURITES */}
-                    <Popup
-                      trigger={
-                        <a
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (favouriteList.includes(property._id)) {
-                              removeFromFavourites(property._id);
-                            } else {
-                              addToFavourites(property._id);
-                            }
-                          }}
-                        >
-                          {favouriteList.includes(property._id) ? (
-                            <FaHeart className="card_icon text-red-500" />
-                          ) : (
-                            <CiHeart className="card_icon text-red-500" />
-                          )}
-                        </a>
-                      }
-                      position="top center"
-                      on="hover"
-                      arrow={true}
-                    >
-                      <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
-                        Favourite
-                      </div>
-                    </Popup>
-                  </div>
-                </div>
-
-                <div className="card-details flex flex-col items-start">
-                  <div className="card-price font-poppins text-sm font-normal text-grey-700 mt-1">
-                    RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
-                  </div>
-                  <div className="card-text font-poppins  lg:text-[24px] sm:text-[14px] text-lg font-medium text-black">
-                    {property.type}, {property.floor}
-                  </div>
-                </div>
-                <ul className="card-list custom-card-list my-2">
-                  <li className="bed card-item flex items-center text-base">
-                    <IoBedOutline style={{ fontSize: "1.6rem" }} />
-                    &nbsp;
-                    {property.bhk}
-                  </li>
-                  <li className="bath card-item flex items-center text-base">
-                    <LuBath style={{ fontSize: "1.6rem" }} />
-                    &nbsp;
-                    {property.typeOfWashroom}
-                  </li>
-                  <li className="pi card-item flex items-center text-base">
-                    <PiGridFour style={{ fontSize: "1.6rem" }} />
-                    &nbsp;
-                    {property.squareFeetArea} ft²
-                  </li>
-                </ul>
+              )}
+              <div
+                className="card-badge-left absolute top-4 left-4 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1 rounded-md"
+                style={{
+                  backgroundColor:
+                    property.availabilityStatus === "Available"
+                      ? "#236b62" // Green for available
+                      : property.availabilityStatus === "Rented Out"
+                      ? "#c71221" // Red for rented
+                      : "#999999", // Gray for not available (NA)
+                  textTransform: "capitalize",
+                }}
+              >
+                {property.availabilityStatus === "Available"
+                  ? "Available"
+                  : property.availabilityStatus === "Rented Out"
+                  ? "Rent Out"
+                  : "NA"}
               </div>
-              <div className="card-footer lg:py-8 sm:p-1 flex justify-between items-center">
-                <div className="card-author flex items-center gap-1">
-                  <figure className="author-avatar w-8 h-8 overflow-hidden rounded-full">
-                    <img
-                      src={property.images[0]}
-                      alt={property.ownerName}
-                      className="w-full h-full object-cover"
-                      onError={handleImageError}
-                    />
-                  </figure>
-                  <div>
-                    <p className="author-name text-gray-900 sm:text-sm  lg:text-lg sm:font-light lg:font-medium">
-                      <a href="#">
-                        {property.firstName} {property.lastName}
-                      </a>
-                    </p>
-                  </div>
-                </div>
-                <div className="card-footer-actions">
-                  <button
-                    onClick={() => navigate(`/property/${property.slug}`)}
-                    className="card-footer-actions-btn sm:w-[95px] sm:h-[24px] lg:w-[150px] lg:h-[36px]"
-                  >
-                    SHOW MORE
+              <div className="banner-actions absolute bottom-4 left-2 right-4 flex  justify-between">
+                <div className="item-center">
+                  <button className="banner-actions-btn flex items-center text-white">
+                    <FaLocationDot className="text-xs lg:text-base drop-shadow-2xl shadow-black" />
+                    <address className="text-xs lg:text-base p-0  shadow-black text-shadow">
+                      {`${property.locality}, ${property.city}`}
+                    </address>
                   </button>
                 </div>
+                <div className="flex gap-4 text-sm">
+                  <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                    <FaVideo className="lg:text-xl text-xs " />
+                  </button>
+                  <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                    <FaRegImage className="lg:text-xl text-xs " />
+                    {property.images?.length}
+                  </button>
+                </div>
+              </div>
+            </figure>
+            <div className="card-content lg:p-1 sm:p-1">
+              <div className="name_icon flex justify-between pt-2 ">
+                <h3 className="card-title lg:text-xl text-[14px] lg:font-semibold font-medium font-poppins ">
+                  <a href="#">
+                    {property.bhk} BHK {property.propertyType} On Rent
+                  </a>
+                </h3>
+
+                <div className="icon-box flex items-start space-x-1 md:space-x-2 p-1 ">
+                  <Popup
+                    arrow={false}
+                    trigger={
+                      <button>
+                        <CiShare2
+                          className="card_icon  "
+                          style={{ color: "#40B5A8" }}
+                        />
+                      </button>
+                    }
+                    position={"bottom center"}
+                  >
+                    {(close) => (
+                      <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
+                        <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                          <div className="px-2 py-2 text-sm truncate w-32">
+                            {`www.toletglobe.in/property/${property.slug}`}
+                          </div>
+                          <div>
+                            <button
+                              className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  `www.toletglobe.in/property/${property.slug}`
+                                );
+                                close();
+                              }}
+                            >
+                              <FaRegCopy />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </Popup>
+
+                  {/* SHORTLIST FOR VISIT */}
+                  <Popup
+                    trigger={
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (isInCompareList(property)) {
+                            removeFromCompare(property);
+                          } else {
+                            addToCompare(property);
+                          }
+                        }}
+                        key={property._id}
+                      >
+                        {isInCompareList(property) ? (
+                          <IoRemove
+                            className="card_icon"
+                            style={{ color: "#ff0000", fontSize: "12px" }}
+                          />
+                        ) : (
+                          <IoAdd
+                            className="card_icon"
+                            style={{ color: "#000000", fontSize: "12px" }}
+                          />
+                        )}
+                      </a>
+                    }
+                    position="top center"
+                    on="hover"
+                    arrow={true}
+                  >
+                    <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                      Shortlist for Visit
+                    </div>
+                  </Popup>
+
+                  {/* ADD TO FAVOURITES */}
+                  <Popup
+                    trigger={
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (favouriteList.includes(property._id)) {
+                            removeFromFavourites(property._id);
+                          } else {
+                            addToFavourites(property._id);
+                          }
+                        }}
+                      >
+                        {favouriteList.includes(property._id) ? (
+                          <FaHeart className="card_icon text-red-500" />
+                        ) : (
+                          <CiHeart className="card_icon text-red-500" />
+                        )}
+                      </a>
+                    }
+                    position="top center"
+                    on="hover"
+                    arrow={true}
+                  >
+                    <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                      Favourite
+                    </div>
+                  </Popup>
+                </div>
+              </div>
+
+              <div className="card-details flex flex-col items-start">
+                <div className="card-price font-poppins text-md font-normal text-[#808080] -mt-2 lg:mt-0">
+                  RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
+                </div>
+                <div className="card-text font-poppins lg:text-lg text-xs font-bold text-[#505050]">
+                  {property.type}, {property.floor}
+                </div>
+              </div>
+              <ul className="card-list custom-card-list py-2 lg:py-2 ">
+                <li className="bed card-item flex items-center text-base">
+                  <IoBedOutline className="text-lg lg:text-2xl" />
+                  &nbsp;
+                  <span className="text-sm">{property.bhk}</span>
+                </li>
+                <li className="bath card-item flex items-center text-base">
+                  <LuBath className="text-lg lg:text-2xl" />
+                  &nbsp;
+                  <span className="text-sm">{property.typeOfWashroom}</span>
+                </li>
+                <li className="pi card-item flex items-center text-base">
+                  <PiGridFour className="text-lg lg:text-2xl" />
+                  &nbsp;
+                  <span className="text-sm">{property.squareFeetArea} ft²</span>
+                </li>
+              </ul>
+            </div>
+            <div className="card-footer pt-6 lg:pt-3 flex justify-between border-t-2 ">
+              <div className="card-author flex items-center gap-1">
+                <figure className="author-avatar lg:w-8 lg:h-8 w-6 h-6 overflow-hidden rounded-full">
+                  <img
+                    src={property.ownerProfilePicture || defaultUser}
+                    alt={property.ownerName}
+                    className="w-full h-full object-cover"
+                    onError={handleImageError}
+                  />
+                </figure>
+                <div>
+                  <p className="author-name text-[10px] lg:text-sm sm:font-light lg:font-medium">
+                    <a href="#">
+                      {property.firstName} {property.lastName}
+                    </a>
+                  </p>
+                </div>
+              </div>
+              <div className="card-footer-actions">
+                <button
+                  onClick={() => navigate(`/property/${property.slug}`)}
+                  className="card-footer-actions-btn w-[95px] h-[24px] lg:w-[120px] lg:h-[28px] text-sm"
+                >
+                  SHOW MORE
+                </button>
               </div>
             </div>
           </li>

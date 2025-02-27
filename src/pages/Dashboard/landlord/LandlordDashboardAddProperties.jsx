@@ -18,7 +18,7 @@ export default function LandlordDashboardAddProperties() {
 
   const navigate = useNavigate();
 
-  // For yellow progress bar
+  //For yellow progress bar
   function yellowBorder(page) {
     let p = page + 1;
     let yellowDivs = [];
@@ -242,15 +242,15 @@ export default function LandlordDashboardAddProperties() {
       <div>
         {/* ProgressBar */}
 
-        <div className="mx-16 sm:my-5 mt-7 mb-8  flex flex-col gap-2 md:pr-0">
-          <h1 className="text-center text-[#FFFFFF] text-3xl leading-10 font-bold md:text-left">
+        <div className="mx-16 sm:my-5 mt-7 mb-8 mx-4  flex flex-col gap-2 md:pr-0  ">
+          <h1 className="text-center text-[#FFFFFF] text-xl md:text-3xl leading-10 font-bold md:text-left whitespace-nowrap">
             Add New Property
           </h1>
-          <div className="mt-8 flex gap-4">
+          <div className="mt-8 flex gap-2 sm:w-[365px]  md:w-[1000px]  ">
             {yellowBorder(page)}
             {whiteBorder(page)}
           </div>
-          <div className="text-[#4F7396] text-xs leading-5">{page + 1}/4</div>
+          <div className="text-[#4F7396] text-xs leading-5 ">{page + 1}/4</div>
         </div>
 
         {/* Form-Container */}

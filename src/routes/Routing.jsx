@@ -9,6 +9,7 @@ import { lazy } from "react";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
+import TwitterPlaceholder from "../pages/Twitter.jsx";
 
 const Landing = lazy(() => import("../pages/Landing"));
 const Contact = lazy(() => import("../pages/Contact"));
@@ -75,6 +76,7 @@ const Routing = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
+          <Route path="/twitter" element={<TwitterPlaceholder/>}/>
 
           {/* <Route path="/property/reviews" element={<Reviews />} /> */}
 
