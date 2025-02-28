@@ -1652,7 +1652,7 @@ const Listing = () => {
       queryString = queryString + `&page=${currentPage}`;
 
       const url = `${BASE_URL}property/filter?${queryString}`;
-      // console.log("Request URL:", url); // Log the constructed URL
+      console.log("Request URL:", url); // Log the constructed URL
 
       try {
         const response = await axios.get(url);
@@ -1690,12 +1690,20 @@ const Listing = () => {
   };
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const cityParam = params.get("city");
+    const areaParam = params.get("area") ? params.get("area").split(",") : [];
+  
     setCurrentPage(1);
-    fetchAndFilterProperties(city, selectedArea);
+    fetchAndFilterProperties(cityParam || city, areaParam.length > 0 ? areaParam : selectedArea);
   }, [city, location.search, selectedLocality, selectedArea]); // Add city to the dependency array
-
+  
   useEffect(() => {
-    fetchAndFilterProperties(city, selectedArea);
+    const params = new URLSearchParams(location.search);
+    const cityParam = params.get("city");
+    const areaParam = params.get("area") ? params.get("area").split(",") : [];
+  
+    fetchAndFilterProperties(cityParam || city, areaParam.length > 0 ? areaParam : selectedArea);
   }, [currentPage]);
 
   // useEffect(() => {
