@@ -1771,31 +1771,32 @@ const Listing = () => {
 
   const handleSearchSelection = (value, type) => {
     const queryParams = new URLSearchParams(location.search);
-
+  
     if (type === "locality") {
-      // Clear previous area search
-      queryParams.delete("area");
-      setSelectedArea([]);
       handleLocalitySelect(value);
       queryParams.set("locality", value);
     } else {
-      // Clear previous locality search
-      queryParams.delete("locality");
-      setSelectedLocality("");
       addLocality(value);
-      queryParams.set("area", value);
+      const currentAreas = selectedArea.includes(value)
+        ? selectedArea.filter((area) => area !== value)
+        : [...selectedArea, value];
+  
+      if (currentAreas.length > 0) {
+        queryParams.set("area", currentAreas.join(","));
+      } else {
+        queryParams.delete("area");
+      }
     }
-
+  
     setSearchQuery("");
     setShowSearchPanel(false);
-
+  
     // Update the URL with the new search parameter
     navigate(`${location.pathname}?${queryParams.toString()}`);
-
+  
     // Trigger fetchAndFilterProperties with the selected city and new search parameter
-    fetchAndFilterProperties(city, type === "area" ? [value] : [], type === "locality" ? value : "");
+    fetchAndFilterProperties(city, queryParams.get("area") ? queryParams.get("area").split(",") : [], queryParams.get("locality") || "");
   };
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -1924,10 +1925,20 @@ const Listing = () => {
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-4 w-4 cursor-pointer"
                           onClick={() => {
-                            const newAreas = selectedArea.filter(
-                              (a) => a !== area
-                            );
+                            const newAreas = selectedArea.filter((a) => a !== area);
                             setSelectedArea(newAreas);
+                    
+                            // Update the URL parameters
+                            const queryParams = new URLSearchParams(location.search);
+                            if (newAreas.length > 0) {
+                              queryParams.set("area", newAreas.join(","));
+                            } else {
+                              queryParams.delete("area");
+                            }
+                            navigate(`${location.pathname}?${queryParams.toString()}`);
+                    
+                            // Trigger fetchAndFilterProperties with the updated areas
+                            fetchAndFilterProperties(city, newAreas, selectedLocality);
                           }}
                           viewBox="0 0 20 20"
                           fill="currentColor"
