@@ -1638,13 +1638,10 @@ const Listing = () => {
   
       if (selectedCity) {
         queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
-        if (selectedLocality) {
-          queryString =
-            queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
-        }
         if (selectedArea.length > 0) {
-          queryString =
-            queryString + `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
+          queryString = queryString + `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
+        } else if (selectedLocality) {
+          queryString = queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
         }
       }
   
@@ -1657,6 +1654,15 @@ const Listing = () => {
         const response = await axios.get(url);
         let propertyData = response.data.data; // Store the response data
         // console.log(propertyData);
+  
+        // If no data is found for the area, fall back to the locality
+        if (propertyData.length === 0 && selectedArea.length > 0 && selectedLocality) {
+          queryString = queryString.replace(/&area=[^&]*/, `&locality=${encodeURIComponent(selectedLocality)}`);
+          const fallbackUrl = `${BASE_URL}property/filter?${queryString}`;
+          console.log("Fallback Request URL:", fallbackUrl); // Log the fallback URL
+          const fallbackResponse = await axios.get(fallbackUrl);
+          propertyData = fallbackResponse.data.data;
+        }
   
         // Sort by created date if needed
         if (propertyData && Array.isArray(propertyData)) {
@@ -1768,35 +1774,34 @@ const Listing = () => {
     });
     setShowSearchPanel(true);
   };
+const handleSearchSelection = (value, type) => {
+  const queryParams = new URLSearchParams(location.search);
 
-  const handleSearchSelection = (value, type) => {
-    const queryParams = new URLSearchParams(location.search);
-  
-    if (type === "locality") {
-      handleLocalitySelect(value);
-      queryParams.set("locality", value);
+  if (type === "locality") {
+    handleLocalitySelect(value);
+    queryParams.set("locality", value);
+  } else {
+    addLocality(value);
+    const currentAreas = selectedArea.includes(value)
+      ? selectedArea.filter((area) => area !== value)
+      : [...selectedArea, value];
+
+    if (currentAreas.length > 0) {
+      queryParams.set("area", currentAreas.join(","));
     } else {
-      addLocality(value);
-      const currentAreas = selectedArea.includes(value)
-        ? selectedArea.filter((area) => area !== value)
-        : [...selectedArea, value];
-  
-      if (currentAreas.length > 0) {
-        queryParams.set("area", currentAreas.join(","));
-      } else {
-        queryParams.delete("area");
-      }
+      queryParams.delete("area");
     }
-  
-    setSearchQuery("");
-    setShowSearchPanel(false);
-  
-    // Update the URL with the new search parameter
-    navigate(`${location.pathname}?${queryParams.toString()}`);
-  
-    // Trigger fetchAndFilterProperties with the selected city and new search parameter
-    fetchAndFilterProperties(city, queryParams.get("area") ? queryParams.get("area").split(",") : [], queryParams.get("locality") || "");
-  };
+  }
+
+  setSearchQuery("");
+  setShowSearchPanel(false);
+
+  // Update the URL with the new search parameter
+  navigate(`${location.pathname}?${queryParams.toString()}`);
+
+  // Trigger fetchAndFilterProperties with the selected city and new search parameter
+  fetchAndFilterProperties(city, queryParams.get("area") ? queryParams.get("area").split(",") : [], queryParams.get("locality") || "");
+};
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
