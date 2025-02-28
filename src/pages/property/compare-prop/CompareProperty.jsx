@@ -13,7 +13,6 @@ import { useStateValue } from "../../../StateProvider";
 import preferences from "../../../assets/property/preferences.png";
 import bhk from "../../../assets/property/bhk.png";
 import budget from "../../../assets/property/budget.png";
-import "./compareProperty.css";
 
 export default function CompareProperty() {
   const navigate = useNavigate();
@@ -45,7 +44,11 @@ export default function CompareProperty() {
       label: "Space type",
       icon: <MdOutlineSpaceDashboard />,
     },
-    { key: "propertyType", label: "Property Type", icon: <RiBuilding2Line /> },
+    {
+      key: "propertyType",
+      label: "Property Type",
+      icon: <RiBuilding2Line className="text-xl text-black" />,
+    },
     {
       key: "preference",
       label: "Preference",
@@ -71,30 +74,43 @@ export default function CompareProperty() {
 
   return (
     <>
-      <div className="flex flex-col items-end xl:p-6 py-0 px-6 space-y-8">
-        <div className="hidden xl:flex w-full justify-between items-center mb-6 text-[#C8A21C]">
-          <h4 className="text-5xl pl-[30px] font-bold">
+      <div className="flex flex-col items-end xl:p-6 py-0 px-6 space-y-4">
+        <div className="w-full flex justify-start mb-6  relative ">
+          <h4
+            className="text-3xl md:text-4xl lg:text-5xl pl-7 pt-10 font-bold"
+            style={{
+              color: "#C8A21C",
+              textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              margin: "1rem 0",
+              lineHeight: "1.2",
+            }}
+          >
             Compare with similar properties
           </h4>
         </div>
         {/* Property Cards */}
-        <div className="w-full max-w-8xl grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 overflow-x-auto pl-20 pr-20">
+        <div className="w-full max-w-8xl grid gap-0 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 overflow-x-auto pl-20 pr-20 ">
           {compareProperty.map((property, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg p-3 relative h-[450px] flex flex-col"
+              className="bg-white shadow-md rounded-lg p-3 relative flex flex-col overflow-hidden"
+              style={{
+                width: "298.926px",
+                height: "386.523px",
+                boxSizing: "border-box",
+              }}
             >
               <span
-                className="w-7 h-7 text-sm bg-[#FF0000] text-white 
-                 absolute top-0 right-0 z-10 
-                 text-center  
-                 flex items-center justify-center 
-                 shadow-md text-[43px] pb-3"
+                className="w-7 h-7 bg-[#FF0000] text-white absolute top-0 right-0 z-10 text-center flex items-center justify-center shadow-md text-[44px] pb-2"
                 onClick={() => handleRemoveProperty(property)}
               >
                 ×
               </span>
-              <figure className="card-banner relative overflow-hidden h-[200px]">
+
+              <figure
+                className="card-banner relative overflow-hidden flex-shrink-0"
+                style={{ height: "174.64px" }}
+              >
                 <div>
                   <img
                     src={property.images[0]}
@@ -103,7 +119,7 @@ export default function CompareProperty() {
                   />
                 </div>
                 <div
-                  className="    absolute top-3 left-3 text-white text-xs font-semibold uppercase px-3 pr-5 py-1 bg-[#40B5A8] [clip-path:polygon(0_0,100%_0,100%_0%,90%_50%,100%_100%,100%_100%,0_100%)]"
+                  className="absolute top-3 left-3 text-white text-xs font-semibold uppercase px-3 pr-5 py-1 bg-[#40B5A8] [clip-path:polygon(0_0,100%_0,100%_0%,90%_50%,100%_100%,100%_100%,0_100%)]"
                   style={{
                     backgroundColor: "#40B5A8",
                     textTransform: "capitalize",
@@ -133,15 +149,15 @@ export default function CompareProperty() {
                   </div>
                 </div>
               </figure>
-              <div className="flex-1 flex flex-col justify-between">
-                <div className="card-content md:py-4 md:px-0 p-6">
+              <div className="flex-1 flex flex-col justify-between pt-1 min-h-0">
+                <div className="card-content md:px-0 px-2 space-y-0">
                   <div className="name_icon flex justify-between items-center gap-2">
-                    <h3 className="card-title text-lg sm:text-xl font-semibold text-black text-wrap line-clamp-2">
+                    <h3 className="card-title text-base sm:text-lg font-semibold text-black line-clamp-2">
                       <a href="#">
                         {property.bhk} BHK, {property.propertyType}
                       </a>
                     </h3>
-                    <div className="icon-box flex space-x-2 py-2">
+                    <div className="icon-box flex space-x-2 py-0">
                       <Popup
                         trigger={
                           <button>
@@ -182,33 +198,36 @@ export default function CompareProperty() {
                     </div>
                   </div>
 
-                  <div className="card-details flex flex-col items-start">
-                    <div className="card-price font-poppins text-sm sm:text-base font-normal text-grey-700 mt-1">
+                  <div className="card-details flex flex-col items-start mt-0 ">
+                    <div className="card-price font-poppins text-sm font-normal text-grey-700 leading-none mb-0 ">
                       RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                     </div>
-                    <div className="card-text font-poppins text-sm sm:text-lg font-medium text-black">
+                    <div className="card-text font-poppins text-sm font-medium text-black">
                       {property.type}, {property.floor}
                     </div>
                   </div>
-                  <ul className="card-list custom-card-list mt-4 flex  align-left">
-                    <li className="bed card-item items-center text-sm">
-                      <IoBedOutline style={{ fontSize: "1.4rem" }} /> &nbsp;
-                      {property.bhk}
+
+                  <ul className="card-list custom-card-list mt-0 flex align-left space-x-2">
+                    <li className="bed card-item items-center">
+                      <IoBedOutline style={{ fontSize: "1rem" }} /> &nbsp;
+                      <span className="text-xs">{property.bhk}</span>
                     </li>
-                    <li className="bath card-item items-center text-base">
-                      <LuBath style={{ fontSize: "1.4rem" }} /> &nbsp;
-                      {property.typeOfWashroom}
+                    <li className="bath card-item items-center">
+                      <LuBath style={{ fontSize: "1rem" }} /> &nbsp;
+                      <span className="text-xs">{property.typeOfWashroom}</span>
                     </li>
-                    <li className="pi card-item items-center text-base">
-                      <PiGridFour style={{ fontSize: "1.4rem" }} /> &nbsp;
-                      {property.squareFeetArea} ft²
+                    <li className="pi card-item items-center">
+                      <PiGridFour style={{ fontSize: "1rem" }} /> &nbsp;
+                      <span className="text-xs">
+                        {property.squareFeetArea} ft²
+                      </span>
                     </li>
                   </ul>
                 </div>
 
-                <div className="card-footer py-2 flex justify-between items-center border-t-2 border-[#7C7C7C80] ">
+                <div className="card-footer py-1  flex justify-between items-center border-t-2 border-[#7C7C7C80]">
                   <div className="card-author flex items-center gap-2">
-                    <figure className="author-avatar w-8 h-8 sm:w-10 sm:h-10 overflow-hidden rounded-full">
+                    <figure className="author-avatar w-6 h-6 overflow-hidden rounded-full">
                       <img
                         src={property.images[0]}
                         alt={property.firstName}
@@ -216,7 +235,7 @@ export default function CompareProperty() {
                       />
                     </figure>
                     <div>
-                      <p className="author-name text-gray-900 text-xs sm:text-sm font-medium">
+                      <p className="author-name text-gray-900 text-xs font-medium">
                         <a href="#">{property.firstName}</a>
                       </p>
                     </div>
@@ -224,7 +243,7 @@ export default function CompareProperty() {
                   <div className="card-footer-actions">
                     <button
                       onClick={() => navigate(`/property/${property.slug}`)}
-                      className="text-[#FFFFFF] text-xs font-medium hover:underline rounded p-2 px-4 bg-[#40B5A8]"
+                      className="text-[#FFFFFF] text-xs font-medium hover:underline rounded py-1 px-3 bg-[#40B5A8]"
                     >
                       SHOW MORE
                     </button>
@@ -240,28 +259,25 @@ export default function CompareProperty() {
               .map((_, index) => (
                 <div
                   key={index}
-                  className="bg-[#D9D9D9] shadow-md  flex flex-col 
-                   items-center justify-center cursor-pointer 
-                   border-2 border-dashed border-gray-300 
-                   hover:border-[#40B5A8] transition-colors 
-                   h-[450px]"
+                  className="bg-[#D9D9D9] shadow-md flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-gray-300 hover:border-[#40B5A8] transition-colors"
+                  style={{
+                    width: "298.926px",
+                    height: "386.523px",
+                    boxSizing: "border-box",
+                  }}
                   onClick={() => navigate("/property-listing")}
                 >
-                  <div
-                    className="w-100 h-100  border  
-                        flex items-center justify-center 
-                        rounded-lg p-1 bg-white "
-                  >
-                    <IoAdd className="text-[#7C7C7C80] text-8xl " />
+                  <div className="w-50 h-50 border flex items-center justify-center rounded-lg p-0 bg-white">
+                    <IoAdd className="text-[#7C7C7C80] text-[100px]" />
                   </div>
-                  <span className="text-[#000000] font-medium mt-2 text-[25px]">
+                  <span className="text-[#000000] font-medium mt-2 text-[23px]">
                     Add Property
                   </span>
                 </div>
               ))}
         </div>
 
-        <div className="w-full flex  pl-5 items-center gap-4 mt-4">
+        <div className="w-full flex pl-5 items-center gap-4 mt-4 py-5 pt-9">
           <input
             type="checkbox"
             checked={showOnlyDifferences}
@@ -274,16 +290,20 @@ export default function CompareProperty() {
         </div>
 
         {/* Comparison Table */}
-        <div className="bg-white w-[1450px]  max-w-8xl mt-8 pt-2 overflow-x-auto">
+        <div className="bg-white w-[1350px] max-w-8xl mt-8 pt-2 mr-[95px] overflow-x-auto">
           <table className="min-w-full bg-white overflow-hidden space-y-2">
             {filteredProperties.map(({ key, label, icon }) => (
               <React.Fragment key={key}>
-                <tr className=" px-6 py-4 bg-gray-200 flex">
-                  <th className="px-6 text-xl font-semibold text-left w-[221px] h-[57px] flex justify-between items-center border-r border-black gap-[37px]">
-                    <span className="whitespace-nowrap text-[#40B5A8] xl:text-xl md:text-base text-sm">
-                      {label}
-                    </span>
-                    <span className="text-black">{icon}</span>
+                <tr className="px-6 py-4 bg-gray-200 flex">
+                  <th className="px-6 text-xl font-semibold text-left w-[221px] h-[57px] flex items-center border-r border-black">
+                    <div className="flex items-center justify-between w-full">
+                      <span className="text-[#40B5A8] xl:text-xl md:text-base text-sm">
+                        {label}
+                      </span>
+                      <div className="flex items-center ml-2 text-black">
+                        {icon}
+                      </div>
+                    </div>
                   </th>
                   {compareProperty.map((property, index) => (
                     <td key={index} className="border-b border-gray-200 w-1/5">
