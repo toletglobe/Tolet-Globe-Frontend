@@ -1601,7 +1601,11 @@ const Listing = () => {
     });
   };
 
-  const fetchAndFilterProperties = async (selectedCity, selectedArea) => {
+  const fetchAndFilterProperties = async (
+    selectedCity,
+    selectedArea,
+    selectedLocality
+  ) => {
     setLoading(true);
 
     try {
@@ -1638,14 +1642,13 @@ const Listing = () => {
 
       if (selectedCity) {
         queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
-        if (selectedLocality) {
-          queryString =
-            queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
-        }
         if (selectedArea.length > 0) {
           queryString =
             queryString +
             `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
+        } else if (selectedLocality) {
+          queryString =
+            queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
         }
       }
 
@@ -1658,6 +1661,22 @@ const Listing = () => {
         const response = await axios.get(url);
         let propertyData = response.data.data; // Store the response data
         // console.log(propertyData);
+
+        // If no data is found for the area, fall back to the locality
+        if (
+          propertyData.length === 0 &&
+          selectedArea.length > 0 &&
+          selectedLocality
+        ) {
+          queryString = queryString.replace(
+            /&area=[^&]*/,
+            `&locality=${encodeURIComponent(selectedLocality)}`
+          );
+          const fallbackUrl = `${BASE_URL}property/filter?${queryString}`;
+          // console.log("Fallback Request URL:", fallbackUrl); // Log the fallback URL
+          const fallbackResponse = await axios.get(fallbackUrl);
+          propertyData = fallbackResponse.data.data;
+        }
 
         // Sort by created date if needed
         if (propertyData && Array.isArray(propertyData)) {
@@ -1690,12 +1709,30 @@ const Listing = () => {
   };
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const cityParam = params.get("city");
+    const areaParam = params.get("area") ? params.get("area").split(",") : [];
+    const localityParam = params.get("locality");
+
     setCurrentPage(1);
-    fetchAndFilterProperties(city, selectedArea);
-  }, [city, location.search, selectedLocality, selectedArea]); // Add city to the dependency array
+    fetchAndFilterProperties(
+      cityParam || city,
+      areaParam.length > 0 ? areaParam : [],
+      localityParam || ""
+    );
+  }, [city, location.search]); // Add city to the dependency array
 
   useEffect(() => {
-    fetchAndFilterProperties(city, selectedArea);
+    const params = new URLSearchParams(location.search);
+    const cityParam = params.get("city");
+    const areaParam = params.get("area") ? params.get("area").split(",") : [];
+    const localityParam = params.get("locality");
+
+    fetchAndFilterProperties(
+      cityParam || city,
+      areaParam.length > 0 ? areaParam : [],
+      localityParam || ""
+    );
   }, [currentPage]);
 
   // useEffect(() => {
@@ -1759,41 +1796,38 @@ const Listing = () => {
     });
     setShowSearchPanel(true);
   };
-
   const handleSearchSelection = (value, type) => {
     const queryParams = new URLSearchParams(location.search);
 
     if (type === "locality") {
       handleLocalitySelect(value);
       queryParams.set("locality", value);
-      navigate(`${location.pathname}?${queryParams.toString()}`);
     } else {
       addLocality(value);
-      // Get current areas and add new one
       const currentAreas = selectedArea.includes(value)
         ? selectedArea.filter((area) => area !== value)
         : [...selectedArea, value];
 
       if (currentAreas.length > 0) {
         queryParams.set("area", currentAreas.join(","));
-        navigate(`${location.pathname}?${queryParams.toString()}`);
       } else {
-        // If no areas are selected, remove the area parameter and navigate
         queryParams.delete("area");
-        const newUrl = queryParams.toString()
-          ? `${location.pathname}?${queryParams.toString()}`
-          : location.pathname;
-        navigate(newUrl);
       }
     }
 
     setSearchQuery("");
     setShowSearchPanel(false);
 
-    // Trigger fetchAndFilterProperties with the selected city and area
-    fetchAndFilterProperties(city, selectedArea);
-  };
+    // Update the URL with the new search parameter
+    navigate(`${location.pathname}?${queryParams.toString()}`);
 
+    // Trigger fetchAndFilterProperties with the selected city and new search parameter
+    fetchAndFilterProperties(
+      city,
+      queryParams.get("area") ? queryParams.get("area").split(",") : [],
+      queryParams.get("locality") || ""
+    );
+  };
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -1892,7 +1926,18 @@ const Listing = () => {
                           className="h-4 w-4 cursor-pointer"
                           onClick={() => {
                             setSelectedLocality("");
-                            setSelectedArea([]); // Clear areas when locality is cleared
+
+                            // Update the URL parameters
+                            const queryParams = new URLSearchParams(
+                              location.search
+                            );
+                            queryParams.delete("locality");
+                            navigate(
+                              `${location.pathname}?${queryParams.toString()}`
+                            );
+
+                            // Trigger fetchAndFilterProperties with the updated parameters
+                            fetchAndFilterProperties(city, selectedArea);
                           }}
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -1919,6 +1964,26 @@ const Listing = () => {
                               (a) => a !== area
                             );
                             setSelectedArea(newAreas);
+
+                            // Update the URL parameters
+                            const queryParams = new URLSearchParams(
+                              location.search
+                            );
+                            if (newAreas.length > 0) {
+                              queryParams.set("area", newAreas.join(","));
+                            } else {
+                              queryParams.delete("area");
+                            }
+                            navigate(
+                              `${location.pathname}?${queryParams.toString()}`
+                            );
+
+                            // Trigger fetchAndFilterProperties with the updated areas
+                            fetchAndFilterProperties(
+                              city,
+                              newAreas,
+                              selectedLocality
+                            );
                           }}
                           viewBox="0 0 20 20"
                           fill="currentColor"
