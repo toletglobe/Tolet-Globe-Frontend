@@ -1601,29 +1601,29 @@ const Listing = () => {
     });
   };
 
-  const fetchAndFilterProperties = async (selectedCity, selectedArea) => {
+  const fetchAndFilterProperties = async (selectedCity, selectedArea, selectedLocality) => {
     setLoading(true);
-
+  
     try {
       let cleanedFilters = {
         ...filters,
         bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
       };
-
+  
       if (residential) {
         cleanedFilters = {
           ...filters,
           residential: [residential],
         };
       }
-
+  
       if (commercial) {
         cleanedFilters = {
           ...filters,
           commercial: [commercial],
         };
       }
-
+  
       let queryString = Object.keys(cleanedFilters)
         .filter(
           (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
@@ -1635,7 +1635,7 @@ const Listing = () => {
           return `${encodeURIComponent(key)}=${value}`;
         })
         .join("&");
-
+  
       if (selectedCity) {
         queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
         if (selectedLocality) {
@@ -1644,34 +1644,33 @@ const Listing = () => {
         }
         if (selectedArea.length > 0) {
           queryString =
-            queryString +
-            `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
+            queryString + `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
         }
       }
-
+  
       queryString = queryString + `&page=${currentPage}`;
-
+  
       const url = `${BASE_URL}property/filter?${queryString}`;
       console.log("Request URL:", url); // Log the constructed URL
-
+  
       try {
         const response = await axios.get(url);
         let propertyData = response.data.data; // Store the response data
         // console.log(propertyData);
-
+  
         // Sort by created date if needed
         if (propertyData && Array.isArray(propertyData)) {
           propertyData.sort(
             (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
           );
         }
-
+  
         setProperties(propertyData); // Update properties with the sorted results
         setTotalPages(response.data.totalPages || 1);
-
+  
         // Check if no properties were found
         setNoPropertiesFound(propertyData.length === 0);
-
+  
         // Handle sorting if needed
         const searchParams = new URLSearchParams(location.search);
         const sortType = searchParams.get("sort");
@@ -1681,7 +1680,7 @@ const Listing = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-
+  
       setLoading(false);
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -1693,17 +1692,19 @@ const Listing = () => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
     const areaParam = params.get("area") ? params.get("area").split(",") : [];
+    const localityParam = params.get("locality");
   
     setCurrentPage(1);
-    fetchAndFilterProperties(cityParam || city, areaParam.length > 0 ? areaParam : selectedArea);
-  }, [city, location.search, selectedLocality, selectedArea]); // Add city to the dependency array
+    fetchAndFilterProperties(cityParam || city, areaParam.length > 0 ? areaParam : [], localityParam || "");
+  }, [city, location.search]); // Add city to the dependency array
   
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
     const areaParam = params.get("area") ? params.get("area").split(",") : [];
+    const localityParam = params.get("locality");
   
-    fetchAndFilterProperties(cityParam || city, areaParam.length > 0 ? areaParam : selectedArea);
+    fetchAndFilterProperties(cityParam || city, areaParam.length > 0 ? areaParam : [], localityParam || "");
   }, [currentPage]);
 
   // useEffect(() => {
@@ -1772,34 +1773,27 @@ const Listing = () => {
     const queryParams = new URLSearchParams(location.search);
 
     if (type === "locality") {
+      // Clear previous area search
+      queryParams.delete("area");
+      setSelectedArea([]);
       handleLocalitySelect(value);
       queryParams.set("locality", value);
-      navigate(`${location.pathname}?${queryParams.toString()}`);
     } else {
+      // Clear previous locality search
+      queryParams.delete("locality");
+      setSelectedLocality("");
       addLocality(value);
-      // Get current areas and add new one
-      const currentAreas = selectedArea.includes(value)
-        ? selectedArea.filter((area) => area !== value)
-        : [...selectedArea, value];
-
-      if (currentAreas.length > 0) {
-        queryParams.set("area", currentAreas.join(","));
-        navigate(`${location.pathname}?${queryParams.toString()}`);
-      } else {
-        // If no areas are selected, remove the area parameter and navigate
-        queryParams.delete("area");
-        const newUrl = queryParams.toString()
-          ? `${location.pathname}?${queryParams.toString()}`
-          : location.pathname;
-        navigate(newUrl);
-      }
+      queryParams.set("area", value);
     }
 
     setSearchQuery("");
     setShowSearchPanel(false);
 
-    // Trigger fetchAndFilterProperties with the selected city and area
-    fetchAndFilterProperties(city, selectedArea);
+    // Update the URL with the new search parameter
+    navigate(`${location.pathname}?${queryParams.toString()}`);
+
+    // Trigger fetchAndFilterProperties with the selected city and new search parameter
+    fetchAndFilterProperties(city, type === "area" ? [value] : [], type === "locality" ? value : "");
   };
 
   if (loading) {
@@ -1900,7 +1894,14 @@ const Listing = () => {
                           className="h-4 w-4 cursor-pointer"
                           onClick={() => {
                             setSelectedLocality("");
-                            setSelectedArea([]); // Clear areas when locality is cleared
+                    
+                            // Update the URL parameters
+                            const queryParams = new URLSearchParams(location.search);
+                            queryParams.delete("locality");
+                            navigate(`${location.pathname}?${queryParams.toString()}`);
+                    
+                            // Trigger fetchAndFilterProperties with the updated parameters
+                            fetchAndFilterProperties(city, selectedArea);
                           }}
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -1913,7 +1914,7 @@ const Listing = () => {
                         </svg>
                       </div>
                     )}
-                    {selectedArea.map((area) => (
+                                        {selectedArea.map((area) => (
                       <div
                         key={area}
                         className="flex items-center bg-[#EED98B] px-2 py-1 rounded-full shrink-0"
