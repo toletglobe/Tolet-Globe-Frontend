@@ -3,7 +3,7 @@
 import { BsChatRightDots } from "react-icons/bs";
 import { IoCallOutline } from "react-icons/io5";
 import { useRef, useState } from "react";
-import { API } from "../config/axios"
+import { API } from "../config/axios";
 import { toast } from "react-hot-toast";
 
 const Contact = () => {
@@ -16,7 +16,7 @@ const Contact = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  
+
   const handleChange = (evt) => {
     setFormData((prev) => ({
       ...prev,
@@ -40,7 +40,7 @@ const Contact = () => {
       setLoading(true);
       const response = await API.post("contact/submit-data", formData);
       handleReset();
-      toast.success("Enquiry Sent! We will get in touch with you shortly.");
+      toast.success("Enquiry Sent! We will  with you shortly.");
       setLoading(false);
       console.log(response);
     } catch (error) {
@@ -51,7 +51,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-5 lg:gap-9 sm:px-10 md:px-20 mx-4 md:mx-6 lg:mx-10 justify-between ">
+    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-12 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
       {/* Contact Details Section */}
       <div className="w-full lg:w-1/2 px-4 lg:px-5 mt-[50px]">
         <div>
@@ -59,7 +59,8 @@ const Contact = () => {
             Contact Us, We're Ready to Help!
           </h1>
           <p className="mt-5 text-gray-400">
-            We strive to provide you with the best experience and the best platform to find your choice.
+            We strive to provide you with the best experience and the best
+            platform to find your choice.
           </p>
           <p className="mt-2 text-gray-400">
             Post us any queries and we’ll get back to you.
@@ -70,7 +71,9 @@ const Contact = () => {
           <BsChatRightDots className="text-white text-3xl md:text-4xl" />
           <div>
             <h1 className="text-white text-xl md:text-2xl">Chat with us !!</h1>
-            <p className="text-gray-300/50 mt-1">Our friendly team is here to help</p>
+            <p className="text-gray-300/50 mt-1">
+              Our friendly team is here to help
+            </p>
             <p className="text-[#6CC1B6]">hello@toletglobe.in</p>
           </div>
         </div>
@@ -88,7 +91,9 @@ const Contact = () => {
       <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 lg:px-5 mt-10 lg:mt-0">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col">
-            <label htmlFor="topic" className="text-gray-400">Topic</label>
+            <label htmlFor="topic" className="text-gray-400">
+              Topic
+            </label>
             <select
               id="topic"
               value={formData.topic}
@@ -97,33 +102,39 @@ const Contact = () => {
               required
               className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
             >
-              <option value="">Select a topic</option>
+              <option value="">General Inquiry</option>
               <option value="Residential">Residential</option>
               <option value="Commercial">Commercial</option>
               <option value="Others">Others</option>
             </select>
           </div>
-          {['name', 'email', 'phone'].map((field, index) => (
+          {["name", "email", "phone"].map((field, index) => (
             <div key={index} className="mt-5 flex flex-col">
               <label htmlFor={field} className="text-gray-400">
                 {field.charAt(0).toUpperCase() + field.slice(1)}
               </label>
               <input
-                type={field === 'email' ? 'email' : 'text'}
+                type={field === "email" ? "email" : "text"}
                 id={field}
                 placeholder={
-                  field === 'name' ? "Rohit Kapur" : field === 'email' ? "name@provider.com" : "+91 8945678323"
+                  field === "name"
+                    ? "Enter your name"
+                    : field === "email"
+                    ? "Enter your email"
+                    : "Enter your number"
                 }
                 value={formData[field]}
                 name={field}
                 onChange={handleChange}
                 className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
-                required={field !== 'phone'}
+                required={field !== "phone"}
               />
             </div>
           ))}
           <div className="mt-5 flex flex-col">
-            <label htmlFor="msg" className="text-gray-400">Message</label>
+            <label htmlFor="msg" className="text-gray-400">
+              Message
+            </label>
             <textarea
               id="msg"
               placeholder="Type your message..."
@@ -141,7 +152,10 @@ const Contact = () => {
                 <span className="text-black">Sending...</span>
               </div>
             ) : (
-              <button type="submit" className="bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg">
+              <button
+                type="submit"
+                className="bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg"
+              >
                 Submit Query
               </button>
             )}

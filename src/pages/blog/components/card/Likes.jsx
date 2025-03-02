@@ -39,7 +39,6 @@ const Likes = ({ data }) => {
         toast.error("Login First!");
         return navigate("/login", { replace: true });
       }
-
       const updateddata = await axios.get(
         `${BASE_URL}blog/updateLikes/${data.slug}`,
         {
@@ -48,6 +47,10 @@ const Likes = ({ data }) => {
           },
         }
       );
+
+      
+
+      console.log(updateddata);
       setadata(updateddata.data.updatedBlog);
 
       data.likes = updateddata.data.updatedBlog.likes;
@@ -64,7 +67,7 @@ const Likes = ({ data }) => {
       {!authState && <FaRegHeart />}
       {authState?.status &&
       authState?.userData?.id &&
-      data?.likes?.includes(parseInt(authState.userData.id.slice(0, 3))) ? (
+      data?.likes?.includes(authState.userData.id) ? (
         <IoMdHeart />
       ) : (
         <FaRegHeart />

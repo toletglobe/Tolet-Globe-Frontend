@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Slider from "react-slick";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { FaRegCopy } from "react-icons/fa6";
@@ -7,31 +7,42 @@ import Popup from "reactjs-popup";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
 import { FaLocationDot, FaRegImage, FaVideo } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../../StateProvider";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+import defaultHouse from "../../../assets/defaultHouse/defaultHouse.png";
+import { BASE_URL } from "../../../constant/constant";
+import { FaHeart } from "react-icons/fa";
+// import { useEffect } from "react";
+import defaultUser from "../../../assets/user-icon.png";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 left-1 transform -translate-y-1/2  bg-white/30 hover:bg-slate-200 text-black  rounded-full cursor-pointer z-10 flex items-end justify-center w-5 h-5 lg:w-9 lg:h-9"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }}
   >
-    <span className="text-2xl">&#8249;</span>
+    <span className="text-2xl leading-none justify-center flex items-center lg:text-5xl">
+      &#8249;
+    </span>
   </div>
 );
 
 const NextArrow = ({ onClick }) => (
   <div
-    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white opacity-50 hover:bg-slate-200 text-black p-2 rounded-full cursor-pointer z-10 flex items-center justify-center"
+    className="absolute top-1/2 right-1  transform -translate-y-1/2 bg-white/30  hover:bg-slate-200 text-black rounded-full cursor-pointer z-10 flex items-end justify-center w-5 h-5 lg:w-9 lg:h-9"
     onClick={onClick}
-    style={{ width: "40px", height: "40px" }}
   >
-    <span className="text-2xl">&#8250;</span>
+    <span className="text-2xl leading-none justify-center flex items-center lg:text-5xl">
+      &#8250;
+    </span>
   </div>
 );
 
-const Cards = ({ properties, propertyAction }) => {
+// Component Card
+const Cards = ({ properties, favouriteList, setFavouriteList }) => {
   const [{ compareProperty }, dispatch] = useStateValue();
 
   const addToCompare = (property) => {
@@ -54,9 +65,8 @@ const Cards = ({ properties, propertyAction }) => {
     return compareProperty.some((item) => item._id === property._id);
   };
 
-  const navigate = useNavigate();
   const settings = {
-    dots: true,
+    // dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -73,15 +83,87 @@ const Cards = ({ properties, propertyAction }) => {
 
   let norm = normalizedProperties[0].properties || normalizedProperties;
 
+  const authState = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const addToFavourites = async (propertyId) => {
+    console.log(authState);
+
+    try {
+      if (!authState.status) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+
+      console.log(authState.userData.id);
+
+      const token = localStorage.getItem("token");
+
+      const updateddata = await axios.post(
+        `${BASE_URL}user/addToFavourites`,
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Added to favorites!");
+      setFavouriteList([...favouriteList, propertyId]);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add to favorites");
+    }
+  };
+
+  const removeFromFavourites = async (propertyId) => {
+    try {
+      if (!authState.status) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+
+      const token = localStorage.getItem("token");
+
+      await axios.post(
+        `${BASE_URL}user/removeFromFavourites`,
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Removed from favorites!");
+      setFavouriteList(favouriteList.filter((id) => id !== propertyId));
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to remove from favorites");
+    }
+  };
+
+  // Add this new function to handle broken images
+  const handleImageError = (e) => {
+    e.target.src = defaultHouse; // Replace with your fallback image path
+  };
+
   return (
     <div>
-      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-12 p-4">
         {norm.map((property) => (
           <li
             key={property._id}
-            className="property-card bg-white border border-grey-200 shadow-lg relative p-2 md:p-4"
+            className="property-card rounded-[8px] overflow-hidden shadow-lg border border-gray-200 bg-white lg:p-4 p-2.5 "
           >
-            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden">
+            <figure className="card-banner relative aspect-w-2 aspect-h-1.5 overflow-hidden w-full">
               {property.images?.length > 1 ? (
                 <Slider {...settings}>
                   {property.images.map((photo, index) => (
@@ -89,7 +171,8 @@ const Cards = ({ properties, propertyAction }) => {
                       <img
                         src={photo}
                         alt={property.propertyType}
-                        className="w-full h-full object-cover"
+                        className="w-full h-[160px] md:h-[260px] object-cover"
+                        onError={handleImageError}
                       />
                     </div>
                   ))}
@@ -99,14 +182,15 @@ const Cards = ({ properties, propertyAction }) => {
                   <img
                     src={property.images[0]}
                     alt={property.propertyType}
-                    className="w-full h-full object-cover"
+                    className="w-full h-[160px] md:h-[260px] object-cover"
+                    onError={handleImageError}
                   />
                   <PrevArrow onClick={() => {}} />
                   <NextArrow onClick={() => {}} />
                 </div>
               )}
               <div
-                className="card-badge-left absolute top-6 left-6 text-white text-xs uppercase px-3 py-1"
+                className="card-badge-left absolute top-4 left-4 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1 rounded-md"
                 style={{
                   backgroundColor:
                     property.availabilityStatus === "Available"
@@ -123,38 +207,41 @@ const Cards = ({ properties, propertyAction }) => {
                   ? "Rent Out"
                   : "NA"}
               </div>
-              <div className="banner-actions absolute bottom-10 left-4 right-4 flex gap-4 justify-between">
-                <div>
-                  <button className="banner-actions-btn flex items-center gap-1 text-white">
-                    <FaLocationDot className="text-base" />
-                    <address>{`${property.locality}, ${property.city}`}</address>
+              <div className="banner-actions absolute bottom-4 left-2 right-4 flex  justify-between">
+                <div className="item-center">
+                  <button className="banner-actions-btn flex items-center text-white">
+                    <FaLocationDot className="text-xs lg:text-base drop-shadow-2xl shadow-black" />
+                    <address className="text-xs lg:text-base p-0  shadow-black text-shadow">
+                      {`${property.area}, ${property.locality}`}
+                    </address>
                   </button>
                 </div>
-                <div className="flex gap-4">
-                  <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                    <FaVideo className="text-base" />
+                <div className="flex gap-4 text-sm">
+                  <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                    <FaVideo className="lg:text-xl text-xs " />
                   </button>
-                  <button className="banner-img_video-btn flex items-center gap-2 text-white">
-                    <FaRegImage className="text-base" />
+                  <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                    <FaRegImage className="lg:text-xl text-xs " />
                     {property.images?.length}
                   </button>
                 </div>
               </div>
             </figure>
-            <div className="card-content p-6">
-              <div className="name_icon flex justify-between items-center">
-                <h3 className="card-title text-[20px] font-semibold">
+            <div className="card-content lg:p-1 sm:p-1">
+              <div className="name_icon flex justify-between pt-2 ">
+                <h3 className="card-title lg:text-xl text-[14px] lg:font-semibold font-medium font-poppins ">
                   <a href="#">
-                    {property.bhk} BHK, {property.propertyType}, On Rent
+                    {property.bhk} BHK {property.propertyType} On Rent
                   </a>
                 </h3>
-                <div className="icon-box flex space-x-2 md:space-x-4 p-2">
+
+                <div className="icon-box flex items-start space-x-1 md:space-x-2 p-1 ">
                   <Popup
                     arrow={false}
                     trigger={
                       <button>
                         <CiShare2
-                          className="card_icon"
+                          className="card_icon  "
                           style={{ color: "#40B5A8" }}
                         />
                       </button>
@@ -165,7 +252,7 @@ const Cards = ({ properties, propertyAction }) => {
                       <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
                         <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
                           <div className="px-2 py-2 text-sm truncate w-32">
-                            {`toletglobe.in/property/${property.slug}`}
+                            {`www.toletglobe.in/property/${property.slug}`}
                           </div>
                           <div>
                             <button
@@ -185,73 +272,113 @@ const Cards = ({ properties, propertyAction }) => {
                     )}
                   </Popup>
 
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (isInCompareList(property)) {
-                        removeFromCompare(property);
-                      } else {
-                        addToCompare(property);
-                      }
-                    }}
-                    key={property._id}
+                  {/* SHORTLIST FOR VISIT */}
+                  <Popup
+                    trigger={
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (isInCompareList(property)) {
+                            removeFromCompare(property);
+                          } else {
+                            addToCompare(property);
+                          }
+                        }}
+                        key={property._id}
+                      >
+                        {isInCompareList(property) ? (
+                          <IoRemove
+                            className="card_icon"
+                            style={{ color: "#ff0000", fontSize: "12px" }}
+                          />
+                        ) : (
+                          <IoAdd
+                            className="card_icon"
+                            style={{ color: "#000000", fontSize: "12px" }}
+                          />
+                        )}
+                      </a>
+                    }
+                    position="top center"
+                    on="hover"
+                    arrow={true}
                   >
-                    {isInCompareList(property) ? (
-                      <IoRemove
-                        className="card_icon"
-                        style={{ color: "#ff0000", fontSize: "12px" }}
-                      />
-                    ) : (
-                      <IoAdd
-                        className="card_icon"
-                        style={{ color: "#000000", fontSize: "12px" }}
-                      />
-                    )}
-                  </a>
-                  <a href="#">
-                    <CiHeart className="card_icon text-red-500" />
-                  </a>
+                    <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                      Shortlist for Visit
+                    </div>
+                  </Popup>
+
+                  {/* ADD TO FAVOURITES */}
+                  <Popup
+                    trigger={
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (favouriteList.includes(property._id)) {
+                            removeFromFavourites(property._id);
+                          } else {
+                            addToFavourites(property._id);
+                          }
+                        }}
+                      >
+                        {favouriteList.includes(property._id) ? (
+                          <FaHeart className="card_icon text-red-500" />
+                        ) : (
+                          <CiHeart className="card_icon text-red-500" />
+                        )}
+                      </a>
+                    }
+                    position="top center"
+                    on="hover"
+                    arrow={true}
+                  >
+                    <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                      Favourite
+                    </div>
+                  </Popup>
                 </div>
               </div>
 
               <div className="card-details flex flex-col items-start">
-                <div className="card-price font-poppins text-sm font-normal text-grey-700 mt-1">
+                <div className="card-price font-poppins text-md font-normal text-[#808080] -mt-2 lg:mt-0">
                   RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                 </div>
-                <div className="card-text font-poppins text-lg font-medium text-black">
+                <div className="card-text font-poppins lg:text-lg text-xs font-bold text-[#505050]">
                   {property.type}, {property.floor}
                 </div>
               </div>
-              <ul className="card-list custom-card-list mt-4">
+              <ul className="card-list custom-card-list py-2 lg:py-2 ">
                 <li className="bed card-item flex items-center text-base">
-                  <IoBedOutline style={{ fontSize: "1.6rem" }} />
+                  <IoBedOutline className="text-lg lg:text-2xl" />
                   &nbsp;
-                  {property.bhk}
+                  <span className="text-sm">{property.bhk}</span>
                 </li>
                 <li className="bath card-item flex items-center text-base">
-                  <LuBath style={{ fontSize: "1.6rem" }} />
+                  <LuBath className="text-lg lg:text-2xl" />
                   &nbsp;
-                  {property.typeOfWashroom}
+                  <span className="text-sm">{property.typeOfWashroom}</span>
                 </li>
                 <li className="pi card-item flex items-center text-base">
-                  <PiGridFour style={{ fontSize: "1.6rem" }} />
+                  <PiGridFour className="text-lg lg:text-2xl" />
                   &nbsp;
-                  {property.squareFeetArea} ft²
+                  <span className="text-sm">{property.squareFeetArea} ft²</span>
                 </li>
               </ul>
             </div>
-            <div className="card-footer p-6 flex justify-between items-center">
-              <div className="card-author flex items-center gap-4">
-                <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full">
+            <div className="card-footer pt-6 lg:pt-3 flex justify-between border-t-2 ">
+              <div className="card-author flex items-center gap-1">
+                <figure className="author-avatar lg:w-8 lg:h-8 w-6 h-6 overflow-hidden rounded-full">
                   <img
-                    src={property.images[0]}
+                    src={property.ownerProfilePicture || defaultUser}
                     alt={property.ownerName}
                     className="w-full h-full object-cover"
+                    onError={handleImageError}
                   />
                 </figure>
                 <div>
-                  <p className="author-name text-gray-900 text-sm font-medium">
+                  <p className="author-name text-[10px] lg:text-sm sm:font-light lg:font-medium">
                     <a href="#">
                       {property.firstName} {property.lastName}
                     </a>
@@ -261,7 +388,7 @@ const Cards = ({ properties, propertyAction }) => {
               <div className="card-footer-actions">
                 <button
                   onClick={() => navigate(`/property/${property.slug}`)}
-                  className="card-footer-actions-btn"
+                  className="card-footer-actions-btn w-[95px] h-[24px] lg:w-[120px] lg:h-[28px] text-sm"
                 >
                   SHOW MORE
                 </button>
