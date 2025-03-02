@@ -94,11 +94,13 @@
 /* -----------------------Bird Component-------------- */
 
 .Tbird-1 {
-  position: absolute;
-  opacity: 0.5;
+  position:fixed;
+  opacity: 0.5; /* Make sure it's fully visible */
   width: 100px;
   height: 40px;
-  transform: translate3d(-600px, 100px, 0) !important;
+  left: 3vw; /* Move it within view */
+  top: 05vw;  /* Adjust for better positioning */
+  transform: translate3d(-400px, 100px, 0) !important; /* Less extreme offset */
   transition: all 2s ease-in-out;
 }
 .scrolled .Tbird-1 {
@@ -123,11 +125,13 @@
 }
 
 .Tbird-2 {
-  position: absolute;
-  opacity: 0.2;
+  position: fixed;
+  opacity: 0.5;
+  left:30vw;
+  top:20vw;
   width: 100px;
   height: 40px;
-  transform: translate3d(-310px, 420px, 0);
+  transform: translate3d(-310px, 370px, 0);
   transition: 2s ease-in-out;
 }
 .scrolled .Tbird-2 {
@@ -162,7 +166,7 @@
   opacity: 0.3;
   width: 100px;
   height: 40px;
-  transform: translate3d(-260px, 45px, 0) !important;
+  transform: translate3d(-330px, 640px, 0) scale(2) !important;
   transition: all 2s ease-in-out !important;
 }
 
@@ -189,11 +193,11 @@
 }
 
 .Tcloud-2 {
-  opacity: 0.5;
+  opacity: 0.2;
   position: absolute;
   width: 170px;
   height: 60px;
-  transform: translate3d(-50%, 160px, 0);
+  transform: translate3d(60%, 260px, 0) scale(2);
   transition: all 2s ease-in-out !important;
 }
 .scrolled .Tcloud-2 {
@@ -220,11 +224,11 @@
 }
 
 .Tcloud-3 {
-  opacity: 0.5;
+  opacity: 0.3;
   position: absolute;
   width: 120px;
   height: 40px;
-  transform: translate3d(-520px, 430px, 0);
+  transform: translate3d(-120px, 120px, 0);
   transition: all 2s ease-in-out !important;
 }
 .scrolled .Tcloud-3 {
@@ -255,9 +259,9 @@
 .Twall-1 {
   position: absolute;
   height: 110px;
-  width: 180px;
-  opacity: 0;
-  transform: translate3d(36.5vw, 470px, 0px) rotate(300deg);
+  width: 60px;
+  opacity: 0.08;
+  transform: translate3d(10vw, 90vh, 0px) rotate(90deg);
   transition: all 2s ease-in-out;
 }
 .scrolled .Twall-1 {
@@ -288,8 +292,8 @@
   position: absolute;
   height: 190px;
   width: 240px;
-  opacity: 0;
-  transform: translate3d(35.5vw, 300px, 50px) rotate(300deg);
+  opacity: 0.1;
+  transform: translate3d(60vw, 630px, 50px) rotate(290deg) scale(2.5);
   transition: all 2s ease-in-out;
 }
 .scrolled .Twall-2 {
@@ -320,7 +324,7 @@
   position: absolute;
   height: 140px;
   width: 190px;
-  opacity: 0.1;
+  opacity: 0.2;
   transition: all 2s ease-in-out;
   transform: translate3d(-55vw, 75vh, 0) !important;
 }
@@ -336,7 +340,7 @@
   position: absolute;
   height: 170px;
   width: 90px;
-  opacity: 0.2;
+  opacity: 0;
   transition: all 2s ease-in-out;
   transform: translate3d(-115px, 445px, 0) !important;
 }
@@ -370,9 +374,9 @@
 .Troof-4 {
   position: absolute;
   height: 140px;
-  opacity: 0.06;
+  opacity: 0.2;
   width: 85px;
-  transform: translate3d(250px, 330px, 0) !important;
+  transform: translate3d(480px, 480px, 0) !important;
   transition: all 2s ease-in-out;
 }
 .scrolled .Troof-4 {
@@ -385,6 +389,7 @@
 
 .Tgate {
   position: absolute;
+  opacity:0;
   height: 80px;
   width: 30px;
   transform: translate3d(80px, 85vh, 0) !important;
@@ -611,7 +616,7 @@
 
 .Tchimney {
   position: absolute;
-  opacity: 0.2;
+  opacity: 0;
   width: 25px;
   height: 25px;
   transform: translate3d(430px, 330px, 0) !important;
@@ -647,7 +652,7 @@
   position: absolute;
   height: 80px;
   width: 60px;
-  opacity: 0.2;
+  opacity: 0;
   z-index: 0;
   transform: translate3d(510px, 520px, 0) !important;
   transition: all 2s ease-in-out;
@@ -665,7 +670,7 @@
   position: absolute;
   height: 90px;
   width: 70px;
-  opacity: 0.2;
+  opacity: 0;
   z-index: 0;
   transform: translate3d(208px, 590px, 0) !important;
   transition: all 2s ease-in-out;
@@ -683,17 +688,17 @@
 
 .Tsun-circle {
   position: absolute;
-  opacity: 0.06;
+  opacity: 0.08;
   width: 620px;
   height: 600px;
-  transform: translate(-860px, -50px);
+  transform: translate(-500px, 150px) scale(7);
   transition: all 2s ease-in-out;
 }
 .scrolled .Tsun-circle {
   position: absolute;
   opacity: 0;
-  width: 80px;
-  height: 60px;
+  width: 50vw;
+  height: 50vh;
   transform: translate(430px, 100px);
 }
 
@@ -849,10 +854,10 @@
      */
 .Tbg-1 {
   position: absolute;
-  opacity: 0.05;
+  opacity: 0.04;
   width: 500px;
   height: 600px;
-  transform: translate3d(-450px, 50px, 0);
+  transform: translate3d(-150px, 200px, 0) scale(7);
   transition: all 1sec ease-in-out;
 }
 .scrolled .Tbg-1 {
@@ -891,17 +896,17 @@
   opacity: 0;
   height: 600px !important ;
   transform: translate3d(-600px, -300px, 0);
-  transition: all 0.5sec ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 .scrolled .bg-2 {
-  opacity: 0.2;
+  opacity: 0.1;
   height: 1100px;
   width: 1100px;
   position: absolute;
   z-index: -1;
   /* transform: translate3d(18%, -300px, 0); */
   /* transform: translate3d(-43%, -200px, 0); */
-  transform: translate3d(-123vw, -25vh, 0);
+  transform: scale(2) translate3d(-123vw, -25vh, 0);
   max-height: none; /* Ensure no max-height constraint */
   max-width: none;
 }
@@ -974,7 +979,7 @@
   }
 
   .scrolled .bg-2 {
-    transform: translate3d(18%, -300px, 0);
+    transform: scale(2.0) translate3d(4%, -10px, 0);
     height: 1200px;
     width: 1200px;
   }
