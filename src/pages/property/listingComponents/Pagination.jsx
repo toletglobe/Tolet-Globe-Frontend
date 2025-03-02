@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Button } from "../../../components/index.js";
 import { FaChevronLeft, FaChevronRight, FaLocationDot } from "react-icons/fa6";
-const Pagination = ({ properties, currentPage, setCurrentPage, totalPages }) => {
+const Pagination = ({
+  properties,
+  currentPage,
+  setCurrentPage,
+  totalPages,
+}) => {
   const [propertiesPerPage, setPropertiesPerPage] = useState(9);
 
   // Change page
@@ -23,7 +28,7 @@ const Pagination = ({ properties, currentPage, setCurrentPage, totalPages }) => 
   };
   return (
     <div>
-      <div className="flex justify-center mt-5 mx-auto">
+      <div className="flex justify-center mt-10 mb-24 mx-auto">
         <div className="bg-white/20 rounded-md px-2 py-1 flex justify-center gap-3">
           <Button
             onClick={handlePreviousPage}

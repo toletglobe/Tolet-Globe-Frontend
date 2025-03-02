@@ -183,7 +183,7 @@ const HomeLap = () => {
                   <FaSearch className="text-gray-400 mr-2" />
                   <input
                     type="text"
-                    placeholder="Search House, PG, Flats, etc"
+                    placeholder="Search by Locality or Area..."
                     value={searchQuery}
                     onClick={(e) => {
                       if (!city) {
