@@ -63,7 +63,12 @@ const BottomImages = () => {
 
         {/*----------Sun Image -------------- */}
 
-        <img src={sun} alt="Home Img" className="sun-circle" />
+        <img
+          src={sun}
+          alt="Home Img"
+          className="sun-circle"
+          style={{ strokeWidth: "10px" }}
+        />
 
         {/* -----------Plant Imaages----------- */}
         <img src={plant1} alt="" className="plant-1" />

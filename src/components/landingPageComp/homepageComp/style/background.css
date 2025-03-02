@@ -85,9 +85,11 @@
 .bg-2 {
   @apply opacity-0 h-[600px] transition-all duration-[0.5sec] ease-[ease-in-out];
   transform: translate3d(-600px, -300px, 0);
+  fill: red !important;
 }
 .scrolled .bg-2 {
   @apply opacity-20 h-[1200px] w-[1200px] absolute z-[-1];
+
   transform: translate3d(18%, -290px, 0);
 }
 
@@ -708,8 +710,8 @@
 .scrolled .sun-circle {
   position: absolute;
   opacity: 0.9;
-  width: 80px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   /* right: 70rem; */
   /* transform: translate(870px, -270px); */
   /* transform: translate(-130px, -370px); */
@@ -889,7 +891,10 @@
 
 .bg-2 {
   opacity: 0;
-  height: 600px !important ;
+  height: 900px !important;
+  width: 1100px !important;
+  position: absolute;
+  z-index: -1;
   transform: translate3d(-600px, -300px, 0);
   transition: all 0.5sec ease-in-out;
 }
@@ -992,10 +997,10 @@
   }
 
   .scrolled .bird-1 {
-    transform: translate3d(640px, -190px, 0) !important;
+    transform: translate3d(740px, -70px, 0) !important;
   }
 
   .scrolled .bird-2 {
-    transform: translate3d(940px, -100px, 0);
+    transform: translate3d(1000px, 10px, 0);
   }
 }

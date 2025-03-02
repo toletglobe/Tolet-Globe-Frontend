@@ -150,7 +150,7 @@ const HomeLap = () => {
             <span className="max-sm:block">PGS | FLATS | HOUSES | OFFICES</span>
           </h6>
           <div
-            className={`absolute left-[5%] transform transition-all max-sm:top-52 g:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms] ease-in-out w-[40%]  ${
+            className={`absolute left-[5%] transform transition-all max-sm:top-52 g:duration-[2000ms] md:duration-[1000ms] sm:duration-[700ms] duration-[500ms] ease-in-out w-[40%] z-10 ${
               isScrolled
                 ? "top-[20.5rem] lg:top-[26rem]"
                 : "left-[20rem] lg:left-[30rem]"
