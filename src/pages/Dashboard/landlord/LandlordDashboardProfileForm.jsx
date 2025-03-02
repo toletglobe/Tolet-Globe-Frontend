@@ -179,7 +179,7 @@ const LandlordDashboardProfileForm = () => {
         <div>
           <div>
             <div>
-              <p className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-5">
+              <p className="max-sm:text-center text-3xl sm:text-3xl font-bold mb-3 sm:mb-5">
                 Profile
               </p>
               <p className="text-lg sm:text-xl font-bold mb-2">

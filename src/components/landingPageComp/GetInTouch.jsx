@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import location from "../../assets/Map1.jpg";
 
 const GetInTouch = () => {
   const [formData, setFormData] = useState({
@@ -46,25 +47,21 @@ const GetInTouch = () => {
     }
   };
 
-  return (
-    <div className="relative w-full h-screen flex items-center justify-end">
-      {/* Full-screen map background */}
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.328314905671!2d80.97977931504363!3d26.846556583153824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfd77577ba78f%3A0xd2d6f22d1b246815!2sTo-Let%20Globe!5e0!3m2!1sen!2sin!4v1647425388883!5m2!1sen!2sin"
-        className="absolute top-0 left-0 w-full h-full insect-shadow-3xl bg-black"
-        style={{ border: 0, filter: "invert(100%) hue-rotate(180deg)", boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.5)", }}
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      ></iframe>
+  const googlemaps =
+    "https://www.google.com/maps/place/To-Let+Globe/@26.8465566,80.9797793,15z/data=!4m6!3m5!1s0x399bfd77577ba78f:0xd2d6f22d1b246815!8m2!3d26.8465566!4d80.9797793!16s%2Fg%2F11vhrqqb45?entry=ttu";
 
+  return (
+    <div className="pt-20 relative w-full h-s flex max-sm:flex-col items- sm:justify-end">
       {/* Contact Form */}
-      <div className="relative z-10 p-10 lg:w-[380px] w-full text-white bg-black bg-opacity-90 shadow-2xl">
-        <p className="text-yellow-300 font-semibold text-4xl pb-5">GET IN TOUCH</p>
-        <p className="text-gray-300 pb-4">Have some questions? Feel free to ask them anytime.</p>
+      <div className="pt-10 pl-10 pr-10 pb-8 z-20 lg:w-[380px] w-full text-white flex flex-col justify-end">
+        <p className="text-[#bc5f56] font-semibold text-4xl pb-4">
+          GET IN TOUCH
+        </p>
+        <p className="text-gray-300 pb-4">
+          Have some questions? Feel free to ask them anytime.
+        </p>
 
         <form className="flex flex-col" onSubmit={handleSubmit}>
-          
           <input
             type="text"
             placeholder="Name"
@@ -109,10 +106,30 @@ const GetInTouch = () => {
             <input
               type="submit"
               value="Send Message →"
-              className="text-yellow-300 cursor-pointer self-start font-semibold"
+              className=" cursor-pointer self-start font-semibold"
             />
           )}
         </form>
+      </div>
+      {/* Make the map image clickable */}
+      <div className="max-sm:w-[100%] overflow-hidden">
+        <a href={googlemaps} target="_blank" rel="noopener noreferrer">
+          <img
+            src={location}
+            alt="Background"
+            className="sm:absolute top-0 left-0 w-7/10 h-full w-full object-cover"
+          />
+          {/* Add gradient overlay */}
+          {/* Here the gradient is only visible after sm(640px) */}
+          <div className="sm:absolute sm:top-0 sm:left-0 sm:w-full sm:h-full sm:bg-gradient-to-l sm:from-black/95 sm:to-transparent"></div>
+        </a>
+      </div>
+
+      <div
+        className="absolute font-semibold bottom-0 left-0 p-4 text-white hidden lg:block"
+        style={{ fontSize: "60px" }}
+      >
+        CONTACT US
       </div>
     </div>
   );

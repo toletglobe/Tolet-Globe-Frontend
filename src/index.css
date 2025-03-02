@@ -20,7 +20,7 @@
 
 body {
   margin: 0;
-
+  padding-top: 4rem;
   min-width: 320px;
   min-height: 100vh;
 }

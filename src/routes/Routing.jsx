@@ -9,6 +9,7 @@ import { lazy } from "react";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
+import TwitterPlaceholder from "../pages/Twitter.jsx";
 
 const Landing = lazy(() => import("../pages/Landing"));
 const Contact = lazy(() => import("../pages/Contact"));
@@ -37,6 +38,9 @@ const LandlordDashboardWelcomePage = lazy(() =>
 );
 const LandlordDashboardMyProperties = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboardMyProperties.jsx")
+);
+const LandlordDashboardMyFavourites = lazy(() =>
+  import("../pages/Dashboard/landlord/LandlordDashboardMyFavourites.jsx")
 );
 const LandlordDashboardAddProperties = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboardAddProperties.jsx")
@@ -72,6 +76,7 @@ const Routing = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
+          <Route path="/twitter" element={<TwitterPlaceholder/>}/>
 
           {/* <Route path="/property/reviews" element={<Reviews />} /> */}
 
@@ -88,6 +93,10 @@ const Routing = () => {
             <Route
               path="my-properties"
               element={<LandlordDashboardMyProperties />}
+            />
+            <Route
+              path="favourites"
+              element={<LandlordDashboardMyFavourites />}
             />
             <Route
               path="add-properties"

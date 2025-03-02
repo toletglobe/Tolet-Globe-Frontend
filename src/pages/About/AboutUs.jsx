@@ -13,8 +13,6 @@ export default function About() {
       const handleScroll = () => {
          // Get the vertical line element
          const verticalLine = document.querySelector(".timeline");
-         const timelineDot = document.querySelector(".timeline-dot");
-         // Calculate the new height based on scroll position
          const scrollPosition = window.scrollY / 0.9;
 
          if (verticalLine) {
@@ -23,10 +21,6 @@ export default function About() {
                "--scroll-position",
                `${scrollPosition}px`
             );
-         }
-
-         if (timelineDot) {
-            timelineDot.style.top = `calc(${scrollPosition}px - 10px)`;
          }
       };
 
@@ -41,14 +35,18 @@ export default function About() {
 
    return (
       <>
-         <div className="aboutustimeline my-24 ">
-            <div className="aboutus text-center mb-4 ">
+         <div className="mt-24 mb-12 ">
+            <div className="text-center mb-2 ">
                <h1 className="border-[3px] border-[#6cc0c4] rounded-xl text-[#e59948] inline text-xl sm:text-2xl md:lg:text-3xl py-2 px-10 md:px-16 lg:px-20  md:lg:py-1  font-bold">
                   About Us
                </h1>
             </div>
-            <div className="timeline relative max-w-[1450px] m-auto pt-40 overflow-hidden md:after:block">
-               <div className="timeline-dot hidden  lg:block "></div>
+            <div className="timeline relative mx-3 pt-10 md:pt-40 overflow-hidden md:after:block">
+               {/* Timeline Dot */}
+               <div
+                  className="absolute w-[15px] h-[15px] bg-[rgb(196,149,20)] rounded-full left-[50.1%] -ml-[10px] transition-[top] duration-0 ease-linear hidden md:block"
+                  style={{ top: "calc(var(--scroll-position, 0%) - 12px)" }}
+               ></div>
                <About_Card
                   head="Who we are?"
                   paragraph="At To-Let, we are more than just property managers – we are dedicated partners in your property management journey. Established with a commitment to redefining the standards of property management, To-Let brings a wealth of expertise to the dynamic property management landscape."
@@ -80,14 +78,20 @@ export default function About() {
                   place="right"
                />
             </div>
-            <div className="teamcontainer flex items-center  flex-col h-auto mx-auto mt-0 mb-40 w-full">
-               <div id="team-head" className="bg-black border-[3px] border-[#6cc0c4] rounded-3xl text-[#e59948] inline py-3 md:px-24 px-20">
-                  <h2 className="sm:text-5xl text-2xl font-normal">Our Team </h2>
+            <div className="mb-20 sm:mb-36 w-full">
+               <div className="bg-black border-[3px] border-[#6cc0c4] rounded-3xl text-[#e59948] m-auto py-2 px-4 w-1/2 md:w-1/4">
+                  <h2 className="md:text-3xl text-xl font-bold text-center">
+                     Our Team
+                  </h2>
                </div>
-               <div className="image hidden md:block pr-1">
-                  <img src={image} alt="image logo" />
+               <div className="flex justify-center items-center ms-2 md:ms-0">
+                  <img
+                     src={image}
+                     alt="image logo"
+                     className="max-w-full h-auto pr-3"
+                  />
                </div>
-               <div className="team-images flex flex-col md:flex-row items-center mt-5 md:mt-0 md:gap-5 max-w-[1200px] justify-around mb-10">
+               <div className="flex flex-row items-center justify-around">
                   <Flip
                      image={CEO1}
                      linkedin="https://www.linkedin.com/in/mayur-kukreja-280b71b4/"
@@ -97,8 +101,8 @@ export default function About() {
                   <Flip
                      image={CEO3}
                      linkedin="https://www.linkedin.com/in/emanshu-wadhwani-258678176/"
-                     name="Emanshu wadhwani"
-                     post="Co founder"
+                     name="Emanshu Wadhwani"
+                     post="Co-founder"
                   />
                   <Flip
                      image={CEO2}
