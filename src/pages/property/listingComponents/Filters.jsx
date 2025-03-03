@@ -134,7 +134,7 @@ const Filters = ({
       </div>
 
       {selectedCategory === "HOUSES" && (
-        <div className="w-fit bg-white p-2 m-1 shadow-md sm:ml-4 rounded-xl">
+        <div className="w-[800px] bg-white p-2 m-1 shadow-md sm:ml-4 rounded-xl ">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
               <h3 className="text-left font-medium mb-3 text-black">BHK</h3>
