@@ -65,7 +65,7 @@ const Service = () => {
           Services
         </h1>
         <h1 className="text-white font-medium text-[96px] leading-[144px] text-center sm:text-left w-full sm:w-[900px] mx-auto lg:absolute lg:w-[403px] lg:h-[107px] lg:left-[115px] lg:top-[117px] lg:whitespace-nowrap lg:text-[clamp(48px,5vw,96px)] sm:block hidden">
-          Choose a Service
+          Services
         </h1>
         <p className="text-[#C8A21C] font-[Poppins] font-medium text-[10px] sm:text-[12px] leading-[18px] text-center sm:text-left mt-[4px] w-full sm:w-[400px] mx-auto lg:absolute lg:w-[383px] lg:h-[18px] lg:left-[115px] lg:top-[234px] lg:whitespace-nowrap">
           SKIP THE MIDDLEMAN: RENT OR LEASE DIRECTLY ON TO-LET GLOBE
