@@ -74,7 +74,7 @@ export default function CompareProperty() {
 
   return (
     <>
-      <div className="flex flex-col items-end xl:p-6 py-0 px-6 space-y-4">
+      <div className="flex flex-col  xl:pt-6 xl:pb-24  px-6 space-y-4">
         <div className="w-full flex justify-start mb-6  relative ">
           <h4
             className="text-3xl md:text-4xl lg:text-5xl pl-7 pt-10 font-bold"
@@ -101,7 +101,7 @@ export default function CompareProperty() {
               }}
             >
               <span
-                className="w-7 h-7 bg-[#FF0000] text-white absolute top-0 right-0 z-10 text-center flex items-center justify-center shadow-md text-[44px] pb-2"
+                className="w-7 h-7 bg-[#FF0000] text-white absolute top-0 right-0 z-10 text-center flex items-center justify-center shadow-md text-[44px] pb-2 cursor-pointer"
                 onClick={() => handleRemoveProperty(property)}
               >
                 ×
@@ -277,46 +277,51 @@ export default function CompareProperty() {
               ))}
         </div>
 
-        <div className="w-full flex pl-5 items-center gap-4 mt-4 py-5 pt-9">
-          <input
-            type="checkbox"
-            checked={showOnlyDifferences}
-            onChange={(e) => setShowOnlyDifferences(e.target.checked)}
-            className="appearance-none h-5 w-5 border-2 border-white bg-black cursor-pointer relative checked:after:content-['✓'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center"
-          />
-          <span className="text-white text-lg font-medium">
-            Show only differences
-          </span>
-        </div>
+        <div className="w-full ml-10">
+          <div className="flex  items-center gap-4 mt-4 py-5 ">
+            <input
+              type="checkbox"
+              checked={showOnlyDifferences}
+              onChange={(e) => setShowOnlyDifferences(e.target.checked)}
+              className="appearance-none h-5 w-5 border-2 border-white bg-black cursor-pointer relative checked:after:content-['✓'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center"
+            />
+            <span className="text-white text-lg font-medium">
+              Show only differences
+            </span>
+          </div>
 
-        {/* Comparison Table */}
-        <div className="bg-white w-[1350px] max-w-8xl mt-8 pt-2 mr-[95px] overflow-x-auto">
-          <table className="min-w-full bg-white overflow-hidden space-y-2">
-            {filteredProperties.map(({ key, label, icon }) => (
-              <React.Fragment key={key}>
-                <tr className="px-6 py-4 bg-gray-200 flex">
-                  <th className="px-6 text-xl font-semibold text-left w-[221px] h-[57px] flex items-center border-r border-black">
-                    <div className="flex items-center justify-between w-full">
-                      <span className="text-[#40B5A8] xl:text-xl md:text-base text-sm">
-                        {label}
-                      </span>
-                      <div className="flex items-center ml-2 text-black">
-                        {icon}
+          {/* Comparison Table */}
+          <div className="bg-white pt-8">
+            <table className="min-w-full bg-white overflow-hidden space-y-2">
+              {filteredProperties.map(({ key, label, icon }) => (
+                <React.Fragment key={key}>
+                  <tr className="px-6 py-4 bg-gray-200 flex">
+                    <th className="px-4 text-xl font-semibold text-left w-[221px] h-[57px] flex items-center border-r border-black">
+                      <div className="flex items-center justify-between w-full">
+                        <span className="text-[#40B5A8] xl:text-2xl md:text-base text-sm">
+                          {label}
+                        </span>
+                        <div className="flex items-center ml-2 text-black">
+                          {icon}
+                        </div>
                       </div>
-                    </div>
-                  </th>
-                  {compareProperty.map((property, index) => (
-                    <td key={index} className="border-b border-gray-200 w-1/5">
-                      <div className="py-2 px-6 text-base font-medium items-center text-center text-black">
-                        {property[key]}
-                      </div>
-                    </td>
-                  ))}
-                </tr>
-                <tbody className="py-[13px] text-gray-700 text-sm flex justify-evenly"></tbody>
-              </React.Fragment>
-            ))}
-          </table>
+                    </th>
+                    {compareProperty.map((property, index) => (
+                      <td
+                        key={index}
+                        className="border-b border-gray-200 w-1/5"
+                      >
+                        <div className="py-2 px-6 text-xl font-medium items-center text-center text-black">
+                          {property[key]}
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+                  <tbody className="py-[13px] text-gray-700 text-sm flex justify-evenly"></tbody>
+                </React.Fragment>
+              ))}
+            </table>
+          </div>
         </div>
       </div>
     </>
