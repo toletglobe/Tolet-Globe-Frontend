@@ -1868,7 +1868,7 @@ const Listing = () => {
           if (showCity === true) setShowCity(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className="property h-[100vh] pb-14 px-12 w-full overflow-y-auto"
+        className="property h-[100vh] px-12 w-full overflow-y-auto"
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
@@ -2183,6 +2183,8 @@ const Listing = () => {
               resetFilters={resetFilters}
               fetchAndFilterProperties={fetchAndFilterProperties}
               setCurrentPage={setCurrentPage}
+              selectedArea={selectedArea}
+              selectedLocality={selectedLocality}
             />
             {/* <div className="absolute top-1 right-1">
               <svg
