@@ -31,22 +31,45 @@ const Footer = () => {
   
   //   return null;
   // };
+  // const ScrollToTop = () => {
+  //   const { pathname } = useLocation();
+  
+  //   useEffect(() => {
+  //     const handleLinkClick = (e) => {
+  //       const target = e.currentTarget.getAttribute("href");
+  
+  //       // Only scroll if the target is the current page
+  //       if (target === window.location.pathname) {
+  //         window.scrollTo({ top: 0, behavior: "smooth" });
+  //       }
+  //     };
+  
+  //     // Always scroll on route change
+  //     window.scrollTo({ top: 0, behavior: "smooth" });
+  
+  //     // Attach click event listener to links
+  //     const links = document.querySelectorAll("a");
+  //     links.forEach(link => link.addEventListener("click", handleLinkClick));
+  
+  //     // Cleanup event listeners
+  //     return () => {
+  //       links.forEach(link => link.removeEventListener("click", handleLinkClick));
+  //     };
+  //   }, [pathname]);
+  
+  //   return null;
+  // };
   const ScrollToTop = () => {
     const { pathname } = useLocation();
   
     useEffect(() => {
-      const handleLinkClick = (e) => {
-        const target = e.currentTarget.getAttribute("href");
-  
-        // Only scroll if the target is the current page
-        if (target === window.location.pathname) {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
+      const handleLinkClick = () => {
+        window.scrollTo(0, 0);
       };
   
-      // Always scroll on route change
-      window.scrollTo({ top: 0, behavior: "smooth" });
-  
+      // Scroll on route change
+      window.scrollTo(0, 0);
+     
       // Attach click event listener to links
       const links = document.querySelectorAll("a");
       links.forEach(link => link.addEventListener("click", handleLinkClick));
