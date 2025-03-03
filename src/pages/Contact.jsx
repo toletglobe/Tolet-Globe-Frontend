@@ -51,9 +51,9 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-12 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
+    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-20 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
       {/* Contact Details Section */}
-      <div className="w-full lg:w-1/2 px-4 lg:px-5 mt-[50px]">
+      <div className="w-full lg:w-1/2 px-4 lg:pl-10 lg:pr-52 mt-[50px]">
         <div>
           <h1 className="text-white text-3xl md:text-4xl font-semibold">
             Contact Us, We're Ready to Help!
@@ -88,11 +88,11 @@ const Contact = () => {
       </div>
 
       {/* Form Section */}
-      <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 lg:px-5 mt-10 lg:mt-0">
+      <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 lg:px-14 mt-10 lg:mt-0">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <label htmlFor="topic" className="text-gray-400">
-              Topic
+              Subject
             </label>
             <select
               id="topic"
