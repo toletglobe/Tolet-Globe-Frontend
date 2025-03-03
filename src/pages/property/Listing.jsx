@@ -1868,7 +1868,7 @@ const Listing = () => {
           if (showCity === true) setShowCity(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className="property h-[100vh] px-12 w-full overflow-y-auto"
+        className="property h-[100vh] pb-14 px-12 w-full overflow-y-auto"
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
@@ -2073,7 +2073,6 @@ const Listing = () => {
                   className="flex items-center gap-2 border-l pl-3 border-black shrink-0 cursor-pointer"
                   onClick={handleMode}
                 >
-                  <div className="w-[150px]" style={{display:"flex",justifyContent:"center"}}>
                   <span className="text-sm md:text-lg whitespace-nowrap">
                     Sort
                   </span>
@@ -2083,49 +2082,46 @@ const Listing = () => {
                     className={`${
                       mode ? "rotate-180" : "rotate-0"
                     } cursor-pointer`}
-                    style={{height:"10px",marginTop:"10px",marginLeft:"5px"}}
                   />
-                  </div>
-                  
                   <div className="relative text-sm lg:text-lg">
-                  <div
-  className={`${
-    mode ? "block" : "hidden"
-  } w-[178px] z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-170px] sm:top-[36px] sm:left-[-175px] mr-[250px] ml-[0px]`} // Adjusted left values
->
-  <p
-    className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
-    onClick={() => {
-      handleSortClick("price-low-high"), setMode(false);
-    }}
-  >
-    Price: Low to High
-  </p>
-  <p
-    className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
-    onClick={() => {
-      handleSortClick("price-high-low"), setMode(false);
-    }}
-  >
-    Price: High to Low
-  </p>
-  <p
-    className="py-2 font-medium cursor-pointer hover:bg-gray-100"
-    onClick={() => {
-      handleSortClick("most-trending"), setMode(false);
-    }}
-  >
-    Most Trending
-  </p>
-  <p
-    className="py-2 font-medium cursor-pointer hover:bg-gray-100"
-    onClick={() => {
-      handleSortClick("date-uploaded"), setMode(false);
-    }}
-  >
-    Date Uploaded
-  </p>
-</div>
+                    <div
+                      className={`${
+                        mode ? "block" : "hidden"
+                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-110px]`}
+                    >
+                      <p
+                        className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          handleSortClick("price-low-high"), setMode(false);
+                        }}
+                      >
+                        Price: Low to High
+                      </p>
+                      <p
+                        className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          handleSortClick("price-high-low"), setMode(false);
+                        }}
+                      >
+                        Price: High to Low
+                      </p>
+                      <p
+                        className="py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          handleSortClick("most-trending"), setMode(false);
+                        }}
+                      >
+                        Most Trending
+                      </p>
+                      <p
+                        className="py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          handleSortClick("date-uploaded"), setMode(false);
+                        }}
+                      >
+                        Date Uploaded
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
