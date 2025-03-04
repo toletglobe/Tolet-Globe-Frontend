@@ -63,8 +63,8 @@ const Toggle = ({ propertyId, currentStatus, propertyUserId }) => {
     const role = localStorage.getItem("User");
     const userType = localStorage.getItem("userType");
     const userId = localStorage.getItem("userId");
-    console.log("Logged in user:", { role, userType, userId });
-    console.log("Property owner ID:", propertyUserId);
+    // console.log("Logged in user:", { role, userType, userId });
+    // console.log("Property owner ID:", propertyUserId);
   
     setIsAdmin(role === "admin");
     setIsOwner(userId === propertyUserId && userType === "owner");
