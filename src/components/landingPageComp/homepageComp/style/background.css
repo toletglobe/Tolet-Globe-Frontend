@@ -100,9 +100,11 @@
   opacity: 0.5; /* Make sure it's fully visible */
   width: 100px;
   height: 40px;
+
   left: 3vw; /* Move it within view */
   top: 05vw;  /* Adjust for better positioning */
   transform: translate3d(-400px, 100px, 0) !important; /* Less extreme offset */
+
   transition: all 2s ease-in-out;
 }
 .scrolled .Tbird-1 {

@@ -200,21 +200,25 @@ const HomeLap = () => {
               {/* Search Results Panel */}
               {showSearchPanel && (
                 <div
-                  ref={searchPanelRef}
-                  className="bg-white rounded-2xl shadow-lg mt-2 max-h-[300px] overflow-y-auto"
-                >
-                  {searchResults.localities.map((locality, index) => (
-                    <div
-                      key={index}
-                      className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
-                      onClick={() =>
-                        handleSearchSelection(locality, "locality")
-                      }
-                    >
-                      <span>{locality}</span>
-                      <span className="text-gray-500 text-sm">Locality</span>
-                    </div>
-                  ))}
+                ref={searchPanelRef}
+                className="bg-white rounded-2xl shadow-lg mt-2 max-h-[300px] overflow-y-auto w-[calc(400px)] ml-[140px] scrollbar-hide" // Added w-[calc(100%-50px)]
+                style={{
+                  "-ms-overflow-style": "none", 
+                  "scrollbar-width": "none", 
+                  "&::-webkit-scrollbar": { display: "none" }, 
+                }}
+              >
+                {searchResults.localities.map((locality, index) => (
+                  <div
+                    key={index}
+                    className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
+                    onClick={() => handleSearchSelection(locality, "locality")}
+                  >
+                    <span>{locality}</span>
+                    <span className="text-gray-500 text-sm">Locality</span>
+                  </div>
+                
+                ))}
                   {searchResults.areas.map((area, index) => (
                     <div
                       key={index}

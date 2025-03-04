@@ -13,15 +13,15 @@ import {
 
 const Filters = ({
   SetIsOpen,
-  // setProperties,
   updateFilterCount,
-  // city,
-  // setTotalPages,
   filters,
   setFilters,
   resetFilters,
   fetchAndFilterProperties,
   setCurrentPage,
+  city,
+  selectedArea,
+  selectedLocality,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -69,7 +69,7 @@ const Filters = ({
 
   const seeResults = async () => {
     setCurrentPage(1);
-    fetchAndFilterProperties();
+    fetchAndFilterProperties(city, selectedArea, selectedLocality);
     SetIsOpen(false);
   };
 
