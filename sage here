@@ -1,0 +1,268 @@
+[33mcommit 1455ccad34fc603dcbb4521c21fcb5838114f0fb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfolder-stru[m[33m, [m[1;32mstruct[m[33m)[m
+Author: vaibhavfunde <vaibhavfunde84@gmail.com>
+Date:   Mon Mar 3 21:38:36 2025 +0530
+
+    Updated package files
+
+[33mcommit 0288c2853e3411a67bae0391c6105976749f4112[m[33m ([m[1;31morigin/struct[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: vaibhavfunde <vaibhavfunde84@gmail.com>
+Date:   Mon Mar 3 19:43:16 2025 +0530
+
+    Implement ScrollToTop functionality in Footer component
+
+[33mcommit c786582fa86df86d5f186a3cb8859b3268e0b1ba[m
+Merge: 24e30c2 16a694b
+Author: Toletglobe <toletglobetech@gmail.com>
+Date:   Fri Feb 28 19:38:46 2025 +0530
+
+    Merge pull request #294 from toletglobe/folder-stru
+    
+    Merging to Main
+
+[33mcommit 16a694b40db148d1f1a8f386dd6406c27d6598e0[m
+Merge: ff41c21 de61165
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Fri Feb 28 19:13:27 2025 +0530
+
+    Merge pull request #293 from Himanshu151281/main
+    
+    Map Height
+
+[33mcommit de6116564061b2d0cd7e5ae14034dbf0e29cfd5e[m
+Author: Himanshu Kumar <himanshu151281@gmail.com>
+Date:   Fri Feb 28 15:53:56 2025 +0530
+
+    Listing Modified
+
+[33mcommit e227e1b8931fd8226a3fb1b015491d53bad29aa4[m
+Author: Himanshu Kumar <himanshu151281@gmail.com>
+Date:   Fri Feb 28 13:10:14 2025 +0530
+
+    4. The dependency of the area on the locality has been modified.
+
+[33mcommit edf8abe8ebf2637577fb7dd58f9110bc78b11a39[m
+Author: Himanshu Kumar <himanshu151281@gmail.com>
+Date:   Fri Feb 28 12:45:58 2025 +0530
+
+    3. The locality should not be removed when the area is removed.
+
+[33mcommit 56dc1b2028efbd9825b2cba787e4b277d7f895e8[m
+Author: Himanshu Kumar <himanshu151281@gmail.com>
+Date:   Fri Feb 28 12:26:19 2025 +0530
+
+    2. Remove the area and locality from the URL by clicking on the (x) icon.
+
+[33mcommit 2e7d8aecc0724606664ab4e2031adfe61ae76a35[m
+Author: Himanshu Kumar <himanshu151281@gmail.com>
+Date:   Fri Feb 28 11:46:29 2025 +0530
+
+    1. The same request from the homepage to the listing.
+
+[33mcommit d46b1208510e73ee59c98f42b9fb4f439ff685e8[m
+Author: Himanshu Kumar <himanshu151281@gmail.com>
+Date:   Thu Feb 27 19:01:02 2025 +0530
+
+    Map height
+
+[33mcommit ff41c21ba04a172d2ef8391ca5666775533cd9fd[m
+Merge: 99c32c8 20ab40b
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Thu Feb 27 17:12:21 2025 +0530
+
+    Merge pull request #290 from Himanshu151281/main
+    
+    HomeLap, HomeUp & Cards
+
+[33mcommit 20ab40ba6c0b61530b5aabb4582878b7f8f9053c[m
+Author: Himanshu Kumar <himanshu151281@gmail.com>
+Date:   Thu Feb 27 16:25:42 2025 +0530
+
+    GetInTouch Component
+
+[33mcommit 3d44ebe8c900726d966239cafb79b0037c84a06e[m
+Author: Himanshu Kumar <himanshu151281@gmail.com>
+Date:   Thu Feb 27 10:51:45 2025 +0530
+
+    HomeLap, HomeUp & Cards
+
+[33mcommit 24e30c25419bb2415ff5bebd87e406171057e453[m
+Merge: 2b6dfe2 99c32c8
+Author: Toletglobe <toletglobetech@gmail.com>
+Date:   Tue Feb 25 00:44:34 2025 +0530
+
+    Merge pull request #288 from toletglobe/folder-stru
+    
+    Folder stru
+
+[33mcommit 99c32c814c320069ab60d44202afde453acb03d1[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Tue Feb 25 00:41:34 2025 +0530
+
+    Fixed DesktopView of Filters
+
+[33mcommit 9bf76ed712cdb43fe766c5724f6f30dd8c8a9970[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Tue Feb 25 00:26:23 2025 +0530
+
+    Fixed the SearchBar for Propertieds Partially
+
+[33mcommit a441adf82be2249feb4e5a9a39f87e2d0fc47af0[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Tue Feb 25 00:01:15 2025 +0530
+
+    Fixed Card Layout of Properties in Desktop View
+
+[33mcommit c3646a7f8e87a2743a409f9a4413aa8abaa20d91[m
+Merge: 1acc854 40e0a79
+Author: Toletglobe <toletglobetech@gmail.com>
+Date:   Mon Feb 24 23:26:18 2025 +0530
+
+    Merge pull request #287 from Rahul-Rasal/main
+    
+    Update CompareProperty.jsx
+
+[33mcommit 1acc8544b96ce726cc103fb0ab09bbcf74398309[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Mon Feb 24 23:26:00 2025 +0530
+
+    Some changes in property listing
+
+[33mcommit 6378073fcbb76526b85fae2b59069504646d428c[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Mon Feb 24 23:15:02 2025 +0530
+
+    Fixed Navbar Height
+
+[33mcommit 6d3aea59aae74518e7ac40e934f224cbaf6f26a9[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Mon Feb 24 23:11:51 2025 +0530
+
+    Added New Mobile Dashboard SideBar
+
+[33mcommit 40e0a795abb2e74f1b285ceea6bbfa4f7de6a4e8[m
+Author: Rahul-Rasal <162133095+Rahul-Rasal@users.noreply.github.com>
+Date:   Mon Feb 24 23:03:25 2025 +0530
+
+    Update CompareProperty.jsx
+
+[33mcommit dfc7d6a9409911be7a16898e67b47cffa73edc0d[m
+Merge: 3c39fd9 fed7b43
+Author: Toletglobe <toletglobetech@gmail.com>
+Date:   Mon Feb 24 22:22:36 2025 +0530
+
+    Merge pull request #286 from Samruddhi535/folder-stru
+    
+    Footer , About us and Contact us
+
+[33mcommit 3c39fd96e8afcc57626f799efc7adf966b4bb9b8[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Mon Feb 24 22:19:42 2025 +0530
+
+    Fixed Nvabar Mobile Layout and Profile Picture Bug
+
+[33mcommit fed7b4304c1d1c35633ca38b328234472a28e5cc[m
+Merge: 3e12345 c15b806
+Author: Samruddhi Renakale <samruddhirenakale3@gmail.com>
+Date:   Mon Feb 24 22:12:21 2025 +0530
+
+    Footer , About Us and contact page changes
+
+[33mcommit 3e12345a1c402fc916b100bcf95d9deb86376ce3[m
+Author: Samruddhi Renakale <samruddhirenakale3@gmail.com>
+Date:   Mon Feb 24 22:10:50 2025 +0530
+
+    Footer Changes
+
+[33mcommit c15b806ac4ae3554018fdac557949e9873aacd0a[m
+Merge: 46058c1 21bb248
+Author: Toletglobe <toletglobetech@gmail.com>
+Date:   Mon Feb 24 21:23:10 2025 +0530
+
+    Merge pull request #285 from Himanshu151281/main
+    
+    Homepage & Listing
+
+[33mcommit 46058c12463950e1b6581d7ac02f8b3482666d57[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Mon Feb 24 21:21:05 2025 +0530
+
+    Fixed CSS of Landing Page
+
+[33mcommit 21bb248371b556e51722c4a7725844c01f6090e9[m
+Author: Himanshu Kumar <himanshu151281@gmail.com>
+Date:   Mon Feb 24 20:36:30 2025 +0530
+
+    Homepage & Listing
+
+[33mcommit 83b6632a34d30b79f72a2bd6a991d48598d499fe[m
+Merge: 7f8f3eb c34a157
+Author: Toletglobe <toletglobetech@gmail.com>
+Date:   Mon Feb 24 20:28:50 2025 +0530
+
+    Merge pull request #284 from Samruddhi535/folder-stru
+    
+    Minor Changes as per pdf
+
+[33mcommit c34a1578e4314a682eb08145bc1c9628efa6006e[m
+Author: Samruddhi Renakale <samruddhirenakale3@gmail.com>
+Date:   Mon Feb 24 16:35:41 2025 +0530
+
+    Minor Changes as per pdf
+
+[33mcommit 2b6dfe247bbf7706de6a8ca49c6c03dc08b1d934[m
+Author: Toletglobe <toletglobetech@gmail.com>
+Date:   Mon Feb 24 03:27:13 2025 +0530
+
+    Update constant.js
+
+[33mcommit e25b0b3e01d51eeb67027ea6e8c1d9d41639238f[m
+Merge: 2ba9d62 7f8f3eb
+Author: Toletglobe <toletglobetech@gmail.com>
+Date:   Mon Feb 24 03:17:04 2025 +0530
+
+    Merge pull request #283 from toletglobe/folder-stru
+    
+    Folder stru
+
+[33mcommit 7f8f3eb65bb4b0968902649ea36a7947ab6774b4[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Mon Feb 24 03:14:48 2025 +0530
+
+    Made Changes in Property Bar
+
+[33mcommit f49c85af9b3af7df511af948972f4236dce4d4b5[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Mon Feb 24 00:35:43 2025 +0530
+
+    Fixed Landing Page Styling and included Search Bar
+
+[33mcommit 0e7c7cabb66ce5e294771d38b3ce40f37a2af261[m
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Sun Feb 23 23:32:18 2025 +0530
+
+    Fixed Service Component
+
+[33mcommit a1c7d3a700229f96c39a8068d57f2e904bba1374[m
+Merge: ddac6a1 c42f2bc
+Author: shraddhaSarwade <shraddha154@gmail.com>
+Date:   Sun Feb 23 23:28:36 2025 +0530
+
+    Merge pull request #281 from Samruddhi535/folder-stru
+    
+    Navbar Sticky
+
+[33mcommit c42f2bce166a81385ef3e1e1ed46e6742c22ef6d[m
+Merge: 7a0dd4b ddac6a1
+Author: Samruddhi Renakale <samruddhirenakale3@gmail.com>
+Date:   Sun Feb 23 22:56:29 2025 +0530
+
+    Navbar sticky
+
+[33mcommit 7a0dd4b459e9484b5c8aeb49671bbf9c40ee5b22[m
+Author: Samruddhi Renakale <samruddhirenakale3@gmail.com>
+Date:   Sun Feb 23 22:46:29 2025 +0530
+
+    Navbar Sticky Update
+
+[33mcommit ddac6a1fe1f9d042835103f7981ba07a060e78e0[m
+Autho
