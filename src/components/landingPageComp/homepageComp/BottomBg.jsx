@@ -35,6 +35,12 @@ import plant2 from "../../../assets/plant/plant2.svg";
 
 //--------------Sun IMG-------------
 import sun from "../../../assets/sun/sun.svg";
+// import ray1 from "../../../assets/sun/ray1.svg";
+// import ray2 from "../../../assets/sun/ray2.svg";
+// import ray3 from "../../../assets/sun/ray3.svg";
+// import ray4 from "../../../assets/sun/ray4.svg";
+// import ray5 from "../../../assets/sun/ray5.svg";
+// import sunrays from "../../../assets/sun/sun-rays.svg"
 
 // ---------- Background Img----------
 import bg1 from "../../../assets/background/grey.svg";
@@ -62,7 +68,6 @@ const BottomImages = () => {
         <img src={cloud3} alt="" className="cloud-3" />
 
         {/*----------Sun Image -------------- */}
-
         <img
           src={sun}
           alt="Home Img"
