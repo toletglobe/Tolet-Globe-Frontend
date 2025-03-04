@@ -30,7 +30,7 @@ import plant1 from "../../../assets/plant/plant1.svg";
 import plant2 from "../../../assets/plant/plant2.svg";
 
 //--------------Sun IMG-------------
-import sun from "../../../assets/sun/sun.svg";
+import sun from "../../../assets/sun/sunOld.svg";
 import bg2 from "../../../assets/background/black.svg";
 
 const TopBg = () => {
