@@ -1834,7 +1834,7 @@ const Listing = () => {
           if (showCity === true) setShowCity(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className="property h-[100vh] pb-14 px-12 w-full overflow-y-auto"
+        className="property h-[100vh] pb-14 lg:px-12 w-full overflow-y-auto"
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
