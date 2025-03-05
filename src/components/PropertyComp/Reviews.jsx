@@ -146,7 +146,7 @@ const Reviews = ({ property }) => {
           </h2>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start justify-between w-full p-6 border border-black rounded-lg shadow-md bg-gray-100 gap-4">
+        <div className="flex flex-col sm:flex-row items-start justify-between w-full lg:p-6 p-4 border border-black rounded-lg shadow-md bg-gray-100 gap-4">
         <div className="flex flex-col flex-wrap items-start w-full lg:w-[35%]">
     <h3 className="text-xl mb-2 font-bold text-[#505050]">Rate This Property On Your Experience</h3>
     <ReactStars
@@ -324,7 +324,7 @@ const Reviews = ({ property }) => {
         </div>
       )}
 
-      <h2 className="lg:text-4xl text-xl font-bold mb-4 lg:mx-8">All Reviews</h2>
+      <h2 className="lg:text-4xl text-xl font-bold mb-4 lg:mx-8 items-start">All Reviews</h2>
       <ul className="list-none p-0">
         {currentReviews.length > 0 ? (
           currentReviews.map((review) => (
