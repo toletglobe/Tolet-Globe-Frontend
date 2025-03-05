@@ -130,29 +130,29 @@ const Reviews = ({ property }) => {
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6 ">
 
 
-        <div className="flex flex-col lg:gap-4 items-start  w-full lg:w-1/3 px-4 border border-black rounded-lg shadow-md bg-white ">
+        <div className="flex flex-col lg:gap-4 items-start  w-full lg:w-1/3 px-2 border border-black rounded-lg shadow-md bg-white justify-center ">
           <ReactStars
             count={5}
             key={averageRating}
             value={averageRating}
             isHalf={true}
-            size={window.innerWidth < 640 ? 30 : window.innerWidth < 1024 ? 50 : 50}
+            size={window.innerWidth < 640 ? 30 : window.innerWidth < 1030 ? 29 : 50 }
             edit={false}
             activeColor="#ffd700"
             char={<span style={{ marginRight: "16px" }}>★</span>}
           />
-          <h2 className="lg:text-5xl text-2xl font-bold text-[#505050]">
+          <h2 className=" xl:text-5xl lg:text-4xl text-2xl font-bold  text-[#505050]">
              {totalReviews.length > 0 ? averageRating : 0} Out Of 5
           </h2>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start justify-between w-full lg:p-6 p-4 border border-black rounded-lg shadow-md bg-gray-100 gap-4">
+        <div className="flex flex-col sm:flex-row items-start justify-between w-full  xl:p-6 p-4 border border-black rounded-lg shadow-md bg-gray-100 gap-6">
         <div className="flex flex-col flex-wrap items-start w-full lg:w-[35%]">
     <h3 className="text-xl mb-2 font-bold text-[#505050]">Rate This Property On Your Experience</h3>
     <ReactStars
       count={5}
       onChange={handleRatingChange}
-      size={window.innerWidth < 640 ? 30 : window.innerWidth < 1024 ? 50 : 50}
+      size={window.innerWidth < 640 ? 30 : window.innerWidth < 1030 ? 30 : 50}
       value={rating}
       activeColor="#ffd700"
       isHalf={false}
@@ -342,7 +342,7 @@ const Reviews = ({ property }) => {
                   <ReactStars
                     count={5}
                     value={Number(review.userRating)}
-                    size={window.innerWidth < 640 ? 20 : window.innerWidth < 1024 ? 30 : 30}
+                    size={window.innerWidth < 640 ? 20 : window.innerWidth < 1030 ? 20 : 30}
                     edit={false}
                     activeColor="#ffd700"
                     className="border border-black rounded-lg p-1"
