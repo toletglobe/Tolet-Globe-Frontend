@@ -3,7 +3,7 @@
 import { BsChatRightDots } from "react-icons/bs";
 import { IoCallOutline } from "react-icons/io5";
 import { useRef, useState } from "react";
-import { API } from "../config/axios"
+import { API } from "../config/axios";
 import { toast } from "react-hot-toast";
 
 const Contact = () => {
@@ -16,7 +16,7 @@ const Contact = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  
+
   const handleChange = (evt) => {
     setFormData((prev) => ({
       ...prev,
@@ -51,31 +51,47 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-5 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
+    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-20 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
       {/* Contact Details Section */}
-      <div className="w-full lg:w-1/2 px-4 lg:px-5 mt-[50px]">
+      <div className="w-full lg:w-1/2 px-4 lg:pl-10 lg:pr-52 mt-[50px]">
         <div>
           <h1 className="text-white text-3xl md:text-4xl font-semibold">
             Contact Us, We're Ready to Help!
           </h1>
           <p className="mt-5 text-gray-400">
-            We strive to provide you with the best experience and the best platform to find your choice.
+            We strive to provide you with the best experience and the best
+            platform to find your choice.
           </p>
           <p className="mt-2 text-gray-400">
-            Post us any queries and we’ll get back to you.
+            Post us any queries and we'll get back to you.
           </p>
         </div>
 
         <div className="flex flex-row gap-4 mt-10 md:mt-20">
-          <BsChatRightDots className="text-white text-3xl md:text-4xl" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-14 p-2 border-2 border-white rounded-xl mt-6 mb-8"
+          >
+            <path
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              d="M8.625 12a.375.375 0 1 1-.75 0a.375.375 0 0 1 .75 0m0 0H8.25m4.125 0a.375.375 0 1 1-.75 0a.375.375 0 0 1 .75 0m0 0H12m4.125 0a.375.375 0 1 1-.75 0a.375.375 0 0 1 .75 0m0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.8 9.8 0 0 1-2.555-.337A5.97 5.97 0 0 1 5.41 20.97a6 6 0 0 1-.474-.065a4.5 4.5 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25"
+            ></path>
+          </svg>
           <div>
             <h1 className="text-white text-xl md:text-2xl">Chat with us !!</h1>
-            <p className="text-gray-300/50 mt-1">Our friendly team is here to help</p>
+            <p className="text-gray-300/50 mt-1">
+              Our friendly team is here to help
+            </p>
             <p className="text-[#6CC1B6]">hello@toletglobe.in</p>
           </div>
         </div>
         <div className="flex flex-row gap-4 mt-8 md:mt-10">
-          <IoCallOutline className="text-white text-3xl md:text-4xl" />
+          <IoCallOutline className="text-white text-3xl md:text-4xl h-14 p-2 w-14 border-2 border-white rounded-xl mt-6 mb-8" />
           <div>
             <h1 className="text-white text-xl md:text-2xl">Call us...</h1>
             <p className="text-gray-300/50 mt-1">Mon - Sat, 8 AM to 10 PM</p>
@@ -85,45 +101,50 @@ const Contact = () => {
       </div>
 
       {/* Form Section */}
-      <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 lg:px-5 mt-10 lg:mt-0">
+      <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 lg:px-14 mt-10 lg:mt-0">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col">
-            <label htmlFor="topic" className="text-gray-400">Topic</label>
-            <select
+            <label htmlFor="topic" className="text-gray-400">
+              Subject
+            </label>
+            <input
+              type="text"
               id="topic"
+              placeholder="General Inquiry"
               value={formData.topic}
               name="topic"
               onChange={handleChange}
               required
               className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
-            >
-              <option value="">General Inquiry</option>
-              <option value="Residential">Residential</option>
-              <option value="Commercial">Commercial</option>
-              <option value="Others">Others</option>
-            </select>
+            />
           </div>
-          {['name', 'email', 'phone'].map((field, index) => (
+          {["name", "email", "phone"].map((field, index) => (
             <div key={index} className="mt-5 flex flex-col">
               <label htmlFor={field} className="text-gray-400">
                 {field.charAt(0).toUpperCase() + field.slice(1)}
               </label>
               <input
-                type={field === 'email' ? 'email' : 'text'}
+                type={field === "email" ? "email" : "text"}
                 id={field}
                 placeholder={
-                  field === 'name' ? "Enter your name" : field === 'email' ? "Enter your email" : "Enter your number"
+                  field === "name"
+                    ? "Enter your name"
+                    : field === "email"
+                    ? "Enter your email"
+                    : "Enter your number"
                 }
                 value={formData[field]}
                 name={field}
                 onChange={handleChange}
                 className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
-                required={field !== 'phone'}
+                required={field !== "phone"}
               />
             </div>
           ))}
           <div className="mt-5 flex flex-col">
-            <label htmlFor="msg" className="text-gray-400">Message</label>
+            <label htmlFor="msg" className="text-gray-400">
+              Message
+            </label>
             <textarea
               id="msg"
               placeholder="Type your message..."
@@ -141,7 +162,10 @@ const Contact = () => {
                 <span className="text-black">Sending...</span>
               </div>
             ) : (
-              <button type="submit" className="bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg">
+              <button
+                type="submit"
+                className="bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg"
+              >
                 Submit Query
               </button>
             )}
