@@ -51,7 +51,7 @@ const GetInTouch = () => {
     "https://www.google.com/maps/place/To-Let+Globe/@26.8465566,80.9797793,15z/data=!4m6!3m5!1s0x399bfd77577ba78f:0xd2d6f22d1b246815!8m2!3d26.8465566!4d80.9797793!16s%2Fg%2F11vhrqqb45?entry=ttu";
 
   return (
-    <div className="relative w-full h-screen flex max-sm:flex-col items- sm:justify-end">
+    <div className="pt-20 relative w-full h-s flex max-sm:flex-col items- sm:justify-end">
       {/* Contact Form */}
       <div className="pt-10 pl-10 pr-10 pb-8 z-20 lg:w-[380px] w-full text-white flex flex-col justify-end">
         <p className="text-[#bc5f56] font-semibold text-4xl pb-4">

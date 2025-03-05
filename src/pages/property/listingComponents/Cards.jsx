@@ -18,6 +18,7 @@ import { BASE_URL } from "../../../constant/constant";
 import { FaHeart } from "react-icons/fa";
 // import { useEffect } from "react";
 import defaultUser from "../../../assets/user-icon.png";
+import Toggle from "./Toggle";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
