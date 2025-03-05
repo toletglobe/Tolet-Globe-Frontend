@@ -136,7 +136,7 @@ const Reviews = ({ property }) => {
             key={averageRating}
             value={averageRating}
             isHalf={true}
-            size={window.innerWidth < 640 ? 30 : window.innerWidth < 1450 ? 44 : 50 }
+            size={window.innerWidth < 1025 ? 29 : window.innerWidth < 1450 ? 44 : 50 }
             edit={false}
             activeColor="#ffd700"
             char={<span style={{ marginRight: "16px" }}>★</span>}
@@ -152,7 +152,7 @@ const Reviews = ({ property }) => {
     <ReactStars
       count={5}
       onChange={handleRatingChange}
-      size={window.innerWidth < 640 ? 30 : window.innerWidth < 1450 ? 44 : 50}
+      size={window.innerWidth < 1025 ? 29 : window.innerWidth < 1450 ? 44 : 50}
       value={rating}
       activeColor="#ffd700"
       isHalf={false}
