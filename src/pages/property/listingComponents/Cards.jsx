@@ -17,6 +17,7 @@ import { BASE_URL } from "../../../constant/constant";
 import { FaHeart } from "react-icons/fa";
 // import { useEffect } from "react";
 import defaultUser from "../../../assets/user-icon.png";
+import Toggle from "./Toggle";
 
 // Custom Arrow Components
 const PrevArrow = ({ onClick }) => (
@@ -189,7 +190,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   <NextArrow onClick={() => {}} />
                 </div>
               )}
-              <div
+              {/* <div
                 className="card-badge-left absolute top-4 left-4 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1 rounded-md"
                 style={{
                   backgroundColor:
@@ -206,7 +207,10 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   : property.availabilityStatus === "Rented Out"
                   ? "Rent Out"
                   : "NA"}
-              </div>
+              </div> */}
+              {/* <Toggle/> */}
+              <Toggle propertyId={property._id} currentStatus={property.availabilityStatus}
+  propertyUserId={property.userId} />
               <div className="banner-actions absolute bottom-4 left-2 right-4 flex  justify-between">
                 <div className="item-center">
                   <button className="banner-actions-btn flex items-center text-white">
