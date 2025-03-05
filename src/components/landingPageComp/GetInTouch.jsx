@@ -106,11 +106,12 @@ const GetInTouch = () => {
             <input
               type="submit"
               value="Send Message →"
-              className=" cursor-pointer self-start font-semibold"
+              className="cursor-pointer self-start font-semibold"
             />
           )}
         </form>
       </div>
+
       {/* Make the map image clickable */}
       <div className="max-sm:w-[100%] overflow-hidden">
         <a href={googlemaps} target="_blank" rel="noopener noreferrer">
