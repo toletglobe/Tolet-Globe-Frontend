@@ -483,7 +483,7 @@ const Listing = () => {
           if (showCity === true) setShowCity(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className="property h-[100vh] px-12 w-full overflow-y-auto"
+        className="property h-[100vh] pb-14 lg:px-12 w-full overflow-y-auto"
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
@@ -498,9 +498,9 @@ const Listing = () => {
               className=" lg:w-12 md:w-11 w-9 h-auto"
             />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 text-sm md:text-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 ml-4 text-sm md:text-lg">
             {/* Search bar section - spans 8 columns on larger screens */}
-            <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md w-full">
+            <div className="bg-white sm:col-span-8 md:col-span-7 rounded-md w-full">
               <div className="flex flex-wrap items-center text-black  text-sm md:text-lg">
                 {/* Location Logic */}
                 <div
@@ -685,7 +685,7 @@ const Listing = () => {
 
                 {/* SORT LOGIC */}
                 <div
-                  className="flex items-center gap-2 border-l pl-3 border-black shrink-0 cursor-pointer"
+                  className="flex items-center justify-center w-40 gap-2 border-l pl-3 border-black shrink-0 cursor-pointer"
                   onClick={handleMode}
                 >
                   <span className="text-sm md:text-lg whitespace-nowrap">

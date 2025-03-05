@@ -126,41 +126,60 @@ const Reviews = ({ property }) => {
     currentPage > 1 && setCurrentPage(currentPage - 1);
 
   return (
-    <div className="w-full p-6 bg-white shadow-lg rounded-lg">
-      <div className="flex justify-between gap-6 mb-6">
-        <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-white">
-          <h2 className="text-2xl font-bold">
-            Average Rating: {totalReviews.length > 0 ? averageRating : 0}/5
-          </h2>
+    <div className="w-full p-6 bg-white shadow-lg rounded-lg ">
+      <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6 ">
+
+
+        <div className="flex flex-col lg:gap-4 items-start  w-full lg:w-1/3 px-2 border border-black rounded-lg shadow-md bg-white justify-center ">
           <ReactStars
             count={5}
             key={averageRating}
             value={averageRating}
             isHalf={true}
-            size={40}
+            size={window.innerWidth < 1025 ? 29 : window.innerWidth < 1450 ? 44 : 50 }
             edit={false}
             activeColor="#ffd700"
+            char={<span style={{ marginRight: "16px" }}>★</span>}
           />
+          <h2 className=" xl:text-5xl lg:text-4xl text-2xl font-bold  text-[#505050]">
+             {totalReviews.length > 0 ? averageRating : 0} Out Of 5
+          </h2>
         </div>
 
-        <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-gray-100">
-          <h3 className="text-lg font-semibold">
-            Share details of your experience with this property.
-          </h3>
-          <button
-            onClick={() => {
-              if (authState.status === true && localStorage.getItem("token")) {
-                setShowReviewForm(!showReviewForm);
-              } else {
-                toast.error("Please Log In first");
-                navigate("/login");
-              }
-            }}
-            className="mt-4 w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 border border-black"
-          >
-            {showReviewForm ? "Cancel" : "Write Review"}
-          </button>
-        </div>
+        <div className="flex flex-col sm:flex-row items-start justify-between w-full  xl:p-6 p-4 border border-black rounded-lg shadow-md bg-gray-100 gap-6">
+        <div className="flex flex-col flex-wrap items-start w-full lg:w-[35%]">
+    <h3 className="text-xl mb-2 font-bold text-[#505050]">Rate This Property On Your Experience</h3>
+    <ReactStars
+      count={5}
+      onChange={handleRatingChange}
+      size={window.innerWidth < 1025 ? 29 : window.innerWidth < 1450 ? 44 : 50}
+      value={rating}
+      activeColor="#ffd700"
+      isHalf={false}
+      char={<span style={{ marginRight: "16px" }}>★</span>}
+    />
+  </div>
+
+  {/* Write Review Section */}
+  <div className="flex flex-col items-start w-full lg:w-1/2 xl:w-[49%] gap-2">
+    <h3 className="text-xl font-bold text-start text-[#505050]">
+      Share details of your experience with this property.
+    </h3>
+    <button
+      onClick={() => {
+        if (authState.status === true && localStorage.getItem("token")) {
+          setShowReviewForm(!showReviewForm);
+        } else {
+          toast.error("Please Log In first");
+          navigate("/login");
+        }
+      }}
+      className="mt-4 w-full bg-teal-500 text-black font-bold lg:text-xl py-2 rounded-lg hover:bg-teal-600 border border-black"
+    >
+      {showReviewForm ? "Cancel" : "Write A Review"}
+    </button>
+  </div>
+    </div>        
       </div>
 
       {showReviewForm && (
@@ -187,10 +206,11 @@ const Reviews = ({ property }) => {
                   <ReactStars
                     count={5}
                     onChange={handleRatingChange}
-                    size={40}
+                    size={window.innerWidth < 640 ? 30 : window.innerWidth < 1024 ? 50 : 50}
                     value={rating}
                     activeColor="#ffd700"
                     isHalf={false}
+                    char={<span style={{ marginRight: "18px" }}>★</span>}
                   />
                 </div>
               </div>
@@ -301,40 +321,43 @@ const Reviews = ({ property }) => {
         </div>
       )}
 
-      <h2 className="text-2xl font-bold mb-4">All Reviews</h2>
+      <h2 className="lg:text-4xl text-xl font-bold mb-4 lg:mx-8 items-start">All Reviews</h2>
       <ul className="list-none p-0">
         {currentReviews.length > 0 ? (
           currentReviews.map((review) => (
             <li
               key={review.userId}
-              className="bg-gray-100 p-4 mb-2 rounded-lg border border-black"
+              className="bg-gray-100 p-4 mb-2 rounded-lg border border-black lg:mx-8"
             >
-              <div className="flex items-center">
-                <div className="inline-block w-20 h-20 rounded-full bg-gray-500 text-white text-center leading-8 font-bold mr-2"></div>
-                <div className="ml-2">
-                  <p className="font-bold">
+              <div className="flex items-start flex-wrap ">
+                <div className="inline-block w-14 h-14 lg:w-20 lg:h-20 rounded-full bg-gray-500 text-white text-center leading-8 font-bold mr-2 "></div>
+                <div className="ml-2 flex-1">
+                  <p className="font-bold lg:text-2xl">
                     {review.firstName !== "NA" ? review.firstName : "Anonymous"}
                     {review.lastName !== "NA" ? " " + review.lastName : ""}
                   </p>
                   <ReactStars
                     count={5}
                     value={Number(review.userRating)}
-                    size={24}
+                    size={window.innerWidth < 640 ? 20 : window.innerWidth < 1290 ? 23 : 30}
                     edit={false}
                     activeColor="#ffd700"
                     className="border border-black rounded-lg p-1"
+                    char={<span className="mr-1 lg:mr-3">★</span>}
                   />
                 </div>
+              <img src={review.media[1]} alt="" className="mt-4 "/>
+              <img src={review.media[0]} alt="" className="mt-4 w-[150px] h-[150px]"/>
               </div>
+              <div className="text-xl w-[70%] lg:-mt-16 flex-1 flex-wrap">
               <p>Stay Duration: {review.stayDuration}</p>
               <p> Like about the Locality: {review.likesAboutLocality}</p>
-              <p>Don't like about the Locality: {review.dislikesAboutLocality}</p>
-              <img src={review.media[1]} alt="" className="mt-4"/>
-              <img src={review.media[0]} alt="" />
+              <p>Don't like about the Locality: {review.dislikesAboutLocality}</p>  
+              </div>
             </li>
           ))
         ) : (
-          <p className="text-2xl">Be the first to review this property!</p>
+          <p className="text-2xl mx-8">Be the first to review this property!</p>
         )}
       </ul>
 

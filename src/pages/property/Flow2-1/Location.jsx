@@ -55,48 +55,52 @@ const LocationComponent = ({ property, selectComp }) => {
   return (
     <div className="pb-4 bg-white rounded-2xl">
       {/* Header */}
-      <div className="px-4 pt-4 pb-2">
-        <div className="flex justify-between items-start">
+      <div className="px-1 pt-4 pb-2">
+        <div className="flex justify-between lg:w-[68%] xl:w-[69%] 2xl:w-[70%] items-start lg:mx-10">
           <div>
             <h2 className="text-xl font-semibold text-gray-900">Location</h2>
             <p className="text-sm text-gray-600">Vinamra Khand 1/35</p>
           </div>
-          <p className="text-teal-600 text-sm">
+          <p className="text-teal-600 text-sm lg:pt-6">
             Get Direction
           </p>
         </div>
       </div>
 
-      {/* Map */}
-      <div className="w-full h-64">
-      <div className="w-full h-64 absolute backdrop-blur-sm bg-black/40 flex justify-center items-center"><RiLock2Fill color="#ffffff" size={30} /></div>
-        <iframe
-          src={getMapSrc()}
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Location Map"
-        />
-      </div>
-
-      {/* Categories */}
-      <div className="px-4 py-3">
-        <div className="grid grid-cols-4 gap-x-2 gap-y-3 text-xs">
-          {locationCategories.map((item, index) => (
-            <button
-              key={index}
-              onClick={() => handleButtonClick(item.category)}
-              className="flex flex-col items-center space-y-1"
-            >
-              <span className="text-gray-600">{item.icon}</span>
-              <span>{item.label}</span>
-            </button>
-          ))}
+        <div className="lg:flex lg:space-x-4 justify-between lg:mx-10">
+            {/* Map */}
+        <div className="lg:w-[74%] w-full h-64 lg:h-[550px]">
+        <div className="w-full lg:w-[60%] xl:w-[69%]  h-64 lg:h-[550px]  absolute backdrop-blur-sm bg-black/40 flex justify-center items-center"><RiLock2Fill color="#ffffff" size={30} /></div>
+          <iframe
+            src={getMapSrc()}
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Location Map"
+          />
         </div>
-      </div>
+
+        {/* Categories */}
+        <div className="px-3 py-3  justify-between items-center gap-10">
+          <div className="grid grid-cols-4  lg:grid-cols-1 gap-x-5 gap-y-3  lg:gap-y-5 text-xs lg:pl-8 items-center ">
+            {locationCategories.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => handleButtonClick(item.category)}
+                className="flex flex-col lg:flex-row w-full lg:p-2  items-center  rounded-lg space-y-1 lg:border-[1px] lg:border-black lg:px-14 lg:w-full lg:gap-4"
+              >
+                <span className="text-gray-950 lg:text-2xl gap-5">{item.icon}</span>
+                <span className="lg:text-xl">{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        </div>
+      
     </div>
   );
 };
