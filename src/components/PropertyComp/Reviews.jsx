@@ -136,7 +136,7 @@ const Reviews = ({ property }) => {
             key={averageRating}
             value={averageRating}
             isHalf={true}
-            size={window.innerWidth < 640 ? 30 : window.innerWidth < 1030 ? 29 : 50 }
+            size={window.innerWidth < 640 ? 30 : window.innerWidth < 1290 ? 44 : 50 }
             edit={false}
             activeColor="#ffd700"
             char={<span style={{ marginRight: "16px" }}>★</span>}
@@ -152,7 +152,7 @@ const Reviews = ({ property }) => {
     <ReactStars
       count={5}
       onChange={handleRatingChange}
-      size={window.innerWidth < 640 ? 30 : window.innerWidth < 1030 ? 30 : 50}
+      size={window.innerWidth < 640 ? 30 : window.innerWidth < 1290 ? 44 : 50}
       value={rating}
       activeColor="#ffd700"
       isHalf={false}
@@ -342,7 +342,7 @@ const Reviews = ({ property }) => {
                   <ReactStars
                     count={5}
                     value={Number(review.userRating)}
-                    size={window.innerWidth < 640 ? 20 : window.innerWidth < 1030 ? 20 : 30}
+                    size={window.innerWidth < 640 ? 20 : window.innerWidth < 1290 ? 23 : 30}
                     edit={false}
                     activeColor="#ffd700"
                     className="border border-black rounded-lg p-1"

@@ -56,7 +56,7 @@ const LocationComponent = ({ property, selectComp }) => {
     <div className="pb-4 bg-white rounded-2xl">
       {/* Header */}
       <div className="px-1 pt-4 pb-2">
-        <div className="flex justify-between lg:w-[60%] xl:w-[70%] items-start lg:mx-10 xl:mx-10">
+        <div className="flex justify-between lg:w-[68%] xl:w-[69%] 2xl:w-[70%] items-start lg:mx-10">
           <div>
             <h2 className="text-xl font-semibold text-gray-900">Location</h2>
             <p className="text-sm text-gray-600">Vinamra Khand 1/35</p>
@@ -70,7 +70,7 @@ const LocationComponent = ({ property, selectComp }) => {
         <div className="lg:flex lg:space-x-4 justify-between lg:mx-10">
             {/* Map */}
         <div className="lg:w-[74%] w-full h-64 lg:h-[550px]">
-        <div className="w-full lg:w-[60%] xl:[69%] h-64 lg:h-[550px]  absolute backdrop-blur-sm bg-black/40 flex justify-center items-center"></div>
+        <div className="w-full lg:w-[60%] xl:w-[67%] 2xl:w-[69%] h-64 lg:h-[550px]  absolute backdrop-blur-sm bg-black/40 flex justify-center items-center"><RiLock2Fill color="#ffffff" size={30} /></div>
           <iframe
             src={getMapSrc()}
             width="100%"
