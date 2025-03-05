@@ -10,7 +10,7 @@ const Regulation = ({ selectComp, property }) => {
     <div className={`pb-4 ${selectComp > 4 ? "hidden" : ""}`}>
       <div className={`bg-white w-full rounded-lg p-3`}>
         <p className="text-black block font-semibold text-xl">Regulations</p>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 ">
           <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
             <PiStudentBold className="h-6 w-6 mr-2 text-black bg-white" />
             <p className="inline font-normal">

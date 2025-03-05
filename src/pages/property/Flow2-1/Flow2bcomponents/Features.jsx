@@ -1,7 +1,7 @@
 import React from "react";
 import { CiMobile4 } from "react-icons/ci";
 import { IoTabletLandscape } from "react-icons/io5";
-import { LuParkingCircle } from "react-icons/lu";
+import { FaParking } from "react-icons/fa";
 import { MdBedroomParent, MdOutlineBathroom } from "react-icons/md";
 
 const Features = ({ selectComp, property }) => {
@@ -26,7 +26,7 @@ const Features = ({ selectComp, property }) => {
         )}
 
         <div className="border flex p-2 rounded-lg border-black sm:mr-4 lg:mr-8 w-full sm:w-auto">
-          <LuParkingCircle className="h-6 w-6 mr-2 text-black bg-white" />
+          <FaParking className="h-6 w-6 mr-2 text-black bg-white" />
           <p className="inline font-normal">
             {property.carParking ? "Yes" : "No"}
           </p>
