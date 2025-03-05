@@ -96,13 +96,13 @@
 /* -----------------------Bird Component-------------- */
 
 .Tbird-1 {
-  position:fixed;
+  position: fixed;
   opacity: 0.5; /* Make sure it's fully visible */
   width: 100px;
   height: 40px;
 
   left: 3vw; /* Move it within view */
-  top: 05vw;  /* Adjust for better positioning */
+  top: 05vw; /* Adjust for better positioning */
   transform: translate3d(-400px, 100px, 0) !important; /* Less extreme offset */
 
   transition: all 2s ease-in-out;
@@ -131,8 +131,8 @@
 .Tbird-2 {
   position: fixed;
   opacity: 0.5;
-  left:30vw;
-  top:20vw;
+  left: 30vw;
+  top: 20vw;
   width: 100px;
   height: 40px;
   transform: translate3d(-310px, 370px, 0);
@@ -393,7 +393,7 @@
 
 .Tgate {
   position: absolute;
-  opacity:0;
+  opacity: 0;
   height: 80px;
   width: 30px;
   transform: translate3d(80px, 85vh, 0) !important;

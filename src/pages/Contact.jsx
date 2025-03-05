@@ -63,7 +63,7 @@ const Contact = () => {
             platform to find your choice.
           </p>
           <p className="mt-2 text-gray-400">
-            Post us any queries and we’ll get back to you.
+            Post us any queries and we'll get back to you.
           </p>
         </div>
 
@@ -107,19 +107,16 @@ const Contact = () => {
             <label htmlFor="topic" className="text-gray-400">
               Subject
             </label>
-            <select
+            <input
+              type="text"
               id="topic"
+              placeholder="General Inquiry"
               value={formData.topic}
               name="topic"
               onChange={handleChange}
               required
               className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
-            >
-              <option value="">General Inquiry</option>
-              <option value="Residential">Residential</option>
-              <option value="Commercial">Commercial</option>
-              <option value="Others">Others</option>
-            </select>
+            />
           </div>
           {["name", "email", "phone"].map((field, index) => (
             <div key={index} className="mt-5 flex flex-col">
