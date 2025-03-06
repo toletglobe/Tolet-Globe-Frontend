@@ -38,7 +38,7 @@ const Pagination = ({
             <FaChevronLeft className="mr-2" /> Previous
           </Button>
           <div className="flex items-center space-x-2">
-            {currentPage > 2 && (
+            {currentPage > 1 && (
               <>
                 <button
                   onClick={() => onPageChange(1)}
@@ -46,24 +46,24 @@ const Pagination = ({
                 >
                   1
                 </button>
-                {currentPage > 3 && <span className="px-2">...</span>}
+                {currentPage >= 3 && <span className="px-2">...</span>}
               </>
             )}
-            {currentPage > 1 && (
+            {/* {currentPage > 1 && (
               <button
                 onClick={() => onPageChange(currentPage - 1)}
                 className="px-2 py-1 rounded-lg  hover:text-[#6CC1B6]"
               >
                 {currentPage - 1}
               </button>
-            )}
+            )} */}
             <button
               className="px-2 py-1 rounded-lg text-[#6CC1B6] underline"
               aria-current="page"
             >
               {currentPage}
             </button>
-            {currentPage < totalPages && (
+            {currentPage === 1 && currentPage < totalPages && (
               <button
                 onClick={() => onPageChange(currentPage + 1)}
                 className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
@@ -71,10 +71,21 @@ const Pagination = ({
                 {currentPage + 1}
               </button>
             )}
-            {currentPage < totalPages - 1 && (
+
+            {currentPage < totalPages && (
               <>
-                {currentPage < totalPages - 2 && (
+                {currentPage < totalPages - 1 && (
                   <span className="px-2">...</span>
+                )}
+
+                {/* Show the adjacent page if the current page is the last page */}
+                {currentPage === totalPages && (
+                  <button
+                    onClick={() => onPageChange(totalPages - 1)}
+                    className="px-2 py-1 rounded-lg hover:text-[#6CC1B6]"
+                  >
+                    {totalPages - 1}
+                  </button>
                 )}
                 <button
                   onClick={() => onPageChange(totalPages)}
