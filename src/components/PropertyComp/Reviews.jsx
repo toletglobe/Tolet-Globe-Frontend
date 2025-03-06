@@ -130,18 +130,18 @@ const Reviews = ({ property }) => {
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6 ">
 
 
-        <div className="flex flex-col lg:gap-4 items-start  w-full lg:w-1/3 px-2 border border-black rounded-lg shadow-md bg-white justify-center ">
+        <div className="flex flex-col lg:gap-6 items-center w-full lg:w-1/3 px-x lg:px-0 border border-black rounded-lg shadow-md bg-white justify-center ">
           <ReactStars
             count={5}
             key={averageRating}
             value={averageRating}
             isHalf={true}
-            size={window.innerWidth < 1025 ? 29 : window.innerWidth < 1450 ? 44 : 50 }
+            size={window.innerWidth < 1030 ? 28 : window.innerWidth < 1450 ? 44 : 50 }
             edit={false}
             activeColor="#ffd700"
-            char={<span style={{ marginRight: "16px" }}>★</span>}
+            char={<span style={{ margin: "0 7px" }}>★</span>}
           />
-          <h2 className=" xl:text-5xl lg:text-4xl text-2xl font-bold  text-[#505050]">
+          <h2 className=" xl:text-5xl lg:text-4xl text-2xl font-bold item-start text-[#505050]">
              {totalReviews.length > 0 ? averageRating : 0} Out Of 5
           </h2>
         </div>
@@ -329,7 +329,7 @@ const Reviews = ({ property }) => {
               key={review.userId}
               className="bg-gray-100 p-4 mb-2 rounded-lg border border-black lg:mx-8"
             >
-              <div className="flex items-start flex-wrap ">
+              <div className="flex items-center flex-wrap ">
                 <div className="inline-block w-14 h-14 lg:w-20 lg:h-20 rounded-full bg-gray-500 text-white text-center leading-8 font-bold mr-2 "></div>
                 <div className="ml-2 flex-1">
                   <p className="font-bold lg:text-2xl">
