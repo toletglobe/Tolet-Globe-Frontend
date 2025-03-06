@@ -255,7 +255,7 @@ const Reviews = ({ property }) => {
 
               <div>
                 <h3 className="text-lg text-teal-400 mb-4">Upload Media</h3>
-                <p className="text-gray-400 mb-2">Images/Videos</p>
+                <p className="text-gray-400 mb-2">Images</p>
                 <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center">
                   <div className="flex flex-col items-center">
                     <svg
