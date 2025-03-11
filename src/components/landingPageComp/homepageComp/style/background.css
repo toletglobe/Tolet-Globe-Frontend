@@ -222,7 +222,7 @@
   opacity: 1;
   width: 130px;
   height: 40px;
-  transform: translate3d(490px, -120px, 0);
+  transform: scale(1.2) translate3d(450px, 0px, 0);
 }
 
 .Tcloud-3 {
@@ -720,7 +720,7 @@
   /* right: 70rem; */
   /* transform: translate(870px, -270px); */
   /* transform: translate(-130px, -370px); */
-  transform: translate(-6rem, -450%);
+  transform: translate(-7rem, -450%) ;
   transition: all 2s ease-in-out;
 }
 .hand {
@@ -911,7 +911,7 @@
   z-index: -1;
   /* transform: translate3d(18%, -300px, 0); */
   /* transform: translate3d(-43%, -200px, 0); */
-  transform: scale(1.5) translate3d(5vw, -15vh, 0);
+  transform: scale(1.2) translate3d(12vw, -28vh, 0) !important;
   max-height: none; /* Ensure no max-height constraint */
   max-width: none;
 }
@@ -990,15 +990,15 @@
   }
 
   .scrolled .sun-circle {
-    transform: translate(870px, -270px);
+    transform: translate(880px, -320px);
   }
 
   .scrolled .cloud-1 {
-    transform: translate3d(685px, -250px, 0) !important;
+    transform: scale(1.2) translate3d(590px, -210px, 0) !important;
   }
 
   .scrolled .cloud-3 {
-    transform: translate3d(840px, -165px, 0);
+    transform: scale(1.1) translate3d(800px, -165px, 0);
   }
 
   .scrolled .bird-1 {
