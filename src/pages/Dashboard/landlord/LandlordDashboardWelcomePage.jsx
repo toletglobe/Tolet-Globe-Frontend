@@ -132,8 +132,8 @@ const LandlordDashboardWelcomePage = () => {
         <h2 className="text-xl font-bold sm:text-lg text-center md:text-xl lg:text-2xl xl:text-left xl:text-lg">
           Quick Actions
         </h2>
-        <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl sm:flex-col lg:flex-row lg:w-[100%] lg:p-2 xl:p-4">
-          <div>
+        {/* <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl sm:flex-col lg:flex-row lg:w-[100%] lg:p-2 xl:p-4 md:flex-col ">
+          <div className=" md:block sm:block">
             <h2 className="text-lg font-bold text-left sm:text-center lg:text-xl xl:text-base xl:text-left px-2">
               Add a new property
             </h2>
@@ -143,13 +143,48 @@ const LandlordDashboardWelcomePage = () => {
           </div>
           <Link
             to="add-properties"
-            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer"
+            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer md:block sm:block"
           >
             Add Property
           </Link>
+        </div> */}
+              {/* <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl lg:flex-row lg:w-[100%] lg:p-2 xl:p-4 md:flex-col sm:flex-col">
+        <div className="md:block sm:block">
+          <h2 className="text-lg font-bold text-left sm:text-center lg:text-xl xl:text-base xl:text-left px-2">
+            Add a new property
+          </h2>
+          <p className="text-gray-400 py-2 sm:text-sm text-center md:text-base lg:text-lg xl:text-sm xl:text-left px-2 xl:py-1">
+            Easily add a property to your account
+          </p>
         </div>
+        <div>
+        <Link
+          to="add-properties"
+          className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer md:block sm:block block text-center w-full sm:w-auto md:w-auto lg:w-auto"
+        >
+          Add Property
+        </Link></div>
+      </div> */}
+      <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl lg:w-[100%] lg:p-2 xl:p-4">
+  <div className="w-full text-center sm:text-center md:text-left justify-center items-center">
+    <h2 className="text-lg font-bold text-center lg:text-left xl:text-left px-2">
+      Add a new property
+    </h2>
+    <p className="text-gray-400 py-2 sm:text-sm text-center md:text-base lg:text-lg xl:text-sm xl:text-left px-2 xl:py-1">
+      Easily add a property to your account
+    </p>
+  </div>
+  <Link
+    to="add-properties"
+    className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer block text-center w-full sm:w-full md:w-full lg:w-auto mt-3 sm:mt-3 md:mt-3 lg:mt-0"
+  >
+    Add Property
+  </Link>
+</div>
 
-        <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl sm:flex-col lg:flex-row lg:w-[100%] lg:p-2 xl:p-4">
+
+
+        {/* <div className="flex justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl sm:flex-col lg:flex-row lg:w-[100%] lg:p-2 xl:p-4">
           <div>
             <h2 className="text-lg font-bold text-left sm:text-center lg:text-xl xl:text-base xl:text-left px-2">
               Get help with an issue
@@ -172,7 +207,31 @@ const LandlordDashboardWelcomePage = () => {
               </span>
             </button>
           </div>
-        </div>
+        </div> */}
+        <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row justify-between items-center border-[1.13px] border-[#C8A117] p-[22.5px] rounded-xl lg:w-[100%] lg:p-2 xl:p-4">
+  <div className="w-full text-center sm:text-center md:text-left">
+    <h2 className="text-lg font-bold text-center lg:text-left xl:text-left px-2">
+      Get help with an issue
+    </h2>
+    <p className="text-lg leading-7 text-gray-400 py-2 sm:text-sm text-center md:text-base lg:text-lg px-2 xl:text-sm xl:text-left xl:py-1">
+      Need help with something? We're here to help
+    </p>
+  </div>
+  <div className="w-full sm:w-full md:w-full lg:w-auto flex justify-center lg:justify-end mt-3 lg:mt-0">
+    <button
+      className="bg-gray-800 text-white py-2 px-6 rounded flex items-center cursor-pointer"
+      onClick={() => {
+        navigate("/contact");
+      }}
+    >
+      <span className="mr-2">🎧</span>
+      <span className="sm:text-sm md:text-base lg:text-lg xl:text-sm">
+        Contact Support
+      </span>
+    </button>
+  </div>
+</div>
+
       </div>
       {/* Recent Properties */}
       <div className="mt-8 mx-3">
