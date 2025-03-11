@@ -63,12 +63,25 @@ const Contact = () => {
             platform to find your choice.
           </p>
           <p className="mt-2 text-gray-400">
-            Post us any queries and we’ll get back to you.
+            Post us any queries and we'll get back to you.
           </p>
         </div>
 
         <div className="flex flex-row gap-4 mt-10 md:mt-20">
-          <BsChatRightDots className="text-white text-3xl md:text-4xl" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-14 p-2 border-2 border-white rounded-xl mt-6 mb-8"
+          >
+            <path
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              d="M8.625 12a.375.375 0 1 1-.75 0a.375.375 0 0 1 .75 0m0 0H8.25m4.125 0a.375.375 0 1 1-.75 0a.375.375 0 0 1 .75 0m0 0H12m4.125 0a.375.375 0 1 1-.75 0a.375.375 0 0 1 .75 0m0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.8 9.8 0 0 1-2.555-.337A5.97 5.97 0 0 1 5.41 20.97a6 6 0 0 1-.474-.065a4.5 4.5 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25"
+            ></path>
+          </svg>
           <div>
             <h1 className="text-white text-xl md:text-2xl">Chat with us !!</h1>
             <p className="text-gray-300/50 mt-1">
@@ -78,7 +91,7 @@ const Contact = () => {
           </div>
         </div>
         <div className="flex flex-row gap-4 mt-8 md:mt-10">
-          <IoCallOutline className="text-white text-3xl md:text-4xl" />
+          <IoCallOutline className="text-white text-3xl md:text-4xl h-14 p-2 w-14 border-2 border-white rounded-xl mt-6 mb-8" />
           <div>
             <h1 className="text-white text-xl md:text-2xl">Call us...</h1>
             <p className="text-gray-300/50 mt-1">Mon - Sat, 8 AM to 10 PM</p>
@@ -94,19 +107,16 @@ const Contact = () => {
             <label htmlFor="topic" className="text-gray-400">
               Subject
             </label>
-            <select
+            <input
+              type="text"
               id="topic"
+              placeholder="General Inquiry"
               value={formData.topic}
               name="topic"
               onChange={handleChange}
               required
               className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
-            >
-              <option value="">General Inquiry</option>
-              <option value="Residential">Residential</option>
-              <option value="Commercial">Commercial</option>
-              <option value="Others">Others</option>
-            </select>
+            />
           </div>
           {["name", "email", "phone"].map((field, index) => (
             <div key={index} className="mt-5 flex flex-col">

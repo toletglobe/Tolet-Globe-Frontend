@@ -31,7 +31,7 @@
   @apply cursor-pointer;
 }
 .slick-arrow {
-  @apply cursor-pointer;
+  @apply cursor-pointer ;
 }
 
 /* Add styles for carousel dots (optional) */
@@ -50,7 +50,7 @@
 
 /* Container for the card details */
 .card-details {
-  @apply flex flex-col items-start lg:gap-6 sm:gap-0;
+  @apply flex flex-col items-start lg:gap-6 ;
 }
 
 /* Style for the type labels (Flat, Shop, House) */
@@ -61,7 +61,7 @@
 
 /* Style for the price */
 .card-price {
-  @apply   text-[#808080] p-[0.3px];
+  @apply   text-[#808080] ;
   font-family: Poppins, sans-serif;
 }
 .cate-price {
@@ -73,7 +73,7 @@
 
 /* Style for the list items */
 .custom-card-list {
-  @apply list-none flex gap-2 lg:gap-4 flex-wrap m-0 p-0;
+  @apply list-none flex gap-2 lg:gap-4 flex-wrap ;
 }
 .card-item {
   @apply flex items-center text-xs lg:text-2xl text-[#333];
