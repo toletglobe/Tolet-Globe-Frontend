@@ -28,8 +28,8 @@ function ResetPassword() {
         token,
         password,
       });
-      console.log(res.data);
-      toast.success(res.data);
+      console.log(res.data.message);
+      toast.success(res.data.message);
       navigate("/login");
     } catch (err) {
       console.error("Err: ", err);
