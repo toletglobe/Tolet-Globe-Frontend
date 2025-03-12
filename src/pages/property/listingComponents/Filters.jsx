@@ -109,8 +109,8 @@ const Filters = ({
 
   return (
     <>
-      <div className="w-fit  bg-white p-2 ml-4 -mt-2 shadow-sm rounded-lg">
-        <div className="flex sm:gap-2 ">
+      <div className="w-fit  bg-white p-0 sm:p-2 -ml-28 -mt-4 shadow-sm rounded-xl">
+        <div className="flex sm:gap-6 ">
           {[
             { icon: BsHouseDoor, text: "HOUSES" },
             { icon: BsBuilding, text: "FLATS" },
@@ -124,7 +124,7 @@ const Filters = ({
               className="flex flex-col items-center w-[67px] sm:w-[100px] cursor-pointer text-black hover:text-white hover:bg-[#c8a018] rounded-xl py-3"
               onClick={() => handleCategoryClick(item.text)}
             >
-              <item.icon size={20} className="mb-2" />
+              <item.icon size={24} className="mb-2" />
               <span className="text-xs text-center font-medium">
                 {item.text}
               </span>
@@ -134,11 +134,11 @@ const Filters = ({
       </div>
 
       {selectedCategory === "HOUSES" && (
-        <div className="w-[320%] bg-white p-6  shadow-md sm:ml-4 mt-1 rounded-xl">
+        <div className="w-fit bg-white p-2 m-1 shadow-md sm:ml-4 rounded-xl">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
               <h3 className="text-left font-medium mb-3 text-black">BHK</h3>
-              <div className="flex flex-row gap-20">
+              <div className="flex flex-row gap-6">
                 {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ 5 BHK"].map(
                   (bhk) => (
                     <label
@@ -166,7 +166,7 @@ const Filters = ({
               <h3 className="text-left font-medium mb-3 text-black">
                 House Type
               </h3>
-              <div className="flex flex-row gap-28">
+              <div className="flex flex-row gap-4">
                 {["Fully Furnished", "Semi Furnished", "Not Furnished"].map(
                   (type) => (
                     <label
@@ -192,7 +192,7 @@ const Filters = ({
               <h3 className="text-left font-medium mb-3 text-black">
                 Preference
               </h3>
-              <div className="flex flex-row  gap-16">
+              <div className="flex flex-row  gap-4">
                 {["Family", "Bachelors"].map((preference) => (
                   <label
                     key={preference}
@@ -233,11 +233,11 @@ const Filters = ({
       )}
 
       {selectedCategory === "FLATS" && (
-        <div className="w-[320%] bg-white p-6 shadow-md m-1 sm:ml-4 rounded-xl">
+        <div className="w-fit bg-white p-2 shadow-md m-1 sm:ml-4 rounded-xl">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
               <h3 className="text-left font-medium mb-3 text-black">BHK</h3>
-              <div className="flex flex-row gap-20">
+              <div className="flex flex-row gap-6">
                 {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ 5 BHK"].map(
                   (bhk) => (
                     <label
@@ -265,7 +265,7 @@ const Filters = ({
               <h3 className="text-left font-medium mb-3 text-black">
                 Flats Type
               </h3>
-              <div className="flex flex-row gap-28">
+              <div className="flex flex-row gap-4">
                 {["Fully Furnished", "Semi Furnished", "Not Furnished"].map(
                   (type) => (
                     <label
@@ -291,7 +291,7 @@ const Filters = ({
               <h3 className="text-left font-medium mb-3 text-black">
                 Preference
               </h3>
-              <div className="flex flex-row gap-16">
+              <div className="flex flex-row gap-4">
                 {["Family", "Bachelors"].map((preference) => (
                   <label
                     key={preference}
@@ -332,13 +332,13 @@ const Filters = ({
       )}
 
       {selectedCategory === "PAYING GUESTS" && (
-        <div className="w-100% bg-white p-6 shadow-md ml-4 mt-1 rounded-xl">
+        <div className="w-fit bg-white p-4 shadow-md ml-4 rounded-xl">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col">
               <h3 className="text-left font-medium mb-3 text-black">
                 Preference
               </h3>
-              <div className="flex flex-row gap-8">
+              <div className="flex flex-row gap-4">
                 {["Girls", "Boys"].map((gender) => (
                   <label
                     key={gender}
