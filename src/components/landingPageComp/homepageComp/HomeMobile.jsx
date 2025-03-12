@@ -1,10 +1,53 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import drop from "../../../assets/property/drop.png";
-import background from "../../../assets/background.png";
+// import background from "../../../assets/background.png";
 import SelectLocation from "./SelectLocation";
 import { FaSearch } from "react-icons/fa";
 import areas from "./areas";
+import './style/mobileBackground.css'
+
+
+// -----------Birds Img------------
+import bird1 from "../../../assets/birds/bird1.svg";
+import bird2 from "../../../assets/birds/bird2.svg";
+
+// -----------Cloud IMG------------
+import cloud1 from "../../../assets/cloud/cloud1.svg";
+import cloud2 from "../../../assets/cloud/cloud2.svg";
+import cloud3 from "../../../assets/cloud/cloud3.svg";
+
+//------------Hand IMG--------------
+import hand from "../../../assets/hand/hand.svg";
+
+// ------------Home Img-------------
+import chimney from "../../../assets/home/chimney.svg";
+import wall1 from "../../../assets/home/wall-1.svg";
+import wall2 from "../../../assets/home/wall-2.svg";
+import roof1 from "../../../assets/home/roof.svg";
+import roof2 from "../../../assets/home/roof-top.svg";
+import roof3 from "../../../assets/home/backroof.svg";
+import roof4 from "../../../assets/home/rooftop1.svg";
+import gate from "../../../assets/home/gate.svg";
+import frontw1 from "../../../assets/home/window1.svg";
+import frontw2 from "../../../assets/home/window2.svg";
+import frontw3 from "../../../assets/home/window3.svg";
+import frontw4 from "../../../assets/home/window4.svg";
+import frontw5 from "../../../assets/home/window5.svg";
+import frontw6 from "../../../assets/home/window6.svg";
+
+// ---------- Plant Img----------
+import plant1 from "../../../assets/plant/plant1.svg";
+import plant2 from "../../../assets/plant/plant2.svg";
+
+//--------------Sun IMG-------------
+import sun from "../../../assets/sun/sun.svg";
+
+
+// ---------- Background Img----------
+import bg1 from "../../../assets/background/grey.svg";
+import bg2 from "../../../assets/background/black.svg";
+
 
 const citylocalities = {
   Lucknow: ["Gomti Nagar", "Aliganj", "Indira Nagar", "Chinhat", "Hazratganj"],
@@ -147,91 +190,187 @@ const HomeMobile = () => {
   };
 
   return (
-    <div
-      className="h-screen bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${background})` }}
-    >
-      {/* Main Content */}
-      <div className="relative z-10 px-4 pt-20">
-        {/* Logo and Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-white mt-12">
-            Welcome to To-Let Globe
-          </h1>
-          <p className="text-[#3cbdb1] text-lg">
-            NO BROKERAGES ON 
-            <TypewriterEffect /> {/* Integrated Typewriter Effect */}
-          </p>
-        </div>
-
-        {/* Search Container */}
-        <div className="max-w-xl mx-auto mt-8">
-          <div className="bg-white rounded-lg flex items-center p-1">
-            {/* City Selection */}
-            <div
-              className="flex items-center gap-4 p-2 border-r border-black cursor-pointer"
-              onClick={handleLocation}
-            >
-              <span className="text-gray-700">{city || "Select City"}</span>
-              <img src={drop} alt="Dropdown" className="w-3 h-2" />
-              <SelectLocation
-                Location={Location}
-                setLocation={setLocation}
-                onLocationSelect={(selectedCity) => {
-                  setCity(selectedCity);
-                  resetFilters();
-                  setLocation(false);
-                }}
-              />
-            </div>
-
-            {/* Search Input */}
-            <div className="flex-1 flex items-center px-2">
-              <FaSearch className="text-gray-400 mr-2" />
-              <input
-                type="text"
-                placeholder="Search House, PG, Flats, etc"
-                value={searchQuery}
-                onClick={(e) => {
-                  if (!city) {
-                    alert("Please select a city first");
-                    return;
-                  }
-                }}
-                onChange={handleSearch}
-                className="w-full outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent"
-              />
-            </div>
+    <div className="mobile-view-container">
+      <div className="h-screen relative">
+        {/* Main Content */}
+        <div className="relative z-10 px-4 pt-20">
+          {/* Logo and Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-bold text-white mt-12">
+              Welcome to To-Let Globe
+            </h1>
+            <p className="text-[#3cbdb1] text-lg">
+              NO BROKERAGES ON 
+              <TypewriterEffect /> {/* Integrated Typewriter Effect */}
+            </p>
           </div>
 
-          {/* Search Results Panel */}
-          {showSearchPanel && (
-            <div
-              ref={searchPanelRef}
-              className="bg-white rounded-2xl shadow-lg mt-2 max-h-[300px] overflow-y-auto"
-            >
-              {searchResults.localities.map((locality, index) => (
-                <div
-                  key={index}
-                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
-                  onClick={() => handleSearchSelection(locality, "locality")}
-                >
-                  <span>{locality}</span>
-                  <span className="text-gray-500 text-sm">Locality</span>
-                </div>
-              ))}
-              {searchResults.areas.map((area, index) => (
-                <div
-                  key={index}
-                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
-                  onClick={() => handleSearchSelection(area, "area")}
-                >
-                  <span>{area}</span>
-                  <span className="text-gray-500 text-sm">Area</span>
-                </div>
-              ))}
+          {/* Search Container */}
+          <div className="max-w-xl mx-auto mt-8">
+            <div className="bg-white rounded-lg flex items-center p-1">
+              {/* City Selection */}
+              <div
+                className="flex items-center gap-4 p-2 border-r border-black cursor-pointer"
+                onClick={handleLocation}
+              >
+                <span className="text-gray-700">{city || "Select City"}</span>
+                <img src={drop} alt="Dropdown" className="w-3 h-2" />
+                <SelectLocation
+                  Location={Location}
+                  setLocation={setLocation}
+                  onLocationSelect={(selectedCity) => {
+                    setCity(selectedCity);
+                    resetFilters();
+                    setLocation(false);
+                  }}
+                />
+              </div>
+
+              {/* Search Input */}
+              <div className="flex-1 flex items-center px-2">
+                <FaSearch className="text-gray-400 mr-2" />
+                <input
+                  type="text"
+                  placeholder="Search House, PG, Flats, etc"
+                  value={searchQuery}
+                  onClick={(e) => {
+                    if (!city) {
+                      alert("Please select a city first");
+                      return;
+                    }
+                  }}
+                  onChange={handleSearch}
+                  className="w-full outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent"
+                />
+              </div>
             </div>
-          )}
+
+            {/* Search Results Panel */}
+            {showSearchPanel && (
+              <div
+                ref={searchPanelRef}
+                className="bg-white rounded-2xl shadow-lg mt-2 max-h-[300px] overflow-y-auto"
+              >
+                {searchResults.localities.map((locality, index) => (
+                  <div
+                    key={index}
+                    className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
+                    onClick={() => handleSearchSelection(locality, "locality")}
+                  >
+                    <span>{locality}</span>
+                    <span className="text-gray-500 text-sm">Locality</span>
+                  </div>
+                ))}
+                {searchResults.areas.map((area, index) => (
+                  <div
+                    key={index}
+                    className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 flex items-center justify-between"
+                    onClick={() => handleSearchSelection(area, "area")}
+                  >
+                    <span>{area}</span>
+                    <span className="text-gray-500 text-sm">Area</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Background Components - always in final position */}
+        <div className="mobile-bottom-bg">
+          <div className="hand">
+            <img src={hand} alt="hand" />
+          </div>
+          <div className="bg-1">
+            <img src={bg1} alt="background-1" />
+          </div>
+          <div className="bg-2">
+            <img src={bg2} alt="background-2" />
+          </div>
+
+          {/* Sun */}
+          <div className="sun-circle">
+            <img src={sun} alt="sun" />
+          </div>
+          {/* Plants */}
+          <div className="plant-1">
+            <img src={plant1} alt="plant-1" />
+          </div>
+          <div className="plant-2">
+            <img src={plant2} alt="plant-2" />
+          </div>
+
+          {/* Walls */}
+          <div className="wall-1">
+            <img src={wall1} alt="wall-1" />
+          </div>
+          <div className="wall-2">
+            <img src={wall2} alt="wall-2" />
+          </div>
+
+          {/* Windows */}
+          <div className="window-1">
+            <img src={frontw1} alt="window-1" />
+          </div>
+          <div className="window-2">
+            <img src={frontw2} alt="window-2" />
+          </div>
+          <div className="window-3">
+            <img src={frontw3} alt="window-3" />
+          </div>
+          <div className="window-4">
+            <img src={frontw4} alt="window-4" />
+          </div>
+          <div className="window-5">
+            <img src={frontw5} alt="window-5" />
+          </div>
+          <div className="window-6">
+            <img src={frontw6} alt="window-6" />
+          </div>
+
+          {/* Gate */}
+          <div className="gate">
+            <img src={gate} alt="gate" />
+          </div>
+
+          {/* Chimney */}
+          <div className="chimney">
+            <img src={chimney} alt="chimney" />
+          </div>
+
+          {/* Roofs */}
+          <div className="roof-1">
+            <img src={roof1} alt="roof-1" />
+          </div>
+          <div className="roof-2">
+            <img src={roof2} alt="roof-2" />
+          </div>
+          <div className="roof-3">
+            <img src={roof3} alt="roof-3" />
+          </div>
+          <div className="roof-4">
+            <img src={roof4} alt="roof-4" />
+          </div>
+
+
+          {/* Birds */}
+          <div className="bird-1">
+            <img src={bird1} alt="bird-1" />
+          </div>
+          <div className="bird-2">
+            <img src={bird2} alt="bird-2" />
+          </div>
+
+          {/* Clouds */}
+          <div className="cloud-1">
+            <img src={cloud1} alt="cloud-1" />
+          </div>
+          <div className="cloud-2">
+            <img src={cloud2} alt="cloud-2" />
+          </div>
+          <div className="cloud-3">
+            <img src={cloud3} alt="cloud-3" />
+          </div>
         </div>
       </div>
     </div>
