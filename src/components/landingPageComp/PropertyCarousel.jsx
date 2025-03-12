@@ -117,9 +117,16 @@ const PropertyCarousel = () => {
 
       {/* Mobile View */}
       <div className="block min-[768px]:hidden max-w-[450px]">
-        <div className="bg-black text-white flex items-center justify-center flex-col p-5 mt-10 mb-10">
-          <div className="flex items-center justify-center flex-col gap-3 w-full my-1 mb-1">
-            <h1 className="text-4xl text-[#1b5f58] font-bold">Top Locations</h1>
+        <div className="bg-black text-white flex items-center justify-center flex-col p-5 mt-10 mb-4">
+          <div className="flex items-center justify-center flex-col gap-3 w-full my-1 ">
+            <h1 className="text-3xl text-[#1b5f58] font-semibold">
+              Top Locations
+            </h1>
+            <p className="text-[#C8A21C] text-xs text-center leading-[25px]">
+              We proudly offer our services in these major cities, having
+              successfully connected with numerous satisfied members along the
+              way.
+            </p>
           </div>
         </div>
 
@@ -148,9 +155,9 @@ const PropertyCarousel = () => {
                   </p>
                   <Link
                     to={`/property-listing/${slide.city}`}
-                    className="mx-auto px-4 py-2  my-4 bg-[#d3d3d3] text-black rounded-sm hover:bg-[#bebebe] transition-colors inline-block"
+                    className="mx-auto px-6 py-[7.25px]  my-4 bg-[#FFF] text-black rounded-[3px] hover:bg-[#bebebe] transition-colors inline-block"
                   >
-                    JOIN US
+                    Join Us
                   </Link>
                 </div>
               </div>
