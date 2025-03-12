@@ -7,8 +7,8 @@ const Card = ({ img, title, bg, path, description }) => {
   return (
     <div onClick={() => navigate(path)} className="group cursor-pointer">
       {/* Mobile & Tablet View */}
-      <div className="relative bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl w-full transition-shadow duration-300 cursor-pointer lg:hidden">
-        <div className="flex justify-center items-center ">
+      <div className="relative bg-[#D4DED8] rounded-lg overflow-hidden shadow-lg hover:shadow-xl w-full transition-shadow duration-300 cursor-pointer lg:hidden h-[180px] md:w-[240px] md:h-[220px]">
+        <div className="flex justify-center items-center h-[40%]">
           <img
             src={img}
             className="h-[40px] w-[40px] my-6 object-contain"
@@ -16,19 +16,14 @@ const Card = ({ img, title, bg, path, description }) => {
           />
         </div>
         <div
-          className={`rounded-b-lg text-center group-hover:bg-opacity-80 min-h-[3.5rem] flex items-center justify-center px-2 ${bg}`}
+          className={`rounded-b-lg text-left min-h-[3.5rem] flex flex-col items-start justify-center px-4 ${bg} h-[60%]`}
         >
-          <h1 className="text-base sm:text-lg md:text-xl font-bold whitespace-normal leading-tight text-black">
+          <h1 className="text-base sm:text-lg md:text-xl font-semibold whitespace-normal leading-tight text-black">
             {title}
           </h1>
-        </div>
-        <div
-          className={`absolute inset-0 flex flex-col items-center justify-center p-4 ${bg} bg-opacity-90 opacity-0 group-hover:opacity-100`}
-        >
-          <h1 className="text-base sm:text-lg md:text-xl font-bold mb-2 text-center text-black">
-            {title}
-          </h1>
-          <p className="text-sm text-center">{description}</p>
+          <p className="text-black font-normal text-[09px] tracking-[0%] max-w-full break-words mt-2 leading-tight">
+            {description}
+          </p>
         </div>
       </div>
 
