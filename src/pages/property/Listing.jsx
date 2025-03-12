@@ -487,8 +487,8 @@ const Listing = () => {
         id="property"
       >
         {/* <div className="container mx-auto  px-10"> */}
-        <div className=" flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
-          <div className="hidden flex items-center justify-between">
+        <div className=" flex flex-col gap-6 pt-6 sticky top-0 z-20 bg-black">
+          {/* <div className="hidden flex items-center justify-between">
             <p className="lg:text-[45px] md:text-4xl text-[#C8A21C] font-bold">
               Property Listing
             </p>
@@ -497,10 +497,10 @@ const Listing = () => {
               alt="Hamburger Menu"
               className=" lg:w-12 md:w-11 w-9 h-auto"
             />
-          </div>
+          </div> */}
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 text-sm md:text-lg">
             {/* Search bar section - spans 8 columns on larger screens */}
-            <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md w-full">
+            <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md lg:w-full w-[96%] mx-[2%] ">
               <div className="flex flex-wrap items-center text-black  text-sm md:text-lg">
                 {/* Location Logic */}
                 <div
@@ -615,7 +615,7 @@ const Listing = () => {
                       type="text"
                       placeholder={
                         windowWidth < 768
-                          ? "Search..."
+                          ? "Search by Locality or Area..."
                           : "Search by Locality or Area..."
                       }
                       value={searchQuery}
@@ -628,7 +628,7 @@ const Listing = () => {
                       onChange={(e) => {
                         handleSearch(e);
                       }}
-                      className="outline-none bg-transparent text-black placeholder-gray-500 min-w-[100px] flex-1"
+                      className="outline-none bg-transparent text-black placeholder-gray-500 min-w-[100px] flex-1 text-xs lg:text-xl"
                     />
                   </div>
 
@@ -670,7 +670,8 @@ const Listing = () => {
                     )}
                 </div>
 
-                {/* Filters logic */}
+                <div className="hidden lg:flex md:flex">
+                  {/* Filters logic */}
                 <div
                   className="flex items-center gap-2 border-l px-3 border-black shrink-0 cursor-pointer"
                   onClick={handleOpen}
@@ -702,7 +703,7 @@ const Listing = () => {
                     <div
                       className={`${
                         mode ? "block" : "hidden"
-                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-110px]`}
+                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-160px]`}
                     >
                       <p
                         className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
@@ -739,15 +740,91 @@ const Listing = () => {
                     </div>
                   </div>
                 </div>
+                </div>
               </div>
             </div>
 
+            {/* filter and sort for small screen */}
+            <div className="lg:hidden md:hidden flex flex-wrap justify-between w-[96%] mx-[2%] ">
+               
+                {/* SORT LOGIC */}
+                <div
+                  className="flex items-center gap-4 border-l pl-4 justify-center border-black shrink-0 cursor-pointer text-black bg-white rounded-lg py-2 "
+                  onClick={handleMode}
+                >
+                  <span className="text-sm md:text-lg whitespace-nowrap">
+                    Sort
+                  </span>
+                  <img
+                    src={drop}
+                    alt="Dropdown"
+                    className={`${
+                      mode ? "rotate-180" : "rotate-0"
+                    } cursor-pointer`}
+                  />
+                  <div className="relative text-sm lg:text-lg">
+                    <div
+                      className={`${
+                        mode ? "block" : "hidden"
+                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] lg:left-[-150px] left-[-85px] sm:top-[36px] sm:left-[-110px]`}
+                    >
+                      <p
+                        className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          handleSortClick("price-low-high"), setMode(false);
+                        }}
+                      >
+                        Price: Low to High
+                      </p>
+                      <p
+                        className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          handleSortClick("price-high-low"), setMode(false);
+                        }}
+                      >
+                        Price: High to Low
+                      </p>
+                      <p
+                        className="py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          handleSortClick("most-trending"), setMode(false);
+                        }}
+                      >
+                        Most Trending
+                      </p>
+                      <p
+                        className="py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          handleSortClick("date-uploaded"), setMode(false);
+                        }}
+                      >
+                        Date Uploaded
+                      </p>
+                    </div>
+                  </div>
+              </div>
+              
+              {/* Filters logic */}
+              <div
+                  className="flex items-center gap-2 border-l py-3  px-3 border-black shrink-0 cursor-pointer text-black bg-white rounded-lg"
+                  onClick={handleOpen}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm md:text-lg whitespace-nowrap">
+                      Filters
+                    </span>
+                    <img src={drop} alt="Dropdown" className="cursor-pointer" />
+                  </div>
+                </div>
+
+            </div>
+
             {/* Compare and Add Property buttons - span 4 columns together */}
-            <div className="sm:col-span-4 md:col-span-6 flex gap- items-center justify-between">
+            <div className="sm:col-span-4 md:col-span-6 flex  items-center justify-center lg:justify-between -mt-[75px] lg:mt-0">
               {compareProperty.length >= 2 && (
                 <div className="compare" onClick={compare}>
                   <button
-                    className={`bg-white h-12 sm:h-14 w-32 text-black rounded-lg flex gap-5 text-center items-center py-3 px-6 font-medium ${
+                    className={`bg-white h-11 sm:h-14 w-32 text-black rounded-lg flex gap-5 text-center items-center px-6 font-medium ${
                       compareProperty.length <= 0
                         ? "opacity-50 grayscale cursor-not-allowed"
                         : ""
@@ -775,50 +852,43 @@ const Listing = () => {
         </div>
 
         <div
-          onClick={() => {
-            if (isOpen === true) SetIsOpen(false);
-          }}
-          className={`min-w-full min-h-fit absolute z-30 top-10 flex items-center justify-center ${
-            isOpen ? "block" : "hidden"
-          } `}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[18rem] top-[89px] sm:top-28 -right-[0px] m-4 sm:right-[28.8rem]"
-          >
-            <Filters
-              SetIsOpen={SetIsOpen}
-              setProperties={setProperties}
-              city={city}
-              updateFilterCount={updateFilterCount}
-              filterCount={filterCount}
-              setTotalPages={setTotalPages}
-              filters={filters}
-              setFilters={setFilters}
-              resetFilters={resetFilters}
-              fetchAndFilterProperties={fetchAndFilterProperties}
-              setCurrentPage={setCurrentPage}
-              selectedArea={selectedArea}
-              selectedLocality={selectedLocality}
-            />
-            {/* <div className="absolute top-1 right-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                onClick={handleOpen}
-                className="cursor-pointer w-5 lg:w-6 md:w-6 z-50 text-red-400 hover:text-red-800 transition-colors duration-300"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L8.586 12 5.47 6.53a.75.75 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div> */}
-          </div>
-        </div>
+  onClick={() => {
+    if (isOpen) SetIsOpen(false);
+  }}
+  className={`fixed lg:absolute inset-0 z-30 lg:z-50  flex sm:items-center lg:item-center bg-black bg-opacity-50 sm:bg-transparent transition-opacity duration-300 ${
+    isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+  }`}
+>
+  {/* This div slides in on small screens */}
+  <div
+    onClick={(e) => e.stopPropagation()}
+    className={`absolute top-0  right-0 w-full lg:w-fit h-full lg:h-auto bg-black text-white shadow-lg transition-transform duration-300 ease-in-out transform z-40 
+      ${isOpen ? "translate-x-0" : "translate-x-full"} 
+      sm:relative sm:w-full sm:h-auto sm:translate-x-0 sm:bg-transparent sm:shadow-none sm:block`}
+  >
+    {/* Filters will ALWAYS be inside this div */}
+    <div className="lg:p-0 lg:absolute lg:-top-[34rem] lg:left-[8.5rem]">
+      
+      <Filters
+        SetIsOpen={SetIsOpen}
+        setProperties={setProperties}
+        city={city}
+        updateFilterCount={updateFilterCount}
+        filterCount={filterCount}
+        setTotalPages={setTotalPages}
+        filters={filters}
+        setFilters={setFilters}
+        resetFilters={resetFilters}
+        fetchAndFilterProperties={fetchAndFilterProperties}
+        setCurrentPage={setCurrentPage}
+        selectedArea={selectedArea}
+        selectedLocality={selectedLocality}
+      />
+    </div>
 
+    
+  </div>
+</div>
         {properties.length === 0 ? (
           <p className="text-center text-lg font-semibold mt-10">
             No properties found

@@ -209,20 +209,20 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   ? "Rent Out"
                   : "NA"}
               </div>
-              <div className="banner-actions absolute bottom-1 left-2 right-4 flex  justify-between">
+              <div className="banner-actions absolute bottom-1 left-2 right-2 flex  justify-between">
                 <div className="item-center">
-                  <button className="banner-actions-btn flex items-center text-white">
+                  <button className="banner-actions-btn flex items-center  text-white">
                     <MdOutlineMyLocation className="text-xs lg:text-sm drop-shadow-2xl shadow-black" />
-                    <address className="text-xs lg:text-sm p-1  shadow-black text-shadow">
+                    <address className="text-[10px] lg:text-sm p-1  shadow-black text-shadow">
                       {`${property.area}, ${property.locality}`}
                     </address>
                   </button>
                 </div>
-                <div className="flex gap-4 text-sm">
-                  <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                <div className="flex gap-1 text-sm">
+                  <button className="banner-img_video-btn flex items-center gap-1 text-white drop-shadow shadow-black">
                     <FaVideo className="lg:text-sm text-xs " />
                   </button>
-                  <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                  <button className="banner-img_video-btn flex items-center gap-1 text-white drop-shadow shadow-black">
                     <FaRegImage className="lg:text-sm text-xs " />
                     {property.images?.length}
                   </button>

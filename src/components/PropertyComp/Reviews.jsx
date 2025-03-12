@@ -147,7 +147,7 @@ const Reviews = ({ property }) => {
         </div>
 
         <div className="flex flex-col sm:flex-row items-start justify-between w-full  xl:p-6 p-4 border border-black rounded-lg shadow-md bg-gray-100 gap-6">
-        <div className="flex flex-col flex-wrap items-start w-full lg:w-[35%]">
+        <div className="hidden lg:flex flex-col flex-wrap items-start w-full lg:w-[35%]">
     <h3 className="text-xl mb-2 font-bold text-[#505050]">Rate This Property On Your Experience</h3>
     <ReactStars
       count={5}
