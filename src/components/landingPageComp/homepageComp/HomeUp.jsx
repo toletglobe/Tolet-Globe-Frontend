@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import TopBg from "./TopBg";
+import { useLocation } from 'react-router-dom';
 
 const HomeUp = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   const handleScroll = () => {
     if (window.scrollY > 5) {
@@ -15,7 +17,7 @@ const HomeUp = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [location.pathname]);
 
   return (
     <div className="relative w-full h-screen overflow-hidden">

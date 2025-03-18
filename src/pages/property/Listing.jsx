@@ -216,33 +216,153 @@ const Listing = () => {
     });
   };
 
+  const sortPropertiesByAvailability = (properties) => {
+    return properties.slice().sort((a, b) => {
+      const statusA = a.availabilityStatus.trim().toLowerCase();
+      const statusB = b.availabilityStatus.trim().toLowerCase();
+  
+      if (statusA === "available" && statusB !== "available") {
+        return -1;
+      } else if (statusA !== "available" && statusB === "available") {
+        return 1;
+      } 
+      return 0;
+    });
+  };
+  
+  // const fetchAndFilterProperties = async (
+  //   selectedCity,
+  //   selectedArea,
+  //   selectedLocality
+  // ) => {
+  //   setLoading(true);
+
+  //   try {
+  //     let cleanedFilters = {
+  //       ...filters,
+  //       bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
+  //     };
+
+  //     if (residential) {
+  //       cleanedFilters = {
+  //         ...filters,
+  //         residential: [residential],
+  //       };
+  //     }
+
+  //     if (commercial) {
+  //       cleanedFilters = {
+  //         ...filters,
+  //         commercial: [commercial],
+  //       };
+  //     }
+
+  //     let queryString = Object.keys(cleanedFilters)
+  //       .filter(
+  //         (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
+  //       )
+  //       .map((key) => {
+  //         const value = Array.isArray(cleanedFilters[key])
+  //           ? cleanedFilters[key].map(encodeURIComponent).join(",")
+  //           : encodeURIComponent(cleanedFilters[key]);
+  //         return `${encodeURIComponent(key)}=${value}`;
+  //       })
+  //       .join("&");
+
+  //     if (selectedCity) {
+  //       queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
+  //       if (selectedArea.length > 0) {
+  //         queryString =
+  //           queryString +
+  //           `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
+  //       } else if (selectedLocality) {
+  //         queryString =
+  //           queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
+  //       }
+  //     }
+
+  //     queryString = queryString + `&page=${currentPage}`;
+
+  //     const url = `${BASE_URL}property/filter?${queryString}`;
+  //     // console.log("Request URL:", url); // Log the constructed URL
+
+  //     try {
+  //       const response = await axios.get(url);
+  //       let propertyData = response.data.data; // Store the response data
+  //       // console.log(propertyData);
+
+  //       // If no data is found for the area, fall back to the locality
+  //       if (
+  //         propertyData.length === 0 &&
+  //         selectedArea.length > 0 &&
+  //         selectedLocality
+  //       ) {
+  //         queryString = queryString.replace(
+  //           /&area=[^&]*/,
+  //           `&locality=${encodeURIComponent(selectedLocality)}`
+  //         );
+  //         const fallbackUrl = `${BASE_URL}property/filter?${queryString}`;
+  //         // console.log("Fallback Request URL:", fallbackUrl); // Log the fallback URL
+  //         const fallbackResponse = await axios.get(fallbackUrl);
+  //         propertyData = fallbackResponse.data.data;
+  //       }
+
+  //       // Sort by created date if needed
+  //       if (propertyData && Array.isArray(propertyData)) {
+  //         propertyData.sort(
+  //           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  //         );
+  //       }
+
+  //       setProperties(propertyData); // Update properties with the sorted results
+  //       setTotalPages(response.data.totalPages || 1);
+
+  //       // Check if no properties were found
+  //       setNoPropertiesFound(propertyData.length === 0);
+
+  //       // Handle sorting if needed
+  //       const searchParams = new URLSearchParams(location.search);
+  //       const sortType = searchParams.get("sort");
+  //       if (sortType && Array.isArray(propertyData)) {
+  //         sortProperties(propertyData, sortType);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.error("Error fetching properties:", error);
+  //     setLoading(false);
+  //   }
+  // };
   const fetchAndFilterProperties = async (
     selectedCity,
     selectedArea,
     selectedLocality
   ) => {
     setLoading(true);
-
+  
     try {
       let cleanedFilters = {
         ...filters,
         bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
       };
-
+  
       if (residential) {
         cleanedFilters = {
           ...filters,
           residential: [residential],
         };
       }
-
+  
       if (commercial) {
         cleanedFilters = {
           ...filters,
           commercial: [commercial],
         };
       }
-
+  
       let queryString = Object.keys(cleanedFilters)
         .filter(
           (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
@@ -254,7 +374,7 @@ const Listing = () => {
           return `${encodeURIComponent(key)}=${value}`;
         })
         .join("&");
-
+  
       if (selectedCity) {
         queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
         if (selectedArea.length > 0) {
@@ -266,18 +386,18 @@ const Listing = () => {
             queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
         }
       }
-
+  
       queryString = queryString + `&page=${currentPage}`;
-
+  
       const url = `${BASE_URL}property/filter?${queryString}`;
-      // console.log("Request URL:", url); // Log the constructed URL
-
+      console.log("Request URL:", url); // Log the constructed URL
+  
       try {
         const response = await axios.get(url);
         let propertyData = response.data.data; // Store the response data
-        // console.log(propertyData);
-
-        // If no data is found for the area, fall back to the locality
+        console.log(propertyData);
+  
+        // Handle fallback logic if no properties are found
         if (
           propertyData.length === 0 &&
           selectedArea.length > 0 &&
@@ -288,24 +408,22 @@ const Listing = () => {
             `&locality=${encodeURIComponent(selectedLocality)}`
           );
           const fallbackUrl = `${BASE_URL}property/filter?${queryString}`;
-          // console.log("Fallback Request URL:", fallbackUrl); // Log the fallback URL
+          console.log("Fallback Request URL:", fallbackUrl); // Log the fallback URL
           const fallbackResponse = await axios.get(fallbackUrl);
           propertyData = fallbackResponse.data.data;
         }
-
-        // Sort by created date if needed
+  
+        // Sort properties by availability status (available first, then rented out)
         if (propertyData && Array.isArray(propertyData)) {
-          propertyData.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          );
+          propertyData = sortPropertiesByAvailability(propertyData); // Execute sorting here
         }
-
+  
         setProperties(propertyData); // Update properties with the sorted results
         setTotalPages(response.data.totalPages || 1);
-
+  
         // Check if no properties were found
         setNoPropertiesFound(propertyData.length === 0);
-
+  
         // Handle sorting if needed
         const searchParams = new URLSearchParams(location.search);
         const sortType = searchParams.get("sort");
@@ -315,14 +433,13 @@ const Listing = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-
+  
       setLoading(false);
     } catch (error) {
       console.error("Error fetching properties:", error);
       setLoading(false);
     }
   };
-
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
