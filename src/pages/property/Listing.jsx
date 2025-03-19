@@ -216,153 +216,33 @@ const Listing = () => {
     });
   };
 
-  const sortPropertiesByAvailability = (properties) => {
-    return properties.slice().sort((a, b) => {
-      const statusA = a.availabilityStatus.trim().toLowerCase();
-      const statusB = b.availabilityStatus.trim().toLowerCase();
-  
-      if (statusA === "available" && statusB !== "available") {
-        return -1;
-      } else if (statusA !== "available" && statusB === "available") {
-        return 1;
-      } 
-      return 0;
-    });
-  };
-  
-  // const fetchAndFilterProperties = async (
-  //   selectedCity,
-  //   selectedArea,
-  //   selectedLocality
-  // ) => {
-  //   setLoading(true);
-
-  //   try {
-  //     let cleanedFilters = {
-  //       ...filters,
-  //       bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
-  //     };
-
-  //     if (residential) {
-  //       cleanedFilters = {
-  //         ...filters,
-  //         residential: [residential],
-  //       };
-  //     }
-
-  //     if (commercial) {
-  //       cleanedFilters = {
-  //         ...filters,
-  //         commercial: [commercial],
-  //       };
-  //     }
-
-  //     let queryString = Object.keys(cleanedFilters)
-  //       .filter(
-  //         (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
-  //       )
-  //       .map((key) => {
-  //         const value = Array.isArray(cleanedFilters[key])
-  //           ? cleanedFilters[key].map(encodeURIComponent).join(",")
-  //           : encodeURIComponent(cleanedFilters[key]);
-  //         return `${encodeURIComponent(key)}=${value}`;
-  //       })
-  //       .join("&");
-
-  //     if (selectedCity) {
-  //       queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
-  //       if (selectedArea.length > 0) {
-  //         queryString =
-  //           queryString +
-  //           `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
-  //       } else if (selectedLocality) {
-  //         queryString =
-  //           queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
-  //       }
-  //     }
-
-  //     queryString = queryString + `&page=${currentPage}`;
-
-  //     const url = `${BASE_URL}property/filter?${queryString}`;
-  //     // console.log("Request URL:", url); // Log the constructed URL
-
-  //     try {
-  //       const response = await axios.get(url);
-  //       let propertyData = response.data.data; // Store the response data
-  //       // console.log(propertyData);
-
-  //       // If no data is found for the area, fall back to the locality
-  //       if (
-  //         propertyData.length === 0 &&
-  //         selectedArea.length > 0 &&
-  //         selectedLocality
-  //       ) {
-  //         queryString = queryString.replace(
-  //           /&area=[^&]*/,
-  //           `&locality=${encodeURIComponent(selectedLocality)}`
-  //         );
-  //         const fallbackUrl = `${BASE_URL}property/filter?${queryString}`;
-  //         // console.log("Fallback Request URL:", fallbackUrl); // Log the fallback URL
-  //         const fallbackResponse = await axios.get(fallbackUrl);
-  //         propertyData = fallbackResponse.data.data;
-  //       }
-
-  //       // Sort by created date if needed
-  //       if (propertyData && Array.isArray(propertyData)) {
-  //         propertyData.sort(
-  //           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  //         );
-  //       }
-
-  //       setProperties(propertyData); // Update properties with the sorted results
-  //       setTotalPages(response.data.totalPages || 1);
-
-  //       // Check if no properties were found
-  //       setNoPropertiesFound(propertyData.length === 0);
-
-  //       // Handle sorting if needed
-  //       const searchParams = new URLSearchParams(location.search);
-  //       const sortType = searchParams.get("sort");
-  //       if (sortType && Array.isArray(propertyData)) {
-  //         sortProperties(propertyData, sortType);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error("Error fetching properties:", error);
-  //     setLoading(false);
-  //   }
-  // };
   const fetchAndFilterProperties = async (
     selectedCity,
     selectedArea,
     selectedLocality
   ) => {
     setLoading(true);
-  
+
     try {
       let cleanedFilters = {
         ...filters,
         bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
       };
-  
+
       if (residential) {
         cleanedFilters = {
           ...filters,
           residential: [residential],
         };
       }
-  
+
       if (commercial) {
         cleanedFilters = {
           ...filters,
           commercial: [commercial],
         };
       }
-  
+
       let queryString = Object.keys(cleanedFilters)
         .filter(
           (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
@@ -374,7 +254,7 @@ const Listing = () => {
           return `${encodeURIComponent(key)}=${value}`;
         })
         .join("&");
-  
+
       if (selectedCity) {
         queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
         if (selectedArea.length > 0) {
@@ -386,18 +266,18 @@ const Listing = () => {
             queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
         }
       }
-  
+
       queryString = queryString + `&page=${currentPage}`;
-  
+
       const url = `${BASE_URL}property/filter?${queryString}`;
-      console.log("Request URL:", url); // Log the constructed URL
-  
+      // console.log("Request URL:", url); // Log the constructed URL
+
       try {
         const response = await axios.get(url);
         let propertyData = response.data.data; // Store the response data
-        console.log(propertyData);
-  
-        // Handle fallback logic if no properties are found
+        // console.log(propertyData);
+
+        // If no data is found for the area, fall back to the locality
         if (
           propertyData.length === 0 &&
           selectedArea.length > 0 &&
@@ -408,22 +288,24 @@ const Listing = () => {
             `&locality=${encodeURIComponent(selectedLocality)}`
           );
           const fallbackUrl = `${BASE_URL}property/filter?${queryString}`;
-          console.log("Fallback Request URL:", fallbackUrl); // Log the fallback URL
+          // console.log("Fallback Request URL:", fallbackUrl); // Log the fallback URL
           const fallbackResponse = await axios.get(fallbackUrl);
           propertyData = fallbackResponse.data.data;
         }
-  
-        // Sort properties by availability status (available first, then rented out)
+
+        // Sort by created date if needed
         if (propertyData && Array.isArray(propertyData)) {
-          propertyData = sortPropertiesByAvailability(propertyData); // Execute sorting here
+          propertyData.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
         }
-  
+
         setProperties(propertyData); // Update properties with the sorted results
         setTotalPages(response.data.totalPages || 1);
-  
+
         // Check if no properties were found
         setNoPropertiesFound(propertyData.length === 0);
-  
+
         // Handle sorting if needed
         const searchParams = new URLSearchParams(location.search);
         const sortType = searchParams.get("sort");
@@ -433,13 +315,14 @@ const Listing = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-  
+
       setLoading(false);
     } catch (error) {
       console.error("Error fetching properties:", error);
       setLoading(false);
     }
   };
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
@@ -615,7 +498,7 @@ const Listing = () => {
               className=" lg:w-12 md:w-11 w-9 h-auto"
             />
           </div> */}
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 text-sm md:text-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 text-sm md:text-lg">
             {/* Search bar section - spans 8 columns on larger screens */}
             <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md lg:w-full w-[96%] mx-[2%] ">
               <div className="flex flex-wrap items-center text-black  text-sm md:text-lg">
@@ -647,7 +530,7 @@ const Listing = () => {
                 </div>
 
                 {/* Search Input */}
-                <div className="flex-1 min-w-0 flex items-center gap-2 px-4 my-1 text-sm md:text-lg">
+                <div className="flex-1 min-w-0 flex items-center gap-2 px-4 lg:px-8 my-1 text-sm md:text-lg">
                   <FaSearch className="text-black shrink-0" />
                   <div className="flex flex-wrap items-center gap-1 py-2 w-full overflow-x-hidden">
                     {selectedLocality && (
@@ -755,7 +638,7 @@ const Listing = () => {
                       searchResults.areas.length > 0) && (
                       <div
                         ref={searchPanelRef}
-                        className="absolute top-20 left-36 mt-2 w-1/4 bg-white rounded-lg shadow-lg z-50 max-h-[300px] overflow-y-auto"
+                        className="absolute top-20 left-36 mt-2 lg:w-[32%] w-[52%] xs:w-[59%] bg-white rounded-lg shadow-lg z-50 max-h-[300px] overflow-y-auto"
                       >
                         {[
                           ...searchResults.localities,
@@ -768,7 +651,7 @@ const Listing = () => {
                               key={`${
                                 isLocality ? "locality" : "area"
                               }-${index}`}
-                              className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-black flex items-center justify-between"
+                              className="px-2 py-2 hover:bg-gray-100 cursor-pointer text-black flex items-center justify-between"
                               onClick={() =>
                                 handleSearchSelection(
                                   item,
@@ -777,7 +660,7 @@ const Listing = () => {
                               }
                             >
                               <span className="text-black">{item}</span>
-                              <span className="text-gray-500 min-w-[60px]">
+                              <span className="text-gray-500 min-w-[60px] text-end">
                                 {isLocality ? "Locality" : "Area"}
                               </span>
                             </div>
@@ -803,7 +686,7 @@ const Listing = () => {
 
                 {/* SORT LOGIC */}
                 <div
-                  className="flex items-center gap-2 border-l pl-3 border-black shrink-0 cursor-pointer"
+                  className="flex items-center gap-2 border-l pl-3 lg:px-12 border-black shrink-0 cursor-pointer"
                   onClick={handleMode}
                 >
                   <span className="text-sm md:text-lg whitespace-nowrap">
@@ -820,7 +703,7 @@ const Listing = () => {
                     <div
                       className={`${
                         mode ? "block" : "hidden"
-                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-160px]`}
+                      } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-113px]`}
                     >
                       <p
                         className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
@@ -839,7 +722,7 @@ const Listing = () => {
                         Price: High to Low
                       </p>
                       <p
-                        className="py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                         onClick={() => {
                           handleSortClick("most-trending"), setMode(false);
                         }}
@@ -902,7 +785,7 @@ const Listing = () => {
                         Price: High to Low
                       </p>
                       <p
-                        className="py-2 font-medium cursor-pointer hover:bg-gray-100"
+                        className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                         onClick={() => {
                           handleSortClick("most-trending"), setMode(false);
                         }}
@@ -937,11 +820,11 @@ const Listing = () => {
             </div>
 
             {/* Compare and Add Property buttons - span 4 columns together */}
-            <div className="sm:col-span-4 md:col-span-6 flex  items-center justify-center lg:justify-between -mt-[75px] lg:mt-0">
+            <div className="sm:col-span-4 md:col-span-4 flex w-fit xs:w-[50%]  items-center justify-center lg:justify-between -mt-[76px] ml-[98px] xs:[96px] lg:ml-4 lg:mt-0">
               {compareProperty.length >= 2 && (
                 <div className="compare" onClick={compare}>
                   <button
-                    className={`bg-white h-11 sm:h-14 w-32 text-black rounded-lg flex gap-5 text-center items-center px-6 font-medium ${
+                    className={`bg-white h-11 sm:h-14 w-32 text-black rounded-lg flex gap-5 text-center items-center px-6 lg:py-7 font-medium ${
                       compareProperty.length <= 0
                         ? "opacity-50 grayscale cursor-not-allowed"
                         : ""
@@ -972,7 +855,7 @@ const Listing = () => {
   onClick={() => {
     if (isOpen) SetIsOpen(false);
   }}
-  className={`fixed lg:absolute inset-0 z-30 lg:z-50  flex sm:items-center lg:item-center bg-black bg-opacity-50 sm:bg-transparent transition-opacity duration-300 ${
+  className={`fixed lg:absolute inset-0 z-30 lg:z-50  flex sm:items-center lg:item-center bg-black bg-opacity-50 sm:bg-transparent lg:bg-black/50 transition-opacity duration-300 ${
     isOpen ? "opacity-100 visible" : "opacity-0 invisible"
   }`}
 >
@@ -984,7 +867,7 @@ const Listing = () => {
       sm:relative sm:w-full sm:h-auto sm:translate-x-0 sm:bg-transparent sm:shadow-none sm:block`}
   >
     {/* Filters will ALWAYS be inside this div */}
-    <div className="lg:p-0 lg:absolute lg:-top-[34rem] lg:left-[8.5rem]">
+    <div className="lg:p-0 lg:absolute lg:-top-[35rem] 2xl:-top-[34rem] lg:left-[11rem] 2xl:left-[11rem]">
       
       <Filters
         SetIsOpen={SetIsOpen}

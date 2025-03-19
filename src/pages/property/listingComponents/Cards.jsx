@@ -352,7 +352,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 <div className="card-text font-poppins py-3 lg:text-lg text-xs font-semibold text-[#505050]">
                   {property.type}, {property.floor}
                 </div>
-              </div>
+              </div>  
               <ul className="card-list custom-card-list pb-3 lg:py-2 ">
                 <li className="bed card-item flex items-center text-base">
                   <IoBedOutline className="text-lg lg:text-3xl" />

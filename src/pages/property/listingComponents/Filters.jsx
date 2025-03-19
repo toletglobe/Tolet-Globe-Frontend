@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 // import { BASE_URL } from "../../../constant/constant";
 import {
   BsHouseDoor,
-  BsBuilding,
-  BsPeople,
+  BsBuildings,
   BsBriefcase,
   BsShop,
-  BsBox,
 } from "react-icons/bs";
+
+import { RiHotelBedLine } from "react-icons/ri";
+import { MdOutlineWarehouse } from "react-icons/md";
+
 
 const Filters = ({
   SetIsOpen,
@@ -88,20 +90,20 @@ const Filters = ({
     }));
 
     // Update filters based on category
-    if (category === "HOUSES" || category === "FLATS") {
+    if (category === "House" || category === "Flats") {
       handleFilterChange(
         "residential",
-        category === "HOUSES" ? "+ House" : "+ Flat"
+        category === "House" ? "+ House" : "+ Flat"
       );
-    } else if (category === "PAYING GUESTS") {
+    } else if (category === "PG") {
       handleFilterChange("residential", "+ PG");
-    } else if (category === "OFFICES") {
+    } else if (category === "Office") {
       handleFilterChange("commercial", "+ Office");
       seeResults();
-    } else if (category === "SHOPS") {
+    } else if (category === "Shops") {
       handleFilterChange("commercial", "+ Shop");
       seeResults();
-    } else if (category === "WAREHOUSES") {
+    } else if (category === "Warehouse") {
       handleFilterChange("commercial", "+ Warehouse");
       seeResults();
     }
@@ -121,18 +123,18 @@ const Filters = ({
     </button>
         </div>
         
-        <div className="lg:flex gap-4 lg:gap-0 grid grid-cols-2 justify-items-center lg:justify-items-start ">
+        <div className="lg:flex gap-4 lg:gap-3 2xl:gap-[1.35rem] grid grid-cols-2 justify-items-center lg:justify-items-start ">
           {[
-            { icon: BsHouseDoor, text: "HOUSES" },
-            { icon: BsBuilding, text: "FLATS" },
-            { icon: BsPeople, text: "PAYING GUESTS" },
-            { icon: BsBriefcase, text: "OFFICES" },
-            { icon: BsShop, text: "SHOPS" },
-            { icon: BsBox, text: "WAREHOUSES" },
+            { icon: BsHouseDoor, text: "House" },
+            { icon: BsBuildings, text: "Flats" },
+            { icon: RiHotelBedLine, text: "PG" },
+            { icon: BsBriefcase, text: "Office" },
+            { icon: BsShop, text: "Shops" },
+            { icon: MdOutlineWarehouse, text: "Warehouse" },
           ].map((item, index) => (
             <div
               key={index}
-              className="flex lg:flex-col flex-row justify-center items-center lg:w-[100px] w-[140px]  cursor-pointer text-black bg-white  hover:text-[#0c8a7e] rounded-xl py-1.5 border-black lg:border-none border "
+              className="flex lg:flex-col flex-row justify-center items-center lg:w-[100px] w-[140px]  cursor-pointer text-black bg-white  hover:text-[#0c8a7e] lg:hover:bg-[#C8A21C] lg:hover:text-white rounded-xl py-1.5 border-black lg:border-none border gap-2 lg:gap-0 "
               onClick={() => handleCategoryClick(item.text)}
             >
               <item.icon size={24} className="mb-2 " />
@@ -144,7 +146,7 @@ const Filters = ({
         </div>
       </div>
 
-      {selectedCategory === "HOUSES" && (
+      {selectedCategory === "House" && (
         <div className=" w-full lg:bg-white bg-[#333333]  py-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl ">
           <div className="flex flex-col flex-wrap gap-5 lg:gap-4">
             <div className="flex flex-col">
@@ -162,7 +164,7 @@ const Filters = ({
                         value={bhk}
                         checked={filters.bhk.includes(bhk)}
                         onChange={() => handleFilterChange("bhk", bhk)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 lg:border-black border-white checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                        className="appearance-none w-4 h-4 rounded-full border-2 lg:border-black border-white checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
                       <span className="text-sm lg:text-black text-white overflow-hidden whitespace-nowrap text-ellipsis">
                         {bhk}
@@ -190,7 +192,7 @@ const Filters = ({
                         value={type}
                         checked={filters.houseType.includes(type)}
                         onChange={() => handleFilterChange("houseType", type)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                        className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
                       <span className="text-sm lg:text-black text-white">{type}</span>
                     </label>
@@ -217,7 +219,7 @@ const Filters = ({
                       onChange={() =>
                         handleFilterChange("preferenceHousing", preference)
                       }
-                      className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                      className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
                     <span className="text-sm lg:text-black text-white">{preference}</span>
                   </label>
@@ -243,7 +245,7 @@ const Filters = ({
         </div>
       )}
 
-      {selectedCategory === "FLATS" && (
+      {selectedCategory === "Flats" && (
         <div className="w-full lg:bg-white bg-[#333333]  py-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl">
           <div className="flex flex-col lg:gap-4 gap-5 ">
             <div className="flex flex-col">
@@ -261,7 +263,7 @@ const Filters = ({
                         value={bhk}
                         checked={filters.bhk.includes(bhk)}
                         onChange={() => handleFilterChange("bhk", bhk)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                        className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
                       <span className="text-sm lg:text-black text-white overflow-hidden whitespace-nowrap text-ellipsis">
                         {bhk}
@@ -289,7 +291,7 @@ const Filters = ({
                         value={type}
                         checked={filters.houseType.includes(type)}
                         onChange={() => handleFilterChange("houseType", type)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                        className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
                       <span className="text-sm lg:text-black text-white">{type}</span>
                     </label>
@@ -316,7 +318,7 @@ const Filters = ({
                       onChange={() =>
                         handleFilterChange("preferenceHousing", preference)
                       }
-                      className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                      className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
                     <span className="text-sm lg:text-black text-white">{preference}</span>
                   </label>
@@ -342,7 +344,7 @@ const Filters = ({
         </div>
       )}
 
-      {selectedCategory === "PAYING GUESTS" && (
+      {selectedCategory === "PG" && (
         <div className="w-full lg:bg-white bg-[#333333]  py-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl">
           <div className="flex flex-col gap-52 lg:gap-4  ">
             <div className="flex flex-col">
@@ -363,7 +365,7 @@ const Filters = ({
                       onChange={() =>
                         handleFilterChange("genderPreference", [gender])
                       }
-                      className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                      className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
                     <span className="text-sm lg:text-black text-white">{gender}</span>
                   </label>
