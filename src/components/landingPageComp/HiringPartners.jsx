@@ -49,6 +49,15 @@ const HiringPartners = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (scrollRef.current && window.innerWidth < 768) {
+      // Scroll to third item
+      const itemWidth = 120; // width of each item
+      const gap = 26; // gap between items
+      scrollRef.current.scrollLeft = (itemWidth + gap) * 2 -10; // Adjust to center the third item
+    }
+  }, []);
+
   const startDrag = (e) => {
     setIsDragging(true);
     setStartX(e.pageX || e.touches[0].pageX);
@@ -87,7 +96,7 @@ const HiringPartners = () => {
           </h2>
         </div>
 
-        {/* Images Container – pushed down by half the heading’s height */}
+        {/* Images Container – pushed down by half the heading's height */}
         <div
           className="w-full text-center overflow-hidden"
           style={{
@@ -115,7 +124,7 @@ const HiringPartners = () => {
           {/* Mobile View – Scrollable List */}
           <div
             ref={scrollRef}
-            className="flex md:hidden overflow-x-scroll cursor-grab whitespace-nowrap items-center scroll-smooth"
+            className="flex md:hidden overflow-x-scroll cursor-grab whitespace-nowrap items-center scroll-smooth px-[20%]"
             onMouseDown={startDrag}
             onMouseMove={onDrag}
             onMouseUp={stopDrag}
@@ -123,13 +132,16 @@ const HiringPartners = () => {
             onTouchStart={startDrag}
             onTouchMove={onDrag}
             onTouchEnd={stopDrag}
-            style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+            style={{ 
+              scrollbarWidth: "none", 
+              WebkitOverflowScrolling: "touch",
+            }}
           >
-            <div className="flex gap-[26px] px-5">
+            <div className="flex gap-[26px]">
               {images.map((image, idx) => (
                 <div
                   key={idx}
-                  className="inline-block m-0 p-0.5 bg-white rounded-lg flex items-center justify-center"
+                  className="inline-block flex-shrink-0 m-0 p-0.5 bg-white rounded-lg flex items-center justify-center"
                 >
                   <img
                     src={image.src}
