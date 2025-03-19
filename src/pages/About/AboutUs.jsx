@@ -36,9 +36,9 @@ export default function About() {
    return (
       <>
          <div className="mt-24 mb-12 ">
-            <div className="text-center mb-2 ">
-               <h1 className="border-[3px] border-[#6cc0c4] rounded-xl text-[#e59948] inline text-xl sm:text-2xl md:lg:text-3xl py-2 px-10 md:px-16 lg:px-20  md:lg:py-1  font-bold">
-                  About Us
+            <div className="text-center mb-2">
+               <h1 className="lg:border-[7.79px] lg:text-41.55px rounded-[12.82px] border-[1.28px] w-[103.84px] h-[44.87px] top-[-6.2px] left-[131px] md:w-[90px] md:h-[40px] md:left-[100px] sm:w-[80px] sm:h-[35px] sm:left-[80px] border-[#6cc0c4] lg:rounded-[64.92px] lg:text-[#E8B636] inline text-xl sm:text-2xl md:lg:text-3xl py-2 px-10 md:px-16 lg:px-20 md:lg:py-1 lg:font-black font-inter lg:uppercase font-roboto font-medium text-[15.38px] leading-[100%] tracking-normal  text-[#E59948]">
+                  About - Us
                </h1>
             </div>
             <div className="timeline relative mx-3 pt-10 md:pt-40 overflow-hidden md:after:block">
@@ -79,7 +79,7 @@ export default function About() {
                />
             </div>
             <div className="mb-20 sm:mb-36 w-full">
-               <div className="bg-black border-[3px] border-[#6cc0c4] rounded-3xl text-[#e59948] m-auto py-2 px-4 w-1/2 md:w-1/4">
+               <div className="bg-black border-[3px] uppercase border-[#6cc0c4] rounded-3xl lg:text-[#E8B636] text-[#E59948] m-auto py-2 px-4 w-1/2 md:w-1/4">
                   <h2 className="md:text-3xl text-xl font-bold text-center">
                      Our Team
                   </h2>

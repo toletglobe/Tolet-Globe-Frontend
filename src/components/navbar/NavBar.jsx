@@ -60,7 +60,7 @@ const NavBar = () => {
       </button>
 
       {/* Logo */}
-      <div className="flex-shrink-0">
+      <div className="lg:flex-grow-0 lg:justify-start flex-grow flex justify-center">
         <NavLink to="/">
           <img src={logo} alt="Logo" className="h-14 lg:h-16" />
         </NavLink>

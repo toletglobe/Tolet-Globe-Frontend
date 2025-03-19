@@ -32,15 +32,15 @@ export default function Faq() {
       <div className="faq-container bg-black w-[90%] m-auto">
         <div className="row">
           <div className="faq-wrapper">
-            <div className="header rounded-t-3xl py-2 sm:py-8 text-2xl bg-[#6cc0c4]  text-white w-full flex items-center justify-center">
-              <h1 className="px-2 text-md sm:text-4xl font-bold text-center">
-                Frequently Asked Questions FAQs
+            <div className="header rounded-t-3xl py-2 sm:py-8 text-2xl bg-[#6cc0c4]  text-black w-full flex items-center justify-center">
+              <h1 className="px-2 text-md sm:text-4xl font-bold text-center font-Inter">
+                Frequently Asked Questions (FAQs)
               </h1>
             </div>
             <div className="faqinner border-2 border-[#6cc0c4] cursor-pointer py-3">
               {/* First Question */}
               <div
-                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[36.36px] lg:height:[77.91px] lg:width:[559.64px] text-white flex items-center justify-between "
                 onClick={toggleFAQ1}
               >
                 <h4 className="text-xl">What are To-Let's operating hours?</h4>
@@ -51,13 +51,13 @@ export default function Faq() {
                 >
                   {isOpen1 ? (
                     <i
-                      className="fa-solid fa-minus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-up"
+                      style={{ color: "rgba(211, 160, 31, 1)", fontSize: "36.36px" }}
                     ></i>
                   ) : (
                     <i
-                      className="fa-solid fa-plus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-down"
+                      style={{ color: "rgba(211, 160, 31, 1)", fontSize: "36.36px" }}
                     ></i>
                   )}
                 </h1>
@@ -81,26 +81,26 @@ export default function Faq() {
 
               {/* Second Question */}
               <div
-                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[18px] lg:height:[80.5px] lg:width:[1015.4px] text-white flex items-center justify-between "
                 onClick={toggleFAQ2}
               >
                 <h4 className="text-xl">
                   What is To-Let's cancellation policy?
                 </h4>
                 <h1
-                  className={`icon  text-white text-4xl   transition-transform duration-200 ${
+                  className={`icon  text-white text-4xl   transition-transform duration-200 active:rotate-180  ${
                     isOpen2 ? "active" : ""
                   }`}
                 >
                   {isOpen2 ? (
                     <i
-                      className="fa-solid fa-minus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-up "
+                      style={{ color: "rgba(211, 160, 31, 1)", fontSize: "36.36px" }}
                     ></i>
                   ) : (
                     <i
-                      className="fa-solid fa-plus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-down"
+                      style={{ color: "rgba(211, 160, 31, 1)", fontSize: "36.36px" }}
                     ></i>
                   )}
                 </h1>
@@ -129,24 +129,24 @@ export default function Faq() {
 
               {/* Third Question */}
               <div
-                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[18px] lg:height:[76.71px] lg:width:[867.38px] text-white flex items-center justify-between "
                 onClick={toggleFAQ3}
               >
                 <h4 className="text-xl">Are To-Let's services safe to use?</h4>
                 <h1
-                  className={`icon  text-white text-4xl   transition-transform duration-200 ${
+                  className={`icon  text-white text-4xl   transition-transform duration-200 active:rotate-180  ${
                     isOpen3 ? "active" : ""
                   }`}
                 >
                   {isOpen3 ? (
                     <i
-                      className="fa-solid fa-minus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-up"
+                      style={{ color: "#D3A01F", fontSize: "36.36px" }}
                     ></i>
                   ) : (
                     <i
-                      className="fa-solid fa-plus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-down"
+                      style={{ color: "#D3A01F", fontSize: "36.36px" }}
                     ></i>
                   )}
                 </h1>
@@ -177,26 +177,26 @@ export default function Faq() {
 
               {/* Fourth Question */}
               <div
-                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[18px] lg:height:[80.5px] lg:width:[880.36px] text-white flex items-center justify-between "
                 onClick={toggleFAQ4}
               >
                 <h4 className="text-xl">
                   Can I speak directly to the real owner at To-Let?
                 </h4>
                 <h1
-                  className={`icon  text-white text-4xl   transition-transform duration-200 ${
+                  className={`icon  text-white text-4xl   transition-transform duration-200 active:rotate-180 ${
                     isOpen4 ? "active" : ""
                   }`}
                 >
                   {isOpen4 ? (
                     <i
-                      className="fa-solid fa-minus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-up"
+                      style={{ color: "#D3A01F", fontSize: "36.36px" }}
                     ></i>
                   ) : (
                     <i
-                      className="fa-solid fa-plus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-down"
+                      style={{ color: "#D3A01F", fontSize: "36.36px" }}
                     ></i>
                   )}
                 </h1>
@@ -226,30 +226,30 @@ export default function Faq() {
 
               {/* Fifth Question */}
               <div
-                className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between "
+                className="question py-1 px-2 sm:px-5 text-[18px] lg:height:[83.1px] lg:width:[938.79px] text-white flex items-center justify-between "
                 onClick={toggleFAQ5}
               >
                 <h4 className="text-xl">What is To-Let's mission?</h4>
                 <h1
-                  className={`icon  text-white text-4xl transition-transform duration-200 ${
+                  className={`icon  text-white text-4xl transition-transform duration-200 active:rotate-180${
                     isOpen5 ? "active" : ""
                   }`}
                 >
                   {isOpen5 ? (
                     <i
-                      className="fa-solid fa-minus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-up"
+                      style={{ color: "#D3A01F", fontSize: "36.36px" }}
                     ></i>
                   ) : (
                     <i
-                      className="fa-solid fa-plus"
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      className="fa-solid fa-caret-down"
+                      style={{ color: "#D3A01F", fontSize: "36.36px" }}
                     ></i>
                   )}
                 </h1>
               </div>
               <div
-                className={`answer  text-white overflow-hidden max-h-0 mx-7  text-left ${
+                className={`answer  text-white overflow-hidden max-h-0 mx-7 ${
                   isOpen5 ? "active" : ""
                 }`}
               >
