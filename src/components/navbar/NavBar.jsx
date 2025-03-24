@@ -50,7 +50,7 @@ const NavBar = () => {
   ];
 
   return (
-    <div className="fixed top-0 w-full bg-[#232323] lg:bg-black flex items-center justify-between p-4 z-50 h-[63px] lg:h-[62px]">
+    <div className="fixed top-0 w-full bg-[#232323] lg:bg-black flex items-center justify-between lg:justify-between p-4 z-50 h-[63px] lg:h-[62px]">
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setShowMenu(!showMenu)}
@@ -60,7 +60,7 @@ const NavBar = () => {
       </button>
 
       {/* Logo */}
-      <div className="flex-shrink-0">
+      <div className="flex-grow lg:flex-grow-0 flex justify-center lg:justify-start">
         <NavLink to="/">
           <img src={logo} alt="Logo" className="h-14 lg:h-16" />
         </NavLink>
@@ -133,75 +133,6 @@ const NavBar = () => {
           )}
         </div>
       </ul>
-
-      {/* Mobile Navigation */}
-      <div
-        className={`lg:hidden fixed inset-0 bg-[#232323] text-white z-[1000] transition-transform transform ${
-          showMenu ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="bg-[#1a1a1a] flex items-center justify-between p-4 h-[63px]">
-          <div className="w-8"></div>
-          <img
-            src={logo}
-            className="h-12 cursor-pointer"
-            onClick={() => setShowMenu(false)}
-            alt="Logo"
-          />
-          <button onClick={() => setShowMenu(false)}>
-            <IoMdClose size={25} />
-          </button>
-        </div>
-        <ul className="flex flex-col items-center gap-4 mt-5 px-5 text-lg font-medium">
-          {navLinks.map((link, index) => (
-            <NavLink
-              key={index}
-              onClick={() => setShowMenu(false)}
-              to={link.path}
-            >
-              {link.label}
-            </NavLink>
-          ))}
-          {authState.status && token ? (
-            <div className="flex flex-col items-center mt-5">
-              <img
-                className="w-16 h-16 rounded-full"
-                src={profilePicture}
-                alt="User"
-                onError={() => setImgError(true)}
-              />
-              <p className="text-base font-medium mt-2">
-                {userInfo.firstName || "User"}
-              </p>
-              <button
-                onClick={() => {
-                  navigate("/landlord-dashboard");
-                  setShowMenu(false);
-                }}
-                className="mt-3 bg-gray-200 text-black px-6 py-2 rounded-full"
-              >
-                Dashboard
-              </button>
-              <button
-                onClick={handleLogout}
-                className="mt-2 bg-red-500 text-white px-6 py-2 rounded-full"
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => {
-                navigate("/login");
-                setShowMenu(false);
-              }}
-              className="mt-3 bg-teal-500 text-white px-4 py-1 rounded-full"
-            >
-              Login
-            </button>
-          )}
-        </ul>
-      </div>
     </div>
   );
 };
