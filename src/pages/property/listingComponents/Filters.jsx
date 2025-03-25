@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 // import { BASE_URL } from "../../../constant/constant";
 import {
   BsHouseDoor,
-  BsBuilding,
-  BsPeople,
+  BsBuildings,
   BsBriefcase,
   BsShop,
-  BsBox,
 } from "react-icons/bs";
+
+import { RiHotelBedLine } from "react-icons/ri";
+import { MdOutlineWarehouse } from "react-icons/md";
+
 
 const Filters = ({
   SetIsOpen,
@@ -88,20 +90,20 @@ const Filters = ({
     }));
 
     // Update filters based on category
-    if (category === "HOUSES" || category === "FLATS") {
+    if (category === "House" || category === "Flats") {
       handleFilterChange(
         "residential",
-        category === "HOUSES" ? "+ House" : "+ Flat"
+        category === "House" ? "+ House" : "+ Flat"
       );
-    } else if (category === "PAYING GUESTS") {
+    } else if (category === "PG") {
       handleFilterChange("residential", "+ PG");
-    } else if (category === "OFFICES") {
+    } else if (category === "Office") {
       handleFilterChange("commercial", "+ Office");
       seeResults();
-    } else if (category === "SHOPS") {
+    } else if (category === "Shops") {
       handleFilterChange("commercial", "+ Shop");
       seeResults();
-    } else if (category === "WAREHOUSES") {
+    } else if (category === "Warehouse") {
       handleFilterChange("commercial", "+ Warehouse");
       seeResults();
     }
@@ -109,23 +111,34 @@ const Filters = ({
 
   return (
     <>
-      <div className="w-fit  bg-white p-2 ml-4 -mt-2 shadow-sm rounded-lg">
-        <div className="flex sm:gap-2 ">
+      <div className="w-full lg:w-fit  lg:bg-white bg-[#333333] p-4 lg:p-0 lg:mt-[21rem]  lg:ml-8 mt-16 shadow-sm lg:rounded-xl">
+        <div className="lg:hidden flex justify-between gap-1 pb-4">
+        <p className="text-xl">Select Our Service</p>
+        {/* Close Button for Small Screens */}
+    <button
+      className="relative  right-2 text-white text-xl lg:hidden"
+      onClick={() => SetIsOpen(false)}
+    >
+      ✖
+    </button>
+        </div>
+        
+        <div className="lg:flex gap-4 lg:gap-3 2xl:gap-[1.35rem] grid grid-cols-2 justify-items-center lg:justify-items-start ">
           {[
-            { icon: BsHouseDoor, text: "HOUSES" },
-            { icon: BsBuilding, text: "FLATS" },
-            { icon: BsPeople, text: "PAYING GUESTS" },
-            { icon: BsBriefcase, text: "OFFICES" },
-            { icon: BsShop, text: "SHOPS" },
-            { icon: BsBox, text: "WAREHOUSES" },
+            { icon: BsHouseDoor, text: "House" },
+            { icon: BsBuildings, text: "Flats" },
+            { icon: RiHotelBedLine, text: "PG" },
+            { icon: BsBriefcase, text: "Office" },
+            { icon: BsShop, text: "Shops" },
+            { icon: MdOutlineWarehouse, text: "Warehouse" },
           ].map((item, index) => (
             <div
               key={index}
-              className="flex flex-col items-center w-[67px] sm:w-[100px] cursor-pointer text-black hover:text-white hover:bg-[#c8a018] rounded-xl py-3"
+              className="flex lg:flex-col flex-row justify-center items-center lg:w-[100px] w-[140px]  cursor-pointer text-black bg-white  hover:text-[#0c8a7e] lg:hover:bg-[#C8A21C] lg:hover:text-white rounded-xl py-1.5 border-black lg:border-none border gap-2 lg:gap-0 "
               onClick={() => handleCategoryClick(item.text)}
             >
-              <item.icon size={20} className="mb-2" />
-              <span className="text-xs text-center font-medium">
+              <item.icon size={24} className="mb-2 " />
+              <span className="text-xs pl-1 font-medium">
                 {item.text}
               </span>
             </div>
@@ -133,17 +146,17 @@ const Filters = ({
         </div>
       </div>
 
-      {selectedCategory === "HOUSES" && (
-        <div className="w-[320%] bg-white p-6  shadow-md sm:ml-4 mt-1 rounded-xl">
-          <div className="flex flex-col gap-6">
+      {selectedCategory === "House" && (
+        <div className=" w-full lg:bg-white bg-[#333333]  py-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl ">
+          <div className="flex flex-col flex-wrap gap-5 lg:gap-4">
             <div className="flex flex-col">
-              <h3 className="text-left font-medium mb-3 text-black">BHK</h3>
-              <div className="flex flex-row gap-20">
+              <h3 className="text-left font-medium mb-3 px-4 lg:text-black text-white">BHK</h3>
+              <div className="flex flex-row flex-wrap gap-6 pl-4 ">
                 {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ 5 BHK"].map(
                   (bhk) => (
                     <label
                       key={bhk}
-                      className="flex items-center gap-2 cursor-pointer"
+                      className="flex items-center gap-2 cursor-pointer "
                     >
                       <input
                         type="checkbox"
@@ -151,9 +164,9 @@ const Filters = ({
                         value={bhk}
                         checked={filters.bhk.includes(bhk)}
                         onChange={() => handleFilterChange("bhk", bhk)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                        className="appearance-none w-4 h-4 rounded-full border-2 lg:border-black border-white checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
-                      <span className="text-sm text-black overflow-hidden whitespace-nowrap text-ellipsis">
+                      <span className="text-sm lg:text-black text-white overflow-hidden whitespace-nowrap text-ellipsis">
                         {bhk}
                       </span>
                     </label>
@@ -163,10 +176,10 @@ const Filters = ({
             </div>
 
             <div className="flex flex-col ">
-              <h3 className="text-left font-medium mb-3 text-black">
+              <h3 className="text-left font-medium mb-3 lg:text-black text-white px-4">
                 House Type
               </h3>
-              <div className="flex flex-row gap-28">
+              <div className="flex flex-row gap-4 pl-4">
                 {["Fully Furnished", "Semi Furnished", "Not Furnished"].map(
                   (type) => (
                     <label
@@ -179,9 +192,9 @@ const Filters = ({
                         value={type}
                         checked={filters.houseType.includes(type)}
                         onChange={() => handleFilterChange("houseType", type)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                        className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
-                      <span className="text-sm text-black">{type}</span>
+                      <span className="text-sm lg:text-black text-white">{type}</span>
                     </label>
                   )
                 )}
@@ -189,10 +202,10 @@ const Filters = ({
             </div>
 
             <div className="flex flex-col">
-              <h3 className="text-left font-medium mb-3 text-black">
+              <h3 className="text-left font-medium mb-3 lg:text-black text-white px-4">
                 Preference
               </h3>
-              <div className="flex flex-row  gap-16">
+              <div className="flex flex-row  gap-4 pl-4">
                 {["Family", "Bachelors"].map((preference) => (
                   <label
                     key={preference}
@@ -206,15 +219,15 @@ const Filters = ({
                       onChange={() =>
                         handleFilterChange("preferenceHousing", preference)
                       }
-                      className="appearance-none w-4 h-4 rounded-full border-2 border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                      className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
-                    <span className="text-sm text-black">{preference}</span>
+                    <span className="text-sm lg:text-black text-white">{preference}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 mt-2">
+            <div className="flex justify-between gap-4 bg-[#1a1a1a] lg:bg-white">
               <button
                 onClick={resetFilters}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
@@ -232,12 +245,12 @@ const Filters = ({
         </div>
       )}
 
-      {selectedCategory === "FLATS" && (
-        <div className="w-[320%] bg-white p-6 shadow-md m-1 sm:ml-4 rounded-xl">
-          <div className="flex flex-col gap-6">
+      {selectedCategory === "Flats" && (
+        <div className="w-full lg:bg-white bg-[#333333]  py-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl">
+          <div className="flex flex-col lg:gap-4 gap-5 ">
             <div className="flex flex-col">
-              <h3 className="text-left font-medium mb-3 text-black">BHK</h3>
-              <div className="flex flex-row gap-20">
+              <h3 className="text-left font-medium mb-3 lg:text-black text-white px-4">BHK</h3>
+              <div className="flex flex-wrap flex-row gap-6 pl-4">
                 {["+ 1 BHK", "+ 2 BHK", "+ 3 BHK", "+ 4 BHK", "+ 5 BHK"].map(
                   (bhk) => (
                     <label
@@ -250,9 +263,9 @@ const Filters = ({
                         value={bhk}
                         checked={filters.bhk.includes(bhk)}
                         onChange={() => handleFilterChange("bhk", bhk)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                        className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
-                      <span className="text-sm text-black overflow-hidden whitespace-nowrap text-ellipsis">
+                      <span className="text-sm lg:text-black text-white overflow-hidden whitespace-nowrap text-ellipsis">
                         {bhk}
                       </span>
                     </label>
@@ -261,11 +274,11 @@ const Filters = ({
               </div>
             </div>
 
-            <div className="flex flex-col">
-              <h3 className="text-left font-medium mb-3 text-black">
+            <div className="flex flex-col gap-3">
+              <h3 className="text-left font-medium mb-3lg:text-black gap-3 text-white lg:text-black px-4">
                 Flats Type
               </h3>
-              <div className="flex flex-row gap-28">
+              <div className="flex flex-row gap-4 pl-4">
                 {["Fully Furnished", "Semi Furnished", "Not Furnished"].map(
                   (type) => (
                     <label
@@ -278,9 +291,9 @@ const Filters = ({
                         value={type}
                         checked={filters.houseType.includes(type)}
                         onChange={() => handleFilterChange("houseType", type)}
-                        className="appearance-none w-4 h-4 rounded-full border-2 border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                        className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
-                      <span className="text-sm text-black">{type}</span>
+                      <span className="text-sm lg:text-black text-white">{type}</span>
                     </label>
                   )
                 )}
@@ -288,10 +301,10 @@ const Filters = ({
             </div>
 
             <div className="flex flex-col">
-              <h3 className="text-left font-medium mb-3 text-black">
+              <h3 className="text-left font-medium mb-3 lg:text-black text-white px-4">
                 Preference
               </h3>
-              <div className="flex flex-row gap-16">
+              <div className="flex flex-row gap-4 pl-4">
                 {["Family", "Bachelors"].map((preference) => (
                   <label
                     key={preference}
@@ -305,15 +318,15 @@ const Filters = ({
                       onChange={() =>
                         handleFilterChange("preferenceHousing", preference)
                       }
-                      className="appearance-none w-4 h-4 rounded-full border-2 border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                      className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
-                    <span className="text-sm text-black">{preference}</span>
+                    <span className="text-sm lg:text-black text-white">{preference}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 mt-2">
+            <div className="flex justify-between gap-4  bg-[#1a1a1a] lg:bg-white">
               <button
                 onClick={resetFilters}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
@@ -331,14 +344,14 @@ const Filters = ({
         </div>
       )}
 
-      {selectedCategory === "PAYING GUESTS" && (
-        <div className="w-100% bg-white p-6 shadow-md ml-4 mt-1 rounded-xl">
-          <div className="flex flex-col gap-6">
+      {selectedCategory === "PG" && (
+        <div className="w-full lg:bg-white bg-[#333333]  py-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl">
+          <div className="flex flex-col gap-52 lg:gap-4  ">
             <div className="flex flex-col">
-              <h3 className="text-left font-medium mb-3 text-black">
+              <h3 className="text-left font-medium mb-8 lg:text-black text-white px-4">
                 Preference
               </h3>
-              <div className="flex flex-row gap-8">
+              <div className="flex flex-row gap-8 px-4">
                 {["Girls", "Boys"].map((gender) => (
                   <label
                     key={gender}
@@ -352,15 +365,15 @@ const Filters = ({
                       onChange={() =>
                         handleFilterChange("genderPreference", [gender])
                       }
-                      className="appearance-none w-4 h-4 rounded-full border-2 border-black checked:bg-black checked:border-[#4A7F79] checked:border-4 transition-all"
+                      className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
-                    <span className="text-sm text-black">{gender}</span>
+                    <span className="text-sm lg:text-black text-white">{gender}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 mt-2">
+            <div className="flex justify-between gap-4  bg-[#1a1a1a]  lg:bg-white">
               <button
                 onClick={resetFilters}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
