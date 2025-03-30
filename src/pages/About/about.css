@@ -11,8 +11,3 @@
   margin-left: -3px;
 }
 
-@media (max-width: 1440px) {
-  .container.left {
-    left: 5px !important;
-  }
-}

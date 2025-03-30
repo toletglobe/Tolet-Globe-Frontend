@@ -59,19 +59,38 @@ const Service = () => {
   ];
 
   return (
-    <div className="w-full mx-auto px-6 sm:px-12 lg:px-20 lg:py-10 bg-black relative">
-      <div className="relative">
-        <h1 className="text-white font-medium text-[48px] leading-[72px] text-center sm:hidden">
+    <div className="w-full mx-auto px-6 sm:px-12 lg:px-20 lg:py-10 bg-black relative ">
+      <div className="relative ">
+        <h1 className="text-white font-medium text-[96px] leading-[144px] text-left sm:text-left w-full sm:w-[900px] mx-auto lg:absolute lg:w-[403px] lg:h-[107px] lg:left-[40px] lg:top-[117px] lg:whitespace-nowrap lg:text-[clamp(78px,5vw,96px)] max-lg:text-[47.88px] max-lg:text-center max-lg:leading-tight">
           Services
         </h1>
-        <h1 className="text-white font-medium text-[96px] leading-[144px] text-center sm:text-left w-full sm:w-[900px] mx-auto lg:absolute lg:w-[403px] lg:h-[107px] lg:left-[115px] lg:top-[117px] lg:whitespace-nowrap lg:text-[clamp(48px,5vw,96px)] sm:block hidden">
-          Services
-        </h1>
-        <p className="text-[#C8A21C] font-[Poppins] font-medium text-[10px] sm:text-[12px] leading-[18px] text-center sm:text-left mt-[4px] w-full sm:w-[400px] mx-auto lg:absolute lg:w-[383px] lg:h-[18px] lg:left-[115px] lg:top-[234px] lg:whitespace-nowrap">
+
+        <p className="text-[#C8A21C] font-[Poppins] font-medium text-[10px] sm:text-[12px] leading-[18px] text-left sm:text-left mt-[4px] w-full sm:w-[400px] mx-auto lg:absolute lg:w-[383px] lg:h-[18px] lg:left-[40px] lg:top-[234px] lg:whitespace-nowrap max-lg:text-[5.99px] max-lg:text-center max-lg:leading-tight ">
           SKIP THE MIDDLEMAN: RENT OR LEASE DIRECTLY ON TO-LET GLOBE
         </p>
       </div>
+
+      {/* <div className="w-full mx-auto px-6 sm:px-12 lg:px-20 lg:py-10 bg-black relative">
+        <div className="relative flex flex-col items-center sm:items-start lg:items-start">
+          <h1
+            className="text-white font-medium text-[clamp(48px,5vw,96px)] leading-[1.2] 
+        text-center sm:text-left w-full max-w-[900px] mx-auto lg:max-w-[403px]"
+          >
+            Services
+          </h1>
+
+          <p
+            className="text-[#C8A21C] font-[Poppins] font-medium text-[clamp(10px,1vw,14px)] 
+        leading-tight text-center sm:text-left mt-2 sm:mt-3 lg:mt-2 w-full max-w-[90%] 
+        sm:max-w-[400px] mx-auto lg:max-w-[403px] max-lg:text-[5.99px]"
+          >
+            SKIP THE MIDDLEMAN: RENT OR LEASE DIRECTLY ON TO-LET GLOBE
+          </p>
+        </div>
+      </div> */}
+
       {/* Mobile View - Add margin below the SKIP THE MIDDLEMAN text */}
+
       <div className="relative mt-[90px] sm:mt-[0] grid grid-cols-2 gap-x-8 gap-y-8 place-items-center sm:grid-cols-2 md:grid-cols-2 lg:hidden">
         {services.map((service, index) => (
           <div key={index} className="w-full sm:w-[55%] m-0 p-0">

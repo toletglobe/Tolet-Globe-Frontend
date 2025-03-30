@@ -54,12 +54,13 @@ const GetInTouch = () => {
     <div className="pt-20 relative w-full h-s flex max-sm:flex-col items- sm:justify-end">
       {/* Contact Form */}
       <div className="pt-10 pl-10 pr-10 pb-8 z-20 lg:w-[380px] w-full text-white flex flex-col justify-end">
-        <p className="text-[#bc5f56] font-semibold text-4xl pb-4">
+        <p className="max-lg:text-[#C69F22] max-lg:text-center max-lg:text-2xl max-lg:font-medium lg:text-[#bc5f56] font-semibold text-4xl pb-4">
           GET IN TOUCH
         </p>
-        <p className="text-gray-300 pb-4">
-          Have some questions? Feel free to ask them anytime.
-        </p>
+        <div className="max-lg:text-center">
+          <p className="text-gray-300 pb-2">Have some questions?</p>
+          <p className="text-gray-300 pb-4">Feel free to ask them anytime.</p>
+        </div>
 
         <form className="flex flex-col" onSubmit={handleSubmit}>
           <input
@@ -67,7 +68,7 @@ const GetInTouch = () => {
             placeholder="Name"
             value={formData.name}
             name="name"
-            className="bg-transparent border-b-2 border-gray-400 text-white focus:outline-none my-6"
+            className="bg-transparent border-b-2 border-white placeholder:text-white placeholder:font-thin text-white focus:outline-none my-6"
             onChange={handleChange}
             required
           />
@@ -76,16 +77,16 @@ const GetInTouch = () => {
             placeholder="Email"
             value={formData.email}
             name="email"
-            className="bg-transparent border-b-2 border-gray-400 text-white focus:outline-none my-6"
+            className="bg-transparent border-b-2 border-white placeholder:text-white placeholder:font-thin text-white focus:outline-none my-6"
             onChange={handleChange}
             required
           />
           <input
             type="text"
-            placeholder="Phone"
+            placeholder="Phone Number"
             value={formData.phone}
             name="phone"
-            className="bg-transparent border-b-2 border-gray-400 text-white focus:outline-none my-6"
+            className="bg-transparent border-b-2 border-white placeholder:text-white placeholder:font-thin text-white focus:outline-none my-6"
             onChange={handleChange}
           />
           <input
@@ -93,7 +94,7 @@ const GetInTouch = () => {
             placeholder="Message"
             value={formData.msg}
             name="msg"
-            className="bg-transparent border-b-2 border-gray-400 text-white focus:outline-none my-6"
+            className="bg-transparent border-b-2 border-white placeholder:text-white placeholder:font-thin text-white focus:outline-none my-6"
             onChange={handleChange}
             required
           />
@@ -106,7 +107,7 @@ const GetInTouch = () => {
             <input
               type="submit"
               value="Send Message →"
-              className="cursor-pointer self-start font-semibold"
+              className="cursor-pointer self-start font-semibold max-lg:font-normal max-lg:text-[#C69F22]"
             />
           )}
         </form>

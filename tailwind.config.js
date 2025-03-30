@@ -33,6 +33,9 @@ export default {
         DEFAULT: '0 2px 4px var(--tw-shadow-color)',
         lg: '0 8px 16px var(--tw-shadow-color)',
       },
+      screens: {
+        'xs': '375px', // Custom breakpoint
+      },
     },
   },
   plugins: [

@@ -72,7 +72,7 @@ const Institution = () => {
   return (
     <div className="margin">
       <div className="flex flex-col items-center justify-center">
-        <h3 className="w-full max-w-[1078.22px] h-auto font-poppins font-semibold text-[26px] leading-[38px] text-center text-[#1D5F58] sm:text-[38px] sm:leading-[50px] md:text-[45px] md:leading-[65px]">
+        <h3 className="w-full max-w-[1078.22px] h-auto font-poppins font-bold text-[33px] leading-[38px] text-center text-[#1D5F58] sm:text-[38px] sm:leading-[50px] md:text-[45px] md:leading-[65px]">
           Partnered Universities
         </h3>
 

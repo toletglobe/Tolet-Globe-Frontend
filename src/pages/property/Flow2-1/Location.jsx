@@ -85,12 +85,12 @@ const LocationComponent = ({ property, selectComp }) => {
 
         {/* Categories */}
         <div className="px-3 py-3  justify-between items-center gap-10">
-          <div className="grid grid-cols-4  lg:grid-cols-1 gap-x-5 gap-y-3  lg:gap-y-5 text-xs lg:pl-8 items-center ">
+          <div className="grid grid-cols-2  lg:grid-cols-1 gap-x-5 gap-y-3  lg:gap-y-5 text-xs lg:pl-8 items-center  ">
             {locationCategories.map((item, index) => (
               <button
                 key={index}
                 onClick={() => handleButtonClick(item.category)}
-                className="flex flex-col lg:flex-row w-full lg:p-2  items-center  rounded-lg space-y-1 lg:border-[1px] lg:border-black lg:px-14 lg:w-full lg:gap-4"
+                className="flex flex-row lg:flex-row w-full lg:p-2  items-center border border-black  rounded-lg space-y-1 lg:border-[1px] lg:border-black lg:px-14 lg:w-full lg:gap-4"
               >
                 <span className="text-gray-950 lg:text-2xl gap-5">{item.icon}</span>
                 <span className="lg:text-xl">{item.label}</span>

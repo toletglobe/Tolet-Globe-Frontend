@@ -180,7 +180,7 @@ const Flow2a = () => {
             </div>
 
             {property.images.length > 1 && (
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid lg:grid-cols-2 grid-cols-4 gap-2">
                 {property.images.slice(1, 5).map((image, index) => (
                   <div key={index + 1} className="relative">
                     <img
@@ -280,10 +280,10 @@ const Flow2a = () => {
 
         <div className="md:flex justify-between pt-8">
           <div className="lg:w-[40%]">
-            <h1 className="text-left text-white lg:text-5xl">
+            <h1 className="text-left text-white text-2xl lg:text-5xl">
               {property?.propertyType}
               <span>
-                <img src={shield} alt="shield" className="h-12 w-12 lg:ml-8 inline" />
+                <img src={shield} alt="shield" className="lg:h-12 lg:w-12 h-8 w-8 lg:ml-8 inline" />
               </span>
             </h1>
             <p className="text-gray-400 block lg:text-2xl lg:py-4">
@@ -301,29 +301,29 @@ const Flow2a = () => {
               </p>
             </div>
             
-                <div className="border border-gray-600 rounded-lg p-3 mb-8 flex flex-col sm:flex-row justify-evenly items-center gap-4 w-full">
+                <div className="border border-gray-600 rounded-lg p-3 mb-8 flex lg:flex-col-2 flex-row justify-evenly items-center gap-4 w-full">
                   {/* Monthly Rent Section */}
                   <div className="text-center w-full sm:w-auto">
-                    <p className="text-gray-400">Monthly Rent</p>
-                    <h3 className="text-white text-2xl sm:text-xl">Rs. {property?.rent}</h3>
+                    <p className="text-gray-400 text-[11px] sm:text-xs lg:text-base">Monthly Rent</p>
+                    <h3 className="text-white text-base lg:text-2xl">Rs. {property?.rent}</h3>
                   </div>
 
                   {/* Divider (Adjusts Based on Screen Size) */}
-                  <div className="border-t sm:border-l border-gray-600 w-full sm:w-auto h-[1px] sm:h-[50px]"></div>
+                  <div className=" border-l border-gray-600 w-0 sm:w-auto h-[50px] "></div>
 
                   {/* BHK Section */}
                   <div className="text-center w-full sm:w-auto">
-                    <p className="text-gray-400">Bhk</p>
-                    <h3 className="text-white text-2xl sm:text-xl">{property?.bhk} Bhk</h3>
+                    <p className="text-gray-400 text-xs lg:text-base">Bhk</p>
+                    <h3 className="text-white text-base lg:text-2xl">{property?.bhk} Bhk</h3>
                   </div>
 
                   {/* Divider */}
-                  <div className="border-t sm:border-l border-gray-600 w-full sm:w-auto h-[1px] sm:h-[50px]"></div>
+                  <div className=" border-l border-gray-600 w-0 sm:w-auto h-[50px] "></div>
 
                   {/* Floor Section */}
                   <div className="text-center w-full sm:w-auto">
-                    <p className="text-gray-400">Floor</p>
-                    <h3 className="text-white text-2  xl sm:text-xl">{property?.floor}</h3>
+                    <p className="text-gray-400 text-xs lg:text-base">Floor</p>
+                    <h3 className="text-white text-base lg:text-2xl">{property?.floor}</h3>
                   </div>
                 </div>
           </div>
