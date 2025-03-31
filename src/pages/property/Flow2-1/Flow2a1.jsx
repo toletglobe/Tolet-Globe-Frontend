@@ -38,7 +38,8 @@ const Flow2a = () => {
   const [favouriteList, setFavouriteList] = useState([]);
   const [showRectangle, setShowRectangle] = useState(false);
   const [showCompareCard, setShowCompareCard] = useState(false);
-
+  const [averageRating, setAverageRating] = useState(0);
+  const [totalReviews, setTotalReviews] = useState([]);
   console.log(property);
   const authState = useSelector((state) => state.auth);
 
@@ -61,6 +62,20 @@ const Flow2a = () => {
     };
     fetchProperty();
   }, [slug]);
+
+  useEffect(() => {
+    if (totalReviews.length > 0) {
+      const avg =
+        totalReviews.reduce((acc, review) => acc + review.userRating, 0) /
+        totalReviews.length;
+      setAverageRating(roundToHalfStar(avg));
+    } else {
+      setAverageRating(0);
+    }
+  }, [totalReviews]);
+
+  console.log("averageRating:", averageRating, typeof averageRating);
+
 
   const openModal = (image, index) => {
     setSelectedImage(image);
@@ -425,12 +440,8 @@ const Flow2a = () => {
 
           <div className="flex lg:text-2xl lg:pb-4">
             <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
-            <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
-            <MdStarOutline className="text-[#FFFEFE] mt-1" />
-            <MdStarOutline className="text-[#FFFEFE] mt-1" />
-            <MdStarOutline className="text-[#FFFEFE] mt-1" />
             <p className="ml-2 text-gray-400">
-              {property?.reviews ? property?.reviews?.length : 0} (Reviews)
+              {averageRating.toFixed(1)} ({property?.reviews ? property?.reviews?.length : 0} Reviews)
             </p>
           </div>
 
@@ -595,11 +606,11 @@ const Flow2a = () => {
           </div>
           
           <button
-            className="w-full py-3 px-4 rounded-lg flex items-center justify-center gap-2 text-black font-semibold lg:text-xl"
-            style={{ backgroundColor: "#40B5A8" }}
+            className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
+            style={{ backgroundColor: "#3B9D94" }}
             onClick={() => addToCompare(property)}
           >
-            <img src={fav} alt="favorite" className="h-6 w-5" />
+            <img src={fav} alt="favorite" className="hidden md:block lg:block h-6 w-5" />
             Add To Visit
           </button>
         </div>
