@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
+// added toast notification for share property 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function MyProperties() {
   const [favouriteProperties, setFavouriteProperties] = useState([]);
   const [showOption, setShowOption] = useState(null);
@@ -78,6 +82,46 @@ export default function MyProperties() {
     fetchFavouriteProperties();
   }, []);
 
+  // IMPLEMETING SHARE ICON FUNCTIONALITY WITH SLUGS
+  const shareProperty = async (slug) => {
+    const propertyUrl = `${window.location.origin}/property/${slug}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          url: propertyUrl,
+        });
+      } catch (error) {
+        console.error("Error sahring ", error);
+      }
+    }
+    else {
+      try {
+        await navigator.clipboard.writeText(propertyUrl);
+        toast.success("Proprty link is coppied to your clipboard", {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
+      } catch (error) {
+        console.error("Failed to copy ", error);
+        toast.error("Failed to copy link", { theme: "dark" })
+      }
+    }
+  }
+
+  // Add Edit button and handleEdit function
+  const handleEdit = (property) => {
+    navigate(`/landlord-dashboard/edit-properties/${property._id}`);
+  };
+
+  // DELETE BUTTON 
+  const handleDelete = (propertyId) => {
+    removeFromFavorites(propertyId);
+  };
   // const cards = favouriteProperties.map((property) => (
   //   <div
   //     key={property._id}
@@ -217,7 +261,7 @@ export default function MyProperties() {
                     <h3 className="text-lg font-semibold">
                       {property?.firstName} {property?.lastName}
                     </h3>
-                    <div className="icon-box flex mr-4 items-center justify-center">
+                    <div className="icon-box flex items-center justify-center">
                       <a
                         href="#"
                         className="relative group"
@@ -233,19 +277,53 @@ export default function MyProperties() {
                           Remove
                         </div>
                       </a>
+
+                      {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
                       <a
                         href="#"
                         className="relative"
                         style={{ width: "25px", height: "25px", left: "12px" }}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          shareProperty(property.slug)
+                        }}
                       >
                         <CiShare2
                           className="card_icon bg-[#3E3E3E4D] mt-1 h-[20px] w-[20px] p-[3px]"
                           style={{ color: "#40B5A8" }}
                         />
                       </a>
-                      <a href="#" className="relative left-[14px]">
+                      {/* <a href="#" className="relative left-[14px]">
                         <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1" />
-                      </a>
+                      </a> */}
+                      <div className="relative ml-[10px] ">
+                        {/* More Options (Three Dots) */}
+                        <button
+                          onClick={() => toggleOption(property._id)}
+                          className="p-1 rounded-md"
+                        >
+                          <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1" />
+                        </button>
+                        {/* Dropdown Menu */}
+                        {showOption === property._id && (
+                          <div className="absolute right-0 mt-2 w-20 bg-white shadow-md rounded-md text-black overflow-hidden">
+                            <button
+                              onClick={() => handleEdit(property)}
+                              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-200 w-full text-sm"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDelete(property._id)}
+                              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-200 w-full text-sm"
+                            >
+                              Delete
+                              
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
                     </div>
                   </div>
                   <p className="text-gray-400">{property.locality}, {property.city}, India</p>
@@ -255,16 +333,18 @@ export default function MyProperties() {
             </div>
 
             {/* VIEW ALL BUTTON */}
-            {showCount < favouriteProperties.length && (
-              <div className="text-center mb-12 mt-6">
-                <button
-                  onClick={() => setShowCount((prev) => prev + 3)} // THIS WILL LOAD 3 MORE CARDS
-                  className="bg-[#212629] px-6 py-2 rounded-md text-lg font-medium text-gray-400 active:bg-[#5edbd3] transition active:text-gray-900"
-                >
-                  View all ({favouriteProperties.length - showCount})
-                </button>
-              </div>
-            )}
+            {
+              showCount < favouriteProperties.length && (
+                <div className="text-center mb-12 mt-6">
+                  <button
+                    onClick={() => setShowCount((prev) => prev + 3)} // THIS WILL LOAD 3 MORE CARDS
+                    className="bg-[#212629] px-6 py-2 rounded-md text-lg font-medium text-gray-400 active:bg-[#5edbd3] transition active:text-gray-900"
+                  >
+                    View all ({favouriteProperties.length - showCount})
+                  </button>
+                </div>
+              )
+            }
           </>
         ) : (
           <div>
