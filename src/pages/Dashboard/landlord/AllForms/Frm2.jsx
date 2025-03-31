@@ -1,6 +1,6 @@
 export default function Frm2({ formData, setFormData }) {
   return (
-    <div className="mt-8 h-fit w-[270px] md:w-full ">
+    <div className="mt-8 h-fit  md:w-full ">
    
       <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
         {/* Pets Allowed */}
