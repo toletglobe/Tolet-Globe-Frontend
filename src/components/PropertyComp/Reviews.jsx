@@ -126,7 +126,7 @@ const Reviews = ({ property }) => {
     currentPage > 1 && setCurrentPage(currentPage - 1);
 
   return (
-    <div className="w-full p-6 bg-white shadow-lg rounded-lg ">
+    <div className="w-full p-6 bg-white shadow-lg rounded-2xl ">
         <h1 className="text-2xl text-center my-4 lg:text-left lg:mx-8 lg:my-4 font-bold text-black">All Reviews</h1>
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6 ">
         <div className="flex flex-col lg:gap-4  items-center  w-full lg:w-1/2 px-2 p-12 lg:p-0 lg:px-4 border border-black rounded-lg shadow-md bg-white justify-center">
@@ -141,7 +141,6 @@ const Reviews = ({ property }) => {
             size={window.innerWidth < 640 ? 20 : window.innerWidth < 1025 ? 35 : window.innerWidth < 1450 ? 44 : 50}
             edit={false}
             activeColor="#ffd700"
-            char={<span style={{ marginRight: "16px" }}>★</span>}
           />
           <h2 className="hidden lg:block xl:text-5xl lg:text-4xl text-2xl font-bold  text-[#505050]">
             {totalReviews.length > 0 ? averageRating : 0} Out Of 5
@@ -157,17 +156,10 @@ const Reviews = ({ property }) => {
             <ReactStars
               count={5}
               onChange={handleRatingChange}
-              size={
-                window.innerWidth < 1025
-                  ? 29
-                  : window.innerWidth < 1450
-                  ? 44
-                  : 50
-              }
+              size={window.innerWidth < 640 ? 30 : window.innerWidth < 1024 ? 50 : 50}
               value={rating}
               activeColor="#ffd700"
               isHalf={false}
-              char={<span style={{ marginRight: "1px" }}>★</span>}
             />
           </div>
 
@@ -248,17 +240,10 @@ const Reviews = ({ property }) => {
                   <ReactStars
                     count={5}
                     onChange={handleRatingChange}
-                    size={
-                      window.innerWidth < 640
-                        ? 30
-                        : window.innerWidth < 1024
-                        ? 50
-                        : 50
-                    }
+                    size={window.innerWidth < 640 ? 30 : window.innerWidth < 1024 ? 50 : 50}
                     value={rating}
                     activeColor="#ffd700"
                     isHalf={false}
-                    char={<span style={{ marginRight: "18px" }}>★</span>}
                   />
                 </div>
               </div>
@@ -365,17 +350,10 @@ const Reviews = ({ property }) => {
                   <ReactStars
                     count={5}
                     value={Number(review.userRating)}
-                    size={
-                      window.innerWidth < 640
-                        ? 20
-                        : window.innerWidth < 1290
-                        ? 23
-                        : 30
-                    }
+                    size={window.innerWidth < 640 ? 20 : window.innerWidth < 1290 ? 23 : 30}
                     edit={false}
                     activeColor="#ffd700"
                     className="border border-black rounded-lg p-1"
-                    char={<span className="mr-1 lg:mr-3">★</span>}
                   />
                 </div>
                 {/* <img src={review.media[1]} alt="" className="mt-4 " />
