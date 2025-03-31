@@ -173,6 +173,21 @@ const LandlordDashboardProfileForm = () => {
     }
   };
 
+  // for image upload button
+  const handleButtonClick = () => {
+    fileInputRef.current.click(); // Trigger the hidden input
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setSelectedImage(file);
+      handleImageChange(e); // Call parent function to handle image upload
+    } else {
+      toast.error("Please upload a valid image file");
+    }
+  };
+
   return (
     <div className="min-h-screen flex bg-black text-white">
       <main className="flex-grow bg-black p-4 sm:p-8">
@@ -182,25 +197,45 @@ const LandlordDashboardProfileForm = () => {
               <p className="max-sm:text-center text-3xl sm:text-3xl font-bold mb-3 sm:mb-5">
                 Profile
               </p>
-              <p className="text-lg sm:text-xl font-bold mb-2">
+              <p className="text-lg text-center md:text-left sm:text-xl font-bold mb-2">
                 Profile Picture
               </p>
-              <p className="text-[#4F7396] mb-4 sm:mb-6">
+              <p className="text-[#4F7396] mb-4 sm:mb-6 text-center md:text-left text-[14px]">
                 Add a photo to personalize your account
               </p>
             </div>
             <div>
-              <input
+              {/* old one */}
+              {/* <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
                 ref={fileInputRef} // Attach the ref to the input
                 className="w-full h-12 p-2 bg-white text-black font-bold rounded-md sm:w-[476px]"
+              /> */}
+
+              {/* Hidden File Input */}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+                className="hidden"
               />
+
+              {/* Styled Button */}
+              <div className="text-center md:text-left">
+                <button
+                  onClick={handleButtonClick}
+                  className="px-4 py-2 bg-gray-200 text-black font-semibold rounded-md"
+                >
+                  Change Picture
+                </button>
+              </div>
             </div>
           </div>
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-          <form className="flex flex-col gap-4 sm:gap-5">
+          <form className="flex flex-col gap-4 sm:gap-5 my-3">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:gap-8 gap-4">
               <div className="flex flex-col gap-2 sm:gap-3 w-full sm:w-auto">
                 <label
@@ -245,7 +280,7 @@ const LandlordDashboardProfileForm = () => {
               <input
                 type="email"
                 name="email"
-                disabled={true}
+                disabled={false}
                 value={userInfo.email}
                 onChange={handleInputChange}
                 placeholder="Enter Your Email ID"
@@ -268,14 +303,19 @@ const LandlordDashboardProfileForm = () => {
                 className="border-2 rounded-[5px] bg-transparent w-full sm:w-[476px] h-9 p-4"
               />
             </div>
-            <button
-              type="button"
-              onClick={handleSaveChanges}
-              disabled={!isChanged || isSubmitting}
-              className="rounded-[5px] bg-[#00B74D] text-white font-bold p-2 w-32"
-            >
-              {isSubmitting ? "Saving..." : "Save Changes"}
-            </button>
+            <div className="flex items-center justify-end gap-3">
+              <button type="submit" className="border-[#3CBDB1] border-[1.5px] rounded-[5px] text-[18px] px-[17.02px] py-1 h-[42.56px]">
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveChanges}
+                disabled={!isChanged || isSubmitting}
+                className="bg-teal-500 text-white px-2 py-1 font-bold rounded-md hover:bg-teal-600 transition duration-300  h-[42.56px]"
+              >
+                {isSubmitting ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
           </form>
         </div>
       </main>
