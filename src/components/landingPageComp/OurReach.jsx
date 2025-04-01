@@ -59,7 +59,7 @@ export default function OurReach() {
               <h3 className="text-white text-[12.07px] font-[400] leading-[18.1px] font-poppins w-full">
                 {stat.title}
               </h3>
-              <p className="text-white font-bold text-xl w-full">
+              <p className="text-white font text-xl w-full">
                 {isVisibleMobile ? (
                   <CountUp
                     start={0}
@@ -85,7 +85,7 @@ export default function OurReach() {
               <h3 className="text-white text-[12.07px] font-[400] leading-[18.1px] font-poppins w-full">
                 {stat.title}
               </h3>
-              <p className="text-white font-bold text-xl w-full">
+              <p className="text-white font text-xl w-full">
                 {isVisibleMobile ? (
                   <CountUp
                     start={0}

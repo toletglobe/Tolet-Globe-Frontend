@@ -191,7 +191,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   <NextArrow onClick={() => {}} />
                 </div>
               )}
-              <div
+              {/* <div
                 className="card-badge-left absolute top-4 left-4 text-white/75 lg:text-white text-xs lg:text-xs uppercase px-1 lg:px-3 py-1 rounded-md"
                 style={{
                   backgroundColor:
@@ -208,21 +208,23 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   : property.availabilityStatus === "Rented Out"
                   ? "Rent Out"
                   : "NA"}
-              </div>
+              </div> */}
+              <Toggle propertyId={property._id} currentStatus={property.availabilityStatus}
+  propertyUserId={property.userId} />
               <div className="banner-actions absolute bottom-1 left-2 right-4 flex  justify-between">
                 <div className="item-center">
-                  <button className="banner-actions-btn flex items-center text-white">
+                  <button className="banner-actions-btn flex items-center  text-white">
                     <MdOutlineMyLocation className="text-xs lg:text-sm drop-shadow-2xl shadow-black" />
-                    <address className="text-xs lg:text-sm p-1  shadow-black text-shadow">
+                    <address className="text-[10px] lg:text-sm p-1  shadow-black text-shadow">
                       {`${property.area}, ${property.locality}`}
                     </address>
                   </button>
                 </div>
-                <div className="flex gap-4 text-sm">
-                  <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                <div className="flex gap-1 text-sm">
+                  <button className="banner-img_video-btn flex items-center gap-1 text-white drop-shadow shadow-black">
                     <FaVideo className="lg:text-sm text-xs " />
                   </button>
-                  <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
+                  <button className="banner-img_video-btn flex items-center gap-1 text-white drop-shadow shadow-black">
                     <FaRegImage className="lg:text-sm text-xs " />
                     {property.images?.length}
                   </button>
@@ -350,7 +352,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 <div className="card-text font-poppins py-3 lg:text-lg text-xs font-semibold text-[#505050]">
                   {property.type}, {property.floor}
                 </div>
-              </div>
+              </div>  
               <ul className="card-list custom-card-list pb-3 lg:py-2 ">
                 <li className="bed card-item flex items-center text-base">
                   <IoBedOutline className="text-lg lg:text-3xl" />

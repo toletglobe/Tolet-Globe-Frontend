@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 // -----------Birds Img------------
 import bird1 from "../../../assets/birds/bird1.svg";
 import bird2 from "../../../assets/birds/bird2.svg";
@@ -34,11 +37,24 @@ import sun from "../../../assets/sun/sunOld.svg";
 import bg2 from "../../../assets/background/black.svg";
 
 const TopBg = () => {
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 5) {
-      document.body.classList.add("scrolled");
-    }
-  });
+  const location = useLocation();
+
+  useEffect(() => {
+    // Reset scroll class when component mounts or route changes
+    document.body.classList.remove('scrolled');
+    
+    const handleScroll = () => {
+      if (window.scrollY > 5) {
+        document.body.classList.add("scrolled");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [location.pathname]);
+
   return (
     <>
       {/* -----------------Top Component----------------- */}
