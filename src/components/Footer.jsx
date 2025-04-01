@@ -99,7 +99,8 @@ const Footer = () => {
         {/* Responsive Grid Layout */}
         <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row lg:justify-between lg:items-start">
           {/* Logo and Tagline Section */}
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left w-full lg:w-[250.67px] mb-8 lg:mb-0">
+          <div className="flex flex-col items-start text-left w-full lg:w-[250.67px] mb-8 lg:mb-0">
+
             <img
               src={image}
               alt="To-Let Globe Logo"
