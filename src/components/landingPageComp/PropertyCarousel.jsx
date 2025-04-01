@@ -137,28 +137,30 @@ const PropertyCarousel = () => {
                 key={index}
                 className={`${
                   index === currentSlide ? "block" : "hidden"
-                } bg-black`}
+                } bg-[#232323]`}
               >
-                <div className="w-full h-64">
-                  <img
-                    src={slide.image}
-                    alt={`Property in ${slide.city}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="py-4 text-white bg-[#232323] text-center">
-                  <h2 className="text-2xl font-normal mb-2">
-                    Find the best To-Let in {slide.city}
-                  </h2>
-                  <p className="text-[#CCB454] text-xs mb-4">
-                    With No Brokerage on rental PGs | Flats | Houses | Offices.
-                  </p>
-                  <Link
-                    to={`/property-listing/${slide.city}`}
-                    className="mx-auto px-6 py-[7.25px]  my-4 bg-[#FFF] text-black rounded-[3px] hover:bg-[#bebebe] transition-colors inline-block"
-                  >
-                    Join Us
-                  </Link>
+                <img
+                  src={slide.image}
+                  alt={`Property in ${slide.city}`}
+                  className="w-full h-[200px] object-cover block"
+                />
+                <div className="bg-[#232323] text-center h-[180px] flex flex-col justify-between">
+                  <div className="pt-3 pb-3 text-white flex-1 flex flex-col justify-between">
+                    <div>
+                      <h2 className="text-2xl font-normal mb-2 line-clamp-2">
+                        Find the best To-Let in {slide.city}
+                      </h2>
+                      <p className="text-[#CCB454] text-xs mb-4">
+                        With No Brokerage on rental PGs | Flats | Houses | Offices.
+                      </p>
+                    </div>
+                    <Link
+                      to={`/property-listing/${slide.city}`}
+                      className="mx-auto px-6 py-[7.25px] mb-4 bg-[#FFF] text-black rounded-[3px] hover:bg-[#bebebe] transition-colors inline-block"
+                    >
+                      Join Us
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
