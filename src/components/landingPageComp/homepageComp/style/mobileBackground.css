@@ -24,7 +24,7 @@
   height: 300px;
   position: absolute;
   opacity: 0.1;
-  transform: translate3d(75%, 60%, 0) scale(2.3);
+  transform: translate3d(75%, 75%, 0) scale(2.4);
   transition: all 2s ease-in-out;
 }
 

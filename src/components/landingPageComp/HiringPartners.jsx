@@ -54,7 +54,7 @@ const HiringPartners = () => {
       // Scroll to third item
       const itemWidth = 120; // width of each item
       const gap = 26; // gap between items
-      scrollRef.current.scrollLeft = (itemWidth + gap) * 2 -10; // Adjust to center the third item
+      scrollRef.current.scrollLeft = (itemWidth + gap) * 1.7 + 10; // Adjust to center the third item
     }
   }, []);
 
