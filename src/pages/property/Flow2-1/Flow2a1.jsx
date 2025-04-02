@@ -324,21 +324,21 @@ const Flow2a = () => {
             </div>
 
             {property.images.length > 1 && (
-              <div className="grid grid-cols-2 gap-2">
-                {property.images.slice(1, 5).map((image, index) => (
+              <div className="grid grid-cols-3 gap-3">
+                {property.images.slice(1, 4).map((image, index) => (
                   <div key={index + 1} className="relative">
                     <img
                       src={image}
                       alt={`${property.propertyType} ${index + 2}`}
-                      className="w-full h-[150px] object-cover rounded-lg cursor-pointer"
+                      className="w-full h-[70px] object-cover cursor-pointer"
                       onClick={() => openModal(image, index + 1)}
                     />
-                    {index === 3 && property.images.length > 5 && (
+                    {index === 2 && property.images.length > 4 && (
                       <div 
-                        className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center cursor-pointer rounded-lg"
+                        className="absolute  inset-0 bg-black bg-opacity-80 flex items-center justify-center cursor-pointer"
                         onClick={() => openModal(image, index + 1)}
                       >
-                        <span className="text-white text-lg font-medium">See all</span>
+                        <span className="text-white text-sm font-medium">See all</span>
                       </div>
                     )}
                   </div>
@@ -356,7 +356,7 @@ const Flow2a = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col">
           <div className="flex justify-between items-center p-4 text-white">
-            <h3 className="text-lg font-medium">Images and Videos</h3>
+            <h3 className="text-lg text-center font-medium">Images</h3>
             <button 
               onClick={closeModal}
               className="text-white text-3xl hover:text-gray-300"
@@ -410,17 +410,17 @@ const Flow2a = () => {
           </div>
           </div>
           
-          <div className="p-4 text-center text-white bg-black bg-opacity-50">
+          {/* <div className="p-4 text-center text-white bg-black bg-opacity-50">
             Photos | Videos | Property Map
-          </div>
+          </div> */}
         </div>
       )}
 
-        <div className="text-center -mt-4 relative">
+        {/* <div className="text-center -mt-4 relative">
           <p className="bg-white inline-block text-black p-1 px-3 rounded-lg shadow-lg">
             Photos | Videos | Property Map
           </p>
-        </div>
+        </div> */}
 
       <div className="md:flex justify-between pt-8">
         <div className="lg:w-[40%]">

@@ -111,7 +111,7 @@ const Filters = ({
 
   return (
     <>
-      <div className="w-full lg:w-fit  lg:bg-white bg-[#232323] p-4 lg:p-0 lg:mt-[21rem]  lg:ml-8 mt-[3.9rem] shadow-sm lg:rounded-xl">
+      <div className="w-full lg:w-fit  lg:bg-white  bg-[#232323] p-4 lg:p-1 lg:mt-[19.5rem]  lg:ml-8 mt-[3.9rem] shadow-sm lg:rounded-xl">
         <div className="lg:hidden flex justify-between gap-1 pb-4">
         <p className="text-xl">Select Our Service</p>
         {/* Close Button for Small Screens */}
