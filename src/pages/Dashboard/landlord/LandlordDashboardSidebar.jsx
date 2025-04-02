@@ -267,12 +267,12 @@ export default function LandlordDashboardSidebar() {
             className="max-sm:pt-1 w-screen h-[100%] absolute top-[120px] left-[-500px] sm:h-[100%] sm:w-[100%] bg-[#232323] sm:bg-black text-white sm:p-2 flex flex-col sm:relative sm:top-0 sm:left-0 lg:p-5 z-10 pl-0"
             id="sidebar"
          >
-            <div className="flex flex-col h-screen w-screen sm:w-auto sm:justify-normal">
+            <div className="flex flex-col h-screen w-screen sm:w-auto sm:justify-normal gap-2">
                <div className="w-[100%] sm:w-auto">
                   <NavLink
                      className={({ isActive }) =>
                         ` ${linkStyle_1} ${isActive ? "bg-[#C8A117]" : ""
-                        } hover:bg-[#C8A117] transition-colors duration-200`
+                        } hover:bg-[#C8A117] transition-colors duration-200 mb-2`
                      }
                      end
                      to="/landlord-dashboard"
@@ -302,7 +302,7 @@ export default function LandlordDashboardSidebar() {
                      to="my-properties"
                      className={({ isActive }) =>
                         ` ${linkStyle_1} ${isActive ? "bg-[#C8A117]" : ""
-                        } hover:bg-[#C8A117] transition-colors duration-200 `
+                        } hover:bg-[#C8A117] transition-colors duration-200 mb-2`
                      }
                   >
                      <div className="flex text-white-700">
@@ -317,7 +317,7 @@ export default function LandlordDashboardSidebar() {
                      to="favourites"
                      className={({ isActive }) =>
                         ` ${linkStyle_1} ${isActive ? "bg-[#C8A117]" : ""
-                        } hover:bg-[#C8A117] transition-colors duration-200`
+                        } hover:bg-[#C8A117] transition-colors duration-200 mb-2`
                      }
                   >
                      <div className="flex text-white-700 ">
@@ -332,7 +332,7 @@ export default function LandlordDashboardSidebar() {
                      to="add-properties"
                      className={({ isActive }) =>
                         ` ${linkStyle_1} ${isActive ? "bg-[#C8A117]" : ""
-                        } hover:bg-[#C8A117] transition-colors duration-200`
+                        } hover:bg-[#C8A117] transition-colors duration-200 mb-2`
                      }
                   >
                      <div className="flex text-white-700 ">
