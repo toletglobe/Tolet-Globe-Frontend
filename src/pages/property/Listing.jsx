@@ -865,7 +865,7 @@ const Listing = () => {
     
   </div>
 </div>
-        <div className="pt-6">
+        <div className="pt-3">
           {properties.length === 0 ? (
             <p className="text-center text-lg font-semibold mt-10">
               No properties found

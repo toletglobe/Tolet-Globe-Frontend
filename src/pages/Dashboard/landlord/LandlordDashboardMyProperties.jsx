@@ -149,7 +149,6 @@ export default function MyProperties({ favouriteList = [] }) {
   };
 
   // Handle Delete function
-
   const handleDelete = async (propertyId) => {
     if (!window.confirm("Are you sure you want to delete this property?"))
       return;
@@ -182,12 +181,23 @@ export default function MyProperties({ favouriteList = [] }) {
       key={property._id}
       className=" bg-black p-4 rounded-md hover:cursor-pointer relative"
     >
-      <img
-        src={property.images[0]}
-        alt="Property"
-        className=" relative  h-[200px] w-full object-cover rounded-md  mb-4"
-        onClick={() => navigate(`/property/${property.slug}`)}
-      />
+      <div className="relative">
+        <img
+          src={property.images[0]}
+          alt="Property"
+          className="relative h-[200px] w-full object-cover rounded-md mb-4"
+          onClick={() => navigate(`/property/${property.slug}`)}
+        />
+        <div
+          className="absolute top-4 left-4 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1 rounded-md"
+          style={{
+            backgroundColor: property.availabilityStatus === "Available" ? "#236b62" : "#c71221",
+            textTransform: "capitalize",
+          }}
+        >
+          {property.availabilityStatus}
+        </div>
+      </div>
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">
           {property?.firstName} {property?.lastName}
@@ -224,32 +234,6 @@ export default function MyProperties({ favouriteList = [] }) {
             </div>
           </Popup>
 
-          {/* old code */}
-          {/* <a
-            href="#"
-            className="relative"
-            style={{ width: "25px", height: "25px", left: "20px" }}
-          >
-            <CiShare2
-              className="card_icon bg-[#3E3E3E4D]"
-              style={{ color: "#40B5A8" }}
-            />
-          </a> */}
-
-          {/* old code */}
-          {/* More Icon */}
-          {/* <button
-            className="relative"
-            style={{ width: "25px", height: "25px", left: "30px" }}
-            onClick={() => toggleOption(property._id)}
-          >
-            <MdMoreVert
-              className="card_icon bg-[#3E3E3E4D]"
-              style={{ color: "#808080", fontSize: "16px" }}
-            />
-          </button> */}
-
-          {/* new code */}
           {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
           <a
             href="#"
@@ -293,25 +277,6 @@ export default function MyProperties({ favouriteList = [] }) {
               </div>
             )}
           </div>
-          {/* old code */}
-          {/* Show Options */}
-          {/* {showOption === property._id && (
-            <div className="absolute bg-gray-700 border border-gray-500 rounded-md shadow-md p-2 -mx-10 w-[120px]">
-              <button
-                className="text-[17px] font-medium text-white hover:text-red-500 flex items-center gap-2 px-2 py-1 w-full"
-                onClick={() => handleDelete(property._id)}
-              >
-                <MdDelete size={20} className="text-red-400" /> Delete
-              </button>
-
-              <button
-                className="text-[17px] font-medium text-white hover:text-blue-500 flex items-center gap-2 px-2 py-1 w-full"
-                onClick={() => handleEdit(property)}
-              >
-                <MdEdit size={20} className="text-blue-400" /> Edit
-              </button>
-            </div>
-          )} */}
         </div>
       </div>
       <p className="text-gray-400">
