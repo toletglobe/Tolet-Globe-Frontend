@@ -16,12 +16,12 @@ const Card = ({ img, title, bg, path, description }) => {
           />
         </div>
         <div
-          className={`rounded-b-lg text-left min-h-[3.5rem] flex flex-col items-start justify-center px-4 ${bg} h-[60%]`}
+          className={`rounded-b-lg text-left flex flex-col px-4 ${bg} h-[60%] py-3`}
         >
-          <h1 className="text-base sm:text-lg md:text-xl font-semibold whitespace-normal leading-tight text-black">
+          <h1 className="text-base sm:text-lg md:text-xl font-semibold text-black line-clamp-2">
             {title}
           </h1>
-          <p className="text-black font-normal text-[09px] tracking-[0%] max-w-full break-words mt-2 leading-tight">
+          <p className="text-black font-normal text-[09px] tracking-[0%] mt-1 leading-tight">
             {description}
           </p>
         </div>
