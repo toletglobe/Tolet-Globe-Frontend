@@ -414,7 +414,6 @@ const Reviews = ({ property }) => {
           </button>
         )}
       </div>
-
       <ToastContainer />
     </div>
   );
