@@ -93,8 +93,8 @@ const Footer = () => {
       <div className="flex-grow"></div>
 
       {/* Footer */}
-      <div className="mt-auto">
-        <hr className="border-gray-700 w-full h-[2px] mb-[40px]" />
+      <div className="lg:mt-auto mt-[50px]">
+        <hr className="border-gray-700 w-full h-[2px] mb-[40px] lg:border-t border-t-[2px]" />
 
         {/* Responsive Grid Layout */}
         <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row lg:justify-between lg:items-start">

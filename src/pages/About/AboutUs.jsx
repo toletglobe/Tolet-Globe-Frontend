@@ -37,7 +37,7 @@ export default function About() {
       <>
          <div className="mt-24 mb-12 ">
             <div className="text-center mb-2 ">
-               <h1 className="border-[3px] border-[#6cc0c4] rounded-xl text-[#e59948] inline text-xl sm:text-2xl md:lg:text-3xl py-2 px-10 md:px-16 lg:px-20  md:lg:py-1  font-bold">
+               <h1 className="border-[#6cc0c4] border-[2px] lg:border-[5px] rounded-xl lg:rounded-[64.92px] text-[#E59948] lg:text-[#E8B636] lg:uppercase inline text-xl sm:text-2xl md:lg:text-3xl py-2 px-10 md:px-16 lg:px-20  md:lg:py-1  font-bold">
                   About Us
                </h1>
             </div>
@@ -79,7 +79,7 @@ export default function About() {
                />
             </div>
             <div className="mb-20 sm:mb-36 w-full">
-               <div className="bg-black border-[3px] border-[#6cc0c4] rounded-3xl text-[#e59948] m-auto py-2 px-4 w-1/2 md:w-1/4">
+               <div className="bg-black border-[3px] border-[#6cc0c4] rounded-3xl font-Roboto text-[#E59948] lg:text-[#E8B636] lg:uppercase m-auto py-2 px-4 w-1/2 md:w-1/4">
                   <h2 className="md:text-3xl text-xl font-bold text-center">
                      Our Team
                   </h2>
