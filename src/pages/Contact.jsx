@@ -67,7 +67,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="flex flex-row gap-4 mt-10 md:mt-20">
+        <div className="flex flex-row gap-4 mt-10 md:mt-20 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -90,7 +90,7 @@ const Contact = () => {
             <p className="text-[#6CC1B6]">hello@toletglobe.in</p>
           </div>
         </div>
-        <div className="flex flex-row gap-4 mt-8 md:mt-10">
+        <div className="flex flex-row gap-4 mt-8 md:mt-10 items-center">
           <IoCallOutline className="text-white text-3xl md:text-4xl h-14 p-2 w-14 border-2 border-white rounded-xl mt-6 mb-8" />
           <div>
             <h1 className="text-white text-xl md:text-2xl">Call us...</h1>
