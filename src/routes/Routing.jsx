@@ -10,6 +10,7 @@ import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
 import TwitterPlaceholder from "../pages/Twitter.jsx";
+import Pricing from "../pages/Pricing/pricing.jsx";
 
 const Landing = lazy(() => import("../pages/Landing"));
 const Contact = lazy(() => import("../pages/Contact"));
@@ -77,6 +78,7 @@ const Routing = () => {
                <Route path="/forgot-password" element={<ForgotPassword />} />
                <Route path="/auth/reset-password" element={<ResetPassword />} />
                <Route path="/twitter" element={<TwitterPlaceholder />} />
+               <Route path="/pricing" element={<Pricing />} />
 
                {/* <Route path="/property/reviews" element={<Reviews />} /> */}
 
