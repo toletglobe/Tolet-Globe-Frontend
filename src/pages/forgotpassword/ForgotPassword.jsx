@@ -1,8 +1,11 @@
-import { FaLock, FaSchool } from "react-icons/fa";
-import { AiOutlineMail } from "react-icons/ai";
-import toast from "react-hot-toast";
 import { useState } from "react";
+import toast from "react-hot-toast";
+
+import { FaSchool } from "react-icons/fa";
+import { AiOutlineMail } from "react-icons/ai";
+
 import "./ForgotPassword.css";
+
 import { API } from "../../config/axios";
 
 const ForgotPassword = () => {

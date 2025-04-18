@@ -23,8 +23,6 @@ export default function Frm1({ formData, setFormData }) {
     "NA",
   ];
 
-
-
   const cityLocalityData = {
     Lucknow: {
       localities: [
@@ -110,8 +108,7 @@ export default function Frm1({ formData, setFormData }) {
 
   return (
     <>
-     
-      <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
+      <div className="grid gap-y-12 mt-10 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6">
         {/* First Name */}
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">

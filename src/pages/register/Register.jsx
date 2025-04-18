@@ -1,5 +1,7 @@
 import { useState } from "react";
-import "./Register.css";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import {
   FaUser,
   FaLock,
@@ -8,10 +10,10 @@ import {
   FaSchool,
 } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { API } from "../../config/axios";
 
+import "./Register.css";
+
+import { API } from "../../config/axios";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -204,14 +206,13 @@ const Register = () => {
             />
           </div>
           <div className="flex justify-center mt-10">
-  <button
-    type="submit"
-    className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
-  >
-    REGISTER
-  </button>
-</div>
-
+            <button
+              type="submit"
+              className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
+            >
+              REGISTER
+            </button>
+          </div>
         </form>
       </div>
     </div>

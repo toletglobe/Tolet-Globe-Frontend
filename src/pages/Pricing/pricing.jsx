@@ -1,10 +1,11 @@
-import React from 'react'
-import checkmark from '../../assets/icons/checkmark.svg'
-import property from '../../assets/icons/property.svg'
-import filter from '../../assets/icons/filter.svg'
-import payafter from '../../assets/icons/payafter.svg'
-import nobrokerage from '../../assets/icons/nobrokerage.svg'
-import timesaving from '../../assets/icons/timesaving.svg'
+import React from "react";
+
+import checkmark from "../../assets/pricing/checkmark.svg";
+import property from "../../assets/pricing/property.svg";
+import filter from "../../assets/pricing/filter.svg";
+import payafter from "../../assets/pricing/payafter.svg";
+import nobrokerage from "../../assets/pricing/nobrokerage.svg";
+import timesaving from "../../assets/pricing/timesaving.svg";
 
 const Pricing = () => {
   return (
@@ -12,8 +13,9 @@ const Pricing = () => {
       <div className="max-w-7xl mx-auto text-center">
         <h1 className="text-4xl font-bold mb-4">Choose Your Perfect Plan</h1>
         <p className="text-gray-400 mb-12 max-w-2xl mx-auto">
-          Find your ideal property with our flexible subscription options. Whether you're
-          looking for a free experience or premium support, we've got you covered.
+          Find your ideal property with our flexible subscription options.
+          Whether you're looking for a free experience or premium support, we've
+          got you covered.
         </p>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -25,26 +27,46 @@ const Pricing = () => {
               <span className="text-gray-400 ml-1">/month</span>
             </div>
             <p className="text-gray-400 mb-6">Perfect for getting started</p>
-            
+
             <ul className="space-y-4 mb-8 text-left">
               <li className="flex items-center">
-                <img src={checkmark} alt="checkmark" className="w-5 h-5 text-green-500 mr-3" />
+                <img
+                  src={checkmark}
+                  alt="checkmark"
+                  className="w-5 h-5 text-green-500 mr-3"
+                />
                 Direct connection with property owners
               </li>
               <li className="flex items-center">
-                <img src={checkmark} alt="checkmark" className="w-5 h-5 text-green-500 mr-3" />
+                <img
+                  src={checkmark}
+                  alt="checkmark"
+                  className="w-5 h-5 text-green-500 mr-3"
+                />
                 No brokerage fees
               </li>
               <li className="flex items-center">
-                <img src={checkmark} alt="checkmark" className="w-5 h-5 text-green-500 mr-3" />
+                <img
+                  src={checkmark}
+                  alt="checkmark"
+                  className="w-5 h-5 text-green-500 mr-3"
+                />
                 Post requirements to get qualified Property Owners
               </li>
               <li className="flex items-center">
-                <img src={checkmark} alt="checkmark" className="w-5 h-5 text-green-500 mr-3" />
+                <img
+                  src={checkmark}
+                  alt="checkmark"
+                  className="w-5 h-5 text-green-500 mr-3"
+                />
                 Post approval within 24 hours
               </li>
               <li className="flex items-center">
-                <img src={checkmark} alt="checkmark" className="w-5 h-5 text-green-500 mr-3" />
+                <img
+                  src={checkmark}
+                  alt="checkmark"
+                  className="w-5 h-5 text-green-500 mr-3"
+                />
                 Find a flatmate for your Rental Property
               </li>
             </ul>
@@ -68,24 +90,43 @@ const Pricing = () => {
 
             <ul className="space-y-4 mb-8 text-left">
               <li className="flex items-center">
-                <img src={property} alt="checkmark" className="w-5 h-5 text-[#38bdf8] mr-3" />
-                
+                <img
+                  src={property}
+                  alt="checkmark"
+                  className="w-5 h-5 text-[#38bdf8] mr-3"
+                />
                 Property tours
               </li>
               <li className="flex items-center">
-                <img src={filter} alt="checkmark" className="w-5 h-5 text-[#38bdf8] mr-3" />
+                <img
+                  src={filter}
+                  alt="checkmark"
+                  className="w-5 h-5 text-[#38bdf8] mr-3"
+                />
                 filtered properties
               </li>
               <li className="flex items-center">
-                <img src={payafter} alt="checkmark" className="w-5 h-5 text-[#38bdf8] mr-3" />
+                <img
+                  src={payafter}
+                  alt="checkmark"
+                  className="w-5 h-5 text-[#38bdf8] mr-3"
+                />
                 Pay after finalizing property
               </li>
               <li className="flex items-center">
-                <img src={nobrokerage} alt="checkmark" className="w-5 h-5 text-[#38bdf8] mr-3" />
+                <img
+                  src={nobrokerage}
+                  alt="checkmark"
+                  className="w-5 h-5 text-[#38bdf8] mr-3"
+                />
                 No brokerage fees
               </li>
               <li className="flex items-center">
-                <img src={timesaving} alt="checkmark" className="w-5 h-5 text-[#38bdf8] mr-3" />
+                <img
+                  src={timesaving}
+                  alt="checkmark"
+                  className="w-5 h-5 text-[#38bdf8] mr-3"
+                />
                 Time saving
               </li>
             </ul>
@@ -97,7 +138,7 @@ const Pricing = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Pricing
+export default Pricing;
