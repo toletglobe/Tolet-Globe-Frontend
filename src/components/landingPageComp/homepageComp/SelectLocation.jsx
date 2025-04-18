@@ -14,15 +14,12 @@ const SelectLocation = ({ Location, setLocation, onLocationSelect }) => {
       }`}
     >
       <div>
-        <div className="lg:w-[130px] md:min-w-[130px] md:max-w-full  bg-white text-black flex items-start flex-col justify-center rounded-lg shadow-md -ml-3">
-          {/* <p className="text-2xl font-medium py-2 flex items-center justify-center gap-4 ">
-            Select City
-          </p> */}
+        <div className="lg:w-[calc(130px-8px)] md:min-w-[calc(130px-5px)] md:max-w-full bg-white text-black flex items-start flex-col justify-center rounded-lg shadow-md -ml-3">
           <div className="flex flex-col items-center justify-around flex-wrap">
             {["Lucknow", "Ayodhya", "Vellore", "Kota"].map((city) => (
               <h2
                 key={city}
-                className="h-1 sm:h-8 w-35  text-sm md:text-lg  font-medium rounded-lg flex items-center justify-center cursor-pointer p-6 ml-1"
+                className="w-full h-8 text-sm md:text-lg font-medium rounded-lg flex items-center justify-center cursor-pointer p-2 md:p-6"
                 onClick={() => onLocationSelect(city)}
               >
                 {city}

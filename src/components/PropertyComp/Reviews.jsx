@@ -126,40 +126,67 @@ const Reviews = ({ property }) => {
     currentPage > 1 && setCurrentPage(currentPage - 1);
 
   return (
-    <div className="w-full p-6 bg-white shadow-lg rounded-lg">
-      <div className="flex justify-between gap-6 mb-6">
-        <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-white">
-          <h2 className="text-2xl font-bold">
-            Average Rating: {totalReviews.length > 0 ? averageRating : 0}/5
+    <div className="w-full p-6 bg-white shadow-lg rounded-2xl ">
+        <h1 className="text-2xl text-center my-4 lg:text-left lg:mx-8 lg:my-4 font-bold text-black">All Reviews</h1>
+      <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6 ">
+        <div className="flex flex-col lg:gap-4  items-center  w-full lg:w-1/2 px-2 p-12 lg:p-0 lg:px-4 border border-black rounded-lg shadow-md bg-white justify-center">
+        <h2 className="block lg:hidden xl:text-5xl lg:text-4xl text-xl font-bold  text-black">
+            Average Rating: {totalReviews.length > 0 ? averageRating : 0} / 5
           </h2>
           <ReactStars
             count={5}
             key={averageRating}
             value={averageRating}
             isHalf={true}
-            size={40}
+            size={window.innerWidth < 640 ? 20 : window.innerWidth < 1025 ? 35 : window.innerWidth < 1450 ? 44 : 50}
             edit={false}
             activeColor="#ffd700"
           />
+          <h2 className="hidden lg:block xl:text-5xl lg:text-4xl text-2xl font-bold  text-[#505050]">
+            {totalReviews.length > 0 ? averageRating : 0} Out Of 5
+          </h2>
+          
         </div>
 
-        <div className="flex flex-col items-center justify-center w-1/2 p-4 border border-black rounded-lg shadow-md bg-gray-100">
-          <h3 className="text-lg font-semibold">
-            Share details of your experience with this property.
-          </h3>
-          <button
-            onClick={() => {
-              if (authState.status === true && localStorage.getItem("token")) {
-                setShowReviewForm(!showReviewForm);
-              } else {
-                toast.error("Please Log In first");
-                navigate("/login");
-              }
-            }}
-            className="mt-4 w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 border border-black"
-          >
-            {showReviewForm ? "Cancel" : "Write Review"}
-          </button>
+        <div className="flex flex-col sm:flex-row items-start justify-between w-full  xl:p-6 p-4 border border-black rounded-lg shadow-md bg-white gap-6">
+          <div className=" flex-col hidden md:flex  lg:flex flex-wrap items-start w-full lg:w-[35%]">
+            <h3 className="text-xl mb-2 font-bold text-[#505050]">
+              Rate This Property On Your Experience
+            </h3>
+            <ReactStars
+              count={5}
+              onChange={handleRatingChange}
+              size={window.innerWidth < 640 ? 30 : window.innerWidth < 1024 ? 50 : 50}
+              value={rating}
+              activeColor="#ffd700"
+              isHalf={false}
+            />
+          </div>
+
+          {/* Write Review Section */}
+          <div className="flex flex-col items-start w-full lg:w-1/2 xl:w-[49%] gap-2">
+            <h3 className="text-[0.8rem] lg:text-xl font-bold text-start text-black">
+              Share details of your experience with this property.
+            </h3>
+            <button
+              onClick={() => {
+                if (authState.status === true && localStorage.getItem("token")) {
+                  const screenWidth = window.innerWidth;
+                  if (screenWidth < 768) { // Small screen
+                    navigate("/property/reviews"); // Replace with the desired page
+                  } else { // md, lg, xl screens
+                    setShowReviewForm(!showReviewForm);
+                  }
+                } else {
+                  toast.error("Please Log In first");
+                  navigate("/login");
+                }
+              }}
+              className="mt-4 w-full bg-teal-500 text-black font-bold lg:text-xl py-2 rounded-lg hover:bg-teal-600 border border-black"
+            >
+              {showReviewForm ? "Cancel" : "Write A Review"}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -180,22 +207,7 @@ const Reviews = ({ property }) => {
               Help others choose wisely by reviewing your neighborhood!
             </p>
 
-            <form onSubmit={handleAddReview} className="space-y-6">
-              <div>
-                <h3 className="text-lg mb-2">Rate your experience</h3>
-                <div className="p-4 rounded-lg">
-                  <ReactStars
-                    count={5}
-                    onChange={handleRatingChange}
-                    size={40}
-                    value={rating}
-                    activeColor="#ffd700"
-                    isHalf={false}
-                  />
-                </div>
-              </div>
-
-              <div>
+            <div className="mb-2">
                 <h3 className="text-lg mb-4">How long have you stayed here?</h3>
                 <div className="flex flex-wrap gap-3">
                   {[
@@ -220,6 +232,23 @@ const Reviews = ({ property }) => {
                   ))}
                 </div>
               </div>
+
+            <form onSubmit={handleAddReview} className="space-y-6">
+              <div className="mb-2">
+                <h3 className="text-lg text-teal-400">Rate your Locality / Society</h3>
+                <div className="rounded-lg">
+                  <ReactStars
+                    count={5}
+                    onChange={handleRatingChange}
+                    size={window.innerWidth < 640 ? 30 : window.innerWidth < 1024 ? 50 : 50}
+                    value={rating}
+                    activeColor="#ffd700"
+                    isHalf={false}
+                  />
+                </div>
+              </div>
+
+             
 
               <div>
                 <h3 className="text-lg text-teal-400 mb-4">
@@ -255,8 +284,8 @@ const Reviews = ({ property }) => {
 
               <div>
                 <h3 className="text-lg text-teal-400 mb-4">Upload Media</h3>
-                <p className="text-gray-400 mb-2">Images/Videos</p>
-                <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center">
+                <p className="text-gray-400 mb-2">Images</p>
+                <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 mb-2 text-center">
                   <div className="flex flex-col items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -301,51 +330,65 @@ const Reviews = ({ property }) => {
         </div>
       )}
 
-      <h2 className="text-2xl font-bold mb-4">All Reviews</h2>
+      {/* <h2 className="lg:text-4xl text-xl font-bold mb-4 lg:mx-8 items-start">
+        All Reviews
+      </h2> */}
       <ul className="list-none p-0">
         {currentReviews.length > 0 ? (
           currentReviews.map((review) => (
             <li
               key={review.userId}
-              className="bg-gray-100 p-4 mb-2 rounded-lg border border-black"
+              className="bg-gray-100 p-4 mb-2 rounded-lg border border-black lg:mx-8"
             >
-              <div className="flex items-center">
-                <div className="inline-block w-20 h-20 rounded-full bg-gray-500 text-white text-center leading-8 font-bold mr-2"></div>
-                <div className="ml-2">
-                  <p className="font-bold">
+              <div className="flex items-start flex-wrap ">
+                <div className="inline-block w-14 h-14 lg:w-20 lg:h-20 rounded-full bg-gray-500 text-white text-center leading-8 font-bold mr-2 "></div>
+                <div className="ml-2 flex-1">
+                  <p className="font-bold lg:text-2xl">
                     {review.firstName !== "NA" ? review.firstName : "Anonymous"}
                     {review.lastName !== "NA" ? " " + review.lastName : ""}
                   </p>
                   <ReactStars
                     count={5}
                     value={Number(review.userRating)}
-                    size={24}
+                    size={window.innerWidth < 640 ? 20 : window.innerWidth < 1290 ? 23 : 30}
                     edit={false}
                     activeColor="#ffd700"
                     className="border border-black rounded-lg p-1"
                   />
                 </div>
+                {/* <img src={review.media[1]} alt="" className="mt-4 " />
+                <img
+                  src={review.media[0]}
+                  alt=""
+                  className="mt-4 w-[150px] h-[150px]"
+                /> */}
               </div>
-              <p>Stay Duration: {review.stayDuration}</p>
-              <p> Like about the Locality: {review.likesAboutLocality}</p>
-              <p>Don't like about the Locality: {review.dislikesAboutLocality}</p>
-              <img src={review.media[1]} alt="" className="mt-4"/>
-              <img src={review.media[0]} alt="" />
+              <div className="text-xl w-[70%] lg:h-[100px] lg:-mt-16 flex-1 flex-wrap">
+                {/* <p>Stay Duration: {review.stayDuration}</p>
+                <p> Like about the Locality: {review.likesAboutLocality}</p> */}
+                <p className="lg:mt-[5rem] lg:ml-[0.8rem] xl:mt-[5rem] xl:ml-[0.8rem] text-[1rem] lg:text-[1.2rem]">
+                  {/* Don't like about the Locality: */}
+                   {review.dislikesAboutLocality}
+                </p>
+                {/* <p>{review.comment}</p> */}
+              </div>
             </li>
           ))
         ) : (
-          <p className="text-2xl">Be the first to review this property!</p>
+          <p className="text-xl text-center lg:text-left lg:text-2xl lg:mx-8">Be the first to review this property!</p>
         )}
       </ul>
 
       <div className="flex justify-center mt-4">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full mr-2"
-        >
-          &lt;
-        </button>
+        {currentPage > 1 && (
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full mr-2"
+          >
+            &lt;
+          </button>
+        )}
         {Array.from(
           { length: Math.ceil(totalReviews.length / reviewsPerPage) },
           (_, index) => (
@@ -362,17 +405,15 @@ const Reviews = ({ property }) => {
             </button>
           )
         )}
-        <button
-          onClick={handleNextPage}
-          disabled={
-            currentPage === Math.ceil(totalReviews.length / reviewsPerPage)
-          }
-          className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full ml-2"
-        >
-          &gt;
-        </button>
+        {currentPage < Math.ceil(totalReviews.length / reviewsPerPage) && (
+          <button
+            onClick={handleNextPage}
+            className="bg-gray-400 text-white py-2 px-4 w-10 rounded-full ml-2"
+          >
+            &gt;
+          </button>
+        )}
       </div>
-
       <ToastContainer />
     </div>
   );

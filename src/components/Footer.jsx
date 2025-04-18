@@ -9,16 +9,92 @@ import { LuPhone } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import image from "/image.png";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+  // const ScrollToTop = () => {
+  //   const { pathname, hash } = useLocation();
+  
+  //   useEffect(() => {
+  //     // If there's a hash (like #section), scroll to that element
+  //     if (hash) {
+  //       const element = document.getElementById(hash.substring(1));
+  //       if (element) {
+  //         element.scrollIntoView({ behavior: "smooth" });
+  //       }
+  //     } else {
+  //       // Otherwise, scroll to the top of the page
+  //       window.scrollTo({ top: 0, behavior: "smooth" });
+  //     }
+  //   }, [pathname, hash]);
+  
+  //   return null;
+  // };
+  // const ScrollToTop = () => {
+  //   const { pathname } = useLocation();
+  
+  //   useEffect(() => {
+  //     const handleLinkClick = (e) => {
+  //       const target = e.currentTarget.getAttribute("href");
+  
+  //       // Only scroll if the target is the current page
+  //       if (target === window.location.pathname) {
+  //         window.scrollTo({ top: 0, behavior: "smooth" });
+  //       }
+  //     };
+  
+  //     // Always scroll on route change
+  //     window.scrollTo({ top: 0, behavior: "smooth" });
+  
+  //     // Attach click event listener to links
+  //     const links = document.querySelectorAll("a");
+  //     links.forEach(link => link.addEventListener("click", handleLinkClick));
+  
+  //     // Cleanup event listeners
+  //     return () => {
+  //       links.forEach(link => link.removeEventListener("click", handleLinkClick));
+  //     };
+  //   }, [pathname]);
+  
+  //   return null;
+  // };
+  const ScrollToTop = () => {
+    const { pathname } = useLocation();
+  
+    useEffect(() => {
+      const handleLinkClick = () => {
+        window.scrollTo(0, 0);
+      };
+  
+      // Scroll on route change
+      window.scrollTo(0, 0);
+     
+      // Attach click event listener to links
+      const links = document.querySelectorAll("a");
+      links.forEach(link => link.addEventListener("click", handleLinkClick));
+  
+      // Cleanup event listeners
+      return () => {
+        links.forEach(link => link.removeEventListener("click", handleLinkClick));
+      };
+    }, [pathname]);
+  
+    return null;
+  };
+  
   return (
+    <>
+    <ScrollToTop />
+
+  
     <div className="bg-black text-white flex flex-col mt- sm:mt- md:mt- lg:mt-[] xl:mt-[]">
     {/* <div className="bg-black text-white flex flex-col mt-52 sm:mt-60 md:mt-72 lg:mt-[63px] xl:mt-[71px]"> */}
       <div className="flex-grow"></div>
 
       {/* Footer */}
-      <div className="mt-auto">
-        <hr className="border-gray-700 w-full h-[2px] mb-[40px]" />
+      <div className="lg:mt-auto mt-[50px]">
+        <hr className="border-gray-700 w-full h-[2px] mb-[40px] lg:border-t border-t-[2px]" />
 
         {/* Responsive Grid Layout */}
         <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row lg:justify-between lg:items-start">
@@ -91,6 +167,7 @@ const Footer = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

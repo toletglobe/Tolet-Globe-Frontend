@@ -185,7 +185,7 @@ export default function Frm1({ formData, setFormData }) {
           />
         </div>
 
-        <div>
+        {/* <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             City
           </label>
@@ -200,7 +200,7 @@ export default function Frm1({ formData, setFormData }) {
             </option>
             {cityOptions.map(optionRenderFun)}
           </select>
-        </div>
+        </div> */}
 
         {/* Locality */}
         <div>
@@ -223,7 +223,7 @@ export default function Frm1({ formData, setFormData }) {
         </div>
 
         {/* Area */}
-        <div>
+        {/* <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Area
           </label>
@@ -237,10 +237,10 @@ export default function Frm1({ formData, setFormData }) {
               setFormData({ ...formData, area: e.target.value });
             }}
           />
-        </div>
+        </div> */}
 
         {/* Pin */}
-        <div>
+        {/* <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Pin Code
           </label>
@@ -252,7 +252,7 @@ export default function Frm1({ formData, setFormData }) {
             value={formData.pincode}
             readOnly
           />
-        </div>
+        </div> */}
 
         {/* Address */}
         <div>
@@ -291,7 +291,7 @@ export default function Frm1({ formData, setFormData }) {
           </select>
         </div>
 
-        <div>
+        {/* <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property Type
           </label>
@@ -314,7 +314,7 @@ export default function Frm1({ formData, setFormData }) {
               ? residentialOptions.map(optionRenderFun)
               : allOptions.map(optionRenderFun)}
           </select>
-        </div>
+        </div> */}
       </div>
     </>
   );

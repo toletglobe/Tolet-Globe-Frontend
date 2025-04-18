@@ -42,7 +42,9 @@ const Login = () => {
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-
+        localStorage.setItem("User", res.data.user.role);
+        localStorage.setItem("userType", res.data.user.userType);
+        localStorage.setItem("userId", res.data.user.id);
         // console.log(res.data.user);
         dispatch(
           login({

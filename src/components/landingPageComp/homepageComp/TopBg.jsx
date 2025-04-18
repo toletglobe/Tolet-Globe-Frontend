@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 // -----------Birds Img------------
 import bird1 from "../../../assets/birds/bird1.svg";
 import bird2 from "../../../assets/birds/bird2.svg";
@@ -30,14 +33,28 @@ import plant1 from "../../../assets/plant/plant1.svg";
 import plant2 from "../../../assets/plant/plant2.svg";
 
 //--------------Sun IMG-------------
-import sun from "../../../assets/sun/sun.svg";
+import sun from "../../../assets/sun/sunOld.svg";
+import bg2 from "../../../assets/background/black.svg";
 
 const TopBg = () => {
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 5) {
-      document.body.classList.add("scrolled");
-    }
-  });
+  const location = useLocation();
+
+  useEffect(() => {
+    // Reset scroll class when component mounts or route changes
+    document.body.classList.remove('scrolled');
+    
+    const handleScroll = () => {
+      if (window.scrollY > 5) {
+        document.body.classList.add("scrolled");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [location.pathname]);
+
   return (
     <>
       {/* -----------------Top Component----------------- */}
@@ -46,7 +63,7 @@ const TopBg = () => {
           {/* ---------- Birds Image ---------- */}
 
           <img src={bird1} alt="Home Img" className="Tbird-1" />
-          <img src={bird2} alt="Home Img" className="Tbird-2" />
+          <img src={bird2} alt="Home Img" className="Tbird-2 bottom-bird" />
 
           {/* -----------Cloud Images---------- */}
 
@@ -56,6 +73,7 @@ const TopBg = () => {
 
           {/*----------Sun Image -------------- */}
           <img src={sun} alt="Home Img" className="Tsun-circle" />
+          <img src={bg2} alt="" className="Tbg-1" />
 
           {/* -----------Plant Imaages----------- */}
           <img src={plant1} alt="" className="Tplant-1" />

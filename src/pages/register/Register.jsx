@@ -203,14 +203,15 @@ const Register = () => {
               required
             />
           </div>
-          <div className="relative w-[300px] h-[40px] mt-[40px] ml-2 transition-all">
-            <button
-              type="submit"
-              className="absolute w-full h-full text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
-            >
-              REGISTER
-            </button>
-          </div>
+          <div className="flex justify-center mt-10">
+  <button
+    type="submit"
+    className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
+  >
+    REGISTER
+  </button>
+</div>
+
         </form>
       </div>
     </div>
