@@ -1,0 +1,18 @@
+.timeline::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: var(--scroll-position, 0%);
+  /* Dynamic height based on scroll */
+  background: #6cc0c4;
+  /* Timeline line color */
+  top: -10px;
+  left: 50%;
+  margin-left: -3px;
+}
+
+@media (max-width: 1440px) {
+  .container.left {
+    left: 5px !important;
+  }
+}
