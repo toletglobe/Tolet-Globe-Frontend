@@ -11,7 +11,7 @@ import "./Login.css";
 
 import { API } from "../../config/axios";
 
-const Login = () => {
+const Login = ({ setUserInfo }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
