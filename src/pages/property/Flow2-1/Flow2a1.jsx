@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import Service from "../../../config/config";
 import Flow2b from "./Flow2b";
 import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
@@ -28,6 +28,7 @@ import { FaRegImage, FaVideo } from "react-icons/fa6";
 
 const Flow2a = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [{ compareProperty }, dispatch] = useStateValue();
   const [property, setProperty] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -422,204 +423,12 @@ const Flow2a = () => {
           </p>
         </div>
 
-      <div className="md:flex justify-between pt-8">
-        <div className="lg:w-[40%]">
-          <h1 className="text-left text-white lg:text-5xl">
-            {property?.propertyType}
-            <span>
-              <img
-                src={shield}
-                alt="shield"
-                className="h-7 lg:h-12 w-7 lg:w-12 lg:ml-8 inline"
-              />
-            </span>
-          </h1>
-          <p className="text-gray-400 block lg:text-2xl lg:py-4">
-            {property?.address}, {property?.city}
-          </p>
 
-          <div className="flex lg:text-2xl lg:pb-4">
-            <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
-            <p className="ml-2 text-gray-400">
-              {averageRating.toFixed(1)} ({property?.reviews ? property?.reviews?.length : 0} Reviews)
-            </p>
-          </div>
-
-          <div className="border border-gray-600 rounded-lg p-1 sm:p-1 mb-8 mt-2 flex flex-row lg:flex-row justify-evenly items-center gap-2 lg:gap-4 w-full">
-            {/* Monthly Rent Section */}
-            <div className="text-center w-full sm:w-auto flex flex-col items-center justify-center gap-1">
-              <p className="text-gray-400 lg:text-2xl text-[0.8rem] sm:text-base">
-                Monthly Rent
-              </p>
-              <h3 className="text-white text-md lg:text-2xl font-bold">
-                Rs. {property?.rent}
-              </h3>
-            </div>
-
-            {/* Vertical Divider */}
-            <div className="border-l border-gray-600 h-[30px] sm:h-[50px]"></div>
-
-            {/* Floor Section */}
-            <div className="text-center w-full sm:w-auto flex flex-col items-center justify-center gap-1">
-              <p className="text-gray-400 text-xs sm:text-base">Floor</p>
-              <h3 className="text-white text-md lg:text-2xl font-bold">
-                {property?.floor}
-              </h3>
-            </div>
-
-            {/* Vertical Divider */}
-            <div className="border-l border-gray-600 h-[30px] sm:h-[50px]"></div>
-
-            {/* BHK Section */}
-            <div className="text-center w-full sm:w-auto flex flex-col items-center justify-center gap-1">
-              <p className="text-gray-400 text-xs sm:text-base">Bhk</p>
-              <h3 className="text-white text-md lg:text-2xl font-bold">
-                {property?.bhk} Bhk
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="lg:w-[30%] bg-white rounded-lg p-3 mb-2">
-          <div className="flex justify-between items-center mb-4 lg:mb-8">
-            <p className="text-black text-lg font-semibold">Request a visit</p>
-            <div className="flex gap-3 justify-center items-center">
-              <Popup
-                arrow={false}
-                trigger={
-                  <button className="border border-gray-300 p-1 sm:border-none">
-                    <CiShare2
-                      className="card_icon"
-                      style={{ color: "#40B5A8", fontSize: "25px" }}
-                    />
-                  </button>
-                }
-                position={"bottom center"}
-              >
-                {(close) => (
-                  <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
-                    <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
-                      <div className="px-2 py-2 text-sm truncate w-32">
-                        {`www.toletglobe.in/property/${property.slug}`}
-                      </div>
-                      <div>
-                        <button
-                          className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
-                          onClick={() => {
-                            navigator.clipboard.writeText(
-                              `www.toletglobe.in/property/${property.slug}`
-                            );
-                            close();
-                          }}
-                        >
-                          <FaRegCopy />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </Popup>
-
-              {!showCompareCard && (
-                <Popup
-                  trigger={
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowRectangle((prev) => !prev); // Toggle visibility
-                      }}
-                      key={property._id}
-                      className="border border-gray-300 p-1 sm:border-none"
-                    >
-                      {isInCompareList(property) ? (
-                        <IoRemove
-                          className="card_icon"
-                          style={{
-                            color: "#ff0000",
-                            border: "none",
-                            fontSize: "25px",
-                          }}
-                        />
-                      ) : (
-                        <IoAdd
-                          className="card_icon"
-                          style={{
-                            color: "#000000",
-                            border: "none",
-                            fontSize: "25px",
-                          }}
-                        />
-                      )}
-                    </a>
-                  }
-                  position="top center"
-                  on="hover"
-                >
-                  <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
-                    Shortlist for Visit
-                  </div>
-                </Popup>
-              )}
-
-              <Popup
-                trigger={
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (favouriteList.includes(property._id)) {
-                        removeFromFavourites(property._id);
-                      } else {
-                        addToFavourites(property._id);
-                      }
-                    }}
-                    className="border border-gray-300 p-1 sm:border-none"
-                  >
-                    {favouriteList.includes(property._id) ? (
-                      <FaHeart className="card_icon text-2xl text-red-500" />
-                    ) : (
-                      <CiHeart className="card_icon text-2xl text-red-500" />
-                    )}
-                  </a>
-                }
-                position="top center"
-                on="hover"
-                arrow={true}
-              >
-                <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
-                  Favourite
-                </div>
-              </Popup>
-            </div>
-          </div>
-          
-          <div className="flex items-center mb-3 lg:mb-10">
-            <img src={profile} alt="owner" className="h-10 w-10 lg:h-16 lg:w-16 rounded-full" />
-            <div className="ml-3">
-              <p className="text-gray-800 font-medium">
-                {property?.firstName} {property?.lastName}
-              </p>
-              <p className="text-gray-500 font-normal lg:text-xl">+
-                {maskPhoneNumber(property?.ownersContactNumber)}
-              </p>
-            </div>
-          </div>
-          
-          <button
-            className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
-            style={{ backgroundColor: "#3B9D94" }}
-            onClick={() => addToCompare(property)}
-          >
-            <img src={fav} alt="favorite" className="hidden md:block lg:block h-6 w-5" />
-            Add To Visit
-          </button>
-        </div>
-      </div>
-
-      {/* Compare Card - Shown when property is added to compare */}
-      {showCompareCard && (
-        <div className="property-card mb-4 w-full absolute right-0 top-[26%] sm:w-1/2 lg:w-1/5 ml-auto rounded-[8px] overflow-hidden shadow-lg border border-gray-200 bg-white p-3">
-          <figure className="card-banner relative aspect-w-2 h-[180px] lg:h-[200px] overflow-hidden w-full">
+        {/* Compare Card - Shown when property is added to compare */}
+      {( showCompareCard || compareProperty.length>0) && (
+        <div className="fixed top-1/2 right-4 transform -translate-y-1/2 z-50">
+         {/* <div className="property-card mb-4 w-full absolute right-0 top-[20%] sm:w-1/2 lg:w-1/5 ml-auto rounded-[8px] overflow-hidden shadow-lg bg-black p-3"> */}
+          {/* <figure className="card-banner relative aspect-w-2 h-[180px] lg:h-[200px] overflow-hidden w-full">
             {property.images?.length > 1 ? (
               <Slider {...cardSliderSettings}>
                 {property.images.map((photo, index) => (
@@ -681,11 +490,11 @@ const Flow2a = () => {
                 </button>
               </div>
             </div>
-          </figure>
+          </figure> */}
 
-          <div className="card-content lg:p-1 sm:p-1">
-            <div className="name_icon flex justify-between pt-2 ">
-             <div className="flex flex-col gap-2">
+          {/* <div className="card-content lg:p-1 sm:p-1">
+            <div className="name_icon flex justify-between pt-2 "> */}
+             {/* <div className="flex flex-col gap-2">
              <h3 className="card-title lg:text-md text-[14px] text-black lg:font-semibold font-medium font-poppins ">
                 <a href="#">
                   {property.bhk} BHK {property.propertyType} On Rent
@@ -695,9 +504,9 @@ const Flow2a = () => {
                 RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
               </div>
               </h3>
-             </div>
-              <div className="icon-box flex items-start justify-center space-x-1 md:space-x-2 p-1 ">
-                <Popup
+             </div> */}
+              {/* <div className="icon-box flex items-start justify-center space-x-1 md:space-x-2 p-1 "> */}
+                {/* <Popup
                   arrow={false}
                   trigger={
                     <button>
@@ -731,10 +540,10 @@ const Flow2a = () => {
                       </div>
                     </div>
                   )}
-                </Popup>
+                </Popup> */}
 
                 {/* SHORTLIST FOR VISIT */}
-                <Popup
+                {/* <Popup
                   trigger={
                     <a
                       href="#"
@@ -769,10 +578,10 @@ const Flow2a = () => {
                   <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
                     Shortlist for Visit
                   </div>
-                </Popup>
+                </Popup> */}
 
                 {/* ADD TO FAVOURITES */}
-                <Popup
+                {/* <Popup
                   trigger={
                     <a
                       href="#"
@@ -806,34 +615,233 @@ const Flow2a = () => {
                   <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
                     Favourite
                   </div>
-                </Popup>
-              </div>
-            </div>
+                </Popup> */}
+              {/* </div>
+            </div> */}
 
-            <div className="card-details flex flex-col items-start">
+            {/* <div className="card-details flex flex-col items-start">
               <div className="card-text font-poppins py-2 text-sm font-semibold text-[#505050]">
                 {property.type}, {property.floor}
               </div>
-            </div>
+            </div> */}
 
-          </div>
+          {/* </div> */}
+         
           <button
-          className="bg-teal-500 text-white p-4 mb-2 w-fit cursor-pointer gap-32 ml-auto shadow-lg flex items-center justify-between"
+          className="bg-teal-500 text-white p-4 mb-2 w-fit cursor-pointer rounded-md gap-32 ml-auto shadow-lg flex items-center justify-between"
           onClick={() => {
             addToCompare(property);
+            navigate("/compare-property");
           }}
         >
           <h3 className="text-xl text-black">Compare</h3>
           <div className="bg-teal-600 h-8 w-8 flex items-center justify-center">
-            <span className="text-lg font-bold text-black">1</span>
+            <span className="text-lg font-bold text-black">{compareProperty.length}</span>
           </div>
         </button>
-
+       
           
-        </div>
+        </div> 
         
       )}
 
+
+      <div className="md:flex justify-between pt-2 mt-2">
+        <div className="lg:w-[40%]">
+          <h1 className="text-left text-white lg:text-5xl">
+            {property?.propertyType}
+            <span>
+              <img
+                src={shield}
+                alt="shield"
+                className="h-7 lg:h-12 w-7 lg:w-12 lg:ml-8 inline"
+              />
+            </span>
+          </h1>
+          <p className="text-gray-400 block lg:text-2xl lg:py-4">
+            {property?.address}, {property?.city}
+          </p>
+
+          <div className="flex lg:text-2xl lg:pb-4">
+            <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
+            <p className="ml-2 text-gray-400">
+              {averageRating.toFixed(1)} ({property?.reviews ? property?.reviews?.length : 0} Reviews)
+            </p>
+          </div>
+
+          <div className="border border-gray-600 rounded-lg p-1 sm:p-1 mb-8 mt-2 flex flex-row lg:flex-row justify-evenly items-center gap-2 lg:gap-4 w-full">
+            {/* Monthly Rent Section */}
+            <div className="text-center w-full sm:w-auto flex flex-col items-center justify-center gap-1">
+              <p className="text-gray-400 lg:text-2xl text-[0.8rem] sm:text-base">
+                Monthly Rent
+              </p>
+              <h3 className="text-white text-md lg:text-2xl font-bold">
+                Rs. {property?.rent}
+              </h3>
+            </div>
+
+            {/* Vertical Divider */}
+            <div className="border-l border-gray-600 h-[30px] sm:h-[50px]"></div>
+
+            {/* Floor Section */}
+            <div className="text-center w-full sm:w-auto flex flex-col items-center justify-center gap-1">
+              <p className="text-gray-400 text-xs sm:text-base">Floor</p>
+              <h3 className="text-white text-md lg:text-2xl font-bold">
+                {property?.floor}
+              </h3>
+            </div>
+
+            {/* Vertical Divider */}
+            <div className="border-l border-gray-600 h-[30px] sm:h-[50px]"></div>
+
+            {/* BHK Section */}
+            <div className="text-center w-full sm:w-auto flex flex-col items-center justify-center gap-1">
+              <p className="text-gray-400 text-xs sm:text-base">Bhk</p>
+              <h3 className="text-white text-md lg:text-2xl font-bold">
+                {property?.bhk} Bhk
+              </h3>
+            </div>
+          </div>
+        </div>
+        
+        <div className="lg:w-[30%] bg-white rounded-lg p-3 mb-2">
+          <div className="flex justify-between items-center mb-4 lg:mb-8">
+            <p className="text-black text-lg font-semibold">Request a visit</p>
+            <div className="flex gap-3 justify-center items-center">
+              <Popup
+                arrow={false}
+                trigger={
+                  <button className="border border-gray-300 p-1 sm:border-none">
+                    <CiShare2
+                      className="card_icon"
+                      style={{ color: "#40B5A8", fontSize: "25px" }}
+                    />
+                  </button>
+                }
+                position={"bottom center"}
+              >
+                {(close) => (
+                  <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
+                    <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                      <div className="px-2 py-2 text-sm truncate w-32">
+                        {`www.toletglobe.in/property/${property.slug}`}
+                      </div>
+                      <div>
+                        <button
+                          className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                          onClick={() => {
+                            navigator.clipboard.writeText(
+                              `www.toletglobe.in/property/${property.slug}`
+                            );
+                            close();
+                          }}
+                        >
+                          <FaRegCopy />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </Popup>
+
+              {/* {!showCompareCard && (
+                <Popup
+                  trigger={
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowRectangle((prev) => !prev); // Toggle visibility
+                      }}
+                      key={property._id}
+                      className="border border-gray-300 p-1 sm:border-none"
+                    >
+                      {isInCompareList(property) ? (
+                        <IoRemove
+                          className="card_icon"
+                          style={{
+                            color: "#ff0000",
+                            border: "none",
+                            fontSize: "25px",
+                          }}
+                        />
+                      ) : (
+                        <IoAdd
+                          className="card_icon"
+                          style={{
+                            color: "#000000",
+                            border: "none",
+                            fontSize: "25px",
+                          }}
+                        />
+                      )}
+                    </a>
+                  }
+                  position="top center"
+                  on="hover"
+                >
+                  <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                    Shortlist for Visit
+                  </div>
+                </Popup>
+              )} */}
+
+              <Popup
+                trigger={
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (favouriteList.includes(property._id)) {
+                        removeFromFavourites(property._id);
+                      } else {
+                        addToFavourites(property._id);
+                      }
+                    }}
+                    className="border border-gray-300 p-1 sm:border-none"
+                  >
+                    {favouriteList.includes(property._id) ? (
+                      <FaHeart className="card_icon text-2xl text-red-500" />
+                    ) : (
+                      <CiHeart className="card_icon text-2xl text-red-500" />
+                    )}
+                  </a>
+                }
+                position="top center"
+                on="hover"
+                arrow={true}
+              >
+                <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                  Favourite
+                </div>
+              </Popup>
+            </div>
+          </div>
+          
+          <div className="flex items-center mb-3 lg:mb-10">
+            <img src={profile} alt="owner" className="h-10 w-10 lg:h-16 lg:w-16 rounded-full" />
+            <div className="ml-3">
+              <p className="text-gray-800 font-medium">
+                {property?.firstName} {property?.lastName}
+              </p>
+              <p className="text-gray-500 font-normal lg:text-xl">+
+                {maskPhoneNumber(property?.ownersContactNumber)}
+              </p>
+            </div>
+          </div>
+          
+          <button
+            className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
+            style={{ backgroundColor: "#3B9D94" }}
+            onClick={() => addToCompare(property)}
+          >
+            <img src={fav} alt="favorite" className="hidden md:block lg:block h-6 w-5" />
+            Add To Visit 
+          </button>
+        </div>
+      </div>
+
+      
       {/* Rectangle Box for Shortlisted Property - Only shown when compare card is not visible */}
       {showRectangle && !showCompareCard && (
         <button
