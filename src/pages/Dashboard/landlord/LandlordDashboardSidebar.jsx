@@ -92,7 +92,7 @@ export default function LandlordDashboardSidebar() {
             >
               <div className="flex text-white-700">
                 <AiOutlineHome size={27} className="mr-3" />
-                <span className="w-28 sm:w-32 text-base sm:block lg:text-xl">
+                <span className="text-base sm:block lg:text-xl">
                   My Properties
                 </span>
               </div>
