@@ -303,7 +303,7 @@ export default function MyProperties({ favouriteList = [] }) {
             {cards}
           </div>
         ) : (
-          <div>
+          <div className="mt-5">
             <h6 className="text-white text-center text-3xl font-bold ">
               Your Properties!
             </h6>

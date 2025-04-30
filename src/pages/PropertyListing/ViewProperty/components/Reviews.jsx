@@ -216,8 +216,8 @@ const Reviews = ({ property }) => {
       {showReviewForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-black text-white p-6 rounded-lg shadow-lg w-full max-w-2xl h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-semibold">Write a Review</h1>
+            <div className="flex justify-between items-center mb-2">
+              <h1 className="text-2xl font-semibold m-auto">Write a Review</h1>
               <button
                 onClick={() => setShowReviewForm(false)}
                 className="text-gray-400 hover:text-white"
@@ -225,13 +225,12 @@ const Reviews = ({ property }) => {
                 ✖
               </button>
             </div>
-
-            <p className="text-gray-300 mb-8">
+            <p className="text-gray-300 mb-10 text-center">
               Help others choose wisely by reviewing your neighborhood!
             </p>
 
-            <div className="mb-2">
-              <h3 className="text-lg mb-4">How long have you stayed here?</h3>
+            {/* <div className="mb-2">
+              <h3 className="text-lg mb-4  text-teal-400">How long have you stayed here?</h3>
               <div className="flex flex-wrap gap-3">
                 {["0-1 year", "2 years", "3 years", "4 years", "+4 years"].map(
                   (duration) => (
@@ -250,7 +249,7 @@ const Reviews = ({ property }) => {
                   )
                 )}
               </div>
-            </div>
+            </div> */}
 
             <form onSubmit={handleAddReview} className="space-y-6">
               <div className="mb-2">
@@ -282,9 +281,9 @@ const Reviews = ({ property }) => {
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block mb-2">
+                    {/* <label className="block mb-2">
                       What do you like about your locality?
-                    </label>
+                    </label> */}
                     <textarea
                       value={likesAboutLocality}
                       onChange={(e) => setLikesAboutLocality(e.target.value)}
@@ -293,7 +292,7 @@ const Reviews = ({ property }) => {
                     />
                   </div>
 
-                  <div>
+                  {/* <div>
                     <label className="block mb-2">
                       What do you dislike about your locality?
                     </label>
@@ -303,11 +302,11 @@ const Reviews = ({ property }) => {
                       className="w-full h-32 bg-black border border-gray-600 rounded-lg p-3 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
                       placeholder="Please share your thoughts"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
-              <div>
+              {/* <div>
                 <h3 className="text-lg text-teal-400 mb-4">Upload Media</h3>
                 <p className="text-gray-400 mb-2">Images</p>
                 <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 mb-2 text-center">
@@ -342,7 +341,7 @@ const Reviews = ({ property }) => {
                     </label>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <button
                 type="submit"

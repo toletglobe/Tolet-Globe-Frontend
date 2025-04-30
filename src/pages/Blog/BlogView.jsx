@@ -110,7 +110,7 @@ const BlogView = () => {
 					</div> */}
         </div>
         <hr />
-        <div className="my-2 font-semibold">{blog.intro}</div>
+        <div className="my-2 text-xl">{blog.intro}</div>
 
         <div className="mx-auto my-3 max-w-3xl">
           <img
