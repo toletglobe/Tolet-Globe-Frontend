@@ -43,7 +43,7 @@
 
 /* Adjust styles for carousel dots on hover (optional) */
 .slick-dots li.slick-active button:before {
-  @apply text-[#c8a217];
+  @apply text-[#000];
 
   /* Change active dot color */
 }

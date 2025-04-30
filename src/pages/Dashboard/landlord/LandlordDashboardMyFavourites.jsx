@@ -125,7 +125,7 @@ export default function MyProperties() {
       <div className="mt-8 md:mt-4">
         {/* SORT BY SECTION */}
         <h1 className="text-2xl md:text-3xl font-bold text-white ml-4">
-          Sort by
+          Favourites
         </h1>
         <div className="my-4 md:my-6 flex gap-3 items-center justify-start ml-4">
           <div className="bg-gray-300 py-2 px-3 md:px-5 md:py-2  rounded-xl ">
@@ -243,7 +243,7 @@ export default function MyProperties() {
             )}
           </>
         ) : (
-          <div>
+          <div className="mt-5">
             <h6 className="text-white text-center text-3xl font-bold">
               Your Favourites!
             </h6>

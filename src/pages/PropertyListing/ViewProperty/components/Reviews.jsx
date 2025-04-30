@@ -231,7 +231,7 @@ const Reviews = ({ property }) => {
             </p>
 
             <div className="mb-2">
-              <h3 className="text-lg mb-4">How long have you stayed here?</h3>
+              <h3 className="text-lg mb-4  text-teal-400">How long have you stayed here?</h3>
               <div className="flex flex-wrap gap-3">
                 {["0-1 year", "2 years", "3 years", "4 years", "+4 years"].map(
                   (duration) => (

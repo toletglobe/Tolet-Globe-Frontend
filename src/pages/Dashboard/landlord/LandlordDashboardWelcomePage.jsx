@@ -221,7 +221,7 @@ const LandlordDashboardWelcomePage = () => {
           </div>
           <Link
             to="add-properties"
-            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer block text-center w-full sm:w-full md:w-full lg:w-auto mt-3 sm:mt-3 md:mt-3 lg:mt-0"
+            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer block text-center w-full sm:w-full md:w-full lg:w-1/2 mt-3 sm:mt-3 md:mt-3 lg:mt-0"
           >
             Add Property
           </Link>
@@ -236,7 +236,13 @@ const LandlordDashboardWelcomePage = () => {
               Need help with something? We're here to help
             </p>
           </div>
-          <div className="w-full sm:w-full md:w-full lg:w-auto flex justify-center lg:justify-end mt-3 lg:mt-0">
+          <Link
+            to="/contact"
+            className="bg-gray-800 text-white py-2 px-6 rounded cursor-pointer block text-center w-full sm:w-full md:w-full lg:w-1/2 mt-3 sm:mt-3 md:mt-3 lg:mt-0"
+          >
+            🎧 Contact Support
+          </Link>
+          {/* <div className="w-full sm:w-full md:w-full lg:w-auto flex justify-center lg:justify-end mt-3 lg:mt-0">
             <button
               className="bg-gray-800 text-white py-2 px-6 rounded flex items-center cursor-pointer"
               onClick={() => {
@@ -248,7 +254,7 @@ const LandlordDashboardWelcomePage = () => {
                 Contact Support
               </span>
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* Recent Properties */}
