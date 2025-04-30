@@ -40,7 +40,7 @@ const Contact = () => {
       setLoading(true);
       const response = await API.post("contact/submit-data", formData);
       handleReset();
-      toast.success("Enquiry Sent! We will  with you shortly.");
+      toast.success("Enquiry Sent! We will be with you shortly.");
       setLoading(false);
       console.log(response);
     } catch (error) {
@@ -53,7 +53,7 @@ const Contact = () => {
   return (
     <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-20 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
       {/* Contact Details Section */}
-      <div className="w-full lg:w-1/2 px-4 lg:pl-10 lg:pr-52 mt-[50px]">
+      <div className="w-full lg:w-1/2 px-4 sm:p-6 lg:pl-10 lg:pr-52 mt-[50px]">
         <div>
           <h1 className="text-white text-3xl md:text-4xl font-semibold">
             Contact Us, We're Ready to Help!
@@ -101,7 +101,7 @@ const Contact = () => {
       </div>
 
       {/* Form Section */}
-      <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 lg:px-14 mt-10 lg:mt-0">
+      <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 sm:px-6 lg:px-14 mt-10 lg:mt-0">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <label htmlFor="topic" className="text-gray-400">
@@ -164,7 +164,7 @@ const Contact = () => {
             ) : (
               <button
                 type="submit"
-                className="bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg"
+                className="bg-[#6CC1B6] hover:bg-[#6dc9bd] w-full text-black mt-3 py-3 px-4 rounded-lg"
               >
                 Submit Query
               </button>

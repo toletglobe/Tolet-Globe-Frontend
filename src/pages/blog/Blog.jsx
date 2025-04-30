@@ -82,27 +82,29 @@ const Blog = () => {
    }
 
    return (
-      <div className="bg-black my-5">
-         <h1 className="text-4xl text-center text-white font-semibold mt-8">
-            To-Let Tales
-         </h1>
-         <h1 className="text-center mt-2 text-[#6CC1B6]">
-            Dive into a Sea of Endless Stories and Insights
-         </h1>
-         <LatestTrending
-            isLatest={isLatest}
-            handleClickLatest={handleClickLatest}
-            handleClickTrending={handleClickTrending}
-         />
-         <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
-         <Pagination
-            currentPage={currentPage}
-            handleNextPage={handleNextPage}
-            handlePreviousPage={handlePreviousPage}
-            onPageChange={onPageChange}
-            totalPages={totalPages}
-         />
-      </div>
+<div className="bg-black my-5">
+    <div className="max-w-7xl mx-auto px-4">
+      <h1 className="text-4xl text-center text-white font-semibold mt-8">
+        To-Let Tales
+      </h1>
+      <h1 className="text-center mt-2 text-[#6CC1B6] text-base sm:text-lg">
+        Dive into a Sea of Endless Stories and Insights
+      </h1>
+      <LatestTrending
+        isLatest={isLatest}
+        handleClickLatest={handleClickLatest}
+        handleClickTrending={handleClickTrending}
+      />
+      <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
+      <Pagination
+        currentPage={currentPage}
+        handleNextPage={handleNextPage}
+        handlePreviousPage={handlePreviousPage}
+        onPageChange={onPageChange}
+        totalPages={totalPages}
+      />
+    </div>
+  </div>
    );
 };
 
