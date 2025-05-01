@@ -45,14 +45,41 @@ const Pricing = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", {
-      plan: selectedPlan,
-      ...formData,
-    });
-    setIsSubmitted(true); // Show success popup
+  
+    try {
+      //change Backend Url
+      const response = await fetch("/api/v1/pricing/submit-pricing", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phoneNumber: formData.phone, // Match backend field name
+          stayingWith: formData.stayingWith,
+          profession: formData.profession,
+          dateOfVisit: formData.dateOfVisit,
+          timeSlot: formData.timeSlot,
+        }),
+      });
+  
+      if (response.ok) {
+        console.log("Form submitted successfully!");
+        setIsSubmitted(true); // Show success popup
+      } else {
+        const data = await response.json();
+        alert(data.msg || "Submission failed.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred while submitting the form.");
+    }
   };
+  
 
   return (
     <div className="min-h-screen bg- text-white py-16 px-4">
