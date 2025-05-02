@@ -4,6 +4,10 @@ import { useSelector } from "react-redux";
 
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { MdMoreVert } from "react-icons/md";
+import { FaHeart } from "react-icons/fa";
+
+import Popup from "reactjs-popup";
+import {FaRegCopy } from "react-icons/fa6";
 
 // added toast notification for share property
 import { toast } from "react-toastify";
@@ -11,10 +15,85 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { API } from "../../../config/axios";
 
-const LandlordDashboardWelcomePage = () => {
+const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
   const [myProperties, setMyProperties] = useState([]);
   const authState = useSelector((state) => state.auth);
   const [showOption, setShowOption] = useState(null);
+
+  const [localFavouriteList, setLocalFavouriteList] = useState(favouriteList);
+
+  const addToFavourites = async (propertyId) => {
+    try {
+      if (!authState?.userData?.id) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+
+      console.log(authState.userData.id);
+
+      const token = localStorage.getItem("token");
+
+      const response = await API.post(
+        `user/addToFavourites`,
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setLocalFavouriteList((prevList) => {
+          const updatedList = [...prevList, propertyId];
+
+          setTimeout(() => toast.success("Added to favorites!"), 100); // Delay toast
+          return updatedList;
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add to favorites");
+    }
+  };
+
+  const removeFromFavourites = async (propertyId) => {
+    try {
+      if (!authState?.userData?.id) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+
+      const token = localStorage.getItem("token");
+
+      const response = await API.post(
+        "user/removeFromFavourites",
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setLocalFavouriteList((prevList) =>
+          prevList.filter((id) => id !== propertyId)
+        );
+        toast.success("Removed from favorites!")
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to remove from favorites");
+    }
+  };
+
   useEffect(() => {
     const fetchMyProperties = async () => {
       try {
@@ -35,6 +114,7 @@ const LandlordDashboardWelcomePage = () => {
     fetchMyProperties();
   }, [authState?.userData?.id]);
 
+  
   const phoneRef = useRef(null);
   const navigate = useNavigate();
   const phone = 8707727347;
@@ -56,6 +136,7 @@ const LandlordDashboardWelcomePage = () => {
 
   // States to track liked status for each property
   const [likedProperties, setLikedProperties] = useState([false, false, false]);
+  
 
   const removeFromWelcomeDashboard = async (propertyId) => {
     try {
@@ -136,15 +217,82 @@ const LandlordDashboardWelcomePage = () => {
 
         {/* Icons Section */}
         <div className="icon-box flex items-center justify-center">
-          <a
+          {/* <a
             href="#"
             className="relative"
             style={{ width: "25px", height: "25px", left: "10px" }}
           >
             <CiHeart className="bg-[#3E3E3E4D] relative text-red-600 mt-1 h-[20px] w-[20px] p-[3px]" />
-          </a>
+          </a> */}
+          <Popup
+            trigger={
+              <button
+                style={{ width: "25px", height: "25px", left: "8px" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  localFavouriteList.includes(property._id)
+                    ? removeFromFavourites(property._id)
+                    : addToFavourites(property._id);
+                }}
+                className="group relative flex items-center justify-center mt-1"
+              >
+                {localFavouriteList.includes(property._id) ? (
+                  <FaHeart className="text-red-500 transition-all duration-300 group-hover:scale-110" />
+                ) : (
+                  <CiHeart className="text-red-500 transition-all duration-300 group-hover:text-red-800 group-hover:scale-110 bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px]" />
+                )}
+              </button>
+            }
+            position="top center"
+            on="hover"
+            arrow={true}
+          >
+            <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+              {localFavouriteList.includes(property._id)
+                ? "Remove from Favorite"
+                : "Add to Favorite"}
+            </div>
+          </Popup>
+          
           {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
-          <a
+          
+            <Popup
+            arrow={false}
+            trigger={
+              <button className="group relative flex items-center justify-center"
+                style={{ width: "25px", height: "25px", left: "10px" }}>
+                  <CiShare2
+                    className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1"
+                    style={{ color: "#40B5A8" }}
+                   />
+              </button>
+            }
+            position={"bottom center"}
+          >
+            {(close) => (
+              <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
+                <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                  <div className="px-2 py-2 text-sm truncate w-32">
+                      {`www.toletglobe.in/property/${property.slug}`}
+                  </div>
+                    <div>
+                      <button
+                        className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                          `www.toletglobe.in/property/${property.slug}`
+                        );
+                        close();
+                        }}
+                      >
+                        <FaRegCopy />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </Popup>
+          {/* <a
             href="#"
             className="relative"
             style={{ width: "25px", height: "25px", left: "12px" }}
@@ -157,14 +305,16 @@ const LandlordDashboardWelcomePage = () => {
               className="card_icon bg-[#3E3E3E4D] mt-1 h-[20px] w-[20px] p-[3px]"
               style={{ color: "#40B5A8" }}
             />
-          </a>
+          </a> */}
+
           <div className="relative ml-[10px] ">
             {/* More Options (Three Dots) */}
             <button
               onClick={() => toggleOption(property._id)}
-              className="p-1 rounded-md"
+              className="p-1 rounded-md mt-1"
+              style={{ width: "25px", height: "25px" }}
             >
-              <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1" />
+              <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px]" />
             </button>
             {/* Dropdown Menu */}
             {showOption === property._id && (
