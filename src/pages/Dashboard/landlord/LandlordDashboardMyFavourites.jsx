@@ -156,7 +156,7 @@ export default function MyProperties() {
         <h1 className="text-2xl md:text-3xl font-bold sm:text-left text-center text-white ml-4">
           Favourites
         </h1>
-        <div className="my-4 md:my-6 flex sm:hidden gap-3 items-center justify-start ml-4">
+        {/* <div className="my-4 md:my-6 flex sm:hidden gap-3 items-center justify-start ml-4">
           <div className="bg-gray-300 py-2 px-3 md:px-5 md:py-2  rounded-xl ">
             <h2 className="text-black md:text-[18px]">Most recent</h2>
           </div>
@@ -166,7 +166,7 @@ export default function MyProperties() {
           <div className="bg-gray-300 py-2 px-3 md:px-5 md:py-2 rounded-xl">
             <span className="text-black md:text-[18px]">Z-A</span>
           </div>
-        </div>
+        </div> */}
         {favouriteProperties.length > 0 ? (
           <>
             {/* THIS CODE WILL ALSO GENERATE FAVARIOUT CARDS AND ALSO SHOW ONLY 3 CARDS IN THE STARTING NO MATTER HOW MAY PROPRTIES ARE ADDED AS FAVRIOUTES */}

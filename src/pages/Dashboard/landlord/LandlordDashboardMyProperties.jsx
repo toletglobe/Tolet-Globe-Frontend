@@ -235,9 +235,10 @@ export default function MyProperties({ favouriteList = [] }) {
             }
             position="top center"
             on="hover"
-            arrow={true}
+            arrow={false}
+            contentStyle={{textAlign:"center"}}
           >
-            <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+            <div className="bg-gray-800 text-white text-center sm:text-center px-2 py-1 rounded text-sm">
               {localFavouriteList.includes(property._id)
                 ? "Remove from Favorite"
                 : "Add to Favorite"}
