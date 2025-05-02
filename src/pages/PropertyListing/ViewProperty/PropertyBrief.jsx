@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD:src/pages/PropertyListing/ViewProperty/PropertyBrief.jsx
+
 import { useSelector } from "react-redux";
 import Slider from "react-slick"; // Import the slider
 import toast from "react-hot-toast";
@@ -7,12 +7,12 @@ import Popup from "reactjs-popup";
 import { useNavigate } from "react-router-dom";
 
 import { MdOutlineStarPurple500 } from "react-icons/md";
-=======
+
 import { useParams,useNavigate } from "react-router-dom";
 import Service from "../../../config/config";
 import Flow2b from "./Flow2b";
 import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
->>>>>>> pruthvi:src/pages/property/Flow2-1/Flow2a1.jsx
+
 import { CiShare2, CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { IoAdd, IoRemove } from "react-icons/io5";
@@ -20,7 +20,7 @@ import { FaRegCopy } from "react-icons/fa6";
 import { MdOutlineMyLocation } from "react-icons/md";
 import { FaRegImage, FaVideo } from "react-icons/fa6";
 
-<<<<<<< HEAD:src/pages/PropertyListing/ViewProperty/PropertyBrief.jsx
+
 import profile from "../../../assets/propertyListing/author.jpg";
 import fav from "../../../assets/propertyListing/starbadge.png";
 import shield from "../../../assets/propertyListing/shield.png";
@@ -417,7 +417,7 @@ const PropertyBrief = ({ property }) => {
         </div>
       )}
 
-<<<<<<< HEAD:src/pages/PropertyListing/ViewProperty/PropertyBrief.jsx
+
       <div className="md:flex justify-between pt-8">
         <div className="lg:w-[40%]">
           <h1 className="text-left text-white lg:text-5xl">
