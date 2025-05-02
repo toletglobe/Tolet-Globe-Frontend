@@ -135,7 +135,7 @@ const Pricing = () => {
                 <div className="flex flex-col items-center">
                   <div className="bg-green-100 rounded-full p-4 mb-6">
                     <svg
-                      className="h-8 w-8 text-green-00"
+                      className="h-8 w-8 text-green-400"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
