@@ -801,7 +801,7 @@ const Listing = () => {
             </div>
 
             <div className="sm:col-span-4 md:col-span-4 flex w-fit xs:w-[50%]  items-center justify-center lg:justify-between -mt-[76px] ml-[98px] xs:[96px] lg:ml-4 lg:mt-0">
-              {compareProperty.length >= 2 && (
+              {compareProperty.length >= 1 && (
                 <div className="compare" onClick={compare}>
                   <button
                     className={`bg-white h-11 sm:h-14 w-32 text-black rounded-lg flex gap-5 text-center items-center px-6 lg:py-7 font-medium ${
@@ -809,7 +809,7 @@ const Listing = () => {
                         ? "opacity-50 grayscale cursor-not-allowed"
                         : ""
                     }`}
-                    disabled={compareProperty.length <= 1}
+                    disabled={compareProperty.length <= 0}
                   >
                     Visit
                     <div className="bg-[#EED98B] rounded-full flex items-center justify-center px-2">

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Slider from "react-slick"; // Import the slider
 import toast from "react-hot-toast";
 import Popup from "reactjs-popup";
+import { useNavigate } from "react-router-dom";
 
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import { CiShare2, CiHeart } from "react-icons/ci";
@@ -22,6 +23,7 @@ import { useStateValue } from "../../../StateProvider";
 import { API } from "../../../config/axios";
 
 const PropertyBrief = ({ property }) => {
+  const navigate = useNavigate();
   const [{ compareProperty }, dispatch] = useStateValue();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
@@ -390,6 +392,24 @@ const PropertyBrief = ({ property }) => {
         </div>
       )}
 
+      {/* Compare Card - Shown when property is added to compare */}
+      {(showCompareCard || compareProperty.length>0) && (
+        <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50">
+          <button
+            className="bg-teal-500 rounded-md text-white p-4 mb-2 w-fit cursor-pointer gap-32 ml-auto shadow-lg flex items-center justify-between"
+            onClick={() => {
+              addToCompare(property);
+              navigate("/compare-property");
+            }}
+          >
+            <h3 className="text-xl text-black">Compare</h3>
+            <div className="bg-teal-600 h-8 w-8 flex items-center justify-center">
+              <span className="text-lg font-bold text-black">{compareProperty.length}</span>
+            </div>
+          </button>
+        </div>
+      )}
+
       <div className="md:flex justify-between pt-8">
         <div className="lg:w-[40%]">
           <h1 className="text-left text-white lg:text-5xl">
@@ -593,220 +613,7 @@ const PropertyBrief = ({ property }) => {
         </div>
       </div>
 
-      {/* Compare Card - Shown when property is added to compare */}
-      {showCompareCard && (
-        <div className="property-card mb-4 w-full absolute right-0 top-[26%] sm:w-1/2 lg:w-1/5 ml-auto rounded-[8px] overflow-hidden shadow-lg border border-gray-200 bg-white p-3">
-          <figure className="card-banner relative aspect-w-2 h-[180px] lg:h-[200px] overflow-hidden w-full">
-            {property.images?.length > 1 ? (
-              <Slider {...cardSliderSettings}>
-                {property.images.map((photo, index) => (
-                  <div key={index}>
-                    <img
-                      src={photo}
-                      alt={property.propertyType}
-                      className="w-full h-[150px] lg:h-[160px] object-cover"
-                      onError={handleImageError}
-                    />
-                  </div>
-                ))}
-              </Slider>
-            ) : (
-              <div className="relative">
-                <img
-                  src={property.images[0]}
-                  alt={property.propertyType}
-                  className="w-full h-[180px] lg:h-[200px] object-cover"
-                  onError={handleImageError}
-                />
-                <PrevArrow onClick={() => {}} />
-                <NextArrow onClick={() => {}} />
-              </div>
-            )}
-            <div
-              className="card-badge-left absolute top-4 left-4 text-white text-xs uppercase px-2 py-1 rounded-md"
-              style={{
-                backgroundColor:
-                  property.availabilityStatus === "Available"
-                    ? "#236b62"
-                    : property.availabilityStatus === "Rented Out"
-                    ? "#c71221"
-                    : "#999999",
-              }}
-            >
-              {property.availabilityStatus === "Available"
-                ? "Available"
-                : property.availabilityStatus === "Rented Out"
-                ? "Rent Out"
-                : "NA"}
-            </div>
-            <div className="banner-actions absolute bottom-[0.7rem] left-2 right-4 flex justify-between">
-              <div className="item-center">
-                <button className="banner-actions-btn flex items-center text-white">
-                  <MdOutlineMyLocation className="text-xs lg:text-sm drop-shadow-2xl shadow-black" />
-                  <address className="text-xs lg:text-xs p-1 shadow-black text-shadow">
-                    {`${property.area}, ${property.locality}`}
-                  </address>
-                </button>
-              </div>
-              <div className="flex gap-4 text-sm">
-                <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
-                  <FaVideo className="lg:text-sm text-xs" />
-                </button>
-                <button className="banner-img_video-btn flex items-center gap-2 text-white drop-shadow shadow-black">
-                  <FaRegImage className="lg:text-sm text-xs" />
-                  {property.images?.length}
-                </button>
-              </div>
-            </div>
-          </figure>
-
-          <div className="card-content lg:p-1 sm:p-1">
-            <div className="name_icon flex justify-between pt-2 ">
-              <div className="flex flex-col gap-2">
-                <h3 className="card-title lg:text-md text-[14px] text-black lg:font-semibold font-medium font-poppins ">
-                  <a href="#">
-                    {property.bhk} BHK {property.propertyType} On Rent
-                  </a>
-
-                  <div className="card-price font-poppins text-xs font-normal text-[#808080]">
-                    RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
-                  </div>
-                </h3>
-              </div>
-              <div className="icon-box flex items-start justify-center space-x-1 md:space-x-2 p-1 ">
-                <Popup
-                  arrow={false}
-                  trigger={
-                    <button>
-                      <CiShare2
-                        className="card_icon border border-gray-300"
-                        style={{ color: "#40B5A8", fontSize: "20px" }}
-                      />
-                    </button>
-                  }
-                  position={"bottom center"}
-                >
-                  {(close) => (
-                    <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
-                      <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
-                        <div className="px-2 py-2 text-sm truncate w-32">
-                          {`www.toletglobe.in/property/${property.slug}`}
-                        </div>
-                        <div>
-                          <button
-                            className="px-2 py-2 bg-[#40B5A8] border border-gray-700 text-white rounded-full"
-                            onClick={() => {
-                              navigator.clipboard.writeText(
-                                `www.toletglobe.in/property/${property.slug}`
-                              );
-                              close();
-                            }}
-                          >
-                            <FaRegCopy />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </Popup>
-
-                {/* SHORTLIST FOR VISIT */}
-                <Popup
-                  trigger={
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (isInCompareList(property)) {
-                          removeFromCompare(property);
-                        } else {
-                          addToCompare(property);
-                        }
-                      }}
-                      key={property._id}
-                      className="border border-gray-300"
-                    >
-                      {isInCompareList(property) ? (
-                        <IoRemove
-                          className="card_icon"
-                          style={{ color: "#ff0000", fontSize: "20px" }}
-                        />
-                      ) : (
-                        <IoAdd
-                          className="card_icon"
-                          style={{ color: "#000000", fontSize: "20px" }}
-                        />
-                      )}
-                    </a>
-                  }
-                  position="top center"
-                  on="hover"
-                  arrow={true}
-                >
-                  <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
-                    Shortlist for Visit
-                  </div>
-                </Popup>
-
-                {/* ADD TO FAVOURITES */}
-                <Popup
-                  trigger={
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (favouriteList.includes(property._id)) {
-                          removeFromFavourites(property._id);
-                        } else {
-                          addToFavourites(property._id);
-                        }
-                      }}
-                      className="border border-gray-300"
-                    >
-                      {favouriteList.includes(property._id) ? (
-                        <FaHeart
-                          className="card_icon text-red-500"
-                          style={{ fontSize: "20px" }}
-                        />
-                      ) : (
-                        <CiHeart
-                          className="card_icon text-red-500"
-                          style={{ fontSize: "20px" }}
-                        />
-                      )}
-                    </a>
-                  }
-                  position="top center"
-                  on="hover"
-                  arrow={true}
-                >
-                  <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
-                    Favourite
-                  </div>
-                </Popup>
-              </div>
-            </div>
-
-            <div className="card-details flex flex-col items-start">
-              <div className="card-text font-poppins py-2 text-sm font-semibold text-[#505050]">
-                {property.type}, {property.floor}
-              </div>
-            </div>
-          </div>
-          <button
-            className="bg-teal-500 text-white p-4 mb-2 w-fit cursor-pointer gap-32 ml-auto shadow-lg flex items-center justify-between"
-            onClick={() => {
-              addToCompare(property);
-            }}
-          >
-            <h3 className="text-xl text-black">Compare</h3>
-            <div className="bg-teal-600 h-8 w-8 flex items-center justify-center">
-              <span className="text-lg font-bold text-black">1</span>
-            </div>
-          </button>
-        </div>
-      )}
-
+      
       {/* Rectangle Box for Shortlisted Property - Only shown when compare card is not visible */}
       {showRectangle && !showCompareCard && (
         <button

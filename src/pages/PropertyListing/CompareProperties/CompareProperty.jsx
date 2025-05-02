@@ -77,9 +77,9 @@ export default function CompareProperty() {
   return (
     <>
       <div className="flex flex-col  xl:pt-6 xl:pb-24  lg:px-6 space-y-4">
-        <div className="w-full flex justify-start mb-6  relative ">
+      <div className="w-full flex justify-between relative pt-10 ">
           <h4
-            className="text-3xl md:text-4xl lg:text-5xl pl-7 pt-10 font-bold"
+            className="text-3xl md:text-4xl lg:text-5xl pl-7 font-bold"
             style={{
               color: "#C8A21C",
               textShadow: "0 2px 4px rgba(0,0,0,0.1)",
@@ -89,11 +89,14 @@ export default function CompareProperty() {
           >
             Compare with similar properties
           </h4>
+          <div className="text-2xl text-white flex items-center font-bold mr-10">
+            <button className="bg-teal-500 px-6 py-2 rounded-md" onClick={()=>navigate("/pricing")}>Proceed To Visit</button>
+          </div>
         </div>
         {/* Property Cards */}
-        <div className="w-full lg:max-w-8xl overflow-x-auto lg:px-20 flex justify-center items-center justify-items-start ">
+        <div className="w-full lg:max-w-8xl  lg:px-20 flex justify-center items-center justify-items-start ">
           {/* Flex container for small screens and grid for large screens */}
-          <div className="flex flex-col justify-center items-center flex-nowrap overflow-x-auto space-x-4 lg:space-x-0 lg:grid lg:grid-cols-4 lg:gap-32 gap-4 px-3">
+          <div className="flex flex-row gap-8 flex-wrap justify-center">
             {compareProperty.map((property, index) => (
               <div
                 key={index}
@@ -268,7 +271,7 @@ export default function CompareProperty() {
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="bg-[#D9D9D9] shadow-md flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-gray-300 hover:border-[#40B5A8] transition-colors"
+                    className="bg-[#D9D9D9] rounded-md shadow-md flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-gray-300 hover:border-[#40B5A8] transition-colors"
                     style={{
                       width: "298.926px",
                       height: "386.523px",
