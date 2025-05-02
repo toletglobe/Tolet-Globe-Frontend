@@ -242,7 +242,7 @@ export default function LandlordDashboardAddProperties() {
       <div>
         {/* ProgressBar */}
 
-        <div className="mx-16 sm:my-5 mt-7 mb-8 mx-4  flex flex-col gap-2 md:pr-0  ">
+        <div className="mx-16 sm:my-5 mt-7 mb-8   flex flex-col gap-2 md:pr-0  ">
           <h1 className="text-center text-[#FFFFFF] text-xl md:text-3xl leading-10 font-bold md:text-left whitespace-nowrap">
             Add New Property
           </h1>
