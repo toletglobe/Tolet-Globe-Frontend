@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
-
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick"; // Import the slider
 import toast from "react-hot-toast";
 import Popup from "reactjs-popup";
-import { useNavigate } from "react-router-dom";
 
 import { MdOutlineStarPurple500 } from "react-icons/md";
-
-import { useParams,useNavigate } from "react-router-dom";
-import Service from "../../../config/config";
-import Flow2b from "./Flow2b";
-import { MdOutlineStarPurple500, MdStarOutline } from "react-icons/md";
-
 import { CiShare2, CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { IoAdd, IoRemove } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
 import { MdOutlineMyLocation } from "react-icons/md";
 import { FaRegImage, FaVideo } from "react-icons/fa6";
-
 
 import profile from "../../../assets/propertyListing/author.jpg";
 import fav from "../../../assets/propertyListing/starbadge.png";
@@ -31,6 +23,7 @@ import { useStateValue } from "../../../StateProvider";
 import { API } from "../../../config/axios";
 
 const PropertyBrief = ({ property }) => {
+  const navigate=useNavigate();
   const [{ compareProperty }, dispatch] = useStateValue();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
