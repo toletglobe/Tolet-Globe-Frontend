@@ -7,7 +7,7 @@
 
 /* Property Card */
 .property-card {
-  @apply border overflow-hidden relative transition-shadow duration-[0.3s] ease-[ease]   border-solid border-[#ccc];
+  @apply overflow-hidden relative transition-shadow duration-[0.3s] ease-[ease] ;
 
   /* Base border color */
 }
