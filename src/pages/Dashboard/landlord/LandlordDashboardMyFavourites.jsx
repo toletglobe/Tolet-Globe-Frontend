@@ -6,6 +6,12 @@ import { MdMoreVert } from "react-icons/md";
 // added toast notification for share property
 import { toast } from "react-toastify";
 
+import { useStateValue } from "../../../StateProvider";
+import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
+
+import Popup from "reactjs-popup";
+import { FaRegCopy } from "react-icons/fa6";
+
 import "react-toastify/dist/ReactToastify.css";
 
 import { API } from "../../../config/axios";
@@ -15,6 +21,29 @@ export default function MyProperties() {
   const [showOption, setShowOption] = useState(null);
   const navigate = useNavigate();
   const authState = useSelector((state) => state.auth);
+  const [{ compareProperty }, dispatch] = useStateValue();
+
+  const addToCompare = (property) => {
+    if (compareProperty.length < 4 && !isInCompareList(property)) {
+      dispatch({
+        type: "ADD_TO_COMPARE",
+        item: property,
+      });
+    }
+  };
+
+  const removeFromCompare = (property) => {
+    dispatch({
+      type: "REMOVE_FROM_COMPARE",
+      item: property,
+    });
+  };
+
+  const isInCompareList = (property) => {
+    return compareProperty.some((item) => item._id === property._id);
+  };
+
+
 
   // TO SHOW THE NUMBER OF PROPERTIES THAT WILL BE DISPLAYED IN STARTING
   const [showCount, setShowCount] = useState(3);
@@ -89,7 +118,7 @@ export default function MyProperties() {
           url: propertyUrl,
         });
       } catch (error) {
-        console.error("Error sahring ", error);
+        console.error("Error sharing ", error);
       }
     } else {
       try {
@@ -124,10 +153,10 @@ export default function MyProperties() {
     <>
       <div className="mt-8 md:mt-4">
         {/* SORT BY SECTION */}
-        <h1 className="text-2xl md:text-3xl font-bold text-white ml-4">
+        <h1 className="text-2xl md:text-3xl font-bold sm:text-left text-center text-white ml-4">
           Favourites
         </h1>
-        <div className="my-4 md:my-6 flex gap-3 items-center justify-start ml-4">
+        <div className="my-4 md:my-6 flex sm:hidden gap-3 items-center justify-start ml-4">
           <div className="bg-gray-300 py-2 px-3 md:px-5 md:py-2  rounded-xl ">
             <h2 className="text-black md:text-[18px]">Most recent</h2>
           </div>
@@ -159,11 +188,11 @@ export default function MyProperties() {
                     <h3 className="text-lg font-semibold">
                       {property?.firstName} {property?.lastName}
                     </h3>
-                    <div className="icon-box flex items-center justify-center">
+                    <div className="icon-box flex flex-row items-center justify-center">
                       <a
                         href="#"
                         className="relative group"
-                        style={{ width: "25px", height: "25px", left: "10px" }}
+                        style={{ width: "25px", height: "25px", left: "10px"  }}
                         onClick={(e) => {
                           e.preventDefault();
                           removeFromFavorites(property._id);
@@ -175,9 +204,45 @@ export default function MyProperties() {
                           Remove
                         </div>
                       </a>
+                        {/* SHORTLIST FOR VISIT */}
+                      <Popup
+                        trigger={
+                          <a
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (isInCompareList(property)) {
+                                removeFromCompare(property);
+                              } else {
+                                addToCompare(property);
+                              }
+                            }}
+                            key={property._id}
+                          >
+                            {isInCompareList(property) ? (
+                              <IoRemove
+                                className="bg-[#3E3E3E4D] relative h-[20px] w-[20px] p-[3px] mt-1"
+                                style={{ color: "#fff", fontSize: "12px", left:"9px" }}
+                              />
+                            ) : (
+                              <IoAdd
+                                className="bg-[#3E3E3E4D] relative h-[20px] w-[20px] p-[3px] mt-1"
+                                style={{ color: "#fff", fontSize: "12px", left:"9px" }}
+                              />
+                            )}
+                          </a>
+                        }
+                        position="top center"
+                        on="hover"
+                        arrow={true}
+                      >
+                        <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                          Shortlist for Visit
+                        </div>
+                      </Popup>
 
                       {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
-                      <a
+                      {/* <a
                         href="#"
                         className="relative"
                         style={{ width: "25px", height: "25px", left: "12px" }}
@@ -185,22 +250,62 @@ export default function MyProperties() {
                           event.preventDefault();
                           shareProperty(property.slug);
                         }}
+                        
                       >
                         <CiShare2
-                          className="card_icon bg-[#3E3E3E4D] mt-1 h-[20px] w-[20px] p-[3px]"
+                          className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1"
                           style={{ color: "#40B5A8" }}
                         />
-                      </a>
+                      </a> */}
+                      <Popup
+                        arrow={false}
+                        trigger={
+                          <button className="group relative flex items-center justify-center"
+                            style={{ width: "25px", height: "25px", left: "10px" }}>
+                              <CiShare2
+                                className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1"
+                                style={{ color: "#40B5A8" }}
+                              />
+                          </button>
+                        }
+                        position={"bottom center"}
+                      >
+                        {(close) => (
+                          <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
+                            <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                              <div className="px-2 py-2 text-sm truncate w-32">
+                                  {`www.toletglobe.in/property/${property.slug}`}
+                              </div>
+                                <div>
+                                  <button
+                                    className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                                    onClick={() => {
+                                      navigator.clipboard.writeText(
+                                      `www.toletglobe.in/property/${property.slug}`
+                                    );
+                                    close();
+                                    }}
+                                  >
+                                    <FaRegCopy />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </Popup>
+
                       {/* <a href="#" className="relative left-[14px]">
                         <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1" />
                       </a> */}
-                      <div className="relative ml-[10px] ">
+                      <div className="relative group " 
+                        style={{ width: "25px", height: "25px", left: "7px" }}
+                      >
                         {/* More Options (Three Dots) */}
                         <button
                           onClick={() => toggleOption(property._id)}
                           className="p-1 rounded-md"
                         >
-                          <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1" />
+                          <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] " />
                         </button>
                         {/* Dropdown Menu */}
                         {showOption === property._id && (
@@ -221,7 +326,8 @@ export default function MyProperties() {
                         )}
                       </div>
                     </div>
-                  </div>
+                  </div> 
+
                   <p className="text-gray-400">
                     {property.locality}, {property.city}, India
                   </p>
