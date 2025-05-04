@@ -486,7 +486,7 @@ const Navbar = () => {
                 navigate("/login");
                 setShowMenu(false);
               }}
-              className="mt-3 bg-teal-500 text-white px-4 py-1 rounded-full"
+              className="mt-3 bg-teal-500 text-white px-4 py-1 w-5/6 rounded-full"
             >
               Login
             </button>

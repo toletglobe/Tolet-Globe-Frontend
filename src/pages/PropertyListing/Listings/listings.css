@@ -7,7 +7,7 @@
 
 /* Property Card */
 .property-card {
-  @apply border overflow-hidden relative transition-shadow duration-[0.3s] ease-[ease]   border-solid border-[#ccc];
+  @apply overflow-hidden relative transition-shadow duration-[0.3s] ease-[ease] ;
 
   /* Base border color */
 }
@@ -43,7 +43,7 @@
 
 /* Adjust styles for carousel dots on hover (optional) */
 .slick-dots li.slick-active button:before {
-  @apply text-[#c8a217];
+  @apply text-[#000];
 
   /* Change active dot color */
 }
