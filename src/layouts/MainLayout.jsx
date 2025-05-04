@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/navbar/NavBar.jsx";
-import Footer from "../components/Footer.jsx";
+import Navbar from "../reusableComponents/Navbar.jsx";
+import Footer from "../reusableComponents/Footer.jsx";
 
 const MainLayout = () => {
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
-        <NavBar />
+        <Navbar />
         <main>
           <Outlet />
         </main>

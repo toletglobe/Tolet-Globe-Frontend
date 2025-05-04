@@ -1,15 +1,17 @@
-import axios from "axios";
 import { toast } from "react-toastify";
-import Service from "../../../config/config";
-import { BASE_URL } from "../../../constant/constant";
-import { CiHeart, CiShare2 } from "react-icons/ci";
-import { MdDelete, MdEdit, MdMoreVert } from "react-icons/md";
+import { BASE_URL } from "../../../config/constant";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaHeart } from "react-icons/fa";
+import { CiHeart, CiShare2 } from "react-icons/ci";
+import { MdMoreVert } from "react-icons/md";
+import {  FaRegCopy } from "react-icons/fa6";
 
 import Popup from "reactjs-popup";
+
+import { API } from "../../../config/axios";
 
 export default function MyProperties({ favouriteList = [] }) {
   const [myProperties, setMyProperties] = useState([]);
@@ -30,10 +32,15 @@ export default function MyProperties({ favouriteList = [] }) {
         if (!authState?.userData?.id) {
           return;
         }
-        const properties = await Service.fetchMyProperties(
-          authState.userData.id
+
+        const response = await API.get(
+          `property/user/${authState.userData.id}`
         );
+        const properties = response.data;
+        // return response.data;
         setMyProperties(properties);
+        toast.success("Removed from favorites!");
+        setFavouriteList(favouriteList.filter((id) => id !== propertyId));
       } catch (error) {
         console.log("Error fetching properties:", error);
       }
@@ -52,8 +59,8 @@ export default function MyProperties({ favouriteList = [] }) {
 
       const token = localStorage.getItem("token");
 
-      const response = await axios.post(
-        `${BASE_URL}user/addToFavourites`,
+      const response = await API.post(
+        `user/addToFavourites`,
         {
           userId: authState.userData.id,
           propertyId: propertyId,
@@ -69,7 +76,7 @@ export default function MyProperties({ favouriteList = [] }) {
         setLocalFavouriteList((prevList) => {
           const updatedList = [...prevList, propertyId];
 
-          setTimeout(() => toast.success("Added to favorites!"), 300); // Delay toast
+          setTimeout(() => toast.success("Added to favorites!"), 100); // Delay toast
           return updatedList;
         });
       }
@@ -88,8 +95,8 @@ export default function MyProperties({ favouriteList = [] }) {
 
       const token = localStorage.getItem("token");
 
-      const response = await axios.post(
-        `${BASE_URL}user/removeFromFavourites`,
+      const response = await API.post(
+        "user/removeFromFavourites",
         {
           userId: authState.userData.id,
           propertyId: propertyId,
@@ -124,8 +131,7 @@ export default function MyProperties({ favouriteList = [] }) {
       } catch (error) {
         console.error("Error sahring ", error);
       }
-    }
-    else {
+    } else {
       try {
         await navigator.clipboard.writeText(propertyUrl);
         toast.success("Proprty link is coppied to your clipboard", {
@@ -139,17 +145,16 @@ export default function MyProperties({ favouriteList = [] }) {
         });
       } catch (error) {
         console.error("Failed to copy ", error);
-        toast.error("Failed to copy link", { theme: "dark" })
+        toast.error("Failed to copy link", { theme: "dark" });
       }
     }
-  }
+  };
   // Add Edit button and handleEdit function
   const handleEdit = (property) => {
     navigate(`/landlord-dashboard/edit-properties/${property._id}`);
   };
 
   // Handle Delete function
-
   const handleDelete = async (propertyId) => {
     if (!window.confirm("Are you sure you want to delete this property?"))
       return;
@@ -182,102 +187,129 @@ export default function MyProperties({ favouriteList = [] }) {
       key={property._id}
       className=" bg-black p-4 rounded-md hover:cursor-pointer relative"
     >
-      <img
-        src={property.images[0]}
-        alt="Property"
-        className=" relative  h-[200px] w-full object-cover rounded-md  mb-4"
-        onClick={() => navigate(`/property/${property.slug}`)}
-      />
+      <div className="relative">
+        <img
+          src={property.images[0]}
+          alt="Property"
+          className="relative h-[200px] w-full object-cover rounded-md mb-4"
+          onClick={() => navigate(`/property/${property.slug}`)}
+        />
+        <div
+          className="absolute top-4 left-4 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1 rounded-md"
+          style={{
+            backgroundColor:
+              property.availabilityStatus === "Available"
+                ? "#236b62"
+                : "#c71221",
+            textTransform: "capitalize",
+          }}
+        >
+          {property.availabilityStatus}
+        </div>
+      </div>
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">
           {property?.firstName} {property?.lastName}
         </h3>
         <div className="icon-box flex items-center justify-center">
+                   
           {/* Add to Favorite */}
-
           <Popup
             trigger={
               <button
+                style={{ width: "25px", height: "25px",left:"8px" }}
                 onClick={(e) => {
                   e.preventDefault();
                   localFavouriteList.includes(property._id)
                     ? removeFromFavourites(property._id)
                     : addToFavourites(property._id);
                 }}
-                className="group relative flex items-center justify-center p-1"
+                className="group relative flex items-center justify-center"
               >
                 {localFavouriteList.includes(property._id) ? (
                   <FaHeart className="text-red-500 transition-all duration-300 group-hover:scale-110" />
                 ) : (
-                  <CiHeart className="text-red-500 transition-all duration-300 group-hover:text-red-800 group-hover:scale-110 bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px]"/>
+                  <CiHeart className="text-red-500 transition-all duration-300 group-hover:text-red-800 group-hover:scale-110 bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px]" />
                 )}
               </button>
             }
             position="top center"
             on="hover"
-            arrow={true}
+            arrow={false}
+            contentStyle={{textAlign:"center"}}
           >
-            <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+            <div className="bg-gray-800 text-white text-center sm:text-center px-2 py-1 rounded text-sm">
               {localFavouriteList.includes(property._id)
                 ? "Remove from Favorite"
                 : "Add to Favorite"}
             </div>
           </Popup>
 
-          {/* old code */}
+          {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
           {/* <a
             href="#"
             className="relative"
-            style={{ width: "25px", height: "25px", left: "20px" }}
-          >
-            <CiShare2
-              className="card_icon bg-[#3E3E3E4D]"
-              style={{ color: "#40B5A8" }}
-            />
-          </a> */}
-
-          {/* old code */}
-          {/* More Icon */}
-          {/* <button
-            className="relative"
-            style={{ width: "25px", height: "25px", left: "30px" }}
-            onClick={() => toggleOption(property._id)}
-          >
-            <MdMoreVert
-              className="card_icon bg-[#3E3E3E4D]"
-              style={{ color: "#808080", fontSize: "16px" }}
-            />
-          </button> */}
-
-          {/* new code */}
-          {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
-          <a
-            href="#"
-            className="relative"
-            style={{ width: "25px", height: "25px", left: "8px" }}
+            style={{ width: "25px", height: "25px", left: "10px" }}
             onClick={(event) => {
               event.preventDefault();
-              shareProperty(property.slug)
+              shareProperty(property.slug);
             }}
           >
             <CiShare2
-              className="card_icon bg-[#3E3E3E4D] mt-1 h-[20px] w-[20px] p-[3px]"
+              className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1"
               style={{ color: "#40B5A8" }}
             />
-          </a>
+          </a> */}
+          <Popup
+            arrow={false}
+            trigger={
+              <button className="group relative flex items-center justify-center"
+                style={{ width: "25px", height: "25px", left:"8px"}}>
+                  <CiShare2
+                    className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px]"
+                    style={{ color: "#40B5A8" }}
+                   />
+              </button>
+            }
+            position={"bottom center"}
+          >
+            {(close) => (
+              <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
+                <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                  <div className="px-2 py-2 text-sm truncate w-32">
+                      {`www.toletglobe.in/property/${property.slug}`}
+                  </div>
+                    <div>
+                      <button
+                        className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                          `www.toletglobe.in/property/${property.slug}`
+                        );
+                        close();
+                        }}
+                      >
+                        <FaRegCopy />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </Popup>
 
           {/* new code */}
-          <div className="relative ml-[10px] ">
+          {/* <div> */}
             {/* More Options (Three Dots) */}
             <button
               onClick={() => toggleOption(property._id)}
-              className="p-1 rounded-md"
+              className="relative rounded-md  "
+              style={{ width: "25px", height: "25px", left: "10px" }}
             >
-              <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1" />
+              <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] " />
             </button>
             {/* Dropdown Menu */}
             {showOption === property._id && (
-              <div className="absolute right-0 mt-2 w-20 bg-white shadow-md rounded-md text-black overflow-hidden">
+              <div className="absolute right-0 mt-[6.2rem] w-20 bg-white shadow-md rounded-md text-black overflow-hidden">
                 <button
                   onClick={() => handleEdit(property)}
                   className="flex items-center gap-2 px-4 py-2 hover:bg-gray-200 w-full text-sm"
@@ -292,27 +324,9 @@ export default function MyProperties({ favouriteList = [] }) {
                 </button>
               </div>
             )}
-          </div>
-          {/* old code */}
-          {/* Show Options */}
-          {/* {showOption === property._id && (
-            <div className="absolute bg-gray-700 border border-gray-500 rounded-md shadow-md p-2 -mx-10 w-[120px]">
-              <button
-                className="text-[17px] font-medium text-white hover:text-red-500 flex items-center gap-2 px-2 py-1 w-full"
-                onClick={() => handleDelete(property._id)}
-              >
-                <MdDelete size={20} className="text-red-400" /> Delete
-              </button>
-
-              <button
-                className="text-[17px] font-medium text-white hover:text-blue-500 flex items-center gap-2 px-2 py-1 w-full"
-                onClick={() => handleEdit(property)}
-              >
-                <MdEdit size={20} className="text-blue-400" /> Edit
-              </button>
-            </div>
-          )} */}
+          {/* </div> */}
         </div>
+        
       </div>
       <p className="text-gray-400">
         {property.locality}, {property.city}, India
@@ -324,13 +338,15 @@ export default function MyProperties({ favouriteList = [] }) {
   return (
     <>
       <div className="mt-8">
-        <h1 className="ml-4 text-3xl font-bold text-[#FFFFFF]">Your Properties</h1>
+        <h1 className="ml-4 text-3xl font-bold text-[#FFFFFF]">
+          Your Properties
+        </h1>
         {myProperties.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {cards}
           </div>
         ) : (
-          <div>
+          <div className="mt-5">
             <h6 className="text-white text-center text-3xl font-bold ">
               Your Properties!
             </h6>

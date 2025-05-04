@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { API } from "../../../config/axios";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+import { useSelector } from "react-redux";
 
 import Frm1 from "./AllForms/Frm1";
 import Frm2 from "./AllForms/Frm2";
 import Frm3 from "./AllForms/Frm3";
 import Frm4 from "./AllForms/Frm4";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
-import { ClipLoader } from "react-spinners";
-import { useSelector } from "react-redux";
+
+import { API } from "../../../config/axios";
 
 export default function LandlordDashboardAddProperties() {
   // For changing and showing page number
@@ -127,11 +127,6 @@ export default function LandlordDashboardAddProperties() {
       ...formData,
       userId: userInfo.id,
       pincode: Number(formData.pincode),
-      // petsAllowed: Boolean(formData.petsAllowed),  NA
-      // bhk: Number(formData.bhk),  NA
-      // rent: Number(formData.rent),  NA
-      // security: Number(formData.security),  NA
-      // squareFeetArea: Number(formData.squareFeetArea), NA
       appliances: formData.appliances.map((obj) => obj.value),
       amenities: formData.amenities.map((obj) => obj.value),
     };
@@ -239,18 +234,18 @@ export default function LandlordDashboardAddProperties() {
     <>
       {/* Form */}
 
-      <div>
+      <div className="max-sm:w-[85vw]">
         {/* ProgressBar */}
 
-        <div className="mx-16 sm:my-5 mt-7 mb-8 mx-4  flex flex-col gap-2 md:pr-0  ">
+        <div className="sm:my-5 mt-7 mb-8 flex flex-col gap-2 md:pr-0">
           <h1 className="text-center text-[#FFFFFF] text-xl md:text-3xl leading-10 font-bold md:text-left whitespace-nowrap">
             Add New Property
           </h1>
-          <div className="mt-8 flex gap-2 sm:w-[365px]  md:w-[1000px]  ">
+          <div className="mt-8 flex gap-2 sm:w-[365px] md:w-[400px] lg:w-[680px] xl:w-[auto]">
             {yellowBorder(page)}
             {whiteBorder(page)}
           </div>
-          <div className="text-[#4F7396] text-xs leading-5 ">{page + 1}/4</div>
+          <div className="text-[#4F7396] text-xs leading-5">{page + 1}/4</div>
         </div>
 
         {/* Form-Container */}

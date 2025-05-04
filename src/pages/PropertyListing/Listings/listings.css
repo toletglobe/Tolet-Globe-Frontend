@@ -1,0 +1,141 @@
+.property-list {
+  @apply grid grid-cols-1 gap-8 p-4 md:grid-cols-1 lg:grid-cols-3;
+}
+.property-list a {
+  @apply no-underline text-[black];
+}
+
+/* Property Card */
+.property-card {
+  @apply overflow-hidden relative transition-shadow duration-[0.3s] ease-[ease] ;
+
+  /* Base border color */
+}
+
+/*  Image Container */
+.card-banner {
+  @apply overflow-hidden relative transition-[border] duration-[0.3s] ease-[ease];
+}
+
+/* Card Banner Image */
+.card-banner img {
+  @apply  object-cover transition-[border] duration-[0.3s] ease-[ease] border rounded-[5px] border-solid border-[#D9D9D9];
+
+  /* Ensure the image covers the container */
+}
+
+/* Card Banner */
+
+/* Added cursor pointer to carousel slides */
+.slick-slide {
+  @apply cursor-pointer;
+}
+.slick-arrow {
+  @apply cursor-pointer ;
+}
+
+/* Add styles for carousel dots (optional) */
+.slick-dots li button:before {
+  @apply text-black;
+
+  /* Change dot color */
+}
+
+/* Adjust styles for carousel dots on hover (optional) */
+.slick-dots li.slick-active button:before {
+  @apply text-[#000];
+
+  /* Change active dot color */
+}
+
+/* Container for the card details */
+.card-details {
+  @apply flex flex-col items-start lg:gap-6 ;
+}
+
+/* Style for the type labels (Flat, Shop, House) */
+.card-type {
+  @apply text-sm font-medium text-black mb-2;
+  font-family: Poppins, sans-serif;
+}
+
+/* Style for the price */
+.card-price {
+  @apply   text-[#808080] ;
+  font-family: Poppins, sans-serif;
+}
+.cate-price {
+  @apply mr-5;
+}
+.card-text {
+  @apply ml-[-1.5px];
+}
+
+/* Style for the list items */
+.custom-card-list {
+  @apply list-none flex gap-2 lg:gap-4 flex-wrap ;
+}
+.card-item {
+  @apply flex items-center text-xs lg:text-2xl text-[#333];
+
+  /* Text color */
+}
+.card_icon {
+  @apply w-[20px] h-[20px] lg:w-[24px] lg:h-[24px] gap-0 bg-[#D9D9D917] opacity-100 flex items-center justify-center rounded-none  border-[0.5px] border-solid border-[#00000066];
+}
+
+/* Heart icon specific styling */
+.card_icons a:last-child .card_icon {
+  @apply text-[red];
+
+  /* Red color for heart icon */
+}
+
+/* CSS for SHOW MORE button */
+.card-footer-actions-btn {
+  @apply text-[11px] lg:text-base font-normal text-center border rounded text-white/80 lg:text-white  border-solid border-[#ddd];
+  font-family: Poppins, sans-serif;
+
+  /* Use Poppins font */
+  background: black;
+}
+.card-list {
+  @apply sm:my-2 lg:py-2;
+}
+.bed {
+  @apply text-[#767676];
+}
+.bath {
+  @apply text-[#767676];
+}
+.pi {
+  @apply text-[#7C7C7C];
+}
+.author-name  a {
+  @apply text-[#767676];
+}
+
+/* Group box for icons */
+.card_icons {
+  @apply flex gap-4 border p-2 rounded-none border-solid border-[#ddd];
+  background: #f9f9f9;
+
+  /* Remove rounded corners to make the box square */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Individual icon styles as Figma */
+.card_icon {
+  /* Square edges */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+.card_icons a:nth-child(2) .card_icon {
+  @apply text-[small];
+}
+#property {
+  scrollbar-width: none;
+}
+.card-title a
+{
+  @apply text-[#505050]
+}

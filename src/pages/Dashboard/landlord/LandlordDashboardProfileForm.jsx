@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import { toast } from "react-hot-toast";
-import { API } from "../../../config/axios";
 import { useDispatch } from "react-redux"; // Import useDispatch
 import { updateProfilePicture } from "../../../redux/store/authSlice"; // Import the action
+
+import { API } from "../../../config/axios";
 
 const LandlordDashboardProfileForm = () => {
   const dispatch = useDispatch(); // Initialize dispatch
@@ -304,7 +304,10 @@ const LandlordDashboardProfileForm = () => {
               />
             </div>
             <div className="flex items-center justify-end gap-3">
-              <button type="submit" className="border-[#3CBDB1] border-[1.5px] rounded-[5px] text-[18px] px-[17.02px] py-1 h-[42.56px]">
+              <button
+                type="submit"
+                className="border-[#3CBDB1] border-[1.5px] rounded-[5px] text-[18px] px-[17.02px] py-1 h-[42.56px]"
+              >
                 Cancel
               </button>
               <button

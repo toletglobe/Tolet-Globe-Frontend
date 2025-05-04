@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { FaLock } from "react-icons/fa";
-import { AiOutlineMail } from "react-icons/ai";
 import { toast } from "react-hot-toast";
-import { useNavigate, useLocation } from "react-router-dom";
-import "./Login.css";
-import { API } from "../../config/axios";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-// import { login } from "../../store/authSlice";
 import { login } from "../../redux/store/authSlice";
 
-const Login = () => {
+import { FaLock } from "react-icons/fa";
+import { AiOutlineMail } from "react-icons/ai";
+
+import "./Login.css";
+
+import { API } from "../../config/axios";
+
+const Login = ({ setUserInfo }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
