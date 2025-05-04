@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick"; // Import the slider
 import toast from "react-hot-toast";
 import Popup from "reactjs-popup";
@@ -22,6 +23,7 @@ import { useStateValue } from "../../../StateProvider";
 import { API } from "../../../config/axios";
 
 const PropertyBrief = ({ property }) => {
+  const navigate=useNavigate();
   const [{ compareProperty }, dispatch] = useStateValue();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
@@ -389,6 +391,25 @@ const PropertyBrief = ({ property }) => {
           </div> */}
         </div>
       )}
+
+      {/* Compare Card - Shown when property is added to compare */}
+      {(showCompareCard || compareProperty.length>0) && (
+        <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50">
+          <button
+            className="bg-teal-500 rounded-md text-white p-4 mb-2 w-fit cursor-pointer gap-32 ml-auto shadow-lg flex items-center justify-between"
+            onClick={() => {
+              addToCompare(property);
+              navigate("/compare-property");
+            }}
+          >
+            <h3 className="text-xl text-black">Compare</h3>
+            <div className="bg-teal-600 h-8 w-8 flex items-center justify-center">
+              <span className="text-lg font-bold text-black">{compareProperty.length}</span>
+            </div>
+          </button>
+        </div>
+      )}
+
 
       <div className="md:flex justify-between pt-8">
         <div className="lg:w-[40%]">

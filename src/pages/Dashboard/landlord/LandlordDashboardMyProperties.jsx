@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { FaHeart } from "react-icons/fa";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { MdMoreVert } from "react-icons/md";
+import {  FaRegCopy } from "react-icons/fa6";
 
 import Popup from "reactjs-popup";
 
@@ -38,6 +39,8 @@ export default function MyProperties({ favouriteList = [] }) {
         const properties = response.data;
         // return response.data;
         setMyProperties(properties);
+        toast.success("Removed from favorites!");
+        setFavouriteList(favouriteList.filter((id) => id !== propertyId));
       } catch (error) {
         console.log("Error fetching properties:", error);
       }
@@ -57,7 +60,7 @@ export default function MyProperties({ favouriteList = [] }) {
       const token = localStorage.getItem("token");
 
       const response = await API.post(
-        "user/addToFavourites",
+        `user/addToFavourites`,
         {
           userId: authState.userData.id,
           propertyId: propertyId,
@@ -73,7 +76,7 @@ export default function MyProperties({ favouriteList = [] }) {
         setLocalFavouriteList((prevList) => {
           const updatedList = [...prevList, propertyId];
 
-          setTimeout(() => toast.success("Added to favorites!"), 300); // Delay toast
+          setTimeout(() => toast.success("Added to favorites!"), 100); // Delay toast
           return updatedList;
         });
       }
@@ -209,18 +212,19 @@ export default function MyProperties({ favouriteList = [] }) {
           {property?.firstName} {property?.lastName}
         </h3>
         <div className="icon-box flex items-center justify-center">
+                   
           {/* Add to Favorite */}
-
           <Popup
             trigger={
               <button
+                style={{ width: "25px", height: "25px",left:"8px" }}
                 onClick={(e) => {
                   e.preventDefault();
                   localFavouriteList.includes(property._id)
                     ? removeFromFavourites(property._id)
                     : addToFavourites(property._id);
                 }}
-                className="group relative flex items-center justify-center p-1"
+                className="group relative flex items-center justify-center"
               >
                 {localFavouriteList.includes(property._id) ? (
                   <FaHeart className="text-red-500 transition-all duration-300 group-hover:scale-110" />
@@ -231,9 +235,10 @@ export default function MyProperties({ favouriteList = [] }) {
             }
             position="top center"
             on="hover"
-            arrow={true}
+            arrow={false}
+            contentStyle={{textAlign:"center"}}
           >
-            <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+            <div className="bg-gray-800 text-white text-center sm:text-center px-2 py-1 rounded text-sm">
               {localFavouriteList.includes(property._id)
                 ? "Remove from Favorite"
                 : "Add to Favorite"}
@@ -241,33 +246,70 @@ export default function MyProperties({ favouriteList = [] }) {
           </Popup>
 
           {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
-          <a
+          {/* <a
             href="#"
             className="relative"
-            style={{ width: "25px", height: "25px", left: "8px" }}
+            style={{ width: "25px", height: "25px", left: "10px" }}
             onClick={(event) => {
               event.preventDefault();
               shareProperty(property.slug);
             }}
           >
             <CiShare2
-              className="card_icon bg-[#3E3E3E4D] mt-1 h-[20px] w-[20px] p-[3px]"
+              className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1"
               style={{ color: "#40B5A8" }}
             />
-          </a>
+          </a> */}
+          <Popup
+            arrow={false}
+            trigger={
+              <button className="group relative flex items-center justify-center"
+                style={{ width: "25px", height: "25px", left:"8px"}}>
+                  <CiShare2
+                    className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px]"
+                    style={{ color: "#40B5A8" }}
+                   />
+              </button>
+            }
+            position={"bottom center"}
+          >
+            {(close) => (
+              <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
+                <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                  <div className="px-2 py-2 text-sm truncate w-32">
+                      {`www.toletglobe.in/property/${property.slug}`}
+                  </div>
+                    <div>
+                      <button
+                        className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                          `www.toletglobe.in/property/${property.slug}`
+                        );
+                        close();
+                        }}
+                      >
+                        <FaRegCopy />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </Popup>
 
           {/* new code */}
-          <div className="relative ml-[10px] ">
+          {/* <div> */}
             {/* More Options (Three Dots) */}
             <button
               onClick={() => toggleOption(property._id)}
-              className="p-1 rounded-md"
+              className="relative rounded-md  "
+              style={{ width: "25px", height: "25px", left: "10px" }}
             >
-              <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1" />
+              <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] " />
             </button>
             {/* Dropdown Menu */}
             {showOption === property._id && (
-              <div className="absolute right-0 mt-2 w-20 bg-white shadow-md rounded-md text-black overflow-hidden">
+              <div className="absolute right-0 mt-[6.2rem] w-20 bg-white shadow-md rounded-md text-black overflow-hidden">
                 <button
                   onClick={() => handleEdit(property)}
                   className="flex items-center gap-2 px-4 py-2 hover:bg-gray-200 w-full text-sm"
@@ -282,8 +324,9 @@ export default function MyProperties({ favouriteList = [] }) {
                 </button>
               </div>
             )}
-          </div>
+          {/* </div> */}
         </div>
+        
       </div>
       <p className="text-gray-400">
         {property.locality}, {property.city}, India
@@ -303,7 +346,7 @@ export default function MyProperties({ favouriteList = [] }) {
             {cards}
           </div>
         ) : (
-          <div>
+          <div className="mt-5">
             <h6 className="text-white text-center text-3xl font-bold ">
               Your Properties!
             </h6>

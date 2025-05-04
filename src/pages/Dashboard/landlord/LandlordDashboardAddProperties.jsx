@@ -246,7 +246,11 @@ export default function LandlordDashboardAddProperties() {
           <h1 className="text-center text-[#FFFFFF] text-xl md:text-3xl leading-10 font-bold md:text-left whitespace-nowrap">
             Add New Property
           </h1>
+
           <div className="mt-8 flex gap-2 sm:w-[365px]  md:w-[1000px]  ">
+
+          <div className="mt-8 flex gap-2 sm:w-[365px] md:w-[400px] lg:w-[680px] xl:w-[auto]">
+
             {yellowBorder(page)}
             {whiteBorder(page)}
           </div>

@@ -10,7 +10,7 @@ import { CiHeart, CiShare2 } from "react-icons/ci";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
-import { FaRegImage, FaVideo } from "react-icons/fa6";
+import { FaRegImage, FaVideo,  FaRegCopy } from "react-icons/fa6";
 import { MdOutlineMyLocation } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 
@@ -167,7 +167,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
           url: propertyUrl,
         });
       } catch (error) {
-        console.error("Error sahring ", error);
+        console.error("Error sharing ", error);
       }
     } else {
       try {
@@ -258,7 +258,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 <div className="icon-box flex items-start space-x-1 md:space-x-2 p-1 ">
                   {/* alternate code for share*/}
                   {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
-                  <a
+                  {/* <a
                     href="#"
                     className="relative"
                     style={{ width: "25px", height: "25px", left: "1px" }}
@@ -271,7 +271,43 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                       className="card_icon h-[20px] w-[20px] p-[3px]"
                       style={{ color: "#40B5A8" }}
                     />
-                  </a>
+                  </a> */}
+                  <Popup
+                    arrow={false}
+                    trigger={
+                      <button>
+                        <CiShare2
+                          className="card_icon "
+                          style={{ color: "#40B5A8" }}
+                        />
+                      </button>
+                    }
+                    position={"bottom center"}
+                  >
+                    {(close) => (
+                      <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
+                        <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
+                          <div className="px-2 py-2 text-sm truncate w-32">
+                            {`www.toletglobe.in/property/${property.slug}`}
+                          </div>
+                          <div>
+                            <button
+                              className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  `www.toletglobe.in/property/${property.slug}`
+                                );
+                                close();
+                              }}
+                            >
+                              <FaRegCopy />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </Popup>
+
 
                   {/* SHORTLIST FOR VISIT */}
                   <Popup
