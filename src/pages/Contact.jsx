@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import { BsChatRightDots } from "react-icons/bs";
+// import { BsChatRightDots } from "react-icons/bs";
 import { IoCallOutline } from "react-icons/io5";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { API } from "../config/axios";
 import { toast } from "react-hot-toast";
 
@@ -53,7 +53,7 @@ const Contact = () => {
   return (
     <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-20 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
       {/* Contact Details Section */}
-      <div className="w-full lg:w-1/2 px-4 sm:p-6 lg:pl-10 lg:pr-52 mt-[50px]">
+      <div className="w-full lg:w-1/2 px-4 sm:p-6 lg:pl-10 lg:pr-52 mt-12 lg:mt-0">
         <div>
           <h1 className="text-white text-3xl md:text-4xl font-semibold">
             Contact Us, We're Ready to Help!

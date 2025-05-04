@@ -21,7 +21,7 @@ const Card = ({ img, title, bg, path, description }) => {
           <h1 className="text-base sm:text-lg md:text-xl font-semibold text-black line-clamp-2">
             {title}
           </h1>
-          <p className="text-black font-normal text-[09px] tracking-[0%] mt-1 leading-tight">
+          <p className="text-black font-normal text-[09px] sm:text-xs tracking-[0%] mt-1 leading-tight">
             {description}
           </p>
         </div>
@@ -39,10 +39,10 @@ const Card = ({ img, title, bg, path, description }) => {
         <div
           className={`w-full h-[60%] flex flex-col justify-center rounded-b-[10px] p-4 ${bg}`}
         >
-          <h2 className="text-black font-bold text-[24px] leading-[36px] tracking-[0%] max-w-full break-words">
+          <h2 className="text-black font-bold text-2xl leading-[36px] tracking-[0%] max-w-full break-words">
             {title}
           </h2>
-          <p className="text-black font-normal text-[13px] leading-[19.5px] tracking-[0%] max-w-full break-words mt-2">
+          <p className="text-black font-normal text-sm leading-5 tracking-[0%] max-w-full break-words mt-2">
             {description}
           </p>
         </div>
