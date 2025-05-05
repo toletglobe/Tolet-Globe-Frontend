@@ -77,35 +77,41 @@ export default function CompareProperty() {
   return (
     <>
       <div className="flex flex-col  xl:pt-6 xl:pb-24  lg:px-6 space-y-4">
-      <div className="w-full flex justify-between relative pt-10 ">
-          <h4
-            className="text-3xl md:text-4xl lg:text-5xl pl-7 font-bold"
-            style={{
-              color: "#C8A21C",
-              textShadow: "0 2px 4px rgba(0,0,0,0.1)",
-              margin: "1rem 0",
-              lineHeight: "1.2",
-            }}
-          >
-            Compare with similar properties
-          </h4>
-          <div className="text-2xl text-white flex items-center font-bold mr-10">
-            <button className="bg-teal-500 px-6 py-2 rounded-md" onClick={()=>navigate("/pricing")}>Proceed To Visit</button>
-          </div>
-        </div>
+      <div className="w-full flex flex-nowrap justify-between items-center pt-10 px-2 sm:px-6">
+           <h4
+              className="text-xl sm:text-3xl lg:text-5xl font-bold flex-shrink w-auto "
+               style={{
+               color: "#C8A21C",
+               textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+               margin: "1rem 0",
+               lineHeight: "1.2",
+              }}
+             >
+              Compare with similar properties
+            </h4>
+         <div className="text-sm sm:text-lg text-white font-bold ml-4">
+           <button
+              className="bg-teal-500 px-3 py-1 sm:px-6 sm:py-2 rounded-md whitespace-nowrap"
+               onClick={() => navigate("/pricing")}
+            >
+            Proceed To Visit
+          </button>
+         </div>
+      </div>
+
         {/* Property Cards */}
-        <div className="w-full lg:max-w-8xl  lg:px-20 flex justify-center items-center justify-items-start ">
+        <div className="w-full lg:max-w-8xl flex justify-center items-center justify-items-start ">
           {/* Flex container for small screens and grid for large screens */}
-          <div className="flex flex-row gap-8 flex-wrap justify-center">
+          <div className="w-full flex flex-col lg:flex-row justify-between items-start sm:items-center gap-4 lg:gap-4 pt-10 px-2 sm:px-6">
             {compareProperty.map((property, index) => (
               <div
                 key={index}
-                className="bg-white shadow-md rounded-lg p-3 relative flex flex-col overflow-hidden ml-4 lg:ml-0"
-                style={{
-                  width: "298.926px", // Ensure consistent width
-                  height: "386.523px",
-                  boxSizing: "border-box",
-                }}
+                className="bg-white shadow-md rounded-lg p-3 relative flex flex-col overflow-hidden w-full lg:w-[298.926px] h-[386.523px] box-border lg:ml-0"
+                // style={{
+                //   width: "298.926px", // Ensure consistent width
+                //   height: "386.523px",
+                //   boxSizing: "border-box",
+                // }}
               >
                 <span
                   className="w-7 h-7 bg-[#FF0000] text-white absolute top-0 right-0 z-10 text-center flex items-center justify-center shadow-md text-[44px] pb-2 cursor-pointer"
@@ -271,12 +277,13 @@ export default function CompareProperty() {
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="bg-[#D9D9D9] rounded-md shadow-md flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-gray-300 hover:border-[#40B5A8] transition-colors"
-                    style={{
-                      width: "298.926px",
-                      height: "386.523px",
-                      boxSizing: "border-box",
-                    }}
+                    className="bg-[#D9D9D9] rounded-md shadow-md flex w-full lg:w-[298.926px] h-[386.523px] flex-col items-center justify-center cursor-pointer border-2 border-dashed border-gray-300 hover:border-[#40B5A8] transition-colors"
+                    //bg-white shadow-md rounded-lg p-3 relative flex flex-col overflow-hidden w-full lg:w-[298.926px] h-[386.523px] box-border lg:ml-0
+                    // style={{
+                    //   width: "298.926px",
+                    //   height: "386.523px",
+                    //   boxSizing: "border-box",
+                    // }}
                     onClick={() => navigate("/property-listing")}
                   >
                     <div className="w-50 h-50 border flex items-center justify-center rounded-lg p-0 bg-white">
