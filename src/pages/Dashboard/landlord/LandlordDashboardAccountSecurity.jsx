@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { BASE_URL } from "../../../constant/constant";
+
+import { API } from "../../../config/axios";
 
 const LandlordDashboardAccountSecurity = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -43,17 +44,19 @@ const LandlordDashboardAccountSecurity = () => {
     }
 
     try {
-      const res = await fetch(`${BASE_URL}auth/change-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
+      const res = await API.post(
+        `auth/change-password`,
+        {
           currentPassword,
           newPassword,
-        }),
-      });
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const data = await res.json();
       if (res.status === 200 || res.status === 201) {
         toast.success(data.message || "Password changed successfully");
@@ -74,18 +77,14 @@ const LandlordDashboardAccountSecurity = () => {
         <h2 className="max-sm:text-center text-3xl text-white font-bold text-left pb-2">
           Account Security
         </h2>
-
-        {/* not required */}
-        {/* <p className="text-[14px] sm:text-sm md:text-base text-teal-400 p-2 text-left">
-          Use at least 8 characters. Don't use a password from another site or
-          something too obvious like your pet's name.
-        </p> */}
       </div>
 
       <div className="sm:max-w-md mb-4 mx-2">
         <form onSubmit={handleSubmit} className="mb-0">
           <div className="mb-4">
-            <label className="block text-white mb-2">Current Password<span className="text-red-500">*</span></label>
+            <label className="block text-white mb-2">
+              Current Password<span className="text-red-500">*</span>
+            </label>
             <input
               type="password"
               value={currentPassword}
@@ -99,7 +98,9 @@ const LandlordDashboardAccountSecurity = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-white mb-2">New Password<span className="text-red-500">*</span></label>
+            <label className="block text-white mb-2">
+              New Password<span className="text-red-500">*</span>
+            </label>
             <input
               type="password"
               value={newPassword}
@@ -107,25 +108,52 @@ const LandlordDashboardAccountSecurity = () => {
               placeholder="New Password"
               className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
-           <ul className="mt-4 space-y-1">
-            <li className={`text-sm pl-2 flex items-center ${passwordCriteria.length ? "text-[#00cc00]" : "text-[#ff3300]"}`}>
-              <span className="mr-2">{passwordCriteria.length ? "✓" : "✗"}</span>
-              At least 8 characters long
-            </li>
-            <li className={`text-sm pl-2 flex items-center ${passwordCriteria.uppercase ? "text-[#00cc00]" : "text-[#ff3300]"}`}>
-              <span className="mr-2">{passwordCriteria.uppercase ? "✓" : "✗"}</span>
-              Contains at least one uppercase letter
-            </li>
-            <li className={`text-sm pl-2 flex items-center ${passwordCriteria.lowercase ? "text-[#00cc00]" : "text-[#ff3300]"}`}>
-              <span className="mr-2">{passwordCriteria.lowercase ? "✓" : "✗"}</span>
-              Contains at least one lowercase letter
-            </li>
-            <li className={`text-sm pl-2 flex items-center ${passwordCriteria.number ? "text-[#00cc00]" : "text-[#ff3300]"}`}>
-              <span className="mr-2">{passwordCriteria.number ? "✓" : "✗"}</span>
-              Contains at least one number
-            </li>
-          </ul>
-
+            <ul className="mt-4 space-y-1">
+              <li
+                className={`text-sm pl-2 flex items-center ${
+                  passwordCriteria.length ? "text-[#00cc00]" : "text-[#ff3300]"
+                }`}
+              >
+                <span className="mr-2">
+                  {passwordCriteria.length ? "✓" : "✗"}
+                </span>
+                At least 8 characters long
+              </li>
+              <li
+                className={`text-sm pl-2 flex items-center ${
+                  passwordCriteria.uppercase
+                    ? "text-[#00cc00]"
+                    : "text-[#ff3300]"
+                }`}
+              >
+                <span className="mr-2">
+                  {passwordCriteria.uppercase ? "✓" : "✗"}
+                </span>
+                Contains at least one uppercase letter
+              </li>
+              <li
+                className={`text-sm pl-2 flex items-center ${
+                  passwordCriteria.lowercase
+                    ? "text-[#00cc00]"
+                    : "text-[#ff3300]"
+                }`}
+              >
+                <span className="mr-2">
+                  {passwordCriteria.lowercase ? "✓" : "✗"}
+                </span>
+                Contains at least one lowercase letter
+              </li>
+              <li
+                className={`text-sm pl-2 flex items-center ${
+                  passwordCriteria.number ? "text-[#00cc00]" : "text-[#ff3300]"
+                }`}
+              >
+                <span className="mr-2">
+                  {passwordCriteria.number ? "✓" : "✗"}
+                </span>
+                Contains at least one number
+              </li>
+            </ul>
           </div>
 
           <div className="mb-4">
@@ -142,18 +170,21 @@ const LandlordDashboardAccountSecurity = () => {
           </div>
         </form>
       </div>
-          <div className="flex justify-end mt-8 sm:mt-10 gap-3">
-            <button type="submit" className="border-[#3CBDB1] border-[1.5px] rounded-[5px] text-[18px] px-[17.02px] py-1">
-              Cancel
-            </button>
-            <button
-              type="submit"
-              onClick={handleSubmit}
-              className="bg-teal-500 text-white px-2 py-1 font-bold rounded-md hover:bg-teal-600 transition duration-300"
-            >
-              Save Changes
-            </button>
-          </div>
+      <div className="flex justify-end mt-8 sm:mt-10 gap-3">
+        <button
+          type="submit"
+          className="border-[#3CBDB1] border-[1.5px] rounded-[5px] text-[18px] px-[17.02px] py-1"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className="bg-teal-500 text-white px-2 py-1 font-bold rounded-md hover:bg-teal-600 transition duration-300"
+        >
+          Save Changes
+        </button>
+      </div>
     </div>
   );
 };

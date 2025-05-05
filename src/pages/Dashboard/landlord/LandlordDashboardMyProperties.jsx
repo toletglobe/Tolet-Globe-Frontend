@@ -1,15 +1,16 @@
-import axios from "axios";
 import { toast } from "react-toastify";
-import Service from "../../../config/config";
-import { BASE_URL } from "../../../constant/constant";
-import { CiHeart, CiShare2 } from "react-icons/ci";
-import { MdDelete, MdEdit, MdMoreVert } from "react-icons/md";
+import { BASE_URL } from "../../../config/constant";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaHeart } from "react-icons/fa";
+import { CiHeart, CiShare2 } from "react-icons/ci";
+import { MdMoreVert } from "react-icons/md";
 
 import Popup from "reactjs-popup";
+
+import { API } from "../../../config/axios";
 
 export default function MyProperties({ favouriteList = [] }) {
   const [myProperties, setMyProperties] = useState([]);
@@ -30,9 +31,12 @@ export default function MyProperties({ favouriteList = [] }) {
         if (!authState?.userData?.id) {
           return;
         }
-        const properties = await Service.fetchMyProperties(
-          authState.userData.id
+
+        const response = await API.get(
+          `property/user/${authState.userData.id}`
         );
+        const properties = response.data;
+        // return response.data;
         setMyProperties(properties);
       } catch (error) {
         console.log("Error fetching properties:", error);
@@ -52,8 +56,8 @@ export default function MyProperties({ favouriteList = [] }) {
 
       const token = localStorage.getItem("token");
 
-      const response = await axios.post(
-        `${BASE_URL}user/addToFavourites`,
+      const response = await API.post(
+        "user/addToFavourites",
         {
           userId: authState.userData.id,
           propertyId: propertyId,
@@ -88,8 +92,8 @@ export default function MyProperties({ favouriteList = [] }) {
 
       const token = localStorage.getItem("token");
 
-      const response = await axios.post(
-        `${BASE_URL}user/removeFromFavourites`,
+      const response = await API.post(
+        "user/removeFromFavourites",
         {
           userId: authState.userData.id,
           propertyId: propertyId,
@@ -124,8 +128,7 @@ export default function MyProperties({ favouriteList = [] }) {
       } catch (error) {
         console.error("Error sahring ", error);
       }
-    }
-    else {
+    } else {
       try {
         await navigator.clipboard.writeText(propertyUrl);
         toast.success("Proprty link is coppied to your clipboard", {
@@ -139,10 +142,10 @@ export default function MyProperties({ favouriteList = [] }) {
         });
       } catch (error) {
         console.error("Failed to copy ", error);
-        toast.error("Failed to copy link", { theme: "dark" })
+        toast.error("Failed to copy link", { theme: "dark" });
       }
     }
-  }
+  };
   // Add Edit button and handleEdit function
   const handleEdit = (property) => {
     navigate(`/landlord-dashboard/edit-properties/${property._id}`);
@@ -191,7 +194,10 @@ export default function MyProperties({ favouriteList = [] }) {
         <div
           className="absolute top-4 left-4 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1 rounded-md"
           style={{
-            backgroundColor: property.availabilityStatus === "Available" ? "#236b62" : "#c71221",
+            backgroundColor:
+              property.availabilityStatus === "Available"
+                ? "#236b62"
+                : "#c71221",
             textTransform: "capitalize",
           }}
         >
@@ -219,7 +225,7 @@ export default function MyProperties({ favouriteList = [] }) {
                 {localFavouriteList.includes(property._id) ? (
                   <FaHeart className="text-red-500 transition-all duration-300 group-hover:scale-110" />
                 ) : (
-                  <CiHeart className="text-red-500 transition-all duration-300 group-hover:text-red-800 group-hover:scale-110 bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px]"/>
+                  <CiHeart className="text-red-500 transition-all duration-300 group-hover:text-red-800 group-hover:scale-110 bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px]" />
                 )}
               </button>
             }
@@ -241,7 +247,7 @@ export default function MyProperties({ favouriteList = [] }) {
             style={{ width: "25px", height: "25px", left: "8px" }}
             onClick={(event) => {
               event.preventDefault();
-              shareProperty(property.slug)
+              shareProperty(property.slug);
             }}
           >
             <CiShare2
@@ -289,7 +295,9 @@ export default function MyProperties({ favouriteList = [] }) {
   return (
     <>
       <div className="mt-8">
-        <h1 className="ml-4 text-3xl font-bold text-[#FFFFFF]">Your Properties</h1>
+        <h1 className="ml-4 text-3xl font-bold text-[#FFFFFF]">
+          Your Properties
+        </h1>
         {myProperties.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {cards}

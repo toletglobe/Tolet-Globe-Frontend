@@ -1,0 +1,200 @@
+.left::after {
+  content: "";
+  background-image: url(../../../../assets/about/logo1.jpeg);
+  background-size: contain;
+  box-shadow: 0 0 0.5em #6cc0c4;
+  width: 3.9em;
+  height: 4em;
+  position: absolute;
+  left: 94.4%;
+  top: 43%;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.right::after {
+  content: "";
+  background-image: url(../../../../assets/about/logo1.jpeg);
+  background-position: cover;
+  background-size: contain;
+  box-shadow: 0 0 0.5em #6cc0c4;
+  width: 3.9em;
+  height: 4em;
+  position: absolute;
+  right: 95.5%;
+  top: 43%;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Media query for small screen */
+@media ((min-width: 768px) and (max-width: 990px)) {
+  .left::after {
+    content: "";
+    background-image: url(../../../../assets/about/logo1.jpeg);
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;
+    width: 3.9em;
+    height: 4em;
+    position: absolute;
+    left: 95%;
+    top: 43%;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .right::after {
+    content: "";
+    background-image: url(../../../../assets/about/logo1.jpeg);
+    background-position: cover;
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;
+    width: 3.9em;
+    height: 4em;
+    position: absolute;
+    right: 92.5%;
+    top: 46%;
+    border-radius: 50%;
+    z-index: 1;
+  }
+}
+
+@media ((min-width: 990px) and (max-width: 1025px)) {
+  .left::after {
+    content: "";
+    background-image: url(../../../../assets/about/logo1.jpeg);
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;
+    width: 3.9em;
+    height: 4em;
+    position: absolute;
+    left: 97%;
+    top: 43%;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .right::after {
+    content: "";
+    background-image: url(../../../../assets/about/logo1.jpeg);
+    background-position: cover;
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;
+    width: 3.9em;
+    height: 4em;
+    position: absolute;
+    right: 93.5%;
+    top: 46%;
+    border-radius: 50%;
+    z-index: 1;
+  }
+}
+
+@media ((min-width: 1025px) and (max-width: 1200px)) {
+  .left::after {
+    content: "";
+    background-image: url(../../../../assets/about/logo1.jpeg);
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;
+    width: 3.9em;
+    height: 4em;
+    position: absolute;
+    left: 98%;
+    top: 42%;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .right::after {
+    content: "";
+    background-image: url(../../../../assets/about/logo1.jpeg);
+    background-position: cover;
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;
+    width: 3.9em;
+    height: 4em;
+    position: absolute;
+    right: 94.5%;
+    top: 42%;
+    border-radius: 50%;
+    z-index: 1;
+  }
+}
+
+@media ((min-width: 1200px) and (max-width: 1450px)) {
+  .left::after {
+    content: "";
+    background-image: url(../../../../assets/about/logo1.jpeg);
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;
+    width: 3.9em;
+    height: 4em;
+    position: absolute;
+    left: 99%;
+    top: 42%;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .right::after {
+    content: "";
+    background-image: url(../../../../assets/about/logo1.jpeg);
+    background-position: cover;
+    background-size: contain;
+    box-shadow: 0 0 0.5em #6cc0c4;
+    width: 3.9em;
+    height: 4em;
+    position: absolute;
+    right: 95.5%;
+    top: 42%;
+    border-radius: 50%;
+    z-index: 1;
+  }
+}
+
+@media ((min-width: 360px) and (max-width: 380px)) {
+  .text-box {
+    min-width: 21rem;
+    min-height: 15rem;
+    text-align: center;
+  }
+
+  .left::after {
+    display: none;
+  }
+
+  .right::after {
+    display: none;
+  }
+}
+
+@media ((min-width: 380px) and (max-width:400px)) {
+  .text-box {
+    margin-left: 1rem;
+    min-width: 19rem;
+  }
+}
+
+@media ((min-width: 400px) and (max-width:500px)) {
+  .text-box {
+    min-width: 23rem;
+    margin-left: 0.9rem;
+  }
+}
+
+@media ((min-width: 500px) and (max-width:680)) {
+  .left::after {
+    left: 90%;
+    top: 43%;
+  }
+}
+
+@media (max-width: 500px) {
+  .left::after {
+    display: none;
+  }
+
+  .right::after {
+    display: none;
+  }
+}
