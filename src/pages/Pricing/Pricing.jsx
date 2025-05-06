@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { plans } from "../../constant_pricing/index.js"; // path for subscription card
 
+import { API } from "../../config/axios";
+import { redirect } from "react-router-dom";
+
 const Pricing = () => {
   const [showForm, setShowForm] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -47,29 +50,32 @@ const Pricing = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       //change Backend Url
-      const response = await fetch("/api/v1/pricing/submit-pricing", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phoneNumber: formData.phone, // Match backend field name
-          stayingWith: formData.stayingWith,
-          profession: formData.profession,
-          dateOfVisit: formData.dateOfVisit,
-          timeSlot: formData.timeSlot,
-        }),
+      const response = await API.post("pricing/submit-pricing", {
+        // method: "POST",
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        // body: JSON.stringify({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phoneNumber: formData.phone, // Match backend field name
+        stayingWith: formData.stayingWith,
+        profession: formData.profession,
+        dateOfVisit: formData.dateOfVisit,
+        timeSlot: formData.timeSlot,
+        // }),
       });
-  
-      if (response.ok) {
+      console.log("Response:", response);
+
+      if (response.statusText === "OK") {
         console.log("Form submitted successfully!");
         setIsSubmitted(true); // Show success popup
+        // Redirect to the desired URL
+        window.location.href = "https://www.facebook.com/toletglobe/?_rdr";
       } else {
         const data = await response.json();
         alert(data.msg || "Submission failed.");
@@ -79,7 +85,6 @@ const Pricing = () => {
       alert("An error occurred while submitting the form.");
     }
   };
-  
 
   return (
     <div className="min-h-screen bg- text-white py-16 px-4">
@@ -91,7 +96,10 @@ const Pricing = () => {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (
-            <div key={plan.id} className="bg-[#1a1f2e] rounded-2xl p-8 relative">
+            <div
+              key={plan.id}
+              className="bg-[#1a1f2e] rounded-2xl p-8 relative"
+            >
               {plan.badge && (
                 <div className={plan.badgeStyle}>{plan.badge}</div>
               )}
@@ -149,7 +157,8 @@ const Pricing = () => {
                     </svg>
                   </div>
                   <p className="text-lg mb-6">
-                    Thank you for booking your visit. Our representative will contact you shortly to confirm the details.
+                    Thank you for booking your visit. Our representative will
+                    contact you shortly to confirm the details.
                   </p>
                   <button
                     onClick={handleCancel}
@@ -170,9 +179,14 @@ const Pricing = () => {
                 <h2 className="text-2xl text-white font-bold mb-6">
                   {selectedPlan?.title} Subscription
                 </h2>
-                <p className="text-white p-4">Please fill in your details to start your subscription</p>
+                <p className="text-white p-4">
+                  Please fill in your details to start your subscription
+                </p>
 
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
+                <form
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                  onSubmit={handleSubmit}
+                >
                   {[
                     { name: "firstName", label: "First Name", type: "text" },
                     { name: "lastName", label: "Last Name", type: "text" },
@@ -195,7 +209,9 @@ const Pricing = () => {
 
                   {/* Staying with */}
                   <div>
-                    <label className="block mb-1 text-white">Staying with</label>
+                    <label className="block mb-1 text-white">
+                      Staying with
+                    </label>
                     <select
                       name="stayingWith"
                       value={formData.stayingWith}
@@ -229,7 +245,9 @@ const Pricing = () => {
 
                   {/* Date and Time */}
                   <div>
-                    <label className="block mb-1 text-white">Date of Visit</label>
+                    <label className="block mb-1 text-white">
+                      Date of Visit
+                    </label>
                     <input
                       type="date"
                       name="dateOfVisit"
