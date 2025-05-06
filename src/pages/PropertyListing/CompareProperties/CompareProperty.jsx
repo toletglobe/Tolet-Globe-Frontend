@@ -102,7 +102,7 @@ export default function CompareProperty() {
         {/* Property Cards */}
         <div className="w-full lg:max-w-8xl flex justify-center items-center justify-items-start ">
           {/* Flex container for small screens and grid for large screens */}
-          <div className="w-full flex flex-col lg:flex-row justify-between items-start sm:items-center gap-4 lg:gap-4 pt-10 px-2 sm:px-6">
+          <div className="w-full flex flex-col lg:flex-row justify-between items-start sm:items-center gap-4 lg:gap-4 pt-10 px-2 sm:px-6 xl:px-20">
             {compareProperty.map((property, index) => (
               <div
                 key={index}

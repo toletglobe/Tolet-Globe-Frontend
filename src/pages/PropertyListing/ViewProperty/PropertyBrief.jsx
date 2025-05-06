@@ -472,7 +472,7 @@ const PropertyBrief = ({ property }) => {
         <div className="lg:w-[30%] bg-white rounded-lg p-3 mb-2">
           <div className="flex justify-between items-center mb-4 lg:mb-8">
             <p className="text-black text-lg font-semibold">Request a visit</p>
-            <div className="flex gap-3 justify-center items-center">
+            <div className="flex gap-3 justify-center items-center ">
               <Popup
                 arrow={false}
                 trigger={
@@ -509,7 +509,7 @@ const PropertyBrief = ({ property }) => {
                 )}
               </Popup>
 
-              {!showCompareCard && (
+              {/* {!showCompareCard && (
                 <Popup
                   trigger={
                     <a
@@ -549,7 +549,7 @@ const PropertyBrief = ({ property }) => {
                     Shortlist for Visit
                   </div>
                 </Popup>
-              )}
+              )} */}
 
               <Popup
                 trigger={
