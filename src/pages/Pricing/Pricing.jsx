@@ -71,7 +71,7 @@ const Pricing = () => {
       });
       console.log("Response:", response);
 
-      if (response.statusText === "OK") {
+      if (response.status === 200) {
         console.log("Form submitted successfully!");
         setIsSubmitted(true); // Show success popup
         // Redirect to the desired URL
