@@ -234,7 +234,7 @@ export default function MyProperties() {
                         }
                         position="top center"
                         on="hover"
-                        arrow={true}
+                        arrow={false}
                       >
                         <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
                           Shortlist for Visit
@@ -268,7 +268,7 @@ export default function MyProperties() {
                               />
                           </button>
                         }
-                        position={"bottom center"}
+                        position={"bottom right"}
                       >
                         {(close) => (
                           <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
