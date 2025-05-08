@@ -6,6 +6,9 @@ import DatePicker from "react-datepicker";
 
 
 
+import { API } from "../../config/axios";
+import { redirect } from "react-router-dom";
+
 const Pricing = () => {
   const [showForm, setShowForm] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -66,6 +69,7 @@ const Pricing = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
   
     const comparePropertyIds = compareProperty.map((item) => item.slug);
     console.log("Compare Property IDs:", comparePropertyIds); // 👈 Log to verify
@@ -99,11 +103,38 @@ const Pricing = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestBody),
+
+
+    try {
+      //change Backend Url
+      const response = await API.post("pricing/submit-pricing", {
+        // method: "POST",
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        // body: JSON.stringify({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phoneNumber: formData.phone, // Match backend field name
+        stayingWith: formData.stayingWith,
+        profession: formData.profession,
+        dateOfVisit: formData.dateOfVisit,
+        timeSlot: formData.timeSlot,
+        // }),
+
       });
-  
-      if (response.ok) {
+      console.log("Response:", response);
+
+      if (response.status === 200) {
         console.log("Form submitted successfully!");
+
         setIsSubmitted(true);
+
+        setIsSubmitted(true); // Show success popup
+        // Redirect to the desired URL
+        window.location.href = "https://www.facebook.com/toletglobe/?_rdr";
+
       } else {
         const data = await response.json();
         alert(data.msg || "Submission failed.");
@@ -114,8 +145,7 @@ const Pricing = () => {
     }
   };
   
-  
-  
+ 
 
   return (
     <div className="min-h-screen bg- text-white py-16 px-4">
@@ -127,7 +157,10 @@ const Pricing = () => {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (
-            <div key={plan.id} className="bg-[#1a1f2e] rounded-2xl p-8 relative">
+            <div
+              key={plan.id}
+              className="bg-[#1a1f2e] rounded-2xl p-8 relative"
+            >
               {plan.badge && (
                 <div className={plan.badgeStyle}>{plan.badge}</div>
               )}
@@ -165,7 +198,8 @@ const Pricing = () => {
 
         {/* Subscription Form Modal */}
         {showForm && (
-  <div className="fixed inset-0 bg-slate-700 bg-opacity-50 flex items-center justify-center z-50">
+
+<div className="fixed inset-0 bg-slate-700 bg-opacity-50 flex items-center justify-center z-50">
     {isSubmitted ? (
       <div className=" bg-slate-900 rounded-2xl p-8 w-11/12 md:w-1/3 text-center text-white">
         <div className="flex flex-col items-center ">
@@ -245,6 +279,95 @@ const Pricing = () => {
             </select>
           </div>
 
+<div className="fixed inset-0 bg-slate-700 bg-opacity-50 flex items-center justify-center z-50">
+            {isSubmitted ? (
+              <div className="bg-slate-900 rounded-2xl p-8 w-11/12 md:w-1/3 text-center text-white">
+                <div className="flex flex-col items-center">
+                  <div className="bg-green-100 rounded-full p-4 mb-6">
+                    <svg
+                      className="h-8 w-8 text-green-400"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <p className="text-lg mb-6">
+                    Thank you for booking your visit. Our representative will
+                    contact you shortly to confirm the details.
+                  </p>
+                  <button
+                    onClick={handleCancel}
+                    className="bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-2 rounded-lg font-semibold"
+                  >
+                    OK
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-slate-900 rounded-2xl p-8 w-11/12 md:w-3/4 lg:w-1/2 relative text-black max-h-[90vh] overflow-y-auto">
+                <button
+                  onClick={handleCancel}
+                  className="absolute top-2 right-2 text-gray-500 text-2xl"
+                >
+                  &times;
+                </button>
+                <h2 className="text-2xl text-white font-bold mb-6">
+                  {selectedPlan?.title} Subscription
+                </h2>
+                <p className="text-white p-4">
+                  Please fill in your details to start your subscription
+                </p>
+
+                <form
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                  onSubmit={handleSubmit}
+                >
+                  {[
+                    { name: "firstName", label: "First Name", type: "text" },
+                    { name: "lastName", label: "Last Name", type: "text" },
+                    { name: "email", label: "Email ID", type: "email" },
+                    { name: "phone", label: "Phone Number", type: "tel" },
+                  ].map(({ name, label, type }) => (
+                    <div key={name}>
+                      <label className="block mb-1 text-white">{label}</label>
+                      <input
+                        type={type}
+                        name={name}
+                        value={formData[name]}
+                        onChange={handleInputChange}
+                        className="w-full p-3 rounded-lg border bg-white"
+                        placeholder={label}
+                        required
+                      />
+                    </div>
+                  ))}
+
+                  {/* Staying with */}
+                  <div>
+                    <label className="block mb-1 text-white">
+                      Staying with
+                    </label>
+                    <select
+                      name="stayingWith"
+                      value={formData.stayingWith}
+                      onChange={handleInputChange}
+                      className="w-full p-3 rounded-lg border bg-white"
+                      required
+                    >
+                      <option value="">Select option</option>
+                      <option>Friends</option>
+                      <option>Family</option>
+                      <option>Alone</option>
+                    </select>
+                  </div>
+
           {/* Profession */}
           <div>
             <label className="block text-sm font-semibold text-white mb-1">Profession *</label>
@@ -276,6 +399,20 @@ const Pricing = () => {
               />
             </div>
           )}
+                  {/* Date and Time */}
+                  <div>
+                    <label className="block mb-1 text-white">
+                      Date of Visit
+                    </label>
+                    <input
+                      type="date"
+                      name="dateOfVisit"
+                      value={formData.dateOfVisit}
+                      onChange={handleInputChange}
+                      className="w-full p-3 rounded-lg border bg-white"
+                      required
+                    />
+                  </div>
 
           {formData.profession === "Working Professional" && (
             <div className="col-span-1 md:col-span-2">
