@@ -90,19 +90,28 @@ const Pricing = () => {
     }
   
     try {
-      const response = await API.post("pricing/submit-pricing", requestBody);
+      const response = await fetch("http://localhost:8000/api/v1/pricing/submit-pricing", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+  
+      const data = await response.json(); // parse the response body
   
       if (response.status === 200) {
         setIsSubmitted(true);
         window.location.href = "https://www.facebook.com/toletglobe/?_rdr";
       } else {
-        alert(response.data?.msg || "Submission failed.");
+        alert(data.msg || "Submission failed.");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("An error occurred while submitting the form.");
     }
   };
+  
   
   
 
