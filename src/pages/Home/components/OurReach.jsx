@@ -28,7 +28,7 @@ const useVisibility = () => {
 };
 
 const StatCard = ({ title, value, suffix, delay, isVisible }) => (
-  <div className="border border-white rounded-xl p-4 h-[86px] lg:h-32 flex flex-col justify-center items-start gap-1.5 min-w-[119px] w-full lg:max-w-60">
+<div className="border border-white rounded-xl p-4 h-[86px] lg:h-32 flex flex-col justify-center items-start gap-1.5 min-w-[119px] w-full lg:max-w-60 hover:scale-105 transition-transform duration-200 ease-in-out">
     <h3 className="text-white text-xs md:text-sm lg:text-lg font-normal font-poppins w-full truncate">
       {title}
     </h3>
