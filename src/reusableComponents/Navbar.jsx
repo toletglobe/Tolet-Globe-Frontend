@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { logout } from "../redux/store/authSlice";
 
-import { IoIosClose, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { IoIosClose, IoIosArrowForward, IoIosArrowBack, IoIosInformationCircleOutline } from "react-icons/io";
 import {
   HiUser,
-  HiOutlineHome,
-  HiOutlineSpeakerphone,
-  HiPhone,
-  HiOutlineInformationCircle,
   HiOutlineDocumentText,
 } from "react-icons/hi";
+import { CiHome } from "react-icons/ci";
+import { LuPhone } from "react-icons/lu";
+import { FaRss } from "react-icons/fa";
 import {
   Bars3Icon,
   ComputerDesktopIcon,
@@ -28,6 +27,7 @@ import { MdLockOutline } from "react-icons/md";
 
 import logo from "../assets/navbar/logo.png";
 import userIcon from "../assets/propertyListing/user-icon.png";
+import guestIcon from "../assets/navbar/guestProfile.webp"
 
 const Navbar = () => {
   const authState = useSelector((state) => state.auth);
@@ -58,10 +58,10 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { label: "Home", path: "/", icon: HiOutlineHome },
-    { label: "Blog", path: "/blog", icon: HiOutlineSpeakerphone },
-    { label: "Contact", path: "/contact", icon: HiPhone },
-    { label: "About", path: "/aboutus", icon: HiOutlineInformationCircle },
+    { label: "Home", path: "/", icon: CiHome },
+    { label: "About Us", path: "/aboutus", icon: IoIosInformationCircleOutline },
+    { label: "Blog", path: "/blog", icon: FaRss },
+    { label: "Contact", path: "/contact", icon: LuPhone },
     {
       label: "Property Listing",
       path: "/property-listing",
@@ -71,10 +71,10 @@ const Navbar = () => {
 
   // sidebar start
   const linkStyle_1 =
-    "sm:rounded-md px-[14px] py-[10px] max-w-[100%] text-xl flex items-center gap-x-4 cursor-pointer md:max-w-[320px] md:min-h-[45px]";
+    "sm:rounded-md px-3.5 py-2.5 max-w-full text-xl flex items-center gap-x-4 cursor-pointer md:max-w-80 md:min-h-11";
 
   const linkStyle_2 =
-    "sm:rounded-md px-[14px] py-[10px] flex items-center gap-x-4 cursor-pointer";
+    "sm:rounded-md px-3.5 py-2.5 flex items-center gap-x-4 cursor-pointer";
 
   const [toggelSetting, setToggelSetting] = useState(false);
   const settingsRef = useRef(null);
@@ -103,7 +103,7 @@ const Navbar = () => {
   // sidebar end
 
   return (
-    <div className="fixed top-0 w-full bg-[#232323] lg:bg-black flex items-center p-4 z-50 h-[63px] lg:h-[62px] justify-between pt-6">
+    <div className="fixed top-0 w-full bg-[#232323] lg:bg-black flex items-center p-4 z-50 h-16 justify-between pt-6">
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => {
@@ -198,7 +198,7 @@ const Navbar = () => {
       >
         <div className="">
           <div
-            className={`max-sm:pt-1 w-[100%] h-[100%] absolute sm:h-[100%] sm:w-[100%] bg-[#232323] sm:bg-black text-white sm:p-2 flex flex-col sm:relative sm:top-0 sm:left-0 lg:p-5 z-50 pl-0  transition-all duration-200 ${
+            className={`max-sm:pt-1 w-full h-full absolute sm:h-full sm:w-full bg-[#232323] sm:bg-black text-white sm:p-2 flex flex-col sm:relative sm:top-0 sm:left-0 lg:p-5 z-50 pl-0  transition-all duration-200 ${
               sidebar
                 ? "translate-x-[0%] w-[100%] visible"
                 : "translate-x-[100%] invisible w-0"
@@ -481,30 +481,43 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <button
-              onClick={() => {
-                navigate("/login");
-                setShowMenu(false);
-              }}
-              className="mt-3 bg-teal-500 text-white px-4 py-1 w-5/6 rounded-full"
-            >
-              Login
-            </button>
+            <div className="flex flex-col items-center justify-center w-full h-full px-1 py-2">
+              <div className="flex items-start  w-full gap-x-2">
+                {/* profile */}
+                <img src={guestIcon} alt="Guest Profile" className="w-20 h-20 filter invert brightness-0" />
+
+                <div className="my-auto">
+                <p className="text-lg font-semibold">
+                  Guest Profile
+                </p>
+                <p className="text-sm font-normal">Welcome</p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  navigate("/login");
+                  setShowMenu(false);
+                }}
+                className="mt-3 bg-teal-500 text-white w-full px-1 py-1.5 rounded-lg"
+              >
+                Login / Register
+              </button>
+            </div>
           )}
 
-          <button>
+          <button className="pb-10">
             <IoIosArrowForward size={25} />
           </button>
         </div>
 
-        <ul className="flex flex-col gap-4 mt-5 px-5 text-lg">
+        <ul className="flex flex-col gap-5 mt-5 px-5 text-lg">
           {navLinks.map((link, index) => (
             <NavLink
               key={index}
               onClick={() => setShowMenu(false)}
               to={link.path}
             >
-              <div className="flex items-center gap-x-3">
+              <div className="flex items-center gap-x-3 hover:text-teal-500">
                 <p>
                   <link.icon size={25} />
                 </p>
