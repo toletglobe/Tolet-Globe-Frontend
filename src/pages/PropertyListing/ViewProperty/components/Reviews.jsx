@@ -17,10 +17,10 @@ const Reviews = ({ property }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalReviews, setTotalReviews] = useState([]);
-  const [stayDuration, setStayDuration] = useState("");
+  // const [stayDuration, setStayDuration] = useState("");
   const [likesAboutLocality, setLikesAboutLocality] = useState("");
-  const [dislikesAboutLocality, setDislikesAboutLocality] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  // const [dislikesAboutLocality, setDislikesAboutLocality] = useState("");
+  // const [selectedFiles, setSelectedFiles] = useState([]);
   const reviewsPerPage = 2;
   const navigate = useNavigate();
 
@@ -83,9 +83,9 @@ const Reviews = ({ property }) => {
       formData.append("firstName", authState.userData.firstName);
       formData.append("lastName", authState.userData.lastName);
       formData.append("userRating", rating);
-      formData.append("stayDuration", stayDuration);
+      // formData.append("stayDuration", stayDuration);
       formData.append("likesAboutLocality", likesAboutLocality);
-      formData.append("dislikesAboutLocality", dislikesAboutLocality);
+      // formData.append("dislikesAboutLocality", dislikesAboutLocality);
 
       selectedFiles.forEach((file) => {
         formData.append("media", file);
@@ -100,10 +100,10 @@ const Reviews = ({ property }) => {
 
       const fetchedReviews = await API.get(`reviews/${property._id}`);
       setRating(0);
-      setStayDuration("");
+      // setStayDuration("");
       setLikesAboutLocality("");
-      setDislikesAboutLocality("");
-      setSelectedFiles([]);
+      // setDislikesAboutLocality("");
+      // setSelectedFiles([]);
       setShowReviewForm(false);
       setTotalReviews(fetchedReviews.data.reviews);
     } catch (error) {
@@ -131,7 +131,7 @@ const Reviews = ({ property }) => {
   return (
     <div className="w-full p-6 bg-white shadow-lg rounded-2xl ">
       <h1 className="text-2xl text-center my-4 lg:text-left lg:mx-8 lg:my-4 font-bold text-black">
-        All Reviews
+        Reviews
       </h1>
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6 ">
         <div className="flex flex-col lg:gap-4  items-center  w-full lg:w-1/2 px-2 p-12 lg:p-0 lg:px-4 border border-black rounded-lg shadow-md bg-white justify-center">
@@ -192,14 +192,7 @@ const Reviews = ({ property }) => {
                   authState.status === true &&
                   localStorage.getItem("token")
                 ) {
-                  const screenWidth = window.innerWidth;
-                  if (screenWidth < 768) {
-                    // Small screen
-                    navigate("/property/reviews"); // Replace with the desired page
-                  } else {
-                    // md, lg, xl screens
                     setShowReviewForm(!showReviewForm);
-                  }
                 } else {
                   toast.error("Please Log In first");
                   navigate("/login");
@@ -354,9 +347,7 @@ const Reviews = ({ property }) => {
         </div>
       )}
 
-      {/* <h2 className="lg:text-4xl text-xl font-bold mb-4 lg:mx-8 items-start">
-        All Reviews
-      </h2> */}
+     
       <ul className="list-none p-0">
         {currentReviews.length > 0 ? (
           currentReviews.map((review) => (
@@ -393,15 +384,15 @@ const Reviews = ({ property }) => {
                   className="mt-4 w-[150px] h-[150px]"
                 /> */}
               </div>
-              <div className="text-xl w-[70%] lg:h-[100px] lg:-mt-16 flex-1 flex-wrap">
-                {/* <p>Stay Duration: {review.stayDuration}</p>
-                <p> Like about the Locality: {review.likesAboutLocality}</p> */}
-                <p className="lg:mt-[5rem] lg:ml-[0.8rem] xl:mt-[5rem] xl:ml-[0.8rem] text-[1rem] lg:text-[1.2rem]">
+              {/* <div className="text-xl w-[70%] lg:h-[100px] lg:-mt-16 flex-1 flex-wrap">
+                <p>Stay Duration: {review.stayDuration}</p>
+                <p> Like about the Locality: {review.likesAboutLocality}</p>
+                <p className="lg:mt-[5rem] lg:ml-[0.8rem] xl:mt-[5rem] xl:ml-[0.8rem] text-[1rem] lg:text-[1.2rem]"> */}
                   {/* Don't like about the Locality: */}
-                  {review.dislikesAboutLocality}
+                  {/* {review.dislikesAboutLocality}
                 </p>
-                {/* <p>{review.comment}</p> */}
-              </div>
+                <p>{review.comment}</p>
+              </div> */}
             </li>
           ))
         ) : (
