@@ -11,6 +11,8 @@ import MainLayout from "../layouts/MainLayout";
 import PrivateRoute from "./PrivateRoute";
 
 const Home = lazy(() => import("../pages/Home/Home.jsx"));
+const VerifyAccount = lazy(() => import("../pages/VerifyAccount/VerifyAccount.jsx"));
+
 const Blog = lazy(() => import("../pages/Blog/Blog.jsx"));
 const BlogView = lazy(() => import("../pages/Blog/BlogView.jsx"));
 const Contact = lazy(() => import("../pages/Contact/Contact.jsx"));
@@ -77,6 +79,7 @@ const Routing = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/twitter" element={<Twitter />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/verify/:token" element={<VerifyAccount />} />
 
           {/* Authenticated Route */}
           <Route
