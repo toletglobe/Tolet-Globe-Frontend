@@ -505,7 +505,7 @@ const Navbar = () => {
             </div>
           )}
 
-          <button className="pb-10">
+          <button className={`${userInfo.firstName ? "" : "pb-10"}`}>
             <IoIosArrowForward size={25} />
           </button>
         </div>
