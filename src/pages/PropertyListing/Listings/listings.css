@@ -1,5 +1,5 @@
 .property-list {
-  @apply grid grid-cols-1 gap-8 p-4 md:grid-cols-1 lg:grid-cols-3;
+  @apply grid grid-cols-1 gap-8 px-4 pb-8 pt-0 md:grid-cols-1 lg:grid-cols-3;
 }
 .property-list a {
   @apply no-underline text-[black];

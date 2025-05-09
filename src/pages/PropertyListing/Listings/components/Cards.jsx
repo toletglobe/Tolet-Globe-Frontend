@@ -189,8 +189,8 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
   };
 
   return (
-    <div>
-      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-12 p-4">
+    <div className="">
+      <ul className="property-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-12 ">
         {norm.map((property) => (
           <li
             key={property._id}

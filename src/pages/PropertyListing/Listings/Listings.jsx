@@ -19,8 +19,10 @@ import "./listings.css";
 import { API } from "../../../config/axios";
 
 const Listing = () => {
+  const isLoggedIn = useSelector((state) => state.auth.status); 
   const { city } = useParams();
   const navigate = useNavigate();
+  
 
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
@@ -466,6 +468,17 @@ const Listing = () => {
       navigate("/login");
     }
   };
+
+  const handleCompareClick = () => {
+    if (!isLoggedIn) {
+      navigate("/login", { state: { from: location.pathname } });
+      return;
+    }
+  
+    // your compare logic
+    compare();
+  };
+
   const compare = () => {
     navigate("/compare-property");
   };
@@ -494,7 +507,7 @@ const Listing = () => {
         className="property h-[100vh] pb-14 lg:px-12 w-full overflow-y-auto"
         id="property"
       >
-        <div className="flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
+        <div className="flex flex-col gap-6 pt-6 pb-2 sticky  top-0 z-20 bg-black">
           <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 text-sm md:text-lg">
             <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md lg:w-full w-[96%] mx-[2%] ">
               <div className="flex flex-wrap items-center text-black  text-sm md:text-lg">
@@ -802,7 +815,7 @@ const Listing = () => {
 
             <div className="sm:col-span-4 md:col-span-4 flex w-fit xs:w-[50%]  items-center justify-center lg:justify-between -mt-[76px] ml-[98px] xs:[96px] lg:ml-4 lg:mt-0">
               {compareProperty.length >= 1 && (
-                <div className="compare" onClick={compare}>
+                <div className="compare" onClick={handleCompareClick}>
                   <button
                     className={`bg-white h-11 sm:h-14 w-32 text-black cursor-pointer rounded-lg flex gap-5 text-center items-center px-6 lg:py-7 font-medium ${
                       compareProperty.length <= 0
@@ -841,8 +854,8 @@ const Listing = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`absolute top-0  right-0 w-full lg:w-fit h-full lg:h-auto bg-black text-white shadow-lg transition-transform duration-300 ease-in-out transform z-40 
-      ${isOpen ? "translate-x-0" : "translate-x-full"} 
+            className={`absolute top-0 right-0 w-full lg:w-fit h-full lg:h-auto bg-black text-white shadow-lg transition-transform duration-300 ease-in-out transform z-40 
+      ${isOpen ? "translate-x-0" : "translate-x-full "} 
       sm:relative sm:w-full sm:h-auto sm:translate-x-0 sm:bg-transparent sm:shadow-none sm:block`}
           >
             <div className="lg:p-0 lg:absolute lg:-top-[35rem] 2xl:-top-[34rem] lg:left-[11rem] 2xl:left-[11rem]">
@@ -864,7 +877,7 @@ const Listing = () => {
             </div>
           </div>
         </div>
-        <div className="pt-3">
+        <div className="pt-2">
           {properties.length === 0 ? (
             <p className="text-center text-lg font-semibold mt-10">
               No properties found
