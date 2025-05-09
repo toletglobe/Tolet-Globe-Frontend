@@ -15,7 +15,7 @@ const Service = () => {
       bg: "bg-[#6CC1B6]",
       path: "/property-listing?residential=PG",
       description:
-        "Find budget-friendly and convenient paying guest accommodations for a comfortable stay away from home",
+        "Find budget-friendly and convenient paying guest accommodations for a comfortable stay away from home.",
     },
     {
       img: flat,
@@ -23,7 +23,7 @@ const Service = () => {
       bg: "bg-[#CCB454]",
       path: "/property-listing?residential=Flat",
       description:
-        "Discover a diverse range of apartments for rent, customize to suit your lifestyle and budget",
+        "Discover a diverse range of apartments for rent, customize to suit your lifestyle and budget.",
     },
     {
       img: house,
@@ -31,7 +31,7 @@ const Service = () => {
       bg: "bg-[#6CC1B6]",
       path: "/property-listing?residential=House",
       description:
-        "Search for your dream home, available for rent or sale, tailored to your lifestyle and preferences",
+        "Search for your dream home, available for rent or sale, tailored to your lifestyle and preferences.",
     },
     {
       img: shop,
@@ -39,7 +39,7 @@ const Service = () => {
       bg: "bg-[#CCB454]",
       path: "/property-listing?commercial=Shop",
       description:
-        "Explore a variety of retail spaces and shops available for lease, ideal for growing your business",
+        "Explore a variety of retail spaces and shops available for lease, ideal for growing your business.",
     },
     {
       img: office,
@@ -47,7 +47,7 @@ const Service = () => {
       bg: "bg-[#6CC1B6]",
       path: "/property-listing?commercial=Office",
       description:
-        "Elevate your workspace and productivity with modern office spaces for rent, designed for success",
+        "Elevate your workspace and productivity with modern office spaces for rent, designed for success.",
     },
     {
       img: warehouse,
@@ -55,7 +55,7 @@ const Service = () => {
       bg: "bg-[#CCB454]",
       path: "/property-listing?commercial=Warehouse",
       description:
-        "Secure the perfect godown space for rent, offering ample storage and logistics solutions",
+        "Secure the perfect godown space for rent, offering ample storage and logistics solutions.",
     },
   ];
 

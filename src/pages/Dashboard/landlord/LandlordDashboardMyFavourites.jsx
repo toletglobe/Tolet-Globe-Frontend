@@ -156,17 +156,6 @@ export default function MyProperties() {
         <h1 className="text-2xl md:text-3xl font-bold sm:text-left text-center text-white ml-4">
           Favourites
         </h1>
-        {/* <div className="my-4 md:my-6 flex sm:hidden gap-3 items-center justify-start ml-4">
-          <div className="bg-gray-300 py-2 px-3 md:px-5 md:py-2  rounded-xl ">
-            <h2 className="text-black md:text-[18px]">Most recent</h2>
-          </div>
-          <div className="bg-gray-300 py-2 px-3 md:px-5 md:py-2 rounded-xl">
-            <span className="text-black md:text-[18px]">A-Z</span>
-          </div>
-          <div className="bg-gray-300 py-2 px-3 md:px-5 md:py-2 rounded-xl">
-            <span className="text-black md:text-[18px]">Z-A</span>
-          </div>
-        </div> */}
         {favouriteProperties.length > 0 ? (
           <>
             {/* THIS CODE WILL ALSO GENERATE FAVARIOUT CARDS AND ALSO SHOW ONLY 3 CARDS IN THE STARTING NO MATTER HOW MAY PROPRTIES ARE ADDED AS FAVRIOUTES */}
@@ -198,13 +187,12 @@ export default function MyProperties() {
                           removeFromFavorites(property._id);
                         }}
                       >
-                        {/* <FaHeart className="card_icon text-red-500 bg-[#3E3E3E4D] relative" /> */}
                         <CiHeart className="bg-[#3E3E3E4D] relative text-red-600 mt-1 h-[20px] w-[20px] p-[3px]" />
                         <div className="absolute hidden group-hover:block bg-gray-800 text-white text-sm py-1 px-2 rounded -left-7 -top-9 whitespace-nowrap">
                           Remove
                         </div>
                       </a>
-                        {/* SHORTLIST FOR VISIT */}
+                      {/* SHORTLIST FOR VISIT */}
                       <Popup
                         trigger={
                           <a
@@ -294,9 +282,7 @@ export default function MyProperties() {
                         )}
                       </Popup>
 
-                      {/* <a href="#" className="relative left-[14px]">
-                        <MdMoreVert className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1" />
-                      </a> */}
+                      {/* More Options (Three Dots) */}
                       <div className="relative group " 
                         style={{ width: "25px", height: "25px", left: "7px" }}
                       >

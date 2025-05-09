@@ -6,6 +6,8 @@ import drop from "../../../../assets/propertyListing/drop.png";
 import SelectLocation from "./SelectLocation";
 import { FaSearch } from "react-icons/fa";
 import areas from "./areas";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const citylocalities = {
   Lucknow: ["Gomti Nagar", "Aliganj", "Indira Nagar", "Chinhat", "Hazratganj"],
@@ -128,6 +130,7 @@ const HomeLap = () => {
 
   return (
     <div className="relative h-screen">
+      <ToastContainer />
       <div className="flex justify-center items-center h-full mb-20 mt-16">
         <div className="w-10/12 md:w-8/12 lg:w-6/12">
           <h1
@@ -146,7 +149,7 @@ const HomeLap = () => {
                 : "left-[30%] top-[17rem] lg:top-[38vh] opacity-0"
             } `}
           >
-            <span className="max-sm:block">NO BROKERAGE ON </span>
+            <span className="max-sm:block">NO BROKERAGES ON </span>
             <span className="max-sm:block">PGS | FLATS | HOUSES | OFFICES</span>
           </h6>
           <div
@@ -187,13 +190,16 @@ const HomeLap = () => {
                     value={searchQuery}
                     onClick={(e) => {
                       if (!city) {
-                        alert("Please select a city first");
+                        toast.error("Please select a city first",
+                          { position: "top-center", }
+                        );
                         return;
                       }
                     }}
                     onChange={handleSearch}
                     className="w-full outline-none py-2 text-gray-700 placeholder-gray-400 bg-transparent"
                   />
+                  
                 </div>
               </div>
 

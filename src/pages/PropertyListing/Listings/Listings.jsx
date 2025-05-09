@@ -9,6 +9,9 @@ import { FaSearch } from "react-icons/fa";
 import drop from "../../../assets/propertyListing/drop.png";
 import areas from "./areas";
 
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 import SelectLocation from "./components/SelectLocation";
 import Filters from "./components/Filters";
 import Cards from "./components/Cards";
@@ -494,6 +497,7 @@ const Listing = () => {
         className="property h-[100vh] pb-14 lg:px-12 w-full overflow-y-auto"
         id="property"
       >
+        <ToastContainer/>
         <div className="flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
           <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 text-sm md:text-lg">
             <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md lg:w-full w-[96%] mx-[2%] ">
@@ -606,7 +610,9 @@ const Listing = () => {
                       value={searchQuery}
                       onClick={(e) => {
                         if (!city) {
-                          alert("Please select a city first");
+                          toast.error("Please select a city first",
+                            { position: "top-center", }
+                          );
                           return;
                         }
                       }}
