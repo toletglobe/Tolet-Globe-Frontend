@@ -48,29 +48,51 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("auth/register", {
-        firstName,
-        lastName,
-        email,
-        password,
-        phone,
-        role,
-        userType,
-        answer,
+      const res = await fetch("http://localhost:8000/api/v1/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+          phone,
+          role,
+          userType,
+          answer,
+        }),
       });
-      console.log(res);
-      if (res.data) {
+  
+      // Check if the response status is not okay (not in the 2xx range)
+      if (!res.ok) {
+        const errorData = await res.json();
+        toast.error(errorData?.message || "Unexpected error occurred.");
+        return;
+      }
+  
+      // Parse the response to JSON
+      const data = await res.json();
+  
+      if (data?.message?.toLowerCase().includes("verification")) {
         resetFields();
-        toast.success("Check email for verification link");
+        toast.success("Registration successful! Please check your email to verify your account.");
         setTimeout(() => {
           navigate("/login");
         }, 3000);
+      } else {
+        toast.error(data?.message || "Unexpected response. Please try again.");
       }
     } catch (error) {
-      toast.error("Registration failed");
-      console.log(error.response.data);
+      // Handling fetch-specific errors (e.g., network issues)
+      toast.error("Registration failed. Please try again.");
+      console.error("Registration error:", error);
     }
   };
+  
+  
+  
 
   return (
     <div
