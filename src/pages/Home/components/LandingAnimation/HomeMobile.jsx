@@ -199,7 +199,7 @@ const HomeMobile = () => {
             <h1 className="text-2xl font-bold text-white mt-12">
               Welcome to To-Let Globe
             </h1>
-            <p className="text-[#3cbdb1] text-lg">
+            <p className="text-[#3cbdb1] text-base md:text-lg ml-1 md:ml-0">
               NO BROKERAGES ON
               <TypewriterEffect /> {/* Integrated Typewriter Effect */}
             </p>

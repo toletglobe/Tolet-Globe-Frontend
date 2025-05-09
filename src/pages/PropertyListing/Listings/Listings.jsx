@@ -494,10 +494,11 @@ const Listing = () => {
         className="property h-[100vh] pb-14 lg:px-12 w-full overflow-y-auto"
         id="property"
       >
-        <div className="flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
+        <div className="flex flex-col gap-6 pt-6 sticky top-0 z-20 bg-black">
           <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 text-sm md:text-lg">
             <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md lg:w-full w-[96%] mx-[2%] ">
               <div className="flex flex-wrap items-center text-black  text-sm md:text-lg">
+                {/* Select city dropdown */}
                 <div
                   className="flex items-center gap-4 px-3 py-2 my-1  shrink-0 border-r border-black"
                   onClick={handleLocation}
@@ -519,6 +520,7 @@ const Listing = () => {
                   />
                 </div>
 
+                {/* Select area searchbar */}
                 <div className="flex-1 min-w-0 flex items-center gap-2 px-4 lg:px-8 my-1 text-sm md:text-lg">
                   <FaSearch className="text-black shrink-0" />
                   <div className="flex flex-wrap items-center gap-1 py-2 w-full overflow-x-hidden">
