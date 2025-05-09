@@ -71,7 +71,7 @@ const Login = ({ setUserInfo }) => {
   };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center">
+    <div className="w-full min-h-screen flex justify-center items-center pb-20">
       <form onSubmit={handleSubmit}>
         <div className="login_form_container">
           <div className="login_form">

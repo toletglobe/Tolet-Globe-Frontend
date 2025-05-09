@@ -135,12 +135,15 @@ const Register = () => {
           <div className="mt-10 flex items-center">
             <FaPhoneAlt className="ml-3 text-white" />
             <input
-              type="number"
+              type="tel"
               placeholder="Phone Number"
               className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
               autoComplete="off"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                setPhone(numericValue);
+              }}
               required
             />
           </div>
