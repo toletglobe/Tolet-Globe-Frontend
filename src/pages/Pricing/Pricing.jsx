@@ -120,7 +120,8 @@ const Pricing = () => {
       <div className="max-w-7xl mx-auto text-center">
         <h1 className="text-4xl font-bold mb-4">Choose Your Perfect Plan</h1>
         <p className="text-gray-400 mb-12 max-w-2xl mx-auto">
-          Find your ideal property with our flexible subscription options.
+          Find your ideal property with our flexible subscription options. Whether you're
+          looking for a free experience or premium support, we've got you covered.
         </p>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -163,205 +164,203 @@ const Pricing = () => {
 
         {/* Subscription Form Modal */}
         {showForm && (
-  <div className="fixed inset-0 bg-slate-700 bg-opacity-50 flex items-center justify-center z-50">
-    {isSubmitted ? (
-      <div className=" bg-slate-900 rounded-2xl p-8 w-11/12 md:w-1/3 text-center text-white">
-        <div className="flex flex-col items-center ">
-          <div className="bg-green-100 rounded-full p-4 mb-6">
-            <svg
-              className="h-8 w-8 text-green-400"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <p className="text-lg mb-6 leading-relaxed">
-            Thank you for booking your visit. Our representative will contact you shortly to confirm the details.
-          </p>
-          <button
-            onClick={handleCancel}
-            className="bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-2 rounded-lg font-semibold transition duration-200"
-          >
-            OK
-          </button>
+        <div className="fixed inset-0 bg-slate-700 bg-opacity-50 flex items-center justify-center z-50">
+          {isSubmitted ? (
+            <div className=" bg-slate-900 rounded-2xl p-8 w-11/12 md:w-1/3 text-center text-white">
+              <div className="flex flex-col items-center ">
+                <div className="bg-green-100 rounded-full p-4 mb-6">
+                  <svg
+                    className="h-8 w-8 text-green-400"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-lg mb-6 leading-relaxed">
+                  Thank you for booking your visit. Our representative will contact you shortly to confirm the details.
+                </p>
+                <button
+                  onClick={handleCancel}
+                  className="bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-2 rounded-lg font-semibold transition duration-200"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-slate-900 rounded-3xl p-8 w-11/12 md:w-3/4 lg:w-1/2 relative text-black max-h-[90vh] overflow-y-auto shadow-2xl">
+              <button
+                onClick={handleCancel}
+                className="absolute top-4 right-4 text-gray-500 text-3xl hover:text-gray-700 transition"
+              >
+                &times;
+              </button>
+              <h2 className="text-3xl font-bold mb-4 text-center sm:text-left text-white">
+                {selectedPlan?.title} 
+              </h2>
+              <p className="text-center sm:text-left text-white mb-8">
+                Please fill in your details to start your subscription
+              </p>
+
+              <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
+                {/* Input Fields */}
+                {[
+                  { name: "firstName", label: "First Name", type: "text" },
+                  { name: "lastName", label: "Last Name", type: "text" },
+                  { name: "email", label: "Email ID", type: "email" },
+                  { name: "phone", label: "Phone Number", type: "tel" },
+                ].map(({ name, label, type }) => (
+                  <div key={name}>
+                    <label className="block text-sm font-semibold text-white mb-1">{label}</label>
+                    <input
+                      type={type}
+                      name={name}
+                      value={formData[name]}
+                      onChange={handleInputChange}
+                      className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                      placeholder={label}
+                      required
+                    />
+                  </div>
+                ))}
+
+                {/* Staying With */}
+                <div>
+                  <label className="block text-sm font-semibold text-white mb-1">Staying With</label>
+                  <select
+                    name="stayingWith"
+                    value={formData.stayingWith}
+                    onChange={handleInputChange}
+                    className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                    required
+                  >
+                    <option value="">Select option</option>
+                    <option>Friends</option>
+                    <option>Family</option>
+                    <option>Alone</option>
+                  </select>
+                </div>
+
+                {/* Profession */}
+                <div>
+                  <label className="block text-sm font-semibold text-white mb-1">Profession *</label>
+                  <select
+                    name="profession"
+                    value={formData.profession}
+                    onChange={handleInputChange}
+                    className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                    required
+                  >
+                    <option value="">Select profession</option>
+                    <option>Student</option>
+                    <option>Working Professional</option>
+                    <option>Business</option>
+                  </select>
+                </div>
+
+                {/* Conditional Fields */}
+                {formData.profession === "Student" && (
+                  <div className="col-span-1 md:col-span-2">
+                    <label className="block text-sm font-semibold text-white mb-1 ">College Name</label>
+                    <input
+                      type="text"
+                      name="college"
+                      value={formData.college || ""}
+                      onChange={handleInputChange}
+                      className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                      placeholder="Enter your college name"
+                    />
+                  </div>
+                )}
+
+                {formData.profession === "Working Professional" && (
+                  <div className="col-span-1 md:col-span-2">
+                    <label className="block text-sm font-semibold text-white mb-1">About Company</label>
+                    <input
+                      type="text"
+                      name="company"
+                      value={formData.company || ""}
+                      onChange={handleInputChange}
+                      className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                      placeholder="Enter your company name"
+                    />
+                  </div>
+                )}
+
+                {formData.profession === "Business" && (
+                  <div className="col-span-1 md:col-span-2">
+                    <label className="block text-sm font-semibold text-white mb-1">About Business</label>
+                    <input
+                      type="text"
+                      name="business"
+                      value={formData.business || ""}
+                      onChange={handleInputChange}
+                      className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                      placeholder="Enter your business details"
+                    />
+                  </div>
+                )}
+
+              
+
+                {/* Date & Time */}
+                <div>
+                  <label className="block text-sm font-semibold text-white mb-1">Date of Visit</label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      name="dateOfVisit"
+                      value={formData.dateOfVisit}
+                      onChange={handleInputChange}
+                      className="w-full p-3 pr-10 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                      required
+                    />
+                    <div className="absolute inset-y-0 right-3 flex items-center text-gray-500">
+                      <FaRegCalendarAlt className="h-5 w-5" />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-white mb-1">Time Slot</label>
+                  <select
+                    name="timeSlot"
+                    value={formData.timeSlot}
+                    onChange={handleInputChange}
+                    className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                    required
+                  >
+                    <option value="">Select time slot</option>
+                    <option>10:00 AM - 12:00 PM</option>
+                    <option>12:00 PM - 2:00 PM</option>
+                    <option>2:00 PM - 4:00 PM</option>
+                    <option>4:00 PM - 6:00 PM</option>
+                  </select>
+                </div>
+
+                {/* Buttons */}
+                <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row gap-4 mt-4">
+                  <button
+                    type="submit"
+                    className="flex-1 py-3 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-black font-semibold transition duration-200"
+                  >
+                    {selectedPlan?.buttonText || "Get Started"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCancel}
+                    className="flex-1 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 text-slate-800 font-semibold transition duration-200"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
         </div>
-      </div>
-    ) : (
-      <div className="bg-slate-900 rounded-3xl p-8 w-11/12 md:w-3/4 lg:w-1/2 relative text-black max-h-[90vh] overflow-y-auto shadow-2xl">
-        <button
-          onClick={handleCancel}
-          className="absolute top-4 right-4 text-gray-500 text-3xl hover:text-gray-700 transition"
-        >
-          &times;
-        </button>
-        <h2 className="text-3xl font-bold mb-4 text-center text-white">
-          {selectedPlan?.title} Subscription
-        </h2>
-        <p className="text-center text-white mb-6">
-          Please fill in your details to start your subscription
-        </p>
-
-        <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
-          {/* Input Fields */}
-          {[
-            { name: "firstName", label: "First Name", type: "text" },
-            { name: "lastName", label: "Last Name", type: "text" },
-            { name: "email", label: "Email ID", type: "email" },
-            { name: "phone", label: "Phone Number", type: "tel" },
-          ].map(({ name, label, type }) => (
-            <div key={name}>
-              <label className="block text-sm font-semibold text-white mb-1">{label}</label>
-              <input
-                type={type}
-                name={name}
-                value={formData[name]}
-                onChange={handleInputChange}
-                className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                placeholder={label}
-                required
-              />
-            </div>
-          ))}
-
-          {/* Staying With */}
-          <div>
-            <label className="block text-sm font-semibold text-white mb-1">Staying With</label>
-            <select
-              name="stayingWith"
-              value={formData.stayingWith}
-              onChange={handleInputChange}
-              className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-              required
-            >
-              <option value="">Select option</option>
-              <option>Friends</option>
-              <option>Family</option>
-              <option>Alone</option>
-            </select>
-          </div>
-
-          {/* Profession */}
-          <div>
-            <label className="block text-sm font-semibold text-white mb-1">Profession *</label>
-            <select
-              name="profession"
-              value={formData.profession}
-              onChange={handleInputChange}
-              className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-              required
-            >
-              <option value="">Select profession</option>
-              <option>Student</option>
-              <option>Working Professional</option>
-              <option>Business</option>
-            </select>
-          </div>
-
-          {/* Conditional Fields */}
-          {formData.profession === "Student" && (
-            <div className="col-span-1 md:col-span-2">
-              <label className="block text-sm font-semibold text-white mb-1 ">College Name</label>
-              <input
-                type="text"
-                name="college"
-                value={formData.college || ""}
-                onChange={handleInputChange}
-                className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                placeholder="Enter your college name"
-              />
-            </div>
-          )}
-
-          {formData.profession === "Working Professional" && (
-            <div className="col-span-1 md:col-span-2">
-              <label className="block text-sm font-semibold text-white mb-1">About Company</label>
-              <input
-                type="text"
-                name="company"
-                value={formData.company || ""}
-                onChange={handleInputChange}
-                className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                placeholder="Enter your company name"
-              />
-            </div>
-          )}
-
-          {formData.profession === "Business" && (
-            <div className="col-span-1 md:col-span-2">
-              <label className="block text-sm font-semibold text-white mb-1">About Business</label>
-              <input
-                type="text"
-                name="business"
-                value={formData.business || ""}
-                onChange={handleInputChange}
-                className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                placeholder="Enter your business details"
-              />
-            </div>
-          )}
-
-         
-
-          {/* Date & Time */}
-          <div>
-  <label className="block text-sm font-semibold text-white mb-1">Date of Visit</label>
-  <div className="relative">
-    <input
-      type="date"
-      name="dateOfVisit"
-      value={formData.dateOfVisit}
-      onChange={handleInputChange}
-      className="w-full p-3 pr-10 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-      required
-    />
-    <div className="absolute inset-y-0 right-3 flex items-center text-gray-500">
-      <FaRegCalendarAlt className="h-5 w-5" />
-    </div>
-  </div>
-</div>
-          <div>
-            <label className="block text-sm font-semibold text-white mb-1">Time Slot</label>
-            <select
-              name="timeSlot"
-              value={formData.timeSlot}
-              onChange={handleInputChange}
-              className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-              required
-            >
-              <option value="">Select time slot</option>
-              <option>10:00 AM - 12:00 PM</option>
-              <option>12:00 PM - 2:00 PM</option>
-              <option>2:00 PM - 4:00 PM</option>
-              <option>4:00 PM - 6:00 PM</option>
-            </select>
-          </div>
-
-          {/* Buttons */}
-          <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row gap-4 mt-4">
-            <button
-              type="submit"
-              className="flex-1 py-3 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-black font-semibold transition duration-200"
-            >
-              {selectedPlan?.buttonText || "Get Started"}
-            </button>
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="flex-1 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 text-slate-800 font-semibold transition duration-200"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    )}
-  </div>
-)}
-
-        
+      )}      
       </div>
     </div>
   );
