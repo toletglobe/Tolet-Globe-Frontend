@@ -268,7 +268,7 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
                    />
               </button>
             }
-            position={"bottom center"}
+            position={"bottom right"}
           >
             {(close) => (
               <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
