@@ -29,7 +29,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex justify-center mt-10 mb-24 mx-auto">
+    <div className="flex justify-center my-5 mx-auto">
       <div className="bg-white/20 rounded-md px-2 py-1 flex justify-center gap-3">
         {/* Previous Button */}
         <Button
