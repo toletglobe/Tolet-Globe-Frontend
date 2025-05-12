@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../../StateProvider";
+import { useSelector } from "react-redux";
 import Popup from "reactjs-popup";
+import toast from "react-hot-toast";
 
+import { FaHeart } from "react-icons/fa";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { FaLocationDot, FaRegCopy, FaRegImage, FaVideo } from "react-icons/fa6";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
@@ -16,10 +19,80 @@ import preferences from "../../../assets/propertyListing/preferences.png";
 import bhk from "../../../assets/propertyListing/bhk.png";
 import budget from "../../../assets/propertyListing/budget.png";
 
-export default function CompareProperty() {
+import { API } from "../../../config/axios";
+
+
+export default function CompareProperty({ favouriteList = [], setFavouriteList}) {
   const navigate = useNavigate();
+  const authState = useSelector((state) => state.auth);
   const [{ compareProperty }, dispatch] = useStateValue();
   const [showOnlyDifferences, setShowOnlyDifferences] = useState(false);
+
+  
+  const addToFavourites = async (propertyId) => {
+    console.log(authState);
+
+    try {
+      if (!authState.status) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+
+      console.log(authState.userData.id);
+
+      const token = localStorage.getItem("token");
+
+      const updateddata = await API.post(
+        `user/addToFavourites`,
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Added to favorites!");
+      setFavouriteList([...favouriteList, propertyId]);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add to favorites");
+    }
+  };
+
+  const removeFromFavourites = async (propertyId) => {
+    try {
+      if (!authState.status) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+
+      const token = localStorage.getItem("token");
+
+      await API.post(
+        "user/removeFromFavourites",
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Removed from favorites!");
+      setFavouriteList(favouriteList.filter((id) => id !== propertyId));
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to remove from favorites");
+    }
+  };
+
 
   useEffect(() => {
     if (!compareProperty.length) {
@@ -207,9 +280,36 @@ export default function CompareProperty() {
                             </div>
                           )}
                         </Popup>
-                        <a href="#">
-                          <CiHeart className="card_icon text-red-500" />
-                        </a>
+                        
+                        {/* ADD TO FAVOURITES */}
+                        <Popup
+                          trigger={
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if (favouriteList.includes(property._id)) {
+                                  removeFromFavourites(property._id);
+                                } else {
+                                  addToFavourites(property._id);
+                                }
+                              }}
+                            >
+                              {favouriteList.includes(property._id) ? (
+                                <FaHeart className="card_icon text-red-500" />
+                              ) : (
+                                <CiHeart className="card_icon text-red-500" />
+                              )}
+                            </a>
+                          }
+                          position="top center"
+                          on="hover"
+                          arrow={false}
+                        >
+                          <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                            Favourite
+                          </div>
+                        </Popup>
                       </div>
                     </div>
 
