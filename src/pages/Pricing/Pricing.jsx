@@ -3,6 +3,8 @@ import { plans } from "../../constant_pricing/index.js"; // path for subscriptio
 import { useStateValue } from "../../StateProvider.jsx";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"; // Import CSS for datepicker
+
 
 
 
@@ -25,6 +27,14 @@ const Pricing = () => {
     timeSlot: "",
   });
 
+  const [showCalendar, setShowCalendar] = useState(false);
+
+ 
+
+  const handleDateChange = (date) => {
+    setFormData({ ...formData, dateOfVisit: date });
+    setShowCalendar(false); // Hide calendar after selecting date
+  }
   const handlePlanClick = (plan) => {
     if (plan.price === "₹0") {
       // Open Facebook link in a new tab
@@ -306,23 +316,39 @@ const Pricing = () => {
 
               
 
-                {/* Date & Time */}
-                <div>
-                  <label className="block text-sm font-semibold text-white mb-1">Date of Visit</label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      name="dateOfVisit"
-                      value={formData.dateOfVisit}
-                      onChange={handleInputChange}
-                      className="w-full p-3 pr-10 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                      required
-                    />
-                    <div className="absolute inset-y-0 right-3 flex items-center text-gray-500">
-                      <FaRegCalendarAlt className="h-5 w-5" />
-                    </div>
-                  </div>
-                </div>
+               
+ {/* Date*/}
+<div>
+      <label className="block text-sm font-semibold text-white mb-1">Date of Visit</label>
+      <div className="relative">
+        <input
+          type="text"
+          name="dateOfVisit"
+          placeholder="DD/MM/YYYY"
+          value={formData.dateOfVisit}
+          onChange={handleInputChange}
+          className="w-full p-3 pr-10 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+          required
+        />
+        <div
+          className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+          onClick={() => setShowCalendar(!showCalendar)} // Toggle calendar visibility on icon click
+        >
+          <FaRegCalendarAlt className="h-5 w-5 " />
+        </div>
+
+        {/* Show the DatePicker when the icon is clicked */}
+        {showCalendar && (
+    <div className=""><DatePicker
+            selected={formData.dateOfVisit ? new Date(formData.dateOfVisit) : null}
+            onChange={handleDateChange}
+            inline // Displays calendar inline below the input field
+          /></div>
+        )}
+      </div>
+    </div>
+
+ 
                 <div>
                   <label className="block text-sm font-semibold text-white mb-1">Time Slot</label>
                   <select
