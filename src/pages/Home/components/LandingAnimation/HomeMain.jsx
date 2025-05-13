@@ -36,20 +36,28 @@ const HomeMain = () => {
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      <div
-        className={`transition-opacity duration-[1500ms] ease-in-out ${
-          !isScrolled ? "opacity-100" : "opacity-0"
-        } absolute w-full h-full`}
-      >
-        <HomeUp />
-      </div>
-      <div
-        className={`transition-opacity duration-[1500ms] ease-in-out ${
-          isScrolled ? "opacity-100" : "opacity-0"
-        } absolute w-full h-full`}
-      >
-        {isMobile ? <HomeMobile /> : <HomeLap />}
-      </div>
+       {/* Only render the animation on larger screens */}
+       {!isMobile ? (
+        <>
+          <div
+            className={`transition-opacity duration-[1500ms] ease-in-out ${
+              !isScrolled ? "opacity-100" : "opacity-0"
+            } absolute w-full h-full`}
+          >
+            <HomeUp />
+          </div>
+          <div
+            className={`transition-opacity duration-[1500ms] ease-in-out ${
+              isScrolled ? "opacity-100" : "opacity-0"
+            } absolute w-full h-full`}
+          >
+            <HomeLap />
+          </div>
+        </>
+      ) : (
+        // For mobile, directly show the background without animation
+        <HomeMobile />
+      )}
     </section>
   );
 };

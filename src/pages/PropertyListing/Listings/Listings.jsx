@@ -9,6 +9,9 @@ import { FaSearch } from "react-icons/fa";
 import drop from "../../../assets/propertyListing/drop.png";
 import areas from "./areas";
 
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 import SelectLocation from "./components/SelectLocation";
 import Filters from "./components/Filters";
 import Cards from "./components/Cards";
@@ -50,6 +53,7 @@ const Listing = () => {
   const [selectedArea, setSelectedArea] = useState([]);
   const [moreArea, setMoreArea] = useState(false);
   // const [selectedCity, setSelectedCity] = useState("");
+  const [selectedSort, setSelectedSort] = useState("Sort");
 
   // Extract query string from the URL
   const queryString = location.search;
@@ -381,10 +385,12 @@ const Listing = () => {
     setProperties(sortedProperties);
   };
 
-  const handleSortClick = (sortType) => {
+  const handleSortClick = (sortType, label) => {
     const queryParams = new URLSearchParams(location.search);
     queryParams.set("sort", sortType);
     navigate(`?${queryParams.toString()}`); // Update URL with new sort query
+    setSelectedSort(label); 
+    setMode(false);
   };
 
   const handleLocalitySelect = (locality) => {
@@ -491,13 +497,15 @@ const Listing = () => {
           if (showCity === true) setShowCity(false);
           if (isOpen === true) SetIsOpen(false);
         }}
-        className="property h-[100vh] pb-14 lg:px-12 w-full overflow-y-auto"
+        className="property h-[100vh] pb-3 lg:px-12 w-full overflow-y-auto"
         id="property"
       >
-        <div className="flex flex-col gap-6 py-6 sticky top-0 z-20 bg-black">
+        <div className="flex flex-col gap-6 pt-6 sticky top-0 z-20 bg-black">
+
           <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 text-sm md:text-lg">
             <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md lg:w-full w-[96%] mx-[2%] ">
               <div className="flex flex-wrap items-center text-black  text-sm md:text-lg">
+                {/* Select city dropdown */}
                 <div
                   className="flex items-center gap-4 px-3 py-2 my-1  shrink-0 border-r border-black"
                   onClick={handleLocation}
@@ -519,6 +527,7 @@ const Listing = () => {
                   />
                 </div>
 
+                {/* Select area searchbar */}
                 <div className="flex-1 min-w-0 flex items-center gap-2 px-4 lg:px-8 my-1 text-sm md:text-lg">
                   <FaSearch className="text-black shrink-0" />
                   <div className="flex flex-wrap items-center gap-1 py-2 w-full overflow-x-hidden">
@@ -606,7 +615,9 @@ const Listing = () => {
                       value={searchQuery}
                       onClick={(e) => {
                         if (!city) {
-                          alert("Please select a city first");
+                          toast.error("Please select a city first",
+                            { position: "top-center", }
+                          );
                           return;
                         }
                       }}
@@ -676,7 +687,7 @@ const Listing = () => {
                     onClick={handleMode}
                   >
                     <span className="text-sm md:text-lg whitespace-nowrap">
-                      Sort
+                      {selectedSort}
                     </span>
                     <img
                       src={drop}
@@ -694,7 +705,7 @@ const Listing = () => {
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                           onClick={() => {
-                            handleSortClick("price-low-high"), setMode(false);
+                            handleSortClick("price-low-high", "Price: Low to High")
                           }}
                         >
                           Price: Low to High
@@ -702,7 +713,7 @@ const Listing = () => {
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                           onClick={() => {
-                            handleSortClick("price-high-low"), setMode(false);
+                            handleSortClick("price-high-low", "Price: High to Low")
                           }}
                         >
                           Price: High to Low
@@ -710,7 +721,7 @@ const Listing = () => {
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                           onClick={() => {
-                            handleSortClick("most-trending"), setMode(false);
+                            handleSortClick("most-trending", "Most Trending")
                           }}
                         >
                           Most Trending
@@ -718,7 +729,7 @@ const Listing = () => {
                         <p
                           className="py-2 font-medium cursor-pointer hover:bg-gray-100"
                           onClick={() => {
-                            handleSortClick("date-uploaded"), setMode(false);
+                            handleSortClick("date-uploaded", "Date Uploaded");
                           }}
                         >
                           Date Uploaded
@@ -736,7 +747,7 @@ const Listing = () => {
                 onClick={handleMode}
               >
                 <span className="text-sm md:text-lg whitespace-nowrap">
-                  Sort
+                  {selectedSort}
                 </span>
                 <img
                   src={drop}
@@ -754,7 +765,7 @@ const Listing = () => {
                     <p
                       className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                       onClick={() => {
-                        handleSortClick("price-low-high"), setMode(false);
+                        handleSortClick("price-low-high", "Price: Low to High")
                       }}
                     >
                       Price: Low to High
@@ -762,7 +773,7 @@ const Listing = () => {
                     <p
                       className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                       onClick={() => {
-                        handleSortClick("price-high-low"), setMode(false);
+                        handleSortClick("price-high-low", "Price: High to Low")
                       }}
                     >
                       Price: High to Low
@@ -770,7 +781,7 @@ const Listing = () => {
                     <p
                       className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                       onClick={() => {
-                        handleSortClick("most-trending"), setMode(false);
+                        handleSortClick("most-trending", "Most Trending")
                       }}
                     >
                       Most Trending
@@ -778,7 +789,7 @@ const Listing = () => {
                     <p
                       className="py-2 font-medium cursor-pointer hover:bg-gray-100"
                       onClick={() => {
-                        handleSortClick("date-uploaded"), setMode(false);
+                        handleSortClick("date-uploaded", "Date Uploaded");
                       }}
                     >
                       Date Uploaded

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../../StateProvider";
+import { useSelector } from "react-redux";
 import Popup from "reactjs-popup";
+import toast from "react-hot-toast";
 
+import { FaHeart } from "react-icons/fa";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { FaLocationDot, FaRegCopy, FaRegImage, FaVideo } from "react-icons/fa6";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
@@ -16,10 +19,80 @@ import preferences from "../../../assets/propertyListing/preferences.png";
 import bhk from "../../../assets/propertyListing/bhk.png";
 import budget from "../../../assets/propertyListing/budget.png";
 
-export default function CompareProperty() {
+import { API } from "../../../config/axios";
+
+export default function CompareProperty({
+  favouriteList = [],
+  setFavouriteList,
+}) {
   const navigate = useNavigate();
+  const authState = useSelector((state) => state.auth);
   const [{ compareProperty }, dispatch] = useStateValue();
   const [showOnlyDifferences, setShowOnlyDifferences] = useState(false);
+
+  const addToFavourites = async (propertyId) => {
+    console.log(authState);
+
+    try {
+      if (!authState.status) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+
+      console.log(authState.userData.id);
+
+      const token = localStorage.getItem("token");
+
+      const updateddata = await API.post(
+        `user/addToFavourites`,
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Added to favorites!");
+      setFavouriteList([...favouriteList, propertyId]);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add to favorites");
+    }
+  };
+
+  const removeFromFavourites = async (propertyId) => {
+    try {
+      if (!authState.status) {
+        toast.error("Login First!");
+        return navigate("/login", { replace: true });
+      }
+
+      const token = localStorage.getItem("token");
+
+      await API.post(
+        "user/removeFromFavourites",
+        {
+          userId: authState.userData.id,
+          propertyId: propertyId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Removed from favorites!");
+      setFavouriteList(favouriteList.filter((id) => id !== propertyId));
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to remove from favorites");
+    }
+  };
 
   useEffect(() => {
     if (!compareProperty.length) {
@@ -77,27 +150,37 @@ export default function CompareProperty() {
   return (
     <>
       <div className="flex flex-col  xl:pt-6 xl:pb-24  lg:px-6 space-y-4">
-      <div className="w-full flex flex-nowrap justify-between items-center pt-10 px-2 sm:px-6">
-           <h4
-              className="text-xl sm:text-3xl lg:text-5xl font-bold flex-shrink w-auto "
-               style={{
-               color: "#C8A21C",
-               textShadow: "0 2px 4px rgba(0,0,0,0.1)",
-               margin: "1rem 0",
-               lineHeight: "1.2",
-              }}
-             >
-              Compare with similar properties
-            </h4>
-         <div className="text-sm sm:text-lg text-white font-bold ml-4">
-           <button
+        <div className="w-full flex flex-nowrap justify-between items-center pt-10 px-2 sm:px-6">
+          <h4
+            className="text-xl sm:text-3xl lg:text-5xl font-bold flex-shrink w-auto "
+            style={{
+              color: "#C8A21C",
+              textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              margin: "1rem 0",
+              lineHeight: "1.2",
+            }}
+          >
+            Compare with similar properties
+          </h4>
+          <div className="text-sm sm:text-lg text-white font-bold ml-4">
+            <button
               className="bg-teal-500 px-3 py-1 sm:px-6 sm:py-2 rounded-md whitespace-nowrap"
-               onClick={() => navigate("/pricing")}
+              onClick={() => {
+                if (
+                  authState.status === true &&
+                  localStorage.getItem("token")
+                ) {
+                  navigate("/pricing");
+                } else {
+                  toast.error("Please Log In first");
+                  navigate("/login");
+                }
+              }}
             >
-            Proceed To Visit
-          </button>
-         </div>
-      </div>
+              Proceed To Visit
+            </button>
+          </div>
+        </div>
 
         {/* Property Cards */}
         <div className="w-full lg:max-w-8xl flex justify-center items-center justify-items-start ">
@@ -207,9 +290,36 @@ export default function CompareProperty() {
                             </div>
                           )}
                         </Popup>
-                        <a href="#">
-                          <CiHeart className="card_icon text-red-500" />
-                        </a>
+
+                        {/* ADD TO FAVOURITES */}
+                        <Popup
+                          trigger={
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                if (favouriteList.includes(property._id)) {
+                                  removeFromFavourites(property._id);
+                                } else {
+                                  addToFavourites(property._id);
+                                }
+                              }}
+                            >
+                              {favouriteList.includes(property._id) ? (
+                                <FaHeart className="card_icon text-red-500" />
+                              ) : (
+                                <CiHeart className="card_icon text-red-500" />
+                              )}
+                            </a>
+                          }
+                          position="top center"
+                          on="hover"
+                          arrow={false}
+                        >
+                          <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
+                            Favourite
+                          </div>
+                        </Popup>
                       </div>
                     </div>
 

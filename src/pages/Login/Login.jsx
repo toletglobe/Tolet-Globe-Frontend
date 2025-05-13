@@ -35,29 +35,22 @@ const Login = ({ setUserInfo }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Make the POST request using fetch
-      const res = await fetch(`${BASE_URL}auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+      const res = await API.post("/auth/login", {
+        email,
+        password,
       });
-  
+
       // Parse the response as JSON
-      const data = await res.json();
-  
+      const data = res.data;
+
       // Check if the response is successful and contains a token
-      if (res.ok && data.token) {
+      if (res.status === 200 && data.token) {
         // Store the necessary information in localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("User", data.user.role);
         localStorage.setItem("userType", data.user.userType);
         localStorage.setItem("userId", data.user.id);
-  
+
         // Dispatch the login action with the user data
         dispatch(
           login({
@@ -72,7 +65,7 @@ const Login = ({ setUserInfo }) => {
             },
           })
         );
-  
+
         toast.success("Login success");
         navigate("/landlord-dashboard");
       } else {
@@ -84,10 +77,9 @@ const Login = ({ setUserInfo }) => {
       console.error("Login error:", error);
     }
   };
-  
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center">
+    <div className="w-full min-h-screen flex justify-center items-center pb-20">
       <form onSubmit={handleSubmit}>
         <div className="login_form_container">
           <div className="login_form">

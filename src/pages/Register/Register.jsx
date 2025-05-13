@@ -48,41 +48,31 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://to-let-backend.onrender.com/api/v1/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-          phone,
-          role,
-          userType,
-          answer,
-        }),
+      const res = await API.post("/auth/register", {
+        firstName,
+        lastName,
+        email,
+        password,
+        phone,
+        role,
+        userType,
+        answer,
       });
-  
-      // Check if the response status is not okay (not in the 2xx range)
-      if (!res.ok) {
-        const errorData = await res.json();
-        toast.error(errorData?.message || "Unexpected error occurred.");
-        return;
-      }
-  
-      // Parse the response to JSON
-      const data = await res.json();
-  
-      if (data?.message?.toLowerCase().includes("verification")) {
+
+      console.log("Response: ", res);
+
+      if (res.data?.message?.toLowerCase().includes("email sent")) {
         resetFields();
-        toast.success("Registration successful! Please check your email to verify your account.");
+        toast.success(
+          "Registration successful! Please check your email to verify your account."
+        );
         setTimeout(() => {
           navigate("/login");
         }, 3000);
       } else {
-        toast.error(data?.message || "Unexpected response. Please try again.");
+        toast.error(
+          res.data?.message || "Unexpected response. Please try again."
+        );
       }
     } catch (error) {
       // Handling fetch-specific errors (e.g., network issues)
@@ -90,9 +80,6 @@ const Register = () => {
       console.error("Registration error:", error);
     }
   };
-  
-  
-  
 
   return (
     <div
@@ -157,12 +144,15 @@ const Register = () => {
           <div className="mt-10 flex items-center">
             <FaPhoneAlt className="ml-3 text-white" />
             <input
-              type="number"
+              type="tel"
               placeholder="Phone Number"
               className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
               autoComplete="off"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                setPhone(numericValue);
+              }}
               required
             />
           </div>

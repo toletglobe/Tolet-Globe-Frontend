@@ -105,9 +105,6 @@ const BlogView = () => {
               {blog.likes.length}
             </div>
           </div>
-          {/* <div className="text-gray-400 underline flex items-center">
-						{"6 min read"}
-					</div> */}
         </div>
         <hr />
         <div className="my-2 text-xl">{blog.intro}</div>
