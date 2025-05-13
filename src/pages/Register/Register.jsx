@@ -59,9 +59,7 @@ const Register = () => {
         answer,
       });
 
-      console.log("Response: ", res);
-
-      if (res.data?.message?.toLowerCase().includes("email sent")) {
+      if (res.status === 200) {
         resetFields();
         toast.success(
           "Registration successful! Please check your email to verify your account."
