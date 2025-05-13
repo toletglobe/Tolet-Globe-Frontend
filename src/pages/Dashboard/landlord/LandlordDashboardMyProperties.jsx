@@ -182,6 +182,47 @@ export default function MyProperties({ favouriteList = [] }) {
     }
   };
 
+  // handle toggle availabilityStatus
+  const handleToggleAvailability = async (propertyId, currentStatus) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}property/update-property-availability-status/${propertyId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: authState?.userData?.id,
+          availabilityStatus:
+            currentStatus === "Available" ? "Rented Out" : "Available",
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to update status");
+    }
+
+    toast.success("Property availability status updated successfully!");
+    setMyProperties((prevProperties) =>
+      prevProperties.map((property) =>
+        property._id === propertyId
+          ? {
+              ...property,
+              availabilityStatus:
+                currentStatus === "Available" ? "Rented Out" : "Available",
+            }
+          : property
+      )
+    );
+  } catch (error) {
+    toast.error(`Error: ${error.message}`);
+  }
+};
+
+
   const cards = myProperties.map((property) => (
     <div
       key={property._id}
@@ -195,6 +236,7 @@ export default function MyProperties({ favouriteList = [] }) {
           onClick={() => navigate(`/property/${property.slug}`)}
         />
         <div
+        onClick={() => handleToggleAvailability(property._id, property.availabilityStatus)}
           className="absolute top-4 left-4 text-white/75 lg:text-white text-xs lg:text-base uppercase px-1 lg:px-3 py-1 rounded-md"
           style={{
             backgroundColor:

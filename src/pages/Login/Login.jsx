@@ -10,6 +10,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import "./Login.css";
 
 import { API } from "../../config/axios";
+import { BASE_URL } from "../../config/constant";
 
 const Login = ({ setUserInfo }) => {
   const [email, setEmail] = useState("");
@@ -35,7 +36,7 @@ const Login = ({ setUserInfo }) => {
     e.preventDefault();
     try {
       // Make the POST request using fetch
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const res = await fetch(`${BASE_URL}auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
