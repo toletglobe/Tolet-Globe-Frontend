@@ -60,6 +60,9 @@ const PropertyCarousel = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true, // ✅ Enables auto sliding
+    autoplaySpeed: 3000, // ✅ 3 seconds per slide
+    swipeToSlide: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
   };
@@ -135,6 +138,7 @@ const PropertyCarousel = () => {
 
         <div className="relative w-10/12 mx-auto">
           <div className="overflow-hidden rounded-lg shadow-lg">
+          <Slider {...settings}>
             {slides.map((slide, index) => (
               <div
                 key={index}
@@ -168,6 +172,7 @@ const PropertyCarousel = () => {
                 </div>
               </div>
             ))}
+            </Slider>
           </div>
 
           <button

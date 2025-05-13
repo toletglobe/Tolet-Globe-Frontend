@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { FaSchool } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 
+import { useNavigate } from "react-router-dom";
+
 import "./ForgotPassword.css";
 
 import { API } from "../../config/axios";
@@ -11,6 +13,8 @@ import { API } from "../../config/axios";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [answer, setAnswer] = useState("");
+
+  const navigate = useNavigate();
 
   //form funtion
   const handleSubmit = async (e) => {
@@ -24,6 +28,9 @@ const ForgotPassword = () => {
       if (res.data) {
         console.log(res.data.link);
         toast.success(res.data && res.data.message);
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000); //
       }
     } catch (error) {
       console.log(error);

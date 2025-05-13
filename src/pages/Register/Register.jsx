@@ -48,7 +48,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("auth/register", {
+      const res = await API.post("/auth/register", {
         firstName,
         lastName,
         email,
@@ -58,17 +58,26 @@ const Register = () => {
         userType,
         answer,
       });
-      console.log(res);
-      if (res.data) {
+
+      console.log("Response: ", res);
+
+      if (res.data?.message?.toLowerCase().includes("email sent")) {
         resetFields();
-        toast.success("Check email for verification link");
+        toast.success(
+          "Registration successful! Please check your email to verify your account."
+        );
         setTimeout(() => {
           navigate("/login");
         }, 3000);
+      } else {
+        toast.error(
+          res.data?.message || "Unexpected response. Please try again."
+        );
       }
     } catch (error) {
-      toast.error("Registration failed");
-      console.log(error.response.data);
+      // Handling fetch-specific errors (e.g., network issues)
+      toast.error("Registration failed. Please try again.");
+      console.error("Registration error:", error);
     }
   };
 
@@ -135,12 +144,15 @@ const Register = () => {
           <div className="mt-10 flex items-center">
             <FaPhoneAlt className="ml-3 text-white" />
             <input
-              type="number"
+              type="tel"
               placeholder="Phone Number"
               className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
               autoComplete="off"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                setPhone(numericValue);
+              }}
               required
             />
           </div>

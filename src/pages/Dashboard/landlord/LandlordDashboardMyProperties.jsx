@@ -271,7 +271,7 @@ export default function MyProperties({ favouriteList = [] }) {
                    />
               </button>
             }
-            position={"bottom center"}
+            position={"bottom right"}
           >
             {(close) => (
               <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
@@ -342,7 +342,7 @@ export default function MyProperties({ favouriteList = [] }) {
           Your Properties
         </h1>
         {myProperties.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pr-2">
             {cards}
           </div>
         ) : (

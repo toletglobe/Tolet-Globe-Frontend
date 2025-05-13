@@ -6,6 +6,8 @@ import SelectLocation from "./SelectLocation";
 import { FaSearch } from "react-icons/fa";
 import areas from "./areas";
 import "./style/mobileBackground.css";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 // -----------Birds Img------------
 import bird1 from "../../../../assets/home/landingAnimation/birds/bird1.svg";
@@ -191,6 +193,7 @@ const HomeMobile = () => {
 
   return (
     <div className="mobile-view-container">
+      <ToastContainer />
       <div className="h-screen relative">
         {/* Main Content */}
         <div className="relative z-10 px-4 pt-20">
@@ -199,7 +202,7 @@ const HomeMobile = () => {
             <h1 className="text-2xl font-bold text-white mt-12">
               Welcome to To-Let Globe
             </h1>
-            <p className="text-[#3cbdb1] text-lg">
+            <p className="text-[#3cbdb1] text-base md:text-lg ml-1 md:ml-0">
               NO BROKERAGES ON
               <TypewriterEffect /> {/* Integrated Typewriter Effect */}
             </p>
@@ -235,7 +238,9 @@ const HomeMobile = () => {
                   value={searchQuery}
                   onClick={(e) => {
                     if (!city) {
-                      alert("Please select a city first");
+                      toast.error("Please select a city first",
+                        { position: "top-center", }
+                      );
                       return;
                     }
                   }}

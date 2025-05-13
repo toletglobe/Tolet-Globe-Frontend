@@ -39,7 +39,7 @@ const HomeUp = () => {
                 : "transform translate-x-0 scale-100 opacity-100"
             }`}
           >
-            NO BROKERAGE ON PGS | FLATS | HOUSES | OFFICES
+            NO BROKERAGES ON PGS | FLATS | HOUSES | OFFICES
           </h6>
 
           <TopBg />

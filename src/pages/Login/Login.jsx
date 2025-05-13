@@ -34,44 +34,51 @@ const Login = ({ setUserInfo }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("auth/login", {
+      const res = await API.post("/auth/login", {
         email,
         password,
       });
 
-      //     console.log(res.data);
-      console.log(res.data);
+      // Parse the response as JSON
+      const data = res.data;
 
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("User", res.data.user.role);
-        localStorage.setItem("userType", res.data.user.userType);
-        localStorage.setItem("userId", res.data.user.id);
-        // console.log(res.data.user);
+      // Check if the response is successful and contains a token
+      if (res.status === 200 && data.token) {
+        // Store the necessary information in localStorage
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("User", data.user.role);
+        localStorage.setItem("userType", data.user.userType);
+        localStorage.setItem("userId", data.user.id);
+
+        // Dispatch the login action with the user data
         dispatch(
           login({
-            token: res.data.token,
+            token: data.token,
             userData: {
-              id: res.data.user.id,
-              firstName: res.data.user.firstName,
-              lastName: res.data.user.lastName,
-              email: res.data.user.email,
-              role: res.data.user.role,
-              profilePicture: res.data.user.profilePicture,
+              id: data.user.id,
+              firstName: data.user.firstName,
+              lastName: data.user.lastName,
+              email: data.user.email,
+              role: data.user.role,
+              profilePicture: data.user.profilePicture,
             },
           })
         );
+
         toast.success("Login success");
         navigate("/landlord-dashboard");
+      } else {
+        // Show error message if the login is unsuccessful
+        toast.error(data?.message || "Login failed");
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
-      console.log(error.response.data);
+      toast.error("An error occurred. Please try again.");
+      console.error("Login error:", error);
     }
   };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center">
+    <div className="w-full min-h-screen flex justify-center items-center pb-20">
       <form onSubmit={handleSubmit}>
         <div className="login_form_container">
           <div className="login_form">

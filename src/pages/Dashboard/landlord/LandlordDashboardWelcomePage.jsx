@@ -257,7 +257,7 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
           
           {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
           
-            <Popup
+          <Popup
             arrow={false}
             trigger={
               <button className="group relative flex items-center justify-center"
@@ -268,7 +268,7 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
                    />
               </button>
             }
-            position={"bottom center"}
+            position={"bottom right"}
           >
             {(close) => (
               <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
@@ -393,19 +393,6 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
           >
             🎧 Contact Support
           </Link>
-          {/* <div className="w-full sm:w-full md:w-full lg:w-auto flex justify-center lg:justify-end mt-3 lg:mt-0">
-            <button
-              className="bg-gray-800 text-white py-2 px-6 rounded flex items-center cursor-pointer"
-              onClick={() => {
-                navigate("/contact");
-              }}
-            >
-              <span className="mr-2">🎧</span>
-              <span className="sm:text-sm md:text-base lg:text-lg xl:text-sm">
-                Contact Support
-              </span>
-            </button>
-          </div> */}
         </div>
       </div>
       {/* Recent Properties */}
