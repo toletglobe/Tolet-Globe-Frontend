@@ -1,13 +1,19 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 import { plans } from "../../constant_pricing/index.js"; // path for subscription card
 import { useStateValue } from "../../StateProvider.jsx";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // Import the styles for the date picker
 
+import { API } from "../../config/axios";
+
 const Pricing = () => {
   const [showForm, setShowForm] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false); // Add loading state
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [{ compareProperty }, dispatch] = useStateValue();
   const [formData, setFormData] = useState({
@@ -24,6 +30,8 @@ const Pricing = () => {
     timeSlot: "",
   });
 
+  const navigate = useNavigate();
+
   const handlePlanClick = (plan) => {
     if (plan.price === "₹0") {
       // Open Facebook link in a new tab
@@ -37,6 +45,7 @@ const Pricing = () => {
   };
 
   const handleCancel = () => {
+    if (loading) return; // Prevent closing the modal while loading
     setShowForm(false);
     setIsSubmitted(false);
     setSelectedPlan(null);
@@ -72,6 +81,7 @@ const Pricing = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when submission starts
 
     const comparePropertyIds = compareProperty.map((item) => item.slug);
 
@@ -96,28 +106,27 @@ const Pricing = () => {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/pricing/submit-pricing",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        }
-      );
-
-      const data = await response.json(); // parse the response body
+      const response = await API.post("pricing/submit-pricing", requestBody);
 
       if (response.status === 200) {
         setIsSubmitted(true);
-        window.location.href = "https://www.facebook.com/toletglobe/?_rdr";
+        // toast.success(
+        //   "Thank you for booking your visit. Our representative will contact you shortly to confirm the details."
+        // );
+        setTimeout(() => {
+          setShowForm(false); // Close the modal after success
+          navigate("/"); // Redirect to the home page
+        }, 2000);
       } else {
-        alert(data.msg || "Submission failed.");
+        toast.error("Submission failed.");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("An error occurred while submitting the form.");
+      toast.error(
+        "An error occurred while submitting the form. Please try again."
+      );
+    } finally {
+      setLoading(false); // Reset loading state after submission
     }
   };
 
@@ -200,6 +209,7 @@ const Pricing = () => {
                   <button
                     onClick={handleCancel}
                     className="bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-2 rounded-lg font-semibold transition duration-200"
+                    disabled={loading} // Disable button while loading
                   >
                     OK
                   </button>
@@ -210,6 +220,7 @@ const Pricing = () => {
                 <button
                   onClick={handleCancel}
                   className="absolute top-4 right-4 text-gray-500 text-3xl hover:text-gray-700 transition"
+                  disabled={loading} // Disable close button while loading
                 >
                   &times;
                 </button>
@@ -381,13 +392,15 @@ const Pricing = () => {
                     <button
                       type="submit"
                       className="flex-1 py-3 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-black font-semibold transition duration-200"
+                      disabled={loading} // Disable submit button while loading
                     >
-                      {selectedPlan?.buttonText || "Get Started"}
+                      {loading ? "Submitting..." : "Get Started"}
                     </button>
                     <button
                       type="button"
                       onClick={handleCancel}
                       className="flex-1 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 text-slate-800 font-semibold transition duration-200"
+                      disabled={loading} // Disable cancel button while loading
                     >
                       Cancel
                     </button>
