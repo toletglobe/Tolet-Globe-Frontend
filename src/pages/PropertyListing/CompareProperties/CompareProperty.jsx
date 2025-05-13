@@ -22,7 +22,8 @@ import budget from "../../../assets/propertyListing/budget.png";
 import { API } from "../../../config/axios";
 
 export default function CompareProperty({
-  favouriteList = [], setFavouriteList
+  favouriteList = [], 
+  setFavouriteList
 }) {
   const navigate = useNavigate();
   const authState = useSelector((state) => state.auth);
