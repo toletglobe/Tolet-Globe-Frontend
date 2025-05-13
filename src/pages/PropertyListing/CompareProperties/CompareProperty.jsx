@@ -21,14 +21,15 @@ import budget from "../../../assets/propertyListing/budget.png";
 
 import { API } from "../../../config/axios";
 
-
-export default function CompareProperty({ favouriteList = [], setFavouriteList}) {
+export default function CompareProperty({
+  favouriteList = [],
+  setFavouriteList,
+}) {
   const navigate = useNavigate();
   const authState = useSelector((state) => state.auth);
   const [{ compareProperty }, dispatch] = useStateValue();
   const [showOnlyDifferences, setShowOnlyDifferences] = useState(false);
 
-  
   const addToFavourites = async (propertyId) => {
     console.log(authState);
 
@@ -93,7 +94,6 @@ export default function CompareProperty({ favouriteList = [], setFavouriteList})
     }
   };
 
-
   useEffect(() => {
     if (!compareProperty.length) {
       navigate("/property-listing");
@@ -150,27 +150,37 @@ export default function CompareProperty({ favouriteList = [], setFavouriteList})
   return (
     <>
       <div className="flex flex-col  xl:pt-6 xl:pb-24  lg:px-6 space-y-4">
-      <div className="w-full flex flex-nowrap justify-between items-center pt-10 px-2 sm:px-6">
-           <h4
-              className="text-xl sm:text-3xl lg:text-5xl font-bold flex-shrink w-auto "
-               style={{
-               color: "#C8A21C",
-               textShadow: "0 2px 4px rgba(0,0,0,0.1)",
-               margin: "1rem 0",
-               lineHeight: "1.2",
-              }}
-             >
-              Compare with similar properties
-            </h4>
-         <div className="text-sm sm:text-lg text-white font-bold ml-4">
-           <button
+        <div className="w-full flex flex-nowrap justify-between items-center pt-10 px-2 sm:px-6">
+          <h4
+            className="text-xl sm:text-3xl lg:text-5xl font-bold flex-shrink w-auto "
+            style={{
+              color: "#C8A21C",
+              textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              margin: "1rem 0",
+              lineHeight: "1.2",
+            }}
+          >
+            Compare with similar properties
+          </h4>
+          <div className="text-sm sm:text-lg text-white font-bold ml-4">
+            <button
               className="bg-teal-500 px-3 py-1 sm:px-6 sm:py-2 rounded-md whitespace-nowrap"
-               onClick={() => navigate("/pricing")}
+              onClick={() => {
+                if (
+                  authState.status === true &&
+                  localStorage.getItem("token")
+                ) {
+                  navigate("/pricing");
+                } else {
+                  toast.error("Please Log In first");
+                  navigate("/login");
+                }
+              }}
             >
-            Proceed To Visit
-          </button>
-         </div>
-      </div>
+              Proceed To Visit
+            </button>
+          </div>
+        </div>
 
         {/* Property Cards */}
         <div className="w-full lg:max-w-8xl flex justify-center items-center justify-items-start ">
@@ -280,7 +290,7 @@ export default function CompareProperty({ favouriteList = [], setFavouriteList})
                             </div>
                           )}
                         </Popup>
-                        
+
                         {/* ADD TO FAVOURITES */}
                         <Popup
                           trigger={
