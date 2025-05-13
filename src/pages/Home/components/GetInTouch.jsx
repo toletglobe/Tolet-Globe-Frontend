@@ -3,6 +3,8 @@ import { toast } from "react-hot-toast";
 
 import location from "../../../assets/home/getInTouch/Map1.jpg";
 
+import { API } from "../../../config/axios";
+
 const GetInTouch = () => {
   const [formData, setFormData] = useState({
     name: "",
