@@ -24,6 +24,9 @@ const Register = () => {
   const [role, setRole] = useState("");
   const [userType, setUserType] = useState("buyer");
   const [answer, setAnswer] = useState("");
+
+  const [submitting, setSubmitting] = useState(false);
+
   const navigate = useNavigate();
   const handleRoleChange = (e) => {
     setRole(e.target.value);
@@ -47,42 +50,37 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
+    const loadingToast = toast.loading(
+      "Registering...! Please wait for the registration process to complete ."
+    );
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-          phone,
-          role,
-          userType,
-          answer,
-        }),
+      const res = await API.post("/auth/register", {
+        firstName,
+        lastName,
+        email,
+        password,
+        phone,
+        role,
+        userType,
+        answer,
       });
-  
-      // Check if the response status is not okay (not in the 2xx range)
-      if (!res.ok) {
-        const errorData = await res.json();
-        toast.error(errorData?.message || "Unexpected error occurred.");
-        return;
-      }
-  
-      // Parse the response to JSON
-      const data = await res.json();
-  
-      if (data?.message?.toLowerCase().includes("verification")) {
+
+      if (res.status === 200) {
         resetFields();
-        toast.success("Registration successful! Please check your email to verify your account.");
+        setSubmitting(false);
+        toast.dismiss(loadingToast);
+        toast.success(
+          "Registration successful! Please check your email to verify your account."
+        );
         setTimeout(() => {
           navigate("/login");
         }, 3000);
       } else {
-        toast.error(data?.message || "Unexpected response. Please try again.");
+        setSubmitting(false);
+        toast.error(
+          res.data?.message || "Unexpected response. Please try again."
+        );
       }
     } catch (error) {
       // Handling fetch-specific errors (e.g., network issues)
@@ -90,9 +88,6 @@ const Register = () => {
       console.error("Registration error:", error);
     }
   };
-  
-  
-  
 
   return (
     <div
@@ -163,7 +158,7 @@ const Register = () => {
               autoComplete="off"
               value={phone}
               onChange={(e) => {
-                const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                const numericValue = e.target.value.replace(/[^0-9]/g, "");
                 setPhone(numericValue);
               }}
               required
@@ -231,12 +226,19 @@ const Register = () => {
             />
           </div>
           <div className="flex justify-center mt-10">
-            <button
-              type="submit"
-              className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
-            >
-              REGISTER
-            </button>
+            {submitting ? (
+              <div className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <span>REGISTERING...</span>
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
+              >
+                REGISTER
+              </button>
+            )}
           </div>
         </form>
       </div>
