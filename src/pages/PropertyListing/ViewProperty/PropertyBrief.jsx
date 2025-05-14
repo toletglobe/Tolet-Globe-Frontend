@@ -394,9 +394,9 @@ const PropertyBrief = ({ property }) => {
 
       {/* Compare Card - Shown when property is added to compare */}
       {(showCompareCard || compareProperty.length>0) && (
-        <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50">
+        <div className="fixed right-4 bottom-5 -translate-y-1/2 z-50">
           <button
-            className="bg-teal-500 rounded-md text-white p-4 mb-2 w-fit cursor-pointer gap-32 ml-auto shadow-lg flex items-center justify-between"
+            className="bg-teal-500 rounded-md text-white p-4 mb-2 w-fit cursor-pointer gap-12 md:gap-20 ml-auto shadow-lg flex items-center justify-between"
             onClick={() => {
               addToCompare(property);
               navigate("/compare-property");
