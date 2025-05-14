@@ -407,8 +407,8 @@ export default function CompareProperty({
                 ))}
           </div>
         </div>
-
-        <div className="w-full sm:mx-10 lg:ml-10 pl-[65px] pr-[50px] lg:px-0 sm:mb-10 space-y-0">
+        {/* comparison table container */}
+        <div className="w-full  sm:mx-10 lg:ml-10 px-3 md:px-14 sm:mb-10 space-y-0">
           <div className="flex  items-center gap-4 mt-4 py-5 ">
             <input
               type="checkbox"
