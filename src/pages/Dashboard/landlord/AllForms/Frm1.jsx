@@ -168,7 +168,7 @@ export default function Frm1({ formData, setFormData }) {
         {/* Owner's Alternate Contact Number */}
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Owner's Alternate Contact Number
+            Owner's Alternate Contact Number (Optional)
           </label>
           <input
             type="text"
