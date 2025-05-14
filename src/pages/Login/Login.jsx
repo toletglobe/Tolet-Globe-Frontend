@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/store/authSlice";
 
@@ -17,6 +17,8 @@ const Login = ({ setUserInfo }) => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const from = location.state?.from || "/landlord-dashboard";
 
   const handleFocus = (e) => {
     e.target.previousElementSibling.classList.add("glowIcon");
@@ -67,7 +69,7 @@ const Login = ({ setUserInfo }) => {
         );
 
         toast.success("Login success");
-        navigate("/landlord-dashboard");
+        navigate(from, { replace: true });
       } else {
         // Show error message if the login is unsuccessful
         toast.error(data?.message || "Login failed");

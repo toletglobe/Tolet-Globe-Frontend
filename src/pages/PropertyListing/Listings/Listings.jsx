@@ -22,6 +22,7 @@ import "./listings.css";
 import { API } from "../../../config/axios";
 
 const Listing = () => {
+   const isLoggedIn = useSelector((state) => state.auth.status); 
   const { city } = useParams();
   const navigate = useNavigate();
 
@@ -472,6 +473,16 @@ const Listing = () => {
       navigate("/login");
     }
   };
+   const handleCompareClick = () => {
+    if (!isLoggedIn) {
+      navigate("/login", { state: { from: location.pathname } });
+      return;
+    }
+  
+    // your compare logic
+    compare();
+  };
+
   const compare = () => {
     navigate("/compare-property");
   };
@@ -813,7 +824,7 @@ const Listing = () => {
 
             <div className="sm:col-span-4 md:col-span-4 flex w-fit xs:w-[50%]  items-center justify-center lg:justify-between -mt-[76px] ml-[98px] xs:[96px] lg:ml-4 lg:mt-0">
               {compareProperty.length >= 1 && (
-                <div className="compare" onClick={compare}>
+                <div className="compare" onClick={handleCompareClick}>
                   <button
                     className={`bg-white h-11 sm:h-14 w-32 text-black cursor-pointer rounded-lg flex gap-5 text-center items-center px-6 lg:py-7 font-medium ${
                       compareProperty.length <= 0
