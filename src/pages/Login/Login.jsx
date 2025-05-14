@@ -10,6 +10,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import "./Login.css";
 
 import { API } from "../../config/axios";
+import { BASE_URL } from "../../config/constant";
 
 const Login = ({ setUserInfo }) => {
   const [email, setEmail] = useState("");
