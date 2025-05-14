@@ -618,7 +618,8 @@ export default function CompareProperty() {
           </div>
         </div>
 
-        <div className="w-full  sm:mx-10 lg:ml-10 pl-[65px] pr-[50px] lg:px-0 sm:mb-10 space-y-0">
+          {/* comparison table container */}
+        <div className="w-full  sm:mx-10 lg:ml-10 px-3 md:px-14 lg:px-0 sm:mb-10 space-y-0">
           <div className="flex  items-center gap-4 mt-4 py-5 ">
             <input
               type="checkbox"
@@ -632,8 +633,8 @@ export default function CompareProperty() {
           </div>
 
           {/* Comparison Table */}
-          <div className="bg-white pt-8 lg:mr-16 overflow-scroll">
-            <table className="min-w-full bg-white overflow-hidden space-y-2">
+          <div className="bg-white pt-8 lg:mr-16 overflow-scroll w-full">
+            <table className="min-w-full w-full bg-white overflow-hidden space-y-2">
               {filteredProperties.map(({ key, label, icon }) => (
                 <React.Fragment key={key}>
                   <tr className="lg:px-6 lg:py-4 bg-gray-200 flex">
