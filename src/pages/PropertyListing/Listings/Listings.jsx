@@ -500,7 +500,7 @@ const Listing = () => {
         className="property h-[100vh] pb-3 lg:px-12 w-full overflow-y-auto"
         id="property"
       >
-        <div className="flex flex-col gap-6 pt-6 sticky top-0 z-20 bg-black">
+        <div className="flex flex-col gap-6 pt-6 sticky top-0 z-20 bg-black md:pb-4">
 
           <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 text-sm md:text-lg">
             <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md lg:w-full w-[96%] mx-[2%] ">
@@ -665,6 +665,7 @@ const Listing = () => {
                     )}
                 </div>
 
+                {/* Filter and sort in desktop */}
                 <div className="hidden lg:flex md:flex">
                   <div
                     className="flex items-center gap-2 border-l px-3 border-black shrink-0 cursor-pointer"
@@ -741,6 +742,7 @@ const Listing = () => {
               </div>
             </div>
 
+            {/* filter and sort in mobiles */}
             <div className="lg:hidden md:hidden flex flex-wrap justify-between w-[96%] mx-[2%] ">
               <div
                 className="flex items-center gap-4 border-l pl-4 justify-center border-black shrink-0 cursor-pointer text-black bg-white rounded-lg py-2 "
@@ -813,9 +815,10 @@ const Listing = () => {
 
             <div className="sm:col-span-4 md:col-span-4 flex w-fit xs:w-[50%]  items-center justify-center lg:justify-between -mt-[76px] ml-[98px] xs:[96px] lg:ml-4 lg:mt-0">
               {compareProperty.length >= 1 && (
-                <div className="compare" onClick={compare}>
+                <div className="compare">
                   <button
-                    className={`bg-white h-11 sm:h-14 w-32 text-black cursor-pointer rounded-lg flex gap-5 text-center items-center px-6 lg:py-7 font-medium ${
+                   onClick={compare}
+                    className={`bg-white h-11 sm:h-14 w-28 md:w-32 ml-24 md:ml-0 text-black cursor-pointer rounded-lg flex gap-5 text-center items-center px-6 lg:py-7 font-medium ${
                       compareProperty.length <= 0
                         ? "opacity-50 grayscale cursor-not-allowed"
                         : ""
