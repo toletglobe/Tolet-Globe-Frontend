@@ -25,12 +25,14 @@ const ForgotPassword = () => {
         answer,
       });
 
-      if (res.data) {
+      if (res.status === 200) {
         console.log(res.data.link);
-        toast.success(res.data && res.data.message);
+        toast.success(res.data.message);
         setTimeout(() => {
           navigate("/login");
         }, 2000); //
+      } else {
+        toast.error(res.data.message);
       }
     } catch (error) {
       console.log(error);
