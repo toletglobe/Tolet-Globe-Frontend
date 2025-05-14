@@ -60,8 +60,6 @@ const PropertyCarousel = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true, // ✅ Enables auto sliding
-    autoplaySpeed: 3000, // ✅ 3 seconds per slide
     swipeToSlide: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
