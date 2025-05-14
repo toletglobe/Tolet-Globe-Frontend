@@ -96,6 +96,40 @@ export default function CompareProperty({
   };
 
   useEffect(() => {
+    const fetchFavouriteProperties = async () => {
+      try {
+        if (!authState?.userData?.id) {
+          return;
+        }
+
+        const token = localStorage.getItem("token");
+
+        const response = await API.post(
+          "user/getFavourites",
+          {
+            userId: authState.userData.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const favouriteList = response.data.favouritesList.favourites;
+
+        console.log(favouriteList);
+
+        setFavouriteList(favouriteList);
+      } catch (error) {
+        console.log("Error fetching favourite properties:", error);
+      }
+    };
+    fetchFavouriteProperties();
+  }, []);
+
+
+  useEffect(() => {
     if (!compareProperty.length) {
       navigate("/property-listing");
     }

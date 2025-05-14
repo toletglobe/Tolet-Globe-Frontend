@@ -40,13 +40,46 @@ export default function MyProperties({ favouriteList = [] }) {
         // return response.data;
         setMyProperties(properties);
         toast.success("Removed from favorites!");
-        setFavouriteList(favouriteList.filter((id) => id !== propertyId));
+        setLocalFavouriteList(favouriteList.filter((id) => id !== properties));
       } catch (error) {
         console.log("Error fetching properties:", error);
       }
     };
     fetchMyProperties();
   }, [authState]);
+
+  useEffect(() => {
+    const fetchFavouriteProperties = async () => {
+      try {
+        if (!authState?.userData?.id) {
+          return;
+        }
+
+        const token = localStorage.getItem("token");
+
+        const response = await API.post(
+          "user/getFavourites",
+          {
+            userId: authState.userData.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const favouriteList = response.data.favouritesList.favourites;
+
+        console.log(favouriteList);
+
+        setLocalFavouriteList(favouriteList);
+      } catch (error) {
+        console.log("Error fetching favourite properties:", error);
+      }
+    };
+    fetchFavouriteProperties();
+  }, []);
 
   const addToFavourites = async (propertyId) => {
     try {
