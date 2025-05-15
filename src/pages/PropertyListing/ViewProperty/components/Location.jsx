@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
 
 import {
   MdSchool,
@@ -87,8 +86,8 @@ const Location = ({ property, selectComp }) => {
       <div className="lg:flex lg:space-x-4 justify-between lg:mx-10">
         {/* Map */}
         <div className="lg:w-[74%] w-full h-64 lg:h-[550px]">
-          <div className="w-full lg:w-[60%] xl:w-[69%]  h-64 lg:h-[550px]  absolute flex justify-center items-center">
-            {/* <RiLock2Fill color="#ffffff" size={30} /> */}
+          <div className="w-full lg:w-[60%] xl:w-[69%]  h-64 lg:h-[550px]  absolute backdrop-blur-sm bg-black/40 flex justify-center items-center">
+            <RiLock2Fill color="#ffffff" size={30} />
           </div>
           <iframe
             src={getMapSrc()}
