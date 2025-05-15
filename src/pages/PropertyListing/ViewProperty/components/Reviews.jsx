@@ -192,7 +192,7 @@ const Reviews = ({ property }) => {
                   authState.status === true &&
                   localStorage.getItem("token")
                 ) {
-                    setShowReviewForm(!showReviewForm);
+                  setShowReviewForm(!showReviewForm);
                 } else {
                   toast.error("Please Log In first");
                   navigate("/login");
@@ -347,7 +347,6 @@ const Reviews = ({ property }) => {
         </div>
       )}
 
-     
       <ul className="list-none p-0">
         {currentReviews.length > 0 ? (
           currentReviews.map((review) => (
@@ -388,8 +387,8 @@ const Reviews = ({ property }) => {
                 <p>Stay Duration: {review.stayDuration}</p>
                 <p> Like about the Locality: {review.likesAboutLocality}</p>
                 <p className="lg:mt-[5rem] lg:ml-[0.8rem] xl:mt-[5rem] xl:ml-[0.8rem] text-[1rem] lg:text-[1.2rem]"> */}
-                  {/* Don't like about the Locality: */}
-                  {/* {review.dislikesAboutLocality}
+              {/* Don't like about the Locality: */}
+              {/* {review.dislikesAboutLocality}
                 </p>
                 <p>{review.comment}</p>
               </div> */}
