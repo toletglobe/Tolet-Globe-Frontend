@@ -76,7 +76,7 @@ const Location = ({ property, selectComp }) => {
         <div className="flex justify-between lg:w-[68%] xl:w-[69%] 2xl:w-[70%] items-center px-3 lg:px-0 lg:mx-10">
           <div>
             <h2 className="text-xl font-semibold text-gray-900">Location</h2>
-            <p className="text-sm text-gray-600">Vinamra Khand 1/35</p>
+            <p className="text-sm text-gray-600">{property?.address}, {property?.city}</p>
           </div>
           <p className="text-teal-600 text-sm lg:pt-6">Get Direction</p>
         </div>
