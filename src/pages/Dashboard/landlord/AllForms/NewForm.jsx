@@ -538,6 +538,20 @@ const Form=({ formData, setFormData })=> {
                 />
             </div>
 
+            {/* Pin Location on Map */}
+            <div className="md:col-span-2">
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                Pin Location on Map
+              </label>
+              {renderMap()}
+              {formData.latitude && formData.longitude && (
+                <p className="mt-2 text-[#C8C8C8] text-sm">
+                  Selected coordinates: {formData.latitude.toFixed(6)},{" "}
+                  {formData.longitude.toFixed(6)}
+                </p>
+              )}
+            </div>
+
             {/* Space Type */}
             <div>
                 <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
