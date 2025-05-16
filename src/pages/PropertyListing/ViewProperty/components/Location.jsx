@@ -36,7 +36,7 @@ const Location = ({ property, selectComp }) => {
 
     const newMap = new google.maps.Map(mapRef.current, {
       center: propertyLocation,
-      zoom: 15,
+      zoom: 12,
     });
 
     // Add marker for property location
@@ -58,7 +58,7 @@ const Location = ({ property, selectComp }) => {
     setMarkers([]);
   };
 
-  const searchNearbyPlaces = (type) => {
+  const searchNearbyPlaces = async (type) => {
     if (!map || !service) return;
 
     clearMarkers();
@@ -85,39 +85,49 @@ const Location = ({ property, selectComp }) => {
       type: placeTypeMap[type],
     };
 
-    service.nearbySearch(request, (results, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const newMarkers = results.map((place) => {
-          const marker = new google.maps.Marker({
-            map: map,
-            position: place.geometry.location,
-            title: place.name,
-            icon: {
-              url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-            },
-          });
-
-          // Add InfoWindow for each marker
-          const infoWindow = new google.maps.InfoWindow({
-            content: `
-              <div>
-                <h3>${place.name}</h3>
-                <p>${place.vicinity}</p>
-                <p>Rating: ${place.rating ? place.rating + "/5" : "N/A"}</p>
-              </div>
-            `,
-          });
-
-          marker.addListener("click", () => {
-            infoWindow.open(map, marker);
-          });
-
-          return marker;
+    try {
+      const results = await new Promise((resolve, reject) => {
+        service.nearbySearch(request, (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            resolve(results);
+          } else {
+            reject(`Error: ${status}`);
+          }
         });
+      });
 
-        setMarkers(newMarkers);
-      }
+      const newMarkers = results.map((place) => createMarker(place));
+      setMarkers(newMarkers);
+    } catch (error) {
+      console.error("Error during Nearby Search:", error);
+    }
+  };
+
+  const createMarker = (place) => {
+    const marker = new google.maps.Marker({
+      map: map,
+      position: place.geometry.location,
+      title: place.name,
+      icon: {
+        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+      },
     });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `
+        <div>
+          <h3>${place.name}</h3>
+          <p>${place.vicinity}</p>
+          <p>Rating: ${place.rating ? place.rating + "/5" : "N/A"}</p>
+        </div>
+      `,
+    });
+
+    marker.addListener("click", () => {
+      infoWindow.open(map, marker);
+    });
+
+    return marker;
   };
 
   const handleButtonClick = (category) => {
@@ -176,7 +186,8 @@ const Location = ({ property, selectComp }) => {
           <div>
             <h2 className="text-xl font-semibold text-gray-900">Location</h2>
             <p className="text-sm text-gray-600">
-              {property?.address}, {property?.city}
+              <span className="blur-sm">{property?.address}</span>,
+              {property?.area},{property?.locality},{property?.city}
             </p>
           </div>
           <p className="text-teal-600 text-sm lg:pt-6">Get Direction</p>
@@ -184,6 +195,9 @@ const Location = ({ property, selectComp }) => {
       </div>
 
       <div className="lg:flex lg:space-x-4 justify-between lg:mx-10">
+        <div className="w-full lg:w-[60%] xl:w-[69%]  h-64 lg:h-[550px]  absolute backdrop-blur-sm bg-black/40 flex justify-center items-center z-50">
+          <RiLock2Fill color="#ffffff" size={30} />
+        </div>
         {/* Map */}
         <div className="lg:w-[74%] w-full h-64 lg:h-[550px]">
           <div ref={mapRef} style={{ width: "100%", height: "100%" }} />

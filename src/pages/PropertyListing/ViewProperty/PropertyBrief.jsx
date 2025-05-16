@@ -23,7 +23,7 @@ import { useStateValue } from "../../../StateProvider";
 import { API } from "../../../config/axios";
 
 const PropertyBrief = ({ property }) => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [{ compareProperty }, dispatch] = useStateValue();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
@@ -77,7 +77,6 @@ const PropertyBrief = ({ property }) => {
     };
     fetchFavouriteProperties();
   }, []);
-
 
   useEffect(() => {
     if (totalReviews.length > 0) {
@@ -427,7 +426,7 @@ const PropertyBrief = ({ property }) => {
       )}
 
       {/* Compare Card - Shown when property is added to compare */}
-      {(showCompareCard || compareProperty.length>0) && (
+      {(showCompareCard || compareProperty.length > 0) && (
         <div className="fixed right-4 bottom-5 -translate-y-1/2 z-50">
           <button
             className="bg-teal-500 rounded-md text-white p-4 mb-2 w-fit cursor-pointer gap-12 md:gap-20 ml-auto shadow-lg flex items-center justify-between"
@@ -438,12 +437,13 @@ const PropertyBrief = ({ property }) => {
           >
             <h3 className="text-xl text-black">Compare</h3>
             <div className="bg-teal-600 h-8 w-8 flex items-center justify-center">
-              <span className="text-lg font-bold text-black">{compareProperty.length}</span>
+              <span className="text-lg font-bold text-black">
+                {compareProperty.length}
+              </span>
             </div>
           </button>
         </div>
       )}
-
 
       <div className="md:flex justify-between pt-8">
         <div className="lg:w-[40%]">
@@ -458,7 +458,8 @@ const PropertyBrief = ({ property }) => {
             </span>
           </h1>
           <p className="text-gray-400 block lg:text-2xl lg:py-4">
-            {property?.address}, {property?.city}
+            <span className="blur-sm">,{property?.area}</span>,{property?.area},
+            {property?.locality},{property?.city}
           </p>
 
           <div className="flex lg:text-2xl lg:pb-4">
@@ -647,8 +648,6 @@ const PropertyBrief = ({ property }) => {
           </button>
         </div>
       </div>
-
-      
 
       {/* Rectangle Box for Shortlisted Property - Only shown when compare card is not visible */}
       {showRectangle && !showCompareCard && (
