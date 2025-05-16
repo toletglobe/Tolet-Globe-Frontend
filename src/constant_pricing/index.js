@@ -1,5 +1,3 @@
-// src/constants/index.js
-
 import checkmark from "../assets/pricing/checkmark.svg";
 import property from "../assets/pricing/property.svg";
 import filter from "../assets/pricing/filter.svg";
