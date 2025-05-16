@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { IoClose } from "react-icons/io5";
 
 export default function Frm3({ formData, setFormData }) {
   const handleImageSubmit = (e) => {
@@ -117,7 +117,7 @@ export default function Frm3({ formData, setFormData }) {
                     className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                     aria-label="Remove image"
                   >
-                    <X size={16} color="white" />
+                    <IoClose size={16} color="white" />
                   </button>
                 </div>
               </div>
@@ -155,7 +155,7 @@ export default function Frm3({ formData, setFormData }) {
                     className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                     aria-label="Remove image"
                   >
-                    <X size={16} color="white" />
+                    <IoClose size={16} color="white" />
                   </button>
                 </div>
               </div>
@@ -174,7 +174,7 @@ export default function Frm3({ formData, setFormData }) {
                       className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                       aria-label="Remove image"
                     >
-                      <X size={16} color="white" />
+                      <IoClose size={16} color="white" />
                     </button>
                   </div>
                 ))}
@@ -197,7 +197,12 @@ export default function Frm3({ formData, setFormData }) {
           )}
 
           <p className="mt-4 text-sm text-gray-400">
-            Uploaded {formData.images?.length || 0}5 images
+            Uploaded {formData.images?.length || 0}{" "}
+            {formData.images?.length === 1 ? "image" : "images"}.
+          </p>
+          <p className="mt-4 text-sm text-gray-400">
+            {formData.images?.length === 10 &&
+              " You have reached the maximum limit of 10 images."}
           </p>
         </div>
       </div>

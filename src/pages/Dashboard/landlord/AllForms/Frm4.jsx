@@ -135,7 +135,7 @@ export default function Frm4({ formData, setFormData }) {
           ></textarea>
         </div>
 
-        {/* New Comments Section 
+        {/* New Comments Section  */}
         <div className="mt-10 text-white flex flex-col gap-y-9 items-start">
           <label className="font-bold text-lg">Comments</label>
           <textarea
@@ -147,7 +147,7 @@ export default function Frm4({ formData, setFormData }) {
               });
             }}
           ></textarea>
-        </div>*/}
+        </div>
       </div>
     </>
   );

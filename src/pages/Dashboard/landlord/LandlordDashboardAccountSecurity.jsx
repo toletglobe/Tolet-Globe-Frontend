@@ -72,7 +72,7 @@ const LandlordDashboardAccountSecurity = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black flex font- flex-col p-4 sm:p-6 md:p-8 lg:p-10">
+    <div className="min-h-screen bg-black flex font- flex-col py-4 px-2 sm:p-6 md:p-8 lg:p-10">
       <div className="mb-4">
         <h2 className="max-sm:text-center text-3xl text-white font-bold text-left pb-2">
           Account Security
@@ -81,7 +81,7 @@ const LandlordDashboardAccountSecurity = () => {
 
       <div className="sm:max-w-md mb-4 mx-2">
         <form onSubmit={handleSubmit} className="mb-0">
-          <div className="mb-4">
+          <div className="mb-6">
             <label className="block text-white mb-2">
               Current Password<span className="text-red-500">*</span>
             </label>
@@ -90,14 +90,14 @@ const LandlordDashboardAccountSecurity = () => {
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Current Password"
-              className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
+              className="w-full p-2 px-3 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
-            <p className="text-blue-400 text-sm mt-4 mb-4">
+            {/* <p className="text-blue-400 text-sm mt-4 mb-4">
               Re-enter your new password
-            </p>
+            </p> */}
           </div>
 
-          <div className="mb-4">
+          <div className="mb-6">
             <label className="block text-white mb-2">
               New Password<span className="text-red-500">*</span>
             </label>
@@ -106,7 +106,7 @@ const LandlordDashboardAccountSecurity = () => {
               value={newPassword}
               onChange={handlePasswordChange}
               placeholder="New Password"
-              className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
+              className="w-full p-2 px-3 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
             <ul className="mt-4 space-y-1">
               <li
@@ -165,7 +165,7 @@ const LandlordDashboardAccountSecurity = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm Password"
-              className="w-full p-2 pl-4 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
+              className="w-full p-2 px-3 border border-white bg-black text-white rounded-md focus:outline-none focus:border-teal-400"
             />
           </div>
         </form>
@@ -180,7 +180,7 @@ const LandlordDashboardAccountSecurity = () => {
         <button
           type="submit"
           onClick={handleSubmit}
-          className="bg-teal-500 text-white px-2 py-1 font-bold rounded-md hover:bg-teal-600 transition duration-300"
+          className="bg-teal-500 text-white px-4 py-1 font-bold rounded-md hover:bg-teal-600 transition duration-300"
         >
           Save Changes
         </button>

@@ -129,6 +129,9 @@ export default function LandlordDashboardAddProperties() {
         err.response?.data || err.message
       );
     }
+    finally {
+      setLoading(false);
+    }
 
     // clearing form fields
     setFormData({
@@ -182,7 +185,7 @@ export default function LandlordDashboardAddProperties() {
     <>
       {/* Form */}
 
-      <div className="max-sm:w-[85vw]">
+      <div className="w-full px-3">
         {/* ProgressBar */}
 
         <div className="sm:my-5 mt-7 mb-8 flex flex-col gap-2 md:pr-0">
