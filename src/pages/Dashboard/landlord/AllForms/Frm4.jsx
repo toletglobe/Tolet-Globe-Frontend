@@ -10,13 +10,13 @@ export default function Frm4({ formData, setFormData }) {
       border: 0,
     }),
     indicatorSeparator: () => ({
-      display: "none", 
+      display: "none",
     }),
 
     dropdownIndicator: (provided) => ({
       ...provided,
-      color: "#000000", 
-      padding: "0 8px", 
+      color: "#000000",
+      padding: "0 8px",
     }),
   };
   const appliancesOptions = [
@@ -32,6 +32,8 @@ export default function Frm4({ formData, setFormData }) {
     setFormData((formData) => {
       return { ...formData, appliances: selectedOptions };
     });
+    // for Debugging
+    console.log("Formdata:", formData);
   };
 
   const amenitiesOptions = [
@@ -49,6 +51,8 @@ export default function Frm4({ formData, setFormData }) {
     setFormData((formData) => {
       return { ...formData, amenities: selectedOptions };
     });
+    // for Debugging
+    console.log("Formdata:", formData);
   };
 
   return (
@@ -69,6 +73,8 @@ export default function Frm4({ formData, setFormData }) {
                 setFormData((formData) => {
                   return { ...formData, squareFeetArea: e.target.value };
                 });
+                // for Debugging
+                console.log("Formdata:", formData);
               }}
             />
           </div>
@@ -123,11 +129,13 @@ export default function Frm4({ formData, setFormData }) {
               setFormData((formData) => {
                 return { ...formData, aboutTheProperty: e.target.value };
               });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
           ></textarea>
         </div>
 
-        {/* New Comments Section */}
+        {/* New Comments Section  */}
         <div className="mt-10 text-white flex flex-col gap-y-9 items-start">
           <label className="font-bold text-lg">Comments</label>
           <textarea

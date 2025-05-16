@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
+import { FaChevronDown } from 'react-icons/fa';
 import { plans } from "../../constant_pricing/index.js"; // path for subscription card
 import { useStateValue } from "../../StateProvider.jsx";
 import { FaRegCalendarAlt } from "react-icons/fa";
@@ -16,7 +16,11 @@ const Pricing = () => {
   const [loading, setLoading] = useState(false); // Add loading state
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [{ compareProperty }, dispatch] = useStateValue();
-  const [formData, setFormData] = useState({
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+  const [showOptionProfession, setShowOptionProfession] = useState(false);
+  const [showTimeOptions, setShowTimeOptions] = useState(false);
+const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -29,6 +33,19 @@ const Pricing = () => {
     dateOfVisit: "",
     timeSlot: "",
   });
+ const options = ['Student', 'Working Professional', 'Business'];
+
+  const timeSlots = [
+    '10:00 AM - 12:00 PM',
+    '12:00 PM - 2:00 PM',
+    '2:00 PM - 4:00 PM',
+    '4:00 PM - 6:00 PM',
+  ];
+
+  const handleSelectTimeSlot = (slot) => {
+    setFormData({ ...formData, timeSlot: slot });
+    setShowTimeOptions(false);
+  };
 
   const navigate = useNavigate();
 
@@ -44,6 +61,16 @@ const Pricing = () => {
     }
   };
 
+  //staying with
+   const handleSelect = (option) => {
+    setFormData({ ...formData, stayingWith: option });
+    setShowOptions(false);
+  };
+  //profession
+   const handleSelects = (options) => {
+       setFormData({ ...formData, profession: options });
+    setShowOptionProfession(false);
+   }
   const handleCancel = () => {
     if (loading) return; // Prevent closing the modal while loading
     setShowForm(false);
@@ -72,12 +99,11 @@ const Pricing = () => {
     }));
   };
 
-  const handleDateChange = (date) => {
-    setFormData((prev) => ({
-      ...prev,
-      dateOfVisit: date,
-    }));
-  };
+ const handleDateChange = (date) => {
+  const formattedDate = date.toLocaleDateString('en-GB'); // DD/MM/YYYY format
+  setFormData({ ...formData, dateOfVisit: formattedDate });
+  setShowCalendar(false);
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -237,13 +263,13 @@ const Pricing = () => {
                 >
                   {/* Input Fields */}
                   {[
-                    { name: "firstName", label: "First Name", type: "text" },
-                    { name: "lastName", label: "Last Name", type: "text" },
-                    { name: "email", label: "Email ID", type: "email" },
-                    { name: "phone", label: "Phone Number", type: "tel" },
+                    { name: "firstName", label: "First Name *", type: "text" },
+                    { name: "lastName", label: "Last Name *", type: "text" },
+                    { name: "email", label: "Email ID *", type: "email" },
+                    { name: "phone", label: "Phone Number *", type: "tel" },
                   ].map(({ name, label, type }) => (
                     <div key={name}>
-                      <label className="block text-sm font-semibold text-white mb-1">
+                      <label className="block text-sm text-left font-semibold text-white mb-1">
                         {label}
                       </label>
                       <input
@@ -259,47 +285,71 @@ const Pricing = () => {
                   ))}
 
                   {/* Staying With */}
-                  <div>
-                    <label className="block text-sm font-semibold text-white mb-1">
-                      Staying With
-                    </label>
-                    <select
-                      name="stayingWith"
-                      value={formData.stayingWith}
-                      onChange={handleInputChange}
-                      className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                      required
-                    >
-                      <option value="">Select option</option>
-                      <option>Friends</option>
-                      <option>Family</option>
-                      <option>Alone</option>
-                    </select>
-                  </div>
+               <div className="relative w-full">
+      <label className="block text-sm text-left font-semibold text-white mb-1">
+        Staying With *
+      </label>
+
+      <div
+        className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none flex justify-between items-center cursor-pointer"
+        onClick={() => setShowOptions(!showOptions)}
+      >
+        <span className="text-gray-700">
+          {formData.stayingWith || 'Select option'}
+        </span>
+        <FaChevronDown className="text-gray-500" />
+      </div>
+
+      {showOptions && (
+        <div className="absolute top-full text-left left-0 mt-2 w-full z-20 bg-white border border-slate-300 rounded-md shadow-lg">
+          {['Friends', 'Family', 'Alone'].map((option) => (
+            <div
+              key={option}
+              onClick={() => handleSelect(option)}
+              className="px-4 py-2 hover:bg-yellow-100 cursor-pointer"
+            >
+              {option}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
 
                   {/* Profession */}
-                  <div>
-                    <label className="block text-sm font-semibold text-white mb-1">
-                      Profession *
-                    </label>
-                    <select
-                      name="profession"
-                      value={formData.profession}
-                      onChange={handleInputChange}
-                      className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                      required
-                    >
-                      <option value="">Select profession</option>
-                      <option>Student</option>
-                      <option>Working Professional</option>
-                      <option>Business</option>
-                    </select>
-                  </div>
+                   <div className="relative w-full">
+      <label className="block text-sm text-left font-semibold text-white mb-1">
+        Profession *
+      </label>
+
+      <div
+        className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none flex justify-between items-center cursor-pointer"
+        onClick={() => setShowOptionProfession(!showOptionProfession)}
+      >
+        <span className="text-gray-700">
+          {formData.profession || 'Select profession'}
+        </span>
+        <FaChevronDown className="text-gray-500" />
+      </div>
+
+      {showOptionProfession && (
+        <div className="absolute top-full text-left left-0 mt-2 w-full z-20 bg-white border border-slate-300 rounded-md shadow-lg">
+          {options.map((options) => (
+            <div
+              key={options}
+              onClick={() => handleSelects(options)}
+              className="px-4 py-2 hover:bg-yellow-100 cursor-pointer"
+            >
+              {options}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
 
                   {/* Conditional Fields */}
                   {formData.profession === "Student" && (
                     <div className="col-span-1 md:col-span-2">
-                      <label className="block text-sm font-semibold text-white mb-1 ">
+                      <label className="block text-left text-sm font-semibold text-white mb-1 ">
                         College Name
                       </label>
                       <input
@@ -315,7 +365,7 @@ const Pricing = () => {
 
                   {formData.profession === "Working Professional" && (
                     <div className="col-span-1 md:col-span-2">
-                      <label className="block text-sm font-semibold text-white mb-1">
+                      <label className="block text-sm text-left  font-semibold text-white mb-1">
                         About Company
                       </label>
                       <input
@@ -331,7 +381,7 @@ const Pricing = () => {
 
                   {formData.profession === "Business" && (
                     <div className="col-span-1 md:col-span-2">
-                      <label className="block text-sm font-semibold text-white mb-1">
+                      <label className="block text-sm text-left font-semibold text-white mb-1">
                         About Business
                       </label>
                       <input
@@ -345,47 +395,70 @@ const Pricing = () => {
                     </div>
                   )}
 
-                  {/* Date & Time */}
-                  <div>
-                    <label className="block text-sm font-semibold text-white mb-1">
-                      Date of Visit
-                    </label>
-                    <div className="relative">
-                      <DatePicker
-                        selected={formData.dateOfVisit}
-                        onChange={handleDateChange}
-                        minDate={(() => {
-                          const tomorrow = new Date();
-                          tomorrow.setDate(tomorrow.getDate() + 1);
-                          return tomorrow;
-                        })()} // Restrict to dates starting from tomorrow
-                        dateFormat="yyyy-MM-dd" // Format the date
-                        className="w-full p-3 pr-32 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                        placeholderText="Select a date"
-                      />
-                      <div className="absolute inset-y-0 right-3 flex items-center text-gray-500">
-                        <FaRegCalendarAlt className="h-5 w-5" />
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-white mb-1">
-                      Time Slot
-                    </label>
-                    <select
-                      name="timeSlot"
-                      value={formData.timeSlot}
-                      onChange={handleInputChange}
-                      className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                      required
-                    >
-                      <option value="">Select time slot</option>
-                      <option>10:00 AM - 12:00 PM</option>
-                      <option>12:00 PM - 2:00 PM</option>
-                      <option>2:00 PM - 4:00 PM</option>
-                      <option>4:00 PM - 6:00 PM</option>
-                    </select>
-                  </div>
+                  {/* Date */}
+                 <div>
+      <label className="block text-sm text-left font-semibold text-white mb-1">Date of Visit</label>
+      <div className="relative">
+        <input
+          type="text"
+          name="dateOfVisit"
+          placeholder="DD/MM/YYYY"
+          value={formData.dateOfVisit}
+          onChange={handleInputChange}
+          className="w-full p-3 pr-10 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+          required
+        />
+        <div
+          className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+          onClick={() => setShowCalendar(!showCalendar)} // Toggle calendar visibility on icon click
+        >
+          <FaRegCalendarAlt className="h-5 w-5 " />
+        </div>
+
+        {/* Show the DatePicker when the icon is clicked */}
+        {showCalendar && (
+    <div className=""><DatePicker
+              selected={
+                formData.dateOfVisit
+                  ? new Date(formData.dateOfVisit.split('/').reverse().join('-'))
+                  : null
+              }
+            onChange={handleDateChange}
+            inline // Displays calendar inline below the input field
+          /></div>
+        )}
+      </div>
+    </div>
+      {/*Time Slot */}
+                  <div className="relative w-full mb-4">
+      <label className="block text-sm text-left font-semibold text-white mb-1">
+        Time Slot *
+      </label>
+
+      <div
+        className="w-full p-3 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-yellow-400 focus:outline-none flex justify-between items-center cursor-pointer"
+        onClick={() => setShowTimeOptions(!showTimeOptions)}
+      >
+        <span className="text-gray-700">
+          {formData.timeSlot || 'Select time slot'}
+        </span>
+        <FaChevronDown className="text-gray-500" />
+      </div>
+
+      {showTimeOptions && (
+        <div className="absolute top-full left-0 mt-2 w-full z-20 bg-white border border-slate-300 rounded-md shadow-lg">
+          {timeSlots.map((slot) => (
+            <div
+              key={slot}
+              onClick={() => handleSelectTimeSlot(slot)}
+              className="px-4 py-2 hover:bg-yellow-100 cursor-pointer"
+            >
+              {slot}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
 
                   {/* Buttons */}
                   <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row gap-4 mt-4">

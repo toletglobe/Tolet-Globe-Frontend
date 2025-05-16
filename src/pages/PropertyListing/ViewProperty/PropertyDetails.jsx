@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Location from "./components/Location.jsx";
-import Reviews from "./components/Reviews.jsx";
+import Reviews from "./components/NewReviews.jsx";
 import Features from "./components/Features.jsx";
 import About from "./components/About.jsx";
 import Amenities from "./components/Amenities.jsx";

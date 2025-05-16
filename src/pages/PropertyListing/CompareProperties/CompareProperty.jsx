@@ -22,13 +22,14 @@ import budget from "../../../assets/propertyListing/budget.png";
 import { API } from "../../../config/axios";
 
 export default function CompareProperty({
-  favouriteList = [],
-  setFavouriteList,
+  favouriteList = [], 
+  setFavouriteList
 }) {
   const navigate = useNavigate();
   const authState = useSelector((state) => state.auth);
   const [{ compareProperty }, dispatch] = useStateValue();
   const [showOnlyDifferences, setShowOnlyDifferences] = useState(false);
+  [favouriteList, setFavouriteList] = useState([]);
 
   const addToFavourites = async (propertyId) => {
     console.log(authState);
@@ -93,6 +94,40 @@ export default function CompareProperty({
       toast.error("Failed to remove from favorites");
     }
   };
+
+  useEffect(() => {
+    const fetchFavouriteProperties = async () => {
+      try {
+        if (!authState?.userData?.id) {
+          return;
+        }
+
+        const token = localStorage.getItem("token");
+
+        const response = await API.post(
+          "user/getFavourites",
+          {
+            userId: authState.userData.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const favouriteList = response.data.favouritesList.favourites;
+
+        console.log(favouriteList);
+
+        setFavouriteList(favouriteList);
+      } catch (error) {
+        console.log("Error fetching favourite properties:", error);
+      }
+    };
+    fetchFavouriteProperties();
+  }, []);
+
 
   useEffect(() => {
     if (!compareProperty.length) {
@@ -406,8 +441,8 @@ export default function CompareProperty({
                 ))}
           </div>
         </div>
-
-        <div className="w-full sm:mx-10 lg:ml-10 pl-[65px] pr-[50px] lg:px-0 sm:mb-10 space-y-0">
+        {/* comparison table container */}
+        <div className="w-full  sm:mx-10 lg:ml-10 px-3 md:px-14 sm:mb-10 space-y-0">
           <div className="flex  items-center gap-4 mt-4 py-5 ">
             <input
               type="checkbox"

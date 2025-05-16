@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { logout } from "../redux/store/authSlice";
 
-import { IoIosClose, IoIosArrowForward, IoIosArrowBack, IoIosInformationCircleOutline } from "react-icons/io";
 import {
-  HiUser,
-  HiOutlineDocumentText,
-} from "react-icons/hi";
+  IoIosClose,
+  IoIosArrowForward,
+  IoIosArrowBack,
+  IoIosInformationCircleOutline,
+} from "react-icons/io";
+import { HiUser, HiOutlineDocumentText } from "react-icons/hi";
 import { CiHome } from "react-icons/ci";
 import { LuPhone } from "react-icons/lu";
 import { FaRss } from "react-icons/fa";
@@ -27,7 +29,7 @@ import { MdLockOutline } from "react-icons/md";
 
 import logo from "../assets/navbar/logo.png";
 import userIcon from "../assets/propertyListing/user-icon.png";
-import guestIcon from "../assets/navbar/guestProfile.webp"
+import guestIcon from "../assets/navbar/guestProfile.webp";
 
 const Navbar = () => {
   const authState = useSelector((state) => state.auth);
@@ -59,7 +61,11 @@ const Navbar = () => {
 
   const navLinks = [
     { label: "Home", path: "/", icon: CiHome },
-    { label: "About Us", path: "/aboutus", icon: IoIosInformationCircleOutline },
+    {
+      label: "About Us",
+      path: "/aboutus",
+      icon: IoIosInformationCircleOutline,
+    },
     { label: "Blog", path: "/blog", icon: FaRss },
     { label: "Contact", path: "/contact", icon: LuPhone },
     {
@@ -445,12 +451,9 @@ const Navbar = () => {
 
         <div
           className={`bg-[#272727] flex items-center justify-between py-4 relative`}
-          onClick={() => {
-            setSidebar(true);
-          }}
         >
           <div
-            className={`absolute z-[999] transition-all top-0 ${
+            className={`absolute z-[999] transition-all top-3 left-1 ${
               showMenu ? "ml-[100%]" : ""
             } rounded-2xl border border-white`}
             onClick={() => {
@@ -484,13 +487,15 @@ const Navbar = () => {
             <div className="flex flex-col items-center justify-center w-full h-full px-1 py-2">
               <div className="flex items-start  w-full gap-x-2">
                 {/* profile */}
-                <img src={guestIcon} alt="Guest Profile" className="w-20 h-20 filter invert brightness-0" />
+                <img
+                  src={guestIcon}
+                  alt="Guest Profile"
+                  className="w-20 h-20 filter invert brightness-0"
+                />
 
                 <div className="my-auto">
-                <p className="text-lg font-semibold">
-                  Guest Profile
-                </p>
-                <p className="text-sm font-normal">Welcome</p>
+                  <p className="text-lg font-semibold">Guest Profile</p>
+                  <p className="text-sm font-normal">Welcome</p>
                 </div>
               </div>
               <button
@@ -505,9 +510,18 @@ const Navbar = () => {
             </div>
           )}
 
-          <button className={`${userInfo.firstName ? "" : "pb-10"}`}>
-            <IoIosArrowForward size={25} />
-          </button>
+          {authState.status ? (
+            <button
+              onClick={() => {
+                setSidebar(true);
+              }}
+              className={`${userInfo.firstName ? "" : "pb-10"}`}
+            >
+              <IoIosArrowForward size={25} />
+            </button>
+          ) : (
+            ""
+          )}
         </div>
 
         <ul className="flex flex-col gap-5 mt-5 px-5 text-lg">
@@ -526,16 +540,20 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          <div
-            className="flex items-center gap-x-3 text-red-500"
-            onClick={handleLogout}
-          >
-            <FontAwesomeIcon
-              icon={faArrowRightFromBracket}
-              className="text-xl "
-            />
-            <p>Logout</p>
-          </div>
+          {authState.status ? (
+            <div
+              className="flex items-center gap-x-3 text-red-500"
+              onClick={handleLogout}
+            >
+              <FontAwesomeIcon
+                icon={faArrowRightFromBracket}
+                className="text-xl "
+              />
+              <p>Logout</p>
+            </div>
+          ) : (
+            ""
+          )}
         </ul>
       </div>
     </div>
