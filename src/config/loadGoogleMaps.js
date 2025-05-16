@@ -1,4 +1,5 @@
-let isLoading = false;
+// loadGoogleMaps.js
+let isLoaded = false;
 let loadPromise = null;
 
 export function loadGoogleMaps() {
@@ -10,31 +11,31 @@ export function loadGoogleMaps() {
     return loadPromise;
   }
 
-  isLoading = true;
+  // Use the environment variable
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  const mapId = import.meta.env.VITE_GOOGLE_MAPS_ID;
+
+  if (!apiKey) {
+    return Promise.reject(new Error('Google Maps API key is missing'));
+  }
+
   loadPromise = new Promise((resolve, reject) => {
-    try {
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${
-        import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-      }&libraries=marker&v=beta`;
-      script.async = true;
-      script.defer = true;
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places,geometry${mapId ? `&map_ids=${mapId}` : ''}`;
+    script.async = true;
+    script.defer = true;
 
-      script.addEventListener("load", () => {
-        isLoading = false;
-        resolve();
-      });
+    script.onload = () => {
+      isLoaded = true;
+      resolve();
+    };
 
-      script.addEventListener("error", (error) => {
-        isLoading = false;
-        reject(error);
-      });
-
-      document.head.appendChild(script);
-    } catch (error) {
-      isLoading = false;
+    script.onerror = (error) => {
+      console.error('Google Maps script loading failed:', error);
       reject(error);
-    }
+    };
+
+    document.head.appendChild(script);
   });
 
   return loadPromise;
