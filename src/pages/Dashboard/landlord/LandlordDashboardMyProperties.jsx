@@ -412,19 +412,16 @@ export default function MyProperties({ favouriteList = [] }) {
 
   return (
     <>
-      <div className="mt-8">
-        <h1 className="ml-4 text-3xl font-bold text-[#FFFFFF]">
-          Your Properties
+      <div className="mt-7 md:mt-5">
+        <h1 className="w-full max-sm:text-center sm:ml-5 text-3xl font-bold text-white">
+          My Properties
         </h1>
         {myProperties.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pr-2">
             {cards}
           </div>
         ) : (
-          <div className="mt-5">
-            <h6 className="text-white text-center text-3xl font-bold ">
-              Your Properties!
-            </h6>
+          <div className="mt-10 min-h-screen">
             <h6 className="text-gray-400 text-center text-xl sm:text-3xl font-bold py-4">
               You have no properties yet!
             </h6>
