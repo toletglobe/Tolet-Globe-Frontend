@@ -3,10 +3,12 @@ import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
-import Frm1 from "./AllForms/Frm1";
-import Frm2 from "./AllForms/Frm2";
-import Frm3 from "./AllForms/Frm3";
-import Frm4 from "./AllForms/Frm4";
+// import Frm1 from "./AllForms/Frm1";
+// import Frm2 from "./AllForms/Frm2";
+// import Frm3 from "./AllForms/Frm3";
+// import Frm4 from "./AllForms/Frm4";
+
+import Form from "./AllForms/NewForm"
 
 import { API } from "../../../config/axios";
 
@@ -120,15 +122,15 @@ export default function LandlordDashboardEditProperties() {
     }
   };
 
-  const RenderFormBody = (currentPage) => {
-    const formComponents = [
-      <Frm1 formData={formData} setFormData={setFormData} key="Frm1" />,
-      <Frm2 formData={formData} setFormData={setFormData} key="Frm2" />,
-      <Frm3 formData={formData} setFormData={setFormData} key="Frm3" />,
-      <Frm4 formData={formData} setFormData={setFormData} key="Frm4" />,
-    ];
-    return formComponents[currentPage];
-  };
+  // const RenderFormBody = (currentPage) => {
+  //   const formComponents = [
+  //     <Frm1 formData={formData} setFormData={setFormData} key="Frm1" />,
+  //     <Frm2 formData={formData} setFormData={setFormData} key="Frm2" />,
+  //     <Frm3 formData={formData} setFormData={setFormData} key="Frm3" />,
+  //     <Frm4 formData={formData} setFormData={setFormData} key="Frm4" />,
+  //   ];
+  //   return formComponents[currentPage];
+  // };
 
   if (loading) {
     return (
@@ -145,8 +147,8 @@ export default function LandlordDashboardEditProperties() {
         <h1 className="text-center text-[#FFFFFF] text-[33px] leading-10 font-bold md:text-left">
           Edit Property
         </h1>
-        <div className="mt-8 flex gap-4">
-          {/* Progress Bar */}
+        {/* <div className="mt-8 flex gap-4">
+           Progress Bar
           {[...Array(page + 1)].map((_, i) => (
             <div key={i} className="bg-yellow-500 rounded-lg w-[24%] h-2"></div>
           ))}
@@ -154,7 +156,7 @@ export default function LandlordDashboardEditProperties() {
             <div key={i} className="bg-white rounded-lg w-[24%] h-2"></div>
           ))}
         </div>
-        <div className="text-[#4F7396] text-xs leading-5">{page + 1}/4</div>
+        <div className="text-[#4F7396] text-xs leading-5">{page + 1}/4</div> */}
       </div>
 
       {/* Form */}
@@ -162,45 +164,25 @@ export default function LandlordDashboardEditProperties() {
         encType="multipart/form-data"
         onSubmit={(e) => {
           e.preventDefault();
-          if (page === 3) {
-            handleFormSubmit();
-          } else {
-            setPage((prevPage) => prevPage + 1);
-          }
         }}
       >
         {/* Form Body */}
-        <div>{RenderFormBody(page)}</div>
+        <div><Form formData={formData} setFormData={setFormData} /></div>
 
         {/* Form Footer */}
         <div className="my-10 pr-5 h-fit flex gap-x-3 justify-end md:pr-0">
-          <button
-            type="button"
-            className={`border-[0.5px] rounded-md font-bold px-7 py-[10px] ${
-              page === 0
-                ? "bg-[#E8EDF2] text-black"
-                : "border-amber-500 text-white"
-            }`}
-            onClick={() => setPage((prevPage) => prevPage - 1)}
-            disabled={page === 0}
-          >
-            Back
-          </button>
-          {page < 3 ? (
             <button
               type="submit"
-              className="border-[0.5px] border-amber-500 rounded-md bg-yellow-500 font-bold px-7 py-[10px] text-black"
+              className="border-[0.5px] rounded-md bg-white font-bold px-7 py-[10px] text-black"
             >
-              Next
+              Cancel
             </button>
-          ) : (
             <button
               type="submit"
               className="rounded-md bg-[#04AA6D] font-bold px-7 py-[10px] text-gray-200"
             >
               Submit
             </button>
-          )}
         </div>
       </form>
     </div>
