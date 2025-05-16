@@ -818,7 +818,6 @@ const Listing = () => {
                 <div className="compare">
                   <button
                    onClick={compare}
-                    className={`bg-white h-11 sm:h-14 w-20 md:w-32 ml-20 md:ml-0 text-black cursor-pointer rounded-lg flex gap-2 lg:gap-5 text-center items-center sm:px-7 px-3 sg:px-7 lg:py-7 text-sm font-medium ${
                     className={`bg-white h-11 sm:h-14 w-20 md:w-32 ml-20 md:ml-0 text-black cursor-pointer rounded-lg flex gap-2 lg:gap-5 text-center items-center px-3 sm:px-7 lg:py-7 text-sm font-medium ${
                       compareProperty.length <= 0
                         ? "opacity-50 grayscale cursor-not-allowed"
