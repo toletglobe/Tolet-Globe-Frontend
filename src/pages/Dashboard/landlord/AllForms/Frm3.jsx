@@ -14,6 +14,8 @@ export default function Frm3({ formData, setFormData }) {
       ...prev,
       images: [...existingImages, ...newFiles],
     }));
+    // for Debugging
+    console.log("Formdata:", formData);
     e.target.value = "";
   };
 
@@ -40,6 +42,8 @@ export default function Frm3({ formData, setFormData }) {
       ...prev,
       images: updatedImages,
     }));
+    // for Debugging
+    console.log("Formdata:", formData);
   };
 
   return (

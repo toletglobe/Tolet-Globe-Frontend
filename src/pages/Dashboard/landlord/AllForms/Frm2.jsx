@@ -36,6 +36,8 @@ export default function Frm2({ formData, setFormData }) {
             value={formData.preference}
             onChange={(e) => {
               setFormData({ ...formData, preference: e.target.value });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -60,6 +62,8 @@ export default function Frm2({ formData, setFormData }) {
             value={formData.bachelors}
             onChange={(e) => {
               setFormData({ ...formData, bachelors: e.target.value });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -81,6 +85,8 @@ export default function Frm2({ formData, setFormData }) {
             value={formData.type}
             onChange={(e) => {
               setFormData({ ...formData, type: e.target.value });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -102,6 +108,8 @@ export default function Frm2({ formData, setFormData }) {
             value={formData.bhk}
             onChange={(e) => {
               setFormData({ ...formData, bhk: e.target.value });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -125,6 +133,8 @@ export default function Frm2({ formData, setFormData }) {
             value={formData.floor}
             onChange={(e) => {
               setFormData({ ...formData, floor: e.target.value });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -180,6 +190,8 @@ export default function Frm2({ formData, setFormData }) {
                 ...formData,
                 nearestLandmark: e.target.value,
               });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -198,6 +210,8 @@ export default function Frm2({ formData, setFormData }) {
                 ...formData,
                 typeOfWashroom: e.target.value,
               });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
