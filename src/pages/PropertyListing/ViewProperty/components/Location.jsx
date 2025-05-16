@@ -79,7 +79,7 @@ const Location = ({ property, selectComp }) => {
             <h2 className="text-xl font-semibold text-gray-900">Location</h2>
             <p className="text-sm text-gray-600">{property?.address}, {property?.city}</p>
           </div>
-          <p className="text-teal-600 text-sm lg:pt-6" onClick={() => window.open(getMapSrc(), '_blank')}>
+          <p className="text-teal-600 text-sm lg:pt-6">
             Get Direction</p>
         </div>
       </div>
@@ -87,8 +87,8 @@ const Location = ({ property, selectComp }) => {
       <div className="lg:flex lg:space-x-4 justify-between lg:mx-10">
         {/* Map */}
         <div className="lg:w-[74%] w-full h-64 lg:h-[550px]">
-          <div className="w-full lg:w-[60%] xl:w-[69%]  h-64 lg:h-[550px]  absolute flex justify-center items-center">
-            {/* <RiLock2Fill color="#ffffff" size={30} /> */}
+          <div className="w-full lg:w-[60%] xl:w-[69%]  h-64 lg:h-[550px]  absolute backdrop-blur-sm bg-black/40  flex justify-center items-center">
+            <RiLock2Fill color="#ffffff" size={30} />
           </div>
           <iframe
             src={getMapSrc()}
@@ -99,7 +99,6 @@ const Location = ({ property, selectComp }) => {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="Location Map"
-            onClick={() => window.open(getMapSrc(), '_blank')}
           />
         </div>
 
