@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useSelector } from "react-redux";
 
-import Form from "./AllForms/NewForm"
+import Form from "./AllForms/NewForm";
 
 import { API } from "../../../config/axios";
 
@@ -13,7 +13,7 @@ export default function LandlordDashboardAddProperties() {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // For storing formData
   const [formData, setFormData] = useState({
@@ -52,6 +52,7 @@ export default function LandlordDashboardAddProperties() {
     aboutTheProperty: "",
     latitude: null,
     longitude: null,
+    subscriptionPlan: null,
   });
 
   // const RenderFormBody = (page) => {
@@ -128,8 +129,7 @@ export default function LandlordDashboardAddProperties() {
         "Error submitting form:",
         err.response?.data || err.message
       );
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
 
@@ -170,6 +170,7 @@ export default function LandlordDashboardAddProperties() {
       aboutTheProperty: "",
       latitude: null,
       longitude: null,
+      subscriptionPlan: null,
     });
   };
 
@@ -199,17 +200,17 @@ export default function LandlordDashboardAddProperties() {
           encType="multipart/form-data"
           onSubmit={(e) => {
             e.preventDefault();
-            if (page) {
-              if (formData.images.length < 5) {
-                alert("Please submit at least 5 images");
-                return;
-              }
-            } else if (page) {
-              submitForm(formData);
-              return;
-            }
-            setPage((page));
+            // if (page) {
+            //   if (formData.images.length < 5) {
+            //     alert("Please submit at least 5 images");
+            //     return;
+            //   }
+            // } else if (page) {
+            submitForm(formData);
+            return;
           }}
+          // setPage(page);
+          // }}
         >
           <div>
             {/* Form-Body */}
@@ -217,12 +218,11 @@ export default function LandlordDashboardAddProperties() {
 
             {/* Form-footer */}
             <div className="my-10 pr-5 h-fit flex gap-x-3 justify-end md:pr-0">
-              
               <input
                 type="submit"
                 value="Cancel"
                 className="border-[0.5px] rounded-md bg-white font-bold px-7 py-[10px] text-black"
-              /> 
+              />
               <input
                 type="submit"
                 value="Submit"
