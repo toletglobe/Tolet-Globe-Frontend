@@ -374,7 +374,7 @@ export default function Frm1({ formData, setFormData }) {
         </div>
 
         {/* Area */}
-        <div>
+        {/* <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Area
           </label>
@@ -390,10 +390,10 @@ export default function Frm1({ formData, setFormData }) {
               console.log("Formdata:", formData);
             }}
           />
-        </div>
+        </div> */}
 
         {/* Pin */}
-        <div>
+        {/* <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Pin Code
           </label>
@@ -405,7 +405,7 @@ export default function Frm1({ formData, setFormData }) {
             value={formData.pincode}
             readOnly
           />
-        </div>
+        </div> */}
 
         {/* Address */}
         <div>
@@ -462,7 +462,7 @@ export default function Frm1({ formData, setFormData }) {
           </select>
         </div>
 
-        <div>
+        {/* <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property Type
           </label>
@@ -487,7 +487,7 @@ export default function Frm1({ formData, setFormData }) {
               ? residentialOptions.map(optionRenderFun)
               : allOptions.map(optionRenderFun)}
           </select>
-        </div>
+        </div> */}
       </div>
     </>
   );

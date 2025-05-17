@@ -453,7 +453,7 @@ const Navbar = () => {
           className={`bg-[#272727] flex items-center justify-between py-4 relative`}
         >
           <div
-            className={`absolute z-[999] transition-all top-0 ${
+            className={`absolute z-[999] transition-all top-3 left-1 ${
               showMenu ? "ml-[100%]" : ""
             } rounded-2xl border border-white`}
             onClick={() => {

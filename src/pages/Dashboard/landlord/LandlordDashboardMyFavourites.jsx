@@ -151,9 +151,9 @@ export default function MyProperties() {
 
   return (
     <>
-      <div className="mt-8 md:mt-4">
+      <div className="mt-7 md:mt-5">
         {/* SORT BY SECTION */}
-        <h1 className="text-2xl md:text-3xl font-bold sm:text-left text-center text-white ml-4">
+        <h1 className="w-full text-3xl font-bold max-sm:text-center sm:ml-5 text-white">
           Favourites
         </h1>
         {favouriteProperties.length > 0 ? (
@@ -161,7 +161,7 @@ export default function MyProperties() {
             {/* THIS CODE WILL ALSO GENERATE FAVARIOUT CARDS AND ALSO SHOW ONLY 3 CARDS IN THE STARTING NO MATTER HOW MAY PROPRTIES ARE ADDED AS FAVRIOUTES */}
             {/* SLICE METHOD ALONG WITH THE MAP METHOD IS USED IN THE CHAINING  AND THE REST OF THE CODE IS SAME*/}
             {/* VIEW ALL BUTTON ADDED,  ICONS MADE AS PER FIGMA*/}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 min-h-screen">
               {favouriteProperties.slice(0, showCount).map((property) => (
                 <div
                   key={property._id}
@@ -335,10 +335,7 @@ export default function MyProperties() {
             )}
           </>
         ) : (
-          <div className="mt-5">
-            <h6 className="text-white text-center text-3xl font-bold">
-              Your Favourites!
-            </h6>
+          <div className="mt-10 min-h-screen">
             <h6 className="text-gray-400 text-center text-xl sm:text-3xl font-bold py-4">
               You have no favourites yet!
             </h6>

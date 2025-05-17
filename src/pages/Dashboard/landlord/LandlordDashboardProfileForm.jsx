@@ -194,7 +194,7 @@ const LandlordDashboardProfileForm = () => {
         <div>
           <div>
             <div>
-              <p className="max-sm:text-center text-3xl sm:text-3xl font-bold mb-3 sm:mb-5">
+              <p className="max-sm:text-center text-3xl sm:text-3xl font-bold mb-5">
                 Profile
               </p>
               <p className="text-lg text-center md:text-left sm:text-xl font-bold mb-2">
@@ -235,7 +235,7 @@ const LandlordDashboardProfileForm = () => {
             </div>
           </div>
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-          <form className="flex flex-col gap-4 sm:gap-5 my-3">
+          <form className="flex flex-col gap-4 sm:gap-5 my-3 mt-10">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start sm:gap-8 gap-4">
               <div className="flex flex-col gap-2 sm:gap-3 w-full sm:w-auto">
                 <label
@@ -250,7 +250,7 @@ const LandlordDashboardProfileForm = () => {
                   value={userInfo.firstName}
                   onChange={handleInputChange}
                   placeholder="Enter Your First Name"
-                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 p-4"
+                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 px-4 py-6"
                 />
               </div>
               <div className="flex flex-col gap-2 sm:gap-3 w-full sm:w-auto">
@@ -266,7 +266,7 @@ const LandlordDashboardProfileForm = () => {
                   value={userInfo.lastName}
                   onChange={handleInputChange}
                   placeholder="Enter Your Last Name"
-                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 p-4"
+                  className="border-2 rounded-[5px] bg-transparent w-full sm:w-56 h-9 px-4 py-6"
                 />
               </div>
             </div>
@@ -284,7 +284,7 @@ const LandlordDashboardProfileForm = () => {
                 value={userInfo.email}
                 onChange={handleInputChange}
                 placeholder="Enter Your Email ID"
-                className="border-2 rounded-[5px] bg-transparent w-full sm:w-[476px] h-9 p-4"
+                className="border-2 rounded-[5px] bg-transparent w-full sm:w-[476px] h-9 px-4 py-6"
               />
             </div>
             <div className="flex flex-col gap-2 sm:gap-3">
@@ -300,21 +300,15 @@ const LandlordDashboardProfileForm = () => {
                 value={userInfo.phoneNumber}
                 onChange={handleInputChange}
                 placeholder="Enter Your Phone Number"
-                className="border-2 rounded-[5px] bg-transparent w-full sm:w-[476px] h-9 p-4"
+                className="border-2 rounded-[5px] bg-transparent w-full sm:w-[476px] h-9 px-4 py-6"
               />
             </div>
-            <div className="flex items-center justify-end gap-3">
-              <button
-                type="submit"
-                className="border-[#3CBDB1] border-[1.5px] rounded-[5px] text-[18px] px-[17.02px] py-1 h-[42.56px]"
-              >
-                Cancel
-              </button>
+            <div className="flex items-center justify-end gap-3 mt-2">
               <button
                 type="button"
                 onClick={handleSaveChanges}
                 disabled={!isChanged || isSubmitting}
-                className="bg-teal-500 text-white px-2 py-1 font-bold rounded-md hover:bg-teal-600 transition duration-300  h-[42.56px]"
+                className="bg-teal-500 text-white px-4 py-1 font-bold rounded-md hover:bg-teal-600 transition duration-300  h-[42.56px]"
               >
                 {isSubmitting ? "Saving..." : "Save Changes"}
               </button>

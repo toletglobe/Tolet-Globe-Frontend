@@ -1,8 +1,9 @@
 export default function Frm2({ formData, setFormData }) {
   return (
-    <div className="mt-8 h-fit w-[270px] md:w-full ">
+    <div className="mt-8 h-fit w-full ">
+   
       <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
-        {/* Pets Allowed 
+        {/* Pets Allowed  */}
         <div className="w-full h-fit flex flex-col gap-3 items-start ">
           <label className="text-[#FFFFFF] text-base font-medium">
             Pets Allowed
@@ -22,7 +23,7 @@ export default function Frm2({ formData, setFormData }) {
             <option value="NA">NA</option>
           </select>
         </div>
-        */}
+       
 
         {/* Preference */}
         <div className="w-full h-fit flex flex-col gap-3 items-start">
@@ -223,7 +224,7 @@ export default function Frm2({ formData, setFormData }) {
           </select>
         </div>
 
-        {/* Cooling Facility 
+        {/* Cooling Facility  */}
         <div className="w-full h-fit flex flex-col gap-3 items-start">
           <label className="text-[#FFFFFF] text-base font-medium">
             Cooling Facility
@@ -247,7 +248,7 @@ export default function Frm2({ formData, setFormData }) {
             <option value="Cooler">Cooler</option>
             <option value="NA">NA</option>
           </select>
-        </div>*/}
+        </div>
       </div>
     </div>
   );

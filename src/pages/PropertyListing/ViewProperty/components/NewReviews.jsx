@@ -13,14 +13,12 @@ const Reviews = ({ property }) => {
   const [averageRating, setAverageRating] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0); // Changed initial rating to 0
-  const [comment, setComment] = useState("");
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalReviews, setTotalReviews] = useState([]);
-  const [stayDuration, setStayDuration] = useState("");
-  const [likesAboutLocality, setLikesAboutLocality] = useState("");
-  const [dislikesAboutLocality, setDislikesAboutLocality] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [comment, setComment] = useState("");
+ 
+  
   const reviewsPerPage = 2;
   const navigate = useNavigate();
 
@@ -59,59 +57,50 @@ const Reviews = ({ property }) => {
 
   console.log("averageRating:", averageRating, typeof averageRating);
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setSelectedFiles(files);
-  };
+//   const handleFileChange = (e) => {
+//     const files = Array.from(e.target.files);
+//     setSelectedFiles(files);
+//   };
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
   };
 
-  const handleAddReview = async (e) => {
-    e.preventDefault();
+const handleAddReview = async (e) => {
+  e.preventDefault();
 
-    if (rating === 0) {
-      toast.error("Please provide a rating");
-      return;
+  if (rating === 0) {
+    toast.error("Please provide a rating");
+    return;
+  }
+
+  try {
+    const reviewData = {
+      property: property._id,
+      userId: authState.userData.id,
+      firstName: authState.userData.firstName,
+      lastName: authState.userData.lastName,
+      userRating: rating,
+      comments: comment
+    };
+
+    const response = await API.post("reviews", reviewData);
+    if (response.data.message === "Review created successfully") {
+      toast.success("Review added successfully!");
+    } else {
+      toast.error("Review not added!");
     }
 
-    try {
-      const formData = new FormData();
-      formData.append("property", property._id);
-      formData.append("userId", authState.userData.id);
-      formData.append("firstName", authState.userData.firstName);
-      formData.append("lastName", authState.userData.lastName);
-      formData.append("userRating", rating);
-      formData.append("stayDuration", stayDuration);
-      formData.append("likesAboutLocality", likesAboutLocality);
-      formData.append("dislikesAboutLocality", dislikesAboutLocality);
-
-      selectedFiles.forEach((file) => {
-        formData.append("media", file);
-      });
-
-      const response = await API.post("reviews", formData);
-      if (response.data.message === "Review created successfully") {
-        toast.success("Review added successfully!");
-      } else {
-        toast.error("Review not added!");
-      }
-
-      
-      const fetchedReviews = await API.get(`reviews/${property._id}`);
-      setRating(0);
-      setStayDuration("");
-      setLikesAboutLocality("");
-      setDislikesAboutLocality("");
-      setSelectedFiles([]);
-      setShowReviewForm(false);
-      setTotalReviews(fetchedReviews.data.reviews);
-    } catch (error) {
-      console.error("Error adding review:", error);
-      toast.error("Error adding review");
-    }
-  };
+    const fetchedReviews = await API.get(`reviews/${property._id}`);
+    setRating(0);
+    setComment("");
+    setShowReviewForm(false);
+    setTotalReviews(fetchedReviews.data.reviews);
+  } catch (error) {
+    console.error("Error adding review:", error);
+    toast.error("Error adding review");
+  }
+};
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
@@ -193,7 +182,7 @@ const Reviews = ({ property }) => {
                   authState.status === true &&
                   localStorage.getItem("token")
                 ) {
-                  setShowReviewForm(!showReviewForm);
+                    setShowReviewForm(!showReviewForm);
                 } else {
                   toast.error("Please Log In first");
                   navigate("/login");
@@ -223,27 +212,6 @@ const Reviews = ({ property }) => {
               Help others choose wisely by reviewing your neighborhood!
             </p>
 
-            <div className="mb-2">
-              <h3 className="text-lg mb-4  text-teal-400">How long have you stayed here?</h3>
-              <div className="flex flex-wrap gap-3">
-                {["0-1 year", "2 years", "3 years", "4 years", "+4 years"].map(
-                  (duration) => (
-                    <button
-                      key={duration}
-                      type="button"
-                      onClick={() => setStayDuration(duration)}
-                      className={`px-4 py-2 rounded-full border ${
-                        stayDuration === duration
-                          ? "bg-teal-500 border-teal-500"
-                          : "border-gray-600 hover:border-teal-500"
-                      }`}
-                    >
-                      {duration}
-                    </button>
-                  )
-                )}
-              </div>
-            </div>
 
             <form onSubmit={handleAddReview} className="space-y-6">
               <div className="mb-2">
@@ -275,64 +243,12 @@ const Reviews = ({ property }) => {
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block mb-2">
-                      What do you like about your locality?
-                    </label>
                     <textarea
-                      value={likesAboutLocality}
-                      onChange={(e) => setLikesAboutLocality(e.target.value)}
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
                       className="w-full h-32 bg-black border border-gray-600 rounded-lg p-3 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
                       placeholder="Please share your thoughts"
                     />
-                  </div>
-
-                  <div>
-                    <label className="block mb-2">
-                      What do you dislike about your locality?
-                    </label>
-                    <textarea
-                      value={dislikesAboutLocality}
-                      onChange={(e) => setDislikesAboutLocality(e.target.value)}
-                      className="w-full h-32 bg-black border border-gray-600 rounded-lg p-3 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
-                      placeholder="Please share your thoughts"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg text-teal-400 mb-4">Upload Media</h3>
-                <p className="text-gray-400 mb-2">Images</p>
-                <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 mb-2 text-center">
-                  <div className="flex flex-col items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-10 w-10 text-gray-400 mb-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-                      />
-                    </svg>
-                    <p className="text-gray-400 mb-2">Drop a file here</p>
-                    <input
-                      type="file"
-                      multiple
-                      onChange={handleFileChange}
-                      className="hidden"
-                      id="file-upload"
-                    />
-                    <label
-                      htmlFor="file-upload"
-                      className="bg-gray-700 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-600"
-                    >
-                      Browse
-                    </label>
                   </div>
                 </div>
               </div>
@@ -348,6 +264,7 @@ const Reviews = ({ property }) => {
         </div>
       )}
 
+     
       <ul className="list-none p-0">
         {currentReviews.length > 0 ? (
           currentReviews.map((review) => (
@@ -377,24 +294,9 @@ const Reviews = ({ property }) => {
                     className="border border-black rounded-lg p-1"
                   />
                 </div>
-                <img src={review.media[1]} alt="" className="mt-4 " />
-                <img
-                  src={review.media[0]}
-                  alt=""
-                  className="mt-4 w-[150px] h-[150px]"
-                />
+               
               </div>
               <div className="text-xl w-[70%] lg:h-[100px] lg:-mt-16 flex-1 flex-wrap">
-                <p>Stay Duration: {review.stayDuration}</p>
-                <p> Like about the Locality: {review.likesAboutLocality}</p>
-                <p> 
-                  {/* Don't like about the Locality: */}
-                  Dislikes about the Locality:{review.dislikesAboutLocality}
-                </p>
-                {/* <p className="lg:mt-[5rem] lg:ml-[0.8rem] xl:mt-[5rem] xl:ml-[0.8rem] text-[1rem] lg:text-[1.2rem]">
-                  Don't like about the Locality:
-                  {review.dislikesAboutLocality}
-                </p> */}
                 <p>{review.comment}</p>
               </div>
             </li>
@@ -405,6 +307,7 @@ const Reviews = ({ property }) => {
           </p>
         )}
       </ul>
+
       <div className="flex justify-center mt-4">
         {currentPage > 1 && (
           <button
