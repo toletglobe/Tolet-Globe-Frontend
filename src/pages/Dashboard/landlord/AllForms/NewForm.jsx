@@ -958,7 +958,7 @@ const Form = ({ formData, setFormData }) => {
           </lable>
           {(formData.images?.length || 0) === 0 && (
             <div className="border-2 border-dashed border-yellow-600 rounded-lg py-10 flex flex-col items-center">
-              <label className="cursor-pointer rounded-md text-yellow-600 font-bold px-4 py-2">
+              <label className="cursor-pointer rounded-md text-yellow-600 font-bold  px-4 py-6 h-[150px] flex items-center justify-center">
                 + Add More
                 <input
                   type="file"
@@ -966,6 +966,7 @@ const Form = ({ formData, setFormData }) => {
                   multiple
                   accept="image/*"
                   onChange={handleImageSubmit}
+                
                 />
               </label>
             </div>
@@ -979,7 +980,7 @@ const Form = ({ formData, setFormData }) => {
                   <img
                     src={URL.createObjectURL(formData.images[0])}
                     alt="uploaded-0"
-                    className="rounded-lg object-cover w-full h-48"
+                    className="rounded-lg object-cover w-full h-59"
                   />
                   <button
                     onClick={() => removeImage(0)}
@@ -1017,7 +1018,7 @@ const Form = ({ formData, setFormData }) => {
                   <img
                     src={URL.createObjectURL(formData.images[0])}
                     alt="uploaded-0"
-                    className="rounded-lg object-cover w-full h-48"
+                    className="rounded-lg object-cover w-full h-59"
                   />
                   <button
                     onClick={() => removeImage(0)}
@@ -1066,7 +1067,7 @@ const Form = ({ formData, setFormData }) => {
           )}
 
           <p className="mt-4 text-sm text-gray-400">
-            Uploaded {formData.images?.length || 0} images
+            Uploaded {formData.images?.length || 0}/5 images
           </p>
         </div>
       </div>
