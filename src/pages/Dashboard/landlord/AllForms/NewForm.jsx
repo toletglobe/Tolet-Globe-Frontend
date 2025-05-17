@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "../../../../config/loadGoogleMaps";
-import { Label } from "@mui/icons-material";
 import Select from "react-select";
-import { X } from "lucide-react";
+import {IoClose} from "react-icons/io5";
 import areas from "../../../../pages/PropertyListing/Listings/areas";
 
 import Pricing from "./PricngCard";
@@ -986,7 +985,7 @@ const Form = ({ formData, setFormData }) => {
                     className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                     aria-label="Remove image"
                   >
-                    <X size={16} color="white" />
+                    <IoClose size={16} color="white" />
                   </button>
                 </div>
               </div>
@@ -1024,7 +1023,7 @@ const Form = ({ formData, setFormData }) => {
                     className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                     aria-label="Remove image"
                   >
-                    <X size={16} color="white" />
+                    <IoClose size={16} color="white" />
                   </button>
                 </div>
               </div>
@@ -1043,7 +1042,7 @@ const Form = ({ formData, setFormData }) => {
                       className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                       aria-label="Remove image"
                     >
-                      <X size={16} color="white" />
+                      <IoClose size={16} color="white" />
                     </button>
                   </div>
                 ))}
