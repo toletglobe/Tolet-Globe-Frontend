@@ -293,6 +293,7 @@ const PropertyBrief = ({ property }) => {
                 alt={property.propertyType}
                 className="w-full h-full object-cover rounded-lg cursor-pointer"
                 onClick={() => openModal(property.images[0], 0)}
+                onError={handleImageError}
               />
             </div>
 
@@ -304,6 +305,7 @@ const PropertyBrief = ({ property }) => {
                     alt={`${property.propertyType} ${index + 2}`}
                     className="w-full h-[246px] object-cover rounded-lg cursor-pointer"
                     onClick={() => openModal(image, index + 1)}
+                    onError={handleImageError}
                   />
                   {index === 3 && property.images.length > 5 && (
                     <div
@@ -327,6 +329,7 @@ const PropertyBrief = ({ property }) => {
                 alt={property.propertyType}
                 className="w-full h-[300px] object-cover rounded-lg cursor-pointer"
                 onClick={() => openModal(property.images[0], 0)}
+                onError={handleImageError}
               />
             </div>
 
@@ -339,6 +342,7 @@ const PropertyBrief = ({ property }) => {
                       alt={`${property.propertyType} ${index + 2}`}
                       className="w-full h-[70px] object-cover cursor-pointer"
                       onClick={() => openModal(image, index + 1)}
+                      onError={handleImageError}
                     />
                     {index === 2 && property.images.length > 4 && (
                       <div
@@ -383,6 +387,7 @@ const PropertyBrief = ({ property }) => {
                     src={property.images[0]}
                     alt={`${property.propertyType} 1`}
                     className="h-[500px] rounded-lg block"
+                    onError={handleImageError}
                   />
                 </div>
               ) : (
@@ -396,6 +401,7 @@ const PropertyBrief = ({ property }) => {
                         src={image}
                         alt={`${property.propertyType} ${index + 1}`}
                         className="h-[500px] rounded-lg block"
+                        onError={handleImageError}
                       />
                     </div>
                   ))}
@@ -412,6 +418,7 @@ const PropertyBrief = ({ property }) => {
                       src={image}
                       alt={`${property.propertyType} ${index + 1}`}
                       className="w-full h-auto rounded-lg"
+                      onError={handleImageError}
                     />
                   </div>
                 ))}
