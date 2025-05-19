@@ -955,6 +955,7 @@ const Form = ({ formData, setFormData }) => {
           <lable className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property image<span className="text-red-600">*</span>
           </lable>
+          <p className="text-sm mb-4">Note: Your first image will be cover image of your property</p>
           {(formData.images?.length || 0) === 0 && (
             <div className="border-2 border-dashed border-yellow-600 rounded-lg py-10 flex flex-col items-center">
               <label className="cursor-pointer rounded-md text-yellow-600 font-bold  px-4 py-6 h-[150px] flex items-center justify-center">
