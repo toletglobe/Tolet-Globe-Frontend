@@ -20,12 +20,12 @@ const Regulations = ({ selectComp, property }) => {
             </p>
           </div>
 
-          <div className="border flex rounded-lg border-black p-2 w-full sm:w-fit items-center px-3 py-1">
+          {/*<div className="border flex rounded-lg border-black p-2 w-full sm:w-fit items-center px-3 py-1">
             <MdPets className="h-5 w-5 mr-2 text-black bg-white" />
             <p className="inline font-normal text-sm md:text-md lg:text-lg">
               Pets Allowed - {property.petsAllowed ? "Yes" : "No"}
             </p>
-          </div>
+          </div> */}
 
           <div className="border flex rounded-lg border-black p-2 w-full sm:w-fit items-center px-3 py-1">
             <BsPeopleFill className="h-5 w-5 mr-2 text-black bg-white" />
