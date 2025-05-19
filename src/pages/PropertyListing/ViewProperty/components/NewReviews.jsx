@@ -266,47 +266,54 @@ const handleAddReview = async (e) => {
 
      
       <ul className="list-none p-0">
-        {currentReviews.length > 0 ? (
-          currentReviews.map((review) => (
-            <li
-              key={review.userId}
-              className="bg-gray-100 p-4 mb-2 rounded-lg border border-black lg:mx-8"
-            >
-              <div className="flex items-start flex-wrap ">
-                <div className="inline-block w-14 h-14 lg:w-20 lg:h-20 rounded-full bg-gray-500 text-white text-center leading-8 font-bold mr-2 "></div>
-                <div className="ml-2 flex-1">
-                  <p className="font-bold lg:text-2xl">
-                    {review.firstName !== "NA" ? review.firstName : "Anonymous"}
-                    {review.lastName !== "NA" ? " " + review.lastName : ""}
-                  </p>
-                  <ReactStars
-                    count={5}
-                    value={Number(review.userRating)}
-                    size={
-                      window.innerWidth < 640
-                        ? 20
-                        : window.innerWidth < 1290
-                        ? 23
-                        : 30
-                    }
-                    edit={false}
-                    activeColor="#ffd700"
-                    className="border border-black rounded-lg p-1"
-                  />
-                </div>
-               
-              </div>
-              <div className="text-xl w-[70%] lg:h-[100px] lg:-mt-16 flex-1 flex-wrap">
-                <p>{review.comment}</p>
-              </div>
-            </li>
-          ))
-        ) : (
-          <p className="text-xl text-center lg:text-left lg:text-2xl lg:mx-8">
-            Be the first to review this property!
-          </p>
-        )}
-      </ul>
+  {currentReviews.length > 0 ? (
+    currentReviews.map((review) => {
+      const firstInitial = review.firstName !== "NA" ? review.firstName.charAt(0) : "";
+      const lastInitial = review.lastName !== "NA" ? review.lastName.charAt(0) : "";
+      const initials = `${firstInitial}${lastInitial}`.toUpperCase() || "U";
+
+      return (
+        <li
+          key={review._id}
+          className="bg-gray-100 p-4 mb-4 rounded-xl border border-black lg:mx-8"
+        >
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 w-14 h-14 lg:w-20 lg:h-20 rounded-full bg-teal-600 text-white flex items-center justify-center text-lg font-semibold">
+              {initials}
+            </div>
+            <div className="flex-1">
+              <p className="font-bold text-lg lg:text-2xl text-black">
+                {review.firstName !== "NA" ? review.firstName : "Anonymous"}{" "}
+                {review.lastName !== "NA" ? review.lastName : ""}
+              </p>
+              <ReactStars
+                count={5}
+                value={Number(review.userRating)}
+                size={
+                  window.innerWidth < 640
+                    ? 20
+                    : window.innerWidth < 1290
+                    ? 24
+                    : 30
+                }
+                edit={false}
+                activeColor="#ffd700"
+              />
+              <p className="mt-3 text-gray-800 text-base lg:text-lg">
+                {review.comments}
+              </p>
+            </div>
+          </div>
+        </li>
+      );
+    })
+  ) : (
+    <p className="text-xl text-center lg:text-left lg:text-2xl lg:mx-8">
+      Be the first to review this property!
+    </p>
+  )}
+</ul>
+
 
       <div className="flex justify-center mt-4">
         {currentPage > 1 && (
