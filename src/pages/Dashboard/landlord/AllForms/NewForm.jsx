@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "../../../../config/loadGoogleMaps";
-import { Label } from "@mui/icons-material";
 import Select from "react-select";
-import { X } from "lucide-react";
+import {IoClose} from "react-icons/io5";
 import areas from "../../../../pages/PropertyListing/Listings/areas";
 
 import Pricing from "./PricngCard";
@@ -956,6 +955,7 @@ const Form = ({ formData, setFormData }) => {
           <lable className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property image<span className="text-red-600">*</span>
           </lable>
+          <p className="text-sm mb-4">Note: Your first image will be cover image of your property</p>
           {(formData.images?.length || 0) === 0 && (
             <div className="border-2 border-dashed border-yellow-600 rounded-lg py-10 flex flex-col items-center">
               <label className="cursor-pointer rounded-md text-yellow-600 font-bold  px-4 py-6 h-[150px] flex items-center justify-center">
@@ -987,7 +987,7 @@ const Form = ({ formData, setFormData }) => {
                     className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                     aria-label="Remove image"
                   >
-                    <X size={16} color="white" />
+                    <IoClose size={16} color="white" />
                   </button>
                 </div>
               </div>
@@ -1025,7 +1025,7 @@ const Form = ({ formData, setFormData }) => {
                     className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                     aria-label="Remove image"
                   >
-                    <X size={16} color="white" />
+                    <IoClose size={16} color="white" />
                   </button>
                 </div>
               </div>
@@ -1044,7 +1044,7 @@ const Form = ({ formData, setFormData }) => {
                       className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                       aria-label="Remove image"
                     >
-                      <X size={16} color="white" />
+                      <IoClose size={16} color="white" />
                     </button>
                   </div>
                 ))}
