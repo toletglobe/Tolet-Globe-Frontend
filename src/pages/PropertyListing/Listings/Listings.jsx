@@ -24,6 +24,8 @@ import { API } from "../../../config/axios";
 const Listing = () => {
   const { city } = useParams();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.status);
+ 
 
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
@@ -472,6 +474,15 @@ const Listing = () => {
       navigate("/login");
     }
   };
+  const handleVisit = () => {
+    if (!isLoggedIn) {
+      
+      navigate("/login", { state: { from: location.pathname } }); // Redirect to login
+    } else {
+      // Proceed with the visit logic (e.g., show property details)
+      compare();
+    }
+  };
   const compare = () => {
     navigate("/compare-property");
   };
@@ -817,7 +828,7 @@ const Listing = () => {
               {compareProperty.length >= 1 && (
                 <div className="compare">
                   <button
-                   onClick={compare}
+                   onClick={handleVisit }
                     className={`bg-white h-11 sm:h-14 w-20 md:w-32 ml-20 md:ml-0 text-black cursor-pointer rounded-lg flex gap-2 lg:gap-5 text-center items-center px-3 sm:px-7 lg:py-7 text-sm font-medium ${
                       compareProperty.length <= 0
                         ? "opacity-50 grayscale cursor-not-allowed"
