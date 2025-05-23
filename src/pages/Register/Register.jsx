@@ -78,12 +78,15 @@ const Register = () => {
         }, 3000);
       } else {
         setSubmitting(false);
+        toast.dismiss(loadingToast);
+
         toast.error(
           res.data?.message || "Unexpected response. Please try again."
         );
       }
     } catch (error) {
       // Handling fetch-specific errors (e.g., network issues)
+      toast.dismiss(loadingToast);
       toast.error("Registration failed. Please try again.");
       console.error("Registration error:", error);
     }
