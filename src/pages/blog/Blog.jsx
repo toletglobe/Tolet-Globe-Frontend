@@ -10,19 +10,19 @@ import { API } from "../../config/axios";
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(9);
   const [totalPages, setTotalPages] = useState();
-
-  const navigate = useNavigate(); // Use useNavigate for navigation
-  const [isLatest, setIsLatest] = useState(true);
-  // const [backendData, setBackendData] = useState([]); // Store the original data from backend
   const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState("latest");
+  const [sortBy, setSortBy] = useState("trending"); // Set default to "trending"
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBlog = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const response = await API.get(
           `blog/blogs?page=${currentPage}&limit=${blogsPerPage}&sortBy=${sortBy}`,
@@ -33,12 +33,13 @@ const Blog = () => {
           }
         );
         const allBlogs = response.data;
-        setBlogs(allBlogs.data); // Store the fetched data in backendData
+        setBlogs(allBlogs.data);
         setTotalPages(allBlogs?.totalPages);
-        setLoading(false);
       } catch (error) {
-        console.log(error);
-        setLoading(false); // Set loading to false if an error occurs
+        console.error(error);
+        setError("Failed to fetch blogs. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -47,35 +48,32 @@ const Blog = () => {
 
   const handleClickLatest = () => {
     setSortBy("latest");
-    setIsLatest(true);
-    setCurrentPage(1); // Reset to first page
+    setCurrentPage(1);
   };
 
   const handleClickTrending = () => {
     setSortBy("trending");
-    setIsLatest(false);
-    setCurrentPage(1); // Reset to first page
+    setCurrentPage(1);
   };
 
   const handleViewBlog = async (slug) => {
     try {
-      const response = await API.get(`blog/updateViews/${slug}`, {
+      await API.get(`blog/updateViews/${slug}`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data);
+      navigate(`/blog/${slug}`);
     } catch (error) {
-      console.log(error);
-      throw error;
+      console.error(error);
+      setError("Failed to update views. Please try again later.");
     }
-    navigate(`/blog/${slug}`);
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <ClipLoader color="#6CC1B6" size={150} /> {/* Spinner component */}
+        <ClipLoader color="#6CC1B6" size={150} />
       </div>
     );
   }
@@ -89,12 +87,14 @@ const Blog = () => {
         Dive into a Sea of Endless Stories and Insights
       </h1>
       <LatestTrending
-        isLatest={isLatest}
-        handleClickLatest={handleClickLatest}
+        isLatest={sortBy === "latest"}
         handleClickTrending={handleClickTrending}
+        handleClickLatest={handleClickLatest}
       />
-      <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
 
+      {error && <div className="text-red-500 text-center">{error}</div>}
+      <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
+      
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
