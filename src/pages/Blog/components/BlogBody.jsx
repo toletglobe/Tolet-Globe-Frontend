@@ -4,7 +4,7 @@ const BlogBody = ({data, handleViewBlog}) => {
     return (
         <div className="mt-2">
             <button
-                className="text-2xl font-semibold text-left text-[#6CC1B6] min-h-16 align-t hover:underline"
+                className="text-2xl font-semibold text-left text-[#6CC1B6] min-h-16 align-t group-hover:underline"
                 onClick={() => handleViewBlog(data.slug)}
             >
                 {data?.title.length > 45
