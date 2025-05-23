@@ -1,9 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { plans } from "../../../../constant_pricing/Subscriptions/index";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import SupportModal from "./SupportModal";
 
 export const Pricing = ({ formData }) => {
   const [loading, setLoading] = useState(false);
   const scrollContainerRef = useRef(null);
+
+   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
+  const {userData} = useSelector((state) => state.auth); // Assuming you have user slice
+  const contactNumber = formData?.contactNumber;
 
   // Function to scroll the active plan into view
   useEffect(() => {
@@ -23,12 +32,41 @@ export const Pricing = ({ formData }) => {
   }, [formData?.subscriptionPlan]);
 
   const handlePlanClick = (plan) => {
-    setLoading(true);
-    console.log("Selected plan:", plan);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    setSelectedPlan(plan.price);
+    setModalOpen(true);
   };
+
+   const handleModalSubmit = async (query) => {
+    const payload = {
+      name: userData.firstName,
+      email: userData.email,
+      contactNumber,
+      query,
+      planTitle: selectedPlan,
+    };
+
+    try {
+      const res = await AP.post("/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Our team with connect with you very soon!");
+        setModalOpen(false);
+      } else {
+        toast.error("Failed to send query.");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong.");
+    }
+  };
+
 
   return (
     <div className="p-14 w-full">
@@ -108,6 +146,11 @@ export const Pricing = ({ formData }) => {
           );
         })}
       </div>
+       <SupportModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={handleModalSubmit}
+      />
     </div>
   );
 };
