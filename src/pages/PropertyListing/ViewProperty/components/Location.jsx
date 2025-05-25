@@ -178,6 +178,23 @@ const Location = ({ property, selectComp }) => {
     },
   ];
 
+  // Function to mask address and location except starting house number
+  const maskAddressAndLocation = () => {
+    if (!property) return "Address not available";
+
+    const houseNumberMatch = property.address?.match(/^\s*\S+/);
+    const houseNumber = houseNumberMatch ? houseNumberMatch[0] : "";
+
+    // Mask the rest of the address and location fields
+    const maskString = (str) => str?.replace(/./g, "--") || "";
+
+    const areaMasked = maskString(property.area);
+    const localityMasked = maskString(property.locality);
+    const cityMasked = maskString(property.city);
+
+    return `${houseNumber}---, ${areaMasked}, ${localityMasked}, ${cityMasked}`;
+  };
+
   return (
     <div className="pb-4 bg-white rounded-2xl">
       {/* Header */}
@@ -186,8 +203,7 @@ const Location = ({ property, selectComp }) => {
           <div>
             <h2 className="text-xl font-semibold text-gray-900">Location</h2>
             <p className="text-sm text-gray-600">
-              <span className="blur-sm">{property?.address}</span>,
-              {property?.area},{property?.locality},{property?.city}
+              <span className="">{maskAddressAndLocation()}</span>
             </p>
           </div>
           <p className="text-teal-600 text-sm lg:pt-6">Get Direction</p>
