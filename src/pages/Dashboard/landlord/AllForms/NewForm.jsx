@@ -477,6 +477,7 @@ const Form = ({ formData, setFormData }) => {
           />
         </div>
       </div>
+      
 
       <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
         {/* City */}
