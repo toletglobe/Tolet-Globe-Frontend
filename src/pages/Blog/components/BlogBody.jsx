@@ -2,9 +2,9 @@ import React from 'react'
 
 const BlogBody = ({data, handleViewBlog}) => {
     return (
-        <div className="mt-2">
+        <div className="mt-2 group">
             <button
-                className="text-2xl font-semibold text-left text-[#6CC1B6] min-h-16 align-t"
+                className="text-2xl font-semibold text-left text-[#6CC1B6] min-h-16 align-t group-hover:underline  sm:group-hover:underline"
                 onClick={() => handleViewBlog(data.slug)}
             >
                 {data?.title.length > 45
@@ -20,4 +20,4 @@ const BlogBody = ({data, handleViewBlog}) => {
     )
 }
 
-export default BlogBody
+export default BlogBody;

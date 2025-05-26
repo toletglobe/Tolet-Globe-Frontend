@@ -7,10 +7,12 @@ import { MdMoreVert } from "react-icons/md";
 import { toast } from "react-toastify";
 
 import { useStateValue } from "../../../StateProvider";
-import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
+import { IoAdd, IoRemove } from "react-icons/io5";
 
 import Popup from "reactjs-popup";
-import { FaRegCopy } from "react-icons/fa6";
+import { FaHeart, FaRegCopy } from "react-icons/fa6";
+
+import defaultHouse from "../../../assets/propertyListing/defaultHouse.png"
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -140,14 +142,19 @@ export default function MyProperties() {
   };
 
   // Add Edit button and handleEdit function
-  const handleEdit = (property) => {
-    navigate(`/landlord-dashboard/edit-properties/${property._id}`);
-  };
+  // const handleEdit = (property) => {
+  //   navigate(`/landlord-dashboard/edit-properties/${property._id}`);
+  // };
 
   // DELETE BUTTON
   const handleDelete = (propertyId) => {
     removeFromFavorites(propertyId);
   };
+
+  const handleImageError = (e) => {
+      e.target.src = defaultHouse; // Replace with your fallback image path
+    };
+  
 
   return (
     <>
@@ -172,6 +179,7 @@ export default function MyProperties() {
                     alt="Property"
                     className="h-[200px] w-full object-cover rounded-md mb-4"
                     onClick={() => navigate(`/property/${property.slug}`)}
+                    onError={handleImageError}
                   />
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold">
@@ -187,7 +195,7 @@ export default function MyProperties() {
                           removeFromFavorites(property._id);
                         }}
                       >
-                        <CiHeart className="bg-[#3E3E3E4D] relative text-red-600 mt-1 h-[20px] w-[20px] p-[3px]" />
+                        <FaHeart className="bg-[#3E3E3E4D] relative text-red-600 mt-1 h-[20px] w-[20px] p-[3px]" />
                         <div className="absolute hidden group-hover:block bg-gray-800 text-white text-sm py-1 px-2 rounded -left-7 -top-9 whitespace-nowrap">
                           Remove
                         </div>
@@ -296,12 +304,12 @@ export default function MyProperties() {
                         {/* Dropdown Menu */}
                         {showOption === property._id && (
                           <div className="absolute right-0 mt-2 w-20 bg-white shadow-md rounded-md text-black overflow-hidden">
-                            <button
+                            {/* <button
                               onClick={() => handleEdit(property)}
                               className="flex items-center gap-2 px-4 py-2 hover:bg-gray-200 w-full text-sm"
                             >
                               Edit
-                            </button>
+                            </button> */}
                             <button
                               onClick={() => handleDelete(property._id)}
                               className="flex items-center gap-2 px-4 py-2 hover:bg-gray-200 w-full text-sm"
