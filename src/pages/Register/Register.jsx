@@ -21,21 +21,21 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("");
-  const [userType, setUserType] = useState("buyer");
-  const [answer, setAnswer] = useState("");
+  // const [role, setRole] = useState("");
+  // const [userType, setUserType] = useState("buyer");
+  // const [answer, setAnswer] = useState("");
 
   const [submitting, setSubmitting] = useState(false);
 
   const navigate = useNavigate();
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
-    if (e.target.value !== "user" && userType !== "owner") setUserType("owner");
-  };
+  // const handleRoleChange = (e) => {
+  //   setRole(e.target.value);
+  //   if (e.target.value !== "user" && userType !== "owner") setUserType("owner");
+  // };
 
-  const handleUserTypeChange = (e) => {
-    setUserType(e.target.value);
-  };
+  // const handleUserTypeChange = (e) => {
+  //   setUserType(e.target.value);
+  // };
 
   const resetFields = () => {
     setFirstName("");
@@ -43,9 +43,9 @@ const Register = () => {
     setEmail("");
     setPassword("");
     setPhone("");
-    setRole("");
-    setUserType("");
-    setAnswer("");
+    // setRole("");
+    // setUserType("");
+    // setAnswer("");
   };
 
   const handleSubmit = async (e) => {
@@ -61,9 +61,9 @@ const Register = () => {
         email,
         password,
         phone,
-        role,
-        userType,
-        answer,
+        // role,
+        // userType,
+        // answer,
       });
 
       if (res.status === 200) {
@@ -90,15 +90,19 @@ const Register = () => {
       toast.error("Registration failed. Please try again.");
       console.error("Registration error:", error);
     }
+    finally{
+      setSubmitting(false);
+    }
   };
 
   return (
     <div
       className={`register_form_container relative flex items-center justify-center my-10 overflow-hidden ${
-        role === "user" ? "h-[785px]" : "h-[700px]"
+         "h-[650px]"
+        // role === "user" ? "h-[785px]" : "h-[700px]"
       } w-[400px]  max-w-[400px] max-h-[785px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16 `}
     >
-      <div className="absolute inset-1 bg-black rounded-[50px_5px] p-[43px_40px] text-white z-10 min-h-[650px] border-4 border-transparent">
+      <div className="absolute inset-1 bg-black rounded-[50px_5px] pt-11 px-10 text-white z-10 min-h-[600px] border-4 border-transparent">
         {" "}
         <h2 className="text-4xl font-semibold text-center">Register</h2>
         <form onSubmit={handleSubmit}>
@@ -167,7 +171,7 @@ const Register = () => {
               required
             />
           </div>
-          <div className="mt-10 flex items-center">
+          {/* <div className="mt-10 flex items-center">
             <FaRegAddressCard className="ml-3 text-white" />
             <select
               id="role"
@@ -191,8 +195,8 @@ const Register = () => {
                 User
               </option>
             </select>
-          </div>
-          {role === "user" && (
+          </div> */}
+          {/* {role === "user" && (
             <div className="mt-10 flex items-center">
               <FaSchool className="ml-3 text-white" />
               <select
@@ -215,8 +219,8 @@ const Register = () => {
                 </option>
               </select>
             </div>
-          )}
-          <div className="mt-10 flex items-center">
+          )} */}
+          {/* <div className="mt-10 flex items-center">
             <FaSchool className="ml-3 text-white" />
             <input
               type="text"
@@ -227,7 +231,7 @@ const Register = () => {
               onChange={(e) => setAnswer(e.target.value)}
               required
             />
-          </div>
+          </div> */}
           <div className="flex justify-center mt-10">
             {submitting ? (
               <div className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white">

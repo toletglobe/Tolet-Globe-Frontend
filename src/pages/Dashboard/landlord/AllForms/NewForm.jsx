@@ -15,11 +15,11 @@ const Form = ({ formData, setFormData }) => {
 
   const cityOptions = ["Lucknow", "Ayodhya", "Vellore", "Kota"];
 
-  const spaceTypeOptions = ["Residential", "Commercial", "NA"];
+  const spaceTypeOptions = ["Residential", "Commercial"];
 
-  const residentialOptions = ["House", "Flat", "PG", "NA"];
+  const residentialOptions = ["House", "Flat", "PG"];
 
-  const commercialOptions = ["Office", "Shop", "Warehouse", "NA"];
+  const commercialOptions = ["Office", "Shop", "Warehouse"];
 
   const allOptions = [
     "House",
@@ -28,7 +28,7 @@ const Form = ({ formData, setFormData }) => {
     "Office",
     "Shop",
     "Warehouse",
-    "NA",
+    // "NA",
   ];
 
   const cityLocalityData = {
@@ -220,7 +220,7 @@ const Form = ({ formData, setFormData }) => {
     });
 
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
 
     // Update map and marker position immediately
     if (map && marker) {
@@ -256,7 +256,7 @@ const Form = ({ formData, setFormData }) => {
   };
 
   // for Debugging
-  console.log("Formdata:", formData);
+  // console.log("Formdata:", formData);
 
   const renderMap = () => {
     if (isLoading) return <div>Loading map...</div>;
@@ -284,7 +284,7 @@ const Form = ({ formData, setFormData }) => {
       images: [...existingImages, ...newFiles],
     }));
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
     e.target.value = "";
   };
 
@@ -312,7 +312,7 @@ const Form = ({ formData, setFormData }) => {
       images: updatedImages,
     }));
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
   };
  const customStyles = {
   control: (provided, state) => ({
@@ -353,7 +353,7 @@ const Form = ({ formData, setFormData }) => {
 };
 
   const appliancesOptions = [
-    { value: "NA", label: "NA" },
+    // { value: "NA", label: "NA" },
     { value: "Refrigerator", label: "Refrigerator" },
     { value: "Washing Machine", label: "Washing Machine" },
     { value: "Air Conditioner", label: "Air Conditioner" },
@@ -369,11 +369,11 @@ const Form = ({ formData, setFormData }) => {
       return { ...formData, appliances: selectedOptions };
     });
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
   };
 
   const amenitiesOptions = [
-    { value: "NA", label: "NA" },
+    // { value: "NA", label: "NA" },
     { value: "Lift", label: "Lift" },
     { value: "Parking", label: "Parking" },
     { value: "Power Backup", label: "Power Backup" },
@@ -389,7 +389,7 @@ const Form = ({ formData, setFormData }) => {
       return { ...formData, amenities: selectedOptions };
     });
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
   };
 
   return (
@@ -409,7 +409,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, firstName: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -427,7 +427,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, lastName: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -514,7 +514,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, address: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -552,7 +552,7 @@ const Form = ({ formData, setFormData }) => {
             disabled={!formData.city}
           >
             <option value="" disabled>
-              Select locality<span className="text-red-600">*</span>
+              Select locality
             </option>
             {formData.city &&
               cityLocalityData[formData.city].localities.map(optionRenderFun)}
@@ -601,7 +601,7 @@ const Form = ({ formData, setFormData }) => {
                     setFormData({ ...formData, area: area });
                     setShowAreaDropdown(false);
                     // for Debugging
-                    console.log("Formdata:", formData);
+                    // console.log("Formdata:", formData);
                   }}
                 >
                   {area}
@@ -668,9 +668,9 @@ const Form = ({ formData, setFormData }) => {
           </label>
           <input
             required
-            type="text"
+            type="number"
             placeholder="0"
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             value={formData.squareFeetArea}
             onChange={(e) => {
               setFormData((formData) => {
@@ -693,7 +693,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, spaceType: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -715,7 +715,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, propertyType: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -742,7 +742,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, preference: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -751,7 +751,7 @@ const Form = ({ formData, setFormData }) => {
             <option value="Bachelors">Bachelors</option>
             <option value="Family">Family</option>
             <option value="Any">Any</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -768,7 +768,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, bachelors: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -777,7 +777,7 @@ const Form = ({ formData, setFormData }) => {
             <option value="Boys">Boys</option>
             <option value="Girls">Girls</option>
             <option value="Any">Any</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -793,7 +793,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, type: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -802,7 +802,7 @@ const Form = ({ formData, setFormData }) => {
             <option value="Not Furnished">Not Furnished</option>
             <option value="Semi Furnished">Semi Furnished</option>
             <option value="Fully Furnished">Fully Furnished</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -818,7 +818,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, bhk: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -829,7 +829,7 @@ const Form = ({ formData, setFormData }) => {
             <option value="3">3 BHK</option>
             <option value="4">4 BHK</option>
             <option value="5">5 BHK</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -874,7 +874,7 @@ const Form = ({ formData, setFormData }) => {
                 typeOfWashroom: e.target.value,
               });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -883,7 +883,7 @@ const Form = ({ formData, setFormData }) => {
             <option value="Western">Western</option>
             <option value="Indian">Indian</option>
             <option value="Both">Both</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -912,9 +912,9 @@ const Form = ({ formData, setFormData }) => {
 
         {/* Amenities */}
         <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <lable className="text-[#FFFFFF] text-base font-medium">
+          <label className="text-[#FFFFFF] text-base font-medium">
             Amenities<span className="text-red-600">*</span>
-          </lable>
+          </label>
           <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
             <Select
               styles={customStyles}
@@ -948,7 +948,7 @@ const Form = ({ formData, setFormData }) => {
                 return { ...formData, aboutTheProperty: e.target.value };
               });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           ></textarea>
         </div>
@@ -1010,9 +1010,9 @@ const Form = ({ formData, setFormData }) => {
       <div className="mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
         {/* Image Upload Section */}
         <div className="mt-16">
-          <lable className="block mb-2 text-[#FFFFFF] text-base font-medium">
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property image<span className="text-red-600">*</span>
-          </lable>
+          </label>
           <p className="text-sm mb-4">Note: Your first image will be cover image of your property</p>
           {(formData.images?.length || 0) === 0 && (
             <div className="border-2 border-dashed border-yellow-600 rounded-lg py-10 flex flex-col items-center">
