@@ -4,7 +4,6 @@ import { ClipLoader } from "react-spinners";
 
 import LatestTrending from "./components/LatestTrending";
 import BlogList from "./components/BlogList";
-import Pagination from "../../reusableComponents/Pagination";
 
 import { API } from "../../config/axios";
 
@@ -70,6 +69,19 @@ const Blog = () => {
     }
   };
 
+  const handleScroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || loading) return;
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [loading]);
+
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -94,12 +106,8 @@ const Blog = () => {
 
       {error && <div className="text-red-500 text-center">{error}</div>}
       <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
-      
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+
+      {loading && <div className="flex justify-center my-4"><ClipLoader color="#6CC1B6" size={50} /></div>}
     </div>
   );
 };

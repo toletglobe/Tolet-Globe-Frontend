@@ -15,6 +15,16 @@ const Reviews = ({ property }) => {
   const [totalReviews, setTotalReviews] = useState([]);
   const [comment, setComment] = useState("");
   const [existingReviewId, setExistingReviewId] = useState(null);
+  const [expandedReviewIds, setExpandedReviewIds] = useState([]);
+
+  const toggleExpanded = (reviewId) => {
+  setExpandedReviewIds((prev) =>
+    prev.includes(reviewId)
+      ? prev.filter((id) => id !== reviewId)
+      : [...prev, reviewId]
+  );
+};
+
 
   const reviewsPerPage = 2;
   const navigate = useNavigate();
@@ -90,23 +100,19 @@ const handleAddReview = async (e) => {
       }
     }
 
-    const fetchedReviews = await API.get(`reviews/${property._id}`);
-    setTotalReviews(fetchedReviews.data.reviews);
-
-    //  Re-check and update your own review locally
-    const updatedReview = fetchedReviews.data.reviews.find(r => r.userId === userId);
-    if (updatedReview) {
-      setExistingReviewId(updatedReview._id);
-      setRating(updatedReview.userRating);
-      setComment(updatedReview.comments);
-    }
-
     setShowReviewForm(false);
+
+    // Add delay to allow toast to show before refresh
+    setTimeout(() => {
+      window.location.reload(); // 🔄 refresh only this page
+    }, 900); // Delay slightly for toast feedback
+
   } catch (error) {
     console.error("Error saving review:", error);
     toast.error("Error saving review");
   }
 };
+
 
 
 
@@ -126,16 +132,22 @@ const handleAddReview = async (e) => {
       <h1 className="text-2xl text-center my-4 lg:text-left lg:mx-8 lg:my-4 font-bold text-black">Reviews</h1>
 
       {/* Average Rating */}
-      <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6">
-        <div className="flex flex-col lg:gap-4 items-center w-full lg:w-1/2 px-2 p-12 lg:p-0 lg:px-4 border border-black rounded-lg shadow-md bg-white justify-center">
+      <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6 ">
+        <div className="flex flex-col  items-center lg:w-1/4  border border-black rounded-lg shadow-md bg-white justify-center">
           <h2 className="block lg:hidden xl:text-5xl lg:text-4xl text-xl font-bold text-black">
             Average Rating: {averageRating} / 5
           </h2>
           <ReactStars
             count={5}
-            key={averageRating}
-            value={averageRating}
-            isHalf={true}
+  key={averageRating}
+  value={averageRating}
+  isHalf={true}
+  
+  edit={false}
+  activeColor="#facc15"
+  color="#d1d5db"
+  classNames="react-stars-wrapper"
+
             size={
               window.innerWidth < 640
                 ? 20
@@ -145,46 +157,40 @@ const handleAddReview = async (e) => {
                 ? 44
                 : 50
             }
-            edit={false}
-            activeColor="#ffd700"
           />
           <h2 className="hidden lg:block xl:text-5xl lg:text-4xl text-2xl font-bold text-[#505050]">
             {averageRating} Out Of 5
           </h2>
         </div>
 
-        {/* Write Review CTA */}
-        <div className="flex flex-col sm:flex-row items-start justify-between w-full xl:p-6 p-4 border border-black rounded-lg shadow-md bg-white gap-6">
-          <div className="flex-col hidden md:flex lg:flex flex-wrap items-start w-full lg:w-[35%]">
-            <h3 className="text-xl mb-2 font-bold text-[#505050]">Rate This Property On Your Experience</h3>
-            <ReactStars
-              count={5}
-              onChange={handleRatingChange}
-              size={window.innerWidth < 640 ? 30 : 50}
-              value={rating}
-              activeColor="#ffd700"
-              isHalf={false}
-            />
-          </div>
-          <div className="flex flex-col items-start w-full lg:w-1/2 xl:w-[49%] gap-2">
-            <h3 className="text-[0.8rem] lg:text-xl font-bold text-start text-black">
-              Share details of your experience with this property.
-            </h3>
-            <button
-              onClick={() => {
-                if (authState.status && localStorage.getItem("token")) {
-                  setShowReviewForm(!showReviewForm);
-                } else {
-                  toast.error("Please Log In first");
-                  navigate("/login");
-                }
-              }}
-              className="mt-4 w-full bg-teal-500 text-black font-bold lg:text-xl py-2 rounded-lg hover:bg-teal-600 border border-black"
-            >
-              {showReviewForm ? "Cancel" : existingReviewId ? "Update Your Review" : "Write A Review"}
-            </button>
-          </div>
-        </div>
+       {/* Write Review CTA */}
+<div className="flex flex-col sm:flex-row items-center justify-between w-2/3 xl:p-6 p-4 border border-black rounded-lg shadow-md bg-white gap-6 min-h-[160px]">
+  
+  {/* Left Side - Heading */}
+  <div className="sm:w-1/2">
+    <h3 className="text-[0.9rem] sm:text-lg lg:text-xl text-start font-semibold text-gray-500 w-3/4">
+      Share Details Of Your Experience With This Property.
+    </h3>
+  </div>
+
+  {/* Right Side - Button */}
+  <div className="w-full sm:w-1/2 flex justify-center bg-teal-500 rounded">
+    <button
+      onClick={() => {
+        if (authState.status && localStorage.getItem("token")) {
+          setShowReviewForm(!showReviewForm);
+        } else {
+          toast.error("Please Log In first");
+          navigate("/login");
+        }
+      }}
+      className=" sm:w-auto bg-teal-500 text-black font-semibold  text-sm sm:text-base lg:text-xl py-2 px-6 rounded"
+    >
+      {showReviewForm ? "Cancel" : existingReviewId ? "Update Your Review" : "Write A Review"}
+    </button>
+  </div>
+</div>
+
       </div>
 
       {/* Review Form */}
@@ -254,7 +260,16 @@ const handleAddReview = async (e) => {
                       edit={false}
                       activeColor="#ffd700"
                     />
-                    <p className="mt-3 text-gray-800 text-base lg:text-lg">{review.comments}</p>
+                    <p className="mt-3 text-gray-800 text-base lg:text-lg whitespace-pre-wrap">
+                       {review.comments.length > 200 && !expandedReviewIds.includes(review._id) ? `${review.comments.slice(0, 200)}...` : review.comments}
+                       </p>{review.comments.length > 200 && (
+                         <button
+                         onClick={() => toggleExpanded(review._id)}
+                         className="text-teal-600 font-medium text-sm mt-1 hover:underline"
+                          >
+                            {expandedReviewIds.includes(review._id) ? "Read Less" : "Read More"}
+                             </button>
+                            )}
                   </div>
                 </div>
               </li>

@@ -15,11 +15,11 @@ const Form = ({ formData, setFormData }) => {
 
   const cityOptions = ["Lucknow", "Ayodhya", "Vellore", "Kota"];
 
-  const spaceTypeOptions = ["Residential", "Commercial", "NA"];
+  const spaceTypeOptions = ["Residential", "Commercial"];
 
-  const residentialOptions = ["House", "Flat", "PG", "NA"];
+  const residentialOptions = ["House", "Flat", "PG"];
 
-  const commercialOptions = ["Office", "Shop", "Warehouse", "NA"];
+  const commercialOptions = ["Office", "Shop", "Warehouse"];
 
   const allOptions = [
     "House",
@@ -28,7 +28,7 @@ const Form = ({ formData, setFormData }) => {
     "Office",
     "Shop",
     "Warehouse",
-    "NA",
+    // "NA",
   ];
 
   const cityLocalityData = {
@@ -220,7 +220,7 @@ const Form = ({ formData, setFormData }) => {
     });
 
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
 
     // Update map and marker position immediately
     if (map && marker) {
@@ -256,7 +256,7 @@ const Form = ({ formData, setFormData }) => {
   };
 
   // for Debugging
-  console.log("Formdata:", formData);
+  // console.log("Formdata:", formData);
 
   const renderMap = () => {
     if (isLoading) return <div>Loading map...</div>;
@@ -284,7 +284,7 @@ const Form = ({ formData, setFormData }) => {
       images: [...existingImages, ...newFiles],
     }));
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
     e.target.value = "";
   };
 
@@ -312,28 +312,48 @@ const Form = ({ formData, setFormData }) => {
       images: updatedImages,
     }));
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
   };
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      background: "#fff",
-      minHeight: "46px",
-      boxShadow: "none",
-      border: 0,
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
+ const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: '#000000',
+    color: '#FFFFFF',
+    borderColor: '#C8C8C8',
+    padding: '6px',
+    minHeight: '3.5rem',
+    boxShadow: state.isFocused ? '0 0 0 1px #C8C8C8' : 'none',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected
+      ? '#1F1F1F'
+      : state.isFocused
+      ? '#333333'
+      : '#000000',
+    color: '#FFFFFF',
+  }),
+  multiValue: (styles) => ({
+    ...styles,
+    backgroundColor: '#FFFFFF',
+    color: '#1F1F1F',
+  }),
+  input: (styles) => ({
+    ...styles,
+    color: '#FFFFFF',
+  }),
+  placeholder: (styles) => ({
+    ...styles,
+    color: '#7D7D7D',
+  }),
+  singleValue: (styles) => ({
+    ...styles,
+    color: '#FFFFFF',
+  }),
+};
 
-    dropdownIndicator: (provided) => ({
-      ...provided,
-      color: "#000000",
-      padding: "0 8px",
-    }),
-  };
   const appliancesOptions = [
-    { value: "NA", label: "NA" },
+    // { value: "NA", label: "NA" },
     { value: "Refrigerator", label: "Refrigerator" },
     { value: "Washing Machine", label: "Washing Machine" },
     { value: "Air Conditioner", label: "Air Conditioner" },
@@ -349,11 +369,11 @@ const Form = ({ formData, setFormData }) => {
       return { ...formData, appliances: selectedOptions };
     });
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
   };
 
   const amenitiesOptions = [
-    { value: "NA", label: "NA" },
+    // { value: "NA", label: "NA" },
     { value: "Lift", label: "Lift" },
     { value: "Parking", label: "Parking" },
     { value: "Power Backup", label: "Power Backup" },
@@ -369,7 +389,7 @@ const Form = ({ formData, setFormData }) => {
       return { ...formData, amenities: selectedOptions };
     });
     // for Debugging
-    console.log("Formdata:", formData);
+    // console.log("Formdata:", formData);
   };
 
   return (
@@ -389,7 +409,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, firstName: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -407,55 +427,77 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, lastName: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           />
         </div>
 
         {/* Owner Contact Number */}
-        <div>
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Phone Number<span className="text-red-600">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Enter phone number"
-            required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.ownersContactNumber}
-            onChange={(e) => {
-              setFormData({
-                ...formData,
-                ownersContactNumber: e.target.value,
-              });
-              // for Debugging
-              console.log("Formdata:", formData);
-            }}
-            pattern="[0-9]{10}"
-          />
-        </div>
+<div>
+  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+    Phone Number<span className="text-red-600">*</span>
+  </label>
+  <input
+    type="tel"
+    placeholder="Enter phone number"
+    required
+    maxLength={10}
+    pattern="[0-9]{10}"
+    inputMode="numeric"
+    className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
+    value={formData.ownersContactNumber}
+    onChange={(e) => {
+      // Remove non-digit characters in real-time
+      const digitsOnly = e.target.value.replace(/\D/g, '');
+      setFormData({
+        ...formData,
+        ownersContactNumber: digitsOnly,
+      });
+    }}
+    onKeyDown={(e) => {
+      // Allow only numbers and essential keys
+      const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'];
+      if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+</div>
 
-        {/* Owner's Alternate Contact Number */}
-        <div>
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Alternate Phone Number
-          </label>
-          <input
-            type="text"
-            placeholder="Enter phone number"
-            className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-[14px] !placeholder:text-[8px] sm:placeholder:text-base"
-            value={formData.ownersAlternateContactNumber}
-            onChange={(e) => {
-              setFormData({
-                ...formData,
-                ownersAlternateContactNumber: e.target.value,
-              });
-              // for Debugging
-              console.log("Formdata:", formData);
-            }}
-            pattern="[0-9]{10}"
-          />
-        </div>
+
+      {/* Owner's Alternate Contact Number */}
+<div>
+  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+    Alternate Phone Number
+  </label>
+  <input
+    type="tel"
+    placeholder="Enter phone number"
+    
+    maxLength={10}
+    pattern="[0-9]{10}"
+    inputMode="numeric"
+    className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-[14px] !placeholder:text-[8px] sm:placeholder:text-base text-white"
+    value={formData.ownersAlternateContactNumber}
+    onChange={(e) => {
+      // Sanitize input to allow only digits
+      const digitsOnly = e.target.value.replace(/\D/g, '');
+      setFormData({
+        ...formData,
+        ownersAlternateContactNumber: digitsOnly,
+      });
+      console.log("Formdata:", formData);
+    }}
+    onKeyDown={(e) => {
+      // Block non-digit key entries
+      const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'];
+      if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+  />
+</div>
+
       </div>
       <div>
         {/* Address */}
@@ -472,7 +514,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, address: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -510,7 +552,7 @@ const Form = ({ formData, setFormData }) => {
             disabled={!formData.city}
           >
             <option value="" disabled>
-              Select locality<span className="text-red-600">*</span>
+              Select locality
             </option>
             {formData.city &&
               cityLocalityData[formData.city].localities.map(optionRenderFun)}
@@ -559,7 +601,7 @@ const Form = ({ formData, setFormData }) => {
                     setFormData({ ...formData, area: area });
                     setShowAreaDropdown(false);
                     // for Debugging
-                    console.log("Formdata:", formData);
+                    // console.log("Formdata:", formData);
                   }}
                 >
                   {area}
@@ -626,9 +668,9 @@ const Form = ({ formData, setFormData }) => {
           </label>
           <input
             required
-            type="text"
+            type="number"
             placeholder="0"
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             value={formData.squareFeetArea}
             onChange={(e) => {
               setFormData((formData) => {
@@ -651,7 +693,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, spaceType: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -673,7 +715,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, propertyType: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -700,7 +742,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, preference: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -709,7 +751,7 @@ const Form = ({ formData, setFormData }) => {
             <option value="Bachelors">Bachelors</option>
             <option value="Family">Family</option>
             <option value="Any">Any</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -726,7 +768,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, bachelors: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -735,7 +777,7 @@ const Form = ({ formData, setFormData }) => {
             <option value="Boys">Boys</option>
             <option value="Girls">Girls</option>
             <option value="Any">Any</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -751,7 +793,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, type: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -760,7 +802,7 @@ const Form = ({ formData, setFormData }) => {
             <option value="Not Furnished">Not Furnished</option>
             <option value="Semi Furnished">Semi Furnished</option>
             <option value="Fully Furnished">Fully Furnished</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -776,7 +818,7 @@ const Form = ({ formData, setFormData }) => {
             onChange={(e) => {
               setFormData({ ...formData, bhk: e.target.value });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -787,28 +829,35 @@ const Form = ({ formData, setFormData }) => {
             <option value="3">3 BHK</option>
             <option value="4">4 BHK</option>
             <option value="5">5 BHK</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
         {/* Floor */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Floors<span className="text-red-600">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Enter floor number"
-            required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.floor}
-            onChange={(e) => {
-              setFormData({ ...formData, floor: e.target.value });
-              // for Debugging
-              console.log("Formdata:", formData);
-            }}
-          />
-        </div>
+   <div className="w-full h-fit flex flex-col gap-3 items-start">
+  <label className="text-[#FFFFFF] text-base font-medium">
+    Floors<span className="text-red-600">*</span>
+  </label>
+  <input
+    type="number"
+    min="0"
+    step="1"
+    placeholder="Enter floor number"
+    required
+    className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+    value={formData.floor}
+    onChange={(e) => {
+      const val = e.target.value;
+      // Ensure only positive integers or empty string
+      if (val === "" || /^[0-9]+$/.test(val)) {
+        setFormData({ ...formData, floor: val });
+      }
+      console.log("Formdata:", formData);
+    }}
+  />
+</div>
+
+
 
         {/* Type of Washroom */}
         <div className="w-full h-fit flex flex-col gap-3 items-start">
@@ -825,7 +874,7 @@ const Form = ({ formData, setFormData }) => {
                 typeOfWashroom: e.target.value,
               });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -834,24 +883,25 @@ const Form = ({ formData, setFormData }) => {
             <option value="Western">Western</option>
             <option value="Indian">Indian</option>
             <option value="Both">Both</option>
-            <option value="NA">NA</option>
+            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
         {/* Appliances */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
+        <div className="w-full h-fit flex flex-col gap-3 items-start ">
           <label className="text-[#FFFFFF] text-base font-medium">
             Appliances<span className="text-red-600">*</span>
           </label>
-          <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
+          <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
             <Select
               styles={customStyles}
+
               placeholder={
-                <div className="text-[#7D7D7D]  text-[18px] leading-[23px] font-normal">
+                <div className="text-white  text-[18px] leading-[23px] font-normal">
                   Choose your Appliances
                 </div>
               }
-              required
+              
               value={formData.appliances}
               options={appliancesOptions}
               onChange={handleOnChangeAppliances}
@@ -862,19 +912,19 @@ const Form = ({ formData, setFormData }) => {
 
         {/* Amenities */}
         <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <lable className="text-[#FFFFFF] text-base font-medium">
+          <label className="text-[#FFFFFF] text-base font-medium">
             Amenities<span className="text-red-600">*</span>
-          </lable>
+          </label>
           <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
             <Select
               styles={customStyles}
               className="text-black"
               placeholder={
-                <div className="text-[#7D7D7D] text-[18px] leading-[23px] font-normal">
+                <div className="text-white text-[18px] leading-[23px] font-normal">
                   Choose your Amenities
                 </div>
               }
-              required
+              
               value={formData.amenities}
               options={amenitiesOptions}
               onChange={handleOnChangeAmenities}
@@ -898,7 +948,7 @@ const Form = ({ formData, setFormData }) => {
                 return { ...formData, aboutTheProperty: e.target.value };
               });
               // for Debugging
-              console.log("Formdata:", formData);
+              // console.log("Formdata:", formData);
             }}
           ></textarea>
         </div>
@@ -911,36 +961,44 @@ const Form = ({ formData, setFormData }) => {
             Security Amount (If Applicable)
           </label>
           <input
-            required
-            type="text"
-            placeholder="Enter security amount"
-            className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.security || ""}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, security: e.target.value }))
-            }
-          />
+          required
+          type="number"
+           min="0"
+            step="1"
+             placeholder="Enter security amount"
+             className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] 
+             [&::-webkit-outer-spin-button]:appearance-none 
+             [&::-webkit-inner-spin-button]:appearance-none 
+             appearance-none"
+             value={formData.security || ""}
+             onChange={(e) => {
+               const val = e.target.value;
+               if (val === "" || /^[0-9]+$/.test(val)) {
+                 setFormData((prev) => ({ ...prev, security: val }));
+                }
+                 }}
+                 />
         </div>
         <div className="flex-1 mt-10 md:mt-0">
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Rent Amount <span className="text-red-800">*</span>
           </label>
-          <input
-            required
-            type="text"
-            placeholder="Enter rent amount"
-            className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.rent || ""}
-            onChange={(e) => {
-              const rentValue = e.target.value;
-              const subscriptionAmount = determineSubscriptionPlan(rentValue);
-              setFormData((prev) => ({
-                ...prev,
-                rent: rentValue,
-                subscriptionPlan: subscriptionAmount,
-              }));
-            }}
-          />
+        <input
+         type="number"
+         placeholder="Enter rent amount"
+         required
+         className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
+         value={formData.rent || ""}
+         onChange={(e) => {
+           const rentValue = e.target.value;
+           const subscriptionAmount = determineSubscriptionPlan(rentValue);
+           setFormData((prev) => ({
+            ...prev,
+             rent: rentValue,
+             subscriptionPlan: subscriptionAmount,
+            }));
+             }}
+             />
         </div>
       </div>
       {/* Subscription Cards */}
@@ -952,9 +1010,9 @@ const Form = ({ formData, setFormData }) => {
       <div className="mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
         {/* Image Upload Section */}
         <div className="mt-16">
-          <lable className="block mb-2 text-[#FFFFFF] text-base font-medium">
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property image<span className="text-red-600">*</span>
-          </lable>
+          </label>
           <p className="text-sm mb-4">Note: Your first image will be cover image of your property</p>
           {(formData.images?.length || 0) === 0 && (
             <div className="border-2 border-dashed border-yellow-600 rounded-lg py-10 flex flex-col items-center">
