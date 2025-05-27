@@ -59,6 +59,17 @@ const Navbar = () => {
     toast.success("Logged out!");
   };
 
+  const handleAddProperty = () => {
+    if (authState.status) {
+      // User is logged in, navigate to Add Property page
+      navigate("/landlord-dashboard/add-properties");
+    } else {
+      // User is not logged in, navigate to Login page
+      navigate("/login");
+      toast.error("Please log in to add a property!");
+    }
+  };
+
   const navLinks = [
     { label: "Home", path: "/", icon: CiHome },
     {
@@ -72,6 +83,11 @@ const Navbar = () => {
       label: "Property Listing",
       path: "/property-listing",
       icon: HiOutlineDocumentText,
+    },
+    {
+      label: "Add Property",
+      path: "/landlord-dashboard/add-properties",
+      icon: IoAddOutline,
     },
   ];
 
@@ -130,23 +146,29 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <ul className="hidden sm:flex items-center font-medium lg:text-sm space-x-6">
-        {navLinks.map((link, index) => (
-          <NavLink
-            key={index}
-            to={link.path}
-            onClick={() => setActiveNavbarMenu(link.label)}
-          >
-            <li
-              className={`py-1 hover:bg-teal-500 hover:text-white hover:rounded-md text-md px-3 ${
-                activeNavbarMenu === link.label
-                  ? "bg-teal-500 text-white rounded-md"
-                  : ""
-              }`}
-            >
-              {link.label}
-            </li>
-          </NavLink>
-        ))}
+      {navLinks.map((link, index) => (
+      <NavLink
+        key={index}
+        to={link.path}
+        onClick={() => {
+          if (link.label === "Add Property") {
+            handleAddProperty();
+          } else {
+            setActiveNavbarMenu(link.label);
+          }
+        }}
+      >
+      <li
+        className={`py-1 hover:bg-teal-500 hover:text-white hover:rounded-md text-md px-3 ${
+          activeNavbarMenu === link.label
+            ? "bg-teal-500 text-white rounded-md"
+            : ""
+        }`}
+      >
+        {link.label}
+      </li>
+    </NavLink>
+  ))}
         <div>
           {authState.status ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
@@ -528,7 +550,14 @@ const Navbar = () => {
           {navLinks.map((link, index) => (
             <NavLink
               key={index}
-              onClick={() => setShowMenu(false)}
+              onClick={() => {
+                if (link.label === "Add Property") {
+                  handleAddProperty();
+                } else {
+                  setShowMenu(false);
+                  navigate(link.path);
+                }
+              }}
               to={link.path}
             >
               <div className="flex items-center gap-x-3 hover:text-teal-500">
