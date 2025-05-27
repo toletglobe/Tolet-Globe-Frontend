@@ -1,12 +1,15 @@
+import { set } from "date-fns";
 import React, { useState } from "react";
 
 const SupportModal = ({ isOpen, onClose, onSubmit }) => {
+  const [topic, setTopic] = useState("");
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(query);
+    onSubmit(query, topic);
     setQuery("");
+    setTopic("");
   };
 
   if (!isOpen) return null;
@@ -16,6 +19,16 @@ const SupportModal = ({ isOpen, onClose, onSubmit }) => {
       <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
         <h2 className="text-xl font-semibold mb-4">Contact Support</h2>
         <form onSubmit={handleSubmit}>
+          <label className="block text-sm font-medium mb-2">
+            Topic
+            <input
+              type="text"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              required
+            />
+          </label>
           <label className="block text-sm font-medium mb-2">
             Your Query
             <textarea

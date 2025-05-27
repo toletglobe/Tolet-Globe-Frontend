@@ -3,6 +3,7 @@ import { plans } from "../../../../constant_pricing/Subscriptions/index";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import SupportModal from "./SupportModal";
+import {API} from "../../../../config/axios";
 
 export const Pricing = ({ formData }) => {
   const [loading, setLoading] = useState(false);
@@ -12,7 +13,7 @@ export const Pricing = ({ formData }) => {
   const [selectedPlan, setSelectedPlan] = useState(null);
 
   const {userData} = useSelector((state) => state.auth); // Assuming you have user slice
-  const contactNumber = formData?.contactNumber;
+  const phone = formData?.contactNumber;
 
   // Function to scroll the active plan into view
   useEffect(() => {
@@ -36,17 +37,18 @@ export const Pricing = ({ formData }) => {
     setModalOpen(true);
   };
 
-   const handleModalSubmit = async (query) => {
+   const handleModalSubmit = async (query, topic) => {
     const payload = {
       name: userData.firstName,
       email: userData.email,
-      contactNumber,
-      query,
-      planTitle: selectedPlan,
+      phone,
+      msg: query,
+      topic,
+      // planTitle: selectedPlan,
     };
 
     try {
-      const res = await AP.post("/contact", {
+      const res = await API.post("contact/submit-data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,6 +66,9 @@ export const Pricing = ({ formData }) => {
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong.");
+    }
+    finally{
+      setModalOpen(false)
     }
   };
 
