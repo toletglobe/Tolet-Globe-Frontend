@@ -32,7 +32,12 @@ const Blog = () => {
           }
         );
         const allBlogs = response.data;
-        setBlogs(allBlogs.data);
+        // setBlogs((prevBlogs) => [...prevBlogs, ...allBlogs.data]); // Append new blogs to the existing list
+        setBlogs((prevBlogs) => {
+          const existingSlugs = new Set(prevBlogs.map((blog) => blog.slug));
+          const newUniqueBlogs = allBlogs.data.filter((blog) => !existingSlugs.has(blog.slug));
+          return [...prevBlogs, ...newUniqueBlogs];
+        });
         setTotalPages(allBlogs?.totalPages);
       } catch (error) {
         console.error(error);
@@ -48,11 +53,13 @@ const Blog = () => {
   const handleClickLatest = () => {
     setSortBy("latest");
     setCurrentPage(1);
+    setBlogs([]); // Reset blogs when sorting changes
   };
 
   const handleClickTrending = () => {
     setSortBy("trending");
     setCurrentPage(1);
+    setBlogs([]); // Reset blogs when sorting changes
   };
 
   const handleViewBlog = async (slug) => {
@@ -69,20 +76,15 @@ const Blog = () => {
     }
   };
 
-  const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || loading) return;
-    setCurrentPage((prevPage) => prevPage + 1);
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [loading]);
+  const remainingBlogsCount = totalPages && (totalPages - currentPage) * blogsPerPage;
 
-
-  if (loading) {
+  if (loading && currentPage === 1) {
     return (
       <div className="flex justify-center items-center h-screen">
         <ClipLoader color="#6CC1B6" size={150} />
@@ -108,8 +110,21 @@ const Blog = () => {
       <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
 
       {loading && <div className="flex justify-center my-4"><ClipLoader color="#6CC1B6" size={50} /></div>}
+
+      {currentPage < totalPages && !loading && (
+        <div className="flex flex-col items-center my-4">
+          <button
+            onClick={handleLoadMore}
+            className="bg-[#212629] px-6 py-2 rounded-md text-lg font-medium text-gray-400 active:bg-[#5edbd3] transition active:text-gray-900"
+          >
+            Load More ({remainingBlogsCount})
+          </button>
+          
+        </div>
+      )}
     </div>
   );
 };
 
 export default Blog;
+

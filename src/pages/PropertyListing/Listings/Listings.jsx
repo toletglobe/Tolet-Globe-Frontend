@@ -30,6 +30,7 @@ const Listing = () => {
  
  // State for managing the login popup
  const [showLoginPopup, setShowLoginPopup] = useState(false);
+ const [showCount, setShowCount] = useState(3);
 
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
@@ -45,7 +46,7 @@ const Listing = () => {
   const [showArea, setShowArea] = useState(false);
   const [Location, setLocation] = useState(false);
   const location = useLocation();
-  const propertiesPerPage = 9;
+  const [propertiesPerPage] = useState(9);
   const [showSelectCity, setShowSelectCity] = useState(false);
   // let selectedCity = false;
   const [favouriteList, setFavouriteList] = useState([]);
@@ -250,6 +251,7 @@ const Listing = () => {
     selectedLocality
   ) => {
     setLoading(true);
+    let propertyData = []; // Initialize as an empty array
 
     try {
       let cleanedFilters = {
@@ -302,7 +304,7 @@ const Listing = () => {
 
       try {
         const response = await API.get(url);
-        let propertyData = response.data.data;
+        propertyData = response.data.data || [];
 
         // Handle fallback logic if no properties are found
         if (
@@ -316,7 +318,7 @@ const Listing = () => {
           );
           const fallbackUrl = `property/filter?${queryString}`;
           const fallbackResponse = await API.get(fallbackUrl);
-          propertyData = fallbackResponse.data.data;
+          propertyData = fallbackResponse.data.data || []; // Ensure fallback data is also an array
         }
 
         // Sort properties by availability status (available first, then others)
@@ -332,7 +334,7 @@ const Listing = () => {
         const searchParams = new URLSearchParams(location.search);
         const sortType = searchParams.get("sort");
         if (sortType && Array.isArray(propertyData)) {
-          sortProperties(propertyData, sortType);
+          propertyData = sortPropertiesByAvailability(propertyData);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -343,7 +345,24 @@ const Listing = () => {
       console.error("Error fetching properties:", error);
       setLoading(false);
     }
+    return propertyData; // Return the property data
   };
+
+  const remainingPropertyCount = totalPages && (totalPages - currentPage) * propertiesPerPage;
+
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      fetchAndFilterProperties(city, selectedArea, selectedLocality).then((data) => {
+        if (Array.isArray(data)) {
+          setProperties((prevProperties) => [...prevProperties, ...data]);
+        }
+      });
+    }
+  };
+  
+
+ 
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -463,7 +482,7 @@ const Listing = () => {
       queryParams.get("locality") || ""
     );
   };
-  if (loading) {
+  if (loading && currentPage === 1) {
     return (
       <div className="flex justify-center items-center h-screen">
         <ClipLoader color="#6CC1B6" size={150} />
@@ -494,6 +513,7 @@ const Listing = () => {
     setFilterCount(count);
   };
 
+ 
   return (
     <>
       {showLoginPopup && <LoginPopup onClose={() => setShowLoginPopup(false)} />}
@@ -907,13 +927,22 @@ const Listing = () => {
             />
           )}
         </div>
-      </section>
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+        {loading && <div className="flex justify-center my-4"><ClipLoader color="#6CC1B6" size={50} /></div>}
+
+        {currentPage < totalPages && !loading && (
+          <div className="flex flex-col items-center my-4">
+            <button
+              onClick={handleLoadMore}
+              className="bg-[#212629] px-6 py-2 rounded-md text-lg font-medium text-gray-400 active:bg-[#5edbd3] transition active:text-gray-900"
+            >
+              Load More ({remainingPropertyCount})
+            </button>
+            
+          </div>
+        )}
+      
+      </section>
     </>
   );
 };
