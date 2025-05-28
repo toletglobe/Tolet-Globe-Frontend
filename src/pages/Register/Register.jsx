@@ -98,11 +98,11 @@ const Register = () => {
   return (
     <div
       className={`register_form_container relative flex items-center justify-center my-10 overflow-hidden ${
-         "h-[650px]"
+         ""
         // role === "user" ? "h-[785px]" : "h-[700px]"
       } w-[400px]  max-w-[400px] max-h-[785px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16 `}
     >
-      <div className="absolute inset-1 bg-black rounded-[50px_5px] pt-11 px-10 text-white z-10 min-h-[600px] border-4 border-transparent">
+      <div className="absolute inset-1 bg-black rounded-[50px_5px] pt-11 px-10 text-white z-10 border-4 border-transparent">
         {" "}
         <h2 className="text-4xl font-semibold text-center">Register</h2>
         <form onSubmit={handleSubmit}>
