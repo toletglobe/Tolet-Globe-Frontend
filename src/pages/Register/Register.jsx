@@ -100,7 +100,7 @@ const Register = () => {
       className={`register_form_container relative flex items-center justify-center my-10 overflow-hidden ${
          ""
         // role === "user" ? "h-[785px]" : "h-[700px]"
-      } w-[400px]  max-w-[400px] max-h-[785px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16 `}
+      } w-[400px]  max-w-[400px] max-h-[580px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16 `}
     >
       <div className="absolute inset-1 bg-black rounded-[50px_5px] pt-11 px-10 text-white z-10 border-4 border-transparent">
         {" "}
