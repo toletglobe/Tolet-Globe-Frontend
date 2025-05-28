@@ -131,67 +131,72 @@ const handleAddReview = async (e) => {
     <div className="w-full p-6 bg-white shadow-lg rounded-2xl">
       <h1 className="text-2xl text-center my-4 lg:text-left lg:mx-8 lg:my-4 font-bold text-black">Reviews</h1>
 
-      {/* Average Rating */}
-      <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6 ">
-        <div className="flex flex-col  items-center lg:w-1/4  border border-black rounded-lg shadow-md bg-white justify-center">
-          <h2 className="block lg:hidden xl:text-5xl lg:text-4xl text-xl font-bold text-black">
-            Average Rating: {averageRating} / 5
-          </h2>
-          <ReactStars
-            count={5}
-  key={averageRating}
-  value={averageRating}
-  isHalf={true}
-  
-  edit={false}
-  activeColor="#facc15"
-  color="#d1d5db"
-  classNames="react-stars-wrapper"
+     {/* Average Rating and Write Review Section */}
+<div className="flex flex-col lg:flex-row justify-between gap-6 mb-6 lg:mx-6 mx-4">
 
-            size={
-              window.innerWidth < 640
-                ? 20
-                : window.innerWidth < 1025
-                ? 35
-                : window.innerWidth < 1450
-                ? 44
-                : 50
-            }
-          />
-          <h2 className="hidden lg:block xl:text-5xl lg:text-4xl text-2xl font-bold text-[#505050]">
-            {averageRating} Out Of 5
-          </h2>
-        </div>
+  {/* Average Rating */}
+  <div className="flex flex-col items-center lg:w-1/4 w-full border border-black rounded-lg shadow-md bg-white py-6 px-4">
+    {/* Mobile View Heading */}
+    <h2 className="block lg:hidden text-xl sm:text-2xl font-bold text-black mb-2">
+      Average Rating: {averageRating} / 5
+    </h2>
 
-       {/* Write Review CTA */}
-<div className="flex flex-col sm:flex-row items-center justify-between w-2/3 xl:p-6 p-4 border border-black rounded-lg shadow-md bg-white gap-6 min-h-[160px]">
-  
-  {/* Left Side - Heading */}
-  <div className="sm:w-1/2">
-    <h3 className="text-[0.9rem] sm:text-lg lg:text-xl text-start font-semibold text-gray-500 w-3/4">
-      Share Details Of Your Experience With This Property.
-    </h3>
+    {/* Star Rating */}
+    <ReactStars
+      count={5}
+      key={averageRating}
+      value={averageRating}
+      isHalf={true}
+      edit={false}
+      activeColor="#facc15"
+      color="#d1d5db"
+      classNames="react-stars-wrapper"
+      size={
+        window.innerWidth < 640
+          ? 20
+          : window.innerWidth < 1025
+          ? 35
+          : window.innerWidth < 1450
+          ? 44
+          : 50
+      }
+    />
+
+    {/* Desktop View Heading */}
+    <h2 className="hidden lg:block text-2xl lg:text-4xl xl:text-5xl font-bold text-[#505050] mt-4">
+      {averageRating} Out Of 5
+    </h2>
   </div>
 
-  {/* Right Side - Button */}
-  <div className="w-full sm:w-1/2 flex justify-center bg-teal-500 rounded">
-    <button
-      onClick={() => {
-        if (authState.status && localStorage.getItem("token")) {
-          setShowReviewForm(!showReviewForm);
-        } else {
-          toast.error("Please Log In first");
-          navigate("/login");
-        }
-      }}
-      className=" sm:w-auto bg-teal-500 text-black font-semibold  text-sm sm:text-base lg:text-xl py-2 px-6 rounded"
-    >
-      {showReviewForm ? "Cancel" : existingReviewId ? "Update Your Review" : "Write A Review"}
-    </button>
+  {/* Write Review CTA */}
+  <div className="flex flex-col sm:flex-row items-center justify-between w-full lg:w-2/3 xl:p-6 p-4 border border-black rounded-lg shadow-md bg-white gap-6 min-h-[160px]">
+    
+    {/* Left Side - Heading */}
+    <div className="sm:w-1/2 w-full">
+      <h3 className="text-sm sm:text-base sm:text-black md:text-lg lg:text-xl font-semibold lg:text-gray-500  sm:text- w-3/4">
+        Share Details Of Your Experience With This Property.
+      </h3>
+    </div>
+
+    {/* Right Side - Button */}
+    <div className="sm:w-1/2 w-full flex justify-center bg-teal-500 rounded">
+      <button
+        onClick={() => {
+          if (authState.status && localStorage.getItem("token")) {
+            setShowReviewForm(!showReviewForm);
+          } else {
+            toast.error("Please Log In first");
+            navigate("/login");
+          }
+        }}
+        className="w-full sm:w-auto text-black font-semibold text-sm sm:text-base lg:text-xl py-2 px-6"
+      >
+        {showReviewForm ? "Cancel" : existingReviewId ? "Update Your Review" : "Write A Review"}
+      </button>
+    </div>
   </div>
 </div>
 
-      </div>
 
       {/* Review Form */}
       {showReviewForm && (

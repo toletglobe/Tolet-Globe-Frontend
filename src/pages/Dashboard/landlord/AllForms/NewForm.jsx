@@ -153,58 +153,84 @@ const Form = ({ formData, setFormData }) => {
       });
   }, []);
 
-  useEffect(() => {
-    if (!isLoading && mapRef.current) {
-      let position;
+useEffect(() => {
+  if (isLoading || !mapRef.current) return;
 
-      if (formData.city && formData.locality) {
-        position = localityCoordinates[formData.city][formData.locality];
-      } else if (formData.city) {
-        position = cityCoordinates[formData.city];
-      } else {
-        position = cityCoordinates["Lucknow"];
-      }
+  // If Google Maps failed to load
+  if (
+    typeof window.google === "undefined" ||
+    !window.google.maps ||
+    !window.google.maps.Map ||
+    !window.google.maps.marker ||
+    !window.google.maps.marker.AdvancedMarkerElement
+  ) {
+    console.warn("Google Maps API not available or AdvancedMarkerElement unsupported");
+    return; // ❗ do nothing, skip map
+  }
 
-      if (!map) {
-        // Initialize map if it doesn't exist
-        const newMap = new google.maps.Map(mapRef.current, {
-          center: position,
-          zoom: formData.locality ? 15 : 13,
-          mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
-        });
+  let position;
+  if (formData.city && formData.locality) {
+    position = localityCoordinates?.[formData.city]?.[formData.locality];
+  } else if (formData.city) {
+    position = cityCoordinates?.[formData.city];
+  } else {
+    position = cityCoordinates["Lucknow"];
+  }
 
-        const newMarker = new google.maps.marker.AdvancedMarkerElement({
-          map: newMap,
-          position: position,
-          gmpDraggable: true,
-        });
+  if (!position || !position.lat || !position.lng) {
+    console.warn("Invalid position fallback:", position);
+    return;
+  }
 
-        newMarker.addListener("dragend", () => {
-          const position = newMarker.position;
+  // Initialize map
+  if (!map) {
+    const newMap = new window.google.maps.Map(mapRef.current, {
+      center: position,
+      zoom: formData.locality ? 15 : 13,
+      mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
+    });
+
+    setMap(newMap);
+
+    try {
+      const AdvancedMarker = window.google.maps.marker.AdvancedMarkerElement;
+      const newMarker = new AdvancedMarker({
+        map: newMap,
+        position: position,
+        gmpDraggable: true,
+      });
+
+      newMarker.addListener("dragend", () => {
+        const pos = newMarker.position;
+        if (pos?.lat && pos?.lng) {
           setFormData((prev) => ({
             ...prev,
-            latitude: position.lat,
-            longitude: position.lng,
+            latitude: pos.lat,
+            longitude: pos.lng,
           }));
-        });
+        }
+      });
 
-        setMap(newMap);
-        setMarker(newMarker);
-      } else {
-        // Always update map and marker when city/locality changes
-        map.setCenter(position);
-        map.setZoom(formData.locality ? 15 : 13);
-        marker.position = position;
-
-        // Update coordinates in formData
-        setFormData((prev) => ({
-          ...prev,
-          latitude: position.lat,
-          longitude: position.lng,
-        }));
-      }
+      setMarker(newMarker);
+    } catch (err) {
+      console.warn("Marker failed to initialize:", err);
     }
-  }, [formData.city, formData.locality, isLoading]);
+  } else {
+    map.setCenter(position);
+    map.setZoom(formData.locality ? 15 : 13);
+    if (marker?.setPosition) {
+      marker.setPosition(position);
+    }
+  }
+
+  // Ensure lat/lng always gets updated in formData
+  setFormData((prev) => ({
+    ...prev,
+    latitude: position.lat,
+    longitude: position.lng,
+  }));
+}, [formData.city, formData.locality, isLoading]);
+
 
   const handleCityChange = (e) => {
     const selectedCity = e.target.value;
