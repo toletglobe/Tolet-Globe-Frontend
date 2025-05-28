@@ -17,6 +17,8 @@ import Filters from "./components/Filters";
 import Cards from "./components/Cards";
 import Pagination from "../../../reusableComponents/Pagination";
 
+import LoginPopup from "./components/LoginPopup/LoginPopup"; // Import the LoginPopup component
+
 import "./listings.css";
 
 import { API } from "../../../config/axios";
@@ -26,6 +28,8 @@ const Listing = () => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.status);
  
+ // State for managing the login popup
+ const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
@@ -470,14 +474,14 @@ const Listing = () => {
     if (authState.status === true && localStorage.getItem("token")) {
       navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
     } else {
-      // toast.error("Please Log In first");
-      navigate("/login");
+      // Show the login popup instead of navigating to the login page
+      setShowLoginPopup(true);
     }
   };
   const handleVisit = () => {
     if (!isLoggedIn) {
-      
-      navigate("/login", { state: { from: location.pathname } }); // Redirect to login
+      // Show the login popup instead of navigating to the login page
+      setShowLoginPopup(true);
     } else {
       // Proceed with the visit logic (e.g., show property details)
       compare();
@@ -492,6 +496,7 @@ const Listing = () => {
 
   return (
     <>
+      {showLoginPopup && <LoginPopup onClose={() => setShowLoginPopup(false)} />}
       <div
         onClick={() => {
           if (Location === true) setLocation(false);
@@ -867,8 +872,8 @@ const Listing = () => {
           <div
             onClick={(e) => e.stopPropagation()}
             className={`absolute top-0  right-0 w-full lg:w-fit h-full lg:h-auto bg-black text-white shadow-lg transition-transform duration-300 ease-in-out transform z-40 
-      ${isOpen ? "translate-x-0" : "translate-x-full"} 
-      sm:relative sm:w-full sm:h-auto sm:translate-x-0 sm:bg-transparent sm:shadow-none sm:block`}
+            ${isOpen ? "translate-x-0" : "translate-x-full"} 
+            sm:relative sm:w-full sm:h-auto sm:translate-x-0 sm:bg-transparent sm:shadow-none sm:block`}
           >
             <div className="lg:p-0 lg:absolute lg:-top-[35rem] 2xl:-top-[34rem] lg:left-[11rem] 2xl:left-[11rem]">
               <Filters

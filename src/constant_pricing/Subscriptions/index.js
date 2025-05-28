@@ -13,7 +13,7 @@ export const plans = [
     period: "/month",
     description: "For serious property seekers",
     buttonText: "Get Started Premium",
-    badge: "Most Popular",
+    badge: "Popular",
     badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
     buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
     features: [
@@ -31,7 +31,7 @@ export const plans = [
     period: "/month",
     description: "For serious property seekers",
     buttonText: "Get Started Premium",
-    badge: "Most Popular",
+    badge: "Popular",
     badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
     buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
     features: [
@@ -48,7 +48,7 @@ export const plans = [
     period: "/month",
     description: "For serious property seekers",
     buttonText: "Get Started Premium",
-    badge: "Most Popular",
+    badge: "Popular",
     badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
     buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
     features: [
@@ -65,7 +65,7 @@ export const plans = [
     period: "/month",
     description: "For serious property seekers",
     buttonText: "Get Started Premium",
-    badge: "Most Popular",
+    badge: "Popular",
     badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
     buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
     features: [
@@ -82,7 +82,7 @@ export const plans = [
     period: "/month",
     description: "For serious property seekers",
     buttonText: "Get Started Premium",
-    badge: "Most Popular",
+    badge: "Popular",
     badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
     buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
     features: [

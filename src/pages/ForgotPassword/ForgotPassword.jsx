@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-import { FaSchool } from "react-icons/fa";
+// import { FaSchool } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import { API } from "../../config/axios";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [answer, setAnswer] = useState("");
+  // const [answer, setAnswer] = useState("");
 
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ const ForgotPassword = () => {
     try {
       const res = await API.post("auth/forgot-password", {
         email,
-        answer,
+        // answer,
       });
 
       if (res.status === 200) {
@@ -60,7 +60,7 @@ const ForgotPassword = () => {
                 required
               />
             </div>
-            <div className="mt-10 relative flex items-center justify-start">
+            {/* <div className="mt-10 relative flex items-center justify-start">
               <FaSchool className="ml-3 text-white" />
               <input
                 type="text"
@@ -72,7 +72,7 @@ const ForgotPassword = () => {
                 onChange={(e) => setAnswer(e.target.value)}
                 required
               />
-            </div>
+            </div> */}
             <div className="relative w-[300px] h-[40px] mt-[70px] transition-all duration-1000">
               <button
                 type="submit"
