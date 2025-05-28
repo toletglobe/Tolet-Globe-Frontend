@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "../../../../config/loadGoogleMaps";
 import Select from "react-select";
-import {IoClose} from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import areas from "../../../../pages/PropertyListing/Listings/areas";
 
 import Pricing from "./PricngCard";
@@ -314,43 +314,43 @@ const Form = ({ formData, setFormData }) => {
     // for Debugging
     // console.log("Formdata:", formData);
   };
- const customStyles = {
-  control: (provided, state) => ({
-    ...provided,
-    backgroundColor: '#000000',
-    color: '#FFFFFF',
-    borderColor: '#C8C8C8',
-    padding: '6px',
-    minHeight: '3.5rem',
-    boxShadow: state.isFocused ? '0 0 0 1px #C8C8C8' : 'none',
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected
-      ? '#1F1F1F'
-      : state.isFocused
-      ? '#333333'
-      : '#000000',
-    color: '#FFFFFF',
-  }),
-  multiValue: (styles) => ({
-    ...styles,
-    backgroundColor: '#FFFFFF',
-    color: '#1F1F1F',
-  }),
-  input: (styles) => ({
-    ...styles,
-    color: '#FFFFFF',
-  }),
-  placeholder: (styles) => ({
-    ...styles,
-    color: '#7D7D7D',
-  }),
-  singleValue: (styles) => ({
-    ...styles,
-    color: '#FFFFFF',
-  }),
-};
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: "#000000",
+      color: "#FFFFFF",
+      borderColor: "#C8C8C8",
+      padding: "6px",
+      minHeight: "3.5rem",
+      boxShadow: state.isFocused ? "0 0 0 1px #C8C8C8" : "none",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#1F1F1F"
+        : state.isFocused
+        ? "#333333"
+        : "#000000",
+      color: "#FFFFFF",
+    }),
+    multiValue: (styles) => ({
+      ...styles,
+      backgroundColor: "#FFFFFF",
+      color: "#1F1F1F",
+    }),
+    input: (styles) => ({
+      ...styles,
+      color: "#FFFFFF",
+    }),
+    placeholder: (styles) => ({
+      ...styles,
+      color: "#7D7D7D",
+    }),
+    singleValue: (styles) => ({
+      ...styles,
+      color: "#FFFFFF",
+    }),
+  };
 
   const appliancesOptions = [
     // { value: "NA", label: "NA" },
@@ -433,71 +433,80 @@ const Form = ({ formData, setFormData }) => {
         </div>
 
         {/* Owner Contact Number */}
-<div>
-  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-    Phone Number<span className="text-red-600">*</span>
-  </label>
-  <input
-    type="tel"
-    placeholder="Enter phone number"
-    required
-    maxLength={10}
-    pattern="[0-9]{10}"
-    inputMode="numeric"
-    className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
-    value={formData.ownersContactNumber}
-    onChange={(e) => {
-      // Remove non-digit characters in real-time
-      const digitsOnly = e.target.value.replace(/\D/g, '');
-      setFormData({
-        ...formData,
-        ownersContactNumber: digitsOnly,
-      });
-    }}
-    onKeyDown={(e) => {
-      // Allow only numbers and essential keys
-      const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'];
-      if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-</div>
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            Phone Number<span className="text-red-600">*</span>
+          </label>
+          <input
+            type="tel"
+            placeholder="Enter phone number"
+            required
+            maxLength={10}
+            pattern="[0-9]{10}"
+            inputMode="numeric"
+            className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
+            value={formData.ownersContactNumber}
+            onChange={(e) => {
+              // Remove non-digit characters in real-time
+              const digitsOnly = e.target.value.replace(/\D/g, "");
+              setFormData({
+                ...formData,
+                ownersContactNumber: digitsOnly,
+              });
+            }}
+            onKeyDown={(e) => {
+              // Allow only numbers and essential keys
+              const allowedKeys = [
+                "Backspace",
+                "Tab",
+                "ArrowLeft",
+                "ArrowRight",
+                "Delete",
+              ];
+              if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
+          />
+        </div>
 
-
-      {/* Owner's Alternate Contact Number */}
-<div>
-  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-    Alternate Phone Number
-  </label>
-  <input
-    type="tel"
-    placeholder="Enter phone number"
-    
-    maxLength={10}
-    pattern="[0-9]{10}"
-    inputMode="numeric"
-    className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-[14px] !placeholder:text-[8px] sm:placeholder:text-base text-white"
-    value={formData.ownersAlternateContactNumber}
-    onChange={(e) => {
-      // Sanitize input to allow only digits
-      const digitsOnly = e.target.value.replace(/\D/g, '');
-      setFormData({
-        ...formData,
-        ownersAlternateContactNumber: digitsOnly,
-      });
-      console.log("Formdata:", formData);
-    }}
-    onKeyDown={(e) => {
-      // Block non-digit key entries
-      const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'];
-      if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-</div>
-
+        {/* Owner's Alternate Contact Number */}
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            Alternate Phone Number
+          </label>
+          <input
+            type="tel"
+            placeholder="Enter phone number"
+            maxLength={10}
+            pattern="[0-9]{10}"
+            inputMode="numeric"
+            className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-[14px] !placeholder:text-[8px] sm:placeholder:text-base text-white"
+            value={formData.ownersAlternateContactNumber}
+            onChange={(e) => {
+              // Sanitize input to allow only digits
+              const digitsOnly = e.target.value.replace(/\D/g, "");
+              setFormData({
+                ...formData,
+                ownersAlternateContactNumber: digitsOnly,
+              });
+              console.log("Formdata:", formData);
+            }}
+            onKeyDown={(e) => {
+              // Block non-digit key entries
+              const allowedKeys = [
+                "Backspace",
+                "Tab",
+                "ArrowLeft",
+                "ArrowRight",
+                "Delete",
+              ];
+              if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
+          />
+        </div>
       </div>
       <div>
         {/* Address */}
@@ -834,30 +843,28 @@ const Form = ({ formData, setFormData }) => {
         </div>
 
         {/* Floor */}
-   <div className="w-full h-fit flex flex-col gap-3 items-start">
-  <label className="text-[#FFFFFF] text-base font-medium">
-    Floors<span className="text-red-600">*</span>
-  </label>
-  <input
-    type="number"
-    min="0"
-    step="1"
-    placeholder="Enter floor number"
-    required
-    className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-    value={formData.floor}
-    onChange={(e) => {
-      const val = e.target.value;
-      // Ensure only positive integers or empty string
-      if (val === "" || /^[0-9]+$/.test(val)) {
-        setFormData({ ...formData, floor: val });
-      }
-      console.log("Formdata:", formData);
-    }}
-  />
-</div>
-
-
+        <div className="w-full h-fit flex flex-col gap-3 items-start">
+          <label className="text-[#FFFFFF] text-base font-medium">
+            Floors<span className="text-red-600">*</span>
+          </label>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Enter floor number"
+            required
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            value={formData.floor}
+            onChange={(e) => {
+              const val = e.target.value;
+              // Ensure only positive integers or empty string
+              if (val === "" || /^[0-9]+$/.test(val)) {
+                setFormData({ ...formData, floor: val });
+              }
+              console.log("Formdata:", formData);
+            }}
+          />
+        </div>
 
         {/* Type of Washroom */}
         <div className="w-full h-fit flex flex-col gap-3 items-start">
@@ -895,13 +902,11 @@ const Form = ({ formData, setFormData }) => {
           <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
             <Select
               styles={customStyles}
-
               placeholder={
                 <div className="text-white  text-[18px] leading-[23px] font-normal">
                   Choose your Appliances
                 </div>
               }
-              
               value={formData.appliances}
               options={appliancesOptions}
               onChange={handleOnChangeAppliances}
@@ -924,7 +929,6 @@ const Form = ({ formData, setFormData }) => {
                   Choose your Amenities
                 </div>
               }
-              
               value={formData.amenities}
               options={amenitiesOptions}
               onChange={handleOnChangeAmenities}
@@ -961,44 +965,44 @@ const Form = ({ formData, setFormData }) => {
             Security Amount (If Applicable)
           </label>
           <input
-          required
-          type="number"
-           min="0"
+            required
+            type="number"
+            min="0"
             step="1"
-             placeholder="Enter security amount"
-             className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] 
+            placeholder="Enter security amount"
+            className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] 
              [&::-webkit-outer-spin-button]:appearance-none 
              [&::-webkit-inner-spin-button]:appearance-none 
              appearance-none"
-             value={formData.security || ""}
-             onChange={(e) => {
-               const val = e.target.value;
-               if (val === "" || /^[0-9]+$/.test(val)) {
-                 setFormData((prev) => ({ ...prev, security: val }));
-                }
-                 }}
-                 />
+            value={formData.security || ""}
+            onChange={(e) => {
+              const val = e.target.value;
+              if (val === "" || /^[0-9]+$/.test(val)) {
+                setFormData((prev) => ({ ...prev, security: val }));
+              }
+            }}
+          />
         </div>
         <div className="flex-1 mt-10 md:mt-0">
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Rent Amount <span className="text-red-800">*</span>
           </label>
-        <input
-         type="number"
-         placeholder="Enter rent amount"
-         required
-         className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
-         value={formData.rent || ""}
-         onChange={(e) => {
-           const rentValue = e.target.value;
-           const subscriptionAmount = determineSubscriptionPlan(rentValue);
-           setFormData((prev) => ({
-            ...prev,
-             rent: rentValue,
-             subscriptionPlan: subscriptionAmount,
-            }));
-             }}
-             />
+          <input
+            type="number"
+            placeholder="Enter rent amount"
+            required
+            className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
+            value={formData.rent || ""}
+            onChange={(e) => {
+              const rentValue = e.target.value;
+              const subscriptionAmount = determineSubscriptionPlan(rentValue);
+              setFormData((prev) => ({
+                ...prev,
+                rent: rentValue,
+                subscriptionPlan: subscriptionAmount,
+              }));
+            }}
+          />
         </div>
       </div>
       {/* Subscription Cards */}
@@ -1013,7 +1017,9 @@ const Form = ({ formData, setFormData }) => {
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property image<span className="text-red-600">*</span>
           </label>
-          <p className="text-sm mb-4">Note: Your first image will be cover image of your property</p>
+          <p className="text-sm mb-4">
+            Note: Your first image will be cover image of your property
+          </p>
           {(formData.images?.length || 0) === 0 && (
             <div className="border-2 border-dashed border-yellow-600 rounded-lg py-10 flex flex-col items-center">
               <label className="cursor-pointer rounded-md text-yellow-600 font-bold  px-4 py-6 h-[150px] flex items-center justify-center">
@@ -1024,7 +1030,6 @@ const Form = ({ formData, setFormData }) => {
                   multiple
                   accept="image/*"
                   onChange={handleImageSubmit}
-                
                 />
               </label>
             </div>
