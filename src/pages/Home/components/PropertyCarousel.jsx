@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 
@@ -13,9 +13,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const PropertyCarousel = () => {
+  const sliderRef = useRef(null);
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
-  // Slides data
   const slides = [
     { image: image1, city: "Lucknow" },
     { image: image2, city: "Ayodhya" },
@@ -23,16 +23,18 @@ const PropertyCarousel = () => {
     { image: image4, city: "Kota" },
   ];
 
-  // Navigation functions for mobile view
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    sliderRef.current?.slickNext();
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    sliderRef.current?.slickPrev();
   };
 
-  // Custom arrows for desktop slider (positioned outside the carousel container)
+  const goToSlide = (index) => {
+    sliderRef.current?.slickGoTo(index);
+  };
+
   const CustomPrevArrow = ({ onClick, style, className }) => (
     <div
       onClick={onClick}
@@ -53,7 +55,6 @@ const PropertyCarousel = () => {
     </div>
   );
 
-  // Slider settings for desktop view
   const settings = {
     dots: true,
     infinite: true,
@@ -63,11 +64,12 @@ const PropertyCarousel = () => {
     swipeToSlide: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
+    beforeChange: (_, next) => setCurrentSlide(next),
   };
 
   return (
     <>
-      {/* Desktop (Laptop) View */}
+      {/* Desktop View */}
       <div className="hidden min-[768px]:block min-w-[768px]">
         <div className="bg-black text-white flex items-center justify-center flex-col p-5 mt-10 mb-10 w-full">
           <div className="flex items-center justify-center flex-col gap-3 w-full my-5 mb-8">
@@ -136,40 +138,35 @@ const PropertyCarousel = () => {
 
         <div className="relative w-10/12 mx-auto">
           <div className="overflow-hidden rounded-lg shadow-lg">
-          <Slider {...settings}>
-            {slides.map((slide, index) => (
-              <div
-                key={index}
-                className={`${
-                  index === currentSlide ? "block" : "hidden"
-                } bg-[#232323]`}
-              >
-                <img
-                  src={slide.image}
-                  alt={`Property in ${slide.city}`}
-                  className="w-full h-[200px] object-cover block"
-                />
-                <div className="bg-[#232323] text-center h-[180px] flex flex-col justify-between">
-                  <div className="pt-3 pb-3 text-white flex-1 flex flex-col justify-between">
-                    <div>
-                      <h2 className="text-2xl font-normal mb-2 line-clamp-2">
-                        Find the best To-Let in {slide.city}
-                      </h2>
-                      <p className="text-[#CCB454] text-xs mb-4">
-                        With No Brokerage on rental PGs | Flats | Houses |
-                        Offices.
-                      </p>
+            <Slider ref={sliderRef} {...settings}>
+              {slides.map((slide, index) => (
+                <div key={index} className="bg-[#232323]">
+                  <img
+                    src={slide.image}
+                    alt={`Property in ${slide.city}`}
+                    className="w-full h-[200px] object-cover block"
+                  />
+                  <div className="bg-[#232323] text-center h-[180px] flex flex-col justify-between">
+                    <div className="pt-3 pb-3 text-white flex-1 flex flex-col justify-between">
+                      <div>
+                        <h2 className="text-2xl font-normal mb-2 line-clamp-2">
+                          Find the best To-Let in {slide.city}
+                        </h2>
+                        <p className="text-[#CCB454] text-xs mb-4">
+                          With No Brokerage on rental PGs | Flats | Houses |
+                          Offices.
+                        </p>
+                      </div>
+                      <Link
+                        to={`/property-listing/${slide.city}`}
+                        className="mx-auto px-6 py-[7.25px] mb-4 bg-[#FFF] text-black rounded-[3px] hover:bg-[#bebebe] transition-colors inline-block"
+                      >
+                        Join Us
+                      </Link>
                     </div>
-                    <Link
-                      to={`/property-listing/${slide.city}`}
-                      className="mx-auto px-6 py-[7.25px] mb-4 bg-[#FFF] text-black rounded-[3px] hover:bg-[#bebebe] transition-colors inline-block"
-                    >
-                      Join Us
-                    </Link>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
             </Slider>
           </div>
 
@@ -190,7 +187,7 @@ const PropertyCarousel = () => {
             {slides.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentSlide(index)}
+                onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full ${
                   index === currentSlide ? "bg-[#1b5f58]" : "bg-[#1a1a1a]"
                 }`}
