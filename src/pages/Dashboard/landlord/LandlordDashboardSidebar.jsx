@@ -63,7 +63,7 @@ export default function LandlordDashboardSidebar() {
             >
               <div className="flex text-white-700 ">
                 <svg
-                  className="mr-3"
+                  className="mr-[1.1rem]"
                   width="22"
                   height="21"
                   viewBox="0 0 22 21"
