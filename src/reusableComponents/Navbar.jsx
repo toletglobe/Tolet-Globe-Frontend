@@ -159,9 +159,9 @@ const Navbar = () => {
         }}
       >
       <li
-        className={`py-1 hover:bg-teal-500 hover:text-white hover:rounded-md text-md px-3 ${
+        className={`py-1 hover:bg-[#5AA7A0] hover:text-white hover:rounded-md text-md px-3 ${
           activeNavbarMenu === link.label
-            ? "bg-teal-500 text-white rounded-md"
+            ? "bg-[#5AA7A0] text-white rounded-md"
             : ""
         }`}
       >
@@ -188,7 +188,7 @@ const Navbar = () => {
                     className="flex items-center py-2 px-3 hover:bg-gray-100 cursor-pointer justify-start rounded"
                   >
                     <ComputerDesktopIcon className="w-5 mr-2" />
-                    Dashboard
+                      Dashboard
                   </p>
                   <p
                     onClick={handleLogout}
@@ -206,7 +206,7 @@ const Navbar = () => {
                 setActiveNavbarMenu("login");
                 navigate("/login");
               }}
-              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-md text-md ${
+              className={`py-1 hover:bg-[#1BADA0] bg-[#0D8A7F] text-white px-3 rounded-md text-md ${
                 activeNavbarMenu === "login"
                   ? "bg-teal-500 text-white rounded-md"
                   : ""
@@ -263,7 +263,7 @@ const Navbar = () => {
                 >
                   <div className="flex text-white-700 ">
                     <svg
-                      className="mr-3"
+                      className="mr-[1.1rem]"
                       width="22"
                       height="21"
                       viewBox="0 0 22 21"
@@ -278,7 +278,7 @@ const Navbar = () => {
                       />
                     </svg>
                     {/* <span className="hidden text-base md:block lg:text-xl"> */}
-                    <span className="text-base sm:block lg:text-xl">
+                    <span className="w-28 sm:w-32 text-base sm:block lg:text-xl">
                       Dashboard
                     </span>
                   </div>

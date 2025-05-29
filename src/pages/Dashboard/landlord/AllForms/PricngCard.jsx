@@ -3,16 +3,16 @@ import { plans } from "../../../../constant_pricing/Subscriptions/index";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import SupportModal from "./SupportModal";
-import {API} from "../../../../config/axios";
+import { API } from "../../../../config/axios";
 
 export const Pricing = ({ formData }) => {
   const [loading, setLoading] = useState(false);
   const scrollContainerRef = useRef(null);
 
-   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
 
-  const {userData} = useSelector((state) => state.auth); // Assuming you have user slice
+  const { userData } = useSelector((state) => state.auth); // Assuming you have user slice
   const phone = formData?.contactNumber;
 
   // Function to scroll the active plan into view
@@ -37,9 +37,9 @@ export const Pricing = ({ formData }) => {
     setModalOpen(true);
   };
 
-   const handleModalSubmit = async (query, topic) => {
+  const handleModalSubmit = async (query, topic) => {
     const payload = {
-      name: userData.firstName,
+      name: `${userData.firstName} ${userData.lastName}`,
       email: userData.email,
       phone,
       msg: query,
@@ -48,17 +48,11 @@ export const Pricing = ({ formData }) => {
     };
 
     try {
-      const res = await API.post("contact/submit-data", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const res = await API.post("contact/submit-data", payload);
 
-      const data = await res.json();
-      if (res.ok) {
-        toast.success("Our team with connect with you very soon!");
+      if (res.status === 200) {
+        console.log("Query submitted successfully:", res.data);
+        toast.success("Our team will connect with you very soon!");
         setModalOpen(false);
       } else {
         toast.error("Failed to send query.");
@@ -66,12 +60,10 @@ export const Pricing = ({ formData }) => {
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong.");
-    }
-    finally{
-      setModalOpen(false)
+    } finally {
+      setModalOpen(false);
     }
   };
-
 
   return (
     <div className="p-14 w-full">
@@ -151,7 +143,7 @@ export const Pricing = ({ formData }) => {
           );
         })}
       </div>
-       <SupportModal
+      <SupportModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         onSubmit={handleModalSubmit}

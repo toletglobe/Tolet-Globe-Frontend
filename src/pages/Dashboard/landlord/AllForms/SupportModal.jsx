@@ -5,25 +5,28 @@ const SupportModal = ({ isOpen, onClose, onSubmit }) => {
   const [topic, setTopic] = useState("");
   const [query, setQuery] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(query, topic);
-    setQuery("");
-    setTopic("");
+  const handleSubmit = async () => {
+    try {
+      await onSubmit(query, topic);
+      setQuery("");
+      setTopic("");
+    } catch (err) {
+      console.error("Submission error:", err);
+    }
   };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
+      <div className="bg-black border-[#C8C8C8] border p-6 rounded-lg w-full max-w-md shadow-lg">
         <h2 className="text-xl font-semibold mb-4">Contact Support</h2>
-        <form onSubmit={handleSubmit}>
+        <div>
           <label className="block text-sm font-medium mb-2">
             Topic
             <input
               type="text"
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm"
+              className="bg-black w-[100%] mt-2 h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               required
@@ -32,7 +35,7 @@ const SupportModal = ({ isOpen, onClose, onSubmit }) => {
           <label className="block text-sm font-medium mb-2">
             Your Query
             <textarea
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm"
+              className="bg-black w-[100%] mt-2 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
               rows={4}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -48,13 +51,14 @@ const SupportModal = ({ isOpen, onClose, onSubmit }) => {
               Cancel
             </button>
             <button
-              type="submit"
-              className="px-4 py-2 text-sm bg-yellow-400 text-white rounded hover:bg-yellow-500"
+              type="button"
+              onClick={handleSubmit}
+              className="px-4 py-2 text-sm bg-[#C8A117] text-white rounded hover:bg-[#C8A117]/90"
             >
               Send
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
