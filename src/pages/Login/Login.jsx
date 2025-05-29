@@ -20,19 +20,19 @@ const Login = ({ setUserInfo }) => {
   const location = useLocation();
   const from = location.state?.from || "/landlord-dashboard";
 
-  const handleFocus = (e) => {
-    e.target.previousElementSibling.classList.add("glowIcon");
-  };
+  // const handleFocus = (e) => {
+  //   e.target.previousElementSibling.classList.add("glowIcon");
+  // };
 
-  const handleBlur = (e) => {
-    e.target.previousElementSibling.classList.remove("glowIcon");
-  };
+  // const handleBlur = (e) => {
+  //   e.target.previousElementSibling.classList.remove("glowIcon");
+  // };
 
-  const inputs = document.querySelectorAll(".input_text");
-  inputs.forEach((input) => {
-    input.addEventListener("focus", handleFocus);
-    input.addEventListener("blur", handleBlur);
-  });
+  // const inputs = document.querySelectorAll(".input_text");
+  // inputs.forEach((input) => {
+  //   input.addEventListener("focus", handleFocus);
+  //   input.addEventListener("blur", handleBlur);
+  // });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +69,7 @@ const Login = ({ setUserInfo }) => {
         );
 
         toast.success("Login success");
-        
+
         navigate(from, { replace: true });
       } else {
         // Show error message if the login is unsuccessful
@@ -81,52 +81,108 @@ const Login = ({ setUserInfo }) => {
     }
   };
 
+  //   return (
+  //     <div className="w-full min-h-screen flex justify-center items-center pb-20">
+  //       <form onSubmit={handleSubmit}>
+  //         <div className="login_form_container">
+  //           <div className="login_form">
+  //             <h2 className="text-2xl font-semibold">Login</h2>
+  //             <div className="mt-10 flex items-center">
+  //               <AiOutlineMail className="ml-3 text-white" />
+  //               <input
+  //                 type="email"
+  //                 placeholder="Email"
+  //                 className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+  //                 autoComplete="off"
+  //                 value={email}
+  //                 onChange={(e) => setEmail(e.target.value)}
+  //                 required
+  //               />
+  //             </div>
+  //             <div className="mt-10 flex items-center">
+  //               <FaLock className="ml-3 text-white" />
+  //               <input
+  //                 type="password"
+  //                 placeholder="Password"
+  //                 className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+  //                 value={password}
+  //                 onChange={(e) => setPassword(e.target.value)}
+  //                 required
+  //               />
+  //             </div>
+  //             <div className="flex justify-center mt-10">
+  //               <button
+  //                 className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
+  //                 type="submit"
+  //                 onSubmit={handleSubmit}
+  //               >
+  //                 LOGIN
+  //               </button>
+  //             </div>
+  //             <div className="fotter">
+  //               <a onClick={() => navigate("/forgot-password")}>
+  //                 Forgot Password ?
+  //               </a>
+  //               <a onClick={() => navigate("/register")}>Register</a>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </form>
+  //     </div>
+  //   );
+  // };
+
   return (
-    <div className="w-full min-h-screen flex justify-center items-center pb-20">
-      <form onSubmit={handleSubmit}>
-        <div className="login_form_container">
-          <div className="login_form">
-            <h2 className="text-2xl font-semibold">Login</h2>
-            <div className="input_group">
-              <AiOutlineMail className="ml-3 text-white " />
-              <input
-                type="email"
-                placeholder="Email"
-                className="input_text"
-                autoComplete="off"
-                id="exampleInputEmail1"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="input_group">
-              <FaLock className="ml-3 text-white" />
-              <input
-                type="password"
-                placeholder="Password"
-                className="input_text"
-                autoComplete="off"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                id="exampleInputPassword1"
-                required
-              />
-            </div>
-            <div className="button_group" id="login_button">
-              <button type="submit" onSubmit={handleSubmit}>
-                LOGIN
-              </button>
-            </div>
-            <div className="fotter">
-              <a onClick={() => navigate("/forgot-password")}>
-                Forgot Password ?
-              </a>
-              <a onClick={() => navigate("/register")}>Register</a>
-            </div>
+    <div
+      className={`login_form_container relative flex items-center justify-center my-10 overflow-hidden w-[400px] max-w-[400px] max-h-[485px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16`}
+    >
+      <div className="absolute inset-1 bg-black rounded-[50px_5px] pt-11 px-10 text-white z-10 border-4 border-transparent">
+        <h2 className="text-4xl font-semibold text-center">Login</h2>
+        <form onSubmit={handleSubmit}>
+          {/* Email */}
+          <div className="mt-10 flex items-center">
+            <AiOutlineMail className="ml-3 text-white" />
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              autoComplete="off"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
-        </div>
-      </form>
+
+          {/* Password */}
+          <div className="mt-10 flex items-center">
+            <FaLock className="ml-3 text-white" />
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-center mt-10">
+            <button
+              type="submit"
+              className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
+            >
+              LOGIN
+            </button>
+          </div>
+
+          {/* Footer Links */}
+          <div className="flex justify-between gap-10 mt-6 text-[#3cbdb1] cursor-pointer">
+            <a onClick={() => navigate("/forgot-password")}>Forgot Password?</a>
+            <a onClick={() => navigate("/register")}>Register</a>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
