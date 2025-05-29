@@ -11,7 +11,7 @@ body {
   justify-content: center;
   width: 100%;
   max-width: 400px; /* Adjusted width */
-  min-height: 600px;
+  min-height: 590px;
   background-color: black;
   border-radius: 40px 5px;
   padding: 30px 30px 0 30px;
@@ -36,12 +36,14 @@ body {
 
 /* Transition Animition css*/
 .register_form_container::before {
-  @apply absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#3cbdb1)] animate-rotate_border;
   content: '';
+  @apply absolute -inset-[50%] bg-[conic-gradient(transparent,_transparent,_transparent,_#3cbdb1)] animate-rotate_border;
+  z-index: 0;
 }
 
 .register_form_container::after {
-  @apply absolute w-[200%] h-[200%] bg-[conic-gradient(transparent,_transparent,_transparent,_#c8a217)] animate-rotate_border;
   content: '';
+  @apply absolute -inset-[50%] bg-[conic-gradient(transparent,_transparent,_transparent,_#c8a217)] animate-rotate_border;
   animation-delay: -3s;
+  z-index: 0;
 }
