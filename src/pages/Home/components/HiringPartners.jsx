@@ -54,8 +54,8 @@ const HiringPartners = () => {
     if (scrollRef.current && window.innerWidth < 768) {
       // Scroll to third item
       const itemWidth = 120; // width of each item
-      const gap = 26; // gap between items
-      scrollRef.current.scrollLeft = (itemWidth + gap) * 1.7 + 10; // Adjust to center the third item
+      const gap = 30; // gap between items
+      scrollRef.current.scrollLeft = (itemWidth + gap) * 2 + (itemWidth / 1) - (window.innerWidth / 3); // Center the Apna item
     }
   }, []);
 
