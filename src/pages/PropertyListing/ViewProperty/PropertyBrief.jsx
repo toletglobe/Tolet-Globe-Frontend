@@ -33,9 +33,10 @@ const PropertyBrief = ({ property }) => {
   const [favouriteList, setFavouriteList] = useState([]);
   const [showRectangle, setShowRectangle] = useState(false);
   const [showCompareCard, setShowCompareCard] = useState(false);
-  const [averageRating, setAverageRating] = useState(0);
-  const [totalReviews, setTotalReviews] = useState([]);
+
   const authState = useSelector((state) => state.auth);
+  const [totalReviews, setTotalReviews] = useState([]);
+const [averageRating, setAverageRating] = useState(0);
 
   const maskPhoneNumber = (phoneNumber) => {
     if (!phoneNumber) return "";
@@ -78,16 +79,21 @@ const PropertyBrief = ({ property }) => {
     fetchFavouriteProperties();
   }, []);
 
-  useEffect(() => {
-    if (totalReviews.length > 0) {
-      const avg =
-        totalReviews.reduce((acc, review) => acc + review.userRating, 0) /
-        totalReviews.length;
-      setAverageRating(roundToHalfStar(avg));
-    } else {
-      setAverageRating(0);
+ useEffect(() => {
+  const fetchReviews = async () => {
+    try {
+      const res = await API.get(`reviews/users/${property._id}`);
+      setTotalReviews(res.data.totalReviews); // direct from API
+      setAverageRating(res.data.averageRating); // rounded here
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
     }
-  }, [totalReviews]);
+  };
+
+   if (property?._id) {
+    fetchReviews();
+  }
+}, [property]);
 
   console.log("averageRating:", averageRating, typeof averageRating);
 
@@ -469,13 +475,12 @@ const PropertyBrief = ({ property }) => {
             {property?.locality},{property?.city}
           </p>
 
-          <div className="flex lg:text-2xl lg:pb-4">
-            <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
-            <p className="ml-2 text-gray-400">
-              {averageRating.toFixed(1)} (
-              {property?.reviews ? property?.reviews?.length : 0} Reviews)
-            </p>
-          </div>
+<div className="flex items-center lg:text-2xl lg:pb-4">
+  <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
+  <p className="ml-2 text-gray-600">
+    {averageRating.toFixed(1)} ({totalReviews} Reviews)
+  </p>
+</div>
 
           <div className="border border-gray-600 rounded-lg p-1 sm:p-1 mb-8 mt-2 flex flex-row lg:flex-row justify-evenly items-center gap-2 lg:gap-4 w-full">
             {/* Monthly Rent Section */}
