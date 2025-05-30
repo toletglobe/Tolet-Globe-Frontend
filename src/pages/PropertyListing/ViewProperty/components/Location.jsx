@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { loadGoogleMaps } from "../../../../config/loadGoogleMaps";
-import {
-  MdSchool,
-  MdRestaurant,
-  MdShoppingBag,
-  MdLocalCafe,
-  MdAccountBalance,
-  MdStore,
-  MdFitnessCenter,
-  MdDirectionsBus,
-} from "react-icons/md";
+import { MdOutlineSchool } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
+
+// icons
+import Restaurants from "./assets/Locations/Restaurants.svg"
+import Cafe from "./assets/Locations/Cafe.svg"
+import Groceries from "./assets/Locations/Groceries.svg"
+import Banks from "./assets/Locations/Banks.svg"
+import Shops from "./assets/Locations/Shops.svg"
+import Fitness from "./assets/Locations/Fitness.svg"
+import Transport from "./assets/Locations/Transport.svg"
 
 const Location = ({ property, selectComp }) => {
   const [selectedCategory, setSelectedCategory] = useState("location");
@@ -152,27 +152,39 @@ const Location = ({ property, selectComp }) => {
   }, [selectedCategory, map, service]);
 
   const locationCategories = [
-    { icon: <MdSchool size={24} />, label: "School", category: "school" },
+    { icon: < MdOutlineSchool size={26} />, label: "School", category: "school" },
     {
-      icon: <MdRestaurant size={24} />,
+      icon: <img src={Restaurants} alt="Restaurants" className="sm:w-[35px] sm:h-[32px] w-[24px] h-[24px]"/>,
       label: "Restaurants",
       category: "restaurant",
     },
     {
-      icon: <MdShoppingBag size={24} />,
+      icon:  <img src={Groceries} alt="Groceries" className="w-[24px] h-[24px]" />,
       label: "Groceries",
       category: "groceries",
     },
-    { icon: <MdLocalCafe size={24} />, label: "Cafe", category: "cafe" },
-    { icon: <MdAccountBalance size={24} />, label: "Banks", category: "banks" },
-    { icon: <MdStore size={24} />, label: "Shops", category: "shops" },
+    { 
+      icon: <img src={Cafe} alt="Cafe" className="w-[24px] h-[24px]" />,
+      label: "Cafe",
+      category: "cafe"
+    },
+    { 
+      icon: <img src={Banks} alt="Banks" className="w-[24px] h-[24px]" />,
+      label: "Banks",
+      category: "banks"
+    },
+    { 
+      icon: <img src={Shops} alt="Shops" className="w-[24px] h-[24px]" />,
+      label: "Shops", 
+      category: "shops" 
+    },
     {
-      icon: <MdFitnessCenter size={24} />,
+      icon: <img src={Fitness} alt="Fitness" className="w-[24px] h-[24px]" />,
       label: "Fitness",
       category: "fitness",
     },
     {
-      icon: <MdDirectionsBus size={24} />,
+      icon: <img src={Transport} alt="Transport" className="w-[24px] h-[24px]" />,
       label: "Transport",
       category: "transport",
     },
