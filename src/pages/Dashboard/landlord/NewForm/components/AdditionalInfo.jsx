@@ -1,36 +1,6 @@
-import { useEffect, useRef, useState } from "react";
 import Select from "react-select";
-import { IoClose } from "react-icons/io5";
-import areas from "../../../../PropertyListing/Listings/areas";
-
-import Pricing from "../PricngCard";
 
 const AdditionalInfo = ({ formData, setFormData }) => {
-  const optionRenderFun = (value) => (
-    <option key={value} value={value}>
-      {value}
-    </option>
-  );
-
-  
-  const mapRef = useRef(null);
-  const [map, setMap] = useState(null);
-  const [marker, setMarker] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadError, setLoadError] = useState(null);
-  const [areaSearch, setAreaSearch] = useState("");
-  const [filteredAreas, setFilteredAreas] = useState([]);
-  const [showAreaDropdown, setShowAreaDropdown] = useState(false);
-
-  // Add this function after other handler functions
-  const determineSubscriptionPlan = (rentAmount) => {
-    const rent = Number(rentAmount);
-    if (rent <= 6000) return 299;
-    if (rent <= 15000) return 499;
-    if (rent <= 25000) return 699;
-    if (rent <= 50000) return 999;
-    return 1499;
-  };
 
   const customStyles = {
     control: (provided, state) => ({
