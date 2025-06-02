@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick"; // Import the slider
@@ -8,19 +8,22 @@ import Popup from "reactjs-popup";
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import { CiShare2, CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
-import { IoAdd, IoRemove } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
-import { MdOutlineMyLocation } from "react-icons/md";
-import { FaRegImage, FaVideo } from "react-icons/fa6";
 
 import profile from "../../../assets/propertyListing/author.jpg";
 import fav from "../../../assets/propertyListing/starbadge.png";
 import shield from "../../../assets/propertyListing/shield.png";
 import defaultHouse from "../../../assets/propertyListing/defaultHouse.png";
+import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { useStateValue } from "../../../StateProvider";
 
 import { API } from "../../../config/axios";
+
+const ItemTypes = {
+  COMPARE_BUTTON: "compareButton",
+};
 
 const PropertyBrief = ({ property }) => {
   const navigate = useNavigate();
@@ -36,7 +39,7 @@ const PropertyBrief = ({ property }) => {
 
   const authState = useSelector((state) => state.auth);
   const [totalReviews, setTotalReviews] = useState([]);
-const [averageRating, setAverageRating] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
 
   const maskPhoneNumber = (phoneNumber) => {
     if (!phoneNumber) return "";
@@ -79,21 +82,21 @@ const [averageRating, setAverageRating] = useState(0);
     fetchFavouriteProperties();
   }, []);
 
- useEffect(() => {
-  const fetchReviews = async () => {
-    try {
-      const res = await API.get(`reviews/users/${property._id}`);
-      setTotalReviews(res.data.totalReviews); // direct from API
-      setAverageRating(res.data.averageRating); // rounded here
-    } catch (error) {
-      console.error("Error fetching reviews:", error);
-    }
-  };
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await API.get(`reviews/users/${property._id}`);
+        setTotalReviews(res.data.totalReviews); // direct from API
+        setAverageRating(res.data.averageRating); // rounded here
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
 
-   if (property?._id) {
-    fetchReviews();
-  }
-}, [property]);
+    if (property?._id) {
+      fetchReviews();
+    }
+  }, [property]);
 
   console.log("averageRating:", averageRating, typeof averageRating);
 
@@ -270,6 +273,221 @@ const [averageRating, setAverageRating] = useState(0);
     prevArrow: <div className="prev-arrow text-white text-4xl ">&#8592;</div>,
   };
 
+  const DraggableCompareButton = ({ compareProperty, onNavigate }) => {
+    const buttonRef = useRef(null);
+    const [position, setPosition] = useState({
+      top: 20,
+      left: 20,
+    });
+
+    const handleDrop = (monitor) => {
+      const clientOffset = monitor.getClientOffset();
+
+      if (!clientOffset || !buttonRef.current) return;
+
+      const { x, y } = clientOffset;
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      // Get button dimensions
+      const buttonRect = buttonRef.current.getBoundingClientRect();
+      const buttonWidth = buttonRect.width;
+      const buttonHeight = buttonRect.height;
+
+      // Calculate center of the button after drop
+      const buttonCenterX = x;
+      const buttonCenterY = y;
+
+      // Define middle area (50% from each edge)
+      const middleLeft = windowWidth * 0.25;
+      const middleRight = windowWidth * 0.75;
+      const middleTop = windowHeight * 0.25;
+      const middleBottom = windowHeight * 0.75;
+
+      // Check if dropped in middle area
+      const droppedInMiddle =
+        buttonCenterX >= middleLeft &&
+        buttonCenterX <= middleRight &&
+        buttonCenterY >= middleTop &&
+        buttonCenterY <= middleBottom;
+
+      let finalX = x - buttonWidth / 2;
+      let finalY = y - buttonHeight / 2;
+
+      if (droppedInMiddle) {
+        // If dropped in middle, move to nearest edge
+        const distanceToLeft = buttonCenterX - middleLeft;
+        const distanceToRight = middleRight - buttonCenterX;
+        const distanceToTop = buttonCenterY - middleTop;
+        const distanceToBottom = middleBottom - buttonCenterY;
+
+        const minDistance = Math.min(
+          distanceToLeft,
+          distanceToRight,
+          distanceToTop,
+          distanceToBottom
+        );
+
+        if (minDistance === distanceToLeft) {
+          // Move to left edge of middle area
+          finalX = middleLeft - buttonWidth - 20;
+          finalY = Math.max(
+            20,
+            Math.min(finalY, windowHeight - buttonHeight - 20)
+          );
+        } else if (minDistance === distanceToRight) {
+          // Move to right edge of middle area
+          finalX = middleRight + 20;
+          finalY = Math.max(
+            20,
+            Math.min(finalY, windowHeight - buttonHeight - 20)
+          );
+        } else if (minDistance === distanceToTop) {
+          // Move to top edge of middle area
+          finalX = Math.max(
+            20,
+            Math.min(finalX, windowWidth - buttonWidth - 20)
+          );
+          finalY = middleTop - buttonHeight - 20;
+        } else {
+          // Move to bottom edge of middle area
+          finalX = Math.max(
+            20,
+            Math.min(finalX, windowWidth - buttonWidth - 20)
+          );
+          finalY = middleBottom + 20;
+        }
+      }
+
+      // Ensure button stays within viewport bounds (20px margin)
+      finalX = Math.max(20, Math.min(finalX, windowWidth - buttonWidth - 20));
+      finalY = Math.max(20, Math.min(finalY, windowHeight - buttonHeight - 20));
+
+      setPosition({
+        top: finalY,
+        left: finalX,
+      });
+    };
+
+    const [{ isDragging }, drag] = useDrag({
+      type: ItemTypes.COMPARE_BUTTON,
+      item: { type: ItemTypes.COMPARE_BUTTON },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging(),
+      }),
+    });
+
+    const [, drop] = useDrop({
+      accept: ItemTypes.COMPARE_BUTTON,
+      drop: (item, monitor) => handleDrop(monitor),
+    });
+
+    const dragDropRef = useCallback(
+      (node) => {
+        drag(node);
+        buttonRef.current = node;
+      },
+      [drag]
+    );
+
+    // Handle window resize to keep button in bounds
+    useEffect(() => {
+      const handleResize = () => {
+        if (!buttonRef.current) return;
+
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const buttonRect = buttonRef.current.getBoundingClientRect();
+        const buttonWidth = buttonRect.width;
+        const buttonHeight = buttonRect.height;
+
+        setPosition((prev) => ({
+          top: Math.max(
+            20,
+            Math.min(prev.top, windowHeight - buttonHeight - 20)
+          ),
+          left: Math.max(
+            20,
+            Math.min(prev.left, windowWidth - buttonWidth - 20)
+          ),
+        }));
+      };
+
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    return (
+      <>
+        {/* Full-screen drop zone */}
+        <div
+          ref={drop}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            zIndex: isDragging ? 999 : -1,
+            pointerEvents: isDragging ? "auto" : "none",
+          }}
+        />
+
+        {isDragging && (
+          <div
+            style={{
+              position: "fixed",
+              top: "25%",
+              left: "25%",
+              width: "50%",
+              height: "50%",
+              backgroundColor: "rgba(255, 0, 0, 0.1)",
+              border: "2px dashed rgba(255, 0, 0, 0.3)",
+              zIndex: 998,
+              pointerEvents: "none",
+            }}
+          />
+        )}
+
+        {/* Draggable button */}
+        <div
+          ref={dragDropRef}
+          onClick={onNavigate}
+          style={{
+            position: "fixed",
+            top: position.top,
+            left: position.left,
+            zIndex: 1000,
+            cursor: isDragging ? "grabbing" : "grab",
+            transition: isDragging ? "none" : "all 0.3s ease",
+            backgroundColor: "#3B9D94",
+            padding: "12px 16px",
+            borderRadius: "8px",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            opacity: isDragging ? 0.8 : 1,
+          }}
+        >
+          <span style={{ fontWeight: "bold", color: "white" }}>Compare</span>
+          <span
+            style={{
+              backgroundColor: "#2A7A72",
+              color: "white",
+              borderRadius: "50%",
+              width: "24px",
+              height: "24px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {compareProperty.length}
+          </span>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div className="px-4 py-4 relative">
       {showPrompt && (
@@ -438,24 +656,17 @@ const [averageRating, setAverageRating] = useState(0);
         </div>
       )}
 
-      {/* Compare Card - Shown when property is added to compare */}
+      {/* Compare button - Shown when property is added to compare */}
       {(showCompareCard || compareProperty.length > 0) && (
-        <div className="fixed right-4 bottom-5 -translate-y-1/2 z-50">
-          <button
-            className="bg-teal-500 rounded-md text-white p-4 mb-2 w-fit cursor-pointer gap-12 md:gap-20 ml-auto shadow-lg flex items-center justify-between"
-            onClick={() => {
+        <DndProvider backend={HTML5Backend}>
+          <DraggableCompareButton
+            compareProperty={compareProperty}
+            onNavigate={() => {
               addToCompare(property);
               navigate("/compare-property");
             }}
-          >
-            <h3 className="text-xl text-black">Compare</h3>
-            <div className="bg-teal-600 h-8 w-8 flex items-center justify-center">
-              <span className="text-lg font-bold text-black">
-                {compareProperty.length}
-              </span>
-            </div>
-          </button>
-        </div>
+          />
+        </DndProvider>
       )}
 
       <div className="md:flex justify-between pt-8">
@@ -475,12 +686,12 @@ const [averageRating, setAverageRating] = useState(0);
             {property?.locality},{property?.city}
           </p>
 
-<div className="flex items-center lg:text-2xl lg:pb-4">
-  <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
-  <p className="ml-2 text-gray-600">
-    {averageRating.toFixed(1)} ({totalReviews} Reviews)
-  </p>
-</div>
+          <div className="flex items-center lg:text-2xl lg:pb-4">
+            <MdOutlineStarPurple500 className="text-[#FFC700] mt-1" />
+            <p className="ml-2 text-gray-600">
+              {averageRating.toFixed(1)} ({totalReviews} Reviews)
+            </p>
+          </div>
 
           <div className="border border-gray-600 rounded-lg p-1 sm:p-1 mb-8 mt-2 flex flex-row lg:flex-row justify-evenly items-center gap-2 lg:gap-4 w-full">
             {/* Monthly Rent Section */}
