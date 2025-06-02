@@ -85,7 +85,7 @@ const Navbar = () => {
       icon: HiOutlineDocumentText,
     },
     {
-      label: "Add Property",
+      label: "+Add New Property",
       path: "/landlord-dashboard/add-properties",
       icon: IoAddOutline,
     },
@@ -146,29 +146,33 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <ul className="hidden sm:flex items-center font-medium lg:text-sm space-x-6">
-      {navLinks.map((link, index) => (
-      <NavLink
-        key={index}
-        to={link.path}
-        onClick={() => {
-          if (link.label === "Add Property") {
-            handleAddProperty();
-          } else {
-            setActiveNavbarMenu(link.label);
-          }
-        }}
-      >
-      <li
-        className={`py-1 hover:bg-[#5AA7A0] hover:text-white hover:rounded-md text-md px-3 ${
-          activeNavbarMenu === link.label
-            ? "bg-[#5AA7A0] text-white rounded-md"
-            : ""
-        }`}
-      >
-        {link.label}
-      </li>
-    </NavLink>
-  ))}
+          {navLinks.map((link, index) => (
+            <NavLink
+                key={index}
+                to={link.path}
+                onClick={() => {
+                  if (link.label === "+Add New Property") {
+                    handleAddProperty();
+                  } else {
+                    setActiveNavbarMenu(link.label);
+                  }
+                }}
+              >
+             <li
+              className={`py-1 hover:bg-[#5AA7A0] hover:text-white hover:rounded-md text-md px-3 ${
+                link.label === "+Add New Property"
+                  ? activeNavbarMenu === link.label
+                    ? "bg-[rgb(200 161 23 / var(--tw-bg-opacity))]  text-white rounded-md"
+                    : "bg-[#C8A117] text-white rounded-md hover:bg-[#f1d029]" // example inactive bg color for Add Property
+                  : activeNavbarMenu === link.label
+                  ? "bg-[#5AA7A0] text-white rounded-md"
+                  : ""
+              }`}
+            >
+               {link.label}
+            </li> 
+            </NavLink>
+          ))}
         <div>
           {authState.status ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
