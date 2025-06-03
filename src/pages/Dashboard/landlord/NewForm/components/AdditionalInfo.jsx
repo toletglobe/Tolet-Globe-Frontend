@@ -82,15 +82,29 @@ const AdditionalInfo = ({ formData, setFormData }) => {
     // console.log("Formdata:", formData);
   };
 
-   // Add this function after other handler functions
-  const determineSubscriptionPlan = (rentAmount) => {
-    const rent = Number(rentAmount);
-    if (rent <= 6000) return 299;
-    if (rent <= 15000) return 499;
-    if (rent <= 25000) return 699;
-    if (rent <= 50000) return 999;
-    return 1499;
-  };
+ const determineSubscriptionPlan = (rentData) => {
+  let rent;
+
+  // Handle case: single rent amount
+  if (typeof rentData === "number" || typeof rentData === "string") {
+    rent = Number(rentData);
+  }
+
+  // Handle case: PG with minRent and maxRent
+  else if (typeof rentData === "object" && rentData.minRent && rentData.maxRent) {
+    rent = Number(rentData.maxRent);
+  }
+
+  // Safety fallback
+  if (!rent || isNaN(rent)) return null;
+
+  if (rent <= 6000) return 299;
+  if (rent <= 15000) return 499;
+  if (rent <= 25000) return 699;
+  if (rent <= 50000) return 999;
+  return 1499;
+};
+
 
 
   return (
@@ -1599,22 +1613,27 @@ const AdditionalInfo = ({ formData, setFormData }) => {
       required
       className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
       value={formData.maxRent || ""}
-      onChange={(e) => {
-        const updatedMaxRent = e.target.value;
-        setFormData((prev) => {
-          const updatedData = {
-            ...prev,
-            maxRent: updatedMaxRent,
-          };
+     onChange={(e) => {
+  const updatedMaxRent = e.target.value;
 
-          // Only compute plan if minRent is available
-          if (updatedData.minRent) {
-            updatedData.subscriptionPlan = determineSubscriptionPlan(updatedData);
-          }
+  setFormData((prev) => {
+    const updatedData = {
+      ...prev,
+      maxRent: updatedMaxRent,
+    };
 
-          return updatedData;
-        });
-      }}
+    // Only compute subscriptionPlan if both minRent and maxRent exist
+    if (updatedData.minRent && updatedMaxRent) {
+      updatedData.subscriptionPlan = determineSubscriptionPlan({
+        minRent: updatedData.minRent,
+        maxRent: updatedMaxRent,
+      });
+    }
+
+    return updatedData;
+  });
+}}
+
     />
   </div>
 ) : (
@@ -1625,18 +1644,14 @@ const AdditionalInfo = ({ formData, setFormData }) => {
       className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
       value={formData.rent || ""}
       onChange={(e) => {
-        const rentValue = e.target.value;
-        const updatedData = {
-          ...formData,
-          rent: rentValue,
-        };
-        const subscriptionPlan = determineSubscriptionPlan(updatedData);
-        setFormData((prev) => ({
-          ...prev,
-          rent: rentValue,
-          subscriptionPlan,
-        }));
-      }}
+              const rentValue = e.target.value;
+              const subscriptionAmount = determineSubscriptionPlan(rentValue);
+              setFormData((prev) => ({
+                ...prev,
+                rent: rentValue,
+                subscriptionPlan: subscriptionAmount,
+              }));
+            }}
     />
   )}
 </div>
