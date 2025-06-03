@@ -1,61 +1,131 @@
-import { set } from "date-fns";
 import React, { useState } from "react";
+import { API } from "../../../../config/axios";
+
 
 const SupportModal = ({ isOpen, onClose, onSubmit }) => {
-  const [topic, setTopic] = useState("");
-  const [query, setQuery] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    query: "",
+  });
 
-  const handleSubmit = async () => {
-    try {
-      await onSubmit(query, topic);
-      setQuery("");
-      setTopic("");
-    } catch (err) {
-      console.error("Submission error:", err);
-    }
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+const handleSubmit = async () => {
+  const { name, phone, email, query } = form;
+
+  if (!name || !phone || !email || !query) {
+    return alert("Please fill in all required fields.");
+  }
+
+  try {
+    const response = await API.post("/property/purchasequery", {
+      username: name,
+      phone,
+      email,
+      query,
+    });
+
+    // Optional: handle based on response data
+    if (response.status === 200) {
+      alert("Your query has been submitted successfully!");
+      onSubmit(query, "General Support");
+      onClose();
+      setForm({ name: "", phone: "", email: "", query: "" }); // Reset form
+    } else {
+      alert("Something went wrong. Please try again.");
+    }
+  } catch (error) {
+    console.error(error);
+    alert(error?.response?.data?.message || "Submission failed.");
+  }
+};
+
+
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-black border-[#C8C8C8] border p-6 rounded-lg w-full max-w-md shadow-lg">
-        <h2 className="text-xl font-semibold mb-4">Contact Support</h2>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Topic
+    <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
+      <div className="bg-[#121212] text-white rounded-2xl w-full max-w-md p-6 relative">
+        <button
+          className="absolute top-4 right-4 text-2xl text-white"
+          onClick={onClose}
+        >
+          &times;
+        </button>
+
+        <h2 className="text-xl font-semibold mb-6 text-center">Contact Form</h2>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium">
+              Name<span className="text-red-500">*</span>
+            </label>
             <input
-              type="text"
-              className="bg-black w-[100%] mt-2 h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              required
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Enter full name"
+              className="w-full px-4 py-2 mt-1 bg-transparent border border-gray-500 rounded-md focus:outline-none"
             />
-          </label>
-          <label className="block text-sm font-medium mb-2">
-            Your Query
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">
+              Phone Number<span className="text-red-500">*</span>
+            </label>
+            <input
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              placeholder="Enter phone number"
+              className="w-full px-4 py-2 mt-1 bg-transparent border border-gray-500 rounded-md focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">
+              Email Id<span className="text-red-500">*</span>
+            </label>
+            <input
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="Enter email id"
+              className="w-full px-4 py-2 mt-1 bg-transparent border border-gray-500 rounded-md focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">
+              General Query<span className="text-red-500">*</span>
+            </label>
             <textarea
-              className="bg-black w-[100%] mt-2 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-              rows={4}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              required
-            />
-          </label>
-          <div className="flex justify-end gap-2 mt-4">
+              name="query"
+              value={form.query}
+              onChange={handleChange}
+              placeholder="Describe your problem"
+              rows="4"
+              className="w-full px-4 py-2 mt-1 bg-transparent border border-gray-500 rounded-md focus:outline-none"
+            ></textarea>
+          </div>
+
+          <div className="flex justify-end space-x-3 mt-6">
             <button
-              type="button"
+              className="bg-gray-200 text-black px-5 py-2 rounded-md font-medium"
               onClick={onClose}
-              className="px-4 py-2 text-sm bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
-              type="button"
+              className="bg-green-500 text-white px-5 py-2 rounded-md font-medium"
               onClick={handleSubmit}
-              className="px-4 py-2 text-sm bg-[#C8A117] text-white rounded hover:bg-[#C8A117]/90"
             >
-              Send
+              Submit
             </button>
           </div>
         </div>
