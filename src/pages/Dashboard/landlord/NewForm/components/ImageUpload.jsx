@@ -1,4 +1,6 @@
 import React from 'react'
+import { IoClose } from 'react-icons/io5';
+
 
 const ImageUpload = ({ formData, setFormData }) => {
     const handleImageSubmit = (e) => {
@@ -76,6 +78,7 @@ const ImageUpload = ({ formData, setFormData }) => {
                     aria-label="Remove image"
                   >
                     <IoClose size={16} color="white" />
+                    
                   </button>
                 )}
               </div>

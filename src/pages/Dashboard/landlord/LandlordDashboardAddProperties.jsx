@@ -10,6 +10,8 @@ import Subscriptions from "./NewForm/components/SubscriptionCards"
 import Coupon from "./NewForm/components/Coupon";
 import ImageUpload from "./NewForm/components/ImageUpload";
 
+import Frm4 from "./AllForms/Frm4";
+
 import { API } from "../../../config/axios";
 
 export default function LandlordDashboardAddProperties() {
@@ -161,6 +163,7 @@ export default function LandlordDashboardAddProperties() {
       typeOfWashroom: "",
       // coolingFacility: "",
       // carParking: "",
+      coupon:"",
       rent: "",
       security: "",
       images: [],
@@ -169,6 +172,8 @@ export default function LandlordDashboardAddProperties() {
       // locationLink: "",
       appliances: [],
       amenities: [],
+      maxRent:"",
+      minRent:"",
       // addressVerification: "",
       availabilityStatus: "Available",
       aboutTheProperty: "",
@@ -210,10 +215,8 @@ export default function LandlordDashboardAddProperties() {
         >
           <div>
             {/* Form-Body */}
-            <Form formData={formData} setFormData={setFormData} />
+            <Form formData={formData} setFormData={setFormData}/>
             <AdditionalInfo formData={formData} setFormData={setFormData}/>
-            <Subscriptions />
-            <Coupon />
             <ImageUpload formData={formData} setFormData={setFormData} />
 
             {/* Form-footer */}
