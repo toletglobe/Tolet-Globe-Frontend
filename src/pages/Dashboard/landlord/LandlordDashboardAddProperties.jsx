@@ -217,6 +217,7 @@ export default function LandlordDashboardAddProperties() {
             {/* Form-Body */}
             <Form formData={formData} setFormData={setFormData}/>
             <AdditionalInfo formData={formData} setFormData={setFormData}/>
+            <Coupon />           
             <ImageUpload formData={formData} setFormData={setFormData} />
 
             {/* Form-footer */}
