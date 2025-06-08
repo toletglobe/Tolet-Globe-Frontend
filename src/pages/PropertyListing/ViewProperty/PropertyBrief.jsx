@@ -432,22 +432,7 @@ const PropertyBrief = ({ property }) => {
           }}
         />
 
-        {isDragging && (
-          <div
-            style={{
-              position: "fixed",
-              top: "25%",
-              left: "25%",
-              width: "50%",
-              height: "50%",
-              backgroundColor: "rgba(255, 0, 0, 0.1)",
-              border: "2px dashed rgba(255, 0, 0, 0.3)",
-              zIndex: 998,
-              pointerEvents: "none",
-            }}
-          />
-        )}
-
+        
         {/* Draggable button */}
         <div
           ref={dragDropRef}
