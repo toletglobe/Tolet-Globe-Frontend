@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useSelector } from "react-redux";
 
-import Form from "./AllForms/NewForm";
+import Form from "./NewForm/components/Details";
+import AdditionalInfo from "./NewForm/components/AdditionalInfo";
+import Subscriptions from "./NewForm/components/SubscriptionCards"
+import Coupon from "./NewForm/components/Coupon";
+import ImageUpload from "./NewForm/components/ImageUpload";
+
+import Frm4 from "./AllForms/Frm4";
 
 import { API } from "../../../config/axios";
 
@@ -157,6 +163,7 @@ export default function LandlordDashboardAddProperties() {
       typeOfWashroom: "",
       // coolingFacility: "",
       // carParking: "",
+      coupon:"",
       rent: "",
       security: "",
       images: [],
@@ -165,6 +172,8 @@ export default function LandlordDashboardAddProperties() {
       // locationLink: "",
       appliances: [],
       amenities: [],
+      maxRent:"",
+      minRent:"",
       // addressVerification: "",
       availabilityStatus: "Available",
       aboutTheProperty: "",
@@ -187,14 +196,6 @@ export default function LandlordDashboardAddProperties() {
       {/* Form */}
 
       <div className="w-full px-3">
-        {/* ProgressBar */}
-
-        <div className="sm:my-5 mt-7 mb-8 flex flex-col gap-2 md:pr-0">
-          <h1 className="text-center text-[#FFFFFF] text-xl md:text-3xl leading-10 font-bold md:text-left whitespace-nowrap">
-            Add New Property
-          </h1>
-        </div>
-
         {/* Form-Container */}
         <form
           encType="multipart/form-data"
@@ -214,7 +215,10 @@ export default function LandlordDashboardAddProperties() {
         >
           <div>
             {/* Form-Body */}
-            <Form formData={formData} setFormData={setFormData} />
+            <Form formData={formData} setFormData={setFormData}/>
+            <AdditionalInfo formData={formData} setFormData={setFormData}/>
+            <Coupon />           
+            <ImageUpload formData={formData} setFormData={setFormData} />
 
             {/* Form-footer */}
             <div className="my-10 pr-5 h-fit flex gap-x-3 justify-end md:pr-0">

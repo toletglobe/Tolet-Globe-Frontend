@@ -85,7 +85,7 @@ const Navbar = () => {
       icon: HiOutlineDocumentText,
     },
     {
-      label: "Add Property",
+      label: "+Add New Property",
       path: "/landlord-dashboard/add-properties",
       icon: IoAddOutline,
     },
@@ -146,29 +146,33 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <ul className="hidden sm:flex items-center font-medium lg:text-sm space-x-6">
-      {navLinks.map((link, index) => (
-      <NavLink
-        key={index}
-        to={link.path}
-        onClick={() => {
-          if (link.label === "Add Property") {
-            handleAddProperty();
-          } else {
-            setActiveNavbarMenu(link.label);
-          }
-        }}
-      >
-      <li
-        className={`py-1 hover:bg-teal-500 hover:text-white hover:rounded-md text-md px-3 ${
-          activeNavbarMenu === link.label
-            ? "bg-teal-500 text-white rounded-md"
-            : ""
-        }`}
-      >
-        {link.label}
-      </li>
-    </NavLink>
-  ))}
+          {navLinks.map((link, index) => (
+            <NavLink
+                key={index}
+                to={link.path}
+                onClick={() => {
+                  if (link.label === "+Add New Property") {
+                    handleAddProperty();
+                  } else {
+                    setActiveNavbarMenu(link.label);
+                  }
+                }}
+              >
+             <li
+              className={`py-1 hover:bg-[#5AA7A0] hover:text-white hover:rounded-md text-md px-3 ${
+                link.label === "+Add New Property"
+                  ? activeNavbarMenu === link.label
+                    ? "bg-[rgb(200 161 23 / var(--tw-bg-opacity))]  text-white rounded-md"
+                    : "bg-[#C8A117] text-white rounded-md hover:bg-[#f1d029]" // example inactive bg color for Add Property
+                  : activeNavbarMenu === link.label
+                  ? "bg-[#5AA7A0] text-white rounded-md"
+                  : ""
+              }`}
+            >
+               {link.label}
+            </li> 
+            </NavLink>
+          ))}
         <div>
           {authState.status ? (
             <div className="flex items-center gap-2 cursor-pointer group relative">
@@ -188,7 +192,7 @@ const Navbar = () => {
                     className="flex items-center py-2 px-3 hover:bg-gray-100 cursor-pointer justify-start rounded"
                   >
                     <ComputerDesktopIcon className="w-5 mr-2" />
-                    Dashboard
+                      Dashboard
                   </p>
                   <p
                     onClick={handleLogout}
@@ -206,7 +210,7 @@ const Navbar = () => {
                 setActiveNavbarMenu("login");
                 navigate("/login");
               }}
-              className={`py-1 hover:bg-teal-500 hover:text-white px-3 hover:rounded-md text-md ${
+              className={`py-1 hover:bg-[#1BADA0] bg-[#0D8A7F] text-white px-3 rounded-md text-md ${
                 activeNavbarMenu === "login"
                   ? "bg-teal-500 text-white rounded-md"
                   : ""
@@ -263,7 +267,7 @@ const Navbar = () => {
                 >
                   <div className="flex text-white-700 ">
                     <svg
-                      className="mr-3"
+                      className="mr-[1.1rem]"
                       width="22"
                       height="21"
                       viewBox="0 0 22 21"
@@ -278,7 +282,7 @@ const Navbar = () => {
                       />
                     </svg>
                     {/* <span className="hidden text-base md:block lg:text-xl"> */}
-                    <span className="text-base sm:block lg:text-xl">
+                    <span className="w-28 sm:w-32 text-base sm:block lg:text-xl">
                       Dashboard
                     </span>
                   </div>

@@ -1,10 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { loadGoogleMaps } from "../../../../config/loadGoogleMaps";
-import Select from "react-select";
-import { IoClose } from "react-icons/io5";
-import areas from "../../../../pages/PropertyListing/Listings/areas";
-
-import Pricing from "./PricngCard";
+import { loadGoogleMaps } from "../../../../../config/loadGoogleMaps";
+import areas from "../../../../PropertyListing/Listings/areas";
 
 const Form = ({ formData, setFormData }) => {
   const optionRenderFun = (value) => (
@@ -28,7 +24,7 @@ const Form = ({ formData, setFormData }) => {
     "Office",
     "Shop",
     "Warehouse",
-    // "NA",
+
   ];
 
   const cityLocalityData = {
@@ -271,18 +267,7 @@ useEffect(() => {
     });
   };
 
-  // Add this function after other handler functions
-  const determineSubscriptionPlan = (rentAmount) => {
-    const rent = Number(rentAmount);
-    if (rent <= 6000) return 299;
-    if (rent <= 15000) return 499;
-    if (rent <= 25000) return 699;
-    if (rent <= 50000) return 999;
-    return 1499;
-  };
 
-  // for Debugging
-  // console.log("Formdata:", formData);
 
   const renderMap = () => {
     if (isLoading) return <div>Loading map...</div>;
@@ -314,21 +299,6 @@ useEffect(() => {
     e.target.value = "";
   };
 
-  const handleVideoSubmit = (e) => {
-    const existingVideos = formData.videos || [];
-    const newFiles = Array.from(e.target.files);
-
-    if (existingVideos.length + newFiles.length > 5) {
-      alert("You can upload a maximum of 5 videos.");
-      return;
-    }
-
-    setFormData((prev) => ({
-      ...prev,
-      videos: [...newFiles],
-    }));
-    e.target.value = "";
-  };
 
   const removeImage = (index) => {
     const updatedImages = [...(formData.images || [])];
@@ -378,48 +348,15 @@ useEffect(() => {
     }),
   };
 
-  const appliancesOptions = [
-    // { value: "NA", label: "NA" },
-    { value: "Refrigerator", label: "Refrigerator" },
-    { value: "Washing Machine", label: "Washing Machine" },
-    { value: "Air Conditioner", label: "Air Conditioner" },
-    { value: "Geyser", label: "Geyser" },
-    { value: "Microwave", label: "Microwave" },
-    { value: "Water Purifier", label: "Water Purifier" },
-    { value: "TV", label: "TV" },
-    { value: "Inverter", label: "Inverter" },
-  ];
-
-  const handleOnChangeAppliances = (selectedOptions) => {
-    setFormData((formData) => {
-      return { ...formData, appliances: selectedOptions };
-    });
-    // for Debugging
-    // console.log("Formdata:", formData);
-  };
-
-  const amenitiesOptions = [
-    // { value: "NA", label: "NA" },
-    { value: "Lift", label: "Lift" },
-    { value: "Parking", label: "Parking" },
-    { value: "Power Backup", label: "Power Backup" },
-    { value: "Swimming Pool", label: "Swimming Pool" },
-    { value: "Gardern", label: "Gardern" },
-    { value: "Gym", label: "Gym" },
-    { value: "Security Guard", label: "Security Guard" },
-    { value: "Wi-Fi", label: "Wi-Fi" },
-  ];
-
-  const handleOnChangeAmenities = (selectedOptions) => {
-    setFormData((formData) => {
-      return { ...formData, amenities: selectedOptions };
-    });
-    // for Debugging
-    // console.log("Formdata:", formData);
-  };
-
+ 
   return (
     <>
+     <div className="sm:my-5 mt-7 mb-8 flex flex-col gap-2 md:pr-0">
+        <h1 className="text-center text-[#FFFFFF] text-xl md:text-[25px] leading-10 font-bold md:text-left whitespace-nowrap">
+          Property Details
+        </h1>
+        <hr />
+      </div>
       <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
         {/* First Name */}
         <div>
@@ -646,6 +583,26 @@ useEffect(() => {
           )}
         </div>
 
+        {/* Nearest Landmark */}
+        <div className="w-full h-fit flex flex-col gap-3 items-start">
+          <label className="text-[#FFFFFF] text-base font-medium">
+            Nearest Landmark<span className="text-red-600">*</span>
+          </label>
+          <input
+            required
+            type="text"
+            placeholder="Enter Nearest Landmark"
+            className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
+            value={formData.nearestLandmark}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                nearestLandmark: e.target.value,
+              });
+            }}
+          />
+        </div>
+
         {/* Pin */}
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
@@ -674,47 +631,6 @@ useEffect(() => {
             </p>
           )}
         </div>
-
-        {/* Nearest Landmark */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Nearest Landmark<span className="text-red-600">*</span>
-          </label>
-          <input
-            required
-            type="text"
-            placeholder="Enter Nearest Landmark"
-            className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-            value={formData.nearestLandmark}
-            onChange={(e) => {
-              setFormData({
-                ...formData,
-                nearestLandmark: e.target.value,
-              });
-            }}
-          />
-        </div>
-
-        {/* Square Feet Area */}
-        {/* <div className="w-full h-fit flex flex-col gap-3 items-start"> */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Square Feet Area<span className="text-red-600">*</span>
-          </label>
-          <input
-            required
-            type="number"
-            placeholder="0"
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            value={formData.squareFeetArea}
-            onChange={(e) => {
-              setFormData((formData) => {
-                return { ...formData, squareFeetArea: e.target.value };
-              });
-            }}
-          />
-        </div>
-        {/* </div> */}
 
         {/* Space Type */}
         <div>
@@ -764,368 +680,10 @@ useEffect(() => {
               : allOptions.map(optionRenderFun)}
           </select>
         </div>
-
-        {/* Preference */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Preference<span className="text-red-600">*</span>
-          </label>
-          <select
-            required
-            className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-            value={formData.preference}
-            onChange={(e) => {
-              setFormData({ ...formData, preference: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
-            }}
-          >
-            <option value="" disabled>
-              Select preference
-            </option>
-            <option value="Bachelors">Bachelors</option>
-            <option value="Family">Family</option>
-            <option value="Any">Any</option>
-            {/* <option value="NA">NA</option> */}
-          </select>
-        </div>
-
-        {/* Bachelors */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Gender<span className="text-red-600">*</span>
-          </label>
-          <select
-            disabled={formData.preference === "Family" ? true : false}
-            required
-            className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-            value={formData.bachelors}
-            onChange={(e) => {
-              setFormData({ ...formData, bachelors: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
-            }}
-          >
-            <option value="" disabled>
-              Select gender
-            </option>
-            <option value="Boys">Boys</option>
-            <option value="Girls">Girls</option>
-            <option value="Any">Any</option>
-            {/* <option value="NA">NA</option> */}
-          </select>
-        </div>
-
-        {/* Type */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Furnished Type<span className="text-red-600">*</span>
-          </label>
-          <select
-            required
-            className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-            value={formData.type}
-            onChange={(e) => {
-              setFormData({ ...formData, type: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
-            }}
-          >
-            <option value="" disabled>
-              Select furnished type
-            </option>
-            <option value="Not Furnished">Not Furnished</option>
-            <option value="Semi Furnished">Semi Furnished</option>
-            <option value="Fully Furnished">Fully Furnished</option>
-            {/* <option value="NA">NA</option> */}
-          </select>
-        </div>
-
-        {/* BHK */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            BHK<span className="text-red-600">*</span>
-          </label>
-          <select
-            required
-            className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-            value={formData.bhk}
-            onChange={(e) => {
-              setFormData({ ...formData, bhk: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
-            }}
-          >
-            <option value="" disabled>
-              Select BHK
-            </option>
-            <option value="1">1 BHK</option>
-            <option value="2">2 BHK</option>
-            <option value="3">3 BHK</option>
-            <option value="4">4 BHK</option>
-            <option value="5">5 BHK</option>
-            {/* <option value="NA">NA</option> */}
-          </select>
-        </div>
-
-        {/* Floor */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Floors<span className="text-red-600">*</span>
-          </label>
-          <input
-            type="number"
-            min="0"
-            step="1"
-            placeholder="Enter floor number"
-            required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.floor}
-            onChange={(e) => {
-              const val = e.target.value;
-              // Ensure only positive integers or empty string
-              if (val === "" || /^[0-9]+$/.test(val)) {
-                setFormData({ ...formData, floor: val });
-              }
-              console.log("Formdata:", formData);
-            }}
-          />
-        </div>
-
-        {/* Type of Washroom */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Washroom<span className="text-red-600">*</span>
-          </label>
-          <select
-            required
-            className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-            value={formData.typeOfWashroom}
-            onChange={(e) => {
-              setFormData({
-                ...formData,
-                typeOfWashroom: e.target.value,
-              });
-              // for Debugging
-              // console.log("Formdata:", formData);
-            }}
-          >
-            <option value="" disabled>
-              Select Washroom
-            </option>
-            <option value="Western">Western</option>
-            <option value="Indian">Indian</option>
-            <option value="Both">Both</option>
-            {/* <option value="NA">NA</option> */}
-          </select>
-        </div>
-
-        {/* Appliances */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start ">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Appliances<span className="text-red-600">*</span>
-          </label>
-          <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
-            <Select
-              styles={customStyles}
-              placeholder={
-                <div className="text-white  text-[18px] leading-[23px] font-normal">
-                  Choose your Appliances
-                </div>
-              }
-              value={formData.appliances}
-              options={appliancesOptions}
-              onChange={handleOnChangeAppliances}
-              isMulti={true}
-            />
-          </div>
-        </div>
-
-        {/* Amenities */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Amenities<span className="text-red-600">*</span>
-          </label>
-          <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
-            <Select
-              styles={customStyles}
-              className="text-black"
-              placeholder={
-                <div className="text-white text-[18px] leading-[23px] font-normal">
-                  Choose your Amenities
-                </div>
-              }
-              value={formData.amenities}
-              options={amenitiesOptions}
-              onChange={handleOnChangeAmenities}
-              isMulti={true}
-            />
-          </div>
-        </div>
+      
       </div>
 
-      {/* About Property */}
-      <div className=" mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
-        <div>
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            About the property<span className="text-red-600">*</span>
-          </label>
-          <textarea
-            className="bg-black min-[320px]:max-md:w-[100%] w-[100%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.aboutTheProperty}
-            onChange={(e) => {
-              setFormData((formData) => {
-                return { ...formData, aboutTheProperty: e.target.value };
-              });
-              // for Debugging
-              // console.log("Formdata:", formData);
-            }}
-          ></textarea>
-        </div>
-      </div>
-
-      {/* Rent & Security Fields */}
-      <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
-        <div className="flex-1">
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Security Amount (If Applicable)
-          </label>
-          <input
-            required
-            type="number"
-            min="0"
-            step="1"
-            placeholder="Enter security amount"
-            className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] 
-             [&::-webkit-outer-spin-button]:appearance-none 
-             [&::-webkit-inner-spin-button]:appearance-none 
-             appearance-none"
-            value={formData.security || ""}
-            onChange={(e) => {
-              const val = e.target.value;
-              if (val === "" || /^[0-9]+$/.test(val)) {
-                setFormData((prev) => ({ ...prev, security: val }));
-              }
-            }}
-          />
-        </div>
-        <div className="flex-1 mt-10 md:mt-0">
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Rent Amount <span className="text-red-800">*</span>
-          </label>
-          <input
-            type="number"
-            placeholder="Enter rent amount"
-            required
-            className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
-            value={formData.rent || ""}
-            onChange={(e) => {
-              const rentValue = e.target.value;
-              const subscriptionAmount = determineSubscriptionPlan(rentValue);
-              setFormData((prev) => ({
-                ...prev,
-                rent: rentValue,
-                subscriptionPlan: subscriptionAmount,
-              }));
-            }}
-          />
-        </div>
-      </div>
-      {/* Subscription Cards */}
-      <div>
-        <Pricing formData={formData} />
-      </div>
-
-      {/* Image Upload Section */}
-      <div className="mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
-        {/* Image Upload Section */}
-        <div className="mt-16">
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Property image<span className="text-red-600">*</span>
-          </label>
-          <p className="text-sm mb-4">
-            Note: Your first image will be the cover image of your property
-          </p>
-
-          <div className="flex flex-col md:flex-row gap-6 max-w-full">
-            {/* Left - Big First Image */}
-            <div className="flex-shrink-0 flex-1 md:flex-none md:w-[376px]">
-              <div className="relative">
-                {formData.images?.length > 0 ? (
-                  <img
-                    src={URL.createObjectURL(formData.images[0])}
-                    alt="uploaded-0"
-                    className="rounded-lg object-cover w-full h-70"
-                  />
-                ) : (
-                  <div className="border-2 border-dashed border-[#C8C8C8] rounded-lg py-10 flex flex-col items-center">
-                    <label className="cursor-pointer rounded-md text-yellow-600 font-bold px-4 py-6 h-[185px] flex items-center justify-center w-full">
-                      + Upload cover image 
-                      <input
-                        type="file"
-                        hidden
-                        multiple
-                        accept="image/*"
-                        onChange={e => handleImageSubmit(e, 0)}
-                      />
-                    </label>
-                  </div>
-                )}
-                {formData.images?.length > 0 && (
-                  <button
-                    onClick={() => removeImage(0)}
-                    className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
-                    aria-label="Remove image"
-                  >
-                    <IoClose size={16} color="white" />
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Right - Grid of Remaining Images */}
-            <div className="flex-1 grid grid-cols-2 md:grid-cols-2 gap-4 max-w-[300px] flex-shrink-0">
-              {Array.from({ length: 4 }, (_, idx) => (
-                <div key={idx} className="relative group">
-                  {formData.images?.[idx + 1] ? (
-                    <img
-                      src={URL.createObjectURL(formData.images[idx + 1])}
-                      alt={`uploaded-${idx + 1}`}
-                      className="rounded-lg object-cover w-full h-32"
-                    />
-                  ) : (
-                    <div className="border-2 border-dashed border-[#C8C8C8] rounded-lg h-32 flex items-center justify-center">
-                      <label className="cursor-pointer text-yellow-600 font-bold">
-                        + Add More
-                        <input
-                          type="file"
-                          hidden
-                          multiple
-                          accept="image/*"
-                          onChange={e => handleImageSubmit(e, idx + 1)}
-                        />
-                      </label>
-                    </div>
-                  )}
-                  {formData.images?.[idx + 1] && (
-                    <button
-                      onClick={() => removeImage(idx + 1)}
-                      className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
-                      aria-label="Remove image"
-                    >
-                      <IoClose size={16} color="white" />
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-400">
-            Uploaded {formData.images?.length || 0}/5 images
-          </p>
-        </div>
-      </div>
+      {/* Coupon */}
     </>
   );
 };
