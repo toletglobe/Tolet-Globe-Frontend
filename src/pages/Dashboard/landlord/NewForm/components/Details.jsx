@@ -352,10 +352,10 @@ useEffect(() => {
   return (
     <>
      <div className="sm:my-5 mt-7 mb-8 flex flex-col gap-2 md:pr-0">
-        <h1 className="text-center text-[#FFFFFF] text-xl md:text-[25px] leading-10 font-bold md:text-left whitespace-nowrap">
+        <h1 className="ml-4 text-center text-[#FFFFFF] text-xl md:text-[25px] leading-10 font-bold md:text-left whitespace-nowrap">
           Property Details
         </h1>
-        <hr />
+        <hr className="ml-2" />
       </div>
       <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
         {/* First Name */}
