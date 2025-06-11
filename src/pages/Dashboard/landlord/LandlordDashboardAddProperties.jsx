@@ -6,13 +6,11 @@ import { useSelector } from "react-redux";
 
 import Form from "./NewForm/components/Details";
 import AdditionalInfo from "./NewForm/components/AdditionalInfo";
-import Subscriptions from "./NewForm/components/SubscriptionCards"
 import Coupon from "./NewForm/components/Coupon";
 import ImageUpload from "./NewForm/components/ImageUpload";
 
-import Frm4 from "./AllForms/Frm4";
-
 import { API } from "../../../config/axios";
+import { max } from "date-fns";
 
 export default function LandlordDashboardAddProperties() {
   // For changing and showing page number
@@ -45,6 +43,7 @@ export default function LandlordDashboardAddProperties() {
     typeOfWashroom: "",
     // coolingFacility: "",
     // carParking: "",
+    coupon: "",
     rent: "",
     security: "",
     images: [],
@@ -53,6 +52,8 @@ export default function LandlordDashboardAddProperties() {
     // locationLink: "",
     appliances: [],
     amenities: [],
+    maxRent: "",
+    minRent: "",
     // addressVerification: "",
     availabilityStatus: "Available",
     aboutTheProperty: "",

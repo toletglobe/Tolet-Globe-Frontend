@@ -33,7 +33,7 @@ const Coupon = () => {
           <input
             type="text"
             placeholder="Enter coupon code"
-            required
+            // required
             className={`bg-black w-full h-14 p-4 pr-12 rounded-md border text-white placeholder:text-[#C8C8C8] ${
               isInvalid
                 ? 'border-red-500'
