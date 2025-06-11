@@ -77,7 +77,7 @@ const Coupon = () => {
                 : 'bg-green-700 text-white hover:bg-green-800'
             }`}
           >
-            {isApplied ? 'Applied' : 'Apply'}
+            {isApplied ? 'Applied' : 'Proceed'}
           </button>
         </div>
       </div>
