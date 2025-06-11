@@ -10,7 +10,7 @@
 /* Hand Component - Central Element */
 .mobile-view-container .mobile-bottom-bg .hand {
   opacity: 1;
-  z-index: 4;
+  z-index: 40;
   width: 470px;
   height: 400px;
   right: 16rem;

@@ -1,30 +1,36 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaArrowRight } from "react-icons/fa";
+// import { FaArrowRight } from "react-icons/fa";
 import { loadGoogleMaps } from "../../../../config/loadGoogleMaps";
 import { MdOutlineSchool } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
 
 // icons
-import Restaurants from "./assets/Locations/Restaurants.svg"
-import Cafe from "./assets/Locations/Cafe.svg"
-import Groceries from "./assets/Locations/Groceries.svg"
-import Banks from "./assets/Locations/Banks.svg"
-import Shops from "./assets/Locations/Shops.svg"
-import Fitness from "./assets/Locations/Fitness.svg"
-import Transport from "./assets/Locations/Transport.svg"
+import Restaurants from "./assets/Locations/Restaurants.svg";
+import Cafe from "./assets/Locations/Cafe.svg";
+import Groceries from "./assets/Locations/Groceries.svg";
+import Banks from "./assets/Locations/Banks.svg";
+import Shops from "./assets/Locations/Shops.svg";
+import Fitness from "./assets/Locations/Fitness.svg";
+import Transport from "./assets/Locations/Transport.svg";
 
 const Location = ({ property, selectComp }) => {
   const [selectedCategory, setSelectedCategory] = useState("location");
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
-  const [service, setService] = useState(null);
 
   useEffect(() => {
     loadGoogleMaps().then(() => {
       initializeMap();
     });
   }, [property]);
+
+  useEffect(() => {
+    if (selectedCategory && selectedCategory !== "location" && map) {
+      console.log("Searching for nearby places of type:", selectedCategory);
+      searchNearbyPlaces(selectedCategory);
+    }
+  }, [selectedCategory, map]);
 
   const initializeMap = () => {
     if (!property?.latitude || !property?.longitude) return;
@@ -37,20 +43,25 @@ const Location = ({ property, selectComp }) => {
     const newMap = new google.maps.Map(mapRef.current, {
       center: propertyLocation,
       zoom: 12,
+      mapId: import.meta.env.VITE_GOOGLE_MAPS_ID, // Ensure mapId is passed
     });
 
-    // Add marker for property location
-    new google.maps.Marker({
+    // Create a DOM element for the marker content
+    const markerContent = document.createElement("div");
+    markerContent.style.backgroundColor = "red";
+    markerContent.style.width = "10px";
+    markerContent.style.height = "10px";
+    markerContent.style.borderRadius = "50%";
+
+    // Add marker for property location using AdvancedMarkerElement
+    new google.maps.marker.AdvancedMarkerElement({
       position: propertyLocation,
       map: newMap,
       title: "Property Location",
-      icon: {
-        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-      },
+      content: markerContent, // Pass the DOM element here
     });
 
     setMap(newMap);
-    setService(new google.maps.places.PlacesService(newMap));
   };
 
   const clearMarkers = () => {
@@ -59,8 +70,6 @@ const Location = ({ property, selectComp }) => {
   };
 
   const searchNearbyPlaces = async (type) => {
-    if (!map || !service) return;
-
     clearMarkers();
 
     const propertyLocation = {
@@ -71,7 +80,7 @@ const Location = ({ property, selectComp }) => {
     const placeTypeMap = {
       school: "school",
       restaurant: "restaurant",
-      groceries: "grocery_or_supermarket",
+      groceries: "supermarket",
       cafe: "cafe",
       banks: "bank",
       shops: "shopping_mall",
@@ -79,24 +88,33 @@ const Location = ({ property, selectComp }) => {
       transport: "transit_station",
     };
 
-    const request = {
-      location: propertyLocation,
-      radius: 10000, // 10km
-      type: placeTypeMap[type],
-    };
-
     try {
-      const results = await new Promise((resolve, reject) => {
-        service.nearbySearch(request, (results, status) => {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            resolve(results);
-          } else {
-            reject(`Error: ${status}`);
-          }
-        });
-      });
+      const center = new google.maps.LatLng(
+        propertyLocation.lat,
+        propertyLocation.lng
+      );
+      const request = {
+        fields: [
+          "displayName",
+          "location",
+          "businessStatus",
+          "rating",
+          "formattedAddress",
+        ],
+        locationRestriction: {
+          center: center,
+          radius: 10000, // 10km
+        },
+        includedPrimaryTypes: [placeTypeMap[type]],
+        maxResultCount: 10,
+        rankPreference:
+          google.maps.places.SearchNearbyRankPreference.POPULARITY,
+        language: "en-US",
+      };
+      // @ts-ignore
+      const { places } = await google.maps.places.Place.searchNearby(request);
 
-      const newMarkers = results.map((place) => createMarker(place));
+      const newMarkers = places.map((place) => createMarker(place));
       setMarkers(newMarkers);
     } catch (error) {
       console.error("Error during Nearby Search:", error);
@@ -104,23 +122,28 @@ const Location = ({ property, selectComp }) => {
   };
 
   const createMarker = (place) => {
-    const marker = new google.maps.Marker({
+    // Create a DOM element for the marker content
+    const markerContent = document.createElement("div");
+    markerContent.style.backgroundColor = "blue";
+    markerContent.style.width = "10px";
+    markerContent.style.height = "10px";
+    markerContent.style.borderRadius = "50%";
+
+    const marker = new google.maps.marker.AdvancedMarkerElement({
       map: map,
-      position: place.geometry.location,
-      title: place.name,
-      icon: {
-        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-      },
+      position: place.location, // Use place.location for new Places API
+      title: place.displayName?.text || place.name,
+      content: markerContent,
     });
 
     const infoWindow = new google.maps.InfoWindow({
       content: `
-        <div>
-          <h3>${place.name}</h3>
-          <p>${place.vicinity}</p>
-          <p>Rating: ${place.rating ? place.rating + "/5" : "N/A"}</p>
-        </div>
-      `,
+      <div>
+        <h3>${place.displayName?.text || place.name}</h3>
+        <p>${place.formattedAddress || ""}</p>
+        <p>Rating: ${place.rating ? place.rating + "/5" : "N/A"}</p>
+      </div>
+    `,
     });
 
     marker.addListener("click", () => {
@@ -144,39 +167,44 @@ const Location = ({ property, selectComp }) => {
     }
   };
 
-  useEffect(() => {
-    if (selectedCategory && selectedCategory !== "location" && map && service) {
-      searchNearbyPlaces(selectedCategory);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCategory, map, service]);
-
   const locationCategories = [
-    { icon: < MdOutlineSchool size={26} />, label: "School", category: "school" },
     {
-      icon: <img src={Restaurants} alt="Restaurants" className="sm:w-[35px] sm:h-[32px] w-[24px] h-[24px]"/>,
+      icon: <MdOutlineSchool size={26} />,
+      label: "School",
+      category: "school",
+    },
+    {
+      icon: (
+        <img
+          src={Restaurants}
+          alt="Restaurants"
+          className="sm:w-[35px] sm:h-[32px] w-[24px] h-[24px]"
+        />
+      ),
       label: "Restaurants",
       category: "restaurant",
     },
     {
-      icon:  <img src={Groceries} alt="Groceries" className="w-[24px] h-[24px]" />,
+      icon: (
+        <img src={Groceries} alt="Groceries" className="w-[24px] h-[24px]" />
+      ),
       label: "Groceries",
       category: "groceries",
     },
-    { 
+    {
       icon: <img src={Cafe} alt="Cafe" className="w-[24px] h-[24px]" />,
       label: "Cafe",
-      category: "cafe"
+      category: "cafe",
     },
-    { 
+    {
       icon: <img src={Banks} alt="Banks" className="w-[24px] h-[24px]" />,
       label: "Banks",
-      category: "banks"
+      category: "banks",
     },
-    { 
+    {
       icon: <img src={Shops} alt="Shops" className="w-[24px] h-[24px]" />,
-      label: "Shops", 
-      category: "shops" 
+      label: "Shops",
+      category: "shops",
     },
     {
       icon: <img src={Fitness} alt="Fitness" className="w-[24px] h-[24px]" />,
@@ -184,7 +212,9 @@ const Location = ({ property, selectComp }) => {
       category: "fitness",
     },
     {
-      icon: <img src={Transport} alt="Transport" className="w-[24px] h-[24px]" />,
+      icon: (
+        <img src={Transport} alt="Transport" className="w-[24px] h-[24px]" />
+      ),
       label: "Transport",
       category: "transport",
     },
