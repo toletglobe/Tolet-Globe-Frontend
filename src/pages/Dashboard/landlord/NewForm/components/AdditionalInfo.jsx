@@ -75,8 +75,9 @@ const AdditionalInfo = ({ formData, setFormData }) => {
   ];
 
   const handleOnChangeAmenities = (selectedOptions) => {
+    const values = selectedOptions.map((option) => option.value);
     setFormData((formData) => {
-      return { ...formData, amenities: selectedOptions };
+      return { ...formData, amenities: values };
     });
     // for Debugging
     // console.log("Formdata:", formData);
@@ -305,7 +306,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Appliances
                 </div>
               }
-              value={formData.appliances}
+              value={formData.appliances && Array.isArray(formData.appliances)
+                ? formData.appliances
+                    .map((item) => appliancesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={appliancesOptions}
               onChange={handleOnChangeAppliances}
               isMulti={true}
@@ -327,7 +333,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Amenities
                 </div>
               }
-              value={formData.amenities}
+              value={formData.amenities && Array.isArray(formData.amenities)
+                ? formData.amenities
+                    .map((item) => amenitiesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={amenitiesOptions}
               onChange={handleOnChangeAmenities}
               isMulti={true}
@@ -547,7 +558,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Appliances
                 </div>
               }
-              value={formData.appliances}
+              value={formData.appliances && Array.isArray(formData.appliances)
+                ? formData.appliances
+                    .map((item) => appliancesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={appliancesOptions}
               onChange={handleOnChangeAppliances}
               isMulti={true}
@@ -569,7 +585,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Amenities
                 </div>
               }
-              value={formData.amenities}
+              value={formData.amenities && Array.isArray(formData.amenities)
+                ? formData.amenities
+                    .map((item) => amenitiesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={amenitiesOptions}
               onChange={handleOnChangeAmenities}
               isMulti={true}
@@ -680,7 +701,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Appliances
                 </div>
               }
-              value={formData.appliances}
+              value={formData.appliances && Array.isArray(formData.appliances)
+                ? formData.appliances
+                    .map((item) => appliancesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={appliancesOptions}
               onChange={handleOnChangeAppliances}
               isMulti={true}
@@ -702,7 +728,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Amenities
                 </div>
               }
-              value={formData.amenities}
+              value={formData.amenities && Array.isArray(formData.amenities)
+                ? formData.amenities
+                    .map((item) => amenitiesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={amenitiesOptions}
               onChange={handleOnChangeAmenities}
               isMulti={true}
@@ -922,7 +953,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Appliances
                 </div>
               }
-              value={formData.appliances}
+              value={formData.appliances && Array.isArray(formData.appliances)
+                ? formData.appliances
+                    .map((item) => appliancesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={appliancesOptions}
               onChange={handleOnChangeAppliances}
               isMulti={true}
@@ -944,7 +980,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Amenities
                 </div>
               }
-              value={formData.amenities}
+              value={formData.amenities && Array.isArray(formData.amenities)
+                ? formData.amenities
+                    .map((item) => amenitiesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={amenitiesOptions}
               onChange={handleOnChangeAmenities}
               isMulti={true}
@@ -1094,7 +1135,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Appliances
                 </div>
               }
-              value={formData.appliances}
+              value={formData.appliances && Array.isArray(formData.appliances)
+                ? formData.appliances
+                    .map((item) => appliancesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={appliancesOptions}
               onChange={handleOnChangeAppliances}
               isMulti={true}
@@ -1116,7 +1162,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Amenities
                 </div>
               }
-              value={formData.amenities}
+              value={formData.amenities && Array.isArray(formData.amenities)
+                ? formData.amenities
+                    .map((item) => amenitiesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={amenitiesOptions}
               onChange={handleOnChangeAmenities}
               isMulti={true}
@@ -1264,7 +1315,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Appliances
                 </div>
               }
-              value={formData.appliances}
+              value={formData.appliances && Array.isArray(formData.appliances)
+                ? formData.appliances
+                    .map((item) => appliancesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={appliancesOptions}
               onChange={handleOnChangeAppliances}
               isMulti={true}
@@ -1286,7 +1342,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Amenities
                 </div>
               }
-              value={formData.amenities}
+              value={formData.amenities && Array.isArray(formData.amenities)
+                ? formData.amenities
+                    .map((item) => amenitiesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={amenitiesOptions}
               onChange={handleOnChangeAmenities}
               isMulti={true}
@@ -1486,7 +1547,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Appliances
                 </div>
               }
-              value={formData.appliances}
+              value={formData.appliances && Array.isArray(formData.appliances)
+                ? formData.appliances
+                    .map((item) => appliancesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={appliancesOptions}
               onChange={handleOnChangeAppliances}
               isMulti={true}
@@ -1508,7 +1574,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Choose your Amenities
                 </div>
               }
-              value={formData.amenities}
+              value={formData.amenities && Array.isArray(formData.amenities)
+                ? formData.amenities
+                    .map((item) => amenitiesOptions.find((opt) => opt.value === item))
+                    .filter(Boolean)
+                : []
+              }
               options={amenitiesOptions}
               onChange={handleOnChangeAmenities}
               isMulti={true}
@@ -1536,10 +1607,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
           ></textarea>
         </div>
       </div>
-        </>
+    </>
       )}
-
-    
     
       {/* Rent , coupon & Security Fields */}
       <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
@@ -1566,100 +1635,95 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             }}
           />
         </div>
-    <div className="flex-1 mt-10 md:mt-0">
-  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-    {formData.propertyType === "PG" ? (
-      <>
-        Min & Max Rent Amount <span className="text-red-800">*</span>
-      </>
-    ) : (
-      <>
-        Rent Amount <span className="text-red-800">*</span>
-      </>
-    )}
-  </label>
+        <div className="flex-1 mt-10 md:mt-0">
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            {formData.propertyType === "PG" ? (
+              <>
+                Min & Max Rent Amount <span className="text-red-800">*</span>
+              </>
+            ) : (
+              <>
+                Rent Amount <span className="text-red-800">*</span>
+              </>
+            )}
+          </label>
 
-  {formData.propertyType === "PG" ? (
-  <div className="flex gap-4">
-    <input
-      type="number"
-      placeholder="Min rent"
-      required
-      className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
-      value={formData.minRent || ""}
-      onChange={(e) => {
-        const updatedMinRent = e.target.value;
-        setFormData((prev) => {
-          const updatedData = {
-            ...prev,
-            minRent: updatedMinRent,
-          };
+          {formData.propertyType === "PG" ? (
+            <div className="flex gap-4">
+              <input
+                type="number"
+                placeholder="Min rent"
+                required
+                className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
+                value={formData.minRent || ""}
+                onChange={(e) => {
+                  const updatedMinRent = e.target.value;
+                  setFormData((prev) => {
+                    const updatedData = {
+                      ...prev,
+                      minRent: updatedMinRent,
+                    };
 
-          // Optionally update subscription plan only when maxRent is already set
-          if (updatedData.maxRent) {
-            updatedData.subscriptionPlan = determineSubscriptionPlan(updatedData);
-          }
+                    // Optionally update subscription plan only when maxRent is already set
+                    if (updatedData.maxRent) {
+                      updatedData.subscriptionPlan = determineSubscriptionPlan(updatedData);
+                    }
 
-          return updatedData;
-        });
-      }}
-    />
+                    return updatedData;
+                  });
+                }}
+              />
 
-    <input
-      type="number"
-      placeholder="Max rent"
-      required
-      className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
-      value={formData.maxRent || ""}
-     onChange={(e) => {
-  const updatedMaxRent = e.target.value;
+              <input
+                type="number"
+                placeholder="Max rent"
+                required
+                className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
+                value={formData.maxRent || ""}
+                onChange={(e) => {
+                  const updatedMaxRent = e.target.value;
+                  setFormData((prev) => {
+                    const updatedData = {
+                      ...prev,
+                      maxRent: updatedMaxRent,
+                    };
 
-  setFormData((prev) => {
-    const updatedData = {
-      ...prev,
-      maxRent: updatedMaxRent,
-    };
+                  // Only compute subscriptionPlan if both minRent and maxRent exist
+                    if (updatedData.minRent && updatedMaxRent) {
+                      updatedData.subscriptionPlan = determineSubscriptionPlan({
+                        minRent: updatedData.minRent,
+                        maxRent: updatedMaxRent,
+                      });
+                    }
 
-    // Only compute subscriptionPlan if both minRent and maxRent exist
-    if (updatedData.minRent && updatedMaxRent) {
-      updatedData.subscriptionPlan = determineSubscriptionPlan({
-        minRent: updatedData.minRent,
-        maxRent: updatedMaxRent,
-      });
-    }
-
-    return updatedData;
-  });
-}}
-
-    />
-  </div>
-) : (
-    <input
-      type="number"
-      placeholder="Enter rent amount"
-      required
-      className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
-      value={formData.rent || ""}
-      onChange={(e) => {
-              const rentValue = e.target.value;
-              const subscriptionAmount = determineSubscriptionPlan(rentValue);
-              setFormData((prev) => ({
-                ...prev,
-                rent: rentValue,
-                subscriptionPlan: subscriptionAmount,
-              }));
-            }}
-    />
-  )}
-</div>
-
-
-        
+                    return updatedData;
+                  });
+                }}
+              />
+            </div>
+          ) : (
+            <input
+              type="number"
+              placeholder="Enter rent amount"
+              required
+              className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
+              value={formData.rent || ""}
+              onChange={(e) => {
+                const rentValue = e.target.value;
+                const subscriptionAmount = determineSubscriptionPlan(rentValue);
+                setFormData((prev) => ({
+                  ...prev,
+                  rent: rentValue,
+                  subscriptionPlan: subscriptionAmount,
+                }));
+              }}
+            />
+          )}
+        </div>
       </div>
       <div>
-                    <Pricing formData={formData} />
-                </div>
+        <Pricing formData={formData} />
+      </div>
     </>
   );
 };

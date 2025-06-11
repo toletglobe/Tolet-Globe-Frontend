@@ -445,7 +445,7 @@ useEffect(() => {
             pattern="[0-9]{10}"
             inputMode="numeric"
             className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-[14px] !placeholder:text-[8px] sm:placeholder:text-base text-white"
-            value={formData.ownersAlternateContactNumber}
+            value={formData.ownersAlternateContactNumber === "NA" ? "" : formData.ownersAlternateContactNumber}
             onChange={(e) => {
               // Sanitize input to allow only digits
               const digitsOnly = e.target.value.replace(/\D/g, "");
@@ -541,7 +541,7 @@ useEffect(() => {
             placeholder="Type to search area"
             required
             className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={areaSearch}
+            value={formData.area || areaSearch}
             onChange={(e) => {
               const searchValue = e.target.value;
               setAreaSearch(searchValue);
@@ -626,8 +626,8 @@ useEffect(() => {
           {renderMap()}
           {formData.latitude && formData.longitude && (
             <p className="mt-2 text-[#C8C8C8] text-sm">
-              Selected coordinates: {formData.latitude.toFixed(6)},{" "}
-              {formData.longitude.toFixed(6)}
+              Selected coordinates: {formData.latitude},{" "}
+              {formData.longitude}
             </p>
           )}
         </div>
