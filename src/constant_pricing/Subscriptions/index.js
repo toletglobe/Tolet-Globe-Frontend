@@ -7,6 +7,27 @@ import timesaving from "../../assets/pricing/timesaving.svg";
 
 export const plans = [
   {
+    id: 0,
+    title: "Free Subscription",
+    price: "₹0",
+    period: "",
+    description: "",
+    buttonText: "Get Started Premium",
+    badge: "Popular",
+    badgeStyle:
+      "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
+    buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
+    features: [
+      {
+        icon: property,
+        text: "Unlimited property tours (until you find a tenant)",
+      },
+      { icon: property, text: "Customised Tenant Screening" },
+      { icon: property, text: "No brokerage fees" },
+      { icon: timesaving, text: "No hidden charges" },
+    ],
+  },
+  {
     id: 1,
     title: "Post-Paid Subscription",
     price: "₹299",
@@ -14,7 +35,8 @@ export const plans = [
     description: "For serious property seekers",
     buttonText: "Get Started Premium",
     badge: "Popular",
-    badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
+    badgeStyle:
+      "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
     buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
     features: [
       { icon: property, text: "Property tours" },
@@ -32,58 +54,8 @@ export const plans = [
     description: "For serious property seekers",
     buttonText: "Get Started Premium",
     badge: "Popular",
-    badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
-    buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
-    features: [
-      { icon: property, text: "Property tours" },
-      { icon: filter, text: "Filtered properties" },
-      { icon: payafter, text: "Pay after finalizing property" },
-      { icon: nobrokerage, text: "No brokerage fees" },
-      { icon: timesaving, text: "Time saving" },
-    ],
-  },{
-    id: 3,
-    title: "Post-Paid Subscription",
-    price: "₹699",
-    period: "/month",
-    description: "For serious property seekers",
-    buttonText: "Get Started Premium",
-    badge: "Popular",
-    badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
-    buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
-    features: [
-      { icon: property, text: "Property tours" },
-      { icon: filter, text: "Filtered properties" },
-      { icon: payafter, text: "Pay after finalizing property" },
-      { icon: nobrokerage, text: "No brokerage fees" },
-      { icon: timesaving, text: "Time saving" },
-    ],
-  },{
-    id: 4,
-    title: "Post-Paid Subscription",
-    price: "₹999",
-    period: "/month",
-    description: "For serious property seekers",
-    buttonText: "Get Started Premium",
-    badge: "Popular",
-    badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
-    buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
-    features: [
-      { icon: property, text: "Property tours" },
-      { icon: filter, text: "Filtered properties" },
-      { icon: payafter, text: "Pay after finalizing property" },
-      { icon: nobrokerage, text: "No brokerage fees" },
-      { icon: timesaving, text: "Time saving" },
-    ],
-  },{
-    id: 5,
-    title: "Post-Paid Subscription",
-    price: "₹1499",
-    period: "/month",
-    description: "For serious property seekers",
-    buttonText: "Get Started Premium",
-    badge: "Popular",
-    badgeStyle: "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
+    badgeStyle:
+      "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
     buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
     features: [
       { icon: property, text: "Property tours" },
@@ -93,5 +65,61 @@ export const plans = [
       { icon: timesaving, text: "Time saving" },
     ],
   },
-
+  {
+    id: 3,
+    title: "Post-Paid Subscription",
+    price: "₹699",
+    period: "/month",
+    description: "For serious property seekers",
+    buttonText: "Get Started Premium",
+    badge: "Popular",
+    badgeStyle:
+      "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
+    buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
+    features: [
+      { icon: property, text: "Property tours" },
+      { icon: filter, text: "Filtered properties" },
+      { icon: payafter, text: "Pay after finalizing property" },
+      { icon: nobrokerage, text: "No brokerage fees" },
+      { icon: timesaving, text: "Time saving" },
+    ],
+  },
+  {
+    id: 4,
+    title: "Post-Paid Subscription",
+    price: "₹999",
+    period: "/month",
+    description: "For serious property seekers",
+    buttonText: "Get Started Premium",
+    badge: "Popular",
+    badgeStyle:
+      "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
+    buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
+    features: [
+      { icon: property, text: "Property tours" },
+      { icon: filter, text: "Filtered properties" },
+      { icon: payafter, text: "Pay after finalizing property" },
+      { icon: nobrokerage, text: "No brokerage fees" },
+      { icon: timesaving, text: "Time saving" },
+    ],
+  },
+  {
+    id: 5,
+    title: "Post-Paid Subscription",
+    price: "₹1499",
+    period: "/month",
+    description: "For serious property seekers",
+    buttonText: "Get Started Premium",
+    badge: "Popular",
+    badgeStyle:
+      "absolute -top-3 right-[38%] bg-[#38f8cf] text-white font-bold px-4 py-1 rounded-full text-sm",
+    buttonStyle: "bg-yellow-400 text-white hover:bg-yellow-300",
+    features: [
+      { icon: property, text: "Property tours" },
+      { icon: filter, text: "Filtered properties" },
+      { icon: payafter, text: "Pay after finalizing property" },
+      { icon: nobrokerage, text: "No brokerage fees" },
+      { icon: timesaving, text: "Time saving" },
+    ],
+  },
 ];

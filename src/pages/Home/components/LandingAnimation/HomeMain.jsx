@@ -35,7 +35,7 @@ const HomeMain = () => {
   }, []);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full h-[117vh] lg:h-screen overflow-hidden">
        {/* Only render the animation on larger screens */}
        {!isMobile ? (
         <>

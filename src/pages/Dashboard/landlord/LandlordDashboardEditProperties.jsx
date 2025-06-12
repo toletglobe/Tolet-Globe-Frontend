@@ -3,17 +3,16 @@ import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
-// import Frm1 from "./AllForms/Frm1";
-// import Frm2 from "./AllForms/Frm2";
-// import Frm3 from "./AllForms/Frm3";
-// import Frm4 from "./AllForms/Frm4";
-
-import Form from "./AllForms/NewForm"
+import Form from "./NewForm/components/Details";
+import AdditionalInfo from "./NewForm/components/AdditionalInfo";
+// import Coupon from "./NewForm/components/Coupon";
+import ImageUpload from "./NewForm/components/ImageUpload";
 
 import { API } from "../../../config/axios";
+import { useSelector } from "react-redux";
 
 export default function LandlordDashboardEditProperties() {
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     userId: "",
@@ -28,7 +27,7 @@ export default function LandlordDashboardEditProperties() {
     address: "",
     spaceType: "",
     propertyType: "",
-    petsAllowed: "",
+    // petsAllowed: "",
     preference: "",
     bachelors: "",
     type: "",
@@ -36,23 +35,31 @@ export default function LandlordDashboardEditProperties() {
     floor: "",
     nearestLandmark: "",
     typeOfWashroom: "",
-    coolingFacility: "",
-    carParking: "",
+    // coolingFacility: "",
+    // carParking: "",
+    coupon: "",
     rent: "",
     security: "",
     images: [],
     videos: [],
     squareFeetArea: "",
-    locationLink: "",
+    // locationLink: "",
     appliances: [],
     amenities: [],
-    addressVerification: "",
-    availabilityStatus: "",
+    maxRent: "",
+    minRent: "",
+    // addressVerification: "",
+    availabilityStatus: "Available",
     aboutTheProperty: "",
+    latitude: null,
+    longitude: null,
+    subscriptionPlan: null,
   });
 
   const navigate = useNavigate();
   const { id } = useParams(); // Access the property ID from the route
+  const authState = useSelector((state) => state.auth);
+  const userInfo = authState?.userData || {};
 
   useEffect(() => {
     // Fetch property details on component mount
@@ -72,21 +79,40 @@ export default function LandlordDashboardEditProperties() {
     fetchPropertyDetails();
   }, [id]);
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (formData) => {
     setLoading(true);
     try {
       const updatedFormData = {
         ...formData,
-        appliances: formData.appliances.map((obj) => obj.value),
-        amenities: formData.amenities.map((obj) => obj.value),
+        userId: userInfo.id,
+        pincode: Number(formData.pincode),
+        appliances: formData.appliances.map((item) =>
+          typeof item === "object" && item !== null ? item.value : item
+        ),
+        amenities: formData.amenities.map((item) =>
+          typeof item === "object" && item !== null ? item.value : item
+        ),
       };
 
+      for (const [key, value] of Object.entries(updatedFormData)) {
+        if (key === "userId" || key === "lastName" || key === "images") {
+          continue;
+        }
+
+        if (value === "") {
+          updatedFormData[key] = "NA";
+        }
+      }
+
       const dataToSend = new FormData();
+
       Object.entries(updatedFormData).forEach(([key, value]) => {
         if (Array.isArray(value)) {
-          value.forEach((item, index) =>
-            dataToSend.append(`${key}[${index}]`, item)
-          );
+          if (key === "images") {
+            value.forEach((image) => dataToSend.append("images", image));
+          } else {
+            value.forEach((item) => dataToSend.append(key, item));
+          }
         } else {
           dataToSend.append(key, value);
         }
@@ -100,11 +126,10 @@ export default function LandlordDashboardEditProperties() {
 
       const { data } = await API.patch(
         `/property/update-property/${id}`,
-        Object.fromEntries(dataToSend),
+        dataToSend,
         {
           headers: {
-            "Content-Type": "application/json",
-            // "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
@@ -121,16 +146,6 @@ export default function LandlordDashboardEditProperties() {
       setLoading(false);
     }
   };
-
-  // const RenderFormBody = (currentPage) => {
-  //   const formComponents = [
-  //     <Frm1 formData={formData} setFormData={setFormData} key="Frm1" />,
-  //     <Frm2 formData={formData} setFormData={setFormData} key="Frm2" />,
-  //     <Frm3 formData={formData} setFormData={setFormData} key="Frm3" />,
-  //     <Frm4 formData={formData} setFormData={setFormData} key="Frm4" />,
-  //   ];
-  //   return formComponents[currentPage];
-  // };
 
   if (loading) {
     return (
@@ -164,25 +179,32 @@ export default function LandlordDashboardEditProperties() {
         encType="multipart/form-data"
         onSubmit={(e) => {
           e.preventDefault();
+          handleFormSubmit(formData);
+          return;
         }}
       >
         {/* Form Body */}
-        <div><Form formData={formData} setFormData={setFormData} /></div>
+        <div>
+          <Form formData={formData} setFormData={setFormData} />
+          <AdditionalInfo formData={formData} setFormData={setFormData} />
+          {/* <Coupon /> */}
+          <ImageUpload formData={formData} setFormData={setFormData} />
+        </div>
 
         {/* Form Footer */}
         <div className="my-10 pr-5 h-fit flex gap-x-3 justify-end md:pr-0">
-            <button
-              type="submit"
-              className="border-[0.5px] rounded-md bg-white font-bold px-7 py-[10px] text-black"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="rounded-md bg-[#04AA6D] font-bold px-7 py-[10px] text-gray-200"
-            >
-              Submit
-            </button>
+          <button
+            type="submit"
+            className="border-[0.5px] rounded-md bg-white font-bold px-7 py-[10px] text-black"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="rounded-md bg-[#04AA6D] font-bold px-7 py-[10px] text-gray-200"
+          >
+            Submit
+          </button>
         </div>
       </form>
     </div>

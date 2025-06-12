@@ -669,8 +669,8 @@ useEffect(() => {
           {renderMap()}
           {formData.latitude && formData.longitude && (
             <p className="mt-2 text-[#C8C8C8] text-sm">
-              Selected coordinates: {formData.latitude.toFixed(6)},{" "}
-              {formData.longitude.toFixed(6)}
+              Selected coordinates: {formData.latitude},{" "}
+              {formData.longitude}
             </p>
           )}
         </div>
@@ -1051,7 +1051,7 @@ useEffect(() => {
             {/* Left - Big First Image */}
             <div className="flex-shrink-0 flex-1 md:flex-none md:w-[376px]">
               <div className="relative">
-                {formData.images?.length > 0 ? (
+                {formData.images?.[0] instanceof File ?  (
                   <img
                     src={URL.createObjectURL(formData.images[0])}
                     alt="uploaded-0"
@@ -1087,7 +1087,7 @@ useEffect(() => {
             <div className="flex-1 grid grid-cols-2 md:grid-cols-2 gap-4 max-w-[300px] flex-shrink-0">
               {Array.from({ length: 4 }, (_, idx) => (
                 <div key={idx} className="relative group">
-                  {formData.images?.[idx + 1] ? (
+                  {formData.images?.[idx + 1] && formData.images?.[0] instanceof File ? (
                     <img
                       src={URL.createObjectURL(formData.images[idx + 1])}
                       alt={`uploaded-${idx + 1}`}

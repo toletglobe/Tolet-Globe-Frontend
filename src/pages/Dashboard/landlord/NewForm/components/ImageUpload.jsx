@@ -1,39 +1,36 @@
-import React from 'react'
-import { IoClose } from 'react-icons/io5';
-
+import React from "react";
+import { IoClose } from "react-icons/io5";
 
 const ImageUpload = ({ formData, setFormData }) => {
-    const handleImageSubmit = (e) => {
-        const existingImages = formData.images || [];
-        const newFiles = Array.from(e.target.files);
-    
-        if (existingImages.length + newFiles.length > 5) {
-          alert("You can upload a maximum of 5 images.");
-          return;
-        }
-    
-        setFormData((prev) => ({
-          ...prev,
-          images: [...existingImages, ...newFiles],
-        }));
-        // for Debugging
-        // console.log("Formdata:", formData);
-        e.target.value = "";
-    };
-    
-    
-    const removeImage = (index) => {
-        const updatedImages = [...(formData.images || [])];
-        updatedImages.splice(index, 1);
-        setFormData((prev) => ({
-          ...prev,
-          images: updatedImages,
-        }));
-        // for Debugging
-        // console.log("Formdata:", formData);
-    };
-        
-    
+  const handleImageSubmit = (e) => {
+    const existingImages = formData.images || [];
+    const newFiles = Array.from(e.target.files);
+
+    if (existingImages.length + newFiles.length > 5) {
+      alert("You can upload a maximum of 5 images.");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      images: [...existingImages, ...newFiles],
+    }));
+    // for Debugging
+    console.log("Formdata:", formData);
+    e.target.value = "";
+  };
+
+  const removeImage = (index) => {
+    const updatedImages = [...(formData.images || [])];
+    updatedImages.splice(index, 1);
+    setFormData((prev) => ({
+      ...prev,
+      images: updatedImages,
+    }));
+    // for Debugging
+    console.log("Formdata:", formData);
+  };
+
   return (
     <>
       {/* Image Upload Section */}
@@ -53,20 +50,24 @@ const ImageUpload = ({ formData, setFormData }) => {
               <div className="relative">
                 {formData.images?.length > 0 ? (
                   <img
-                    src={URL.createObjectURL(formData.images[0])}
+                    src={
+                      typeof formData.images[0] === "object"
+                        ? URL.createObjectURL(formData.images[0]) // File object
+                        : formData.images[0] // URL string
+                    }
                     alt="uploaded-0"
                     className="rounded-lg object-cover w-full h-70"
                   />
                 ) : (
                   <div className="border-2 border-dashed border-[#C8C8C8] rounded-lg py-10 flex flex-col items-center">
                     <label className="cursor-pointer rounded-md text-yellow-600 font-bold px-4 py-6 h-[185px] flex items-center justify-center w-full">
-                      + Upload cover image 
+                      + Upload cover image
                       <input
                         type="file"
                         hidden
                         multiple
                         accept="image/*"
-                        onChange={e => handleImageSubmit(e, 0)}
+                        onChange={(e) => handleImageSubmit(e, 0)}
                       />
                     </label>
                   </div>
@@ -78,19 +79,22 @@ const ImageUpload = ({ formData, setFormData }) => {
                     aria-label="Remove image"
                   >
                     <IoClose size={16} color="white" />
-                    
                   </button>
                 )}
               </div>
             </div>
 
             {/* Right - Grid of Remaining Images */}
-            <div className="flex-1 grid grid-cols-2 md:grid-cols-2 gap-4 max-w-[300px] flex-shrink-0">
-              {Array.from({ length: 4 }, (_, idx) => (
+            <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4 max-w-[400px] flex-shrink-0">
+              {Array.from({ length: 6 }, (_, idx) => (
                 <div key={idx} className="relative group">
                   {formData.images?.[idx + 1] ? (
                     <img
-                      src={URL.createObjectURL(formData.images[idx + 1])}
+                      src={
+                        typeof formData.images[idx + 1] === "object"
+                          ? URL.createObjectURL(formData.images[idx + 1])
+                          : formData.images[idx + 1]
+                      }
                       alt={`uploaded-${idx + 1}`}
                       className="rounded-lg object-cover w-full h-32"
                     />
@@ -103,7 +107,7 @@ const ImageUpload = ({ formData, setFormData }) => {
                           hidden
                           multiple
                           accept="image/*"
-                          onChange={e => handleImageSubmit(e, idx + 1)}
+                          onChange={(e) => handleImageSubmit(e, idx + 1)}
                         />
                       </label>
                     </div>
@@ -129,6 +133,6 @@ const ImageUpload = ({ formData, setFormData }) => {
       </div>
     </>
   );
-}
+};
 
 export default ImageUpload;

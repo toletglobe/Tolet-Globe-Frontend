@@ -3,23 +3,44 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 import Form from "./NewForm/components/Details";
 import AdditionalInfo from "./NewForm/components/AdditionalInfo";
-import Subscriptions from "./NewForm/components/SubscriptionCards"
 import Coupon from "./NewForm/components/Coupon";
 import ImageUpload from "./NewForm/components/ImageUpload";
 
-import Frm4 from "./AllForms/Frm4";
-
 import { API } from "../../../config/axios";
+import { max } from "date-fns";
 
 export default function LandlordDashboardAddProperties() {
   // For changing and showing page number
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [couponUsage, setCouponUsage] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      console.log("Token: ", token);
+      const isCouponUsed = await API.post(
+        "user/check-coupon-usage",
+        {
+          userId: authState.userData.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Coupon Usage Data: ", isCouponUsed.data.result);
+      setCouponUsage(isCouponUsed.data.result);
+    };
+    fetchData();
+  }, []);
 
   // For storing formData
   const [formData, setFormData] = useState({
@@ -45,6 +66,7 @@ export default function LandlordDashboardAddProperties() {
     typeOfWashroom: "",
     // coolingFacility: "",
     // carParking: "",
+    coupon: false,
     rent: "",
     security: "",
     images: [],
@@ -53,6 +75,8 @@ export default function LandlordDashboardAddProperties() {
     // locationLink: "",
     appliances: [],
     amenities: [],
+    maxRent: "",
+    minRent: "",
     // addressVerification: "",
     availabilityStatus: "Available",
     aboutTheProperty: "",
@@ -163,7 +187,7 @@ export default function LandlordDashboardAddProperties() {
       typeOfWashroom: "",
       // coolingFacility: "",
       // carParking: "",
-      coupon:"",
+      coupon: "",
       rent: "",
       security: "",
       images: [],
@@ -172,8 +196,8 @@ export default function LandlordDashboardAddProperties() {
       // locationLink: "",
       appliances: [],
       amenities: [],
-      maxRent:"",
-      minRent:"",
+      maxRent: "",
+      minRent: "",
       // addressVerification: "",
       availabilityStatus: "Available",
       aboutTheProperty: "",
@@ -201,23 +225,19 @@ export default function LandlordDashboardAddProperties() {
           encType="multipart/form-data"
           onSubmit={(e) => {
             e.preventDefault();
-            // if (page) {
-            //   if (formData.images.length < 5) {
-            //     alert("Please submit at least 5 images");
-            //     return;
-            //   }
-            // } else if (page) {
             submitForm(formData);
             return;
           }}
-          // setPage(page);
-          // }}
         >
           <div>
             {/* Form-Body */}
-            <Form formData={formData} setFormData={setFormData}/>
-            <AdditionalInfo formData={formData} setFormData={setFormData}/>
-            <Coupon />           
+            <Form formData={formData} setFormData={setFormData} />
+            <AdditionalInfo formData={formData} setFormData={setFormData} />
+            <Coupon
+              formData={formData}
+              setFormData={setFormData}
+              couponUsage={couponUsage}
+            />
             <ImageUpload formData={formData} setFormData={setFormData} />
 
             {/* Form-footer */}
