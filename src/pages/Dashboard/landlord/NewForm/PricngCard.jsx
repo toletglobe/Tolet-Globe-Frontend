@@ -76,7 +76,10 @@ export const Pricing = ({ formData }) => {
           scrollBehavior: "smooth",
         }}
       >
-        {plans.map((plan) => {
+        {(formData.propertyType === "PG"
+          ? plans.slice(0, 1)
+          : plans.slice(1)
+        ).map((plan) => {
           const isActive =
             formData?.subscriptionPlan === Number(plan.price.replace("₹", ""));
 
@@ -85,7 +88,7 @@ export const Pricing = ({ formData }) => {
               key={plan.id}
               data-price={plan.price.replace("₹", "")}
               className={`min-w-[280px] max-w-xs bg-[#1a1f2e] rounded-xl p-4 text-sm shrink-0 transition-all duration-300 scroll-snap-align-center
-                ${isActive ? "scale-105 z-10" : "scale-90 opacity-50"}`}
+                  ${isActive ? "scale-105 z-10" : "scale-90 opacity-50"}`}
               style={{
                 transform: isActive ? "scale(0.93)" : "scale(0.9)",
                 opacity: isActive ? 1 : 0.5,
@@ -129,12 +132,12 @@ export const Pricing = ({ formData }) => {
               <button
                 onClick={() => handlePlanClick(plan)}
                 className={`w-full py-2 px-4 rounded-md font-medium transition-colors text-sm 
-                  ${
-                    isActive
-                      ? "bg-yellow-400 text-white"
-                      : "bg-gray-600 text-gray-300"
-                  } 
-                  ${plan.buttonStyle}`}
+                    ${
+                      isActive
+                        ? "bg-yellow-400 text-white"
+                        : "bg-gray-600 text-gray-300"
+                    } 
+                    ${plan.buttonStyle}`}
                 disabled={!isActive}
               >
                 {loading ? "Processing..." : "Contact Support"}

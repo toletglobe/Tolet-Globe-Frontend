@@ -6,11 +6,13 @@ import { ClipLoader } from "react-spinners";
 
 import { FaSearch } from "react-icons/fa";
 
+import { loadGoogleMaps } from "../../../config/loadGoogleMaps";
+
 import drop from "../../../assets/propertyListing/drop.png";
 import areas from "./areas";
 
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 import SelectLocation from "./components/SelectLocation";
 import Filters from "./components/Filters";
@@ -27,10 +29,10 @@ const Listing = () => {
   const { city } = useParams();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.status);
- 
- // State for managing the login popup
- const [showLoginPopup, setShowLoginPopup] = useState(false);
- const [showCount, setShowCount] = useState(3);
+
+  // State for managing the login popup
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showCount, setShowCount] = useState(3);
 
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
@@ -61,6 +63,18 @@ const Listing = () => {
   const [moreArea, setMoreArea] = useState(false);
   // const [selectedCity, setSelectedCity] = useState("");
   const [selectedSort, setSelectedSort] = useState("Sort");
+  const [availableProperties, setAvailableProperties] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+  const [map, setMap] = useState(null);
+  const [marker, setMarker] = useState(null);
+
+  const mapRef = useRef(null);
+
+  // Add these state variables near your other useState declarations
+  // const [map, setMap] = useState(null);
+  // const [marker, setMarker] = useState(null);
+  // const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false);
 
   // Extract query string from the URL
   const queryString = location.search;
@@ -118,6 +132,94 @@ const Listing = () => {
 
   // Add a new ref for the search panel
   const searchPanelRef = useRef(null);
+
+  // Add this near the top of your component, with other constants
+  const cityCoordinates = {
+    Lucknow: { lat: 26.8467, lng: 80.9462 },
+    Ayodhya: { lat: 26.7922, lng: 82.1998 },
+    Vellore: { lat: 12.9165, lng: 79.1325 },
+    Kota: { lat: 25.2138, lng: 75.8648 },
+  };
+
+  useEffect(() => {
+    loadGoogleMaps()
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setLoadError(error);
+        setIsLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || !mapRef.current) return;
+
+    // If Google Maps failed to load
+    if (
+      typeof window.google === "undefined" ||
+      !window.google.maps ||
+      !window.google.maps.Map ||
+      !window.google.maps.marker ||
+      !window.google.maps.marker.AdvancedMarkerElement
+    ) {
+      console.warn(
+        "Google Maps API not available or AdvancedMarkerElement unsupported"
+      );
+      return; // ❗ do nothing, skip map
+    }
+
+    const position = cityCoordinates["Lucknow"];
+
+    // if (!position || !position.lat || !position.lng) {
+    //   console.warn("Invalid position fallback:", position);
+    //   return;
+    // }
+
+    // Initialize map
+    if (!map) {
+      const newMap = new window.google.maps.Map(mapRef.current, {
+        center: position,
+        zoom: 15,
+        mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
+      });
+
+      setMap(newMap);
+
+      try {
+        const AdvancedMarker = window.google.maps.marker.AdvancedMarkerElement;
+        const newMarker = new AdvancedMarker({
+          map: newMap,
+          position: position,
+          // gmpDraggable: true,
+        });
+
+        setMarker(newMarker);
+      } catch (err) {
+        console.warn("Marker failed to initialize:", err);
+      }
+    } else {
+      map.setCenter(position);
+      map.setZoom(15);
+      if (marker?.setPosition) {
+        marker.setPosition(position);
+      }
+    }
+
+    // Ensure lat/lng always gets updated in formData
+  }, [isLoading, city, map, marker]);
+
+  const renderMap = () => {
+    if (isLoading) return <div>Loading map...</div>;
+    if (loadError) return <div>Error loading map</div>;
+
+    return (
+      <div
+        ref={mapRef}
+        className="w-full h-[400px] rounded-md border-[1.5px] border-[#C8C8C8]"
+      />
+    );
+  };
 
   // Add useEffect to handle clicks outside the panel
   useEffect(() => {
@@ -304,7 +406,14 @@ const Listing = () => {
 
       try {
         const response = await API.get(url);
+
         propertyData = response.data.data || [];
+
+        let available = propertyData.filter(
+          (property) => property.availabilityStatus === "Available"
+        );
+
+        console.log("Available properties:", available);
 
         // Handle fallback logic if no properties are found
         if (
@@ -348,21 +457,21 @@ const Listing = () => {
     return propertyData; // Return the property data
   };
 
-  const remainingPropertyCount = totalPages && (totalPages - currentPage) * propertiesPerPage;
+  const remainingPropertyCount =
+    totalPages && (totalPages - currentPage) * propertiesPerPage;
 
   const handleLoadMore = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
-      fetchAndFilterProperties(city, selectedArea, selectedLocality).then((data) => {
-        if (Array.isArray(data)) {
-          setProperties((prevProperties) => [...prevProperties, ...data]);
+      fetchAndFilterProperties(city, selectedArea, selectedLocality).then(
+        (data) => {
+          if (Array.isArray(data)) {
+            setProperties((prevProperties) => [...prevProperties, ...data]);
+          }
         }
-      });
+      );
     }
   };
-  
-
- 
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -414,7 +523,7 @@ const Listing = () => {
     const queryParams = new URLSearchParams(location.search);
     queryParams.set("sort", sortType);
     navigate(`?${queryParams.toString()}`); // Update URL with new sort query
-    setSelectedSort(label); 
+    setSelectedSort(label);
     setMode(false);
   };
 
@@ -513,10 +622,11 @@ const Listing = () => {
     setFilterCount(count);
   };
 
- 
   return (
     <>
-      {showLoginPopup && <LoginPopup onClose={() => setShowLoginPopup(false)} />}
+      {showLoginPopup && (
+        <LoginPopup onClose={() => setShowLoginPopup(false)} />
+      )}
       <div
         onClick={() => {
           if (Location === true) setLocation(false);
@@ -537,7 +647,6 @@ const Listing = () => {
         id="property"
       >
         <div className="flex flex-col gap-6 pt-6 sticky top-0 z-20 bg-black md:pb-4">
-
           <div className="grid grid-cols-1 sm:grid-cols-10 gap-4 text-sm md:text-lg">
             <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md lg:w-full w-[96%] mx-[2%] ">
               <div className="flex flex-wrap items-center text-black  text-sm md:text-lg">
@@ -651,9 +760,9 @@ const Listing = () => {
                       value={searchQuery}
                       onClick={(e) => {
                         if (!city) {
-                          toast.error("Please select a city first",
-                            { position: "top-center", }
-                          );
+                          toast.error("Please select a city first", {
+                            position: "top-center",
+                          });
                           return;
                         }
                       }}
@@ -742,7 +851,10 @@ const Listing = () => {
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                           onClick={() => {
-                            handleSortClick("price-low-high", "Price: Low to High")
+                            handleSortClick(
+                              "price-low-high",
+                              "Price: Low to High"
+                            );
                           }}
                         >
                           Price: Low to High
@@ -750,7 +862,10 @@ const Listing = () => {
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                           onClick={() => {
-                            handleSortClick("price-high-low", "Price: High to Low")
+                            handleSortClick(
+                              "price-high-low",
+                              "Price: High to Low"
+                            );
                           }}
                         >
                           Price: High to Low
@@ -758,7 +873,7 @@ const Listing = () => {
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                           onClick={() => {
-                            handleSortClick("most-trending", "Most Trending")
+                            handleSortClick("most-trending", "Most Trending");
                           }}
                         >
                           Most Trending
@@ -803,7 +918,7 @@ const Listing = () => {
                     <p
                       className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                       onClick={() => {
-                        handleSortClick("price-low-high", "Price: Low to High")
+                        handleSortClick("price-low-high", "Price: Low to High");
                       }}
                     >
                       Price: Low to High
@@ -811,7 +926,7 @@ const Listing = () => {
                     <p
                       className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                       onClick={() => {
-                        handleSortClick("price-high-low", "Price: High to Low")
+                        handleSortClick("price-high-low", "Price: High to Low");
                       }}
                     >
                       Price: High to Low
@@ -819,7 +934,7 @@ const Listing = () => {
                     <p
                       className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                       onClick={() => {
-                        handleSortClick("most-trending", "Most Trending")
+                        handleSortClick("most-trending", "Most Trending");
                       }}
                     >
                       Most Trending
@@ -853,7 +968,7 @@ const Listing = () => {
               {compareProperty.length >= 1 && (
                 <div className="compare">
                   <button
-                   onClick={handleVisit }
+                    onClick={handleVisit}
                     className={`bg-white h-11 sm:h-14 w-20 md:w-32 ml-20 md:ml-0 text-black cursor-pointer rounded-lg flex gap-2 lg:gap-5 text-center items-center px-3 sm:px-7 lg:py-7 text-sm font-medium ${
                       compareProperty.length <= 0
                         ? "opacity-50 grayscale cursor-not-allowed"
@@ -914,6 +1029,10 @@ const Listing = () => {
             </div>
           </div>
         </div>
+
+        {/* Pin Location on Map */}
+        <div>{renderMap()}</div>
+
         <div className="pt-3">
           {properties.length === 0 ? (
             <p className="text-center text-lg font-semibold mt-10">
@@ -928,7 +1047,11 @@ const Listing = () => {
           )}
         </div>
 
-        {loading && <div className="flex justify-center my-4"><ClipLoader color="#6CC1B6" size={50} /></div>}
+        {loading && (
+          <div className="flex justify-center my-4">
+            <ClipLoader color="#6CC1B6" size={50} />
+          </div>
+        )}
 
         {currentPage < totalPages && !loading && (
           <div className="flex flex-col items-center my-4">
@@ -938,10 +1061,8 @@ const Listing = () => {
             >
               Load More ({remainingPropertyCount})
             </button>
-            
           </div>
         )}
-      
       </section>
     </>
   );

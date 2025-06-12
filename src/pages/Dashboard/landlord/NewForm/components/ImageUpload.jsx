@@ -16,7 +16,7 @@ const ImageUpload = ({ formData, setFormData }) => {
       images: [...existingImages, ...newFiles],
     }));
     // for Debugging
-    // console.log("Formdata:", formData);
+    console.log("Formdata:", formData);
     e.target.value = "";
   };
 
@@ -28,7 +28,7 @@ const ImageUpload = ({ formData, setFormData }) => {
       images: updatedImages,
     }));
     // for Debugging
-    // console.log("Formdata:", formData);
+    console.log("Formdata:", formData);
   };
 
   return (
@@ -85,8 +85,8 @@ const ImageUpload = ({ formData, setFormData }) => {
             </div>
 
             {/* Right - Grid of Remaining Images */}
-            <div className="flex-1 grid grid-cols-2 md:grid-cols-2 gap-4 max-w-[300px] flex-shrink-0">
-              {Array.from({ length: 4 }, (_, idx) => (
+            <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4 max-w-[400px] flex-shrink-0">
+              {Array.from({ length: 6 }, (_, idx) => (
                 <div key={idx} className="relative group">
                   {formData.images?.[idx + 1] ? (
                     <img

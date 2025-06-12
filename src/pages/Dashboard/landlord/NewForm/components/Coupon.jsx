@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
-import { Check, X } from 'lucide-react';
+import React, { useState } from "react";
+import { Check, X } from "lucide-react";
+import { API } from "../../../../../config/axios";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-const VALID_COUPONS = ['tolet8764', 'SAVE20', 'DISCOUNT10']; // sample valid codes
+const VALID_COUPONS = ["tolet8764", "SAVE20", "DISCOUNT10"]; // sample valid codes
 
-const Coupon = () => {
-  const [couponCode, setCouponCode] = useState('');
+const Coupon = ({ formData, setFormData, couponUsage }) => {
+  const [couponCode, setCouponCode] = useState("");
   const [isApplied, setIsApplied] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
 
-  const handleProcessCoupon = () => {
+  const authState = useSelector((state) => state.auth);
+
+  const handleProcessCoupon = (event) => {
+    event.preventDefault(); // Prevent form submission
     const trimmedCode = couponCode.trim();
 
     if (VALID_COUPONS.includes(trimmedCode)) {
       setIsApplied(true);
       setIsInvalid(false);
-      console.log('Coupon applied:', trimmedCode);
+      setCouponCode(trimmedCode); // Store the trimmed code
+      setFormData(() => ({ ...formData, coupon: true }));
+      console.log("Coupon applied:", trimmedCode);
     } else {
       setIsApplied(false);
       setIsInvalid(true);
-      console.log('Invalid coupon:', trimmedCode);
+      setFormData(() => ({ ...formData, coupon: false }));
+      console.log("Invalid coupon:", trimmedCode);
     }
+  };
+
+  const handleResetCoupon = () => {
+    setCouponCode("");
+    setIsApplied(false);
+    setIsInvalid(false);
   };
 
   return (
@@ -32,14 +47,15 @@ const Coupon = () => {
         <div className="relative">
           <input
             type="text"
-            placeholder="Enter coupon code"
-            // required
+            placeholder={
+              couponUsage ? "Coupon already used!" : "Enter coupon code"
+            }
             className={`bg-black w-full h-14 p-4 pr-12 rounded-md border text-white placeholder:text-[#C8C8C8] ${
               isInvalid
-                ? 'border-red-500'
+                ? "border-red-500"
                 : isApplied
-                ? 'border-green-500'
-                : 'border-[#C8C8C8]'
+                ? "border-green-500"
+                : "border-[#C8C8C8]"
             }`}
             value={couponCode}
             onChange={(e) => {
@@ -47,7 +63,7 @@ const Coupon = () => {
               setIsApplied(false);
               setIsInvalid(false);
             }}
-            disabled={isApplied}
+            disabled={isApplied || couponUsage}
           />
           {isApplied && (
             <Check
@@ -67,17 +83,25 @@ const Coupon = () => {
           <p className="text-red-500 text-sm mt-2">Invalid coupon code.</p>
         )}
 
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-4">
+          {(isApplied || isInvalid) && (
+            <button
+              onClick={handleResetCoupon}
+              className="mt-4 px-5 py-2 rounded-md bg-gray-600 text-white hover:bg-gray-700 transition-all"
+            >
+              Edit
+            </button>
+          )}
           <button
             onClick={handleProcessCoupon}
             disabled={isApplied || !couponCode.trim()}
             className={`mt-4 px-5 py-2 rounded-md transition-all ${
               isApplied
-                ? 'bg-green-600 text-white cursor-default'
-                : 'bg-green-700 text-white hover:bg-green-800'
+                ? "bg-green-600 text-white cursor-default"
+                : "bg-green-700 text-white hover:bg-green-800"
             }`}
           >
-            {isApplied ? 'Applied' : 'Proceed'}
+            {isApplied ? "Applied" : "Proceed"}
           </button>
         </div>
       </div>

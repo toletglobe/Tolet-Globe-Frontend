@@ -17,15 +17,7 @@ const Form = ({ formData, setFormData }) => {
 
   const commercialOptions = ["Office", "Shop", "Warehouse"];
 
-  const allOptions = [
-    "House",
-    "Flat",
-    "PG",
-    "Office",
-    "Shop",
-    "Warehouse",
-
-  ];
+  const allOptions = ["House", "Flat", "PG", "Office", "Shop", "Warehouse"];
 
   const cityLocalityData = {
     Lucknow: {
@@ -149,84 +141,85 @@ const Form = ({ formData, setFormData }) => {
       });
   }, []);
 
-useEffect(() => {
-  if (isLoading || !mapRef.current) return;
+  useEffect(() => {
+    if (isLoading || !mapRef.current) return;
 
-  // If Google Maps failed to load
-  if (
-    typeof window.google === "undefined" ||
-    !window.google.maps ||
-    !window.google.maps.Map ||
-    !window.google.maps.marker ||
-    !window.google.maps.marker.AdvancedMarkerElement
-  ) {
-    console.warn("Google Maps API not available or AdvancedMarkerElement unsupported");
-    return; // ❗ do nothing, skip map
-  }
+    // If Google Maps failed to load
+    if (
+      typeof window.google === "undefined" ||
+      !window.google.maps ||
+      !window.google.maps.Map ||
+      !window.google.maps.marker ||
+      !window.google.maps.marker.AdvancedMarkerElement
+    ) {
+      console.warn(
+        "Google Maps API not available or AdvancedMarkerElement unsupported"
+      );
+      return; // ❗ do nothing, skip map
+    }
 
-  let position;
-  if (formData.city && formData.locality) {
-    position = localityCoordinates?.[formData.city]?.[formData.locality];
-  } else if (formData.city) {
-    position = cityCoordinates?.[formData.city];
-  } else {
-    position = cityCoordinates["Lucknow"];
-  }
+    let position;
+    if (formData.city && formData.locality) {
+      position = localityCoordinates?.[formData.city]?.[formData.locality];
+    } else if (formData.city) {
+      position = cityCoordinates?.[formData.city];
+    } else {
+      position = cityCoordinates["Lucknow"];
+    }
 
-  if (!position || !position.lat || !position.lng) {
-    console.warn("Invalid position fallback:", position);
-    return;
-  }
+    if (!position || !position.lat || !position.lng) {
+      console.warn("Invalid position fallback:", position);
+      return;
+    }
 
-  // Initialize map
-  if (!map) {
-    const newMap = new window.google.maps.Map(mapRef.current, {
-      center: position,
-      zoom: formData.locality ? 15 : 13,
-      mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
-    });
-
-    setMap(newMap);
-
-    try {
-      const AdvancedMarker = window.google.maps.marker.AdvancedMarkerElement;
-      const newMarker = new AdvancedMarker({
-        map: newMap,
-        position: position,
-        gmpDraggable: true,
+    // Initialize map
+    if (!map) {
+      const newMap = new window.google.maps.Map(mapRef.current, {
+        center: position,
+        zoom: formData.locality ? 15 : 13,
+        mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
       });
 
-      newMarker.addListener("dragend", () => {
-        const pos = newMarker.position;
-        if (pos?.lat && pos?.lng) {
-          setFormData((prev) => ({
-            ...prev,
-            latitude: pos.lat,
-            longitude: pos.lng,
-          }));
-        }
-      });
+      setMap(newMap);
 
-      setMarker(newMarker);
-    } catch (err) {
-      console.warn("Marker failed to initialize:", err);
+      try {
+        const AdvancedMarker = window.google.maps.marker.AdvancedMarkerElement;
+        const newMarker = new AdvancedMarker({
+          map: newMap,
+          position: position,
+          gmpDraggable: true,
+        });
+
+        newMarker.addListener("dragend", () => {
+          const pos = newMarker.position;
+          if (pos?.lat && pos?.lng) {
+            setFormData((prev) => ({
+              ...prev,
+              latitude: pos.lat,
+              longitude: pos.lng,
+            }));
+          }
+        });
+
+        setMarker(newMarker);
+      } catch (err) {
+        console.warn("Marker failed to initialize:", err);
+      }
+    } else {
+      map.setCenter(position);
+      map.setZoom(formData.locality ? 15 : 13);
+      if (marker?.setPosition) {
+        marker.setPosition(position);
+      }
     }
-  } else {
-    map.setCenter(position);
-    map.setZoom(formData.locality ? 15 : 13);
-    if (marker?.setPosition) {
-      marker.setPosition(position);
-    }
-  }
 
-  // Ensure lat/lng always gets updated in formData
-  setFormData((prev) => ({
-    ...prev,
-    latitude: position.lat,
-    longitude: position.lng,
-  }));
-}, [formData.city, formData.locality, isLoading]);
-
+    // Ensure lat/lng always gets updated in formData
+    setFormData((prev) => ({
+      ...prev,
+      latitude: position.lat,
+      longitude: position.lng,
+    }));
+  }, [formData.city, formData.locality, isLoading]);
 
   const handleCityChange = (e) => {
     const selectedCity = e.target.value;
@@ -242,7 +235,7 @@ useEffect(() => {
     });
 
     // for Debugging
-    // console.log("Formdata:", formData);
+    console.log("Formdata:", formData);
 
     // Update map and marker position immediately
     if (map && marker) {
@@ -260,14 +253,26 @@ useEffect(() => {
     const correspondingPincode =
       cityLocalityData[selectedCity].pincodes[localityIndex];
 
+    const localityPosition =
+      localityCoordinates[selectedCity][selectedLocality];
+
     setFormData({
       ...formData,
       locality: selectedLocality,
       pincode: correspondingPincode,
+      latitude: localityPosition.lat, // Update coordinates to locality center
+      longitude: localityPosition.lng,
     });
+
+    // for Debugging
+    console.log("Formdata:", formData);
+
+    if (map && marker) {
+      map.setCenter(localityPosition);
+      map.setZoom(13);
+      marker.position = localityPosition; // Update to use localityPosition
+    }
   };
-
-
 
   const renderMap = () => {
     if (isLoading) return <div>Loading map...</div>;
@@ -298,7 +303,6 @@ useEffect(() => {
     // console.log("Formdata:", formData);
     e.target.value = "";
   };
-
 
   const removeImage = (index) => {
     const updatedImages = [...(formData.images || [])];
@@ -348,10 +352,9 @@ useEffect(() => {
     }),
   };
 
- 
   return (
     <>
-     <div className="sm:my-5 mt-7 mb-8 flex flex-col gap-2 md:pr-0">
+      <div className="sm:my-5 mt-7 mb-8 flex flex-col gap-2 md:pr-0">
         <h1 className="ml-4 text-center text-[#FFFFFF] text-xl md:text-[25px] leading-10 font-bold md:text-left whitespace-nowrap">
           Property Details
         </h1>
@@ -372,7 +375,7 @@ useEffect(() => {
             onChange={(e) => {
               setFormData({ ...formData, firstName: e.target.value });
               // for Debugging
-              // console.log("Formdata:", formData);
+              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -390,7 +393,7 @@ useEffect(() => {
             onChange={(e) => {
               setFormData({ ...formData, lastName: e.target.value });
               // for Debugging
-              // console.log("Formdata:", formData);
+              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -416,6 +419,8 @@ useEffect(() => {
                 ...formData,
                 ownersContactNumber: digitsOnly,
               });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
             onKeyDown={(e) => {
               // Allow only numbers and essential keys
@@ -445,7 +450,11 @@ useEffect(() => {
             pattern="[0-9]{10}"
             inputMode="numeric"
             className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-[14px] !placeholder:text-[8px] sm:placeholder:text-base text-white"
-            value={formData.ownersAlternateContactNumber === "NA" ? "" : formData.ownersAlternateContactNumber}
+            value={
+              formData.ownersAlternateContactNumber === "NA"
+                ? ""
+                : formData.ownersAlternateContactNumber
+            }
             onChange={(e) => {
               // Sanitize input to allow only digits
               const digitsOnly = e.target.value.replace(/\D/g, "");
@@ -453,6 +462,7 @@ useEffect(() => {
                 ...formData,
                 ownersAlternateContactNumber: digitsOnly,
               });
+              // for Debugging
               console.log("Formdata:", formData);
             }}
             onKeyDown={(e) => {
@@ -486,7 +496,7 @@ useEffect(() => {
             onChange={(e) => {
               setFormData({ ...formData, address: e.target.value });
               // for Debugging
-              // console.log("Formdata:", formData);
+              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -573,7 +583,7 @@ useEffect(() => {
                     setFormData({ ...formData, area: area });
                     setShowAreaDropdown(false);
                     // for Debugging
-                    // console.log("Formdata:", formData);
+                    console.log("Formdata:", formData);
                   }}
                 >
                   {area}
@@ -599,6 +609,8 @@ useEffect(() => {
                 ...formData,
                 nearestLandmark: e.target.value,
               });
+              // for Debugging
+              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -626,32 +638,9 @@ useEffect(() => {
           {renderMap()}
           {formData.latitude && formData.longitude && (
             <p className="mt-2 text-[#C8C8C8] text-sm">
-              Selected coordinates: {formData.latitude},{" "}
-              {formData.longitude}
+              Selected coordinates: {formData.latitude}, {formData.longitude}
             </p>
           )}
-        </div>
-
-        {/* Space Type */}
-        <div>
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Space<span className="text-red-600">*</span>
-          </label>
-          <select
-            required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.spaceType}
-            onChange={(e) => {
-              setFormData({ ...formData, spaceType: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
-            }}
-          >
-            <option value="" disabled>
-              Select space type
-            </option>
-            {spaceTypeOptions.map(optionRenderFun)}
-          </select>
         </div>
 
         <div>
@@ -666,21 +655,43 @@ useEffect(() => {
             onChange={(e) => {
               setFormData({ ...formData, propertyType: e.target.value });
               // for Debugging
-              // console.log("Formdata:", formData);
+              console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
               Select property type
             </option>
+            {allOptions.map(optionRenderFun)}
 
-            {formData.spaceType === "Commercial"
+            {/* {formData.spaceType === "Commercial"
               ? commercialOptions.map(optionRenderFun)
               : formData.spaceType === "Residential"
               ? residentialOptions.map(optionRenderFun)
-              : allOptions.map(optionRenderFun)}
+              : allOptions.map(optionRenderFun)} */}
           </select>
         </div>
-      
+
+        {/* Space Type */}
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            Space<span className="text-red-600">*</span>
+          </label>
+          <select
+            required
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            value={formData.spaceType}
+            onChange={(e) => {
+              setFormData({ ...formData, spaceType: e.target.value });
+              // for Debugging
+              console.log("Formdata:", formData);
+            }}
+          >
+            <option value="" disabled>
+              Select space type
+            </option>
+            {spaceTypeOptions.map(optionRenderFun)}
+          </select>
+        </div>
       </div>
 
       {/* Coupon */}
