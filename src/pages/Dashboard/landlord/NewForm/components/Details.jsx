@@ -321,7 +321,7 @@ const Form = ({ formData, setFormData }) => {
       color: "white",
       height: "3.5rem",
       borderRadius: "0.375rem",
-      border: "2.5px solid #C8C8C8",
+      border: "2px solid #C8C8C8",
       padding: "0 0.25rem",
       boxShadow: "white",
     }),
@@ -556,7 +556,7 @@ const Form = ({ formData, setFormData }) => {
         </div>
 
         {/* Area */}
-        <div className="relative">
+        <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Area<span className="text-red-600">*</span>
           </label>
@@ -609,8 +609,8 @@ const Form = ({ formData, setFormData }) => {
         </div>
 
         {/* Nearest Landmark */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Nearest Landmark<span className="text-red-600">*</span>
           </label>
           <input

@@ -4,43 +4,83 @@ import Pricing from "../PricngCard";
 const AdditionalInfo = ({ formData, setFormData }) => {
   const { propertyType } = formData;
 
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      backgroundColor: "#000000",
-      color: "#FFFFFF",
-      borderColor: "#C8C8C8",
-      padding: "6px",
-      minHeight: "3.5rem",
-      boxShadow: state.isFocused ? "0 0 0 1px #C8C8C8" : "none",
+  const customSelectStyles = {
+    control: (base) => ({
+      ...base,
+      backgroundColor: "none",
+      color: "white",
+      height: "3.5rem",
+      borderRadius: "0.375rem",
+      border: "2px solid #C8C8C8",
+      padding: "0 0.25rem",
+      boxShadow: "white",
     }),
-    option: (provided, state) => ({
-      ...provided,
+    placeholder: (base) => ({
+      ...base,
+      color: "none",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "white",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "black",
+      border: "1px solid #C8C8C8",
+      borderRadius: "0.375rem",
+      marginTop: "0.1rem",
+      zIndex: 999,
+    }),
+    option: (base, state) => ({
+      ...base,
       backgroundColor: state.isSelected
-        ? "#1F1F1F"
+        ? "none" // selected
         : state.isFocused
-        ? "#333333"
-        : "#000000",
-      color: "#FFFFFF",
-    }),
-    multiValue: (styles) => ({
-      ...styles,
-      backgroundColor: "#FFFFFF",
-      color: "#1F1F1F",
-    }),
-    input: (styles) => ({
-      ...styles,
-      color: "#FFFFFF",
-    }),
-    placeholder: (styles) => ({
-      ...styles,
-      color: "#7D7D7D",
-    }),
-    singleValue: (styles) => ({
-      ...styles,
-      color: "#FFFFFF",
+        ? "none" // hover (Tailwind gray-600)
+        : "none",
+      color: "white",
+      padding: "12px 16px",
+      cursor: "pointer",
+      borderLeft: state.isSelected
+        ? "5px solid #C8C8C8"
+        : state.isFocused
+        ? "5px solid #C8C8C8"
+        : "none", // selected
+      borderBottom: "2.5px solid #C8C8C8",
     }),
   };
+
+  const preferenceOptions = [
+    { value: "Bachelors", label: "Bachelors" },
+    { value: "Family", label: "Family" },
+    { value: "Both", label: "Both" },
+  ];
+
+  const genderOptions = [
+    { value: "Boys", label: "Boys" },
+    { value: "Girls", label: "Girls" },
+    { value: "Both", label: "Both" },
+  ];
+
+  const furnishedOptions = [
+    { value: "Not Furnished", label: "Not Furnished" },
+    { value: "Semi Furnished", label: "Semi Furnished" },
+    { value: "Fully Furnished", label: "Fully Furnished" },
+  ];
+
+  const bhkOptions = [
+    { value: "1", label: "1 BHK" },
+    { value: "2", label: "2 BHK" },
+    { value: "3", label: "3 BHK" },
+    { value: "4", label: "4 BHK" },
+    { value: "5", label: "5 BHK" },
+  ];
+
+  const washroomOptions = [
+    { value: "Western", label: "Western" },
+    { value: "Indian", label: "Indian" },
+    { value: "Both", label: "Both" },
+  ];
 
   const appliancesOptions = [
     { value: "Refrigerator", label: "Refrigerator" },
@@ -53,15 +93,6 @@ const AdditionalInfo = ({ formData, setFormData }) => {
     { value: "Inverter", label: "Inverter" },
   ];
 
-  const handleOnChangeAppliances = (selectedOptions) => {
-    const values = selectedOptions.map((option) => option.value);
-    setFormData((formData) => {
-      return { ...formData, appliances: values };
-    });
-    // for Debugging
-    console.log("Formdata:", formData);
-  };
-
   const amenitiesOptions = [
     { value: "Lift", label: "Lift" },
     { value: "Parking", label: "Parking" },
@@ -72,6 +103,15 @@ const AdditionalInfo = ({ formData, setFormData }) => {
     { value: "Security Guard", label: "Security Guard" },
     { value: "Wi-Fi", label: "Wi-Fi" },
   ];
+
+  const handleOnChangeAppliances = (selectedOptions) => {
+    const values = selectedOptions.map((option) => option.value);
+    setFormData((formData) => {
+      return { ...formData, appliances: values };
+    });
+    // for Debugging
+    console.log("Formdata:", formData);
+  };
 
   const handleOnChangeAmenities = (selectedOptions) => {
     const values = selectedOptions.map((option) => option.value);
@@ -144,109 +184,99 @@ const AdditionalInfo = ({ formData, setFormData }) => {
           </div>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Preference */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Preference<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.preference}
-                onChange={(e) => {
-                  setFormData({ ...formData, preference: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select preference"
+                value={
+                  formData.preference
+                    ? { value: formData.preference, label: formData.preference }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({
+                    ...formData,
+                    preference: selectedOption.value,
+                  });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select preference
-                </option>
-                <option value="Bachelors">Bachelors</option>
-                <option value="Family">Family</option>
-                <option value="Any">Any</option>
-              </select>
+                options={preferenceOptions}
+              />
             </div>
             {/* Bachelors */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Gender<span className="text-red-600">*</span>
               </label>
-              <select
-                disabled={formData.preference === "Family" ? true : false}
+              <Select
+                disabled={formData.preference === "Family"}
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.bachelors}
-                onChange={(e) => {
-                  setFormData({ ...formData, bachelors: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select gender"
+                value={
+                  formData.bachelors
+                    ? { value: formData.bachelors, label: formData.bachelors }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, bachelors: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select gender
-                </option>
-                <option value="Boys">Boys</option>
-                <option value="Girls">Girls</option>
-                <option value="Any">Any</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={genderOptions}
+              />
             </div>
 
             {/* Type */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Furnished Type<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.type}
-                onChange={(e) => {
-                  setFormData({ ...formData, type: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select furnished type"
+                value={
+                  formData.type
+                    ? { value: formData.type, label: formData.type }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, type: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select furnished type
-                </option>
-                <option value="Not Furnished">Not Furnished</option>
-                <option value="Semi Furnished">Semi Furnished</option>
-                <option value="Fully Furnished">Fully Furnished</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={furnishedOptions}
+              />
             </div>
 
             {/* BHK */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 BHK<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.bhk}
-                onChange={(e) => {
-                  setFormData({ ...formData, bhk: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select BHK"
+                value={
+                  formData.bhk
+                    ? { value: formData.bhk, label: `${formData.bhk} BHK` }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, bhk: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select BHK
-                </option>
-                <option value="1">1 BHK</option>
-                <option value="2">2 BHK</option>
-                <option value="3">3 BHK</option>
-                <option value="4">4 BHK</option>
-                <option value="5">5 BHK</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={bhkOptions}
+              />
             </div>
 
             {/* Floor */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Floors<span className="text-red-600">*</span>
               </label>
               <input
@@ -255,7 +285,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 step="1"
                 placeholder="Enter floor number"
                 required
-                className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+                className="bg-black w-[100%] h-14 p-3 rounded-md border-2 border-[#C8C8C8] placeholder:text-[#C8C8C8]"
                 value={formData.floor}
                 onChange={(e) => {
                   const val = e.target.value;
@@ -270,46 +300,42 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             </div>
 
             {/* Type of Washroom */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Washroom<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.typeOfWashroom}
-                onChange={(e) => {
+                styles={customSelectStyles}
+                placeholder="Select Washroom"
+                value={
+                  formData.typeOfWashroom
+                    ? {
+                        value: formData.typeOfWashroom,
+                        label: formData.typeOfWashroom,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
                   setFormData({
                     ...formData,
-                    typeOfWashroom: e.target.value,
+                    typeOfWashroom: selectedOption.value,
                   });
-                  // for Debugging
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select Washroom
-                </option>
-                <option value="Western">Western</option>
-                <option value="Indian">Indian</option>
-                <option value="Both">Both</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={washroomOptions}
+              />
             </div>
 
             {/* Appliances */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start ">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Appliances<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
-                  placeholder={
-                    <div className="text-white  text-[18px] leading-[23px] font-normal">
-                      Choose your Appliances
-                    </div>
-                  }
+                  styles={customSelectStyles}
+                  placeholder={"Choose your Appliances"}
                   value={
                     formData.appliances && Array.isArray(formData.appliances)
                       ? formData.appliances
@@ -327,19 +353,15 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             </div>
 
             {/* Amenities */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Amenities<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
+                  styles={customSelectStyles}
                   className="text-black"
-                  placeholder={
-                    <div className="text-white text-[18px] leading-[23px] font-normal">
-                      Choose your Amenities
-                    </div>
-                  }
+                  placeholder={"Choose your Amenities"}
                   value={
                     formData.amenities && Array.isArray(formData.amenities)
                       ? formData.amenities
@@ -405,109 +427,100 @@ const AdditionalInfo = ({ formData, setFormData }) => {
           </div>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Preference */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Preference<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.preference}
-                onChange={(e) => {
-                  setFormData({ ...formData, preference: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select preference"
+                value={
+                  formData.preference
+                    ? { value: formData.preference, label: formData.preference }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({
+                    ...formData,
+                    preference: selectedOption.value,
+                  });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select preference
-                </option>
-                <option value="Bachelors">Bachelors</option>
-                <option value="Family">Family</option>
-                <option value="Any">Any</option>
-              </select>
+                options={preferenceOptions}
+              />
+
             </div>
             {/* Bachelors */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Gender<span className="text-red-600">*</span>
               </label>
-              <select
-                disabled={formData.preference === "Family" ? true : false}
+              <Select
+                disabled={formData.preference === "Family"}
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.bachelors}
-                onChange={(e) => {
-                  setFormData({ ...formData, bachelors: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select gender"
+                value={
+                  formData.bachelors
+                    ? { value: formData.bachelors, label: formData.bachelors }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, bachelors: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select gender
-                </option>
-                <option value="Boys">Boys</option>
-                <option value="Girls">Girls</option>
-                <option value="Any">Any</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={genderOptions}
+              />
             </div>
 
             {/* Type */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Furnished Type<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.type}
-                onChange={(e) => {
-                  setFormData({ ...formData, type: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select furnished type"
+                value={
+                  formData.type
+                    ? { value: formData.type, label: formData.type }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, type: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select furnished type
-                </option>
-                <option value="Not Furnished">Not Furnished</option>
-                <option value="Semi Furnished">Semi Furnished</option>
-                <option value="Fully Furnished">Fully Furnished</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={furnishedOptions}
+              />
             </div>
 
             {/* BHK */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 BHK<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.bhk}
-                onChange={(e) => {
-                  setFormData({ ...formData, bhk: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select BHK"
+                value={
+                  formData.bhk
+                    ? { value: formData.bhk, label: `${formData.bhk} BHK` }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, bhk: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select BHK
-                </option>
-                <option value="1">1 BHK</option>
-                <option value="2">2 BHK</option>
-                <option value="3">3 BHK</option>
-                <option value="4">4 BHK</option>
-                <option value="5">5 BHK</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={bhkOptions}
+              />
             </div>
 
             {/* Floor */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Floors<span className="text-red-600">*</span>
               </label>
               <input
@@ -516,7 +529,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 step="1"
                 placeholder="Enter floor number"
                 required
-                className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+                className="bg-black w-[100%] h-14 p-3 rounded-md border-2 border-[#C8C8C8] placeholder:text-[#C8C8C8]"
                 value={formData.floor}
                 onChange={(e) => {
                   const val = e.target.value;
@@ -524,53 +537,49 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   if (val === "" || /^[0-9]+$/.test(val)) {
                     setFormData({ ...formData, floor: val });
                   }
-                  // For debugging
+                  // For debigging
                   console.log("Formdata:", formData);
                 }}
               />
             </div>
 
             {/* Type of Washroom */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Washroom<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.typeOfWashroom}
-                onChange={(e) => {
+                styles={customSelectStyles}
+                placeholder="Select Washroom"
+                value={
+                  formData.typeOfWashroom
+                    ? {
+                        value: formData.typeOfWashroom,
+                        label: formData.typeOfWashroom,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
                   setFormData({
                     ...formData,
-                    typeOfWashroom: e.target.value,
+                    typeOfWashroom: selectedOption.value,
                   });
-                  // for Debugging
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select Washroom
-                </option>
-                <option value="Western">Western</option>
-                <option value="Indian">Indian</option>
-                <option value="Both">Both</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={washroomOptions}
+              />
             </div>
 
             {/* Appliances */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start ">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Appliances<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
-                  placeholder={
-                    <div className="text-white  text-[18px] leading-[23px] font-normal">
-                      Choose your Appliances
-                    </div>
-                  }
+                  styles={customSelectStyles}
+                  placeholder={"Choose your Appliances"}
                   value={
                     formData.appliances && Array.isArray(formData.appliances)
                       ? formData.appliances
@@ -588,19 +597,15 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             </div>
 
             {/* Amenities */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Amenities<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
+                  styles={customSelectStyles}
                   className="text-black"
-                  placeholder={
-                    <div className="text-white text-[18px] leading-[23px] font-normal">
-                      Choose your Amenities
-                    </div>
-                  }
+                  placeholder={"Choose your Amenities"}
                   value={
                     formData.amenities && Array.isArray(formData.amenities)
                       ? formData.amenities
@@ -643,75 +648,66 @@ const AdditionalInfo = ({ formData, setFormData }) => {
       {propertyType === "PG" && (
         <>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
-            {/* Preference */}
-
-            {/* Bachelors */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            {/* Gender */}
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Gender<span className="text-red-600">*</span>
               </label>
-              <select
-                disabled={formData.preference === "Family" ? true : false}
+              <Select
+                disabled={formData.preference === "Family"}
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.bachelors}
-                onChange={(e) => {
-                  setFormData({ ...formData, bachelors: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select gender"
+                value={
+                  formData.bachelors
+                    ? { value: formData.bachelors, label: formData.bachelors }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, bachelors: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select gender
-                </option>
-                <option value="Boys">Boys</option>
-                <option value="Girls">Girls</option>
-                <option value="Any">Any</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={genderOptions}
+              />
             </div>
 
             {/* Type of Washroom */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Washroom<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.typeOfWashroom}
-                onChange={(e) => {
+                styles={customSelectStyles}
+                placeholder="Select Washroom"
+                value={
+                  formData.typeOfWashroom
+                    ? {
+                        value: formData.typeOfWashroom,
+                        label: formData.typeOfWashroom,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
                   setFormData({
                     ...formData,
-                    typeOfWashroom: e.target.value,
+                    typeOfWashroom: selectedOption.value,
                   });
-                  // for Debugging
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select Washroom
-                </option>
-                <option value="Western">Western</option>
-                <option value="Indian">Indian</option>
-                <option value="Both">Both</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={washroomOptions}
+              />
             </div>
 
             {/* Appliances */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start ">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Appliances<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
-                  placeholder={
-                    <div className="text-white  text-[18px] leading-[23px] font-normal">
-                      Choose your Appliances
-                    </div>
-                  }
+                  styles={customSelectStyles}
+                  placeholder={"Choose your Appliances"}
                   value={
                     formData.appliances && Array.isArray(formData.appliances)
                       ? formData.appliances
@@ -729,19 +725,15 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             </div>
 
             {/* Amenities */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Amenities<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
+                  styles={customSelectStyles}
                   className="text-black"
-                  placeholder={
-                    <div className="text-white text-[18px] leading-[23px] font-normal">
-                      Choose your Amenities
-                    </div>
-                  }
+                  placeholder={"Choose your Amenities"}
                   value={
                     formData.amenities && Array.isArray(formData.amenities)
                       ? formData.amenities
@@ -785,110 +777,101 @@ const AdditionalInfo = ({ formData, setFormData }) => {
           </div>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Preference */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Preference<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.preference}
-                onChange={(e) => {
-                  setFormData({ ...formData, preference: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select preference"
+                value={
+                  formData.preference
+                    ? { value: formData.preference, label: formData.preference }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({
+                    ...formData,
+                    preference: selectedOption.value,
+                  });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select preference
-                </option>
-                <option value="Bachelors">Bachelors</option>
-                <option value="Family">Family</option>
-                <option value="Any">Any</option>
-              </select>
+                options={preferenceOptions}
+              />
+
             </div>
             {/* Bachelors */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Gender<span className="text-red-600">*</span>
               </label>
-              <select
-                disabled={formData.preference === "Family" ? true : false}
+              <Select
+                disabled={formData.preference === "Family"}
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.bachelors}
-                onChange={(e) => {
-                  setFormData({ ...formData, bachelors: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select gender"
+                value={
+                  formData.bachelors
+                    ? { value: formData.bachelors, label: formData.bachelors }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, bachelors: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select gender
-                </option>
-                <option value="Boys">Boys</option>
-                <option value="Girls">Girls</option>
-                <option value="Any">Any</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={genderOptions}
+              />
             </div>
 
             {/* Type */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Furnished Type<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.type}
-                onChange={(e) => {
-                  setFormData({ ...formData, type: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select furnished type"
+                value={
+                  formData.type
+                    ? { value: formData.type, label: formData.type }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, type: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select furnished type
-                </option>
-                <option value="Not Furnished">Not Furnished</option>
-                <option value="Semi Furnished">Semi Furnished</option>
-                <option value="Fully Furnished">Fully Furnished</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={furnishedOptions}
+              />
             </div>
 
             {/* BHK */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 BHK<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.bhk}
-                onChange={(e) => {
-                  setFormData({ ...formData, bhk: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select BHK"
+                value={
+                  formData.bhk
+                    ? { value: formData.bhk, label: `${formData.bhk} BHK` }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, bhk: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select BHK
-                </option>
-                <option value="1">1 BHK</option>
-                <option value="2">2 BHK</option>
-                <option value="3">3 BHK</option>
-                <option value="4">4 BHK</option>
-                <option value="5">5 BHK</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={bhkOptions}
+              />
             </div>
 
             {/* Floor */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
-                Floor<span className="text-red-600">*</span>
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                Floors<span className="text-red-600">*</span>
               </label>
               <input
                 type="number"
@@ -896,7 +879,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 step="1"
                 placeholder="Enter floor number"
                 required
-                className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+                className="bg-black w-[100%] h-14 p-3 rounded-md border-2 border-[#C8C8C8] placeholder:text-[#C8C8C8]"
                 value={formData.floor}
                 onChange={(e) => {
                   const val = e.target.value;
@@ -904,52 +887,49 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   if (val === "" || /^[0-9]+$/.test(val)) {
                     setFormData({ ...formData, floor: val });
                   }
+                  // For debigging
                   console.log("Formdata:", formData);
                 }}
               />
             </div>
 
             {/* Type of Washroom */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Washroom<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.typeOfWashroom}
-                onChange={(e) => {
+                styles={customSelectStyles}
+                placeholder="Select Washroom"
+                value={
+                  formData.typeOfWashroom
+                    ? {
+                        value: formData.typeOfWashroom,
+                        label: formData.typeOfWashroom,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
                   setFormData({
                     ...formData,
-                    typeOfWashroom: e.target.value,
+                    typeOfWashroom: selectedOption.value,
                   });
-                  // for Debugging
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select Washroom
-                </option>
-                <option value="Western">Western</option>
-                <option value="Indian">Indian</option>
-                <option value="Both">Both</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={washroomOptions}
+              />
             </div>
 
             {/* Appliances */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start ">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Appliances<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
-                  placeholder={
-                    <div className="text-white  text-[18px] leading-[23px] font-normal">
-                      Choose your Appliances
-                    </div>
-                  }
+                  styles={customSelectStyles}
+                  placeholder={"Choose your Appliances"}
                   value={
                     formData.appliances && Array.isArray(formData.appliances)
                       ? formData.appliances
@@ -967,19 +947,15 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             </div>
 
             {/* Amenities */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Amenities<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
+                  styles={customSelectStyles}
                   className="text-black"
-                  placeholder={
-                    <div className="text-white text-[18px] leading-[23px] font-normal">
-                      Choose your Amenities
-                    </div>
-                  }
+                  placeholder={"Choose your Amenities"}
                   value={
                     formData.amenities && Array.isArray(formData.amenities)
                       ? formData.amenities
@@ -1019,19 +995,19 @@ const AdditionalInfo = ({ formData, setFormData }) => {
         </>
       )}
 
-      {propertyType === "Office" && (
+      {(propertyType === "Office" || propertyType === "Warehouse" || propertyType === "Shop")  && (
         <>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Square Feet Area */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Square Feet Area<span className="text-red-600">*</span>
               </label>
               <input
                 required
                 type="number"
                 placeholder="0"
-                className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="bg-black w-[100%] h-14 p-3 rounded-md border-2 border-[#C8C8C8] placeholder:text-[#C8C8C8] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 value={formData.squareFeetArea}
                 onChange={(e) => {
                   setFormData((formData) => {
@@ -1045,28 +1021,25 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Bachelors */}
 
             {/* Type */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Furnished Type<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.type}
-                onChange={(e) => {
-                  setFormData({ ...formData, type: e.target.value });
-                  // for Debugging
+                styles={customSelectStyles}
+                placeholder="Select furnished type"
+                value={
+                  formData.type
+                    ? { value: formData.type, label: formData.type }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({ ...formData, type: selectedOption.value });
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select furnished type
-                </option>
-                <option value="Not Furnished">Not Furnished</option>
-                <option value="Semi Furnished">Semi Furnished</option>
-                <option value="Fully Furnished">Fully Furnished</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={furnishedOptions}
+              />
             </div>
 
             {/* BHK */}
@@ -1096,46 +1069,42 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             </div>
 
             {/* Type of Washroom */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Washroom<span className="text-red-600">*</span>
               </label>
-              <select
+              <Select
                 required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.typeOfWashroom}
-                onChange={(e) => {
+                styles={customSelectStyles}
+                placeholder="Select Washroom"
+                value={
+                  formData.typeOfWashroom
+                    ? {
+                        value: formData.typeOfWashroom,
+                        label: formData.typeOfWashroom,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
                   setFormData({
                     ...formData,
-                    typeOfWashroom: e.target.value,
+                    typeOfWashroom: selectedOption.value,
                   });
-                  // for Debugging
                   console.log("Formdata:", formData);
                 }}
-              >
-                <option value="" disabled>
-                  Select Washroom
-                </option>
-                <option value="Western">Western</option>
-                <option value="Indian">Indian</option>
-                <option value="Both">Both</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
+                options={washroomOptions}
+              />
             </div>
 
             {/* Appliances */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start ">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Appliances<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
-                  placeholder={
-                    <div className="text-white  text-[18px] leading-[23px] font-normal">
-                      Choose your Appliances
-                    </div>
-                  }
+                  styles={customSelectStyles}
+                  placeholder={"Choose your Appliances"}
                   value={
                     formData.appliances && Array.isArray(formData.appliances)
                       ? formData.appliances
@@ -1153,19 +1122,15 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             </div>
 
             {/* Amenities */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                 Amenities<span className="text-red-600">*</span>
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
-                  styles={customStyles}
+                  styles={customSelectStyles}
                   className="text-black"
-                  placeholder={
-                    <div className="text-white text-[18px] leading-[23px] font-normal">
-                      Choose your Amenities
-                    </div>
-                  }
+                  placeholder={"Choose your Amenities"}
                   value={
                     formData.amenities && Array.isArray(formData.amenities)
                       ? formData.amenities
@@ -1191,191 +1156,6 @@ const AdditionalInfo = ({ formData, setFormData }) => {
               </label>
               <textarea
                 className="bg-black min-[320px]:max-md:w-[100%] w-[100%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-                value={formData.aboutTheProperty}
-                onChange={(e) => {
-                  setFormData((formData) => {
-                    return { ...formData, aboutTheProperty: e.target.value };
-                  });
-                  // for Debugging
-                  console.log("Formdata:", formData);
-                }}
-              ></textarea>
-            </div>
-          </div>
-        </>
-      )}
-
-      {(propertyType === "Warehouse" || propertyType === "Shop") && (
-        <>
-          <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
-            {/* Square Feet Area */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
-                Square Feet Area<span className="text-red-600">*</span>
-              </label>
-              <input
-                required
-                type="number"
-                placeholder="0"
-                className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                value={formData.squareFeetArea}
-                onChange={(e) => {
-                  setFormData((formData) => {
-                    return { ...formData, squareFeetArea: e.target.value };
-                  });
-                  // for Debugging
-                  console.log("Formdata:", formData);
-                }}
-              />
-            </div>
-
-            {/* Type */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
-                Furnished Type<span className="text-red-600">*</span>
-              </label>
-              <select
-                required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.type}
-                onChange={(e) => {
-                  setFormData({ ...formData, type: e.target.value });
-                  // for Debugging
-                  console.log("Formdata:", formData);
-                }}
-              >
-                <option value="" disabled>
-                  Select furnished type
-                </option>
-                <option value="Not Furnished">Not Furnished</option>
-                <option value="Semi Furnished">Semi Furnished</option>
-                <option value="Fully Furnished">Fully Furnished</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
-            </div>
-
-            {/* Floor */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
-                Floor<span className="text-red-600">*</span>
-              </label>
-              <input
-                type="number"
-                min="0"
-                step="1"
-                placeholder="Enter floor number"
-                required
-                className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-                value={formData.floor}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  // Ensure only positive integers or empty string
-                  if (val === "" || /^[0-9]+$/.test(val)) {
-                    setFormData({ ...formData, floor: val });
-                  }
-                  // for Debugging
-                  console.log("Formdata:", formData);
-                }}
-              />
-            </div>
-
-            {/* Type of Washroom */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
-                Washroom<span className="text-red-600">*</span>
-              </label>
-              <select
-                required
-                className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
-                value={formData.typeOfWashroom}
-                onChange={(e) => {
-                  setFormData({
-                    ...formData,
-                    typeOfWashroom: e.target.value,
-                  });
-                  // for Debugging
-                  console.log("Formdata:", formData);
-                }}
-              >
-                <option value="" disabled>
-                  Select Washroom
-                </option>
-                <option value="Western">Western</option>
-                <option value="Indian">Indian</option>
-                <option value="Both">Both</option>
-                {/* <option value="NA">NA</option> */}
-              </select>
-            </div>
-
-            {/* Appliances */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start ">
-              <label className="text-[#FFFFFF] text-base font-medium">
-                Appliances<span className="text-red-600">*</span>
-              </label>
-              <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
-                <Select
-                  styles={customStyles}
-                  placeholder={
-                    <div className="text-white  text-[18px] leading-[23px] font-normal">
-                      Choose your Appliances
-                    </div>
-                  }
-                  value={
-                    formData.appliances && Array.isArray(formData.appliances)
-                      ? formData.appliances
-                          .map((item) =>
-                            appliancesOptions.find((opt) => opt.value === item)
-                          )
-                          .filter(Boolean)
-                      : []
-                  }
-                  options={appliancesOptions}
-                  onChange={handleOnChangeAppliances}
-                  isMulti={true}
-                />
-              </div>
-            </div>
-
-            {/* Amenities */}
-            <div className="w-full h-fit flex flex-col gap-3 items-start">
-              <label className="text-[#FFFFFF] text-base font-medium">
-                Amenities<span className="text-red-600">*</span>
-              </label>
-              <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
-                <Select
-                  styles={customStyles}
-                  className="text-black"
-                  placeholder={
-                    <div className="text-white text-[18px] leading-[23px] font-normal">
-                      Choose your Amenities
-                    </div>
-                  }
-                  value={
-                    formData.amenities && Array.isArray(formData.amenities)
-                      ? formData.amenities
-                          .map((item) =>
-                            amenitiesOptions.find((opt) => opt.value === item)
-                          )
-                          .filter(Boolean)
-                      : []
-                  }
-                  options={amenitiesOptions}
-                  onChange={handleOnChangeAmenities}
-                  isMulti={true}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* About Property */}
-          <div className=" mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
-            <div>
-              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                About property<span className="text-red-600">*</span>
-              </label>
-              <textarea
-                className="bg-black min-[320px]:max-md:w-[100%] w-[100%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-                placeholder="Describe your property"
                 value={formData.aboutTheProperty}
                 onChange={(e) => {
                   setFormData((formData) => {
