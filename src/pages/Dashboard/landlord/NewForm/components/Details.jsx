@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "../../../../../config/loadGoogleMaps";
+import Select from "react-select";
 import areas from "../../../../PropertyListing/Listings/areas";
 
 const Form = ({ formData, setFormData }) => {
@@ -221,18 +222,18 @@ const Form = ({ formData, setFormData }) => {
     }));
   }, [formData.city, formData.locality, isLoading]);
 
-  const handleCityChange = (e) => {
-    const selectedCity = e.target.value;
+  const handleCityChange = (selectedOption) => {
+    const selectedCity = selectedOption.value;
     const cityPosition = cityCoordinates[selectedCity];
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       city: selectedCity,
       locality: "",
       pincode: "",
       latitude: cityPosition.lat, // Reset coordinates to city center
       longitude: cityPosition.lng,
-    });
+    }));
 
     // for Debugging
     console.log("Formdata:", formData);
@@ -245,24 +246,23 @@ const Form = ({ formData, setFormData }) => {
     }
   };
 
-  const handleLocalityChange = (e) => {
-    const selectedLocality = e.target.value;
+  const handleLocalityChange = (selectedOption) => {
+    const selectedLocality = selectedOption.value;
     const selectedCity = formData.city;
     const localityIndex =
       cityLocalityData[selectedCity].localities.indexOf(selectedLocality);
     const correspondingPincode =
       cityLocalityData[selectedCity].pincodes[localityIndex];
-
     const localityPosition =
       localityCoordinates[selectedCity][selectedLocality];
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       locality: selectedLocality,
       pincode: correspondingPincode,
       latitude: localityPosition.lat, // Update coordinates to locality center
       longitude: localityPosition.lng,
-    });
+    }));
 
     // for Debugging
     console.log("Formdata:", formData);
@@ -314,41 +314,49 @@ const Form = ({ formData, setFormData }) => {
     // for Debugging
     // console.log("Formdata:", formData);
   };
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      backgroundColor: "#000000",
-      color: "#FFFFFF",
-      borderColor: "#C8C8C8",
-      padding: "6px",
-      minHeight: "3.5rem",
-      boxShadow: state.isFocused ? "0 0 0 1px #C8C8C8" : "none",
+  const customSelectStyles = {
+    control: (base) => ({
+      ...base,
+      backgroundColor: "none",
+      color: "white",
+      height: "3.5rem",
+      borderRadius: "0.375rem",
+      border: "2.5px solid #C8C8C8",
+      padding: "0 0.25rem",
+      boxShadow: "white",
     }),
-    option: (provided, state) => ({
-      ...provided,
+    placeholder: (base) => ({
+      ...base,
+      color: "none",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "white",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "black",
+      border: "1px solid #C8C8C8",
+      borderRadius: "0.375rem",
+      marginTop: "0.1rem",
+      zIndex: 999,
+    }),
+    option: (base, state) => ({
+      ...base,
       backgroundColor: state.isSelected
-        ? "#1F1F1F"
+        ? "none" // selected
         : state.isFocused
-        ? "#333333"
-        : "#000000",
-      color: "#FFFFFF",
-    }),
-    multiValue: (styles) => ({
-      ...styles,
-      backgroundColor: "#FFFFFF",
-      color: "#1F1F1F",
-    }),
-    input: (styles) => ({
-      ...styles,
-      color: "#FFFFFF",
-    }),
-    placeholder: (styles) => ({
-      ...styles,
-      color: "#7D7D7D",
-    }),
-    singleValue: (styles) => ({
-      ...styles,
-      color: "#FFFFFF",
+        ? "none" // hover (Tailwind gray-600)
+        : "none",
+      color: "white",
+      padding: "12px 16px",
+      cursor: "pointer",
+      borderLeft: state.isSelected
+        ? "5px solid #C8C8C8"
+        : state.isFocused
+        ? "5px solid #C8C8C8"
+        : "none", // selected
+      borderBottom: "2.5px solid #C8C8C8",
     }),
   };
 
@@ -508,17 +516,17 @@ const Form = ({ formData, setFormData }) => {
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             City<span className="text-red-600">*</span>
           </label>
-          <select
-            required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.city}
+          <Select
+            options={cityOptions.map((city) => ({ value: city, label: city }))}
+            value={
+              formData.city
+                ? { value: formData.city, label: formData.city }
+                : null
+            }
             onChange={handleCityChange}
-          >
-            <option value="" disabled>
-              Select city
-            </option>
-            {cityOptions.map(optionRenderFun)}
-          </select>
+            placeholder="Select city, state"
+            styles={customSelectStyles}
+          />
         </div>
 
         {/* Locality */}
@@ -526,19 +534,25 @@ const Form = ({ formData, setFormData }) => {
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Locality<span className="text-red-600">*</span>
           </label>
-          <select
-            required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.locality}
+          <Select
+            isDisabled={!formData.city}
+            placeholder="Select locality"
+            value={
+              formData.locality
+                ? { value: formData.locality, label: formData.locality }
+                : null
+            }
             onChange={handleLocalityChange}
-            disabled={!formData.city}
-          >
-            <option value="" disabled>
-              Select locality
-            </option>
-            {formData.city &&
-              cityLocalityData[formData.city].localities.map(optionRenderFun)}
-          </select>
+            options={
+              formData.city
+                ? cityLocalityData[formData.city].localities.map((loc) => ({
+                    value: loc,
+                    label: loc,
+                  }))
+                : []
+            }
+            styles={customSelectStyles}
+          />
         </div>
 
         {/* Area */}
@@ -577,7 +591,8 @@ const Form = ({ formData, setFormData }) => {
               {filteredAreas.map((area, index) => (
                 <div
                   key={index}
-                  className="px-4 py-2 cursor-pointer hover:bg-gray-800 text-[#C8C8C8]"
+                  // className="px-4 py-2 cursor-pointer hover:bg-gray-800 text-[#C8C8C8]"
+                  className="bg-black text-white w-full h-14 p-3 border-b-2 border-[#C8C8C8] placeholder:text-[#C8C8C8] hover:border-l-4 hover:border-[#C8C8C8] focus:ring-0"
                   onClick={() => {
                     setAreaSearch(area);
                     setFormData({ ...formData, area: area });
@@ -647,28 +662,25 @@ const Form = ({ formData, setFormData }) => {
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property<span className="text-red-600">*</span>
           </label>
-          <select
-            disabled={formData.spaceType == "" ? true : false}
+          <Select
+            isDisabled={formData.spaceType === ""}
             required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.propertyType}
-            onChange={(e) => {
-              setFormData({ ...formData, propertyType: e.target.value });
-              // for Debugging
+            styles={customSelectStyles}
+            placeholder="Select property type"
+            value={
+              formData.propertyType
+                ? { value: formData.propertyType, label: formData.propertyType }
+                : null
+            }
+            onChange={(selectedOption) => {
+              setFormData({ ...formData, propertyType: selectedOption.value });
               console.log("Formdata:", formData);
             }}
-          >
-            <option value="" disabled>
-              Select property type
-            </option>
-            {allOptions.map(optionRenderFun)}
-
-            {/* {formData.spaceType === "Commercial"
-              ? commercialOptions.map(optionRenderFun)
-              : formData.spaceType === "Residential"
-              ? residentialOptions.map(optionRenderFun)
-              : allOptions.map(optionRenderFun)} */}
-          </select>
+            options={allOptions.map((opt) => ({
+              label: opt,
+              value: opt,
+            }))}
+          />
         </div>
 
         {/* Space Type */}
@@ -676,21 +688,24 @@ const Form = ({ formData, setFormData }) => {
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Space<span className="text-red-600">*</span>
           </label>
-          <select
+          <Select
             required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.spaceType}
-            onChange={(e) => {
-              setFormData({ ...formData, spaceType: e.target.value });
-              // for Debugging
+            styles={customSelectStyles}
+            placeholder="Select space type"
+            value={
+              formData.spaceType
+                ? { value: formData.spaceType, label: formData.spaceType }
+                : null
+            }
+            onChange={(selectedOption) => {
+              setFormData({ ...formData, spaceType: selectedOption.value });
               console.log("Formdata:", formData);
             }}
-          >
-            <option value="" disabled>
-              Select space type
-            </option>
-            {spaceTypeOptions.map(optionRenderFun)}
-          </select>
+            options={spaceTypeOptions.map((opt) => ({
+              label: opt,
+              value: opt,
+            }))}
+          />
         </div>
       </div>
 
