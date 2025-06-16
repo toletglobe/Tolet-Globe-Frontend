@@ -7,13 +7,14 @@ import { MdMoreVert } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 
 import Popup from "reactjs-popup";
-import {FaRegCopy } from "react-icons/fa6";
+import { FaRegCopy } from "react-icons/fa6";
 
 // added toast notification for share property
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { API } from "../../../config/axios";
+import defaultHouse from '../../../assets/propertyListing/defaultHouse.png';
 
 const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
   const [myProperties, setMyProperties] = useState([]);
@@ -86,7 +87,7 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
         setLocalFavouriteList((prevList) =>
           prevList.filter((id) => id !== propertyId)
         );
-        toast.success("Removed from favorites!")
+        toast.success("Removed from favorites!");
       }
     } catch (error) {
       console.log(error);
@@ -127,7 +128,6 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
     fetchFavouriteProperties();
   }, []);
 
-
   useEffect(() => {
     const fetchMyProperties = async () => {
       try {
@@ -148,7 +148,6 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
     fetchMyProperties();
   }, [authState?.userData?.id]);
 
-  
   const phoneRef = useRef(null);
   const navigate = useNavigate();
   const phone = 8707727347;
@@ -170,7 +169,6 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
 
   // States to track liked status for each property
   const [likedProperties, setLikedProperties] = useState([false, false, false]);
-  
 
   const removeFromWelcomeDashboard = async (propertyId) => {
     try {
@@ -236,6 +234,10 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
     }
   };
 
+  const handleImageError = (e) => {
+    e.target.src = defaultHouse;
+  };
+
   const cards = myProperties.map((property) => (
     <div key={property._id} className=" bg-black p-4 rounded-md sm:px-1 py-4">
       <img
@@ -243,6 +245,7 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
         alt="Property"
         className=" relative  h-[200px] w-full object-cover rounded-md  mb-4 hover:cursor-pointer"
         onClick={() => navigate(`/property/${property.slug}`)}
+        onError={handleImageError}
       />
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">
@@ -280,7 +283,7 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
             position="top center"
             on="hover"
             arrow={false}
-            contentStyle={{textAlign:"center"}}
+            contentStyle={{ textAlign: "center" }}
           >
             <div className="bg-gray-800 text-white text-center sm:text-center px-2 py-1 rounded text-sm">
               {localFavouriteList.includes(property._id)
@@ -288,18 +291,20 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
                 : "Add to Favorite"}
             </div>
           </Popup>
-          
+
           {/* SHARE PROPERTY ICON WITH FUNCTIONALITY */}
-          
+
           <Popup
             arrow={false}
             trigger={
-              <button className="group relative flex items-center justify-center"
-                style={{ width: "25px", height: "25px", left: "10px" }}>
-                  <CiShare2
-                    className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1"
-                    style={{ color: "#40B5A8" }}
-                   />
+              <button
+                className="group relative flex items-center justify-center"
+                style={{ width: "25px", height: "25px", left: "10px" }}
+              >
+                <CiShare2
+                  className="bg-[#3E3E3E4D] h-[20px] w-[20px] p-[3px] mt-1"
+                  style={{ color: "#40B5A8" }}
+                />
               </button>
             }
             position={"bottom right"}
@@ -308,19 +313,19 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
               <div className="bg-slate-50 text-black rounded-full flex flex-col shadow-xl py-2 px-2 scale-90">
                 <div className="flex items-center gap-12 border border-black rounded-3xl px-2">
                   <div className="px-2 py-2 text-sm truncate w-32">
-                      {`www.toletglobe.in/property/${property.slug}`}
+                    {`www.toletglobe.in/property/${property.slug}`}
                   </div>
-                    <div>
-                      <button
-                        className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
-                        onClick={() => {
-                          navigator.clipboard.writeText(
+                  <div>
+                    <button
+                      className="px-2 py-2 bg-[#40B5A8] text-white rounded-full"
+                      onClick={() => {
+                        navigator.clipboard.writeText(
                           `www.toletglobe.in/property/${property.slug}`
                         );
                         close();
-                        }}
-                      >
-                        <FaRegCopy />
+                      }}
+                    >
+                      <FaRegCopy />
                     </button>
                   </div>
                 </div>
