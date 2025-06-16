@@ -276,8 +276,8 @@ const PropertyBrief = ({ property }) => {
   const DraggableCompareButton = ({ compareProperty, onNavigate }) => {
     const buttonRef = useRef(null);
     const [position, setPosition] = useState({
-      top: 20,
-      left: 20,
+      top: window.innerHeight / 1.1,
+      left: window.innerWidth / 2 - 75,
     });
 
     const handleDrop = (monitor) => {
@@ -432,7 +432,6 @@ const PropertyBrief = ({ property }) => {
           }}
         />
 
-        
         {/* Draggable button */}
         <div
           ref={dragDropRef}
