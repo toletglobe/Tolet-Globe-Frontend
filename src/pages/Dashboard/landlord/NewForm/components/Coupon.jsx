@@ -17,18 +17,19 @@ const Coupon = ({ formData, setFormData, couponUsage }) => {
     event.preventDefault(); // Prevent form submission
     const trimmedCode = couponCode.trim();
 
-    if (VALID_COUPONS.includes(trimmedCode)) {
-      setIsApplied(true);
-      setIsInvalid(false);
-      setCouponCode(trimmedCode); // Store the trimmed code
-      setFormData(() => ({ ...formData, coupon: true }));
-      console.log("Coupon applied:", trimmedCode);
-    } else {
-      setIsApplied(false);
-      setIsInvalid(true);
-      setFormData(() => ({ ...formData, coupon: false }));
-      console.log("Invalid coupon:", trimmedCode);
-    }
+   if (VALID_COUPONS.includes(trimmedCode)) {
+  setIsApplied(true);
+  setIsInvalid(false);
+  setCouponCode(trimmedCode);
+  setFormData(() => ({ ...formData, coupon: trimmedCode })); // 
+  console.log("Coupon applied:", trimmedCode);
+} else {
+  setIsApplied(false);
+  setIsInvalid(true);
+  setFormData(() => ({ ...formData, coupon: "" })); //
+  console.log("Invalid coupon:", trimmedCode);
+}
+
   };
 
   const handleResetCoupon = () => {

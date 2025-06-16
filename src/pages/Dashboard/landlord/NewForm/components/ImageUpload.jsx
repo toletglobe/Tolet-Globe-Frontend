@@ -2,23 +2,22 @@ import React from "react";
 import { IoClose } from "react-icons/io5";
 
 const ImageUpload = ({ formData, setFormData }) => {
-  const handleImageSubmit = (e) => {
-    const existingImages = formData.images || [];
-    const newFiles = Array.from(e.target.files);
+ const handleImageSubmit = (e) => {
+  const existingImages = formData.images || [];
+  const newFiles = Array.from(e.target.files);
 
-    if (existingImages.length + newFiles.length > 5) {
-      alert("You can upload a maximum of 5 images.");
-      return;
-    }
+  if (existingImages.length + newFiles.length > 7) {
+    alert("You can upload a maximum of 7 images.");
+    return;
+  }
 
-    setFormData((prev) => ({
-      ...prev,
-      images: [...existingImages, ...newFiles],
-    }));
-    // for Debugging
-    console.log("Formdata:", formData);
-    e.target.value = "";
-  };
+  setFormData((prev) => ({
+    ...prev,
+    images: [...existingImages, ...newFiles],
+  }));
+  e.target.value = "";
+};
+
 
   const removeImage = (index) => {
     const updatedImages = [...(formData.images || [])];
@@ -127,7 +126,7 @@ const ImageUpload = ({ formData, setFormData }) => {
           </div>
 
           <p className="mt-4 text-sm text-gray-400">
-            Uploaded {formData.images?.length || 0}/5 images
+            Uploaded {formData.images?.length || 0}/7 images
           </p>
         </div>
       </div>

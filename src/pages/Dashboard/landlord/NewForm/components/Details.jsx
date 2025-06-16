@@ -156,7 +156,7 @@ const Form = ({ formData, setFormData }) => {
       console.warn(
         "Google Maps API not available or AdvancedMarkerElement unsupported"
       );
-      return; // ❗ do nothing, skip map
+      return; //  do nothing, skip map
     }
 
     let position;
@@ -662,8 +662,7 @@ const Form = ({ formData, setFormData }) => {
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property<span className="text-red-600">*</span>
           </label>
-          <Select
-            isDisabled={formData.spaceType === ""}
+          <select
             required
             styles={customSelectStyles}
             placeholder="Select property type"
