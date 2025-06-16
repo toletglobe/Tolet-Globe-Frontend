@@ -65,6 +65,22 @@ export const Pricing = ({ formData }) => {
     }
   };
 
+  const getPlansByPropertyType = (propertyType) => {
+    if (propertyType === "PG") {
+      return [plans[0]]; // Return the first element for "PG"
+    } else if (propertyType === "Flat" || propertyType === "House") {
+      return plans.slice(1, 6); // Return elements from index 1 to 5 for "Flat" or "House"
+    } else if (
+      propertyType === "Warehouse" ||
+      propertyType === "Shop" ||
+      propertyType === "Office"
+    ) {
+      return plans.slice(6); // Return the remaining elements for "Warehouse", "Shop", or "Office"
+    } else {
+      return []; // Return an empty array for unsupported property types
+    }
+  };
+
   return (
     <div className="p-14 w-full">
       <div
@@ -76,10 +92,7 @@ export const Pricing = ({ formData }) => {
           scrollBehavior: "smooth",
         }}
       >
-        {(formData.propertyType === "PG"
-          ? plans.slice(0, 1)
-          : plans.slice(1)
-        ).map((plan) => {
+        {getPlansByPropertyType(formData.propertyType).map((plan) => {
           const isActive =
             formData?.subscriptionPlan === Number(plan.price.replace("₹", ""));
 
@@ -131,13 +144,13 @@ export const Pricing = ({ formData }) => {
 
               <button
                 onClick={() => handlePlanClick(plan)}
-                className={`w-full py-2 px-4 rounded-md font-medium transition-colors text-sm 
+                className={`w-full py-2 px-4 rounded-md font-medium transition-colors text-sm cursor-pointer 
                     ${
                       isActive
-                        ? "bg-yellow-400 text-white"
-                        : "bg-gray-600 text-gray-300"
+                        ? "bg-yellow-400 text-black"
+                        : "border border-yellow-400 text-white"
                     } 
-                    ${plan.buttonStyle}`}
+                    `}
                 disabled={!isActive}
               >
                 {loading ? "Processing..." : "Contact Support"}

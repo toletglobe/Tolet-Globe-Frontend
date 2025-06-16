@@ -141,12 +141,23 @@ const AdditionalInfo = ({ formData, setFormData }) => {
 
     // Safety fallback
     if (!rent || isNaN(rent)) return null;
-
-    if (rent <= 6000) return 299;
-    if (rent <= 15000) return 499;
-    if (rent <= 25000) return 699;
-    if (rent <= 50000) return 999;
-    return 1499;
+    if (formData.propertyType === "House" || formData.propertyType === "Flat") {
+      if (rent <= 6000) return 299;
+      if (rent <= 15000) return 499;
+      if (rent <= 25000) return 699;
+      if (rent <= 50000) return 999;
+      return 1499;
+    } else if (
+      formData.propertyType === "Warehouse" ||
+      formData.propertyType === "Shop" ||
+      formData.propertyType === "Office"
+    ) {
+      if (rent <= 25000) return 4999;
+      if (rent <= 50000) return 9999;
+      if (rent <= 75000) return 14999;
+      if (rent <= 100000) return 19999;
+      return 24999;
+    }
   };
 
   return (
@@ -449,7 +460,6 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 }}
                 options={preferenceOptions}
               />
-
             </div>
             {/* Bachelors */}
             <div>
@@ -799,7 +809,6 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 }}
                 options={preferenceOptions}
               />
-
             </div>
             {/* Bachelors */}
             <div>
@@ -995,7 +1004,9 @@ const AdditionalInfo = ({ formData, setFormData }) => {
         </>
       )}
 
-      {(propertyType === "Office" || propertyType === "Warehouse" || propertyType === "Shop")  && (
+      {(propertyType === "Office" ||
+        propertyType === "Warehouse" ||
+        propertyType === "Shop") && (
         <>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Square Feet Area */}

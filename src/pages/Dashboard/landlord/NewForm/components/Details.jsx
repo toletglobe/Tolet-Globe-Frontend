@@ -662,7 +662,7 @@ const Form = ({ formData, setFormData }) => {
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Property<span className="text-red-600">*</span>
           </label>
-          <select
+          <Select
             required
             styles={customSelectStyles}
             placeholder="Select property type"
