@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { logout } from "../../../redux/store/authSlice";
 
@@ -22,9 +22,13 @@ export default function LandlordDashboardSidebar() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  // Check if current route is inside settings section
+  const isSettingsRoute = location.pathname.includes("settings");
 
   const authState = useSelector((state) => state.auth);
-  const [toggelSetting, setToggelSetting] = useState(false);
+  const [toggelSetting, setToggelSetting] = useState(isSettingsRoute);
   const settingsRef = useRef(null);
 
   const linkStyle_1 =
@@ -34,14 +38,23 @@ export default function LandlordDashboardSidebar() {
     "sm:rounded-md px-[14px] py-[10px] flex items-center gap-x-4 cursor-pointer";
 
   useEffect(() => {
+    // Sync dropdown open state with route
+    setToggelSetting(isSettingsRoute);
+    setSettingFlag(isSettingsRoute);
+
     function handleClickOutside(event) {
-      if (settingsRef.current && !settingsRef.current.contains(event.target)) {
+      if (
+        settingsRef.current &&
+        !settingsRef.current.contains(event.target) &&
+        !isSettingsRoute
+      ) {
         setToggelSetting(false);
+        setSettingFlag(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [location.pathname]);
 
   return (
     <>
@@ -132,26 +145,19 @@ export default function LandlordDashboardSidebar() {
 
             <div
               ref={settingsRef}
-              className={`sm:rounded-md max-w-[320px] min-h-[45px] text-xl relative cursor-pointer`}
+              className="sm:rounded-md max-w-[320px] text-xl relative cursor-pointer"
             >
-              <NavLink
-                to="settings/profile"
-                className={({ isActive }) =>
-                  `max-sm:w-screen sm:rounded-md px-[14px] py-[10px] flex items-center gap-x-4 h-[45px] ${
-                    isActive ? "bg-[#C8A117]" : ""
-                  } hover:bg-[#C8A117] transition-colors duration-200`
-                }
+              <div
                 onClick={() => {
-                  setTimeout(() => {
-                    setToggelSetting(!toggelSetting);
-                  }, 150);
+                  setToggelSetting((prev) => !prev);
                   setArrow();
                 }}
+                className="max-sm:w-screen sm:rounded-md px-[14px] py-[10px] flex items-center gap-x-4 h-[45px] hover:bg-[#C8A117] transition-colors duration-200"
               >
-                <div className="flex justify-between text-white-700 w-[100%]">
+                <div className="flex justify-between text-white-700 w-full">
                   <div className="flex items-center">
                     <IoSettingsOutline size={27} className="mr-3" />
-                    <span className=" text-base sm:block lg:text-xl">
+                    <span className="text-base sm:block lg:text-xl">
                       Settings
                     </span>
                   </div>
@@ -169,52 +175,52 @@ export default function LandlordDashboardSidebar() {
                     )}
                   </div>
                 </div>
-              </NavLink>
-
-              <div id="settingMenus">
-                {toggelSetting && (
-                  <ul className=" flex-col max-sm:ml-auto gap-y-[2px] lg:mt-4 lg:ml-8 max-sm:relative max-sm:top-full max-sm:right-0 max-sm:w-[69%] max-sm:bg-black max-sm:z-50 max-sm:justify-around max-sm:p-2 ">
-                    <NavLink
-                      to="settings/profile"
-                      className={({ isActive }) =>
-                        `${linkStyle_2} ${
-                          isActive ? "bg-[#C8A117]" : ""
-                        } max-sm:flex-1 max-sm:justify-center w-[100%] hover:bg-[#C8A117] transition-colors duration-200 sm:mt-2`
-                      }
-                      onClick={() => {
-                        setToggelSetting(false);
-                        setArrow();
-                      }}
-                    >
-                      <li className="flex max-sm:justify-center">
-                        <GoPerson size={27} className="mr-3 max-sm:mr-0" />
-                        <span className=" text-base sm:block lg:text-xl">
-                          Profile
-                        </span>
-                      </li>
-                    </NavLink>
-
-                    <NavLink
-                      onClick={() => {
-                        setToggelSetting(true);
-                      }}
-                      to="settings/account-security"
-                      className={({ isActive }) =>
-                        `${linkStyle_2} ${
-                          isActive ? "bg-[#C8A117]" : ""
-                        } max-sm:flex-1 max-sm:justify-center w-[100%] hover:bg-[#C8A117] transition-colors duration-200 sm:mt-2`
-                      }
-                    >
-                      <li className="flex max-sm:justify-center">
-                        <MdLockOutline size={27} className="mr-3 max-sm:mr-0" />
-                        <span className=" text-base sm:block lg:text-xl">
-                          Account Security
-                        </span>
-                      </li>
-                    </NavLink>
-                  </ul>
-                )}
               </div>
+
+              {/* Dropdown links */}
+              {toggelSetting && (
+                <ul className="flex-col max-sm:ml-auto gap-y-[2px] lg:mt-4 lg:ml-8 max-sm:relative max-sm:top-full max-sm:right-0 max-sm:w-[69%] max-sm:bg-black max-sm:z-50 max-sm:justify-around max-sm:p-2">
+                  <NavLink
+                    to="settings/profile"
+                    className={({ isActive }) =>
+                      `${linkStyle_2} ${
+                        isActive ? "bg-[#C8A117]" : ""
+                      } max-sm:flex-1 max-sm:justify-center w-full hover:bg-[#C8A117] transition-colors duration-200 sm:mt-2`
+                    }
+                    onClick={() => {
+                      setToggelSetting(false);
+                      setArrow();
+                    }}
+                  >
+                    <li className="flex max-sm:justify-center">
+                      <GoPerson size={27} className="mr-3 max-sm:mr-0" />
+                      <span className="text-base sm:block lg:text-xl">
+                        Profile
+                      </span>
+                    </li>
+                  </NavLink>
+
+                  <NavLink
+                    to="settings/account-security"
+                    className={({ isActive }) =>
+                      `${linkStyle_2} ${
+                        isActive ? "bg-[#C8A117]" : ""
+                      } max-sm:flex-1 max-sm:justify-center w-full hover:bg-[#C8A117] transition-colors duration-200 sm:mt-2`
+                    }
+                    onClick={() => {
+                      setToggelSetting(false);
+                      setArrow();
+                    }}
+                  >
+                    <li className="flex max-sm:justify-center">
+                      <MdLockOutline size={27} className="mr-3 max-sm:mr-0" />
+                      <span className="text-base sm:block lg:text-xl">
+                        Account Security
+                      </span>
+                    </li>
+                  </NavLink>
+                </ul>
+              )}
             </div>
           </div>
 
