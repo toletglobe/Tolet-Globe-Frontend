@@ -363,7 +363,7 @@ const Form = ({ formData, setFormData }) => {
   return (
     <>
       <div className="sm:my-5 mt-7 mb-8 flex flex-col gap-2 md:pr-0">
-        <h1 className="ml-4 text-center text-[#FFFFFF] text-xl md:text-[25px] leading-10 font-bold md:text-left whitespace-nowrap">
+        <h1 className="ml-4 text-[#FFFFFF] text-xl md:text-[25px] leading-10 font-bold text-left whitespace-nowrap">
           Property Details
         </h1>
         <hr className="ml-2" />

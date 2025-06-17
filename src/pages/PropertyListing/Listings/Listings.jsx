@@ -6,7 +6,13 @@ import { ClipLoader } from "react-spinners";
 
 import { FaSearch } from "react-icons/fa";
 
-import { loadGoogleMaps } from "../../../config/loadGoogleMaps";
+import {
+  APIProvider,
+  Map,
+  AdvancedMarker,
+  Pin,
+  InfoWindow,
+} from "@vis.gl/react-google-maps";
 
 import drop from "../../../assets/propertyListing/drop.png";
 import areas from "./areas";
@@ -26,6 +32,51 @@ import "./listings.css";
 import { API } from "../../../config/axios";
 
 const Listing = () => {
+  // Add this near the top of your component, with other constants
+  const cityCoordinates = {
+    Lucknow: { lat: 26.8467, lng: 80.9462 },
+    Ayodhya: { lat: 26.7922, lng: 82.1998 },
+    Vellore: { lat: 12.9165, lng: 79.1325 },
+    Kota: { lat: 25.2138, lng: 75.8648 },
+  };
+
+  const localityCoordinates = {
+    Lucknow: {
+      Kamta: { lat: 26.8868, lng: 81.0586 },
+      Nishatganj: { lat: 26.87, lng: 80.95 },
+      Hazratganj: { lat: 26.85, lng: 80.95 },
+      "Gomti Nagar": { lat: 26.85, lng: 81.0 },
+      "Sushant Golf City": { lat: 26.78, lng: 81.02 },
+      Khargapur: { lat: 26.83, lng: 81.03 },
+      Chinhat: { lat: 26.88, lng: 81.05 },
+      "Indira Nagar": { lat: 26.87, lng: 81.0 },
+      Aliganj: { lat: 26.88, lng: 80.94 },
+      "Vinay Khand": { lat: 26.85, lng: 81.0 },
+      "Patrakar Puram": { lat: 26.85, lng: 81.0 },
+      "Awadh Vihar Colony": { lat: 26.78, lng: 81.02 },
+      "Sunder Nagar": { lat: 26.87, lng: 80.95 },
+      "Amity University": { lat: 26.78, lng: 81.02 },
+      "Ismail Ganj": { lat: 26.85, lng: 80.95 },
+      Rajajipuram: { lat: 26.85, lng: 80.9 },
+    },
+    Ayodhya: {
+      Bakhtiarpur: { lat: 26.7922, lng: 82.1998 },
+      Bhadohi: { lat: 26.785, lng: 82.21 },
+    },
+    Vellore: {
+      "Vellore Cantonment": { lat: 12.9461, lng: 79.1789 },
+      "Gandhi Nagar": { lat: 12.9547, lng: 79.1407 },
+      "Vellore East": { lat: 12.9349, lng: 79.1469 },
+      "Vellore West": { lat: 12.9349, lng: 79.1469 },
+    },
+    Kota: {
+      "Kota Cantonment": { lat: 25.18, lng: 75.85 },
+      "Kota East": { lat: 25.18, lng: 75.87 },
+      "Kota West": { lat: 25.18, lng: 75.83 },
+      "Kota Central": { lat: 25.18, lng: 75.85 },
+    },
+  };
+
   const { city } = useParams();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.status);
@@ -64,17 +115,10 @@ const Listing = () => {
   // const [selectedCity, setSelectedCity] = useState("");
   const [selectedSort, setSelectedSort] = useState("Sort");
   const [availableProperties, setAvailableProperties] = useState([]);
+  const [mapCenter, setMapCenter] = useState(cityCoordinates["Lucknow"]);
+  const [hovered, setHovered] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
-  const [map, setMap] = useState(null);
-  const [marker, setMarker] = useState(null);
-
-  const mapRef = useRef(null);
-
-  // Add these state variables near your other useState declarations
-  // const [map, setMap] = useState(null);
-  // const [marker, setMarker] = useState(null);
-  // const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false);
 
   // Extract query string from the URL
   const queryString = location.search;
@@ -83,8 +127,6 @@ const Listing = () => {
   const params = new URLSearchParams(queryString);
   const residential = params.get("residential"); // Example: Get the value of 'param1'
   const commercial = params.get("commercial"); // Example: Get the value of 'param1'
-
-  // console.log("Got the type", residential, commercial);
 
   const [filters, setFilters] = useState({
     bhk: [],
@@ -133,93 +175,52 @@ const Listing = () => {
   // Add a new ref for the search panel
   const searchPanelRef = useRef(null);
 
-  // Add this near the top of your component, with other constants
-  const cityCoordinates = {
-    Lucknow: { lat: 26.8467, lng: 80.9462 },
-    Ayodhya: { lat: 26.7922, lng: 82.1998 },
-    Vellore: { lat: 12.9165, lng: 79.1325 },
-    Kota: { lat: 25.2138, lng: 75.8648 },
-  };
+  const sampleLocs = [
+    { key: "Kamta", location: { lat: 26.8868, lng: 81.0586 } },
+    { key: "Nishatganj", location: { lat: 26.87, lng: 80.95 } },
+  ];
 
-  useEffect(() => {
-    loadGoogleMaps()
-      .then(() => {
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setLoadError(error);
-        setIsLoading(false);
-      });
-  }, []);
+  const position = cityCoordinates["Lucknow"];
 
-  useEffect(() => {
-    if (isLoading || !mapRef.current) return;
-
-    // If Google Maps failed to load
-    if (
-      typeof window.google === "undefined" ||
-      !window.google.maps ||
-      !window.google.maps.Map ||
-      !window.google.maps.marker ||
-      !window.google.maps.marker.AdvancedMarkerElement
-    ) {
-      console.warn(
-        "Google Maps API not available or AdvancedMarkerElement unsupported"
-      );
-      return; // ❗ do nothing, skip map
-    }
-
-    const position = cityCoordinates["Lucknow"];
-
-    // if (!position || !position.lat || !position.lng) {
-    //   console.warn("Invalid position fallback:", position);
-    //   return;
-    // }
-
-    // Initialize map
-    if (!map) {
-      const newMap = new window.google.maps.Map(mapRef.current, {
-        center: position,
-        zoom: 15,
-        mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
-      });
-
-      setMap(newMap);
-
-      try {
-        const AdvancedMarker = window.google.maps.marker.AdvancedMarkerElement;
-        const newMarker = new AdvancedMarker({
-          map: newMap,
-          position: position,
-          // gmpDraggable: true,
-        });
-
-        setMarker(newMarker);
-      } catch (err) {
-        console.warn("Marker failed to initialize:", err);
-      }
-    } else {
-      map.setCenter(position);
-      map.setZoom(15);
-      if (marker?.setPosition) {
-        marker.setPosition(position);
-      }
-    }
-
-    // Ensure lat/lng always gets updated in formData
-  }, [isLoading, city, map, marker]);
-
-  const renderMap = () => {
-    if (isLoading) return <div>Loading map...</div>;
-    if (loadError) return <div>Error loading map</div>;
-
+  const PoiMarkers = (locs) => {
     return (
-      <div
-        ref={mapRef}
-        className="w-full h-[400px] rounded-md border-[1.5px] border-[#C8C8C8]"
-      />
+      // console.log("Rendering markers with locations:", locs),
+      <>
+        {locs.pois.map(
+          (loc) => (
+            console.log("Rendering marker for location:", loc),
+            (
+              <AdvancedMarker
+                // ref={markerRef}
+                key={loc.key} // Add key for each marker
+                position={loc.location} // Use loc to get position
+                onClick={() => navigate(`/property/${loc.key}`)}
+                onMouseEnter={() => console.log("Marker hovered:", loc.key)} // Handle hover
+                // onMouseOut={() => setHoveredMarker(null)} // Clear hovered marker
+                // onMouseEnter={() => setHovered(loc.key)}
+                // onMouseLeave={() => setHovered(false)}
+              >
+                <Pin
+                  background={"red"}
+                  glyphColor={"#000"}
+                  borderColor={"#000"}
+                />
+              </AdvancedMarker>
+            )
+          )
+        )}
+      </>
     );
   };
+
+  // const handleClick = useCallback((ev) => {
+  //   // if (!map) return;
+  //   // if (!ev.latLng) return;
+  //   // console.log("marker clicked:", ev.latLng.toString());
+  //   console.log("marker clicked:", ev);
+
+  //   // map.panTo(ev.latLng);
+  // });
 
   // Add useEffect to handle clicks outside the panel
   useEffect(() => {
@@ -389,6 +390,7 @@ const Listing = () => {
 
       if (selectedCity) {
         queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
+        setMapCenter(cityCoordinates[selectedCity]);
         if (selectedArea.length > 0) {
           queryString =
             queryString +
@@ -396,6 +398,7 @@ const Listing = () => {
         } else if (selectedLocality) {
           queryString =
             queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
+          setMapCenter(localityCoordinates[selectedCity][selectedLocality]);
         }
       }
 
@@ -409,9 +412,17 @@ const Listing = () => {
 
         propertyData = response.data.data || [];
 
-        let available = propertyData.filter(
-          (property) => property.availabilityStatus === "Available"
-        );
+        let available = propertyData
+          .filter((property) => property.availabilityStatus === "Available")
+          .map((property) => ({
+            key: property.slug,
+            location: {
+              lat: parseFloat(property.latitude),
+              lng: parseFloat(property.longitude),
+            },
+          }));
+
+        setAvailableProperties(available);
 
         console.log("Available properties:", available);
 
@@ -1031,7 +1042,20 @@ const Listing = () => {
         </div>
 
         {/* Pin Location on Map */}
-        <div>{renderMap()}</div>
+        {/* <div>{renderMap()}</div> */}
+        <div className="w-full h-[400px] rounded-md border-[1.5px] border-[#C8C8C8]">
+          {" "}
+          <Map
+            defaultZoom={13}
+            defaultCenter={mapCenter}
+            mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
+          >
+            <PoiMarkers pois={availableProperties} />
+          </Map>
+          {/* {hovered && (
+            <p className="mt-2 text-[#C8C8C8] text-sm">Selected coordinates:</p>
+          )} */}
+        </div>
 
         <div className="pt-3">
           {properties.length === 0 ? (
