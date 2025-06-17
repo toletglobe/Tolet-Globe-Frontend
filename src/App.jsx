@@ -13,6 +13,8 @@ function App() {
       {/* For Google Maps integration */}
       <APIProvider
         apiKey={`${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`}
+        libraries={["places", "marker"]}
+        version="beta"
         onLoad={() => console.log("Maps API has loaded.")}
       >
         <Provider store={store}>

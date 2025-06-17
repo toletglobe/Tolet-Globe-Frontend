@@ -666,8 +666,9 @@ const PropertyBrief = ({ property }) => {
             </span>
           </h1>
           <p className="text-gray-400 block lg:text-2xl lg:py-4">
-            <span className="blur-sm">,{property?.area}</span>,{property?.area},
-            {property?.locality},{property?.city}
+            {/* <span className="blur-sm">,{property?.area}</span>,{property?.area}, */}
+            <span>---------</span>,{property?.area},{property?.locality},
+            {property?.city}
           </p>
 
           <div className="flex items-center lg:text-2xl lg:pb-4">

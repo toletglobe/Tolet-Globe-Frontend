@@ -1046,9 +1046,12 @@ const Listing = () => {
         <div className="w-full h-[400px] rounded-md border-[1.5px] border-[#C8C8C8]">
           {" "}
           <Map
-            defaultZoom={13}
+            defaultZoom={11}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
+            options={{
+              maxZoom: 13, // Set the maximum zoom level
+            }}
           >
             <PoiMarkers pois={availableProperties} />
           </Map>
