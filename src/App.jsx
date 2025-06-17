@@ -5,16 +5,23 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store/store";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 function App() {
   return (
     <div className="bg-black h-full w-full overflow-x-hidden">
-      <Provider store={store}>
-        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
-          <RoutingAuthServer />
-          <Toaster />
-        </PersistGate>
-      </Provider>
+      {/* For Google Maps integration */}
+      <APIProvider
+        apiKey={`${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`}
+        onLoad={() => console.log("Maps API has loaded.")}
+      >
+        <Provider store={store}>
+          <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+            <RoutingAuthServer />
+            <Toaster />
+          </PersistGate>
+        </Provider>
+      </APIProvider>
     </div>
   );
 }
