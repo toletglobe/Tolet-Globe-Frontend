@@ -110,9 +110,11 @@ const Location = ({ property, selectComp }) => {
         rankPreference:
           google.maps.places.SearchNearbyRankPreference.POPULARITY,
         language: "en-US",
+        region: "in",
       };
       // @ts-ignore
       const { places } = await google.maps.places.Place.searchNearby(request);
+      console.log("Nearby places found:", places);
 
       const newMarkers = places.map((place) => createMarker(place));
       setMarkers(newMarkers);
@@ -139,7 +141,7 @@ const Location = ({ property, selectComp }) => {
     const infoWindow = new google.maps.InfoWindow({
       content: `
       <div>
-        <h3>${place.displayName?.text || place.name}</h3>
+        <h3>${place.displayName || place.name}</h3>
         <p>${place.formattedAddress || ""}</p>
         <p>Rating: ${place.rating ? place.rating + "/5" : "N/A"}</p>
       </div>
@@ -253,9 +255,9 @@ const Location = ({ property, selectComp }) => {
       </div>
 
       <div className="lg:flex lg:space-x-4 justify-between lg:mx-10">
-        <div className="w-full lg:w-[60%] xl:w-[69%]  h-64 lg:h-[550px]  absolute backdrop-blur-sm bg-black/40 flex justify-center items-center z-50">
+        {/* <div className="w-full lg:w-[60%] xl:w-[69%]  h-64 lg:h-[550px]  absolute backdrop-blur-sm bg-black/40 flex justify-center items-center z-50">
           <RiLock2Fill color="#ffffff" size={30} />
-        </div>
+        </div> */}
         {/* Map */}
         <div className="lg:w-[74%] w-full h-64 lg:h-[550px]">
           <div ref={mapRef} style={{ width: "100%", height: "100%" }} />
