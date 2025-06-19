@@ -556,7 +556,7 @@ const Form = ({ formData, setFormData }) => {
         </div>
 
         {/* Area */}
-        <div>
+        <div className="">
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Area<span className="text-red-600">*</span>
           </label>
@@ -587,7 +587,7 @@ const Form = ({ formData, setFormData }) => {
 
           {/* Dropdown for areas */}
           {showAreaDropdown && filteredAreas.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-black border border-[#C8C8C8] rounded-md">
+            <div className="z-10 w-full mt-1 max-h-60 overflow-y-auto bg-black border border-[#C8C8C8] rounded-md">
               {filteredAreas.map((area, index) => (
                 <div
                   key={index}
