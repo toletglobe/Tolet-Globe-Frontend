@@ -492,6 +492,8 @@ const Listing = () => {
     const cityParam = params.get("city");
     const areaParam = params.get("area") ? params.get("area").split(",") : [];
     const localityParam = params.get("locality");
+    setSelectedArea(areaParam || []);
+    setSelectedLocality(localityParam || "");
 
     fetchAndFilterProperties(
       cityParam || city,
