@@ -819,8 +819,9 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Gender<span className="text-red-600">*</span>
                 </label>
                 <Select
-                  required
-                  styles={customSelectStyles}
+                 disabled={formData.preference === "Family" ? true : false}
+                 required={formData.preference !== "Family"}                 
+                 styles={customSelectStyles}
                   placeholder="Select gender"
                   value={
                     formData.bachelors
