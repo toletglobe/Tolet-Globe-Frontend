@@ -512,6 +512,33 @@ const Listing = () => {
       localityParam || ""
     );
   }, [currentPage]);
+  
+  useEffect(() => {
+    // Determine if all required sub-options are selected
+    const isHouse = filters.residential.includes("+ House");
+    const isFlat = filters.residential.includes("+ Flat");
+    const isPG = filters.residential.includes("+ PG");
+    const isCommercial = filters.commercial.length > 0;
+
+    let shouldFetch = false;
+    if (isHouse) {
+      shouldFetch = filters.bhk.length > 0 && filters.houseType.length > 0 && filters.preferenceHousing !== "";
+    } else if (isFlat) {
+      shouldFetch = filters.bhk.length > 0 && filters.houseType.length > 0 && filters.preferenceHousing !== "";
+    } else if (isPG) {
+      shouldFetch = filters.genderPreference && filters.genderPreference.length > 0;
+    } else if (isCommercial) {
+      shouldFetch = true;
+    } else {
+      shouldFetch = true;
+    }
+
+    if (shouldFetch) {
+      fetchAndFilterProperties(city, selectedArea, selectedLocality);
+    }
+    // eslint-disable-next-line
+  }, [filters, city, selectedArea, selectedLocality, currentPage]);
+
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -596,21 +623,8 @@ const Listing = () => {
 
     // Update the URL with the new search parameter
     navigate(`${location.pathname}?${queryParams.toString()}`);
-
-    // Trigger fetchAndFilterProperties with the selected city and new search parameter
-    fetchAndFilterProperties(
-      city,
-      queryParams.get("area") ? queryParams.get("area").split(",") : [],
-      queryParams.get("locality") || ""
-    );
   };
-  if (loading && currentPage === 1) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <ClipLoader color="#6CC1B6" size={150} />
-      </div>
-    );
-  }
+
   const handleAddPropertybtn = () => {
     if (authState.status === true && localStorage.getItem("token")) {
       navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
@@ -634,7 +648,15 @@ const Listing = () => {
   const updateFilterCount = (count) => {
     setFilterCount(count);
   };
-
+  
+  
+  if (loading && currentPage === 1) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} />
+      </div>
+    );
+  }
   return (
     <>
       {showLoginPopup && (
@@ -705,8 +727,6 @@ const Listing = () => {
                             navigate(
                               `${location.pathname}?${queryParams.toString()}`
                             );
-
-                            fetchAndFilterProperties(city, selectedArea);
                           }}
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -744,12 +764,6 @@ const Listing = () => {
                             }
                             navigate(
                               `${location.pathname}?${queryParams.toString()}`
-                            );
-
-                            fetchAndFilterProperties(
-                              city,
-                              newAreas,
-                              selectedLocality
                             );
                           }}
                           viewBox="0 0 20 20"
@@ -1034,7 +1048,6 @@ const Listing = () => {
                 filters={filters}
                 setFilters={setFilters}
                 resetFilters={resetFilters}
-                fetchAndFilterProperties={fetchAndFilterProperties}
                 setCurrentPage={setCurrentPage}
                 selectedArea={selectedArea}
                 selectedLocality={selectedLocality}
