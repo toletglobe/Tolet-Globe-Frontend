@@ -21,26 +21,6 @@ export default function LandlordDashboardAddProperties() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      console.log("Token: ", token);
-      const isCouponUsed = await API.post(
-        "user/check-coupon-usage",
-        {
-          userId: authState.userData.id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("Coupon Usage Data: ", isCouponUsed.data.result);
-      setCouponUsage(isCouponUsed.data.result);
-    };
-    fetchData();
-  }, []);
 
   // For storing formData
   const [formData, setFormData] = useState({
