@@ -74,11 +74,18 @@ export default function LandlordDashboardAddProperties() {
   //     );}
   // };
 
-  const authState = useSelector((state) => state.auth);
-  const userInfo = authState?.userData || {};
+const userInfo = useSelector((state) => state.auth.userData);
+ // const userInfo = authState?.userData || {};
+  console.log("userInf0o", userInfo);
+
 
   // Submitting form Data
   const submitForm = async (formData) => {
+    if (userInfo.properties?.length >= 1) {
+    toast.error("You can only add one property. Upgrade your plan.");
+    navigate("/pricing");
+    return;
+  }
     setLoading(true);
     const updatedFormData = {
       ...formData,
