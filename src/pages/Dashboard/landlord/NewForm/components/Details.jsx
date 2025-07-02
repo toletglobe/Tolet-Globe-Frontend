@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "../../../../../config/loadGoogleMaps";
 import Select from "react-select";
 import areas from "../../../../PropertyListing/Listings/areas";
+import CreatableSelect from 'react-select/creatable';
+
 
 const Form = ({ formData, setFormData }) => {
   const optionRenderFun = (value) => (
@@ -325,6 +327,10 @@ const Form = ({ formData, setFormData }) => {
       padding: "0 0.25rem",
       boxShadow: "white",
     }),
+    input: (base) => ({
+    ...base,
+    color: 'white', // ✅ Entered text color
+  }),
     placeholder: (base) => ({
       ...base,
       color: "none",
@@ -530,30 +536,36 @@ const Form = ({ formData, setFormData }) => {
         </div>
 
         {/* Locality */}
-        <div>
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Locality<span className="text-red-600">*</span>
-          </label>
-          <Select
-            isDisabled={!formData.city}
-            placeholder="Select locality"
-            value={
-              formData.locality
-                ? { value: formData.locality, label: formData.locality }
-                : null
-            }
-            onChange={handleLocalityChange}
-            options={
-              formData.city
-                ? cityLocalityData[formData.city].localities.map((loc) => ({
-                    value: loc,
-                    label: loc,
-                  }))
-                : []
-            }
-            styles={customSelectStyles}
-          />
-        </div>
+<div>
+  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+    Locality<span className="text-red-600">*</span>
+  </label>
+  <CreatableSelect
+    isDisabled={!formData.city}
+    placeholder="Select or enter locality"
+    value={
+      formData.locality
+        ? { value: formData.locality, label: formData.locality }
+        : null
+    }
+    onChange={(selectedOption) => {
+      setFormData((prev) => ({
+        ...prev,
+        locality: selectedOption?.value || "",
+      }));
+    }}
+    options={
+      formData.city
+        ? cityLocalityData[formData.city].localities.map((loc) => ({
+            value: loc,
+            label: loc,
+          }))
+        : []
+    }
+    styles={customSelectStyles}
+    isClearable
+  />
+</div>
 
         {/* Area */}
         <div className="">
