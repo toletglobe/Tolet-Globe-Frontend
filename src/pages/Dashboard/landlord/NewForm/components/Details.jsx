@@ -642,20 +642,23 @@ const Form = ({ formData, setFormData }) => {
           />
         </div>
 
-        {/* Pin */}
-        <div>
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Pin Code<span className="text-red-600">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Pin Code"
-            required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.pincode}
-            readOnly
-          />
-        </div>
+       {/* Pin */}
+<div>
+  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+    Pin Code<span className="text-red-600">*</span>
+  </label>
+  <input
+    type="text"
+    placeholder="Pin Code"
+    required
+    className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
+    value={formData.pincode}
+    onChange={(e) =>
+      setFormData((prev) => ({ ...prev, pincode: e.target.value }))
+    }
+  />
+</div>
+
 
         {/* Pin Location on Map */}
         <div className="md:col-span-2">

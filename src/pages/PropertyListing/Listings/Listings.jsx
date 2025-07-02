@@ -1095,16 +1095,7 @@ const Listing = () => {
           </div>
         )}
 
-        {currentPage < totalPages && !loading && (
-          <div className="flex flex-col items-center my-4">
-            <button
-              onClick={handleLoadMore}
-              className="bg-[#212629] px-6 py-2 rounded-md text-lg font-medium text-gray-400 active:bg-[#5edbd3] transition active:text-gray-900"
-            >
-              Load More ({remainingPropertyCount})
-            </button>
-          </div>
-        )}
+        
       </section>
     </>
   );
