@@ -21,6 +21,9 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [verificationMethod, setVerificationMethod] = useState('email');
+  const [showOTPField, setShowOTPField] = useState(false);
+  const [otp, setOtp] = useState('');
   // const [role, setRole] = useState("");
   // const [userType, setUserType] = useState("buyer");
   // const [answer, setAnswer] = useState("");
@@ -55,42 +58,76 @@ const Register = () => {
       "Registering...! Please wait for the registration process to complete ."
     );
     try {
+      const formattedPhone = phone.startsWith('+') ? phone : `+91${phone}`;
       const res = await API.post("/auth/register", {
         firstName,
         lastName,
         email,
         password,
-        phone,
         // role,
         // userType,
         // answer,
+        phone:formattedPhone,
+        verificationMethod
       });
 
       if (res.status === 200) {
         resetFields();
         setSubmitting(false);
         toast.dismiss(loadingToast);
-        toast.success(
-          "Registration successful! Please check your email to verify your account."
-        );
+        
+
+        if (verificationMethod === 'email') {
+          toast.success(
+            "Registration successful! Please check your email to verify your account."
+          );
+          setTimeout(() => {
+            navigate("/login");
+          }, 3000);
+        } else {
+          toast.success("OTP sent to your phone! Please enter it below.");
+          setShowOTPField(true);
+        }
+      } else {
+        setSubmitting(false);
+        toast.dismiss(loadingToast);
+        toast.error(res.data?.message || "Unexpected response. Please try again.");
+      }
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error("Registration failed. Please try again.");
+      console.error("Registration error:", error.response?.data || error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    const loadingToast = toast.loading("Verifying OTP...");
+    
+    try {
+      const res = await API.post("/auth/verify-otp", {
+        email,
+        otp
+      });
+
+      if (res.status === 200) {
+        toast.dismiss(loadingToast);
+        toast.success("Verification successful! You can now login.");
         setTimeout(() => {
           navigate("/login");
         }, 3000);
       } else {
-        setSubmitting(false);
         toast.dismiss(loadingToast);
-
-        toast.error(
-          res.data?.message || "Unexpected response. Please try again."
-        );
+        toast.error(res.data?.message || "OTP verification failed.");
       }
     } catch (error) {
-      // Handling fetch-specific errors (e.g., network issues)
       toast.dismiss(loadingToast);
-      toast.error("Registration failed. Please try again.");
-      console.error("Registration error:", error);
-    }
-    finally{
+      toast.error("OTP verification failed. Please try again.");
+      console.error("OTP verification error:", error);
+    } finally {
       setSubmitting(false);
     }
   };
@@ -160,13 +197,13 @@ const Register = () => {
             <FaPhoneAlt className="ml-3 text-white" />
             <input
               type="tel"
-              placeholder="Phone Number"
+              placeholder="Phone Number Starting with +91"
               className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
               autoComplete="off"
               value={phone}
               onChange={(e) => {
-                const numericValue = e.target.value.replace(/[^0-9]/g, "");
-                setPhone(numericValue);
+                const value = e.target.value.replace(/[^+\d]/g, ""); // allow digits and +
+                setPhone(value);
               }}
               required
             />
@@ -232,6 +269,56 @@ const Register = () => {
               required
             />
           </div> */}
+          {!showOTPField && (
+            <div className="mt-6 flex items-center justify-center">
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                className="form-radio"
+                name="verificationMethod"
+                value="email"
+                checked={verificationMethod === 'email'}
+                onChange={() => setVerificationMethod('email')}
+              />
+              <span className="ml-2">Verify via Email</span>
+            </label>
+            <label className="inline-flex items-center ml-6">
+              <input
+                type="radio"
+                className="form-radio"
+                name="verificationMethod"
+                value="sms"
+                checked={verificationMethod === 'sms'}
+                onChange={() => setVerificationMethod('sms')}
+              />
+              <span className="ml-2">Verify via SMS</span>
+            </label>
+          </div>
+        )}
+
+        {showOTPField && (
+          <div className="mt-6">
+            <div className="flex items-center">
+              <input
+                type="text"
+                placeholder="Enter OTP"
+                className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
+                maxLength="6"
+              />
+            </div>
+            <div className="flex justify-center mt-6">
+             <button
+                onClick={handleVerifyOTP}
+                className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
+              >
+                VERIFY OTP
+              </button>
+            </div>
+          </div>
+        )}
+
           <div className="flex justify-center mt-10">
             {submitting ? (
               <div className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white">
