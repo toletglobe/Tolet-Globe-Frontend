@@ -250,16 +250,18 @@ export default function CompareProperty({
                     />
                   </div>
                   <div
-                    className="absolute top-3 left-3 text-white text-xs font-semibold uppercase px-3 pr-5 py-1 bg-[#40B5A8] [clip-path:polygon(0_0,100%_0,100%_0%,90%_50%,100%_100%,100%_100%,0_100%)]"
-                    style={{
-                      backgroundColor: "#40B5A8",
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {property.propertyType === "Residential"
-                      ? "For Rent"
-                      : "Available"}
-                  </div>
+  className="absolute top-3 left-3 text-white text-xs font-semibold uppercase px-3 pr-5 py-1 [clip-path:polygon(0_0,100%_0,100%_0%,90%_50%,100%_100%,100%_100%,0_100%)]"
+  style={{
+    backgroundColor:
+      property.availabilityStatus === "Rented Out"
+        ? "#FF4C4C" // Red for unavailable
+        : "#40B5A8", // Green for available
+    textTransform: "capitalize",
+  }}
+>
+  {property.availabilityStatus || "NA"}
+</div>
+
                   <div className="banner-actions absolute bottom-1 left-3 right-3 flex gap-4 justify-between items-center">
                     <div>
                       <button className="banner-actions-btn flex items-center gap-1 text-white">
