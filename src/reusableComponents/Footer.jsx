@@ -16,25 +16,33 @@ const Footer = () => {
   const ScrollToTop = () => {
     const { pathname } = useLocation();
 
-    useEffect(() => {
-      const handleLinkClick = () => {
-        window.scrollTo(0, 0);
-      };
+   useEffect(() => {
+  const debounce = (func, delay) => {
+    let timer;
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(func, delay);
+    };
+  };
 
-      // Scroll on route change
-      window.scrollTo(0, 0);
+  const scrollToTop = debounce(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, 100); // 100ms debounce
 
-      // Attach click event listener to links
-      const links = document.querySelectorAll("a");
-      links.forEach((link) => link.addEventListener("click", handleLinkClick));
+  scrollToTop();
 
-      // Cleanup event listeners
-      return () => {
-        links.forEach((link) =>
-          link.removeEventListener("click", handleLinkClick)
-        );
-      };
-    }, [pathname]);
+  const handleLinkClick = () => scrollToTop();
+
+  const links = document.querySelectorAll("a[href^='/']");
+  links.forEach((link) => link.addEventListener("click", handleLinkClick));
+
+  return () => {
+    links.forEach((link) =>
+      link.removeEventListener("click", handleLinkClick)
+    );
+  };
+}, [pathname]);
+
 
     return null;
   };
