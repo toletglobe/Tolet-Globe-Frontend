@@ -21,6 +21,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [passwordVerified, setPasswordVerified] = useState(true);
+  const [passwordMessage, setPasswordMessage] = useState("");
   // const [role, setRole] = useState("");
   // const [userType, setUserType] = useState("buyer");
   // const [answer, setAnswer] = useState("");
@@ -50,6 +52,32 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setPasswordVerified(true)
+    if(password.length < 8){
+      setPasswordMessage("Password Must be 8 character long, must contain a number and an uppercase letter");
+      setPasswordVerified(false);
+      setTimeout(() => {
+        setPasswordVerified(true)
+      }, 5000);
+      return
+    }
+    if(!(/\d/.test(password))){
+      setPasswordMessage("Password must contain a number and an uppercase letter");
+      setPasswordVerified(false);
+      setTimeout(() => {
+        setPasswordVerified(true)
+      }, 5000);
+      return 
+    }
+    if(!(/[A-Z]/.test(password))){
+      setPasswordMessage("Password must contain an uppercase letter");
+      setPasswordVerified(false);
+      setTimeout(() => {
+        setPasswordVerified(true)
+      }, 5000);
+      return
+    }
+
     setSubmitting(true);
     const loadingToast = toast.loading(
       "Registering...! Please wait for the registration process to complete ."
@@ -133,7 +161,7 @@ const Register = () => {
               required
             />
           </div>
-          <div className="mt-10 flex items-center">
+          <div className="mt-10 mb-10 flex items-center">
             <AiOutlineMail className="ml-3 text-white" />
             <input
               type="email"
@@ -145,7 +173,16 @@ const Register = () => {
               required
             />
           </div>
-          <div className="mt-10 flex items-center">
+
+          { passwordVerified ? (
+            <></>
+          ) : (
+            <div className="ml-4">
+              <p className="text-red-600 font-light text-sm" ><span>* </span>{passwordMessage}</p>
+            </div>
+          )}
+          {/* Password div */}
+          <div className="flex items-center">
             <FaLock className="ml-3 text-white" />
             <input
               type="password"
