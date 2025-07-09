@@ -22,9 +22,9 @@ const Amenities = ({ selectComp, property }) => {
   return (
     // component for Amenities
     <div className={`pb-4 ${selectComp > 3 ? "hidden" : ""}`}>
-      <div className={`bg-white w-full rounded-lg p-3 pl-4`}>
-        <p className="text-black block font-semibold text-xl mb-2">Amenities</p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 lg:flex lg:flex-wrap lg:gap-10">
+      <div className={`bg-white w-[65.6vw] ml-[19rem] rounded-lg p-3 pl-4`}>
+        <p className="text-black block font-semibold lg:text-2xl mb-6 tracking-wide">Amenities</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 lg:flex lg:flex-wrap lg:gap-10 mb-6">
           {property.security && (
             <div className="border flex justify-between rounded-lg border-black p-2 w-full sm:w-fit items-center px-3 py-1">
               <MdSecurity className="h-6 w-6 mr-4 text-black bg-white" />

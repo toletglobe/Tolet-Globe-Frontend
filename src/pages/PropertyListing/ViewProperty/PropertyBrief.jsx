@@ -531,7 +531,7 @@ const PropertyBrief = ({ property }) => {
           </div>
 
           <div className="lg:hidden">
-            <div className="w-full mb-2">
+            <div className="w-ful mb-2">
               <img
                 src={property.images[0]}
                 alt={property.propertyType}

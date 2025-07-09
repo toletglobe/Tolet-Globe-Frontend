@@ -128,7 +128,7 @@ const handleAddReview = async (e) => {
     currentPage > 1 && setCurrentPage(currentPage - 1);
 
   return (
-    <div className="w-full p-6 bg-white shadow-lg rounded-2xl">
+    <div className="w-[65.6vw] ml-[19rem] p-6 bg-white shadow-lg rounded-2xl">
       <h1 className="text-2xl text-center my-4 lg:text-left lg:mx-8 lg:my-4 font-bold text-black">Reviews</h1>
 
      {/* Average Rating and Write Review Section */}

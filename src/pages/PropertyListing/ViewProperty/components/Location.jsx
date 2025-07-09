@@ -240,12 +240,12 @@ const Location = ({ property, selectComp }) => {
   };
 
   return (
-    <div className="pb-4 bg-white rounded-2xl">
+    <div className="pb-4 bg-white w-[65.6vw] ml-[19rem] rounded-2xl">
       {/* Header */}
       <div className="px-1 pt-4 pb-2">
         <div className="flex justify-between lg:w-[68%] xl:w-[69%] 2xl:w-[70%] items-center px-3 lg:px-0 lg:mx-10">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">Location</h2>
+            <h2 className="lg:text-2xl mb-6 tracking-wide font-semibold text-black">Location</h2>
             <p className="text-sm text-gray-600">
               <span className="">{maskAddressAndLocation()}</span>
             </p>
