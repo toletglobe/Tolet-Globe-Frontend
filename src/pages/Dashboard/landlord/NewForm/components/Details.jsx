@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "../../../../../config/loadGoogleMaps";
 import Select from "react-select";
 import areas from "../../../../PropertyListing/Listings/areas";
-import CreatableSelect from 'react-select/creatable';
-
+import CreatableSelect from "react-select/creatable";
 
 const Form = ({ formData, setFormData }) => {
   const optionRenderFun = (value) => (
@@ -328,9 +327,9 @@ const Form = ({ formData, setFormData }) => {
       boxShadow: "white",
     }),
     input: (base) => ({
-    ...base,
-    color: 'white', // ✅ Entered text color
-  }),
+      ...base,
+      color: "white", // ✅ Entered text color
+    }),
     placeholder: (base) => ({
       ...base,
       color: "none",
@@ -536,36 +535,36 @@ const Form = ({ formData, setFormData }) => {
         </div>
 
         {/* Locality */}
-<div>
-  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-    Locality<span className="text-red-600">*</span>
-  </label>
-  <CreatableSelect
-    isDisabled={!formData.city}
-    placeholder="Select or enter locality"
-    value={
-      formData.locality
-        ? { value: formData.locality, label: formData.locality }
-        : null
-    }
-    onChange={(selectedOption) => {
-      setFormData((prev) => ({
-        ...prev,
-        locality: selectedOption?.value || "",
-      }));
-    }}
-    options={
-      formData.city
-        ? cityLocalityData[formData.city].localities.map((loc) => ({
-            value: loc,
-            label: loc,
-          }))
-        : []
-    }
-    styles={customSelectStyles}
-    isClearable
-  />
-</div>
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            Locality<span className="text-red-600">*</span>
+          </label>
+          <CreatableSelect
+            isDisabled={!formData.city}
+            placeholder="Select or enter locality"
+            value={
+              formData.locality
+                ? { value: formData.locality, label: formData.locality }
+                : null
+            }
+            onChange={(selectedOption) => {
+              setFormData((prev) => ({
+                ...prev,
+                locality: selectedOption?.value || "",
+              }));
+            }}
+            options={
+              formData.city
+                ? cityLocalityData[formData.city].localities.map((loc) => ({
+                    value: loc,
+                    label: loc,
+                  }))
+                : []
+            }
+            styles={customSelectStyles}
+            isClearable
+          />
+        </div>
 
         {/* Area */}
         <div className="">
@@ -642,23 +641,22 @@ const Form = ({ formData, setFormData }) => {
           />
         </div>
 
-       {/* Pin */}
-<div>
-  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-    Pin Code<span className="text-red-600">*</span>
-  </label>
-  <input
-    type="text"
-    placeholder="Pin Code"
-    required
-    className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
-    value={formData.pincode}
-    onChange={(e) =>
-      setFormData((prev) => ({ ...prev, pincode: e.target.value }))
-    }
-  />
-</div>
-
+        {/* Pin */}
+        <div>
+          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+            Pin Code<span className="text-red-600">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Pin Code"
+            required
+            className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
+            value={formData.pincode}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, pincode: e.target.value }))
+            }
+          />
+        </div>
 
         {/* Pin Location on Map */}
         <div className="md:col-span-2">
