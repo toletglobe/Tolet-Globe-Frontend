@@ -21,14 +21,11 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-<<<<<<< HEAD
   const [passwordVerified, setPasswordVerified] = useState(true);
   const [passwordMessage, setPasswordMessage] = useState("");
-=======
   const [verificationMethod, setVerificationMethod] = useState('email');
   const [showOTPField, setShowOTPField] = useState(false);
   const [otp, setOtp] = useState('');
->>>>>>> c4498130a59dee49bc5c455e1e018e91440f4183
   // const [role, setRole] = useState("");
   // const [userType, setUserType] = useState("buyer");
   // const [answer, setAnswer] = useState("");
