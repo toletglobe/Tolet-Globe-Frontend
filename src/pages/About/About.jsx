@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 
-// Assets
+
 import image from "../../assets/about/iconwithlines.png";
 import CEO1 from "../../assets/about/CEO1.png";
 import CEO2 from "../../assets/about/CEO2.jpg";
 import CEO3 from "../../assets/about/CEO3.png";
 
-// Components
+
 import AboutCard from "./components/AboutCard";
 import Flip from "./components/Flip";
 import Faq from "./components/Faq";
