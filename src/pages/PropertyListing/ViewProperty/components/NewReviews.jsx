@@ -128,14 +128,14 @@ const handleAddReview = async (e) => {
     currentPage > 1 && setCurrentPage(currentPage - 1);
 
   return (
-    <div className="w-[65.6vw] ml-[19rem] p-6 bg-white shadow-lg rounded-2xl">
+    <div className="lg:w-[65.6vw] lg:ml-[19rem] p-6 bg-white shadow-lg rounded-2xl">
       <h1 className="text-2xl text-center my-4 lg:text-left lg:mx-8 lg:my-4 font-bold text-black">Reviews</h1>
 
      {/* Average Rating and Write Review Section */}
 <div className="flex flex-col lg:flex-row justify-between gap-6 mb-6 lg:mx-6 mx-4">
 
   {/* Average Rating */}
-  <div className="flex flex-col items-center lg:w-1/4 w-full border border-black rounded-lg shadow-md bg-white py-6 px-4">
+  <div className="flex flex-col items-center lg:w-96 w-full border border-black rounded-lg shadow-md bg-white py-6 px-4">
     {/* Mobile View Heading */}
     <h2 className="block lg:hidden text-xl sm:text-2xl font-bold text-black mb-2">
       Average Rating: {averageRating} / 5

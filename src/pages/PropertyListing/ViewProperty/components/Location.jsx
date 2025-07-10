@@ -240,7 +240,7 @@ const Location = ({ property, selectComp }) => {
   };
 
   return (
-    <div className="pb-4 bg-white w-[65.6vw] ml-[19rem] rounded-2xl">
+    <div className="pb-4 bg-white lg:w-[65.6vw] lg:ml-[19rem] rounded-2xl">
       {/* Header */}
       <div className="px-1 pt-4 pb-2">
         <div className="flex justify-between lg:w-[68%] xl:w-[69%] 2xl:w-[70%] items-center px-3 lg:px-0 lg:mx-10">

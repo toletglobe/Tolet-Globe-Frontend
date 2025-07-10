@@ -7,7 +7,7 @@ import { PiStudentBold } from "react-icons/pi";
 const Regulations = ({ selectComp, property }) => {
   return (
     <div className={`pb-4 ${selectComp > 4 ? "hidden" : ""}`}>
-      <div className={`bg-white w-[65.6vw] ml-[19rem] rounded-lg p-3 pl-4`}>
+      <div className={`bg-white lg:w-[65.6vw] lg:ml-[19rem] rounded-lg p-3 pl-4`}>
         <p className="text-black block font-semibold lg:text-2xl mb-6 tracking-wide">
           Regulations
         </p>

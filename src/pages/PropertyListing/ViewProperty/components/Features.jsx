@@ -10,7 +10,7 @@ import Appliances from "./assets/Features/Appliances.svg"
 const Features = ({ selectComp, property }) => {
   return (
     <div
-      className={`bg-white w-[65.6vw] ml-[19rem] rounded-lg p-3 pl-4 mb-4 ${
+      className={`bg-white lg:w-[65.6vw] lg:ml-[19rem] rounded-lg p-3 pl-4 mb-4 ${
         selectComp > 1 ? "hidden" : ""
       }`}
     >
