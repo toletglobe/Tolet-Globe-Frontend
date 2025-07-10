@@ -37,7 +37,7 @@ const ImageUpload = ({ formData, setFormData }) => {
         {/* Image Upload Section */}
         <div className="mt-16">
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Property image<span className="text-red-600">*</span>
+            Property image
           </label>
           <p className="text-sm mb-4">
             Note: Your first image will be the cover image of your property
