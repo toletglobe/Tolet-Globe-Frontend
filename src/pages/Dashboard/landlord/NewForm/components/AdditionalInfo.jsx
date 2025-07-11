@@ -57,13 +57,13 @@ const AdditionalInfo = ({ formData, setFormData }) => {
   ];
 
   const genderOptions = [
-    { value: "Boys", label: "Boys" },
-    { value: "Girls", label: "Girls" },
+    { value: "Male", label: "Male" },
+    { value: "Female", label: "Female" },
     { value: "Both", label: "Both" },
   ];
 
   const furnishedOptions = [
-    { value: "Not Furnished", label: "Not Furnished" },
+    { value: "Unfurnished", label: "Unfurnished" },
     { value: "Semi Furnished", label: "Semi Furnished" },
     { value: "Fully Furnished", label: "Fully Furnished" },
   ];
@@ -77,8 +77,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
   ];
 
   const washroomOptions = [
-    { value: "Western", label: "Western" },
     { value: "Indian", label: "Indian" },
+    { value: "Western", label: "Western" },
     { value: "Both", label: "Both" },
   ];
 
@@ -234,7 +234,10 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                       : null
                   }
                   onChange={(selectedOption) => {
-                    setFormData({ ...formData, bachelors: selectedOption.value });
+                    setFormData({
+                      ...formData,
+                      bachelors: selectedOption.value,
+                    });
                     console.log("Formdata:", formData);
                   }}
                   options={genderOptions}
@@ -478,7 +481,10 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                       : null
                   }
                   onChange={(selectedOption) => {
-                    setFormData({ ...formData, bachelors: selectedOption.value });
+                    setFormData({
+                      ...formData,
+                      bachelors: selectedOption.value,
+                    });
                     console.log("Formdata:", formData);
                   }}
                   options={genderOptions}
@@ -819,9 +825,9 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                   Gender<span className="text-red-600">*</span>
                 </label>
                 <Select
-                 disabled={formData.preference === "Family" ? true : false}
-                 required={formData.preference !== "Family"}                 
-                 styles={customSelectStyles}
+                  disabled={formData.preference === "Family" ? true : false}
+                  required={formData.preference !== "Family"}
+                  styles={customSelectStyles}
                   placeholder="Select gender"
                   value={
                     formData.bachelors
@@ -829,7 +835,10 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                       : null
                   }
                   onChange={(selectedOption) => {
-                    setFormData({ ...formData, bachelors: selectedOption.value });
+                    setFormData({
+                      ...formData,
+                      bachelors: selectedOption.value,
+                    });
                     console.log("Formdata:", formData);
                   }}
                   options={genderOptions}
