@@ -13,7 +13,7 @@ const Blog = () => {
   const [blogsPerPage] = useState(9);
   const [totalPages, setTotalPages] = useState();
   const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState("trending"); // Set default to "trending"
+  const [sortBy, setSortBy] = useState("trending");
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
@@ -32,10 +32,11 @@ const Blog = () => {
           }
         );
         const allBlogs = response.data;
-        // setBlogs((prevBlogs) => [...prevBlogs, ...allBlogs.data]); // Append new blogs to the existing list
         setBlogs((prevBlogs) => {
           const existingSlugs = new Set(prevBlogs.map((blog) => blog.slug));
-          const newUniqueBlogs = allBlogs.data.filter((blog) => !existingSlugs.has(blog.slug));
+          const newUniqueBlogs = allBlogs.data.filter(
+            (blog) => !existingSlugs.has(blog.slug)
+          );
           return [...prevBlogs, ...newUniqueBlogs];
         });
         setTotalPages(allBlogs?.totalPages);
@@ -53,13 +54,13 @@ const Blog = () => {
   const handleClickLatest = () => {
     setSortBy("latest");
     setCurrentPage(1);
-    setBlogs([]); // Reset blogs when sorting changes
+    setBlogs([]);
   };
 
   const handleClickTrending = () => {
     setSortBy("trending");
     setCurrentPage(1);
-    setBlogs([]); // Reset blogs when sorting changes
+    setBlogs([]);
   };
 
   const handleViewBlog = async (slug) => {
@@ -93,13 +94,14 @@ const Blog = () => {
   }
 
   return (
-    <div className="bg-black my-5">
-      <h1 className="text-4xl text-center text-white font-semibold mt-8">
+    <div className="bg-black py-6 px-4 md:px-0">
+      <h1 className="text-3xl md:text-4xl text-center text-white font-semibold mt-4 md:mt-8">
         To-Let Tales
       </h1>
-      <h1 className="text-center mt-2 text-[#6CC1B6]">
+      <h2 className="text-sm md:text-base text-center mt-2 text-[#6CC1B6]">
         Dive into a Sea of Endless Stories and Insights
-      </h1>
+      </h2>
+
       <LatestTrending
         isLatest={sortBy === "latest"}
         handleClickTrending={handleClickTrending}
@@ -109,7 +111,11 @@ const Blog = () => {
       {error && <div className="text-red-500 text-center">{error}</div>}
       <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
 
-      {loading && <div className="flex justify-center my-4"><ClipLoader color="#6CC1B6" size={50} /></div>}
+      {loading && (
+        <div className="flex justify-center my-4">
+          <ClipLoader color="#6CC1B6" size={50} />
+        </div>
+      )}
 
       {currentPage < totalPages && !loading && (
         <div className="flex flex-col items-center my-4">
@@ -119,7 +125,6 @@ const Blog = () => {
           >
             Load More ({remainingBlogsCount})
           </button>
-          
         </div>
       )}
     </div>
@@ -127,4 +132,3 @@ const Blog = () => {
 };
 
 export default Blog;
-

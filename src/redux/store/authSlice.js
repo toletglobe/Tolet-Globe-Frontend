@@ -8,9 +8,9 @@ const initialState = {
     firstName: "",
     lastName: "",
     email: "",
-    role: "",
     phoneNumber: "",
     profilePicture: "",
+    properties: [],
   },
 };
 
@@ -29,6 +29,7 @@ const authSlice = createSlice({
         email: action.payload.userData.email,
         role: action.payload.userData.role,
         profilePicture: action.payload.userData.profilePicture, // Add profilePicture field
+        properties: action.payload.userData.properties || [], // Include properties safely
       };
     },
     logout: (state) => {

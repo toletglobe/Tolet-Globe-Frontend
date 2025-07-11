@@ -1,41 +1,60 @@
 import React, { useState } from "react";
 import { Check, X } from "lucide-react";
 import { API } from "../../../../../config/axios";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
-const VALID_COUPONS = ["tolet8764", "SAVE20", "DISCOUNT10"]; // sample valid codes
 
 const Coupon = ({ formData, setFormData, couponUsage }) => {
   const [couponCode, setCouponCode] = useState("");
   const [isApplied, setIsApplied] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const authState = useSelector((state) => state.auth);
+  const userId = authState?.userData?.id;
 
-  const handleProcessCoupon = (event) => {
-    event.preventDefault(); // Prevent form submission
+  const handleProcessCoupon = async (event) => {
+    event.preventDefault();
     const trimmedCode = couponCode.trim();
 
-   if (VALID_COUPONS.includes(trimmedCode)) {
-  setIsApplied(true);
-  setIsInvalid(false);
-  setCouponCode(trimmedCode);
-  setFormData(() => ({ ...formData, coupon: trimmedCode })); // 
-  console.log("Coupon applied:", trimmedCode);
-} else {
-  setIsApplied(false);
-  setIsInvalid(true);
-  setFormData(() => ({ ...formData, coupon: "" })); //
-  console.log("Invalid coupon:", trimmedCode);
-}
+    if (!trimmedCode) return;
 
+    try {
+      const response = await API.post("/user/apply-coupon", {
+        userId,
+        couponCode: trimmedCode,
+      });
+
+      if (response.data.success) {
+        setIsApplied(true);
+        setIsInvalid(false);
+        setErrorMessage("");
+        setCouponCode(trimmedCode);
+        setFormData((prev) => ({ ...prev, coupon: trimmedCode }));
+
+        console.log("Coupon applied:", trimmedCode);
+      } else {
+        setIsApplied(false);
+        setIsInvalid(true);
+        setErrorMessage(response.data.message || "Invalid coupon.");
+        setFormData((prev) => ({ ...prev, coupon: "" }));
+      }
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      setIsApplied(false);
+      setIsInvalid(true);
+      setErrorMessage(
+        error?.response?.data?.message || "Invalid or used coupon."
+      );
+      setFormData((prev) => ({ ...prev, coupon: "" }));
+    }
   };
 
   const handleResetCoupon = () => {
     setCouponCode("");
     setIsApplied(false);
     setIsInvalid(false);
+    setErrorMessage("");
+    setFormData((prev) => ({ ...prev, coupon: "" }));
   };
 
   return (
@@ -63,6 +82,7 @@ const Coupon = ({ formData, setFormData, couponUsage }) => {
               setCouponCode(e.target.value);
               setIsApplied(false);
               setIsInvalid(false);
+              setErrorMessage("");
             }}
             disabled={isApplied || couponUsage}
           />
@@ -80,8 +100,8 @@ const Coupon = ({ formData, setFormData, couponUsage }) => {
           )}
         </div>
 
-        {isInvalid && (
-          <p className="text-red-500 text-sm mt-2">Invalid coupon code.</p>
+        {isInvalid && errorMessage && (
+          <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
         )}
 
         <div className="flex justify-end gap-4">

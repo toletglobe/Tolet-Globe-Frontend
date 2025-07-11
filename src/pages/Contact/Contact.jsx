@@ -105,6 +105,8 @@ const Contact = () => {
       {/* Form Section */}
       <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 sm:px-6 lg:px-14 mt-10 lg:mt-0">
         <form onSubmit={handleSubmit}>
+
+          {/* Subject div */}
           <div className="flex flex-col">
             <label htmlFor="topic" className="text-gray-400">
               Subject
@@ -117,9 +119,11 @@ const Contact = () => {
               name="topic"
               onChange={handleChange}
               required
-              className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
+              className="mt-1 border bg-transparent border-gray-300 rounded w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800 placeholder:pl-2.5"
             />
           </div>
+
+          {/* Name, Email, Phone Div */}
           {["name", "email", "phone"].map((field, index) => (
             <div key={index} className="mt-5 flex flex-col">
               <label htmlFor={field} className="text-gray-400">
@@ -138,7 +142,7 @@ const Contact = () => {
                 value={formData[field]}
                 name={field}
                 onChange={handleChange}
-                className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
+                className="mt-1 border bg-transparent border-gray-300 rounded w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800 placeholder:pl-2.5"
                 required={field !== "phone"}
               />
             </div>
@@ -154,19 +158,20 @@ const Contact = () => {
               name="msg"
               onChange={handleChange}
               required
-              className="mt-2 border bg-transparent border-gray-300 rounded-lg w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800"
+              rows={3}
+              className="mt-1 border bg-transparent border-gray-300 rounded w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800 placeholder:pl-2.5"
             />
           </div>
           <div className="mt-6">
             {loading ? (
-              <div className="flex items-center justify-center space-x-2 bg-[#6CC1B6] w-full text-black py-3 px-4 rounded-lg">
+              <div className="flex items-center justify-center space-x-2 bg-[#6CC1B6] w-full text-black py-3 px-4 rounded">
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
                 <span className="text-black">Sending...</span>
               </div>
             ) : (
               <button
                 type="submit"
-                className="bg-[#6CC1B6] hover:bg-[#6dc9bd] w-full text-black mt-3 py-3 px-4 rounded-lg"
+                className="bg-[#6CC1B6] hover:bg-[#6dc9bd] w-full text-black font-semibold mt-3 py-3 px-4 rounded"
               >
                 Submit Query
               </button>

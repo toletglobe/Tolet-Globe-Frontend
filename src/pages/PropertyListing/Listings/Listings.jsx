@@ -23,7 +23,6 @@ import "react-toastify/dist/ReactToastify.css";
 import SelectLocation from "./components/SelectLocation";
 import Filters from "./components/Filters";
 import Cards from "./components/Cards";
-import Pagination from "../../../reusableComponents/Pagination";
 
 import LoginPopup from "./components/LoginPopup/LoginPopup"; // Import the LoginPopup component
 
@@ -87,9 +86,7 @@ const Listing = () => {
 
   const [Hamburger, SetHamburger] = useState(false);
   const [isOpen, SetIsOpen] = useState(false);
-
-  const [totalPages, setTotalPages] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
+const [totalPages, setTotalPages] = useState();
 
   const [properties, setProperties] = useState([]);
 
@@ -402,7 +399,7 @@ const Listing = () => {
         }
       }
 
-      queryString = queryString + `&page=${currentPage}`;
+       queryString = queryString + `&limit=1000`; // optional
 
       const url = `property/filter?${queryString}`;
       // console.log("Request URL:", url); // Log the constructed URL
@@ -447,7 +444,6 @@ const Listing = () => {
         }
 
         setProperties(propertyData);
-        setTotalPages(response.data.totalPages || 1);
         setNoPropertiesFound(propertyData.length === 0);
 
         // Handle additional sorting if needed
@@ -468,21 +464,8 @@ const Listing = () => {
     return propertyData; // Return the property data
   };
 
-  const remainingPropertyCount =
-    totalPages && (totalPages - currentPage) * propertiesPerPage;
 
-  const handleLoadMore = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prevPage) => prevPage + 1);
-      fetchAndFilterProperties(city, selectedArea, selectedLocality).then(
-        (data) => {
-          if (Array.isArray(data)) {
-            setProperties((prevProperties) => [...prevProperties, ...data]);
-          }
-        }
-      );
-    }
-  };
+  
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -490,7 +473,6 @@ const Listing = () => {
     const areaParam = params.get("area") ? params.get("area").split(",") : [];
     const localityParam = params.get("locality");
 
-    setCurrentPage(1);
     fetchAndFilterProperties(
       cityParam || city,
       areaParam.length > 0 ? areaParam : [],
@@ -498,18 +480,21 @@ const Listing = () => {
     );
   }, [city, location.search]); // Add city to the dependency array
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const cityParam = params.get("city");
-    const areaParam = params.get("area") ? params.get("area").split(",") : [];
-    const localityParam = params.get("locality");
+  
+  
+useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  const cityParam = params.get("city");
+  const areaParam = params.get("area") ? params.get("area").split(",") : [];
+  const localityParam = params.get("locality");
 
-    fetchAndFilterProperties(
-      cityParam || city,
-      areaParam.length > 0 ? areaParam : [],
-      localityParam || ""
-    );
-  }, [currentPage]);
+  fetchAndFilterProperties(
+    cityParam || city,
+    areaParam.length > 0 ? areaParam : [],
+    localityParam || ""
+  );
+}, [filters, city, selectedArea, selectedLocality]);
+
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -594,21 +579,8 @@ const Listing = () => {
 
     // Update the URL with the new search parameter
     navigate(`${location.pathname}?${queryParams.toString()}`);
-
-    // Trigger fetchAndFilterProperties with the selected city and new search parameter
-    fetchAndFilterProperties(
-      city,
-      queryParams.get("area") ? queryParams.get("area").split(",") : [],
-      queryParams.get("locality") || ""
-    );
   };
-  if (loading && currentPage === 1) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <ClipLoader color="#6CC1B6" size={150} />
-      </div>
-    );
-  }
+
   const handleAddPropertybtn = () => {
     if (authState.status === true && localStorage.getItem("token")) {
       navigate("/landlord-dashboard", { state: { content: "AddProperty" } });
@@ -632,7 +604,15 @@ const Listing = () => {
   const updateFilterCount = (count) => {
     setFilterCount(count);
   };
-
+  
+  
+  if (loading ) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#6CC1B6" size={150} />
+      </div>
+    );
+  }
   return (
     <>
       {showLoginPopup && (
@@ -703,8 +683,6 @@ const Listing = () => {
                             navigate(
                               `${location.pathname}?${queryParams.toString()}`
                             );
-
-                            fetchAndFilterProperties(city, selectedArea);
                           }}
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -742,12 +720,6 @@ const Listing = () => {
                             }
                             navigate(
                               `${location.pathname}?${queryParams.toString()}`
-                            );
-
-                            fetchAndFilterProperties(
-                              city,
-                              newAreas,
-                              selectedLocality
                             );
                           }}
                           viewBox="0 0 20 20"
@@ -1028,12 +1000,9 @@ const Listing = () => {
                 city={city}
                 updateFilterCount={updateFilterCount}
                 filterCount={filterCount}
-                setTotalPages={setTotalPages}
                 filters={filters}
                 setFilters={setFilters}
                 resetFilters={resetFilters}
-                fetchAndFilterProperties={fetchAndFilterProperties}
-                setCurrentPage={setCurrentPage}
                 selectedArea={selectedArea}
                 selectedLocality={selectedLocality}
               />
@@ -1080,16 +1049,7 @@ const Listing = () => {
           </div>
         )}
 
-        {currentPage < totalPages && !loading && (
-          <div className="flex flex-col items-center my-4">
-            <button
-              onClick={handleLoadMore}
-              className="bg-[#212629] px-6 py-2 rounded-md text-lg font-medium text-gray-400 active:bg-[#5edbd3] transition active:text-gray-900"
-            >
-              Load More ({remainingPropertyCount})
-            </button>
-          </div>
-        )}
+        
       </section>
     </>
   );

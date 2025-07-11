@@ -21,26 +21,6 @@ export default function LandlordDashboardAddProperties() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      console.log("Token: ", token);
-      const isCouponUsed = await API.post(
-        "user/check-coupon-usage",
-        {
-          userId: authState.userData.id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("Coupon Usage Data: ", isCouponUsed.data.result);
-      setCouponUsage(isCouponUsed.data.result);
-    };
-    fetchData();
-  }, []);
 
   // For storing formData
   const [formData, setFormData] = useState({
@@ -94,11 +74,18 @@ export default function LandlordDashboardAddProperties() {
   //     );}
   // };
 
-  const authState = useSelector((state) => state.auth);
-  const userInfo = authState?.userData || {};
+const userInfo = useSelector((state) => state.auth.userData);
+ // const userInfo = authState?.userData || {};
+  console.log("userInf0o", userInfo);
+
 
   // Submitting form Data
   const submitForm = async (formData) => {
+    if (userInfo.properties?.length >= 1) {
+    toast.error("You can only add one property. Upgrade your plan.");
+    navigate("/pricing");
+    return;
+  }
     setLoading(true);
     const updatedFormData = {
       ...formData,
