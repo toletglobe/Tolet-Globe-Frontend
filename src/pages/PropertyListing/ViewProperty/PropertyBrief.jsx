@@ -25,7 +25,7 @@ const ItemTypes = {
   COMPARE_BUTTON: "compareButton",
 };
 
-const PropertyBrief = ({ property }) => {
+const PropertyBrief = ({ property , isOwnerOrAdmin}) => {
   const navigate = useNavigate();
   const [{ compareProperty }, dispatch] = useStateValue();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,6 +50,7 @@ const PropertyBrief = ({ property }) => {
   };
 
   useEffect(() => {
+    console.log("User data", authState?.userData)
     const fetchFavouriteProperties = async () => {
       try {
         if (!authState?.userData?.id) {
@@ -667,7 +668,7 @@ const PropertyBrief = ({ property }) => {
           </h1>
           <p className="text-gray-400 block lg:text-2xl lg:py-4">
             {/* <span className="blur-sm">,{property?.area}</span>,{property?.area}, */}
-            <span>---------</span>,{property?.area},{property?.locality},
+           <span> {isOwnerOrAdmin ? property?.address : `---------` } </span>,{property?.area},{property?.locality},
             {property?.city}
           </p>
 
@@ -837,11 +838,14 @@ const PropertyBrief = ({ property }) => {
                 {property?.firstName} {property?.lastName}
               </p>
               <p className="text-gray-500 font-normal lg:text-xl">
-                +{maskPhoneNumber(property?.ownersContactNumber)}
+               {isOwnerOrAdmin ? property.ownersContactNumber : `+${maskPhoneNumber(property?.ownersContactNumber)}` }
               </p>
             </div>
           </div>
 
+         { 
+
+         !isOwnerOrAdmin &&
           <button
             className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
             style={{ backgroundColor: "#3B9D94" }}
@@ -852,8 +856,9 @@ const PropertyBrief = ({ property }) => {
               alt="favorite"
               className="hidden md:block lg:block h-6 w-5"
             />
-            Add To Visit
+            Proceed To Visit
           </button>
+          }
         </div>
       </div>
 
