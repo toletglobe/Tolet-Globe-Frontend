@@ -43,8 +43,8 @@ const Location = ({ property, selectComp }) => {
     const newMap = new google.maps.Map(mapRef.current, {
       center: propertyLocation,
       zoom: 18, // Increased zoom level for closer view
-      minZoom: 13, // Minimum zoom level - prevents zooming out too far
-      maxZoom: 13.5, // Maximum zoom level
+      minZoom: 15, // Minimum zoom level - prevents zooming out too far
+      maxZoom: 15.5, // Maximum zoom level
       mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
       // Disable some controls for better user experience
       zoomControl: true, // Keep zoom control but restrict levels

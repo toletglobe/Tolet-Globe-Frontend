@@ -4,12 +4,17 @@ import { ClipLoader } from "react-spinners";
 
 import PropertyBrief from "./PropertyBrief";
 import PropertyDetails from "./PropertyDetails";
+import { useSelector } from "react-redux";
 
 import { API } from "../../../config/axios";
 
 function ViewProperty() {
   const { slug } = useParams();
   const [property, setProperty] = useState(null);
+  const [ isOwnerOrAdmin , setIsOwnerOrAdmin] = useState(false)
+  const authState = useSelector((state) => state.auth);
+  const currentUserId = authState?.userData?.id;
+  const currentUserRole = authState?.userData?.role;
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -20,13 +25,21 @@ function ViewProperty() {
           },
         });
         const propertyFetched = response.data;
+        console.log(propertyFetched)
+
         setProperty(propertyFetched);
+        if(property.userId){
+        setIsOwnerOrAdmin(property?.userId.toString() === currentUserId.toString() || currentUserRole === "admin");
+      }
       } catch (error) {
         console.error("Error fetching property:", error);
       }
     };
     fetchProperty();
-  }, [slug]);
+
+ }, [slug, currentUserId, currentUserRole]);
+
+  // }, [slug]);
 
   if (!property) {
     return (
@@ -38,8 +51,8 @@ function ViewProperty() {
 
   return (
     <>
-      <PropertyBrief property={property} />
-      <PropertyDetails property={property} />
+      <PropertyBrief property={property} isOwnerOrAdmin={isOwnerOrAdmin}  />
+      <PropertyDetails property={property} isOwnerOrAdmin={isOwnerOrAdmin} />
     </>
   );
 }

@@ -6,12 +6,12 @@ import { ClipLoader } from "react-spinners";
 
 import { FaSearch } from "react-icons/fa";
 
+
 import {
   APIProvider,
   Map,
-  AdvancedMarker,
-  Pin,
-  InfoWindow,
+  Marker,  // Use regular Marker instead of AdvancedMarker
+  InfoWindow 
 } from "@vis.gl/react-google-maps";
 
 import drop from "../../../assets/propertyListing/drop.png";
@@ -19,6 +19,8 @@ import areas from "./areas";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+const { google } = window;
 
 import SelectLocation from "./components/SelectLocation";
 import Filters from "./components/Filters";
@@ -177,7 +179,50 @@ const [totalPages, setTotalPages] = useState();
     { key: "Nishatganj", location: { lat: 26.87, lng: 80.95 } },
   ];
 
-  const position = cityCoordinates["Lucknow"];
+  const [mapInstance, setMapInstance] = useState(null);
+  const [highlightedArea, setHighlightedArea] = useState(null);
+  const polygonRef = useRef(null);
+
+
+useEffect(() => {
+  if (!mapInstance || !highlightedArea) {
+    if (polygonRef.current) {
+      polygonRef.current.setMap(null);
+      polygonRef.current = null;
+    }
+    return;
+  }
+
+  polygonRef.current = new window.google.maps.Polygon({
+    paths: highlightedArea,
+    strokeColor: "#6CC1B6",
+    strokeOpacity: 0.8,
+    strokeWeight: 3,
+    fillColor: "transparent",
+    map: mapInstance
+  });
+
+  return () => {
+    if (polygonRef.current) {
+      polygonRef.current.setMap(null);
+    }
+  };
+}, [highlightedArea, mapInstance]);
+
+useEffect(() => {
+  if (!city || !selectedLocality) {
+    setHighlightedArea(null);
+    return;
+  }
+
+  const cityBorders = Listing[city];
+  if (cityBorders?.[selectedLocality]) {
+    setHighlightedArea(cityBorders[selectedLocality]);
+  } else {
+    setHighlightedArea(null);
+    console.warn(`No borders for ${selectedLocality} in ${city}`);
+  }
+}, [selectedLocality, city]);
 
   // Replace your existing fetchAndFilterProperties function with this improved version
 
@@ -659,37 +704,32 @@ const addRandomOffsetToDuplicates = (markers) => {
   
   return markers;
 };
-  const PoiMarkers = (locs) => {
-    return (
-      // console.log("Rendering markers with locations:", locs),
-      <>
-        {locs.pois.map(
-          (loc) => (
-            console.log("Rendering marker for location:", loc),
-            (
-              <AdvancedMarker
-                // ref={markerRef}
-                key={loc.key} // Add key for each marker
-                position={loc.location} // Use loc to get position
-                onClick={() => navigate(`/property/${loc.key}`)}
-                onMouseEnter={() => console.log("Marker hovered:", loc.key)} // Handle hover
-                // onMouseOut={() => setHoveredMarker(null)} // Clear hovered marker
-                // onMouseEnter={() => setHovered(loc.key)}
-                // onMouseLeave={() => setHovered(false)}
-              >
-                <Pin
-                  background={"red"}
-                  glyphColor={"#000"}
-                  borderColor={"#000"}
-                />
-              </AdvancedMarker>
-            )
-          )
-        )}
-      </>
-    );
-  };  
 
+const PoiMarkers = (locs) => {
+  console.log("Google api key" , import.meta.env.VITE_GOOGLE_MAPS_ID)
+  return (
+    <>
+      {locs.pois.map((loc) => (
+        <Marker
+          key={loc.key}
+          position={loc.location}
+          onClick={() => navigate(`/property/${loc.key}`)}
+          onMouseOver={() => console.log("Marker hovered:", loc.key)}
+          // Custom marker icon (optional)
+          icon={{
+            url: 'data:image/svg+xml;base64,' + btoa(`
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
+                <circle cx="12" cy="12" r="4" fill="white"/>
+              </svg>
+            `),
+            scaledSize: new window.google.maps.Size(24, 24),
+          }}
+        />
+      ))}
+    </>
+  );
+};
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
@@ -1241,9 +1281,11 @@ useEffect(() => {
             defaultZoom={11}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
-            options={{
-              maxZoom: 13, // Set the maximum zoom level
-            }}
+            onLoad={(map) => setMapInstance(map)}
+            // options={{
+            //   minZoom: 15,
+            //   maxZoom: 15.5
+            // }}
           >
             <PoiMarkers pois={availableProperties} />
           </Map>
