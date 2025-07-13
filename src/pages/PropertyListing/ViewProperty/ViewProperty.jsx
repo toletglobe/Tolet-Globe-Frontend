@@ -11,7 +11,7 @@ import { API } from "../../../config/axios";
 function ViewProperty() {
   const { slug } = useParams();
   const [property, setProperty] = useState(null);
-  const [ isOwnerOrAdmin , setIsOwnerOrAdmin] = useState(false)
+  const [isOwnerOrAdmin, setIsOwnerOrAdmin] = useState(false);
   const authState = useSelector((state) => state.auth);
   const currentUserId = authState?.userData?.id;
   const currentUserRole = authState?.userData?.role;
@@ -25,21 +25,26 @@ function ViewProperty() {
           },
         });
         const propertyFetched = response.data;
-        console.log(propertyFetched)
-
+        console.log(propertyFetched);
         setProperty(propertyFetched);
-        if(property.userId){
-        setIsOwnerOrAdmin(property?.userId.toString() === currentUserId.toString() || currentUserRole === "admin");
-      }
       } catch (error) {
         console.error("Error fetching property:", error);
       }
     };
     fetchProperty();
+  }, [slug]);
 
- }, [slug, currentUserId, currentUserRole]);
-
-  // }, [slug]);
+  // Separate useEffect for isOwnerOrAdmin validation
+  useEffect(() => {
+    if (property && property.userId && currentUserId) {
+      const isOwner = property.userId.toString() === currentUserId.toString();
+      const isAdmin = currentUserRole === "admin";
+      setIsOwnerOrAdmin(isOwner || isAdmin);
+      console.log("property userId", property.userId);
+      console.log("Actual userId", currentUserId);
+      console.log("isOwnerOrAdmin", isOwner || isAdmin);
+    }
+  }, [property, currentUserId, currentUserRole]);
 
   if (!property) {
     return (
@@ -51,7 +56,7 @@ function ViewProperty() {
 
   return (
     <>
-      <PropertyBrief property={property} isOwnerOrAdmin={isOwnerOrAdmin}  />
+      <PropertyBrief property={property} isOwnerOrAdmin={isOwnerOrAdmin} setProperty={setProperty} />
       <PropertyDetails property={property} isOwnerOrAdmin={isOwnerOrAdmin} />
     </>
   );

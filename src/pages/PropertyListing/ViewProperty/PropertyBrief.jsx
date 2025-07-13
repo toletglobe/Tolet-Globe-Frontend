@@ -131,6 +131,9 @@ const PropertyBrief = ({ property , isOwnerOrAdmin}) => {
       (item) => item.slug === property.slug
     );
 
+    if(property.availabilityStatus !== "Available") return toast.error("This property is already rented out")
+    if(property.availabilityStatus === "NA") return toast.error("This property is Not Available")
+
     if (alreadyInCompare) {
       setErrorMessage("This property is already in the compare list!");
       setTimeout(() => setErrorMessage(""), 3000);
@@ -845,19 +848,21 @@ const PropertyBrief = ({ property , isOwnerOrAdmin}) => {
 
          { 
 
-         !isOwnerOrAdmin &&
-          <button
-            className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
-            style={{ backgroundColor: "#3B9D94" }}
-            onClick={() => addToCompare(property)}
+         !isOwnerOrAdmin && 
+
+           <button
+           className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
+           style={{ backgroundColor: "#3B9D94" }}
+           onClick={() => addToCompare(property)}
           >
             <img
               src={fav}
               alt="favorite"
               className="hidden md:block lg:block h-6 w-5"
             />
-            Proceed To Visit
-          </button>
+            { property.availabilityStatus ===  "Available"  ? "Proceed To Visit" : property.availabilityStatus === "NA" ? "Property Not Available" : "Property Rented Out" }
+            </button>
+          
           }
         </div>
       </div>
