@@ -132,6 +132,8 @@ const PropertyBrief = ({ property , isOwnerOrAdmin}) => {
     );
 
     if(property.availabilityStatus !== "Available") return toast.error("This property is already rented out")
+    if(property.availabilityStatus === "NA") return toast.error("This property is Not Available")
+
     if (alreadyInCompare) {
       setErrorMessage("This property is already in the compare list!");
       setTimeout(() => setErrorMessage(""), 3000);
@@ -858,7 +860,7 @@ const PropertyBrief = ({ property , isOwnerOrAdmin}) => {
               alt="favorite"
               className="hidden md:block lg:block h-6 w-5"
             />
-            { property.availabilityStatus === "Available" ? "Proceed To Visit" : "Property Rented Out"}
+            { property.availabilityStatus ===  "Available"  ? "Proceed To Visit" : property.availabilityStatus === "NA" ? "Property Not Available" : "Property Rented Out" }
             </button>
           
           }
