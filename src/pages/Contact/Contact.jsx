@@ -1,11 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
-
-// import { BsChatRightDots } from "react-icons/bs";
 import { IoCallOutline } from "react-icons/io5";
 import { useState } from "react";
 import { API } from "../../config/axios";
 import { toast } from "react-hot-toast";
-
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +14,7 @@ const Contact = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (evt) => {
     setFormData((prev) => ({
@@ -37,12 +34,13 @@ const Contact = () => {
   };
 
   const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    setLoading(true);
     try {
-      evt.preventDefault();
-      setLoading(true);
       const response = await API.post("contact/submit-data", formData);
       handleReset();
-      toast.success("Enquiry Sent! We will be with you shortly.");
+      toast.success("Your message has been sent successfully!");
+      setSubmitted(true);
       setLoading(false);
       console.log(response);
     } catch (error) {
@@ -53,12 +51,12 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-20 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between ">
-      {/* Contact Details Section */}
+    <div className="flex flex-col lg:flex-row lg:mt-5 lg:py-20 lg:gap-9 mx-4 md:mx-6 lg:mx-10 justify-between">
+      {/* Contact Info */}
       <div className="w-full lg:w-1/2 px-4 sm:p-6 lg:pl-10 lg:pr-52 mt-12 lg:mt-0">
         <div>
           <h1 className="text-white text-3xl md:text-4xl font-semibold">
-            Contact Us, We're Ready to Help!
+            Let’s Talk – We’re Here to Help
           </h1>
           <p className="mt-5 text-gray-400">
             We strive to provide you with the best experience and the best
@@ -86,12 +84,11 @@ const Contact = () => {
           </svg>
           <div>
             <h1 className="text-white text-xl md:text-2xl">Chat with us !!</h1>
-            <p className="text-gray-300/50 mt-1">
-              Our friendly team is here to help
-            </p>
+            <p className="text-gray-300/50 mt-1">Our friendly team is here to help</p>
             <p className="text-[#6CC1B6]">hello@toletglobe.in</p>
           </div>
         </div>
+
         <div className="flex flex-row gap-4 mt-8 md:mt-10 items-center">
           <IoCallOutline className="text-white text-3xl md:text-4xl h-14 p-2 w-14 border-2 border-white rounded-xl mt-6 mb-8" />
           <div>
@@ -105,12 +102,9 @@ const Contact = () => {
       {/* Form Section */}
       <div className="flex flex-col gap-3 w-full lg:w-1/2 px-4 sm:px-6 lg:px-14 mt-10 lg:mt-0">
         <form onSubmit={handleSubmit}>
-
-          {/* Subject div */}
+          {/* Subject */}
           <div className="flex flex-col">
-            <label htmlFor="topic" className="text-gray-400">
-              Subject
-            </label>
+            <label htmlFor="topic" className="text-gray-400">Subject</label>
             <input
               type="text"
               id="topic"
@@ -119,11 +113,11 @@ const Contact = () => {
               name="topic"
               onChange={handleChange}
               required
-              className="mt-1 border bg-transparent border-gray-300 rounded w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800 placeholder:pl-2.5"
+              className="mt-1 border bg-transparent border-gray-300 rounded w-full py-3 px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700"
             />
           </div>
 
-          {/* Name, Email, Phone Div */}
+          {/* Name, Email, Phone */}
           {["name", "email", "phone"].map((field, index) => (
             <div key={index} className="mt-5 flex flex-col">
               <label htmlFor={field} className="text-gray-400">
@@ -142,26 +136,33 @@ const Contact = () => {
                 value={formData[field]}
                 name={field}
                 onChange={handleChange}
-                className="mt-1 border bg-transparent border-gray-300 rounded w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800 placeholder:pl-2.5"
                 required={field !== "phone"}
+                className="mt-1 border bg-transparent border-gray-300 rounded w-full py-3 px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700"
               />
+              {field === "email" && (
+                <small className="text-gray-500 mt-1">
+                  Please enter a valid email so we can reply.
+                </small>
+              )}
             </div>
           ))}
+
+          {/* Message */}
           <div className="mt-5 flex flex-col">
-            <label htmlFor="msg" className="text-gray-400">
-              Message
-            </label>
+            <label htmlFor="msg" className="text-gray-400">Message</label>
             <textarea
               id="msg"
-              placeholder="Type your message..."
+              placeholder="Tell us about your issue or feedback"
               value={formData.msg}
               name="msg"
               onChange={handleChange}
               required
               rows={3}
-              className="mt-1 border bg-transparent border-gray-300 rounded w-full py-3 px-4 text-gray-400 leading-tight focus:outline-none focus:ring-2 focus:ring-green-800 placeholder:pl-2.5"
+              className="mt-1 border bg-transparent border-gray-300 rounded w-full py-3 px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700"
             />
           </div>
+
+          {/* Submit */}
           <div className="mt-6">
             {loading ? (
               <div className="flex items-center justify-center space-x-2 bg-[#6CC1B6] w-full text-black py-3 px-4 rounded">
@@ -173,10 +174,17 @@ const Contact = () => {
                 type="submit"
                 className="bg-[#6CC1B6] hover:bg-[#6dc9bd] w-full text-black font-semibold mt-3 py-3 px-4 rounded"
               >
-                Submit Query
+                Send Message
               </button>
             )}
           </div>
+
+          {/* Confirmation Message */}
+          {!loading && submitted && (
+            <p className="text-green-400 mt-4 text-center font-medium">
+              Thanks for reaching out! We’ll get back to you within 24 hours.
+            </p>
+          )}
         </form>
       </div>
     </div>
