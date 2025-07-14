@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function LatestTrending({ isLatest, handleClickLatest, handleClickTrending }) {
     return (
-        <div className="my-8 flex justify-center">
+        <div className="mt-4 sm:mt-8 mb-4 sm:mb-6 flex justify-center">
             <div className="bg-white/20 p-1 text-white rounded-lg flex flex-row gap-1">
                 <button
                     onClick={handleClickTrending}

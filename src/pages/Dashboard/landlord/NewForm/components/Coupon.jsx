@@ -2,60 +2,70 @@ import React, { useState } from "react";
 import { Check, X } from "lucide-react";
 import { API } from "../../../../../config/axios";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
-const Coupon = ({ formData, setFormData, couponUsage }) => {
+const Coupon = ({ formData, setFormData }) => {
   const [couponCode, setCouponCode] = useState("");
-  const [isApplied, setIsApplied] = useState(false);
-  const [isInvalid, setIsInvalid] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   const authState = useSelector((state) => state.auth);
   const userId = authState?.userData?.id;
 
-  const handleProcessCoupon = async (event) => {
-    event.preventDefault();
-    const trimmedCode = couponCode.trim();
+  const handleApplyCoupon = async (e) => {
+    e.preventDefault();
+    if (!couponCode.trim()) return;
 
-    if (!trimmedCode) return;
-
+    const token = localStorage.getItem("token")
+    setIsLoading(true);
     try {
-      const response = await API.post("/user/apply-coupon", {
-        userId,
-        couponCode: trimmedCode,
-      });
+      const { data } = await API.post("/user/check-coupon-usage", 
+        { 
+        userId, 
+        couponCode 
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
 
-      if (response.data.success) {
-        setIsApplied(true);
-        setIsInvalid(false);
-        setErrorMessage("");
-        setCouponCode(trimmedCode);
-        setFormData((prev) => ({ ...prev, coupon: trimmedCode }));
-
-        console.log("Coupon applied:", trimmedCode);
+      if (data.valid) {
+        setFormData({
+          ...formData,
+          coupon: couponCode,
+          couponStatus: true
+        });
+        toast.success("Coupon applied successfully!");
       } else {
-        setIsApplied(false);
-        setIsInvalid(true);
-        setErrorMessage(response.data.message || "Invalid coupon.");
-        setFormData((prev) => ({ ...prev, coupon: "" }));
+        toast.error(data.message || "Invalid coupon");
+        setFormData({
+          ...formData,
+          coupon: "",
+          couponStatus: false
+        });
       }
     } catch (error) {
-      console.error("Error applying coupon:", error);
-      setIsApplied(false);
-      setIsInvalid(true);
-      setErrorMessage(
-        error?.response?.data?.message || "Invalid or used coupon."
-      );
-      setFormData((prev) => ({ ...prev, coupon: "" }));
+      toast.error(error.response?.data?.message || "Coupon verification failed");
+      setFormData({
+        ...formData,
+        coupon: "",
+        couponStatus: false
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleResetCoupon = () => {
+  const handleRemoveCoupon = () => {
     setCouponCode("");
-    setIsApplied(false);
-    setIsInvalid(false);
-    setErrorMessage("");
-    setFormData((prev) => ({ ...prev, coupon: "" }));
+    setFormData({
+      ...formData,
+      coupon: "",
+      couponStatus: false
+    });
   };
+
+  const isCouponApplied = formData.couponStatus && formData.coupon;
 
   return (
     <div className="grid gap-y-6 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:px-2 max-sm:mt-6">
@@ -67,63 +77,48 @@ const Coupon = ({ formData, setFormData, couponUsage }) => {
         <div className="relative">
           <input
             type="text"
-            placeholder={
-              couponUsage ? "Coupon already used!" : "Enter coupon code"
-            }
             className={`bg-black w-full h-14 p-4 pr-12 rounded-md border text-white placeholder:text-[#C8C8C8] ${
-              isInvalid
-                ? "border-red-500"
-                : isApplied
+              isCouponApplied
                 ? "border-green-500"
+                : couponCode && !formData.couponStatus
+                ? "border-red-500"
                 : "border-[#C8C8C8]"
             }`}
             value={couponCode}
-            onChange={(e) => {
-              setCouponCode(e.target.value);
-              setIsApplied(false);
-              setIsInvalid(false);
-              setErrorMessage("");
-            }}
-            disabled={isApplied || couponUsage}
+            onChange={(e) => setCouponCode(e.target.value)}
+            disabled={isCouponApplied}
+            placeholder="Enter coupon code"
           />
-          {isApplied && (
-            <Check
-              size={20}
-              className="absolute top-1/2 right-4 transform -translate-y-1/2 text-green-500"
-            />
+          
+          {isCouponApplied && (
+            <Check className="absolute top-1/2 right-4 transform -translate-y-1/2 text-green-500" />
           )}
-          {isInvalid && (
-            <X
-              size={20}
-              className="absolute top-1/2 right-4 transform -translate-y-1/2 text-red-500"
-            />
+          {couponCode && !formData.couponStatus && (
+            <X className="absolute top-1/2 right-4 transform -translate-y-1/2 text-red-500" />
           )}
         </div>
 
-        {isInvalid && errorMessage && (
-          <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
-        )}
-
-        <div className="flex justify-end gap-4">
-          {(isApplied || isInvalid) && (
+        <div className="flex justify-end gap-4 mt-4">
+          {isCouponApplied ? (
             <button
-              onClick={handleResetCoupon}
-              className="mt-4 px-5 py-2 rounded-md bg-gray-600 text-white hover:bg-gray-700 transition-all"
+              onClick={handleRemoveCoupon}
+              className="px-5 py-2 rounded-md bg-gray-600 text-white hover:bg-gray-700"
             >
-              Edit
+              Remove
+            </button>
+          ) : (
+            <button
+              onClick={handleApplyCoupon}
+              disabled={!couponCode.trim() || isLoading}
+              className={`px-5 py-2 rounded-md ${
+                isLoading 
+                  ? "bg-gray-600 cursor-not-allowed" 
+                  : "bg-green-700 hover:bg-green-800"
+              } text-white`}
+            >
+              {isLoading ? "Verifying..." : "Apply"}
             </button>
           )}
-          <button
-            onClick={handleProcessCoupon}
-            disabled={isApplied || !couponCode.trim()}
-            className={`mt-4 px-5 py-2 rounded-md transition-all ${
-              isApplied
-                ? "bg-green-600 text-white cursor-default"
-                : "bg-green-700 text-white hover:bg-green-800"
-            }`}
-          >
-            {isApplied ? "Applied" : "Proceed"}
-          </button>
         </div>
       </div>
     </div>

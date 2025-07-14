@@ -6,12 +6,12 @@ import { ClipLoader } from "react-spinners";
 
 import { FaSearch } from "react-icons/fa";
 
+
 import {
   APIProvider,
   Map,
-  AdvancedMarker,
-  Pin,
-  InfoWindow,
+  Marker,  // Use regular Marker instead of AdvancedMarker
+  InfoWindow 
 } from "@vis.gl/react-google-maps";
 
 import drop from "../../../assets/propertyListing/drop.png";
@@ -19,6 +19,8 @@ import areas from "./areas";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+const { google } = window;
 
 import SelectLocation from "./components/SelectLocation";
 import Filters from "./components/Filters";
@@ -177,38 +179,53 @@ const [totalPages, setTotalPages] = useState();
     { key: "Nishatganj", location: { lat: 26.87, lng: 80.95 } },
   ];
 
-  const position = cityCoordinates["Lucknow"];
+  const [mapInstance, setMapInstance] = useState(null);
+  const [highlightedArea, setHighlightedArea] = useState(null);
+  const polygonRef = useRef(null);
 
-  const PoiMarkers = (locs) => {
-    return (
-      // console.log("Rendering markers with locations:", locs),
-      <>
-        {locs.pois.map(
-          (loc) => (
-            console.log("Rendering marker for location:", loc),
-            (
-              <AdvancedMarker
-                // ref={markerRef}
-                key={loc.key} // Add key for each marker
-                position={loc.location} // Use loc to get position
-                onClick={() => navigate(`/property/${loc.key}`)}
-                onMouseEnter={() => console.log("Marker hovered:", loc.key)} // Handle hover
-                // onMouseOut={() => setHoveredMarker(null)} // Clear hovered marker
-                // onMouseEnter={() => setHovered(loc.key)}
-                // onMouseLeave={() => setHovered(false)}
-              >
-                <Pin
-                  background={"red"}
-                  glyphColor={"#000"}
-                  borderColor={"#000"}
-                />
-              </AdvancedMarker>
-            )
-          )
-        )}
-      </>
-    );
+
+useEffect(() => {
+  if (!mapInstance || !highlightedArea) {
+    if (polygonRef.current) {
+      polygonRef.current.setMap(null);
+      polygonRef.current = null;
+    }
+    return;
+  }
+
+  polygonRef.current = new window.google.maps.Polygon({
+    paths: highlightedArea,
+    strokeColor: "#6CC1B6",
+    strokeOpacity: 0.8,
+    strokeWeight: 3,
+    fillColor: "transparent",
+    map: mapInstance
+  });
+
+  return () => {
+    if (polygonRef.current) {
+      polygonRef.current.setMap(null);
+    }
   };
+}, [highlightedArea, mapInstance]);
+
+useEffect(() => {
+  if (!city || !selectedLocality) {
+    setHighlightedArea(null);
+    return;
+  }
+
+  const cityBorders = Listing[city];
+  if (cityBorders?.[selectedLocality]) {
+    setHighlightedArea(cityBorders[selectedLocality]);
+  } else {
+    setHighlightedArea(null);
+    console.warn(`No borders for ${selectedLocality} in ${city}`);
+  }
+}, [selectedLocality, city]);
+
+  // Replace your existing fetchAndFilterProperties function with this improved version
+
 
   // const handleClick = useCallback((ev) => {
   //   // if (!map) return;
@@ -345,128 +362,374 @@ const [totalPages, setTotalPages] = useState();
     });
   };
 
-  const fetchAndFilterProperties = async (
-    selectedCity,
-    selectedArea,
-    selectedLocality
-  ) => {
-    setLoading(true);
-    let propertyData = []; // Initialize as an empty array
+const fetchAndFilterProperties = async (
+  selectedCity,
+  selectedArea,
+  selectedLocality
+) => {
+  setLoading(true);
+  let propertyData = [];
 
-    try {
-      let cleanedFilters = {
+  try {
+    let cleanedFilters = {
+      ...filters,
+      bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
+    };
+
+    if (residential) {
+      cleanedFilters = {
         ...filters,
-        bhk: filters.bhk.map((bhk) => bhk.replace(/[^0-9]/g, "")),
+        residential: [residential],
       };
+    }
 
-      if (residential) {
-        cleanedFilters = {
-          ...filters,
-          residential: [residential],
-        };
-      }
+    if (commercial) {
+      cleanedFilters = {
+        ...filters,
+        commercial: [commercial],
+      };
+    }
 
-      if (commercial) {
-        cleanedFilters = {
-          ...filters,
-          commercial: [commercial],
-        };
-      }
+    let queryString = Object.keys(cleanedFilters)
+      .filter(
+        (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
+      )
+      .map((key) => {
+        const value = Array.isArray(cleanedFilters[key])
+          ? cleanedFilters[key].map(encodeURIComponent).join(",")
+          : encodeURIComponent(cleanedFilters[key]);
+        return `${encodeURIComponent(key)}=${value}`;
+      })
+      .join("&");
 
-      let queryString = Object.keys(cleanedFilters)
-        .filter(
-          (key) => cleanedFilters[key].length > 0 || cleanedFilters[key] !== ""
-        )
-        .map((key) => {
-          const value = Array.isArray(cleanedFilters[key])
-            ? cleanedFilters[key].map(encodeURIComponent).join(",")
-            : encodeURIComponent(cleanedFilters[key]);
-          return `${encodeURIComponent(key)}=${value}`;
-        })
-        .join("&");
-
-      if (selectedCity) {
-        queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
-        setMapCenter(cityCoordinates[selectedCity]);
-        if (selectedArea.length > 0) {
-          queryString =
-            queryString +
-            `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
-        } else if (selectedLocality) {
-          queryString =
-            queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
+    if (selectedCity) {
+      queryString = queryString + `&city=${encodeURIComponent(selectedCity)}`;
+      setMapCenter(cityCoordinates[selectedCity]);
+      if (selectedArea.length > 0) {
+        queryString =
+          queryString +
+          `&area=${selectedArea.map(encodeURIComponent).join(",")}`;
+      } else if (selectedLocality) {
+        queryString =
+          queryString + `&locality=${encodeURIComponent(selectedLocality)}`;
+        if (localityCoordinates[selectedCity] && localityCoordinates[selectedCity][selectedLocality]) {
           setMapCenter(localityCoordinates[selectedCity][selectedLocality]);
         }
       }
+    }
 
-       queryString = queryString + `&limit=1000`; // optional
+    queryString = queryString + `&limit=1000`;
 
-      const url = `property/filter?${queryString}`;
-      // console.log("Request URL:", url); // Log the constructed URL
+    const url = `property/filter?${queryString}`;
+    console.log("Fetching from URL:", url);
 
-      try {
-        const response = await API.get(url);
+    try {
+      const response = await API.get(url);
+      propertyData = response.data.data || [];
+      
+      console.log("Raw property data received:", propertyData);
+      
+      // Enhanced debugging for coordinates
+      const debugPropertyCoordinates = (properties) => {
+        console.log("=== DEBUGGING PROPERTY COORDINATES ===");
+        console.log("Total properties received:", properties.length);
+        
+        const coordinateStats = {
+          valid: 0,
+          invalid: 0,
+          duplicate: {},
+          cityCenter: 0
+        };
+        
+        properties.forEach((property, index) => {
+          const lat = parseFloat(property.latitude);
+          const lng = parseFloat(property.longitude);
+          const coordKey = `${lat},${lng}`;
+          
+          // Check if it's city center coordinates
+          const isCityCenter = Object.values(cityCoordinates).some(
+            cityCoord => Math.abs(cityCoord.lat - lat) < 0.001 && Math.abs(cityCoord.lng - lng) < 0.001
+          );
+          
+          if (isCityCenter) {
+            coordinateStats.cityCenter++;
+          }
+          
+          // Track duplicate coordinates
+          if (coordinateStats.duplicate[coordKey]) {
+            coordinateStats.duplicate[coordKey]++;
+          } else {
+            coordinateStats.duplicate[coordKey] = 1;
+          }
+          
+          const hasValidCoords = !isNaN(lat) && !isNaN(lng) && 
+                               lat !== 0 && lng !== 0 &&
+                               lat >= -90 && lat <= 90 &&
+                               lng >= -180 && lng <= 180;
+          
+          if (hasValidCoords) {
+            coordinateStats.valid++;
+          } else {
+            coordinateStats.invalid++;
+          }
+          
+          console.log(`Property ${index + 1}:`, {
+            slug: property.slug,
+            address: property.address,
+            area: property.area,
+            locality: property.locality,
+            latitude: property.latitude,
+            longitude: property.longitude,
+            parsedLat: lat,
+            parsedLng: lng,
+            latType: typeof property.latitude,
+            lngType: typeof property.longitude,
+            hasValidCoords,
+            isCityCenter,
+            coordKey
+          });
+        });
+        
+        console.log("Coordinate Statistics:", coordinateStats);
+        
+        // Show duplicate coordinates
+        const duplicates = Object.entries(coordinateStats.duplicate).filter(([key, count]) => count > 1);
+        if (duplicates.length > 0) {
+          console.warn("DUPLICATE COORDINATES FOUND:", duplicates);
+        }
+        
+        if (coordinateStats.cityCenter > 0) {
+          console.warn(`WARNING: ${coordinateStats.cityCenter} properties are using city center coordinates!`);
+        }
+      };
+      
+      debugPropertyCoordinates(propertyData);
 
-        propertyData = response.data.data || [];
-
-        let available = propertyData
-          .filter((property) => property.availabilityStatus === "Available")
-          .map((property) => ({
+      // Enhanced marker creation with better fallback logic
+      let allPropertyMarkers = propertyData
+        .map((property, index) => {
+          const lat = parseFloat(property.latitude);
+          const lng = parseFloat(property.longitude);
+          
+          // Check if coordinates are valid and not city center
+          const hasValidCoords = !isNaN(lat) && !isNaN(lng) && 
+                               lat !== 0 && lng !== 0 &&
+                               lat >= -90 && lat <= 90 &&
+                               lng >= -180 && lng <= 180;
+          
+          // Check if it's using city center coordinates (which might indicate missing data)
+          const isCityCenter = Object.values(cityCoordinates).some(
+            cityCoord => Math.abs(cityCoord.lat - lat) < 0.001 && Math.abs(cityCoord.lng - lng) < 0.001
+          );
+          
+          if (!hasValidCoords) {
+            console.warn(`Property ${index + 1} has invalid coordinates:`, {
+              slug: property.slug,
+              address: property.address,
+              originalLat: property.latitude,
+              originalLng: property.longitude,
+              parsedLat: lat,
+              parsedLng: lng
+            });
+            
+            // Try to use area/locality coordinates as fallback
+            const fallbackCoords = getFallbackCoordinates(property, selectedCity);
+            if (fallbackCoords) {
+              console.log(`Using fallback coordinates for ${property.slug}:`, fallbackCoords);
+              return {
+                key: property.slug,
+                location: fallbackCoords,
+                property: property,
+                isFallback: true
+              };
+            }
+            return null; // Skip this property if no valid coordinates
+          }
+          
+          // If using city center coordinates, try to find better coordinates
+          if (isCityCenter) {
+            console.warn(`Property ${property.slug} is using city center coordinates`);
+            const fallbackCoords = getFallbackCoordinates(property, selectedCity);
+            if (fallbackCoords && !areCoordsEqual(fallbackCoords, { lat, lng })) {
+              console.log(`Using better fallback coordinates for ${property.slug}:`, fallbackCoords);
+              return {
+                key: property.slug,
+                location: fallbackCoords,
+                property: property,
+                isFallback: true
+              };
+            }
+          }
+          
+          return {
             key: property.slug,
             location: {
-              lat: parseFloat(property.latitude),
-              lng: parseFloat(property.longitude),
+              lat: lat,
+              lng: lng,
             },
-          }));
+            property: property,
+            isFallback: false
+          };
+        })
+        .filter(marker => marker !== null); // Remove null entries
 
-        setAvailableProperties(available);
+      // Add some random offset to properties with same coordinates to prevent overlapping
+      allPropertyMarkers = addRandomOffsetToDuplicates(allPropertyMarkers);
 
-        console.log("Available properties:", available);
+      console.log("Valid property markers created:", allPropertyMarkers.length);
+      console.log("Property markers:", allPropertyMarkers);
 
-        // Handle fallback logic if no properties are found
-        if (
-          propertyData.length === 0 &&
-          selectedArea.length > 0 &&
-          selectedLocality
-        ) {
-          queryString = queryString.replace(
-            /&area=[^&]*/,
-            `&locality=${encodeURIComponent(selectedLocality)}`
-          );
-          const fallbackUrl = `property/filter?${queryString}`;
-          const fallbackResponse = await API.get(fallbackUrl);
-          propertyData = fallbackResponse.data.data || []; // Ensure fallback data is also an array
-        }
+      setAvailableProperties(allPropertyMarkers);
 
-        // Sort properties by availability status (available first, then others)
-        if (propertyData && Array.isArray(propertyData)) {
-          propertyData = sortPropertiesByAvailability(propertyData);
-        }
-
-        setProperties(propertyData);
-        setNoPropertiesFound(propertyData.length === 0);
-
-        // Handle additional sorting if needed
-        const searchParams = new URLSearchParams(location.search);
-        const sortType = searchParams.get("sort");
-        if (sortType && Array.isArray(propertyData)) {
-          propertyData = sortPropertiesByAvailability(propertyData);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      // Handle fallback logic if no properties are found
+      if (
+        propertyData.length === 0 &&
+        selectedArea.length > 0 &&
+        selectedLocality
+      ) {
+        queryString = queryString.replace(
+          /&area=[^&]*/,
+          `&locality=${encodeURIComponent(selectedLocality)}`
+        );
+        const fallbackUrl = `property/filter?${queryString}`;
+        const fallbackResponse = await API.get(fallbackUrl);
+        propertyData = fallbackResponse.data.data || [];
+        
+        // Process fallback data the same way
+        allPropertyMarkers = propertyData
+          .map((property) => {
+            const lat = parseFloat(property.latitude);
+            const lng = parseFloat(property.longitude);
+            
+            if (!isNaN(lat) && !isNaN(lng) && lat !== 0 && lng !== 0) {
+              return {
+                key: property.slug,
+                location: {
+                  lat: lat,
+                  lng: lng,
+                },
+                property: property,
+                isFallback: false
+              };
+            }
+            return null;
+          })
+          .filter(marker => marker !== null);
+        
+        setAvailableProperties(allPropertyMarkers);
       }
 
-      setLoading(false);
+      if (propertyData && Array.isArray(propertyData)) {
+        propertyData = sortPropertiesByAvailability(propertyData);
+      }
+
+      setProperties(propertyData);
+      setNoPropertiesFound(propertyData.length === 0);
+
     } catch (error) {
-      console.error("Error fetching properties:", error);
-      setLoading(false);
+      console.error("Error fetching data:", error);
     }
-    return propertyData; // Return the property data
-  };
 
+    setLoading(false);
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+    setLoading(false);
+  }
+  return propertyData;
+};
 
+// Helper function to get fallback coordinates
+const getFallbackCoordinates = (property, selectedCity) => {
+  // First try locality coordinates
+  if (property.locality && localityCoordinates[selectedCity] && localityCoordinates[selectedCity][property.locality]) {
+    return localityCoordinates[selectedCity][property.locality];
+  }
   
+  // Then try area coordinates
+  if (property.area && localityCoordinates[selectedCity] && localityCoordinates[selectedCity][property.area]) {
+    return localityCoordinates[selectedCity][property.area];
+  }
+  
+  // Try to extract area from address
+  if (property.address) {
+    const addressLower = property.address.toLowerCase();
+    const availableAreas = localityCoordinates[selectedCity] || {};
+    
+    for (const [area, coords] of Object.entries(availableAreas)) {
+      if (addressLower.includes(area.toLowerCase())) {
+        return coords;
+      }
+    }
+  }
+  
+  return null;
+};
 
+// Helper function to check if coordinates are equal (with tolerance)
+const areCoordsEqual = (coord1, coord2, tolerance = 0.001) => {
+  return Math.abs(coord1.lat - coord2.lat) < tolerance && 
+         Math.abs(coord1.lng - coord2.lng) < tolerance;
+};
+
+// Helper function to add random offset to properties with duplicate coordinates
+const addRandomOffsetToDuplicates = (markers) => {
+  const coordinateGroups = {};
+  
+  // Group markers by coordinates
+  markers.forEach(marker => {
+    const key = `${marker.location.lat.toFixed(4)},${marker.location.lng.toFixed(4)}`;
+    if (!coordinateGroups[key]) {
+      coordinateGroups[key] = [];
+    }
+    coordinateGroups[key].push(marker);
+  });
+  
+  // Add small random offsets to duplicates
+  Object.entries(coordinateGroups).forEach(([key, group]) => {
+    if (group.length > 1) {
+      console.log(`Adding offsets to ${group.length} properties with duplicate coordinates:`, key);
+      
+      group.forEach((marker, index) => {
+        if (index > 0) { // Keep the first one as-is
+          const offsetLat = (Math.random() - 0.5) * 0.002; // ~200m offset
+          const offsetLng = (Math.random() - 0.5) * 0.002;
+          
+          marker.location.lat += offsetLat;
+          marker.location.lng += offsetLng;
+          marker.hasOffset = true;
+        }
+      });
+    }
+  });
+  
+  return markers;
+};
+
+const PoiMarkers = (locs) => {
+  console.log("Google api key" , import.meta.env.VITE_GOOGLE_MAPS_ID)
+  return (
+    <>
+      {locs.pois.map((loc) => (
+        <Marker
+          key={loc.key}
+          position={loc.location}
+          onClick={() => navigate(`/property/${loc.key}`)}
+          onMouseOver={() => console.log("Marker hovered:", loc.key)}
+          // Custom marker icon (optional)
+          icon={{
+            url: 'data:image/svg+xml;base64,' + btoa(`
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
+                <circle cx="12" cy="12" r="4" fill="white"/>
+              </svg>
+            `),
+            scaledSize: new window.google.maps.Size(24, 24),
+          }}
+        />
+      ))}
+    </>
+  );
+};
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
@@ -1018,9 +1281,11 @@ useEffect(() => {
             defaultZoom={11}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
-            options={{
-              maxZoom: 13, // Set the maximum zoom level
-            }}
+            onLoad={(map) => setMapInstance(map)}
+            // options={{
+            //   minZoom: 15,
+            //   maxZoom: 15.5
+            // }}
           >
             <PoiMarkers pois={availableProperties} />
           </Map>

@@ -11,7 +11,7 @@ const BlogBody = ({data, handleViewBlog}) => {
                     ? `${data.title.slice(0, 45)}...`
                     : data.title}
             </button>
-            <p className="text-base text-gray-400 my-4 text-justify min-h-20">
+            <p className="text-base text-grey-400 my-4 text-justify min-h-20">
                 {data?.intro.length > 100
                     ? `${data.intro.slice(0, 100)}...`
                     : data.intro}
