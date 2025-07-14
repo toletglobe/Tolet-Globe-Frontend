@@ -46,7 +46,7 @@ export default function About() {
       <div className="mt-24 mb-12 ">
         <div className="text-center mb-2 ">
           <h1 className="border-[#6cc0c4] border-[2px] lg:border-[5px] rounded-xl lg:rounded-[64.92px] text-[#E59948] lg:text-[#E8B636] lg:uppercase inline text-2xl sm:text-3xl lg:text-4xl py-2 px-10 md:px-16 lg:px-20 font-bold">
-            Who We Are & Why We Built ToLet Globe
+            Who We Are 
           </h1>
           <div className="text-center px-4 max-w-3xl mx-auto mt-6">
             <p className="text-base sm:text-lg leading-7 text-gray-700">
