@@ -197,24 +197,27 @@ export default function CompareProperty({
           >
             Compare with similar properties
           </h4>
-          <div className="text-sm sm:text-lg text-white font-bold ml-4">
-            <button
-              className="bg-teal-500 px-3 py-1 sm:px-6 sm:py-2 rounded-md whitespace-nowrap"
-              onClick={() => {
-                if (
-                  authState.status === true &&
-                  localStorage.getItem("token")
-                ) {
-                  navigate("/pricing");
-                } else {
-                  toast.error("Please Log In first");
-                  navigate("/login");
-                }
-              }}
-            >
-              Proceed To Visit
-            </button>
-          </div>
+        <div className="text-sm sm:text-lg text-white font-bold ml-4 flex gap-4">
+  <button
+    className="bg-red-500 hover:bg-red-600 px-3 py-1 sm:px-6 sm:py-2 rounded-md whitespace-nowrap transition duration-200"
+    onClick={handleRemoveAll}
+  >
+    Remove All
+  </button>
+  <button
+    className="bg-teal-500 px-3 py-1 sm:px-6 sm:py-2 rounded-md whitespace-nowrap"
+    onClick={() => {
+      if (authState.status === true && localStorage.getItem("token")) {
+        navigate("/pricing");
+      } else {
+        toast.error("Please Log In first");
+        navigate("/login");
+      }
+    }}
+  >
+    Proceed To Visit
+  </button>
+</div>
         </div>
 
         {/* Property Cards */}
@@ -496,3 +499,9 @@ export default function CompareProperty({
     </>
   );
 }
+const handleRemoveAll = () => {
+  dispatch({
+    type: "CLEAR_COMPARE",
+  });
+  toast.success("All properties removed from comparison!");
+};
