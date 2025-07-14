@@ -159,11 +159,9 @@ const Pricing = () => {
   return (
     <div className="min-h-screen bg- text-white py-16 px-4">
       <div className="max-w-7xl mx-auto text-center">
-        <h1 className="text-4xl font-bold mb-4">Choose Your Perfect Plan</h1>
+        <h1 className="text-4xl font-bold mb-4">Find Your Ideal Rental Plan</h1>
         <p className="text-gray-400 mb-12 max-w-2xl mx-auto">
-          Find your ideal property with our flexible subscription options.
-          Whether you're looking for a free experience or premium support, we've
-          got you covered.
+         From free tools to full support — we’ve got a plan for every renter.
         </p>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
