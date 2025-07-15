@@ -16,8 +16,7 @@ function ViewProperty() {
   const currentUserId = authState?.userData?.id;
   const currentUserRole = authState?.userData?.role;
 
-  useEffect(() => {
-    const fetchProperty = async () => {
+  const fetchProperty = async () => {
       try {
         const response = await API.get(`property/slug/${slug}`, {
           headers: {
@@ -31,6 +30,7 @@ function ViewProperty() {
         console.error("Error fetching property:", error);
       }
     };
+  useEffect(() => {
     fetchProperty();
   }, [slug]);
 
@@ -56,7 +56,7 @@ function ViewProperty() {
 
   return (
     <>
-      <PropertyBrief property={property} isOwnerOrAdmin={isOwnerOrAdmin} setProperty={setProperty} />
+      <PropertyBrief property={property} isOwnerOrAdmin={isOwnerOrAdmin} setProperty={setProperty} fetchProperty={fetchProperty} />
       <PropertyDetails property={property} isOwnerOrAdmin={isOwnerOrAdmin} />
     </>
   );
