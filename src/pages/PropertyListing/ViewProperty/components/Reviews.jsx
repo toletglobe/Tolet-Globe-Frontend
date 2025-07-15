@@ -130,12 +130,12 @@ const Reviews = ({ property }) => {
     currentPage > 1 && setCurrentPage(currentPage - 1);
 
   return (
-    <div className="w-full p-6 bg-white shadow-lg rounded-2xl ">
-      <h1 className="text-2xl text-center my-4 lg:text-left lg:mx-8 lg:my-4 font-bold text-black">
+    <div className="lg:w-[65.6vw] lg:ml-[19rem] p-6 bg-white shadow-lg rounded-2xl ">
+      <h1 className="lg:text-2xl text-center my-4 lg:text-left lg:mx-8 lg:my-4 font-semibold text-black">
         Reviews
       </h1>
       <div className="flex flex-wrap lg:flex-nowrap justify-between gap-6 mb-6 lg:mx-6 ">
-        <div className="flex flex-col lg:gap-4  items-center  w-full lg:w-1/2 px-2 p-12 lg:p-0 lg:px-4 border border-black rounded-lg shadow-md bg-white justify-center">
+        <div className="flex flex-col lg:gap-4  items-center  w-96 lg:w-1/2 px-2 p-12 lg:p-0 lg:px-4 border border-black rounded-lg shadow-md bg-white justify-center">
           <h2 className="block lg:hidden xl:text-5xl lg:text-4xl text-xl font-bold  text-black">
             Average Rating: {totalReviews.length > 0 ? averageRating : 0} / 5
           </h2>
