@@ -16,7 +16,6 @@ import {
 
 import drop from "../../../assets/propertyListing/drop.png";
 import areas from "./areas";
-
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -106,7 +105,6 @@ const [totalPages, setTotalPages] = useState();
 
   const [filterCount, setFilterCount] = useState(0);
 
-  const authState = useSelector((state) => state.auth);
   const [noPropertiesFound, setNoPropertiesFound] = useState(false);
   const [selectedLocality, setSelectedLocality] = useState("");
   const [selectedArea, setSelectedArea] = useState([]);
@@ -171,6 +169,9 @@ const [totalPages, setTotalPages] = useState();
   // Add this state for tracking window width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+    const authState = useSelector((state) => state.auth);
+    const currentUserId = authState?.userData?.id;
+    const currentUserRole = authState?.userData?.role;
   // Add a new ref for the search panel
   const searchPanelRef = useRef(null);
 
@@ -1294,19 +1295,22 @@ useEffect(() => {
           )} */}
         </div>
 
-        <div className="pt-3">
-          {properties.length === 0 ? (
-            <p className="text-center text-lg font-semibold mt-10">
-              No properties found
-            </p>
-          ) : (
-            <Cards
-              properties={properties}
-              favouriteList={favouriteList}
-              setFavouriteList={setFavouriteList}
-            />
-          )}
-        </div>
+          <div className="pt-3">
+            {properties.length === 0 ? (
+              <p className="text-center text-lg font-semibold mt-10">
+                No properties found
+              </p>
+            ) : (
+              <Cards
+                properties={properties.map(property => ({
+                  ...property,
+                  isOwnerOrAdmin: property.userId === currentUserId || currentUserRole === 'admin'
+                }))}
+                favouriteList={favouriteList}
+                setFavouriteList={setFavouriteList}
+              />
+            )}
+          </div>
 
         {loading && (
           <div className="flex justify-center my-4">
