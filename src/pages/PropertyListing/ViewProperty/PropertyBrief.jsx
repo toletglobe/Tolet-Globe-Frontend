@@ -25,7 +25,7 @@ const ItemTypes = {
   COMPARE_BUTTON: "compareButton",
 };
 
-const PropertyBrief = ({ property }) => {
+const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
   const navigate = useNavigate();
   const [{ compareProperty }, dispatch] = useStateValue();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,6 +50,7 @@ const PropertyBrief = ({ property }) => {
   };
 
   useEffect(() => {
+    console.log("User data", authState?.userData)
     const fetchFavouriteProperties = async () => {
       try {
         if (!authState?.userData?.id) {
@@ -130,6 +131,9 @@ const PropertyBrief = ({ property }) => {
       (item) => item.slug === property.slug
     );
 
+    // if(property.availabilityStatus !== "Available") return toast.error("This property is already rented out")
+    // if(property.availabilityStatus === "NA") return toast.error("This property is Not Available")
+
     if (alreadyInCompare) {
       setErrorMessage("This property is already in the compare list!");
       setTimeout(() => setErrorMessage(""), 3000);
@@ -181,6 +185,39 @@ const PropertyBrief = ({ property }) => {
       toast.error("Failed to add to favorites");
     }
   };
+
+  // Change the availibility status. 
+  const changeAvailibilityStatus = async (propertyId) => {
+  try {
+    const newStatus = property.availabilityStatus === "Available" 
+      ? "Rented Out" 
+      : "Available";
+    
+    const token = localStorage.getItem("token");
+    await API.put(
+      `property/${propertyId}/availability`,
+      { availabilityStatus: newStatus },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    
+    toast.success(
+      `Property marked as ${newStatus === "Available" 
+        ? "Available" 
+        : "Rented Out"} successfully`
+    );
+    
+    // Refresh the property data
+    await fetchProperty();
+    
+  } catch (error) {
+    console.error("Error updating availability status:", error);
+    toast.error("Failed to update availability status");
+  }
+};
 
   const removeFromFavourites = async (propertyId) => {
     try {
@@ -656,7 +693,7 @@ const PropertyBrief = ({ property }) => {
       <div className="md:flex justify-between pt-8">
         <div className="lg:w-[40%]">
           <h1 className="text-left text-white lg:text-5xl">
-            {property?.propertyType}
+            {property?.propertyType} 
             <span>
               <img
                 src={shield}
@@ -667,7 +704,7 @@ const PropertyBrief = ({ property }) => {
           </h1>
           <p className="text-gray-400 block lg:text-2xl lg:py-4">
             {/* <span className="blur-sm">,{property?.area}</span>,{property?.area}, */}
-            <span>---------</span>,{property?.area},{property?.locality},
+           <span> {isOwnerOrAdmin ? property?.address : `---------` } </span>,{property?.area},{property?.locality},
             {property?.city}
           </p>
 
@@ -837,23 +874,42 @@ const PropertyBrief = ({ property }) => {
                 {property?.firstName} {property?.lastName}
               </p>
               <p className="text-gray-500 font-normal lg:text-xl">
-                +{maskPhoneNumber(property?.ownersContactNumber)}
+               {isOwnerOrAdmin ? property.ownersContactNumber : `+${maskPhoneNumber(property?.ownersContactNumber)}` }
               </p>
             </div>
           </div>
 
+        {isOwnerOrAdmin ? (
           <button
             className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
             style={{ backgroundColor: "#3B9D94" }}
-            onClick={() => addToCompare(property)}
+            onClick={() => changeAvailibilityStatus(property._id)}
           >
             <img
               src={fav}
               alt="favorite"
               className="hidden md:block lg:block h-6 w-5"
             />
-            Add To Visit
+            {property.availabilityStatus === "Available" 
+              ? "Mark as Rented Out" 
+              : "Mark as Available"}
           </button>
+        ) : (
+          <button
+            className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
+            style={{ backgroundColor: "#3B9D94" }}
+            onClick={() => addToCompare(property)}
+          >
+    <img
+      src={fav}
+      alt="favorite"
+      className="hidden md:block lg:block h-6 w-5"
+    />
+    {property.availabilityStatus === "Available" 
+      ? "Proceed To Visit" 
+      : "Property Not Available"}
+  </button>
+)}
         </div>
       </div>
 

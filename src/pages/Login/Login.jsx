@@ -49,9 +49,9 @@ const Login = ({ setUserInfo }) => {
       if (res.status === 200 && data.token) {
         // Store the necessary information in localStorage
         localStorage.setItem("token", data.token);
-        localStorage.setItem("User", data.user.role);
         localStorage.setItem("userType", data.user.userType);
         localStorage.setItem("userId", data.user.id);
+        localStorage.setItem("userId", data.user.properties);
 
         // Dispatch the login action with the user data
         dispatch(
@@ -62,8 +62,8 @@ const Login = ({ setUserInfo }) => {
               firstName: data.user.firstName,
               lastName: data.user.lastName,
               email: data.user.email,
-              role: data.user.role,
               profilePicture: data.user.profilePicture,
+              properties:[],
             },
           })
         );

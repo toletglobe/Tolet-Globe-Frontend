@@ -14,6 +14,7 @@ const LandlordDashboardProfileForm = () => {
     email: "",
     phoneNumber: "",
     profilePicture: "",
+    properties:[],
   });
 
   const [isChanged, setIsChanged] = useState(false);
@@ -37,6 +38,7 @@ const LandlordDashboardProfileForm = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+      //  console.log("data",response.data)
 
         // Use 'id' as the 'userId'
         setUserInfo({
@@ -46,7 +48,9 @@ const LandlordDashboardProfileForm = () => {
           email: response.data.email,
           phoneNumber: response.data.phoneNumber,
           profilePicture: response.data.profilePicture, // Set profile picture
+          properties:response.data.properties,
         });
+        console.log("User info set:", response.data); // logs raw API data
       } catch (error) {
         console.error("Error fetching user info:", error);
       }
