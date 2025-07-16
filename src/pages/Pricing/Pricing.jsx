@@ -175,15 +175,14 @@ const Pricing = () => {
               {plan.badge && (
                 <div className={plan.badgeStyle}>{plan.badge}</div>
               )}
-              <h2 className="text-2xl font-bold mb-2">{plan.title}</h2>
-              <div className="flex items-baseline justify-center mb-2">
-                <span className="text-4xl font-bold text-yellow-400">
+              <h2 className="text-2xl font-bold mb-2">{plan.title}</h2>{" "}
+              <div className="flex items-baseline justify-center items-center mb-2">
+                <span className="text-gray-400 ml-1 ">{plan.period}</span>
+                <span className="text-4xl font-bold text-yellow-400 ml-1">
                   {plan.price}
                 </span>
-                <span className="text-gray-400 ml-1">{plan.period}</span>
               </div>
               <p className="text-gray-400 mb-6">{plan.description}</p>
-
               <ul className="space-y-4 mb-8 text-left">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-center">
@@ -196,7 +195,6 @@ const Pricing = () => {
                   </li>
                 ))}
               </ul>
-
               <button
                 onClick={() => handlePlanClick(plan)}
                 className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors ${plan.buttonStyle}`}
