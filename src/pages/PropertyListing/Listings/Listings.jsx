@@ -862,6 +862,11 @@ useEffect(() => {
       compare();
     }
   };
+
+const handleClearCompare = () => {
+  console.log("Cancel clicked. Clearing compare list...");
+  dispatch({ type: "CLEAR_COMPARE" });
+};
   const compare = () => {
     navigate("/compare-property");
   };
@@ -1213,22 +1218,36 @@ useEffect(() => {
 
             <div className="sm:col-span-4 md:col-span-4 flex w-fit xs:w-[50%]  items-center justify-center lg:justify-between -mt-[76px] ml-[98px] xs:[96px] lg:ml-4 lg:mt-0">
               {compareProperty.length >= 1 && (
-                <div className="compare">
-                  <button
-                    onClick={handleVisit}
-                    className={`bg-white h-11 sm:h-14 w-20 md:w-32 ml-20 md:ml-0 text-black cursor-pointer rounded-lg flex gap-2 lg:gap-5 text-center items-center px-3 sm:px-7 lg:py-7 text-sm font-medium ${
-                      compareProperty.length <= 0
-                        ? "opacity-50 grayscale cursor-not-allowed"
-                        : ""
-                    }`}
-                    disabled={compareProperty.length <= 0}
-                  >
-                    Visit
-                    <div className="bg-[#EED98B] rounded-full flex items-center justify-center px-2">
-                      {compareProperty.length}
-                    </div>
-                  </button>
-                </div>
+   <div className="compare relative w-fit ml-20 md:ml-0">
+  {/* Visit Button */}
+  <button
+    onClick={handleVisit}
+    className={`relative bg-white h-11 sm:h-14 w-20 md:w-32 text-black cursor-pointer rounded-lg flex gap-2 lg:gap-5 text-center items-center px-3 sm:px-7 lg:py-7 text-sm font-medium ${
+      compareProperty.length <= 0
+        ? "opacity-50 grayscale cursor-not-allowed"
+        : ""
+    }`}
+    disabled={compareProperty.length <= 0}
+  >
+    Visit
+    <div className="bg-[#EED98B] rounded-full flex items-center justify-center px-2">
+      {compareProperty.length}
+    </div>
+  </button>
+
+  {/* Cancel Button outside Visit button */}
+  {compareProperty.length > 0 && (
+    <button
+       onClick={handleClearCompare}
+      className="absolute top-[-10px] right-[-10px] bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600 z-10"
+      type="button"
+    >
+      ×
+    </button>
+  )}
+</div>
+
+
               )}
 
               <div className="hidden">
