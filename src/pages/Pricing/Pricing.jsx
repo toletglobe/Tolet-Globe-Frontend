@@ -168,41 +168,56 @@ const Pricing = () => {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className="bg-[#1a1f2e] rounded-2xl p-8 relative"
-            >
-              {plan.badge && (
-                <div className={plan.badgeStyle}>{plan.badge}</div>
-              )}
-              <h2 className="text-2xl font-bold mb-2">{plan.title}</h2>{" "}
-              <div className="flex items-baseline justify-center items-center mb-2">
-                <span className="text-gray-400 ml-1 ">{plan.period}</span>
-                <span className="text-4xl font-bold text-yellow-400 ml-1">
-                  {plan.price}
-                </span>
-              </div>
-              <p className="text-gray-400 mb-6">{plan.description}</p>
-              <ul className="space-y-4 mb-8 text-left">
-                {plan.features.map((feature, index) => (
-                  <li key={index} className="flex items-center">
-                    <img
-                      src={feature.icon}
-                      alt="icon"
-                      className="w-5 h-5 text-green-500 mr-3"
-                    />
-                    {feature.text}
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={() => handlePlanClick(plan)}
-                className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors ${plan.buttonStyle}`}
-              >
-                {plan.buttonText}
-              </button>
-            </div>
-          ))}
+  <div
+    key={plan.id}
+    className="bg-[#1a1f2e] rounded-2xl p-8 relative shadow-xl"
+  >
+    {plan.badge && (
+      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#38f8cf] text-white text-xs font-bold px-4 py-1 rounded-full shadow-md z-10">
+        {plan.badge}
+      </div>
+    )}
+
+    <h2 className="text-2xl font-bold mb-2 text-white">{plan.title}</h2>
+
+    <div className="flex items-baseline justify-center mb-2">
+     <div className="flex items-baseline justify-center space-x-1 mb-2">
+  {plan.text && (
+    <span className="text-sm font-semibold text-gray-400">
+      {plan.text}
+    </span>
+  )}
+  <span className="text-3xl font-bold text-yellow-400">
+    {plan.price}/-
+  </span>
+</div>
+
+    </div>
+
+    <p className="text-gray-400 mb-6 text-sm">{plan.description}</p>
+
+    <ul className="space-y-4 mb-8 text-left">
+      {plan.features.map((feature, index) => (
+        <li key={index} className="flex items-center text-white">
+          <img
+            src={feature.icon}
+            alt="icon"
+            className="w-5 h-5 mr-3"
+          />
+          <span className="text-sm">{feature.text}</span>
+        </li>
+      ))}
+    </ul>
+
+    <button
+      onClick={() => handlePlanClick(plan)}
+      className="w-full py-3 px-6 rounded-lg font-semibold bg-yellow-400 text-black hover:bg-yellow-300 transition-colors"
+    >
+      {plan.buttonText}
+    </button>
+  </div>
+))}
+
         </div>
 
         {/* Subscription Form Modal */}
