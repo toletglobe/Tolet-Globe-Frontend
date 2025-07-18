@@ -310,7 +310,6 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
 
 
                   {/* SHORTLIST FOR VISIT */}
-                  {!property.isOwnerOrAdmin && 
                   <Popup
                     trigger={
                       <a
@@ -327,26 +326,25 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                       >
                         {isInCompareList(property) ? (
                           <IoRemove
-                          className="card_icon"
+                            className="card_icon"
                             style={{ color: "#ff0000", fontSize: "12px" }}
-                            />
-                          ) : (
-                            <IoAdd
+                          />
+                        ) : (
+                          <IoAdd
                             className="card_icon"
                             style={{ color: "#000000", fontSize: "12px" }}
-                            />
-                          )}
+                          />
+                        )}
                       </a>
                     }
                     position="top center"
                     on="hover"
                     arrow={true}
-                    >
+                  >
                     <div className="bg-gray-800 text-white px-2 py-1 rounded text-sm">
-                      Add for Visit
+                      Shortlist for Visit
                     </div>
                   </Popup>
-                  }
 
                   {/* ADD TO FAVOURITES */}
                   <Popup
