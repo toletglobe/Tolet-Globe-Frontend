@@ -90,6 +90,8 @@ const Filters = ({
       queryParams.set("commercial", "Warehouse");
       queryParams.delete("residential");
     }
+    // Clear any existing gender preference from the URL
+    queryParams.delete("genderPreference");
     // Navigate to update the URL
     navigate(`?${queryParams.toString()}`);
     // Reset other filters
@@ -353,13 +355,13 @@ const Filters = ({
 
       {selectedCategory === "PG" && (
         <div className="w-full lg:bg-white bg-[#232323]  py-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl">
-          <div className="flex flex-col gap-52 lg:gap-4  ">
+          <div className="flex flex-col gap-4">
             <div className="flex flex-col">
-              <h3 className="text-left font-medium mb-8 lg:text-black text-white px-4">
+              <h3 className="text-left font-medium mb-3 lg:text-black text-white px-4">
                 Preference
               </h3>
-              <div className="flex flex-row gap-8 px-4">
-                {["Girls", "Boys"].map((gender) => (
+              <div className="flex flex-row gap-4 px-4">
+                {["Girls", "Boys", "Any"].map((gender) => (
                   <label
                     key={gender}
                     className="flex items-center gap-2 cursor-pointer"
@@ -391,10 +393,16 @@ const Filters = ({
               </button>
               <button
                 onClick={() => {
-                  // When Done is clicked, apply the PG filter and close
+                  // When Done is clicked, apply the PG filter and gender preference
                   let queryParams = new URLSearchParams();
                   queryParams.set("residential", "PG");
                   queryParams.delete("commercial");
+                  if (filters.genderPreference) {
+                    queryParams.set(
+                      "genderPreference",
+                      filters.genderPreference
+                    );
+                  }
                   navigate(`?${queryParams.toString()}`);
                   setCurrentPage(1);
                   fetchAndFilterProperties(
