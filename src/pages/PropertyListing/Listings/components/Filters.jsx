@@ -18,7 +18,7 @@ const Filters = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const countAppliedFilters = (filters) => {
@@ -68,42 +68,40 @@ const Filters = ({
     SetIsOpen(false);
   };
 
-const handleCategoryClick = (category) => {
-  setSelectedCategory(selectedCategory === category ? null : category);
-
-  // Create new query parameters based on category
-  let queryParams = new URLSearchParams();
-  
-  if (category === "House" || category === "Flats") {
-    queryParams.set('residential', category === "House" ? "House" : "Flat");
-    queryParams.delete('commercial');
-  } else if (category === "PG") {
-    queryParams.set('residential', "PG");
-    queryParams.delete('commercial');
-  } else if (category === "Office") {
-    queryParams.set('commercial', "Office");
-    queryParams.delete('residential');
-  } else if (category === "Shops") {
-    queryParams.set('commercial', "Shop");
-    queryParams.delete('residential');
-  } else if (category === "Warehouse") {
-    queryParams.set('commercial', "Warehouse");
-    queryParams.delete('residential');
-  }
-
-  // Navigate to update the URL
-  navigate(`?${queryParams.toString()}`);
-
-  // Reset other filters
-  setFilters({
-    bhk: [],
-    residential: [],
-    commercial: [],
-    preferenceHousing: "",
-    genderPreference: "",
-    houseType: [],
-  });
-};
+  const handleCategoryClick = (category) => {
+    // For PG, just open subfilters, don't navigate or reset filters
+    if (category === "PG") {
+      setSelectedCategory(selectedCategory === category ? null : category);
+      return;
+    }
+    setSelectedCategory(selectedCategory === category ? null : category);
+    // Create new query parameters based on category
+    let queryParams = new URLSearchParams();
+    if (category === "House" || category === "Flats") {
+      queryParams.set("residential", category === "House" ? "House" : "Flat");
+      queryParams.delete("commercial");
+    } else if (category === "Office") {
+      queryParams.set("commercial", "Office");
+      queryParams.delete("residential");
+    } else if (category === "Shops") {
+      queryParams.set("commercial", "Shop");
+      queryParams.delete("residential");
+    } else if (category === "Warehouse") {
+      queryParams.set("commercial", "Warehouse");
+      queryParams.delete("residential");
+    }
+    // Navigate to update the URL
+    navigate(`?${queryParams.toString()}`);
+    // Reset other filters
+    setFilters({
+      bhk: [],
+      residential: [],
+      commercial: [],
+      preferenceHousing: "",
+      genderPreference: "",
+      houseType: [],
+    });
+  };
 
   return (
     <>
@@ -132,6 +130,9 @@ const handleCategoryClick = (category) => {
               key={index}
               className="flex lg:flex-col flex-row justify-center items-center lg:w-[100px] w-[140px]  cursor-pointer text-black bg-white  hover:text-[#0c8a7e] lg:hover:bg-[#C8A21C] lg:hover:text-white rounded-xl py-1.5 border-black lg:border-none border gap-2 lg:gap-0 "
               onClick={() => handleCategoryClick(item.text)}
+              onMouseEnter={() => {
+                if (item.text === "PG") setSelectedCategory("PG");
+              }}
             >
               <item.icon size={24} className="mb-2 " />
               <span className="text-xs pl-1 font-medium">{item.text}</span>
@@ -365,11 +366,11 @@ const handleCategoryClick = (category) => {
                   >
                     <input
                       type="radio"
-                      name="gender"
+                      name="genderPreference"
                       value={gender}
-                      // checked={filters.gender.includes(gender)}
+                      checked={filters.genderPreference === gender}
                       onChange={() =>
-                        handleFilterChange("genderPreference", [gender])
+                        handleFilterChange("genderPreference", gender)
                       }
                       className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
@@ -389,7 +390,20 @@ const handleCategoryClick = (category) => {
                 Clear
               </button>
               <button
-                onClick={seeResults}
+                onClick={() => {
+                  // When Done is clicked, apply the PG filter and close
+                  let queryParams = new URLSearchParams();
+                  queryParams.set("residential", "PG");
+                  queryParams.delete("commercial");
+                  navigate(`?${queryParams.toString()}`);
+                  setCurrentPage(1);
+                  fetchAndFilterProperties(
+                    city,
+                    selectedArea,
+                    selectedLocality
+                  );
+                  SetIsOpen(false);
+                }}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
               >
                 Done
