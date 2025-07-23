@@ -6,19 +6,20 @@ import { ClipLoader } from "react-spinners";
 
 import { FaSearch } from "react-icons/fa";
 
+
 import {
   APIProvider,
   Map,
-  AdvancedMarker,
-  Pin,
-  InfoWindow,
+  Marker,  // Use regular Marker instead of AdvancedMarker
+  InfoWindow 
 } from "@vis.gl/react-google-maps";
 
 import drop from "../../../assets/propertyListing/drop.png";
 import areas from "./areas";
-
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+const { google } = window;
 
 import SelectLocation from "./components/SelectLocation";
 import Filters from "./components/Filters";
@@ -104,7 +105,6 @@ const [totalPages, setTotalPages] = useState();
 
   const [filterCount, setFilterCount] = useState(0);
 
-  const authState = useSelector((state) => state.auth);
   const [noPropertiesFound, setNoPropertiesFound] = useState(false);
   const [selectedLocality, setSelectedLocality] = useState("");
   const [selectedArea, setSelectedArea] = useState([]);
@@ -169,6 +169,9 @@ const [totalPages, setTotalPages] = useState();
   // Add this state for tracking window width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+    const authState = useSelector((state) => state.auth);
+    const currentUserId = authState?.userData?.id;
+    const currentUserRole = authState?.userData?.role;
   // Add a new ref for the search panel
   const searchPanelRef = useRef(null);
 
@@ -177,7 +180,50 @@ const [totalPages, setTotalPages] = useState();
     { key: "Nishatganj", location: { lat: 26.87, lng: 80.95 } },
   ];
 
-  const position = cityCoordinates["Lucknow"];
+  const [mapInstance, setMapInstance] = useState(null);
+  const [highlightedArea, setHighlightedArea] = useState(null);
+  const polygonRef = useRef(null);
+
+
+useEffect(() => {
+  if (!mapInstance || !highlightedArea) {
+    if (polygonRef.current) {
+      polygonRef.current.setMap(null);
+      polygonRef.current = null;
+    }
+    return;
+  }
+
+  polygonRef.current = new window.google.maps.Polygon({
+    paths: highlightedArea,
+    strokeColor: "#6CC1B6",
+    strokeOpacity: 0.8,
+    strokeWeight: 3,
+    fillColor: "transparent",
+    map: mapInstance
+  });
+
+  return () => {
+    if (polygonRef.current) {
+      polygonRef.current.setMap(null);
+    }
+  };
+}, [highlightedArea, mapInstance]);
+
+useEffect(() => {
+  if (!city || !selectedLocality) {
+    setHighlightedArea(null);
+    return;
+  }
+
+  const cityBorders = Listing[city];
+  if (cityBorders?.[selectedLocality]) {
+    setHighlightedArea(cityBorders[selectedLocality]);
+  } else {
+    setHighlightedArea(null);
+    console.warn(`No borders for ${selectedLocality} in ${city}`);
+  }
+}, [selectedLocality, city]);
 
   // Replace your existing fetchAndFilterProperties function with this improved version
 
@@ -659,37 +705,32 @@ const addRandomOffsetToDuplicates = (markers) => {
   
   return markers;
 };
-  const PoiMarkers = (locs) => {
-    return (
-      // console.log("Rendering markers with locations:", locs),
-      <>
-        {locs.pois.map(
-          (loc) => (
-            console.log("Rendering marker for location:", loc),
-            (
-              <AdvancedMarker
-                // ref={markerRef}
-                key={loc.key} // Add key for each marker
-                position={loc.location} // Use loc to get position
-                onClick={() => navigate(`/property/${loc.key}`)}
-                onMouseEnter={() => console.log("Marker hovered:", loc.key)} // Handle hover
-                // onMouseOut={() => setHoveredMarker(null)} // Clear hovered marker
-                // onMouseEnter={() => setHovered(loc.key)}
-                // onMouseLeave={() => setHovered(false)}
-              >
-                <Pin
-                  background={"red"}
-                  glyphColor={"#000"}
-                  borderColor={"#000"}
-                />
-              </AdvancedMarker>
-            )
-          )
-        )}
-      </>
-    );
-  };  
 
+const PoiMarkers = (locs) => {
+  console.log("Google api key" , import.meta.env.VITE_GOOGLE_MAPS_ID)
+  return (
+    <>
+      {locs.pois.map((loc) => (
+        <Marker
+          key={loc.key}
+          position={loc.location}
+          onClick={() => navigate(`/property/${loc.key}`)}
+          onMouseOver={() => console.log("Marker hovered:", loc.key)}
+          // Custom marker icon (optional)
+          icon={{
+            url: 'data:image/svg+xml;base64,' + btoa(`
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
+                <circle cx="12" cy="12" r="4" fill="white"/>
+              </svg>
+            `),
+            scaledSize: new window.google.maps.Size(24, 24),
+          }}
+        />
+      ))}
+    </>
+  );
+};
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
@@ -821,6 +862,11 @@ useEffect(() => {
       compare();
     }
   };
+
+const handleClearCompare = () => {
+  console.log("Cancel clicked. Clearing compare list...");
+  dispatch({ type: "CLEAR_COMPARE" });
+};
   const compare = () => {
     navigate("/compare-property");
   };
@@ -1172,22 +1218,36 @@ useEffect(() => {
 
             <div className="sm:col-span-4 md:col-span-4 flex w-fit xs:w-[50%]  items-center justify-center lg:justify-between -mt-[76px] ml-[98px] xs:[96px] lg:ml-4 lg:mt-0">
               {compareProperty.length >= 1 && (
-                <div className="compare">
-                  <button
-                    onClick={handleVisit}
-                    className={`bg-white h-11 sm:h-14 w-20 md:w-32 ml-20 md:ml-0 text-black cursor-pointer rounded-lg flex gap-2 lg:gap-5 text-center items-center px-3 sm:px-7 lg:py-7 text-sm font-medium ${
-                      compareProperty.length <= 0
-                        ? "opacity-50 grayscale cursor-not-allowed"
-                        : ""
-                    }`}
-                    disabled={compareProperty.length <= 0}
-                  >
-                    Visit
-                    <div className="bg-[#EED98B] rounded-full flex items-center justify-center px-2">
-                      {compareProperty.length}
-                    </div>
-                  </button>
-                </div>
+   <div className="compare relative w-fit ml-20 md:ml-0">
+  {/* Visit Button */}
+  <button
+    onClick={handleVisit}
+    className={`relative bg-white h-11 sm:h-14 w-20 md:w-32 text-black cursor-pointer rounded-lg flex gap-2 lg:gap-5 text-center items-center px-3 sm:px-7 lg:py-7 text-sm font-medium ${
+      compareProperty.length <= 0
+        ? "opacity-50 grayscale cursor-not-allowed"
+        : ""
+    }`}
+    disabled={compareProperty.length <= 0}
+  >
+    Visit
+    <div className="bg-[#EED98B] rounded-full flex items-center justify-center px-2">
+      {compareProperty.length}
+    </div>
+  </button>
+
+  {/* Cancel Button outside Visit button */}
+  {compareProperty.length > 0 && (
+    <button
+       onClick={handleClearCompare}
+      className="absolute top-[-10px] right-[-10px] bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600 z-10"
+      type="button"
+    >
+      ×
+    </button>
+  )}
+</div>
+
+
               )}
 
               <div className="hidden">
@@ -1241,9 +1301,11 @@ useEffect(() => {
             defaultZoom={11}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
-            options={{
-              maxZoom: 13, // Set the maximum zoom level
-            }}
+            onLoad={(map) => setMapInstance(map)}
+            // options={{
+            //   minZoom: 15,
+            //   maxZoom: 15.5
+            // }}
           >
             <PoiMarkers pois={availableProperties} />
           </Map>
@@ -1252,19 +1314,22 @@ useEffect(() => {
           )} */}
         </div>
 
-        <div className="pt-3">
-          {properties.length === 0 ? (
-            <p className="text-center text-lg font-semibold mt-10">
-              No properties found
-            </p>
-          ) : (
-            <Cards
-              properties={properties}
-              favouriteList={favouriteList}
-              setFavouriteList={setFavouriteList}
-            />
-          )}
-        </div>
+          <div className="pt-3">
+            {properties.length === 0 ? (
+              <p className="text-center text-lg font-semibold mt-10">
+                No properties found
+              </p>
+            ) : (
+              <Cards
+                properties={properties.map(property => ({
+                  ...property,
+                  isOwnerOrAdmin: property.userId === currentUserId || currentUserRole === 'admin'
+                }))}
+                favouriteList={favouriteList}
+                setFavouriteList={setFavouriteList}
+              />
+            )}
+          </div>
 
         {loading && (
           <div className="flex justify-center my-4">

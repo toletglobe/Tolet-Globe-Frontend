@@ -57,8 +57,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
   ];
 
   const genderOptions = [
-    { value: "Male", label: "Male" },
-    { value: "Female", label: "Female" },
+    { value: "Boys", label: "Boys" },
+    { value: "Girls", label: "Girls" },
     { value: "Both", label: "Both" },
   ];
 
