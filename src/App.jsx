@@ -6,6 +6,8 @@ import { store, persistor } from "./redux/store/store";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { APIProvider } from "@vis.gl/react-google-maps";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
           <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
             <RoutingAuthServer />
             <Toaster />
+            <ToastContainer />
           </PersistGate>
         </Provider>
       </APIProvider>
