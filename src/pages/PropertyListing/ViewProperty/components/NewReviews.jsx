@@ -173,7 +173,7 @@ const handleAddReview = async (e) => {
     
     {/* Left Side - Heading */}
     <div className="sm:w-1/2 w-full">
-      <h3 className="text-sm sm:text-base sm:text-black md:text-lg lg:text-xl font-semibold lg:text-gray-500  sm:text- w-3/4">
+      <h3 className="text-x sm:text-base sm:text-black md:text-lg lg:text-xl font-bold lg:text-gray-500  sm:text- w-3/4">
         Share Details Of Your Experience With This Property.
       </h3>
     </div>
@@ -189,7 +189,7 @@ const handleAddReview = async (e) => {
             navigate("/login");
           }
         }}
-        className="w-full sm:w-auto text-black font-semibold text-sm sm:text-base lg:text-xl py-2 px-6"
+        className="w-full sm:w-auto text-white font-semibold text-sm sm:text-base lg:text-xl py-2 px-6"
       >
         {showReviewForm ? "Cancel" : existingReviewId ? "Update Your Review" : "Write A Review"}
       </button>

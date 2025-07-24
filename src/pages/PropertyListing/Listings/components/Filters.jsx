@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { BsHouseDoor, BsBuildings, BsBriefcase, BsShop } from "react-icons/bs";
 import { RiHotelBedLine } from "react-icons/ri";
 import { MdOutlineWarehouse } from "react-icons/md";
@@ -17,6 +17,8 @@ const Filters = ({
   selectedLocality,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+    const navigate = useNavigate();
 
   useEffect(() => {
     const countAppliedFilters = (filters) => {
@@ -66,39 +68,42 @@ const Filters = ({
     SetIsOpen(false);
   };
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(selectedCategory === category ? null : category);
+const handleCategoryClick = (category) => {
+  setSelectedCategory(selectedCategory === category ? null : category);
 
-    // Reset all filters first
-    setFilters((prev) => ({
-      ...prev,
-      residential: [],
-      commercial: [],
-      bhk: [],
-      houseType: [],
-      preferenceHousing: "",
-      genderPreference: "",
-    }));
+  // Create new query parameters based on category
+  let queryParams = new URLSearchParams();
+  
+  if (category === "House" || category === "Flats") {
+    queryParams.set('residential', category === "House" ? "House" : "Flat");
+    queryParams.delete('commercial');
+  } else if (category === "PG") {
+    queryParams.set('residential', "PG");
+    queryParams.delete('commercial');
+  } else if (category === "Office") {
+    queryParams.set('commercial', "Office");
+    queryParams.delete('residential');
+  } else if (category === "Shops") {
+    queryParams.set('commercial', "Shop");
+    queryParams.delete('residential');
+  } else if (category === "Warehouse") {
+    queryParams.set('commercial', "Warehouse");
+    queryParams.delete('residential');
+  }
 
-    // Update filters based on category
-    if (category === "House" || category === "Flats") {
-      handleFilterChange(
-        "residential",
-        category === "House" ? "+ House" : "+ Flat"
-      );
-    } else if (category === "PG") {
-      handleFilterChange("residential", "+ PG");
-    } else if (category === "Office") {
-      handleFilterChange("commercial", "+ Office");
-      seeResults();
-    } else if (category === "Shops") {
-      handleFilterChange("commercial", "+ Shop");
-      seeResults();
-    } else if (category === "Warehouse") {
-      handleFilterChange("commercial", "+ Warehouse");
-      seeResults();
-    }
-  };
+  // Navigate to update the URL
+  navigate(`?${queryParams.toString()}`);
+
+  // Reset other filters
+  setFilters({
+    bhk: [],
+    residential: [],
+    commercial: [],
+    preferenceHousing: "",
+    genderPreference: "",
+    houseType: [],
+  });
+};
 
   return (
     <>

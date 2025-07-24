@@ -63,7 +63,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
   ];
 
   const furnishedOptions = [
-    { value: "Not Furnished", label: "Not Furnished" },
+    { value: "Unfurnished", label: "Unfurnished" },
     { value: "Semi Furnished", label: "Semi Furnished" },
     { value: "Fully Furnished", label: "Fully Furnished" },
   ];
@@ -77,8 +77,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
   ];
 
   const washroomOptions = [
-    { value: "Western", label: "Western" },
     { value: "Indian", label: "Indian" },
+    { value: "Western", label: "Western" },
     { value: "Both", label: "Both" },
   ];
 
@@ -218,28 +218,32 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 options={preferenceOptions}
               />
             </div>
-            {/* Bachelors */}
-            <div>
-              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Gender<span className="text-red-600">*</span>
-              </label>
-              <Select
-                disabled={formData.preference === "Family"}
-                required
-                styles={customSelectStyles}
-                placeholder="Select gender"
-                value={
-                  formData.bachelors
-                    ? { value: formData.bachelors, label: formData.bachelors }
-                    : null
-                }
-                onChange={(selectedOption) => {
-                  setFormData({ ...formData, bachelors: selectedOption.value });
-                  console.log("Formdata:", formData);
-                }}
-                options={genderOptions}
-              />
-            </div>
+            {/* Gender - only show if Bachelors is selected */}
+            {formData.preference === "Bachelors" && (
+              <div>
+                <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                  Gender<span className="text-red-600">*</span>
+                </label>
+                <Select
+                  required
+                  styles={customSelectStyles}
+                  placeholder="Select gender"
+                  value={
+                    formData.bachelors
+                      ? { value: formData.bachelors, label: formData.bachelors }
+                      : null
+                  }
+                  onChange={(selectedOption) => {
+                    setFormData({
+                      ...formData,
+                      bachelors: selectedOption.value,
+                    });
+                    console.log("Formdata:", formData);
+                  }}
+                  options={genderOptions}
+                />
+              </div>
+            )}
 
             {/* Type */}
             <div>
@@ -461,28 +465,32 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 options={preferenceOptions}
               />
             </div>
-            {/* Bachelors */}
-            <div>
-              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Gender<span className="text-red-600">*</span>
-              </label>
-              <Select
-                disabled={formData.preference === "Family"}
-                required
-                styles={customSelectStyles}
-                placeholder="Select gender"
-                value={
-                  formData.bachelors
-                    ? { value: formData.bachelors, label: formData.bachelors }
-                    : null
-                }
-                onChange={(selectedOption) => {
-                  setFormData({ ...formData, bachelors: selectedOption.value });
-                  console.log("Formdata:", formData);
-                }}
-                options={genderOptions}
-              />
-            </div>
+            {/* Gender - only show if Bachelors is selected */}
+            {formData.preference === "Bachelors" && (
+              <div>
+                <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                  Gender<span className="text-red-600">*</span>
+                </label>
+                <Select
+                  required
+                  styles={customSelectStyles}
+                  placeholder="Select gender"
+                  value={
+                    formData.bachelors
+                      ? { value: formData.bachelors, label: formData.bachelors }
+                      : null
+                  }
+                  onChange={(selectedOption) => {
+                    setFormData({
+                      ...formData,
+                      bachelors: selectedOption.value,
+                    });
+                    console.log("Formdata:", formData);
+                  }}
+                  options={genderOptions}
+                />
+              </div>
+            )}
 
             {/* Type */}
             <div>
@@ -810,28 +818,33 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 options={preferenceOptions}
               />
             </div>
-            {/* Bachelors */}
-            <div>
-              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Gender<span className="text-red-600">*</span>
-              </label>
-              <Select
-                disabled={formData.preference === "Family"}
-                required
-                styles={customSelectStyles}
-                placeholder="Select gender"
-                value={
-                  formData.bachelors
-                    ? { value: formData.bachelors, label: formData.bachelors }
-                    : null
-                }
-                onChange={(selectedOption) => {
-                  setFormData({ ...formData, bachelors: selectedOption.value });
-                  console.log("Formdata:", formData);
-                }}
-                options={genderOptions}
-              />
-            </div>
+            {/* Gender - only show if Bachelors is selected */}
+            {formData.preference === "Bachelors" && (
+              <div>
+                <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                  Gender<span className="text-red-600">*</span>
+                </label>
+                <Select
+                  disabled={formData.preference === "Family" ? true : false}
+                  required={formData.preference !== "Family"}
+                  styles={customSelectStyles}
+                  placeholder="Select gender"
+                  value={
+                    formData.bachelors
+                      ? { value: formData.bachelors, label: formData.bachelors }
+                      : null
+                  }
+                  onChange={(selectedOption) => {
+                    setFormData({
+                      ...formData,
+                      bachelors: selectedOption.value,
+                    });
+                    console.log("Formdata:", formData);
+                  }}
+                  options={genderOptions}
+                />
+              </div>
+            )}
 
             {/* Type */}
             <div>

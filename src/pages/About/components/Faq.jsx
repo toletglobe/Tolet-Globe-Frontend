@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./styles/faq.css";
 
 const faqData = [
@@ -40,30 +40,32 @@ export default function Faq() {
     <div className="faq-container bg-black w-[90%] m-auto">
       <div className="row">
         <div className="faq-wrapper">
-          <div className="header rounded-t-3xl py-2 sm:py-8 text-2xl bg-[#6cc0c4] text-white w-full flex items-center justify-center">
-            <h1 className="px-2 text-md sm:text-4xl font-bold text-center">
-              Frequently Asked Questions FAQs
+
+          {/* FAQ heading */}
+          <div className="header rounded-t-xl md:rounded-t-3xl py-2 sm:py-8 text-2xl bg-[#409890] text-white w-full flex items-center justify-center -mb-0.5">
+            <h1 className="px-2 text-[22px] sm:text-4xl font-semibold sm:font-bold text-center tracking-wider">
+              FAQs
             </h1>
           </div>
 
-          <div className="faqinner border-2 border-[#6cc0c4] cursor-pointer py-3">
+          <div className="faqinner border-2 border-[#489890] cursor-pointer py-3">
             {faqData.map((faq, index) => (
               <div key={index}>
                 <div
-                  className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between"
+                  className="question py-1 px-2 sm:px-5 text-[18px] text-white flex items-center justify-between gap-6"
                   onClick={() => toggleFAQ(index)}
                 >
-                  <h4 className="text-lg sm:text-xl">{faq.question}</h4>
+                  <h4 className="sm:text-xl">{faq.question}</h4>
                   <h1
-                    className={`icon text-white text-4xl transition-transform duration-200 ${
+                    className={`icon text-white text-4xl transition-transform duration-200 flex py-2 items-center ${
                       openIndex === index ? "active" : ""
                     }`}
                   >
                     <i
-                      className={`fa-solid ${
+                      className={`fa-solid font-normal sm:font-extrabold ${
                         openIndex === index ? "fa-minus" : "fa-plus"
                       }`}
-                      style={{ color: "white", fontSize: "1.5rem" }}
+                      style={{ color: "white", fontSize: "1.3rem" }}
                     ></i>
                   </h1>
                 </div>

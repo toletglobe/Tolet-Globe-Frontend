@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "../../../../../config/loadGoogleMaps";
 import Select from "react-select";
 import areas from "../../../../PropertyListing/Listings/areas";
+import CreatableSelect from "react-select/creatable";
 
 const Form = ({ formData, setFormData }) => {
   const optionRenderFun = (value) => (
@@ -325,6 +326,10 @@ const Form = ({ formData, setFormData }) => {
       padding: "0 0.25rem",
       boxShadow: "white",
     }),
+    input: (base) => ({
+      ...base,
+      color: "white", // ✅ Entered text color
+    }),
     placeholder: (base) => ({
       ...base,
       color: "none",
@@ -534,15 +539,20 @@ const Form = ({ formData, setFormData }) => {
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Locality<span className="text-red-600">*</span>
           </label>
-          <Select
+          <CreatableSelect
             isDisabled={!formData.city}
-            placeholder="Select locality"
+            placeholder="Select or enter locality"
             value={
               formData.locality
                 ? { value: formData.locality, label: formData.locality }
                 : null
             }
-            onChange={handleLocalityChange}
+            onChange={(selectedOption) => {
+              setFormData((prev) => ({
+                ...prev,
+                locality: selectedOption?.value || "",
+              }));
+            }}
             options={
               formData.city
                 ? cityLocalityData[formData.city].localities.map((loc) => ({
@@ -552,11 +562,12 @@ const Form = ({ formData, setFormData }) => {
                 : []
             }
             styles={customSelectStyles}
+            isClearable
           />
         </div>
 
         {/* Area */}
-        <div>
+        <div className="">
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
             Area<span className="text-red-600">*</span>
           </label>
@@ -587,7 +598,7 @@ const Form = ({ formData, setFormData }) => {
 
           {/* Dropdown for areas */}
           {showAreaDropdown && filteredAreas.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-black border border-[#C8C8C8] rounded-md">
+            <div className="z-10 w-full mt-1 max-h-60 overflow-y-auto bg-black border border-[#C8C8C8] rounded-md">
               {filteredAreas.map((area, index) => (
                 <div
                   key={index}
@@ -639,9 +650,11 @@ const Form = ({ formData, setFormData }) => {
             type="text"
             placeholder="Pin Code"
             required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
             value={formData.pincode}
-            readOnly
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, pincode: e.target.value }))
+            }
           />
         </div>
 

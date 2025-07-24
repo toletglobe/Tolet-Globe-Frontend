@@ -16,6 +16,11 @@ export const reducer = (state, action) => {
           (item) => item._id !== action.item._id
         ),
       };
+      case "CLEAR_COMPARE":
+      return {
+       ...state,
+      compareProperty: [], // clear it here
+      };
 
     default:
       return state;

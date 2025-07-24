@@ -4,15 +4,19 @@ import { ClipLoader } from "react-spinners";
 
 import PropertyBrief from "./PropertyBrief";
 import PropertyDetails from "./PropertyDetails";
+import { useSelector } from "react-redux";
 
 import { API } from "../../../config/axios";
 
 function ViewProperty() {
   const { slug } = useParams();
   const [property, setProperty] = useState(null);
+  const [isOwnerOrAdmin, setIsOwnerOrAdmin] = useState(false);
+  const authState = useSelector((state) => state.auth);
+  const currentUserId = authState?.userData?.id;
+  const currentUserRole = authState?.userData?.role;
 
-  useEffect(() => {
-    const fetchProperty = async () => {
+  const fetchProperty = async () => {
       try {
         const response = await API.get(`property/slug/${slug}`, {
           headers: {
@@ -20,13 +24,27 @@ function ViewProperty() {
           },
         });
         const propertyFetched = response.data;
+        console.log(propertyFetched);
         setProperty(propertyFetched);
       } catch (error) {
         console.error("Error fetching property:", error);
       }
     };
+  useEffect(() => {
     fetchProperty();
   }, [slug]);
+
+  // Separate useEffect for isOwnerOrAdmin validation
+  useEffect(() => {
+    if (property && property.userId && currentUserId) {
+      const isOwner = property.userId.toString() === currentUserId.toString();
+      const isAdmin = currentUserRole === "admin";
+      setIsOwnerOrAdmin(isOwner || isAdmin);
+      console.log("property userId", property.userId);
+      console.log("Actual userId", currentUserId);
+      console.log("isOwnerOrAdmin", isOwner || isAdmin);
+    }
+  }, [property, currentUserId, currentUserRole]);
 
   if (!property) {
     return (
@@ -38,8 +56,8 @@ function ViewProperty() {
 
   return (
     <>
-      <PropertyBrief property={property} />
-      <PropertyDetails property={property} />
+      <PropertyBrief property={property} isOwnerOrAdmin={isOwnerOrAdmin} setProperty={setProperty} fetchProperty={fetchProperty} />
+      <PropertyDetails property={property} isOwnerOrAdmin={isOwnerOrAdmin} />
     </>
   );
 }

@@ -85,13 +85,7 @@ export default function LandlordDashboardEditProperties() {
       const updatedFormData = {
         ...formData,
         userId: userInfo.id,
-        pincode: Number(formData.pincode),
-        appliances: formData.appliances.map((item) =>
-          typeof item === "object" && item !== null ? item.value : item
-        ),
-        amenities: formData.amenities.map((item) =>
-          typeof item === "object" && item !== null ? item.value : item
-        ),
+        pincode: Number(formData.pincode)
       };
 
       for (const [key, value] of Object.entries(updatedFormData)) {

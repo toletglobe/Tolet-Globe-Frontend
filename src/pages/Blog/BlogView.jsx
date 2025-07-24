@@ -74,7 +74,7 @@ const BlogView = () => {
           {new Date(blog.date).toDateString()} |{" "}
           <span className="underline">{blog.category}</span>
         </p>
-        <h1 className="text-4xl my-2 text-[#6CC1B6] font-bold">{blog.title}</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl my-2 text-[#6CC1B6] font-bold">{blog.title}</h1>
         <div className="flex my-6">
           <figure className="author-avatar w-10 h-10 overflow-hidden rounded-full mr-4">
             <img src={author} alt="Author" />
@@ -107,7 +107,7 @@ const BlogView = () => {
           </div>
         </div>
         <hr />
-        <div className="my-2 text-xl">{blog.intro}</div>
+        <div className="my-2 text-base sm:text-lg md:text-xl leading-relaxed">{blog.intro}</div>
 
         <div className="mx-auto my-3 max-w-3xl">
           <img
@@ -119,7 +119,7 @@ const BlogView = () => {
 
         <div className="">
           <div
-            className="my-5 text-xl"
+            className="my-5 text-base sm:text-lg md:text-xl leading-relaxed sm:leading-loose"
             dangerouslySetInnerHTML={{ __html: blog.content }}
           ></div>
         </div>
