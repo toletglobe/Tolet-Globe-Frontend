@@ -24,7 +24,7 @@ const aboutData = [
 
 const About = () => {
   return (
-    <div className="bg-black w-full px-6 sm:px-12 lg:px-20 py-12 mt-[75px]">
+    <div className="bg-black w-full px-6 sm:px-12 lg:px-20 py-12 mt-[12px] md:mt-[75px]">
       {/* About Us Heading (Shared Across All Views) */}
       <h2 className="text-[40px] md:text-7xl font-medium leading-[50px] md:leading-[96px] text-[#1D5F58] md:text-left text-center mb-[54px] max-lg:text-[47.88px] max-lg:text-white">
         About Us

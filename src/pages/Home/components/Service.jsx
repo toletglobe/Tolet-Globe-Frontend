@@ -60,7 +60,7 @@ const Service = () => {
   ];
 
   return (
-    <div className="w-full mx-auto max-lg:pt-0 max-lg:mt-0 px-5 sm:px-12 xl:px-20  bg-black">
+    <div className="w-full mx-auto pt-12 max-lg:pt-1 px-5 sm:px-12 xl:px-20 mt-[-150px] md:mt-0 bg-black">
       <div className="flex flex-col items-center lg:items-start text-center lg:text-left px-8 py-8">
         <h1 className="text-white font-medium text-5xl sm:text-7xl lg:text-[clamp(78px,5vw,96px)] leading-tight">
           Services
