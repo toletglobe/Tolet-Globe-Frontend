@@ -194,7 +194,7 @@ const HomeMobile = () => {
   return (
     <div className="mobile-view-container">
       <ToastContainer />
-      <div className="h-screen relative">
+      <div className="h-screen relative overflow-hidden">
         {/* Main Content */}
         <div className="relative z-10 px-4 pt-20">
           {/* Logo and Header */}
