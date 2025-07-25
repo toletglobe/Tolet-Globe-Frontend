@@ -25,7 +25,6 @@ import Filters from "./components/Filters";
 import Cards from "./components/Cards";
 
 import LoginPopup from "./components/LoginPopup/LoginPopup"; // Import the LoginPopup component
-
 import "./listings.css";
 
 import { API } from "../../../config/axios";
@@ -759,34 +758,36 @@ const Listing = () => {
     return markers;
   };
 
-  const PoiMarkers = (locs) => {
-    console.log("Google api key", import.meta.env.VITE_GOOGLE_MAPS_ID);
-    return (
-      <>
-        {locs.pois.map((loc) => (
+ const PoiMarkers = ({ pois }) => {
+  console.log("Google API Key", import.meta.env.VITE_GOOGLE_MAPS_ID);
+
+  return (
+    <>
+      {pois
+        .filter((loc) => loc.availabilityStatus === "Available") // ✅ Show only available
+        .map((loc) => (
           <Marker
             key={loc.key}
             position={loc.location}
-            // onClick={() => navigate(`/property/${loc.key}`)}
             onClick={() => window.open(`/property/${loc.key}`, "_blank")}
             onMouseOver={() => console.log("Marker hovered:", loc.key)}
-            // Custom marker icon (optional)
             icon={{
               url:
                 "data:image/svg+xml;base64," +
                 btoa(`
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
-                <circle cx="12" cy="12" r="4" fill="white"/>
-              </svg>
-            `),
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
+                  <circle cx="12" cy="12" r="4" fill="white"/>
+                </svg>
+              `),
               scaledSize: new window.google.maps.Size(24, 24),
             }}
           />
         ))}
-      </>
-    );
-  };
+    </>
+  );
+};
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
@@ -1357,7 +1358,7 @@ const Listing = () => {
             //   maxZoom: 15.5
             // }}
           >
-            <PoiMarkers pois={availableProperties} />
+             <PoiMarkers pois={availableProperties} /> 
           </Map>
           {/* {hovered && (
             <p className="mt-2 text-[#C8C8C8] text-sm">Selected coordinates:</p>
