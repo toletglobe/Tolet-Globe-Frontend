@@ -534,11 +534,20 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
           <div className="hidden lg:flex  gap-2 h-[500px]">
             <div className="w-1/2">
               <img
-                src={property.images[0]}
-                alt={property.propertyType}
-                className="w-full h-full object-cover rounded-lg cursor-pointer"
-                onClick={() => openModal(property.images[0], 0)}
-                onError={handleImageError}
+                {property.images && property.images.length > 0 ? (
+  <img
+    src={property.images[0]}
+    alt={property.propertyType || "Property Image"}
+    className="w-full h-full object-cover rounded-lg cursor-pointer"
+    onClick={() => openModal(property.images[0], 0)}
+    onError={handleImageError}
+  />
+) : (
+  <div className="w-full h-full flex items-center justify-center bg-gray-200 rounded-lg">
+    <span className="text-gray-500 text-sm">No Image Available</span>
+  </div>
+)}
+
               />
             </div>
 
