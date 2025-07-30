@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { BsHouseDoor, BsBuildings, BsBriefcase, BsShop } from "react-icons/bs";
 import { RiHotelBedLine } from "react-icons/ri";
 import { MdOutlineWarehouse } from "react-icons/md";
-import qs from "qs";
+
 const Filters = ({
   isOpen,
   SetIsOpen,
