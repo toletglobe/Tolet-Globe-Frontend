@@ -324,7 +324,7 @@ const Register = () => {
                 />
                 <span className="ml-2">Verify via Email</span>
               </label>
-              <label className="inline-flex items-center ml-6">
+              {/* <label className="inline-flex items-center ml-6">
                 <input
                   type="radio"
                   className="form-radio"
@@ -334,7 +334,7 @@ const Register = () => {
                   onChange={() => setVerificationMethod("sms")}
                 />
                 <span className="ml-2">Verify via SMS</span>
-              </label>
+              </label> */}
             </div>
           )}
 
@@ -378,7 +378,7 @@ const Register = () => {
               </button>
             )}
           </div>
-        {/* Divider with "or" text - made more visible */}
+          {/* Divider with "or" text - made more visible */}
           <div className="relative flex items-center justify-center my-6">
             <div className="flex-grow border-t border-gray-400"></div>
             <span className="flex-shrink mx-4 text-gray-400">or</span>
