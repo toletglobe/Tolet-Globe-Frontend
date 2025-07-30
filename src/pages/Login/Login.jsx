@@ -6,7 +6,7 @@ import { login } from "../../redux/store/authSlice";
 
 import { FaLock } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
-
+import GoogleOAuthBar from "../Register/GoogleOAuth/GoogleOAuthBar";
 import "./Login.css";
 
 import { API } from "../../config/axios";
@@ -181,6 +181,21 @@ const Login = ({ setUserInfo }) => {
             <a onClick={() => navigate("/forgot-password")}>Forgot Password?</a>
             <a onClick={() => navigate("/register")}>Register</a>
           </div>
+           {/* Divider with "or" text - made more visible */}
+                    <div className="relative flex items-center justify-center my-6">
+                      <div className="flex-grow border-t border-gray-400"></div>
+                      <span className="flex-shrink mx-4 text-gray-400">or</span>
+                      <div className="flex-grow border-t border-gray-400"></div>
+                    </div>
+          
+                    {/* Google OAuth Button - ensure it's properly styled */}
+                    <div className="flex justify-center mb-6 w-full">
+                      <GoogleOAuthBar
+                        className="w-full max-w-[300px]"
+                        buttonClassName="w-full h-[40px] flex items-center justify-center bg-white text-black rounded-full border border-white hover:bg-gray-100"
+                        iconClassName="mr-2"
+                      />
+                    </div>
         </form>
       </div>
     </div>
