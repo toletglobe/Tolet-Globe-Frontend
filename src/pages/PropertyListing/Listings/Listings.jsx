@@ -756,6 +756,7 @@ const Listing = () => {
     console.log("Google api key", import.meta.env.VITE_GOOGLE_MAPS_ID);
     return (
       <>
+      
         {locs.pois.map((loc) => (
           <Marker
             key={loc.key}
@@ -1360,6 +1361,8 @@ const Listing = () => {
         <div className="w-full h-[400px] rounded-md border-[1.5px] border-[#C8C8C8]">
           <Map
             defaultZoom={11}
+            minZoom={10}
+            maxZoom={12}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
             onLoad={(map) => setMapInstance(map)}
