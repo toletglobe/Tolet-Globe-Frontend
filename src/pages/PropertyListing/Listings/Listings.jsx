@@ -767,7 +767,12 @@ const Listing = () => {
           <Marker
             key={loc.key}
             position={loc.location}
+
             onClick={() => navigate(`/property/${loc.key}`)}
+
+            // onClick={() => navigate(`/property/${loc.key}`)}
+            onClick={() => window.open(`/property/${loc.key}`, "_blank")}
+
             onMouseOver={() => console.log("Marker hovered:", loc.key)}
             // Custom marker icon (optional)
             icon={{
