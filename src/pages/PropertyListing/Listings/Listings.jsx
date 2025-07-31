@@ -498,6 +498,7 @@ const Listing = () => {
             });
           });
 
+
           console.log("Coordinate Statistics:", coordinateStats);
 
           // Show duplicate coordinates
@@ -516,6 +517,28 @@ const Listing = () => {
         };
 
         debugPropertyCoordinates(propertyData);
+
+
+
+          console.log("Coordinate Statistics:", coordinateStats);
+
+          // Show duplicate coordinates
+          const duplicates = Object.entries(coordinateStats.duplicate).filter(
+            ([key, count]) => count > 1
+          );
+          if (duplicates.length > 0) {
+            console.warn("DUPLICATE COORDINATES FOUND:", duplicates);
+          }
+
+          if (coordinateStats.cityCenter > 0) {
+            console.warn(
+              `WARNING: ${coordinateStats.cityCenter} properties are using city center coordinates!`
+            );
+          }
+        };
+
+        debugPropertyCoordinates(propertyData);
+
 
         // Enhanced marker creation with better fallback logic
         let allPropertyMarkers = propertyData
@@ -569,6 +592,35 @@ const Listing = () => {
                 };
               }
               return null; // Skip this property if no valid coordinates
+
+            }
+
+            // If using city center coordinates, try to find better coordinates
+            if (isCityCenter) {
+              console.warn(
+                `Property ${property.slug} is using city center coordinates`
+              );
+              const fallbackCoords = getFallbackCoordinates(
+                property,
+                selectedCity
+              );
+              if (
+                fallbackCoords &&
+                !areCoordsEqual(fallbackCoords, { lat, lng })
+              ) {
+                console.log(
+                  `Using better fallback coordinates for ${property.slug}:`,
+                  fallbackCoords
+                );
+                return {
+                  key: property.slug,
+                  location: fallbackCoords,
+                  property: property,
+                  isFallback: true,
+                };
+              }
+            }
+
             }
 
             // If using city center coordinates, try to find better coordinates
@@ -656,7 +708,18 @@ const Listing = () => {
             .filter((marker) => marker !== null);
 
           setAvailableProperties(allPropertyMarkers);
+    
+
+        if (propertyData && Array.isArray(propertyData)) {
+          propertyData = sortPropertiesByAvailability(propertyData);
         }
+
+        setProperties(propertyData);
+        setNoPropertiesFound(propertyData.length === 0);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+
 
         if (propertyData && Array.isArray(propertyData)) {
           propertyData = sortPropertiesByAvailability(propertyData);
@@ -767,7 +830,12 @@ const Listing = () => {
           <Marker
             key={loc.key}
             position={loc.location}
+
             onClick={() => navigate(`/property/${loc.key}`)}
+
+            // onClick={() => navigate(`/property/${loc.key}`)}
+            onClick={() => window.open(`/property/${loc.key}`, "_blank")}
+
             onMouseOver={() => console.log("Marker hovered:", loc.key)}
             // Custom marker icon (optional)
             icon={{
