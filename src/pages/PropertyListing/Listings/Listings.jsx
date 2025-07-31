@@ -973,7 +973,7 @@ const Listing = () => {
                     <img src={drop} alt="Dropdown" className="cursor-pointer" />
 
                     {/* Dropdown */}
-                    <div className="absolute top-full left-0 hidden group-hover:flex hover:flex bg-white shadow-md mt-1 rounded w-40 z-50">
+                    <div className="absolute top-9 left-0 hidden group-hover:flex hover:flex bg-white shadow-md mt-1 rounded w-40 z-50">
                       <div className="w-full text-black flex flex-col justify-center rounded-lg shadow-md">
                         {["Lucknow", "Ayodhya", "Vellore", "Kota"].map(
                           (cityName) => (
