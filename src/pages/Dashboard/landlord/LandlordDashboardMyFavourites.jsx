@@ -151,9 +151,9 @@ export default function MyProperties() {
     removeFromFavorites(propertyId);
   };
 
-  const handleImageError = (e) => {
-      e.target.src = defaultHouse; // Replace with your fallback image path
-    };
+  //const handleImageError = (e) => {
+    //  e.target.src = defaultHouse; // Replace with your fallback image path
+   // };
   
 
   return (
@@ -175,11 +175,10 @@ export default function MyProperties() {
                   className="bg-black p-2 rounded-md hover:cursor-pointer relative"
                 >
                   <img
-                    src={property.images[0]}
+                    src={property.images[0]? property.images[0] : defaultHouse}
                     alt="Property"
                     className="h-[200px] w-full object-cover rounded-md mb-4"
                     onClick={() => navigate(`/property/${property.slug}`)}
-                    onError={handleImageError}
                   />
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold">
