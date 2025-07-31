@@ -1,17 +1,15 @@
 import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-import { useNavigate } from "react-router-dom"; // or useRouter if using Next.js
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { API } from "../../../config/axios";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const GoogleOAuthBar = () => {
-  const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
-
+  const router = useNavigate();
   const handleGoogleLogin = async (credentialResponse) => {
     setSubmitting(true);
     const loadingToast = toast.loading(
@@ -47,9 +45,12 @@ const GoogleOAuthBar = () => {
                  },
                })
              );
-
+             console.log(data.user)
         toast.dismiss(loadingToast);
-        navigate(location.state?.from || "/landlord-dashboard");
+        if(!data.user.phoneNumber || data.user?.phoneNumber?.trim().length === 0){
+         return window.location.href = (location.state?.from || "/landlord-dashboard");
+        }
+        router(location.state?.from || "/landlord-dashboard");
       } else {
         setSubmitting(false);
         toast.dismiss(loadingToast);
@@ -80,7 +81,7 @@ const GoogleOAuthBar = () => {
         <GoogleLogin
           onSuccess={handleGoogleLogin}
           onError={handleError}
-          useOneTap={false} // Disable auto login for better UX in forms
+          useOneTap={false} 
           auto_select={false}
           disabled={submitting}
           theme="outline"
