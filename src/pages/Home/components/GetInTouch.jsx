@@ -57,7 +57,7 @@ const GetInTouch = () => {
     <div className="pt-20 relative w-full h-s flex max-sm:flex-col items- sm:justify-end">
       {/* Contact Form */}
       <div className="pt-10 pl-10 pr-10 pb-8 z-20 lg:w-[380px] w-full text-white flex flex-col justify-end">
-        <p className="max-lg:text-[#C69F22] max-lg:text-center max-lg:text-2xl max-lg:font-medium lg:text-[#bc5f56] font-semibold text-4xl pb-4">
+        <p className="max-lg:text-[#E0661D] max-lg:text-center max-lg:text-2xl max-lg:font-medium lg:text-[#bc5f56] font-semibold text-4xl pb-4">
           GET IN TOUCH
         </p>
         <div className="max-lg:text-center">
@@ -117,21 +117,21 @@ const GetInTouch = () => {
       </div>
 
       {/* Make the map image clickable */}
-      <div className="max-sm:w-[100%] overflow-hidden">
-        <a href={googlemaps} target="_blank" rel="noopener noreferrer">
-          <img
-            src={location}
-            alt="Background"
-            className="sm:absolute top-0 left-0 w-7/10 h-full w-full object-cover"
-          />
-          {/* Add gradient overlay */}
-          {/* Here the gradient is only visible after sm(640px) */}
-          <div className="sm:absolute sm:top-0 sm:left-0 sm:w-full sm:h-full sm:bg-gradient-to-l sm:from-black/95 sm:to-transparent"></div>
-        </a>
-      </div>
+   <div className="relative w-full sm:w-auto sm:absolute sm:top-0 sm:left-0 sm:h-full sm:overflow-hidden max-sm:px-4 max-sm:pb-6">
+  <a href={googlemaps} target="_blank" rel="noopener noreferrer">
+    <img
+      src={location}
+      alt="Background"
+      className="w-full max-sm:h-[320px] max-sm:rounded-xl max-sm:object-cover
+                 sm:h-full sm:w-full sm:object-cover sm:rounded-lg sm:shadow-lg sm:border sm:border-white/20"
+    />
+    {/* Gradient overlay only for desktop */}
+    <div className="hidden sm:block sm:absolute sm:top-0 sm:left-0 sm:w-full sm:h-full sm:bg-gradient-to-l sm:from-black/80 sm:to-transparent"></div>
+  </a>
+</div>
 
       <div
-        className="absolute font-semibold bottom-0 left-0 p-4 text-white hidden lg:block"
+        className="absolute font-semibold bottom-3 left-10 pl-4 text-white hidden lg:block"
         style={{ fontSize: "60px" }}
       >
         CONTACT US

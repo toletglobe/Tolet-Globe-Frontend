@@ -64,6 +64,8 @@ const LandlordDashboardProfileForm = lazy(() =>
 const LandlordDashboardAccountSecurity = lazy(() =>
   import("../pages/Dashboard/landlord/LandlordDashboardAccountSecurity.jsx")
 );
+const ErrorPage = lazy(() => import("../pages/ErrorPage/ErrorPage.jsx"));
+
 
 const Routing = () => {
   const router = createBrowserRouter(
@@ -87,6 +89,7 @@ const Routing = () => {
           <Route path="/verify/:token" element={<VerifyAccount />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
 
+
           {/* Authenticated Route */}
           <Route
             path="/landlord-dashboard"
@@ -95,6 +98,7 @@ const Routing = () => {
                 <LandlordDashboard />
               </PrivateRoute>
             }
+            errorElement={<ErrorPage />}
           >
             <Route index element={<LandlordDashboardWelcomePage />} />
             <Route
@@ -122,7 +126,9 @@ const Routing = () => {
               element={<LandlordDashboardAccountSecurity />}
             />
           </Route>
+          <Route path="*" element={<ErrorPage />} />
         </Route>
+        
       </>
     )
   );
