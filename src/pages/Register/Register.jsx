@@ -324,7 +324,7 @@ const Register = () => {
                 />
                 <span className="ml-2">Verify via Email</span>
               </label>
-              <label className="inline-flex items-center ml-6">
+              {/* <label className="inline-flex items-center ml-6">
                 <input
                   type="radio"
                   className="form-radio"
@@ -334,7 +334,7 @@ const Register = () => {
                   onChange={() => setVerificationMethod("sms")}
                 />
                 <span className="ml-2">Verify via SMS</span>
-              </label>
+              </label> */}
             </div>
           )}
 
@@ -378,21 +378,21 @@ const Register = () => {
               </button>
             )}
           </div>
-        {/* Divider with "or" text - made more visible */}
-          <div className="relative flex items-center justify-center my-6">
+          {/* Divider with "or" text - made more visible */}
+          {/* <div className="relative flex items-center justify-center my-6">
             <div className="flex-grow border-t border-gray-400"></div>
             <span className="flex-shrink mx-4 text-gray-400">or</span>
             <div className="flex-grow border-t border-gray-400"></div>
-          </div>
+          </div> */}
 
           {/* Google OAuth Button - ensure it's properly styled */}
-          <div className="flex justify-center mb-6 w-full">
+          {/* <div className="flex justify-center mb-6 w-full">
             <GoogleOAuthBar
               className="w-full max-w-[300px]"
               buttonClassName="w-full h-[40px] flex items-center justify-center bg-white text-black rounded-full border border-white hover:bg-gray-100"
               iconClassName="mr-2"
             />
-          </div>
+          </div> */}
         </form>
       </div>
     </div>
