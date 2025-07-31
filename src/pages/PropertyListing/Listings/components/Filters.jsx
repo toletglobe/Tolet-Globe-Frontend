@@ -5,6 +5,7 @@ import { RiHotelBedLine } from "react-icons/ri";
 import { MdOutlineWarehouse } from "react-icons/md";
 
 const Filters = ({
+  isOpen,
   SetIsOpen,
   updateFilterCount,
   filters,
@@ -20,46 +21,37 @@ const Filters = ({
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const countAppliedFilters = (filters) => {
-      return Object.values(filters).reduce((count, filterValue) => {
-        if (Array.isArray(filterValue)) {
-          return count + (filterValue.length > 0 ? 1 : 0);
-        } else {
-          return count + (filterValue ? 1 : 0);
-        }
-      }, 0);
-    };
-    const totalFilters = countAppliedFilters(filters);
-    updateFilterCount(totalFilters);
-  }, [filters, updateFilterCount]);
+  // useEffect(() => {
+  //   const countAppliedFilters = (filters) => {
+  //     return Object.values(filters).reduce((count, filterValue) => {
+  //       if (Array.isArray(filterValue)) {
+  //         return count + (filterValue.length > 0 ? 1 : 0);
+  //       } else {
+  //         return count + (filterValue ? 1 : 0);
+  //       }
+  //     }, 0);
+  //   };
+  //   const totalFilters = countAppliedFilters(filters);
+  //   updateFilterCount(totalFilters);
+  // }, [filters, updateFilterCount]);
+  const [pendingFilters, setPendingFilters] = useState(filters);
 
-  const handleFilterChange = (key, value) => {
-    setFilters((prevFilters) => {
-      if (Array.isArray(prevFilters[key])) {
-        if (prevFilters[key].includes(value)) {
-          return {
-            ...prevFilters,
-            [key]: prevFilters[key].filter((item) => item !== value),
-          };
-        } else {
-          return {
-            ...prevFilters,
-            [key]: [...prevFilters[key], value],
-          };
-        }
-      } else {
-        const newFilters = {
-          ...prevFilters,
-          [key]: prevFilters[key] === value ? "" : value,
+  const handlePendingFilterChange = (key, value) => {
+    setPendingFilters((prev) => {
+      if (Array.isArray(prev[key])) {
+        return {
+          ...prev,
+          [key]: prev[key].includes(value)
+            ? prev[key].filter((v) => v !== value)
+            : [...prev[key], value],
         };
-        if (key === "preferenceHousing" && value === "Family") {
-          newFilters.genderPreference = "";
-        }
-        return newFilters;
+      } else {
+        return {
+          ...prev,
+          [key]: prev[key] === value ? "" : value,
+        };
       }
     });
-    console.log(filters);
   };
 
   const seeResults = async () => {
@@ -69,18 +61,18 @@ const Filters = ({
   };
 
   const handleCategoryClick = (category) => {
-    // For PG, just open subfilters, don't navigate or reset filters
-    if (category === "PG") {
+    // Just toggle the subfilter view for PG, Flats, House
+    if (["PG", "Flats", "House"].includes(category)) {
       setSelectedCategory(selectedCategory === category ? null : category);
       return;
     }
-    setSelectedCategory(selectedCategory === category ? null : category);
-    // Create new query parameters based on category
-    let queryParams = new URLSearchParams();
-    if (category === "House" || category === "Flats") {
-      queryParams.set("residential", category === "House" ? "House" : "Flat");
-      queryParams.delete("commercial");
-    } else if (category === "Office") {
+
+    // For other categories (Office, Shops, Warehouse), apply filters immediately
+    setSelectedCategory(null);
+
+    const queryParams = new URLSearchParams();
+
+    if (category === "Office") {
       queryParams.set("commercial", "Office");
       queryParams.delete("residential");
     } else if (category === "Shops") {
@@ -90,11 +82,14 @@ const Filters = ({
       queryParams.set("commercial", "Warehouse");
       queryParams.delete("residential");
     }
-    // Clear any existing gender preference from the URL
+
+    // Always clear gender preference when switching
     queryParams.delete("genderPreference");
+
     // Navigate to update the URL
     navigate(`?${queryParams.toString()}`);
-    // Reset other filters
+
+    // Reset filters (since these categories don't have subfilters)
     setFilters({
       bhk: [],
       residential: [],
@@ -103,23 +98,33 @@ const Filters = ({
       genderPreference: "",
       houseType: [],
     });
+
+    // Optionally trigger result fetch for these direct categories
+    setCurrentPage(1);
+    fetchAndFilterProperties(city, selectedArea, selectedLocality);
+    SetIsOpen(false);
   };
 
   return (
     <>
-      <div className="w-full lg:w-fit  lg:bg-white  bg-[#232323] p-4 lg:p-1 lg:mt-[19.5rem]  lg:ml-8 mt-[3.9rem] shadow-sm lg:rounded-xl">
+      <div
+        className={`${
+          isOpen ? "block" : "hidden"
+        }w-full lg:w-fit  lg:bg-white  bg-[#232323] p-4 lg:p-1 top-full left-0 mt-1 
+ shadow-sm lg:rounded-xl`}
+      >
         <div className="lg:hidden flex justify-between gap-1 pb-4">
           <p className="text-xl">Select Our Service</p>
           {/* Close Button for Small Screens */}
           <button
             className="relative  right-2 text-white text-xl lg:hidden"
-            onClick={() => SetIsOpen(false)}
+            onClick={(e) => SetIsOpen(false)}
           >
             ✖
           </button>
         </div>
 
-        <div className="lg:flex gap-4 lg:gap-3 2xl:gap-[1.35rem] grid grid-cols-2 justify-items-center lg:justify-items-start ">
+        <div className="lg:flex gap-4 lg:gap-3 2xl:gap-[1.35rem] grid grid-cols-2 justify-items-center lg:justify-items-start  ">
           {[
             { icon: BsHouseDoor, text: "House" },
             { icon: RiHotelBedLine, text: "PG" },
@@ -130,10 +135,18 @@ const Filters = ({
           ].map((item, index) => (
             <div
               key={index}
-              className="flex lg:flex-col flex-row justify-center items-center lg:w-[100px] w-[140px]  cursor-pointer text-black bg-white  hover:text-[#0c8a7e] lg:hover:bg-[#C8A21C] lg:hover:text-white rounded-xl py-1.5 border-black lg:border-none border gap-2 lg:gap-0 "
+              className="flex lg:flex-col flex-row justify-center items-center lg:w-[100px] w-[140px]  cursor-pointer text-black bg-white  hover:text-[#0c8a7e] lg:hover:bg-[#C8A21C] lg:hover:text-white rounded-xl py-1.5 border-black lg:border-none border gap-2 lg:gap-0"
               onClick={() => handleCategoryClick(item.text)}
               onMouseEnter={() => {
-                if (item.text === "PG") setSelectedCategory("PG");
+                if (
+                  item.text === "PG" ||
+                  item.text === "Flats" ||
+                  item.text === "House"
+                ) {
+                  setSelectedCategory(item.text);
+                } else {
+                  setSelectedCategory(null);
+                }
               }}
             >
               <item.icon size={24} className="mb-2 " />
@@ -161,8 +174,8 @@ const Filters = ({
                         type="checkbox"
                         name="bhk"
                         value={bhk}
-                        checked={filters.bhk.includes(bhk)}
-                        onChange={() => handleFilterChange("bhk", bhk)}
+                        checked={pendingFilters.bhk.includes(bhk)}
+                        onChange={() => handlePendingFilterChange("bhk", bhk)}
                         className="appearance-none w-4 h-4 rounded-full border-2 lg:border-black border-white checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
                       <span className="text-sm lg:text-black text-white overflow-hidden whitespace-nowrap text-ellipsis">
@@ -189,8 +202,10 @@ const Filters = ({
                         type="checkbox"
                         name="houseType"
                         value={type}
-                        checked={filters.houseType.includes(type)}
-                        onChange={() => handleFilterChange("houseType", type)}
+                        checked={pendingFilters.houseType.includes(type)}
+                        onChange={() =>
+                          handlePendingFilterChange("houseType", type)
+                        }
                         className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
                       <span className="text-sm lg:text-black text-white">
@@ -216,9 +231,12 @@ const Filters = ({
                       type="radio"
                       name="preferenceHousing"
                       value={preference}
-                      checked={filters.preferenceHousing === preference}
-                      onChange={() =>
-                        handleFilterChange("preferenceHousing", preference)
+                      checked={pendingFilters.preferenceHousing === preference}
+                      onClick={() =>
+                        handlePendingFilterChange(
+                          "preferenceHousing",
+                          preference
+                        )
                       }
                       className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
@@ -238,7 +256,32 @@ const Filters = ({
                 Clear
               </button>
               <button
-                onClick={seeResults}
+                type="button"
+                onClick={() => {
+                  setFilters(pendingFilters);
+                  let queryParams = new URLSearchParams();
+                  queryParams.set("residential", "House");
+                  queryParams.delete("commercial");
+
+                  if (filters.bhk.length > 0)
+                    queryParams.set("bhk", filters.bhk.join(","));
+                  if (filters.houseType.length > 0)
+                    queryParams.set("houseType", filters.houseType.join(","));
+                  if (filters.preferenceHousing)
+                    queryParams.set(
+                      "preferenceHousing",
+                      filters.preferenceHousing
+                    );
+
+                  navigate(`?${queryParams.toString()}`);
+                  setCurrentPage(1);
+                  fetchAndFilterProperties(
+                    city,
+                    selectedArea,
+                    selectedLocality
+                  );
+                  SetIsOpen(false);
+                }}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
               >
                 Done
@@ -266,8 +309,8 @@ const Filters = ({
                         type="checkbox"
                         name="bhk"
                         value={bhk}
-                        checked={filters.bhk.includes(bhk)}
-                        onChange={() => handleFilterChange("bhk", bhk)}
+                        checked={pendingFilters.bhk.includes(bhk)}
+                        onChange={() => handlePendingFilterChange("bhk", bhk)}
                         className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
                       <span className="text-sm lg:text-black text-white overflow-hidden whitespace-nowrap text-ellipsis">
@@ -294,8 +337,10 @@ const Filters = ({
                         type="checkbox"
                         name="houseType"
                         value={type}
-                        checked={filters.houseType.includes(type)}
-                        onChange={() => handleFilterChange("houseType", type)}
+                        checked={pendingFilters.houseType.includes(type)}
+                        onChange={() =>
+                          handlePendingFilterChange("houseType", type)
+                        }
                         className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                       />
                       <span className="text-sm lg:text-black text-white">
@@ -321,9 +366,12 @@ const Filters = ({
                       type="radio"
                       name="preferenceHousing"
                       value={preference}
-                      checked={filters.preferenceHousing === preference}
+                      checked={pendingFilters.preferenceHousing === preference}
                       onChange={() =>
-                        handleFilterChange("preferenceHousing", preference)
+                        handlePendingFilterChange(
+                          "preferenceHousing",
+                          preference
+                        )
                       }
                       className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
@@ -343,7 +391,31 @@ const Filters = ({
                 Clear
               </button>
               <button
-                onClick={seeResults}
+                onClick={() => {
+                  setFilters(pendingFilters);
+                  let queryParams = new URLSearchParams();
+                  queryParams.set("residential", "Flat");
+                  queryParams.delete("commercial");
+
+                  if (filters.bhk.length > 0)
+                    queryParams.set("bhk", filters.bhk.join(","));
+                  if (filters.houseType.length > 0)
+                    queryParams.set("houseType", filters.houseType.join(","));
+                  if (filters.preferenceHousing)
+                    queryParams.set(
+                      "preferenceHousing",
+                      filters.preferenceHousing
+                    );
+
+                  navigate(`?${queryParams.toString()}`);
+                  setCurrentPage(1);
+                  fetchAndFilterProperties(
+                    city,
+                    selectedArea,
+                    selectedLocality
+                  );
+                  SetIsOpen(false);
+                }}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
               >
                 Done
@@ -370,9 +442,9 @@ const Filters = ({
                       type="radio"
                       name="genderPreference"
                       value={gender}
-                      checked={filters.genderPreference === gender}
+                      checked={pendingFilters.genderPreference === gender}
                       onChange={() =>
-                        handleFilterChange("genderPreference", gender)
+                        handlePendingFilterChange("genderPreference", gender)
                       }
                       className="appearance-none w-4 h-4 rounded-full border-2 border-white lg:border-black checked:bg-black checked:border-[#1890FF] checked:border-4 transition-all"
                     />
@@ -393,6 +465,7 @@ const Filters = ({
               </button>
               <button
                 onClick={() => {
+                  setFilters(pendingFilters);
                   // When Done is clicked, apply the PG filter and gender preference
                   let queryParams = new URLSearchParams();
                   queryParams.set("residential", "PG");
