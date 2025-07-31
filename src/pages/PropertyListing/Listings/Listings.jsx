@@ -973,7 +973,7 @@ const Listing = () => {
                     <img src={drop} alt="Dropdown" className="cursor-pointer" />
 
                     {/* Dropdown */}
-                    <div className="absolute top-full left-0 hidden group-hover:flex bg-white shadow-md mt-1 rounded w-40 z-50">
+                    <div className="absolute top-full left-0 hidden group-hover:flex hover:flex bg-white shadow-md mt-1 rounded w-40 z-50">
                       <div className="w-full text-black flex flex-col justify-center rounded-lg shadow-md">
                         {["Lucknow", "Ayodhya", "Vellore", "Kota"].map(
                           (cityName) => (
@@ -1136,7 +1136,7 @@ const Listing = () => {
                     </div>
 
                     {/* Dropdown: appears right below the button */}
-                    <div className="absolute top-full -left-2 hidden group-hover:block mt-0.5 z-50">
+                    <div className="absolute top-full -left-1 hidden group-hover:block hover:block mt-0.5 z-50">
                       <Filters
                         SetIsOpen={SetIsOpen}
                         setProperties={setProperties}
@@ -1164,7 +1164,7 @@ const Listing = () => {
                         mode ? "rotate-180" : "rotate-0"
                       } cursor-pointer`}
                     />
-                    <div className="absolute top-full hidden group-hover:block z-50 text-sm lg:text-lg">
+                    <div className="absolute top-full hidden group-hover:block hover:block z-50 text-sm lg:text-lg -left-1">
                       <div className="block bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-113px]">
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
