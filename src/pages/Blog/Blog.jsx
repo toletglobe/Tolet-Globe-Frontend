@@ -95,10 +95,10 @@ const Blog = () => {
     );
   }
 
-  return (
-    <div className="bg-black py-5 px-4 sm:px-6 lg:px-8">
-      <h1 className="text-2xl sm:text-4xl text-center text-white font-semibold mt-4 sm:mt-8">
-        To-Let Tales
+  return ( 
+    <div className="bg-black my-5">
+      <h1 className="text-4xl text-center text-white font-semibold mt-8">
+          To-Let Tales
       </h1>
       <h1 className="text-center mt-1 sm:mt-2 text-sm sm:text-base text-[#6CC1B6]">
         Dive into a Sea of Endless Stories and Insights

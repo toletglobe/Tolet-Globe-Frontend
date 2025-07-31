@@ -63,7 +63,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
   ];
 
   const furnishedOptions = [
-    { value: "Unfurnished", label: "Unfurnished" },
+    { value: "Not Furnished", label: "Not Furnished" },
     { value: "Semi Furnished", label: "Semi Furnished" },
     { value: "Fully Furnished", label: "Fully Furnished" },
   ];
