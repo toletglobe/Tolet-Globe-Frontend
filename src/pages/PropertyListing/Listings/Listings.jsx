@@ -223,17 +223,6 @@ const Listing = () => {
     }
   }, [selectedLocality, city]);
 
-  // Replace your existing fetchAndFilterProperties function with this improved version
-
-  // const handleClick = useCallback((ev) => {
-  //   // if (!map) return;
-  //   // if (!ev.latLng) return;
-  //   // console.log("marker clicked:", ev.latLng.toString());
-  //   console.log("marker clicked:", ev);
-
-  //   // map.panTo(ev.latLng);
-  // });
-
   // Add useEffect to handle clicks outside the panel
   useEffect(() => {
     function handleClickOutside(event) {
@@ -358,6 +347,89 @@ const Listing = () => {
       }
       return 0;
     });
+  };
+
+  // Helper function to get fallback coordinates
+  const getFallbackCoordinates = (property, selectedCity) => {
+    // First try locality coordinates
+    if (
+      property.locality &&
+      localityCoordinates[selectedCity] &&
+      localityCoordinates[selectedCity][property.locality]
+    ) {
+      return localityCoordinates[selectedCity][property.locality];
+    }
+
+    // Then try area coordinates
+    if (
+      property.area &&
+      localityCoordinates[selectedCity] &&
+      localityCoordinates[selectedCity][property.area]
+    ) {
+      return localityCoordinates[selectedCity][property.area];
+    }
+
+    // Try to extract area from address
+    if (property.address) {
+      const addressLower = property.address.toLowerCase();
+      const availableAreas = localityCoordinates[selectedCity] || {};
+
+      for (const [area, coords] of Object.entries(availableAreas)) {
+        if (addressLower.includes(area.toLowerCase())) {
+          return coords;
+        }
+      }
+    }
+
+    return null;
+  };
+
+  // Helper function to check if coordinates are equal (with tolerance)
+  const areCoordsEqual = (coord1, coord2, tolerance = 0.001) => {
+    return (
+      Math.abs(coord1.lat - coord2.lat) < tolerance &&
+      Math.abs(coord1.lng - coord2.lng) < tolerance
+    );
+  };
+
+  // Helper function to add random offset to properties with duplicate coordinates
+  const addRandomOffsetToDuplicates = (markers) => {
+    const coordinateGroups = {};
+
+    // Group markers by coordinates
+    markers.forEach((marker) => {
+      const key = `${marker.location.lat.toFixed(
+        4
+      )},${marker.location.lng.toFixed(4)}`;
+      if (!coordinateGroups[key]) {
+        coordinateGroups[key] = [];
+      }
+      coordinateGroups[key].push(marker);
+    });
+
+    // Add small random offsets to duplicates
+    Object.entries(coordinateGroups).forEach(([key, group]) => {
+      if (group.length > 1) {
+        console.log(
+          `Adding offsets to ${group.length} properties with duplicate coordinates:`,
+          key
+        );
+
+        group.forEach((marker, index) => {
+          if (index > 0) {
+            // Keep the first one as-is
+            const offsetLat = (Math.random() - 0.5) * 0.002; // ~200m offset
+            const offsetLng = (Math.random() - 0.5) * 0.002;
+
+            marker.location.lat += offsetLat;
+            marker.location.lng += offsetLng;
+            marker.hasOffset = true;
+          }
+        });
+      }
+    });
+
+    return markers;
   };
 
   const fetchAndFilterProperties = async (
@@ -498,7 +570,6 @@ const Listing = () => {
             });
           });
 
-
           console.log("Coordinate Statistics:", coordinateStats);
 
           // Show duplicate coordinates
@@ -517,28 +588,6 @@ const Listing = () => {
         };
 
         debugPropertyCoordinates(propertyData);
-
-
-
-          console.log("Coordinate Statistics:", coordinateStats);
-
-          // Show duplicate coordinates
-          const duplicates = Object.entries(coordinateStats.duplicate).filter(
-            ([key, count]) => count > 1
-          );
-          if (duplicates.length > 0) {
-            console.warn("DUPLICATE COORDINATES FOUND:", duplicates);
-          }
-
-          if (coordinateStats.cityCenter > 0) {
-            console.warn(
-              `WARNING: ${coordinateStats.cityCenter} properties are using city center coordinates!`
-            );
-          }
-        };
-
-        debugPropertyCoordinates(propertyData);
-
 
         // Enhanced marker creation with better fallback logic
         let allPropertyMarkers = propertyData
@@ -592,35 +641,6 @@ const Listing = () => {
                 };
               }
               return null; // Skip this property if no valid coordinates
-
-            }
-
-            // If using city center coordinates, try to find better coordinates
-            if (isCityCenter) {
-              console.warn(
-                `Property ${property.slug} is using city center coordinates`
-              );
-              const fallbackCoords = getFallbackCoordinates(
-                property,
-                selectedCity
-              );
-              if (
-                fallbackCoords &&
-                !areCoordsEqual(fallbackCoords, { lat, lng })
-              ) {
-                console.log(
-                  `Using better fallback coordinates for ${property.slug}:`,
-                  fallbackCoords
-                );
-                return {
-                  key: property.slug,
-                  location: fallbackCoords,
-                  property: property,
-                  isFallback: true,
-                };
-              }
-            }
-
             }
 
             // If using city center coordinates, try to find better coordinates
@@ -708,7 +728,7 @@ const Listing = () => {
             .filter((marker) => marker !== null);
 
           setAvailableProperties(allPropertyMarkers);
-    
+        }
 
         if (propertyData && Array.isArray(propertyData)) {
           propertyData = sortPropertiesByAvailability(propertyData);
@@ -718,108 +738,18 @@ const Listing = () => {
         setNoPropertiesFound(propertyData.length === 0);
       } catch (error) {
         console.error("Error fetching data:", error);
-      }
-
-
-        if (propertyData && Array.isArray(propertyData)) {
-          propertyData = sortPropertiesByAvailability(propertyData);
-        }
-
-        setProperties(propertyData);
-        setNoPropertiesFound(propertyData.length === 0);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        setProperties([]);
+        setNoPropertiesFound(true);
       }
 
       setLoading(false);
     } catch (error) {
       console.error("Error fetching properties:", error);
       setLoading(false);
+      setProperties([]);
+      setNoPropertiesFound(true);
     }
     return propertyData;
-  };
-
-  // Helper function to get fallback coordinates
-  const getFallbackCoordinates = (property, selectedCity) => {
-    // First try locality coordinates
-    if (
-      property.locality &&
-      localityCoordinates[selectedCity] &&
-      localityCoordinates[selectedCity][property.locality]
-    ) {
-      return localityCoordinates[selectedCity][property.locality];
-    }
-
-    // Then try area coordinates
-    if (
-      property.area &&
-      localityCoordinates[selectedCity] &&
-      localityCoordinates[selectedCity][property.area]
-    ) {
-      return localityCoordinates[selectedCity][property.area];
-    }
-
-    // Try to extract area from address
-    if (property.address) {
-      const addressLower = property.address.toLowerCase();
-      const availableAreas = localityCoordinates[selectedCity] || {};
-
-      for (const [area, coords] of Object.entries(availableAreas)) {
-        if (addressLower.includes(area.toLowerCase())) {
-          return coords;
-        }
-      }
-    }
-
-    return null;
-  };
-
-  // Helper function to check if coordinates are equal (with tolerance)
-  const areCoordsEqual = (coord1, coord2, tolerance = 0.001) => {
-    return (
-      Math.abs(coord1.lat - coord2.lat) < tolerance &&
-      Math.abs(coord1.lng - coord2.lng) < tolerance
-    );
-  };
-
-  // Helper function to add random offset to properties with duplicate coordinates
-  const addRandomOffsetToDuplicates = (markers) => {
-    const coordinateGroups = {};
-
-    // Group markers by coordinates
-    markers.forEach((marker) => {
-      const key = `${marker.location.lat.toFixed(
-        4
-      )},${marker.location.lng.toFixed(4)}`;
-      if (!coordinateGroups[key]) {
-        coordinateGroups[key] = [];
-      }
-      coordinateGroups[key].push(marker);
-    });
-
-    // Add small random offsets to duplicates
-    Object.entries(coordinateGroups).forEach(([key, group]) => {
-      if (group.length > 1) {
-        console.log(
-          `Adding offsets to ${group.length} properties with duplicate coordinates:`,
-          key
-        );
-
-        group.forEach((marker, index) => {
-          if (index > 0) {
-            // Keep the first one as-is
-            const offsetLat = (Math.random() - 0.5) * 0.002; // ~200m offset
-            const offsetLng = (Math.random() - 0.5) * 0.002;
-
-            marker.location.lat += offsetLat;
-            marker.location.lng += offsetLng;
-            marker.hasOffset = true;
-          }
-        });
-      }
-    });
-
-    return markers;
   };
 
   const PoiMarkers = (locs) => {
@@ -830,12 +760,7 @@ const Listing = () => {
           <Marker
             key={loc.key}
             position={loc.location}
-
-            onClick={() => navigate(`/property/${loc.key}`)}
-
-            // onClick={() => navigate(`/property/${loc.key}`)}
             onClick={() => window.open(`/property/${loc.key}`, "_blank")}
-
             onMouseOver={() => console.log("Marker hovered:", loc.key)}
             // Custom marker icon (optional)
             icon={{
@@ -854,6 +779,7 @@ const Listing = () => {
       </>
     );
   };
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
@@ -939,6 +865,7 @@ const Listing = () => {
     });
     setShowSearchPanel(true);
   };
+
   const handleSearchSelection = (value, type) => {
     const queryParams = new URLSearchParams(location.search);
 
@@ -973,6 +900,7 @@ const Listing = () => {
       setShowLoginPopup(true);
     }
   };
+
   const handleVisit = () => {
     if (!isLoggedIn) {
       // Show the login popup instead of navigating to the login page
@@ -987,9 +915,11 @@ const Listing = () => {
     console.log("Cancel clicked. Clearing compare list...");
     dispatch({ type: "CLEAR_COMPARE" });
   };
+
   const compare = () => {
     navigate("/compare-property");
   };
+
   const updateFilterCount = (count) => {
     setFilterCount(count);
   };
@@ -1426,56 +1356,16 @@ const Listing = () => {
           </div>
         </div>
 
-        {/* <div
-          onClick={() => {
-            if (isOpen) SetIsOpen(false);
-          }}
-          className={fixed lg:absolute inset-0 z-30 lg:z-50  flex sm:items-center lg:item-center bg-black bg-opacity-50 sm:bg-transparent lg:bg-black/50 transition-opacity duration-300 ${
-            isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={absolute top-0  right-0 w-full lg:w-fit h-full lg:h-auto bg-black text-white shadow-lg transition-transform duration-300 ease-in-out transform z-40 
-            ${isOpen ? "translate-x-0" : "translate-x-full"} 
-            sm:relative sm:w-full sm:h-auto sm:translate-x-0 sm:bg-transparent sm:shadow-none sm:block}
-          >
-            <div className="lg:p-0 lg:absolute lg:-top-[35rem] 2xl:-top-[34rem] lg:left-[11rem] 2xl:left-[11rem]">
-              <Filters
-                SetIsOpen={SetIsOpen}
-                setProperties={setProperties}
-                city={city}
-                updateFilterCount={updateFilterCount}
-                filterCount={filterCount}
-                filters={filters}
-                setFilters={setFilters}
-                resetFilters={resetFilters}
-                selectedArea={selectedArea}
-                selectedLocality={selectedLocality}
-              />
-            </div>
-          </div>
-        </div> */}
-
         {/* Pin Location on Map */}
-        {/* <div>{renderMap()}</div> */}
         <div className="w-full h-[400px] rounded-md border-[1.5px] border-[#C8C8C8]">
-          {" "}
           <Map
             defaultZoom={11}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
             onLoad={(map) => setMapInstance(map)}
-            // options={{
-            //   minZoom: 15,
-            //   maxZoom: 15.5
-            // }}
           >
             <PoiMarkers pois={availableProperties} />
           </Map>
-          {/* {hovered && (
-            <p className="mt-2 text-[#C8C8C8] text-sm">Selected coordinates:</p>
-          )} */}
         </div>
 
         <div className="pt-3">
@@ -1503,6 +1393,7 @@ const Listing = () => {
           </div>
         )}
       </section>
+      <ToastContainer />
     </>
   );
 };
