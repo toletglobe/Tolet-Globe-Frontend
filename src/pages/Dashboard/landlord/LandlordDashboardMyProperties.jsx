@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { BASE_URL } from "../../../config/constant";
+// import { BASE_URL } from "../../../config/constant";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -193,10 +193,8 @@ export default function MyProperties({ favouriteList = [] }) {
       return;
 
     try {
-      const response = await fetch(`${BASE_URL}property/${propertyId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await API.delete(`property/${propertyId}`, {
+          headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
