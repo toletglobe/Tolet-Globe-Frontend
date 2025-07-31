@@ -8,14 +8,13 @@ const Toggle = ({ propertyId, currentStatus, propertyUserId }) => {
   const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
-    const role = localStorage.getItem("User");
-    const userType = localStorage.getItem("userType");
+    const role = localStorage.getItem("role");
     const userId = localStorage.getItem("userId");
-    console.log("Logged in user:", { role, userType, userId });
+    console.log("Logged in user:", { role, userId });
     console.log("Property owner ID:", propertyUserId);
 
     setIsAdmin(role === "admin");
-    setIsOwner(userId === propertyUserId && userType === "owner");
+    setIsOwner(userId === propertyUserId);
   }, [propertyUserId]);
 
   const toggleStatus = async () => {
