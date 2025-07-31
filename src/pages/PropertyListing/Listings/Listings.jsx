@@ -223,17 +223,6 @@ const Listing = () => {
     }
   }, [selectedLocality, city]);
 
-  // Replace your existing fetchAndFilterProperties function with this improved version
-
-  // const handleClick = useCallback((ev) => {
-  //   // if (!map) return;
-  //   // if (!ev.latLng) return;
-  //   // console.log("marker clicked:", ev.latLng.toString());
-  //   console.log("marker clicked:", ev);
-
-  //   // map.panTo(ev.latLng);
-  // });
-
   // Add useEffect to handle clicks outside the panel
   useEffect(() => {
     function handleClickOutside(event) {
@@ -358,6 +347,89 @@ const Listing = () => {
       }
       return 0;
     });
+  };
+
+  // Helper function to get fallback coordinates
+  const getFallbackCoordinates = (property, selectedCity) => {
+    // First try locality coordinates
+    if (
+      property.locality &&
+      localityCoordinates[selectedCity] &&
+      localityCoordinates[selectedCity][property.locality]
+    ) {
+      return localityCoordinates[selectedCity][property.locality];
+    }
+
+    // Then try area coordinates
+    if (
+      property.area &&
+      localityCoordinates[selectedCity] &&
+      localityCoordinates[selectedCity][property.area]
+    ) {
+      return localityCoordinates[selectedCity][property.area];
+    }
+
+    // Try to extract area from address
+    if (property.address) {
+      const addressLower = property.address.toLowerCase();
+      const availableAreas = localityCoordinates[selectedCity] || {};
+
+      for (const [area, coords] of Object.entries(availableAreas)) {
+        if (addressLower.includes(area.toLowerCase())) {
+          return coords;
+        }
+      }
+    }
+
+    return null;
+  };
+
+  // Helper function to check if coordinates are equal (with tolerance)
+  const areCoordsEqual = (coord1, coord2, tolerance = 0.001) => {
+    return (
+      Math.abs(coord1.lat - coord2.lat) < tolerance &&
+      Math.abs(coord1.lng - coord2.lng) < tolerance
+    );
+  };
+
+  // Helper function to add random offset to properties with duplicate coordinates
+  const addRandomOffsetToDuplicates = (markers) => {
+    const coordinateGroups = {};
+
+    // Group markers by coordinates
+    markers.forEach((marker) => {
+      const key = `${marker.location.lat.toFixed(
+        4
+      )},${marker.location.lng.toFixed(4)}`;
+      if (!coordinateGroups[key]) {
+        coordinateGroups[key] = [];
+      }
+      coordinateGroups[key].push(marker);
+    });
+
+    // Add small random offsets to duplicates
+    Object.entries(coordinateGroups).forEach(([key, group]) => {
+      if (group.length > 1) {
+        console.log(
+          `Adding offsets to ${group.length} properties with duplicate coordinates:`,
+          key
+        );
+
+        group.forEach((marker, index) => {
+          if (index > 0) {
+            // Keep the first one as-is
+            const offsetLat = (Math.random() - 0.5) * 0.002; // ~200m offset
+            const offsetLng = (Math.random() - 0.5) * 0.002;
+
+            marker.location.lat += offsetLat;
+            marker.location.lng += offsetLng;
+            marker.hasOffset = true;
+          }
+        });
+      }
+    });
+
+    return markers;
   };
 
   const fetchAndFilterProperties = async (
@@ -666,108 +738,29 @@ const Listing = () => {
         setNoPropertiesFound(propertyData.length === 0);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setProperties([]);
+        setNoPropertiesFound(true);
       }
 
       setLoading(false);
     } catch (error) {
       console.error("Error fetching properties:", error);
       setLoading(false);
+      setProperties([]);
+      setNoPropertiesFound(true);
     }
     return propertyData;
-  };
-
-  // Helper function to get fallback coordinates
-  const getFallbackCoordinates = (property, selectedCity) => {
-    // First try locality coordinates
-    if (
-      property.locality &&
-      localityCoordinates[selectedCity] &&
-      localityCoordinates[selectedCity][property.locality]
-    ) {
-      return localityCoordinates[selectedCity][property.locality];
-    }
-
-    // Then try area coordinates
-    if (
-      property.area &&
-      localityCoordinates[selectedCity] &&
-      localityCoordinates[selectedCity][property.area]
-    ) {
-      return localityCoordinates[selectedCity][property.area];
-    }
-
-    // Try to extract area from address
-    if (property.address) {
-      const addressLower = property.address.toLowerCase();
-      const availableAreas = localityCoordinates[selectedCity] || {};
-
-      for (const [area, coords] of Object.entries(availableAreas)) {
-        if (addressLower.includes(area.toLowerCase())) {
-          return coords;
-        }
-      }
-    }
-
-    return null;
-  };
-
-  // Helper function to check if coordinates are equal (with tolerance)
-  const areCoordsEqual = (coord1, coord2, tolerance = 0.001) => {
-    return (
-      Math.abs(coord1.lat - coord2.lat) < tolerance &&
-      Math.abs(coord1.lng - coord2.lng) < tolerance
-    );
-  };
-
-  // Helper function to add random offset to properties with duplicate coordinates
-  const addRandomOffsetToDuplicates = (markers) => {
-    const coordinateGroups = {};
-
-    // Group markers by coordinates
-    markers.forEach((marker) => {
-      const key = `${marker.location.lat.toFixed(
-        4
-      )},${marker.location.lng.toFixed(4)}`;
-      if (!coordinateGroups[key]) {
-        coordinateGroups[key] = [];
-      }
-      coordinateGroups[key].push(marker);
-    });
-
-    // Add small random offsets to duplicates
-    Object.entries(coordinateGroups).forEach(([key, group]) => {
-      if (group.length > 1) {
-        console.log(
-          `Adding offsets to ${group.length} properties with duplicate coordinates:`,
-          key
-        );
-
-        group.forEach((marker, index) => {
-          if (index > 0) {
-            // Keep the first one as-is
-            const offsetLat = (Math.random() - 0.5) * 0.002; // ~200m offset
-            const offsetLng = (Math.random() - 0.5) * 0.002;
-
-            marker.location.lat += offsetLat;
-            marker.location.lng += offsetLng;
-            marker.hasOffset = true;
-          }
-        });
-      }
-    });
-
-    return markers;
   };
 
   const PoiMarkers = (locs) => {
     console.log("Google api key", import.meta.env.VITE_GOOGLE_MAPS_ID);
     return (
       <>
+      
         {locs.pois.map((loc) => (
           <Marker
             key={loc.key}
             position={loc.location}
-            // onClick={() => navigate(`/property/${loc.key}`)}
             onClick={() => window.open(`/property/${loc.key}`, "_blank")}
             onMouseOver={() => console.log("Marker hovered:", loc.key)}
             // Custom marker icon (optional)
@@ -787,6 +780,7 @@ const Listing = () => {
       </>
     );
   };
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
@@ -872,6 +866,7 @@ const Listing = () => {
     });
     setShowSearchPanel(true);
   };
+
   const handleSearchSelection = (value, type) => {
     const queryParams = new URLSearchParams(location.search);
 
@@ -906,6 +901,7 @@ const Listing = () => {
       setShowLoginPopup(true);
     }
   };
+
   const handleVisit = () => {
     if (!isLoggedIn) {
       // Show the login popup instead of navigating to the login page
@@ -920,9 +916,11 @@ const Listing = () => {
     console.log("Cancel clicked. Clearing compare list...");
     dispatch({ type: "CLEAR_COMPARE" });
   };
+
   const compare = () => {
     navigate("/compare-property");
   };
+
   const updateFilterCount = (count) => {
     setFilterCount(count);
   };
@@ -934,6 +932,7 @@ const Listing = () => {
       </div>
     );
   }
+
   return (
     <>
       {showLoginPopup && (
@@ -963,25 +962,36 @@ const Listing = () => {
             <div className="bg-white sm:col-span-8 md:col-span-6 rounded-md lg:w-full w-[96%] mx-[2%] ">
               <div className="flex flex-wrap items-center text-black  text-sm md:text-lg">
                 {/* Select city dropdown */}
-                <div
-                  className="flex items-center gap-4 px-3 py-2 my-1  shrink-0 border-r border-black"
-                  onClick={handleLocation}
-                >
-                  <div className="py-1 px-1 hover:cursor-pointer">
-                    <p>{!city || Location ? "Select City" : city}</p>
-                  </div>
-                  <div className="items-center cursor-pointer">
+                <div className="flex flex-wrap items-center text-black text-sm md:text-lg">
+                  {/* Select city dropdown */}
+                  <div className="relative group flex items-center gap-4 px-3 py-2 my-1 shrink-0 border-r border-black cursor-pointer">
+                    {/* Button Area */}
+                    <span className="text-sm md:text-lg whitespace-nowrap">
+                      {!city ? "Select City" : city}
+                    </span>
+
                     <img src={drop} alt="Dropdown" className="cursor-pointer" />
+
+                    {/* Dropdown */}
+                    <div className="absolute top-9 left-0 hidden group-hover:flex hover:flex bg-white shadow-md mt-1 rounded w-40 z-50">
+                      <div className="w-full text-black flex flex-col justify-center rounded-lg shadow-md">
+                        {["Lucknow", "Ayodhya", "Vellore", "Kota"].map(
+                          (cityName) => (
+                            <h2
+                              key={cityName}
+                              className="text-sm md:text-lg font-medium cursor-pointer px-4 py-2 hover:bg-gray-100"
+                              onClick={() => {
+                                resetFilters();
+                                navigate(`/property-listing/${cityName}`);
+                              }}
+                            >
+                              {cityName}
+                            </h2>
+                          )
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <SelectLocation
-                    Location={Location}
-                    setLocation={setLocation}
-                    onLocationSelect={(selectedCity) => {
-                      resetFilters();
-                      navigate(`/property-listing/${selectedCity}`);
-                      setLocation(false);
-                    }}
-                  />
                 </div>
 
                 {/* Select area searchbar */}
@@ -1116,27 +1126,35 @@ const Listing = () => {
 
                 {/* Filter and sort in desktop */}
                 <div className="hidden lg:flex md:flex">
-                  <div
-                    className="flex items-center gap-2 border-l px-3 border-black shrink-0 cursor-pointer"
-                    onClick={handleOpen}
-                  >
-                    <div className="flex items-center gap-2">
+                  <div className="relative group flex items-center gap-2 border-l px-3 border-black shrink-0 cursor-pointer">
+                    {/* Filters button */}
+                    <div className="flex items-center gap-2 hover:cursor-pointer">
                       <span className="text-sm md:text-lg whitespace-nowrap">
                         Filters
                       </span>
-                      <img
-                        src={drop}
-                        alt="Dropdown"
-                        className="cursor-pointer"
+                      <img src={drop} alt="Dropdown" />
+                    </div>
+
+                    {/* Dropdown: appears right below the button */}
+                    <div className="absolute top-full -left-1 hidden group-hover:block hover:block mt-0.5 z-50">
+                      <Filters
+                        SetIsOpen={SetIsOpen}
+                        setProperties={setProperties}
+                        city={city}
+                        fetchAndFilterProperties={fetchAndFilterProperties}
+                        updateFilterCount={updateFilterCount}
+                        filterCount={filterCount}
+                        filters={filters}
+                        setFilters={setFilters}
+                        resetFilters={resetFilters}
+                        selectedArea={selectedArea}
+                        selectedLocality={selectedLocality}
                       />
                     </div>
                   </div>
 
-                  <div
-                    className="flex items-center gap-2 border-l pl-3 lg:px-12 border-black shrink-0 cursor-pointer"
-                    onClick={handleMode}
-                  >
-                    <span className="text-sm md:text-lg whitespace-nowrap">
+                  <div className="relative group flex items-center gap-2 border-l pl-3 lg:px-12 border-black shrink-0 cursor-pointer">
+                    <span className="text-sm md:text-lg whitespace-nowrap hover:cursor-pointer">
                       {selectedSort}
                     </span>
                     <img
@@ -1146,12 +1164,8 @@ const Listing = () => {
                         mode ? "rotate-180" : "rotate-0"
                       } cursor-pointer`}
                     />
-                    <div className="relative text-sm lg:text-lg">
-                      <div
-                        className={`${
-                          mode ? "block" : "hidden"
-                        } z-50 absolute bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-113px]`}
-                      >
+                    <div className="absolute top-full hidden group-hover:block hover:block z-50 text-sm lg:text-lg -left-1">
+                      <div className="block bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-113px]">
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                           onClick={() => {
@@ -1266,6 +1280,37 @@ const Listing = () => {
                   <img src={drop} alt="Dropdown" className="cursor-pointer" />
                 </div>
               </div>
+              {isOpen && (
+                <div
+                  onClick={() => SetIsOpen(false)}
+                  className={`fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
+                    isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                  }`}
+                >
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className={`absolute top-0 right-0 w-full h-full bg-white text-black shadow-lg transition-transform duration-300 ease-in-out transform ${
+                      isOpen ? "translate-x-0" : "translate-x-full"
+                    } sm:relative sm:translate-x-0 sm:shadow-none`}
+                  >
+                    <div className="p-4 overflow-y-auto max-h-screen">
+                      <Filters
+                        SetIsOpen={SetIsOpen}
+                        setProperties={setProperties}
+                        city={city}
+                        updateFilterCount={updateFilterCount}
+                        fetchAndFilterProperties={fetchAndFilterProperties}
+                        filterCount={filterCount}
+                        filters={filters}
+                        setFilters={setFilters}
+                        resetFilters={resetFilters}
+                        selectedArea={selectedArea}
+                        selectedLocality={selectedLocality}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="sm:col-span-4 md:col-span-4 flex w-fit xs:w-[50%]  items-center justify-center lg:justify-between -mt-[76px] ml-[98px] xs:[96px] lg:ml-4 lg:mt-0">
@@ -1312,56 +1357,18 @@ const Listing = () => {
           </div>
         </div>
 
-        <div
-          onClick={() => {
-            if (isOpen) SetIsOpen(false);
-          }}
-          className={`fixed lg:absolute inset-0 z-30 lg:z-50  flex sm:items-center lg:item-center bg-black bg-opacity-50 sm:bg-transparent lg:bg-black/50 transition-opacity duration-300 ${
-            isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={`absolute top-0  right-0 w-full lg:w-fit h-full lg:h-auto bg-black text-white shadow-lg transition-transform duration-300 ease-in-out transform z-40 
-            ${isOpen ? "translate-x-0" : "translate-x-full"} 
-            sm:relative sm:w-full sm:h-auto sm:translate-x-0 sm:bg-transparent sm:shadow-none sm:block`}
-          >
-            <div className="lg:p-0 lg:absolute lg:-top-[35rem] 2xl:-top-[34rem] lg:left-[11rem] 2xl:left-[11rem]">
-              <Filters
-                SetIsOpen={SetIsOpen}
-                setProperties={setProperties}
-                city={city}
-                updateFilterCount={updateFilterCount}
-                filterCount={filterCount}
-                filters={filters}
-                setFilters={setFilters}
-                resetFilters={resetFilters}
-                selectedArea={selectedArea}
-                selectedLocality={selectedLocality}
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Pin Location on Map */}
-        {/* <div>{renderMap()}</div> */}
         <div className="w-full h-[400px] rounded-md border-[1.5px] border-[#C8C8C8]">
-          {" "}
           <Map
             defaultZoom={11}
+            minZoom={10}
+            maxZoom={12}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
             onLoad={(map) => setMapInstance(map)}
-            // options={{
-            //   minZoom: 15,
-            //   maxZoom: 15.5
-            // }}
           >
             <PoiMarkers pois={availableProperties} />
           </Map>
-          {/* {hovered && (
-            <p className="mt-2 text-[#C8C8C8] text-sm">Selected coordinates:</p>
-          )} */}
         </div>
 
         <div className="pt-3">
@@ -1383,12 +1390,13 @@ const Listing = () => {
           )}
         </div>
 
-        {loading && (
+        {!isOpen && loading && (
           <div className="flex justify-center my-4">
             <ClipLoader color="#6CC1B6" size={50} />
           </div>
         )}
       </section>
+      <ToastContainer />
     </>
   );
 };
