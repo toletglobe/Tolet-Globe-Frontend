@@ -752,34 +752,40 @@ const Listing = () => {
     return propertyData;
   };
 
-  const PoiMarkers = (locs) => {
-    console.log("Google api key", import.meta.env.VITE_GOOGLE_MAPS_ID);
-    return (
-      <>
-      
-        {locs.pois.map((loc) => (
-          <Marker
-            key={loc.key}
-            position={loc.location}
-            onClick={() => window.open(`/property/${loc.key}`, "_blank")}
-            onMouseOver={() => console.log("Marker hovered:", loc.key)}
-            // Custom marker icon (optional)
-            icon={{
-              url:
-                "data:image/svg+xml;base64," +
-                btoa(`
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
-                <circle cx="12" cy="12" r="4" fill="white"/>
-              </svg>
-            `),
-              scaledSize: new window.google.maps.Size(24, 24),
-            }}
-          />
-        ))}
-      </>
-    );
-  };
+const PoiMarkers = (locs) => {
+  console.log("Google api key", import.meta.env.VITE_GOOGLE_MAPS_ID);
+  console.log("Locs", locs);
+  
+  // Filter available properties
+  const availableProperties = locs.pois.filter(
+    loc => loc.property.availabilityStatus.toLowerCase() === "available"
+  );
+
+  return (
+    <>
+      {availableProperties.map((loc) => (
+        <Marker
+          key={loc.key}
+          position={loc.location}
+          onClick={() => window.open(`/property/${loc.key}`, "_blank")}
+          onMouseOver={() => console.log("Marker hovered:", loc.key)}
+          // Custom marker icon (optional)
+          icon={{
+            url:
+              "data:image/svg+xml;base64," +
+              btoa(`
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
+                  <circle cx="12" cy="12" r="4" fill="white"/>
+                </svg>
+              `),
+            scaledSize: new window.google.maps.Size(24, 24),
+          }}
+        />
+      ))}
+    </>
+  );
+};
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
