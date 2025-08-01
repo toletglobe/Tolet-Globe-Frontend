@@ -42,41 +42,23 @@ const Location = ({ property, selectComp }) => {
 
     const newMap = new google.maps.Map(mapRef.current, {
       center: propertyLocation,
-      zoom: 18, // Increased zoom level for closer view
-      minZoom: 15, // Minimum zoom level - prevents zooming out too far
-      maxZoom: 15.5, // Maximum zoom level
-      mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
-      // Disable some controls for better user experience
-      zoomControl: true, // Keep zoom control but restrict levels
-      mapTypeControl: false, // Disable map type switching
-      streetViewControl: false, // Disable street view
-      fullscreenControl: false, // Disable fullscreen
-      // Restrict map interaction
-      gestureHandling: 'cooperative', // Requires ctrl+scroll to zoom
-    });
-
-    // Add zoom change listener to enforce minimum zoom
-    newMap.addListener('zoom_changed', () => {
-      if (newMap.getZoom() < 14) {
-        newMap.setZoom(14);
-      }
+      zoom: 12,
+      mapId: import.meta.env.VITE_GOOGLE_MAPS_ID, // Ensure mapId is passed
     });
 
     // Create a DOM element for the marker content
     const markerContent = document.createElement("div");
     markerContent.style.backgroundColor = "red";
-    markerContent.style.width = "12px";
-    markerContent.style.height = "12px";
+    markerContent.style.width = "10px";
+    markerContent.style.height = "10px";
     markerContent.style.borderRadius = "50%";
-    markerContent.style.border = "2px solid white";
-    markerContent.style.boxShadow = "0 2px 4px rgba(0,0,0,0.3)";
 
     // Add marker for property location using AdvancedMarkerElement
     new google.maps.marker.AdvancedMarkerElement({
       position: propertyLocation,
       map: newMap,
       title: "Property Location",
-      content: markerContent,
+      content: markerContent, // Pass the DOM element here
     });
 
     setMap(newMap);
@@ -121,7 +103,7 @@ const Location = ({ property, selectComp }) => {
         ],
         locationRestriction: {
           center: center,
-          radius: 5000, // Reduced radius to 5km for closer results
+          radius: 10000, // 10km
         },
         includedPrimaryTypes: [placeTypeMap[type]],
         maxResultCount: 10,
@@ -148,12 +130,10 @@ const Location = ({ property, selectComp }) => {
     markerContent.style.width = "10px";
     markerContent.style.height = "10px";
     markerContent.style.borderRadius = "50%";
-    markerContent.style.border = "1px solid white";
-    markerContent.style.boxShadow = "0 1px 3px rgba(0,0,0,0.3)";
 
     const marker = new google.maps.marker.AdvancedMarkerElement({
       map: map,
-      position: place.location,
+      position: place.location, // Use place.location for new Places API
       title: place.displayName?.text || place.name,
       content: markerContent,
     });
@@ -184,7 +164,7 @@ const Location = ({ property, selectComp }) => {
           lat: parseFloat(property.latitude),
           lng: parseFloat(property.longitude),
         });
-        map.setZoom(16); // Set to higher zoom level for location view
+        map.setZoom(14);
       }
     }
   };
@@ -260,12 +240,12 @@ const Location = ({ property, selectComp }) => {
   };
 
   return (
-    <div className="pb-4 bg-white rounded-2xl">
+    <div className="pb-4 bg-white lg:w-[65.6vw] lg:ml-[19rem] rounded-2xl">
       {/* Header */}
       <div className="px-1 pt-4 pb-2">
         <div className="flex justify-between lg:w-[68%] xl:w-[69%] 2xl:w-[70%] items-center px-3 lg:px-0 lg:mx-10">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">Location</h2>
+            <h2 className="lg:text-2xl mb-6 tracking-wide font-semibold text-black">Location</h2>
             <p className="text-sm text-gray-600">
               <span className="">{maskAddressAndLocation()}</span>
             </p>
