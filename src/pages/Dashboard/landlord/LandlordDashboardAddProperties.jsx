@@ -70,28 +70,13 @@ export default function LandlordDashboardAddProperties() {
 
   // Submitting form Data
 const submitForm = async (formData) => {
-  if (userInfo.properties?.length >= 1) {
-    toast.error("You can only add one property. Upgrade your plan.");
-    navigate("/pricing");
-    return;
-  }
+
   setLoading(true);
   
-  // Process appliances and amenities properly
-  const processedAppliances = formData.appliances?.length > 0 
-    ? formData.appliances.map((obj) => obj.value) 
-    : [];
-    
-  const processedAmenities = formData.amenities?.length > 0 
-    ? formData.amenities.map((obj) => obj.value) 
-    : [];
-
   const updatedFormData = {
     ...formData,
     userId: userInfo.id,
-    pincode: Number(formData.pincode),
-    appliances: processedAppliances,
-    amenities: processedAmenities,
+    pincode: Number(formData.pincode)
   };
 
   // Handle empty fields - but skip appliances and amenities from this logic
@@ -108,8 +93,8 @@ const submitForm = async (formData) => {
   // Validation: Check if required fields are filled
   const requiredFields = [
     'firstName', 'ownersContactNumber', 'address', 'city', 'locality', 
-    'area', 'spaceType', 'propertyType', 'preference', 'type', 'bhk', 
-    'floor', 'nearestLandmark', 'typeOfWashroom', 'rent', 'squareFeetArea'
+    'area', 'spaceType', 'propertyType', 
+    'nearestLandmark', 'typeOfWashroom'
   ];
 
   for (const field of requiredFields) {
@@ -118,19 +103,6 @@ const submitForm = async (formData) => {
       setLoading(false);
       return;
     }
-  }
-
-  // Check if appliances and amenities are selected
-  if (processedAppliances.length === 0) {
-    toast.error("Please select at least one appliance");
-    setLoading(false);
-    return;
-  }
-
-  if (processedAmenities.length === 0) {
-    toast.error("Please select at least one amenity");
-    setLoading(false);
-    return;
   }
 
   const dataToSend = new FormData();
@@ -161,9 +133,7 @@ const submitForm = async (formData) => {
   }
 
   try {
-    console.log("coupon status", formData.couponStatus);
-    console.log("Processed appliances:", processedAppliances);
-    console.log("Processed amenities:", processedAmenities);
+    console.log("coupon status", formData)
     
     const { data } = await API.post("property/add-property", dataToSend, {
       headers: {

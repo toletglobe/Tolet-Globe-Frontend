@@ -25,7 +25,9 @@ const ItemTypes = {
   COMPARE_BUTTON: "compareButton",
 };
 
+
 const PropertyBrief = ({ property }) => {
+
   const navigate = useNavigate();
   const [{ compareProperty }, dispatch] = useStateValue();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -130,6 +132,7 @@ const PropertyBrief = ({ property }) => {
       (item) => item.slug === property.slug
     );
 
+
     if (alreadyInCompare) {
       setErrorMessage("This property is already in the compare list!");
       setTimeout(() => setErrorMessage(""), 3000);
@@ -181,6 +184,39 @@ const PropertyBrief = ({ property }) => {
       toast.error("Failed to add to favorites");
     }
   };
+
+  // Change the availibility status. 
+  const changeAvailibilityStatus = async (propertyId) => {
+  try {
+    const newStatus = property.availabilityStatus === "Available" 
+      ? "Rented Out" 
+      : "Available";
+    
+    const token = localStorage.getItem("token");
+    await API.put(
+      `property/${propertyId}/availability`,
+      { availabilityStatus: newStatus },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    
+    toast.success(
+      `Property marked as ${newStatus === "Available" 
+        ? "Available" 
+        : "Rented Out"} successfully`
+    );
+    
+    // Refresh the property data
+    await fetchProperty();
+    
+  } catch (error) {
+    console.error("Error updating availability status:", error);
+    toast.error("Failed to update availability status");
+  }
+};
 
   const removeFromFavourites = async (propertyId) => {
     try {
@@ -656,7 +692,7 @@ const PropertyBrief = ({ property }) => {
       <div className="md:flex justify-center gap-64 pt-16">
         <div className="lg:w-[30%]">
           <h1 className="text-left text-white lg:text-5xl">
-            {property?.propertyType}
+            {property?.propertyType} 
             <span>
               <img
                 src={shield}
@@ -846,14 +882,17 @@ const PropertyBrief = ({ property }) => {
             className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
             style={{ backgroundColor: "#3B9D94" }}
             onClick={() => addToCompare(property)}
+
           >
             <img
               src={fav}
               alt="favorite"
               className="hidden md:block lg:block h-6 w-5"
             />
+
             Add To Visit
           </button>
+
         </div>
       </div>
 

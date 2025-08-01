@@ -12,8 +12,8 @@ import {
 import { AiOutlineMail } from "react-icons/ai";
 
 import "./Register.css";
-
 import { API } from "../../config/axios";
+import GoogleOAuthBar from "./GoogleOAuth/GoogleOAuthBar";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -23,12 +23,9 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [passwordVerified, setPasswordVerified] = useState(true);
   const [passwordMessage, setPasswordMessage] = useState("");
-  const [verificationMethod, setVerificationMethod] = useState('email');
+  const [verificationMethod, setVerificationMethod] = useState("email");
   const [showOTPField, setShowOTPField] = useState(false);
-  const [otp, setOtp] = useState('');
-  // const [role, setRole] = useState("");
-  // const [userType, setUserType] = useState("buyer");
-  // const [answer, setAnswer] = useState("");
+  const [otp, setOtp] = useState("");
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -48,37 +45,38 @@ const Register = () => {
     setEmail("");
     setPassword("");
     setPhone("");
-    // setRole("");
-    // setUserType("");
-    // setAnswer("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setPasswordVerified(true)
-    if(password.length < 8){
-      setPasswordMessage("Password Must be 8 character long, must contain a number and an uppercase letter");
+    setPasswordVerified(true);
+    if (password.length < 8) {
+      setPasswordMessage(
+        "Password Must be 8 character long, must contain a number and an uppercase letter"
+      );
       setPasswordVerified(false);
       setTimeout(() => {
-        setPasswordVerified(true)
+        setPasswordVerified(true);
       }, 5000);
-      return
+      return;
     }
-    if(!(/\d/.test(password))){
-      setPasswordMessage("Password must contain a number and an uppercase letter");
+    if (!/\d/.test(password)) {
+      setPasswordMessage(
+        "Password must contain a number and an uppercase letter"
+      );
       setPasswordVerified(false);
       setTimeout(() => {
-        setPasswordVerified(true)
+        setPasswordVerified(true);
       }, 5000);
-      return 
+      return;
     }
-    if(!(/[A-Z]/.test(password))){
+    if (!/[A-Z]/.test(password)) {
       setPasswordMessage("Password must contain an uppercase letter");
       setPasswordVerified(false);
       setTimeout(() => {
-        setPasswordVerified(true)
+        setPasswordVerified(true);
       }, 5000);
-      return
+      return;
     }
 
     setSubmitting(true);
@@ -86,26 +84,22 @@ const Register = () => {
       "Registering...! Please wait for the registration process to complete ."
     );
     try {
-      const formattedPhone = phone.startsWith('+') ? phone : `+91${phone}`;
+      const formattedPhone = phone.startsWith("+") ? phone : `+91${phone}`;
       const res = await API.post("/auth/register", {
         firstName,
         lastName,
         email,
         password,
-        // role,
-        // userType,
-        // answer,
-        phone:formattedPhone,
-        verificationMethod
+        phone: formattedPhone,
+        verificationMethod,
       });
 
       if (res.status === 200) {
         resetFields();
         setSubmitting(false);
         toast.dismiss(loadingToast);
-        
 
-        if (verificationMethod === 'email') {
+        if (verificationMethod === "email") {
           toast.success(
             "Registration successful! Please check your email to verify your account."
           );
@@ -119,12 +113,17 @@ const Register = () => {
       } else {
         setSubmitting(false);
         toast.dismiss(loadingToast);
-        toast.error(res.data?.message || "Unexpected response. Please try again.");
+        toast.error(
+          res.data?.message || "Unexpected response. Please try again."
+        );
       }
     } catch (error) {
       toast.dismiss(loadingToast);
       toast.error("Registration failed. Please try again.");
-      console.error("Registration error:", error.response?.data || error.message);
+      console.error(
+        "Registration error:",
+        error.response?.data || error.message
+      );
     } finally {
       setSubmitting(false);
     }
@@ -134,11 +133,11 @@ const Register = () => {
     e.preventDefault();
     setSubmitting(true);
     const loadingToast = toast.loading("Verifying OTP...");
-    
+
     try {
       const res = await API.post("/auth/verify-otp", {
         email,
-        otp
+        otp,
       });
 
       if (res.status === 200) {
@@ -163,9 +162,9 @@ const Register = () => {
   return (
     <div
       className={`register_form_container relative flex items-center justify-center my-10 overflow-hidden ${
-         ""
+        ""
         // role === "user" ? "h-[785px]" : "h-[700px]"
-      } w-[400px]  max-w-[400px] max-h-[580px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16 `}
+      } w-[400px]  max-w-[400px] bg-black rounded-[50px_5px] mx-auto mt-16 mb-16 `}
     >
       <div className="absolute inset-1 bg-black rounded-[50px_5px] pt-11 px-10 text-white z-10 border-4 border-transparent">
         {" "}
@@ -211,11 +210,14 @@ const Register = () => {
             />
           </div>
 
-          { passwordVerified ? (
+          {passwordVerified ? (
             <></>
           ) : (
             <div className="ml-4">
-              <p className="text-red-600 font-light text-sm" ><span>* </span>{passwordMessage}</p>
+              <p className="text-red-600 font-light text-sm">
+                <span>* </span>
+                {passwordMessage}
+              </p>
             </div>
           )}
           {/* Password div */}
@@ -308,53 +310,55 @@ const Register = () => {
           </div> */}
           {!showOTPField && (
             <div className="mt-6 flex items-center justify-center">
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
-                className="form-radio"
-                name="verificationMethod"
-                value="email"
-                checked={verificationMethod === 'email'}
-                onChange={() => setVerificationMethod('email')}
-              />
-              <span className="ml-2">Verify via Email</span>
-            </label>
-            <label className="inline-flex items-center ml-6">
-              <input
-                type="radio"
-                className="form-radio"
-                name="verificationMethod"
-                value="sms"
-                checked={verificationMethod === 'sms'}
-                onChange={() => setVerificationMethod('sms')}
-              />
-              <span className="ml-2">Verify via SMS</span>
-            </label>
-          </div>
-        )}
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  className="form-radio"
+                  name="verificationMethod"
+                  value="email"
+                  checked={verificationMethod === "email"}
+                  onChange={() => setVerificationMethod("email")}
+                />
+                <span className="ml-2">Verify via Email</span>
+              </label>
+              {/* <label className="inline-flex items-center ml-6">
+                <input
+                  type="radio"
+                  className="form-radio"
+                  name="verificationMethod"
+                  value="sms"
+                  checked={verificationMethod === "sms"}
+                  onChange={() => setVerificationMethod("sms")}
+                />
+                <span className="ml-2">Verify via SMS</span>
+              </label> */}
+            </div>
+          )}
 
-        {showOTPField && (
-          <div className="mt-6">
-            <div className="flex items-center">
-              <input
-                type="text"
-                placeholder="Enter OTP"
-                className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
-                maxLength="6"
-              />
+          {showOTPField && (
+            <div className="mt-6">
+              <div className="flex items-center">
+                <input
+                  type="text"
+                  placeholder="Enter OTP"
+                  className="w-full h-8 bg-transparent border-b border-white text-white placeholder:text-[#3CBDB1] placeholder:text-sm placeholder:tracking-wider pl-2 text-lg outline-none"
+                  value={otp}
+                  onChange={(e) =>
+                    setOtp(e.target.value.replace(/[^0-9]/g, ""))
+                  }
+                  maxLength="6"
+                />
+              </div>
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={handleVerifyOTP}
+                  className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
+                >
+                  VERIFY OTP
+                </button>
+              </div>
             </div>
-            <div className="flex justify-center mt-6">
-             <button
-                onClick={handleVerifyOTP}
-                className="w-[100%] max-w-[300px] h-[40px] text-xl tracking-wider border border-[#C8A217] rounded-full bg-black flex items-center justify-center text-white hover:bg-[#C8A217]"
-              >
-                VERIFY OTP
-              </button>
-            </div>
-          </div>
-        )}
+          )}
 
           <div className="flex justify-center mt-10">
             {submitting ? (
@@ -370,6 +374,21 @@ const Register = () => {
                 REGISTER
               </button>
             )}
+          </div>
+          {/* Divider with "or" text - made more visible */}
+          <div className="relative flex items-center justify-center my-6">
+            <div className="flex-grow border-t border-gray-400"></div>
+            <span className="flex-shrink mx-4 text-gray-400">or</span>
+            <div className="flex-grow border-t border-gray-400"></div>
+          </div>
+
+          {/* Google OAuth Button - ensure it's properly styled */}
+          <div className="flex justify-center mb-6 w-full">
+            <GoogleOAuthBar
+              className="w-full max-w-[300px]"
+              buttonClassName="w-full h-[40px] flex items-center justify-center bg-white text-black rounded-full border border-white hover:bg-gray-100"
+              iconClassName="mr-2"
+            />
           </div>
         </form>
       </div>

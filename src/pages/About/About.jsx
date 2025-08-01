@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 
-
+// Assets
 import image from "../../assets/about/iconwithlines.png";
 import CEO1 from "../../assets/about/CEO1.png";
 import CEO2 from "../../assets/about/CEO2.jpg";
 import CEO3 from "../../assets/about/CEO3.png";
 
-
+// Components
 import AboutCard from "./components/AboutCard";
 import Flip from "./components/Flip";
 import Faq from "./components/Faq";
@@ -45,21 +45,9 @@ export default function About() {
     <>
       <div className="mt-24 mb-12 ">
         <div className="text-center mb-2 ">
-          <h1 className="border-[#6cc0c4] border-[2px] lg:border-[5px] rounded-xl lg:rounded-[64.92px] text-[#E59948] lg:text-[#E8B636] lg:uppercase inline text-2xl sm:text-3xl lg:text-4xl py-2 px-10 md:px-16 lg:px-20 font-bold">
-            Who We Are & Why We Built ToLet Globe
+          <h1 className="border-[#6cc0c4] border-[2px] lg:border-[5px] rounded-xl lg:rounded-[64.92px] text-[#E59948] lg:text-[#E8B636] lg:uppercase inline text-xl sm:text-2xl md:lg:text-3xl py-2 px-10 md:px-16 lg:px-20  md:lg:py-1  font-bold">
+            About Us
           </h1>
-          <div className="text-center px-4 max-w-3xl mx-auto mt-6">
-            <p className="text-base sm:text-lg leading-7 text-gray-700">
-              <strong>Mission:</strong> Making rentals simple and affordable for everyone.
-            </p>
-            <p className="text-base sm:text-lg leading-7 text-gray-700 mt-2">
-              <strong>Our Values:</strong> Trust, Simplicity, Transparency
-            </p>
-            <p className="text-base sm:text-lg leading-7 text-gray-700 mt-2">
-              <strong>Founded in 2022</strong>, we've already served over <strong>10,000+</strong> listings across India.
-            </p>
-          </div>
-
         </div>
         <div className="timeline relative mx-3 pt-10 md:pt-40 overflow-hidden md:after:block">
           {/* Timeline Dot */}
@@ -108,7 +96,7 @@ export default function About() {
             <img
               src={image}
               alt="image logo"
-              className="max-w-full max-h-[300px] object-contain pr-3"
+              className="max-w-full h-auto pr-3"
             />
           </div>
           <div className="flex flex-row items-center justify-around">

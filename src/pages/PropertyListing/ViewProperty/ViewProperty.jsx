@@ -11,8 +11,7 @@ function ViewProperty() {
   const { slug } = useParams();
   const [property, setProperty] = useState(null);
 
-  useEffect(() => {
-    const fetchProperty = async () => {
+  const fetchProperty = async () => {
       try {
         const response = await API.get(`property/slug/${slug}`, {
           headers: {
@@ -25,6 +24,7 @@ function ViewProperty() {
         console.error("Error fetching property:", error);
       }
     };
+  useEffect(() => {
     fetchProperty();
   }, [slug]);
 

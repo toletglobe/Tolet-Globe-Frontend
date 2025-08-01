@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import Popup from "reactjs-popup";
 import toast from "react-hot-toast";
 
+import defaultUser from "../../../assets/propertyListing/user-icon.png";
+
 import { FaHeart } from "react-icons/fa";
 import { CiHeart, CiShare2 } from "react-icons/ci";
 import { FaLocationDot, FaRegCopy, FaRegImage, FaVideo } from "react-icons/fa6";
@@ -250,18 +252,16 @@ export default function CompareProperty({
                     />
                   </div>
                   <div
-  className="absolute top-3 left-3 text-white text-xs font-semibold uppercase px-3 pr-5 py-1 [clip-path:polygon(0_0,100%_0,100%_0%,90%_50%,100%_100%,100%_100%,0_100%)]"
-  style={{
-    backgroundColor:
-      property.availabilityStatus === "Rented Out"
-        ? "#FF4C4C" // Red for unavailable
-        : "#40B5A8", // Green for available
-    textTransform: "capitalize",
-  }}
->
-  {property.availabilityStatus || "NA"}
-</div>
-
+                    className="absolute top-3 left-3 text-white text-xs  uppercase px-3 pr-3 py-1  bg-teal-700 rounded"
+                    style={{
+                      
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {property.propertyType === "Residential"
+                      ? "For Rent"
+                      : "Available"}
+                  </div>
                   <div className="banner-actions absolute bottom-1 left-3 right-3 flex gap-4 justify-between items-center">
                     <div>
                       <button className="banner-actions-btn flex items-center gap-1 text-white">
@@ -394,7 +394,7 @@ export default function CompareProperty({
                     <div className="card-author flex items-center gap-2">
                       <figure className="author-avatar w-6 h-6 overflow-hidden rounded-full">
                         <img
-                          src={property.images[0]}
+                         src={property.ownerProfilePicture || defaultUser}
                           alt={property.firstName}
                           className="w-full h-full object-cover"
                         />
@@ -408,7 +408,7 @@ export default function CompareProperty({
                     <div className="card-footer-actions">
                       <button
                         onClick={() => navigate(`/property/${property.slug}`)}
-                        className="text-[#FFFFFF] text-xs font-medium hover:underline rounded py-1 px-3 bg-[#40B5A8]"
+                        className="text-[#FFFFFF] text-xs font-medium hover:underline rounded py-1 px-3 bg-black"
                       >
                         SHOW MORE
                       </button>
