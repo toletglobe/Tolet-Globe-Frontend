@@ -51,6 +51,7 @@ const PropertyDetails = ({ property }) => {
           selectedButton={selectedButton}
           handleButtonClick={handleButtonClick}
           buttonClasses={buttonClasses}
+          property={property}
         />
 
         <div className="mb-2">

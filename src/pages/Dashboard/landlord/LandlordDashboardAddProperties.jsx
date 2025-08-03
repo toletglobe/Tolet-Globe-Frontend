@@ -49,6 +49,7 @@ export default function LandlordDashboardAddProperties() {
     rent: "",
     security: "",
     images: [],
+    removedImages: [], // Initialize for consistency with ImageUpload component
     videos: [],
     squareFeetArea: "",
     // locationLink: "",
@@ -85,6 +86,7 @@ export default function LandlordDashboardAddProperties() {
         key === "userId" ||
         key === "lastName" ||
         key === "images" ||
+        key === "removedImages" ||
         key === "appliances" ||
         key === "amenities"
       ) {
@@ -121,6 +123,11 @@ export default function LandlordDashboardAddProperties() {
     const dataToSend = new FormData();
 
     Object.entries(updatedFormData).forEach(([key, value]) => {
+      // Skip removedImages field for new property creation
+      if (key === "removedImages") {
+        return;
+      }
+
       if (Array.isArray(value)) {
         if (key === "images") {
           value.forEach((image) => dataToSend.append("images", image));
@@ -147,6 +154,7 @@ export default function LandlordDashboardAddProperties() {
 
     try {
       console.log("coupon status", formData);
+      console.log("dataToSend", dataToSend);
 
       const { data } = await API.post("property/add-property", dataToSend, {
         headers: {
@@ -182,6 +190,7 @@ export default function LandlordDashboardAddProperties() {
         rent: "",
         security: "",
         images: [],
+        removedImages: [],
         videos: [],
         squareFeetArea: "",
         appliances: [],
@@ -194,6 +203,7 @@ export default function LandlordDashboardAddProperties() {
         longitude: null,
         subscriptionPlan: null,
         couponStatus: false,
+        ownerLocation: "",
       });
       navigate(`/property/${data.property.slug}`);
     } catch (err) {

@@ -255,7 +255,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
               />
             </div>
             {/* Gender - only show if Bachelors is selected */}
-            {formData.preference === "Bachelors" && (
+            {(formData.preference === "Bachelors" ||
+              formData.preference === "Both") && (
               <div>
                 <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                   Gender<span className="text-red-600">*</span>
@@ -530,7 +531,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
               />
             </div>
             {/* Gender - only show if Bachelors is selected */}
-            {formData.preference === "Bachelors" && (
+            {(formData.preference === "Bachelors" ||
+              formData.preference === "Both") && (
               <div>
                 <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                   Gender<span className="text-red-600">*</span>
@@ -958,7 +960,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
               />
             </div>
             {/* Gender - only show if Bachelors is selected */}
-            {formData.preference === "Bachelors" && (
+            {(formData.preference === "Bachelors" ||
+              formData.preference === "Both") && (
               <div>
                 <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                   Gender<span className="text-red-600">*</span>

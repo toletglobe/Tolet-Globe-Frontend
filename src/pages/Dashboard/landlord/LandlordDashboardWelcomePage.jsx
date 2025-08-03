@@ -211,18 +211,19 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
-      // With axios, response.data contains the parsed JSON
-      if (response.status !== 200) {
-        throw new Error(response.data?.message || "Failed to delete property");
-      }
-
       toast.success("Property deleted successfully!");
       setMyProperties((prevProperties) =>
         prevProperties.filter((property) => property._id !== propertyId)
       );
     } catch (error) {
-      toast.error(`Error: ${error.message}`);
+      console.error("Delete error:", error);
+      toast.error(
+        `Error: ${
+          error.response?.data?.message ||
+          error.message ||
+          "Failed to delete property"
+        }`
+      );
     }
   };
 
