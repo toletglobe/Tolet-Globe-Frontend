@@ -43,8 +43,8 @@ const Location = ({ property, selectComp }) => {
     const newMap = new google.maps.Map(mapRef.current, {
       center: propertyLocation,
       zoom: 18, // Increased zoom level for closer view
-      minZoom: 15, // Minimum zoom level - prevents zooming out too far
-      maxZoom: 15.5, // Maximum zoom level
+      minZoom: 13.5, // Minimum zoom level - prevents zooming out too far
+      maxZoom: 14, // Maximum zoom level
       mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
       // Disable some controls for better user experience
       zoomControl: true, // Keep zoom control but restrict levels
@@ -52,11 +52,11 @@ const Location = ({ property, selectComp }) => {
       streetViewControl: false, // Disable street view
       fullscreenControl: false, // Disable fullscreen
       // Restrict map interaction
-      gestureHandling: 'cooperative', // Requires ctrl+scroll to zoom
+      gestureHandling: "cooperative", // Requires ctrl+scroll to zoom
     });
 
     // Add zoom change listener to enforce minimum zoom
-    newMap.addListener('zoom_changed', () => {
+    newMap.addListener("zoom_changed", () => {
       if (newMap.getZoom() < 14) {
         newMap.setZoom(14);
       }

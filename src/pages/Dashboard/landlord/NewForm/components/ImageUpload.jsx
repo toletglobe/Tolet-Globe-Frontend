@@ -2,30 +2,34 @@ import React from "react";
 import { IoClose } from "react-icons/io5";
 
 const ImageUpload = ({ formData, setFormData }) => {
- const handleImageSubmit = (e) => {
-  const existingImages = formData.images || [];
-  const newFiles = Array.from(e.target.files);
+  const handleImageSubmit = (e) => {
+    const existingImages = formData.images || [];
+    const newFiles = Array.from(e.target.files);
 
-  if (existingImages.length + newFiles.length > 7) {
-    alert("You can upload a maximum of 7 images.");
-    return;
-  }
+    if (existingImages.length + newFiles.length > 7) {
+      alert("You can upload a maximum of 7 images.");
+      return;
+    }
 
-  setFormData((prev) => ({
-    ...prev,
-    images: [...existingImages, ...newFiles],
-  }));
-  e.target.value = "";
-};
-
+    setFormData((prev) => ({
+      ...prev,
+      images: [...existingImages, ...newFiles],
+    }));
+    e.target.value = "";
+  };
 
   const removeImage = (index) => {
     const updatedImages = [...(formData.images || [])];
+    const removedImage = updatedImages[index];
     updatedImages.splice(index, 1);
+
     setFormData((prev) => ({
       ...prev,
       images: updatedImages,
+      // Track removed images for backend processing
+      removedImages: [...(prev.removedImages || []), removedImage],
     }));
+
     // for Debugging
     console.log("Formdata:", formData);
   };
@@ -73,6 +77,7 @@ const ImageUpload = ({ formData, setFormData }) => {
                 )}
                 {formData.images?.length > 0 && (
                   <button
+                    type="button"
                     onClick={() => removeImage(0)}
                     className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                     aria-label="Remove image"
@@ -113,6 +118,7 @@ const ImageUpload = ({ formData, setFormData }) => {
                   )}
                   {formData.images?.[idx + 1] && (
                     <button
+                      type="button"
                       onClick={() => removeImage(idx + 1)}
                       className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
                       aria-label="Remove image"

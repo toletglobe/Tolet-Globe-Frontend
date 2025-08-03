@@ -62,137 +62,150 @@ export default function LandlordDashboardAddProperties() {
     latitude: null,
     longitude: null,
     subscriptionPlan: null,
-    couponStatus: false // Kept couponStatus
+    couponStatus: false, // Kept couponStatus
+    ownerLocation: "",
   });
 
   const userInfo = useSelector((state) => state.auth.userData);
   console.log("userInf0o", userInfo);
 
   // Submitting form Data
-const submitForm = async (formData) => {
+  const submitForm = async (formData) => {
+    setLoading(true);
 
-  setLoading(true);
-  
-  const updatedFormData = {
-    ...formData,
-    userId: userInfo.id,
-    pincode: Number(formData.pincode)
-  };
+    const updatedFormData = {
+      ...formData,
+      userId: userInfo.id,
+      pincode: Number(formData.pincode),
+    };
 
-  // Handle empty fields - but skip appliances and amenities from this logic
-  for (const [key, value] of Object.entries(updatedFormData)) {
-    if (key === "userId" || key === "lastName" || key === "images" || key === "appliances" || key === "amenities") {
-      continue;
+    // Handle empty fields - but skip appliances and amenities from this logic
+    for (const [key, value] of Object.entries(updatedFormData)) {
+      if (
+        key === "userId" ||
+        key === "lastName" ||
+        key === "images" ||
+        key === "appliances" ||
+        key === "amenities"
+      ) {
+        continue;
+      }
+
+      if (value === "") {
+        updatedFormData[key] = "NA";
+      }
     }
 
-    if (value === "") {
-      updatedFormData[key] = "NA";
+    // Validation: Check if required fields are filled
+    const requiredFields = [
+      "firstName",
+      "ownersContactNumber",
+      "address",
+      "city",
+      "locality",
+      "area",
+      "spaceType",
+      "propertyType",
+      "nearestLandmark",
+      "typeOfWashroom",
+    ];
+
+    for (const field of requiredFields) {
+      if (!updatedFormData[field] || updatedFormData[field] === "NA") {
+        toast.error(`Please fill in the ${field} field`);
+        setLoading(false);
+        return;
+      }
     }
-  }
 
-  // Validation: Check if required fields are filled
-  const requiredFields = [
-    'firstName', 'ownersContactNumber', 'address', 'city', 'locality', 
-    'area', 'spaceType', 'propertyType', 
-    'nearestLandmark', 'typeOfWashroom'
-  ];
+    const dataToSend = new FormData();
 
-  for (const field of requiredFields) {
-    if (!updatedFormData[field] || updatedFormData[field] === "NA") {
-      toast.error(`Please fill in the ${field} field`);
+    Object.entries(updatedFormData).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        if (key === "images") {
+          value.forEach((image) => dataToSend.append("images", image));
+        } else if (key === "appliances" || key === "amenities") {
+          // Send arrays as JSON strings or individual items
+          value.forEach((item) => dataToSend.append(key, item));
+        } else {
+          value.forEach((item) => dataToSend.append(key, item));
+        }
+      } else {
+        dataToSend.append(key, value);
+      }
+    });
+
+    const token = localStorage.getItem("token");
+    console.log("Token: ", token);
+
+    if (!token) {
+      console.error("No token found in localStorage");
+      toast.error("Authentication required. Please log in again.");
       setLoading(false);
       return;
     }
-  }
 
-  const dataToSend = new FormData();
+    try {
+      console.log("coupon status", formData);
 
-  Object.entries(updatedFormData).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      if (key === "images") {
-        value.forEach((image) => dataToSend.append("images", image));
-      } else if (key === "appliances" || key === "amenities") {
-        // Send arrays as JSON strings or individual items
-        value.forEach((item) => dataToSend.append(key, item));
-      } else {
-        value.forEach((item) => dataToSend.append(key, item));
-      }
-    } else {
-      dataToSend.append(key, value);
+      const { data } = await API.post("property/add-property", dataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setLoading(false);
+      console.log(data);
+      toast.success("Property added successfully");
+      setFormData({
+        userId: "",
+        firstName: "",
+        lastName: "",
+        ownersContactNumber: "",
+        ownersAlternateContactNumber: "",
+        pincode: "",
+        city: "",
+        locality: "",
+        area: "",
+        address: "",
+        spaceType: "",
+        propertyType: "",
+        preference: "",
+        bachelors: "",
+        type: "",
+        bhk: "",
+        floor: "",
+        nearestLandmark: "",
+        typeOfWashroom: "",
+        coupon: "",
+        rent: "",
+        security: "",
+        images: [],
+        videos: [],
+        squareFeetArea: "",
+        appliances: [],
+        amenities: [],
+        maxRent: "",
+        minRent: "",
+        availabilityStatus: "Available",
+        aboutTheProperty: "",
+        latitude: null,
+        longitude: null,
+        subscriptionPlan: null,
+        couponStatus: false,
+      });
+      navigate(`/property/${data.property.slug}`);
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message || "Error submitting form";
+      toast.error(errorMessage);
+      console.error("Error submitting form:", errorMessage);
+      console.error("Full error:", err);
+    } finally {
+      setLoading(false);
     }
-  });
-
-  const token = localStorage.getItem("token");
-  console.log("Token: ", token);
-
-  if (!token) {
-    console.error("No token found in localStorage");
-    toast.error("Authentication required. Please log in again.");
-    setLoading(false);
-    return;
-  }
-
-  try {
-    console.log("coupon status", formData)
-    
-    const { data } = await API.post("property/add-property", dataToSend, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    setLoading(false);
-    console.log(data);
-    toast.success("Property added successfully");
-    setFormData({
-      userId: "",
-      firstName: "",
-      lastName: "",
-      ownersContactNumber: "",
-      ownersAlternateContactNumber: "",
-      pincode: "",
-      city: "",
-      locality: "",
-      area: "",
-      address: "",
-      spaceType: "",
-      propertyType: "",
-      preference: "",
-      bachelors: "",
-      type: "",
-      bhk: "",
-      floor: "",
-      nearestLandmark: "",
-      typeOfWashroom: "",
-      coupon: "",
-      rent: "",
-      security: "",
-      images: [],
-      videos: [],
-      squareFeetArea: "",
-      appliances: [],
-      amenities: [],
-      maxRent: "",
-      minRent: "",
-      availabilityStatus: "Available",
-      aboutTheProperty: "",
-      latitude: null,
-      longitude: null,
-      subscriptionPlan: null,
-      couponStatus: false,
-    });
-    navigate(`/property/${data.property.slug}`);
-  } catch (err) {
-    const errorMessage =
-      err.response?.data?.message || "Error submitting form";
-    toast.error(errorMessage);
-    console.error("Error submitting form:", errorMessage);
-    console.error("Full error:", err);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   if (loading) {
     return (
@@ -229,11 +242,13 @@ const submitForm = async (formData) => {
 
             {/* Form-footer */}
             <div className="my-10 pr-5 h-fit flex gap-x-3 justify-end md:pr-0">
-              <input
-                type="submit"
-                value="Cancel"
+              <button
+                type="button"
+                onClick={() => navigate("/landlord-dashboard/my-properties")}
                 className="border-[0.5px] rounded-md bg-white font-bold px-7 py-[10px] text-black"
-              />
+              >
+                Cancel
+              </button>
               <input
                 type="submit"
                 value="Submit"
