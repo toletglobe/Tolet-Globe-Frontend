@@ -7,7 +7,6 @@ import { ClipLoader } from "react-spinners";
 import { FaSearch } from "react-icons/fa";
 
 import {
-  APIProvider,
   Map,
   Marker, // Use regular Marker instead of AdvancedMarker
   InfoWindow,
@@ -734,6 +733,13 @@ const Listing = () => {
           propertyData = sortPropertiesByAvailability(propertyData);
         }
 
+        // Apply sorting if sort parameter exists in URL
+        const params = new URLSearchParams(location.search);
+        const sortParam = params.get("sort");
+        if (sortParam && propertyData.length > 0) {
+          propertyData = sortProperties(propertyData, sortParam);
+        }
+
         setProperties(propertyData);
         setNoPropertiesFound(propertyData.length === 0);
       } catch (error) {
@@ -754,10 +760,16 @@ const Listing = () => {
 
   const PoiMarkers = (locs) => {
     console.log("Google api key", import.meta.env.VITE_GOOGLE_MAPS_ID);
+    console.log("Locs", locs);
+
+    // Filter available properties
+    const availableProperties = locs.pois.filter(
+      (loc) => loc.property.availabilityStatus.toLowerCase() === "available"
+    );
+
     return (
       <>
-      
-        {locs.pois.map((loc) => (
+        {availableProperties.map((loc) => (
           <Marker
             key={loc.key}
             position={loc.location}
@@ -768,11 +780,11 @@ const Listing = () => {
               url:
                 "data:image/svg+xml;base64," +
                 btoa(`
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
-                <circle cx="12" cy="12" r="4" fill="white"/>
-              </svg>
-            `),
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
+                  <circle cx="12" cy="12" r="4" fill="white"/>
+                </svg>
+              `),
               scaledSize: new window.google.maps.Size(24, 24),
             }}
           />
@@ -786,12 +798,26 @@ const Listing = () => {
     const cityParam = params.get("city");
     const areaParam = params.get("area") ? params.get("area").split(",") : [];
     const localityParam = params.get("locality");
+    const sortParam = params.get("sort");
 
     fetchAndFilterProperties(
       cityParam || city,
       areaParam.length > 0 ? areaParam : [],
       localityParam || ""
     );
+
+    // Set the selected sort based on URL parameter
+    if (sortParam) {
+      const sortLabels = {
+        "price-low-high": "Price: Low to High",
+        "price-high-low": "Price: High to Low",
+        "most-trending": "Most Trending",
+        "date-uploaded": "Date Uploaded",
+      };
+      setSelectedSort(sortLabels[sortParam] || "Sort");
+    } else {
+      setSelectedSort("Sort");
+    }
   }, [city, location.search]); // Add city to the dependency array
 
   useEffect(() => {
@@ -812,18 +838,32 @@ const Listing = () => {
     let sortedProperties = [...properties];
 
     if (sortType === "price-low-high") {
-      sortedProperties.sort((a, b) => a.rent - b.rent);
+      sortedProperties.sort((a, b) => {
+        const rentA = parseFloat(a.rent) || 0;
+        const rentB = parseFloat(b.rent) || 0;
+        return rentA - rentB;
+      });
     } else if (sortType === "price-high-low") {
-      sortedProperties.sort((a, b) => b.rent - a.rent);
+      sortedProperties.sort((a, b) => {
+        const rentA = parseFloat(a.rent) || 0;
+        const rentB = parseFloat(b.rent) || 0;
+        return rentB - rentA;
+      });
     } else if (sortType === "most-trending") {
-      sortedProperties.sort((a, b) => b.reviews.length - a.reviews.length);
+      sortedProperties.sort((a, b) => {
+        const reviewsA = a.reviews ? a.reviews.length : 0;
+        const reviewsB = b.reviews ? b.reviews.length : 0;
+        return reviewsB - reviewsA;
+      });
     } else if (sortType === "date-uploaded") {
-      sortedProperties.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
+      sortedProperties.sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return dateB - dateA;
+      });
     }
 
-    setProperties(sortedProperties);
+    return sortedProperties;
   };
 
   const handleSortClick = (sortType, label) => {
@@ -831,7 +871,13 @@ const Listing = () => {
     queryParams.set("sort", sortType);
     navigate(`?${queryParams.toString()}`); // Update URL with new sort query
     setSelectedSort(label);
-    setMode(false);
+    setMode(false); // Close mobile dropdown
+
+    // Apply sorting immediately to current properties
+    if (properties.length > 0) {
+      const sortedProperties = sortProperties(properties, sortType);
+      setProperties(sortedProperties);
+    }
   };
 
   const handleLocalitySelect = (locality) => {
@@ -1168,37 +1214,40 @@ const Listing = () => {
                       <div className="block bg-white shadow-lg rounded-lg text-center w-40 py-3 top-[30px] left-[-150px] sm:top-[36px] sm:left-[-113px]">
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             handleSortClick(
                               "price-low-high",
-                              "Price: Low to High"
+                              "Price Low to High"
                             );
                           }}
                         >
-                          Price: Low to High
+                          Price Low to High
                         </p>
                         <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             handleSortClick(
                               "price-high-low",
-                              "Price: High to Low"
+                              "Price High to Low"
                             );
                           }}
                         >
-                          Price: High to Low
+                          Price High to Low
                         </p>
-                        <p
+                        {/* <p
                           className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                           onClick={() => {
                             handleSortClick("most-trending", "Most Trending");
                           }}
                         >
                           Most Trending
-                        </p>
+                        </p> */}
                         <p
                           className="py-2 font-medium cursor-pointer hover:bg-gray-100"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             handleSortClick("date-uploaded", "Date Uploaded");
                           }}
                         >
@@ -1235,31 +1284,34 @@ const Listing = () => {
                   >
                     <p
                       className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
-                      onClick={() => {
-                        handleSortClick("price-low-high", "Price: Low to High");
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSortClick("price-low-high", "Price Low to High");
                       }}
                     >
                       Price: Low to High
                     </p>
                     <p
                       className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
-                      onClick={() => {
-                        handleSortClick("price-high-low", "Price: High to Low");
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSortClick("price-high-low", "Price High to Low");
                       }}
                     >
-                      Price: High to Low
+                      Price High to Low
                     </p>
-                    <p
+                    {/* <p
                       className="border-b-2 py-2 font-medium cursor-pointer hover:bg-gray-100"
                       onClick={() => {
                         handleSortClick("most-trending", "Most Trending");
                       }}
                     >
                       Most Trending
-                    </p>
+                    </p> */}
                     <p
                       className="py-2 font-medium cursor-pointer hover:bg-gray-100"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         handleSortClick("date-uploaded", "Date Uploaded");
                       }}
                     >
@@ -1362,7 +1414,7 @@ const Listing = () => {
           <Map
             defaultZoom={11}
             minZoom={10}
-            maxZoom={12}
+            maxZoom={14}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
             onLoad={(map) => setMapInstance(map)}

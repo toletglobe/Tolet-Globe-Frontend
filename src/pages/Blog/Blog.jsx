@@ -35,9 +35,7 @@ const Blog = () => {
         // setBlogs((prevBlogs) => [...prevBlogs, ...allBlogs.data]); // Append new blogs to the existing list
         setBlogs((prevBlogs) => {
           const existingSlugs = new Set(prevBlogs.map((blog) => blog.slug));
-          const newUniqueBlogs = allBlogs.data.filter(
-            (blog) => !existingSlugs.has(blog.slug)
-          );
+          const newUniqueBlogs = allBlogs.data.filter((blog) => !existingSlugs.has(blog.slug));
           return [...prevBlogs, ...newUniqueBlogs];
         });
         setTotalPages(allBlogs?.totalPages);
@@ -84,8 +82,7 @@ const Blog = () => {
     }
   };
 
-  const remainingBlogsCount =
-    totalPages && (totalPages - currentPage) * blogsPerPage;
+  const remainingBlogsCount = totalPages && (totalPages - currentPage) * blogsPerPage;
 
   if (loading && currentPage === 1) {
     return (
@@ -95,10 +92,10 @@ const Blog = () => {
     );
   }
 
-  return ( 
-    <div className="bg-black my-5">
-      <h1 className="text-4xl text-center text-white font-semibold mt-8">
-          To-Let Tales
+  return (
+    <div className="bg-black py-5 px-4 sm:px-6 lg:px-8">
+      <h1 className="text-2xl sm:text-4xl text-center text-white font-semibold mt-4 sm:mt-8">
+        To-Let Tales
       </h1>
       <h1 className="text-center mt-1 sm:mt-2 text-sm sm:text-base text-[#6CC1B6]">
         Dive into a Sea of Endless Stories and Insights
@@ -113,11 +110,7 @@ const Blog = () => {
       {error && <div className="text-red-500 text-center">{error}</div>}
       <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
 
-      {loading && (
-        <div className="flex justify-center my-4">
-          <ClipLoader color="#6CC1B6" size={50} />
-        </div>
-      )}
+      {loading && <div className="flex justify-center my-4"><ClipLoader color="#6CC1B6" size={50} /></div>}
 
       {currentPage < totalPages && !loading && (
         <div className="flex flex-col items-center my-4">
@@ -129,34 +122,6 @@ const Blog = () => {
           </button>
         </div>
       )}
-      {/* <div className="max-w-6xl mx-auto">
-        <LatestTrending
-          isLatest={sortBy === "latest"}
-          handleClickTrending={handleClickTrending}
-          handleClickLatest={handleClickLatest}
-        />
-
-        {error && <div className="text-red-500 text-center">{error}</div>}
-
-        <BlogList Blogs={blogs} handleViewBlog={handleViewBlog} />
-
-        {loading && (
-          <div className="flex justify-center my-4">
-            <ClipLoader color="#6CC1B6" size={50} />
-          </div>
-        )}
-
-        {currentPage < totalPages && !loading && (
-          <div className="flex flex-col items-center my-4">
-            <button
-              onClick={handleLoadMore}
-              className="bg-[#212629] px-6 py-2 rounded-md text-lg font-medium text-gray-400 active:bg-[#5edbd3] transition active:text-gray-900"
-            >
-              Load More ({remainingBlogsCount})
-            </button>
-          </div>
-        )}
-      </div> */}
     </div>
   );
 };

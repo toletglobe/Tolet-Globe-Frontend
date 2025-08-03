@@ -82,6 +82,15 @@ const AdditionalInfo = ({ formData, setFormData }) => {
     { value: "Both", label: "Both" },
   ];
 
+  const ownerLocationOptions = [
+    { value: "Same location as property", label: "Same location as property" },
+    {
+      value: "Same City Different Location",
+      label: "Same City Different Location",
+    },
+    { value: "Different City", label: "Different City" },
+  ];
+
   const appliancesOptions = [
     { value: "Refrigerator", label: "Refrigerator" },
     { value: "Washing Machine", label: "Washing Machine" },
@@ -192,6 +201,33 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 }}
               />
             </div>
+
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                Owner's Location<span className="text-red-600">*</span>
+              </label>
+              <Select
+                required
+                styles={customSelectStyles}
+                placeholder="Select owner's location"
+                value={
+                  formData.ownerLocation
+                    ? {
+                        value: formData.ownerLocation,
+                        label: formData.ownerLocation,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({
+                    ...formData,
+                    ownerLocation: selectedOption.value,
+                  });
+                  console.log("Formdata:", formData);
+                }}
+                options={ownerLocationOptions}
+              />
+            </div>
           </div>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Preference */}
@@ -219,7 +255,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
               />
             </div>
             {/* Gender - only show if Bachelors is selected */}
-            {formData.preference === "Bachelors" && (
+            {(formData.preference === "Bachelors" ||
+              formData.preference === "Both") && (
               <div>
                 <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                   Gender<span className="text-red-600">*</span>
@@ -439,6 +476,34 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 }}
               />
             </div>
+
+            {/* Owner's Location */}
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                Owner's Location<span className="text-red-600">*</span>
+              </label>
+              <Select
+                required
+                styles={customSelectStyles}
+                placeholder="Select owner's location"
+                value={
+                  formData.ownerLocation
+                    ? {
+                        value: formData.ownerLocation,
+                        label: formData.ownerLocation,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({
+                    ...formData,
+                    ownerLocation: selectedOption.value,
+                  });
+                  console.log("Formdata:", formData);
+                }}
+                options={ownerLocationOptions}
+              />
+            </div>
           </div>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Preference */}
@@ -466,7 +531,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
               />
             </div>
             {/* Gender - only show if Bachelors is selected */}
-            {formData.preference === "Bachelors" && (
+            {(formData.preference === "Bachelors" ||
+              formData.preference === "Both") && (
               <div>
                 <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                   Gender<span className="text-red-600">*</span>
@@ -666,6 +732,55 @@ const AdditionalInfo = ({ formData, setFormData }) => {
       {propertyType === "PG" && (
         <>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
+            {/* Square Feet Area */}
+            <div className="w-full h-fit flex flex-col gap-3 items-start">
+              <label className="text-[#FFFFFF] text-base font-medium">
+                Square Feet Area<span className="text-red-600">*</span>
+              </label>
+              <input
+                required
+                type="number"
+                placeholder="0"
+                className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                value={formData.squareFeetArea}
+                onChange={(e) => {
+                  setFormData((formData) => {
+                    return { ...formData, squareFeetArea: e.target.value };
+                  });
+                  console.log("Formdata:", formData);
+                }}
+              />
+            </div>
+
+            {/* Owner's Location */}
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                Owner's Location<span className="text-red-600">*</span>
+              </label>
+              <Select
+                required
+                styles={customSelectStyles}
+                placeholder="Select owner's location"
+                value={
+                  formData.ownerLocation
+                    ? {
+                        value: formData.ownerLocation,
+                        label: formData.ownerLocation,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({
+                    ...formData,
+                    ownerLocation: selectedOption.value,
+                  });
+                  console.log("Formdata:", formData);
+                }}
+                options={ownerLocationOptions}
+              />
+            </div>
+          </div>
+          <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Gender */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
@@ -792,6 +907,32 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 }}
               />
             </div>
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                Owner's Location<span className="text-red-600">*</span>
+              </label>
+              <Select
+                required
+                styles={customSelectStyles}
+                placeholder="Select owner's location"
+                value={
+                  formData.ownerLocation
+                    ? {
+                        value: formData.ownerLocation,
+                        label: formData.ownerLocation,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({
+                    ...formData,
+                    ownerLocation: selectedOption.value,
+                  });
+                  console.log("Formdata:", formData);
+                }}
+                options={ownerLocationOptions}
+              />
+            </div>
           </div>
           <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Preference */}
@@ -819,7 +960,8 @@ const AdditionalInfo = ({ formData, setFormData }) => {
               />
             </div>
             {/* Gender - only show if Bachelors is selected */}
-            {formData.preference === "Bachelors" && (
+            {(formData.preference === "Bachelors" ||
+              formData.preference === "Both") && (
               <div>
                 <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
                   Gender<span className="text-red-600">*</span>
@@ -1040,10 +1182,36 @@ const AdditionalInfo = ({ formData, setFormData }) => {
                 }}
               />
             </div>
-            {/* Preference */}
 
-            {/* Bachelors */}
-
+            {/* Owner's Location */}
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                Owner's Location<span className="text-red-600">*</span>
+              </label>
+              <Select
+                required
+                styles={customSelectStyles}
+                placeholder="Select owner's location"
+                value={
+                  formData.ownerLocation
+                    ? {
+                        value: formData.ownerLocation,
+                        label: formData.ownerLocation,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) => {
+                  setFormData({
+                    ...formData,
+                    ownerLocation: selectedOption.value,
+                  });
+                  console.log("Formdata:", formData);
+                }}
+                options={ownerLocationOptions}
+              />
+            </div>
+          </div>
+          <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
             {/* Type */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">

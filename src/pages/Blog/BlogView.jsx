@@ -109,7 +109,7 @@ const BlogView = () => {
         <hr />
         <div className="my-2 text-base sm:text-lg md:text-xl leading-relaxed">{blog.intro}</div>
 
-        <div className="mx-auto my-3 max-w-3xl">
+        <div className="mx-auto my-4 max-w-3xl">
           <img
             src={blog.image}
             alt={blog.title}

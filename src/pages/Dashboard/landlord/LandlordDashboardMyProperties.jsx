@@ -193,14 +193,14 @@ export default function MyProperties({ favouriteList = [] }) {
 
     try {
       const response = await API.delete(`property/${propertyId}`, {
-          headers: {
+        headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to delete property");
+      // With axios, response.data contains the parsed JSON
+      if (response.status !== 200) {
+        throw new Error(response.data?.message || "Failed to delete property");
       }
 
       toast.success("Property deleted successfully!");
@@ -215,25 +215,26 @@ export default function MyProperties({ favouriteList = [] }) {
   // handle toggle availabilityStatus
   const handleToggleAvailability = async (propertyId, currentStatus) => {
     try {
-      const response = await fetch(
-        `${BASE_URL}property/update-property-availability-status/${propertyId}`,
+      const response = await API.patch(
+        `property/update-property-availability-status/${propertyId}`,
         {
-          method: "PATCH",
+          userId: authState?.userData?.id,
+          availabilityStatus:
+            currentStatus === "Available" ? "Rented Out" : "Available",
+        },
+        {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          body: JSON.stringify({
-            userId: authState?.userData?.id,
-            availabilityStatus:
-              currentStatus === "Available" ? "Rented Out" : "Available",
-          }),
         }
       );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to update status");
+      // With axios, response.data contains the parsed JSON
+      if (response.status !== 200) {
+        throw new Error(response.data?.message || "Failed to update status");
       }
+
       toast.success("Property availability status updated successfully!");
       setMyProperties((prevProperties) =>
         prevProperties.map((property) =>
