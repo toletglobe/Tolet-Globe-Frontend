@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { API } from "../../../config/axios";
-import defaultHouse from '../../../assets/propertyListing/defaultHouse.png';
+import defaultHouse from "../../../assets/propertyListing/defaultHouse.png";
 
 const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
   const [myProperties, setMyProperties] = useState([]);
@@ -201,9 +201,32 @@ const LandlordDashboardWelcomePage = ({ favouriteList = [] }) => {
   const toggleOption = (id) => {
     setShowOption((prev) => (prev === id ? null : id));
   };
-  const handleDelete = (propertyId) => {
-    removeFromWelcomeDashboard(propertyId);
+  const handleDelete = async (propertyId) => {
+    if (!window.confirm("Are you sure you want to delete this property?"))
+      return;
+
+    try {
+      const response = await API.delete(`property/${propertyId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      toast.success("Property deleted successfully!");
+      setMyProperties((prevProperties) =>
+        prevProperties.filter((property) => property._id !== propertyId)
+      );
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error(
+        `Error: ${
+          error.response?.data?.message ||
+          error.message ||
+          "Failed to delete property"
+        }`
+      );
+    }
   };
+
   // IMPLEMETING SHARE ICON FUNCTIONALITY WITH SLUGS
   const shareProperty = async (slug) => {
     const propertyUrl = `${window.location.origin}/property/${slug}`;

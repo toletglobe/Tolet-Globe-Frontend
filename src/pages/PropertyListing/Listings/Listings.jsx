@@ -758,40 +758,40 @@ const Listing = () => {
     return propertyData;
   };
 
-const PoiMarkers = (locs) => {
-  console.log("Google api key", import.meta.env.VITE_GOOGLE_MAPS_ID);
-  console.log("Locs", locs);
-  
-  // Filter available properties
-  const availableProperties = locs.pois.filter(
-    loc => loc.property.availabilityStatus.toLowerCase() === "available"
-  );
+  const PoiMarkers = (locs) => {
+    console.log("Google api key", import.meta.env.VITE_GOOGLE_MAPS_ID);
+    console.log("Locs", locs);
 
-  return (
-    <>
-      {availableProperties.map((loc) => (
-        <Marker
-          key={loc.key}
-          position={loc.location}
-          onClick={() => window.open(`/property/${loc.key}`, "_blank")}
-          onMouseOver={() => console.log("Marker hovered:", loc.key)}
-          // Custom marker icon (optional)
-          icon={{
-            url:
-              "data:image/svg+xml;base64," +
-              btoa(`
+    // Filter available properties
+    const availableProperties = locs.pois.filter(
+      (loc) => loc.property.availabilityStatus.toLowerCase() === "available"
+    );
+
+    return (
+      <>
+        {availableProperties.map((loc) => (
+          <Marker
+            key={loc.key}
+            position={loc.location}
+            onClick={() => window.open(`/property/${loc.key}`, "_blank")}
+            onMouseOver={() => console.log("Marker hovered:", loc.key)}
+            // Custom marker icon (optional)
+            icon={{
+              url:
+                "data:image/svg+xml;base64," +
+                btoa(`
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
                   <circle cx="12" cy="12" r="4" fill="white"/>
                 </svg>
               `),
-            scaledSize: new window.google.maps.Size(24, 24),
-          }}
-        />
-      ))}
-    </>
-  );
-};
+              scaledSize: new window.google.maps.Size(24, 24),
+            }}
+          />
+        ))}
+      </>
+    );
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -812,7 +812,7 @@ const PoiMarkers = (locs) => {
         "price-low-high": "Price: Low to High",
         "price-high-low": "Price: High to Low",
         "most-trending": "Most Trending",
-        "date-uploaded": "Date Uploaded"
+        "date-uploaded": "Date Uploaded",
       };
       setSelectedSort(sortLabels[sortParam] || "Sort");
     } else {
@@ -832,8 +832,6 @@ const PoiMarkers = (locs) => {
       localityParam || ""
     );
   }, [filters, city, selectedArea, selectedLocality]);
-
-
 
   // Sorting logic
   const sortProperties = (properties, sortType) => {
@@ -874,7 +872,7 @@ const PoiMarkers = (locs) => {
     navigate(`?${queryParams.toString()}`); // Update URL with new sort query
     setSelectedSort(label);
     setMode(false); // Close mobile dropdown
-    
+
     // Apply sorting immediately to current properties
     if (properties.length > 0) {
       const sortedProperties = sortProperties(properties, sortType);
@@ -1416,7 +1414,7 @@ const PoiMarkers = (locs) => {
           <Map
             defaultZoom={11}
             minZoom={10}
-            maxZoom={12}
+            maxZoom={14}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
             onLoad={(map) => setMapInstance(map)}
