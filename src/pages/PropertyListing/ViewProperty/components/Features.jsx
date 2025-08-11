@@ -126,7 +126,7 @@ const Features = ({ selectComp, property }) => {
         
         {shouldDisplay(property.ownerLocation) && (
   <div className="border flex justify-between rounded-lg border-black p-2 w-full sm:w-fit items-center px-3 py-1">
-    <img src={LocationIcon} className="h-6 w-6 mr-4 my-auto" />
+    <img src={Bedrooms} className="h-6 w-6 mr-4 my-auto" />
     <p className="inline font-normal text-sm md:text-md lg:text-lg">
       {locationLabels[property.ownerLocation] || "Unknown location"}
     </p>
