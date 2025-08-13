@@ -12,22 +12,24 @@ const Coupon = ({ formData, setFormData }) => {
 
   const handleApplyCoupon = async (e) => {
     e.preventDefault();
-    if (!couponCode.trim()) return;
+    if (!couponCode.trim()) {
+      toast.error("Please enter a coupon code");
+      return;
+    }
 
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
+    
     try {
-      const { data } = await API.post("/user/check-coupon-usage", 
-        { 
-        userId, 
-        couponCode 
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const { data } = await API.post(
+        "/user/check-coupon-usage",
+        { userId, couponCode },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      }
-    );
+      );
 
       if (data.valid) {
         setFormData({
@@ -63,6 +65,7 @@ const Coupon = ({ formData, setFormData }) => {
       coupon: "",
       couponStatus: false
     });
+    toast.success("Coupon removed");
   };
 
   const isCouponApplied = formData.couponStatus && formData.coupon;
@@ -70,9 +73,10 @@ const Coupon = ({ formData, setFormData }) => {
   return (
     <div className="grid gap-y-6 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:px-2 max-sm:mt-6">
       <div>
-        <label className="block mb-2 text-white text-base font-medium">
-          Coupon
-        </label>
+        <div className="flex items-center gap-2 mb-2">
+          <label className="text-white text-base font-medium">Coupon Code</label>
+          <span className="text-gray-400 text-sm">(Optional)</span>
+        </div>
 
         <div className="relative">
           <input
@@ -87,7 +91,7 @@ const Coupon = ({ formData, setFormData }) => {
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
             disabled={isCouponApplied}
-            placeholder="Enter coupon code"
+            placeholder="Enter coupon code (optional)"
           />
           
           {isCouponApplied && (
@@ -101,22 +105,24 @@ const Coupon = ({ formData, setFormData }) => {
         <div className="flex justify-end gap-4 mt-4">
           {isCouponApplied ? (
             <button
+              type="button"
               onClick={handleRemoveCoupon}
-              className="px-5 py-2 rounded-md bg-gray-600 text-white hover:bg-gray-700"
+              className="px-5 py-2 rounded-md bg-gray-600 text-white hover:bg-gray-700 transition-colors"
             >
-              Remove
+              Remove Coupon
             </button>
           ) : (
             <button
+              type="button"
               onClick={handleApplyCoupon}
               disabled={!couponCode.trim() || isLoading}
               className={`px-5 py-2 rounded-md ${
                 isLoading 
                   ? "bg-gray-600 cursor-not-allowed" 
                   : "bg-green-700 hover:bg-green-800"
-              } text-white`}
+              } text-white transition-colors`}
             >
-              {isLoading ? "Verifying..." : "Apply"}
+              {isLoading ? "Verifying..." : "Apply Coupon"}
             </button>
           )}
         </div>
