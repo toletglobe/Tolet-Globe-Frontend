@@ -1,6 +1,11 @@
 import React from "react";
 
-const NavButton = ({ selectedButton, handleButtonClick, buttonClasses }) => {
+const NavButton = ({
+  selectedButton,
+  handleButtonClick,
+  buttonClasses,
+  property,
+}) => {
   return (
     <div className="hidden md:flex lg:flex flex-wrap gap-4 justify-between pt-10 pb-4 sm:items-start">
       <button
@@ -33,16 +38,20 @@ const NavButton = ({ selectedButton, handleButtonClick, buttonClasses }) => {
       >
         Amenities
       </button>
-      <button
-        className={`${buttonClasses} ${
-          selectedButton === "Regulations"
-            ? "underline decoration-2 decoration-teal-500 underline-offset-8"
-            : ""
-        }`}
-        onClick={() => handleButtonClick("Regulations")}
-      >
-        Regulations
-      </button>
+      {(property.propertyType === "PG" ||
+        property.propertyType === "House" ||
+        property.propertyType === "Flat") && (
+        <button
+          className={`${buttonClasses} ${
+            selectedButton === "Regulations"
+              ? "underline decoration-2 decoration-teal-500 underline-offset-8"
+              : ""
+          }`}
+          onClick={() => handleButtonClick("Regulations")}
+        >
+          Regulations
+        </button>
+      )}
       <button
         className={`${buttonClasses} ${
           selectedButton === "Location"

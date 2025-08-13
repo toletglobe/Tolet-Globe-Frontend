@@ -41,6 +41,7 @@ export default function LandlordDashboardEditProperties() {
     rent: "",
     security: "",
     images: [],
+    removedImages: [], // Track removed images
     videos: [],
     squareFeetArea: "",
     // locationLink: "",
@@ -79,17 +80,29 @@ export default function LandlordDashboardEditProperties() {
     fetchPropertyDetails();
   }, [id]);
 
+  const handleCancel = () => {
+    // Navigate back to the property details page or dashboard
+    navigate(`/landlord-dashboard/my-properties`);
+  };
+
   const handleFormSubmit = async (formData) => {
     setLoading(true);
     try {
       const updatedFormData = {
         ...formData,
         userId: userInfo.id,
-        pincode: Number(formData.pincode)
+        pincode: Number(formData.pincode),
       };
 
+      // Handle empty fields - but skip appliances and amenities from this logic
       for (const [key, value] of Object.entries(updatedFormData)) {
-        if (key === "userId" || key === "lastName" || key === "images") {
+        if (
+          key === "userId" ||
+          key === "lastName" ||
+          key === "images" ||
+          key === "appliances" ||
+          key === "amenities"
+        ) {
           continue;
         }
 
@@ -98,12 +111,47 @@ export default function LandlordDashboardEditProperties() {
         }
       }
 
+      // Validation: Check if required fields are filled
+      const requiredFields = [
+        "firstName",
+        "ownersContactNumber",
+        "address",
+        "city",
+        "locality",
+        "area",
+        "spaceType",
+        "propertyType",
+        "nearestLandmark",
+        "typeOfWashroom",
+      ];
+
+      for (const field of requiredFields) {
+        if (!updatedFormData[field] || updatedFormData[field] === "NA") {
+          toast.error(`Please fill in the ${field} field`);
+          setLoading(false);
+          return;
+        }
+      }
+
       const dataToSend = new FormData();
 
       Object.entries(updatedFormData).forEach(([key, value]) => {
         if (Array.isArray(value)) {
           if (key === "images") {
-            value.forEach((image) => dataToSend.append("images", image));
+            // Only send File objects (new images), not URL strings (existing images)
+            value.forEach((image) => {
+              if (image instanceof File) {
+                dataToSend.append("images", image);
+              }
+            });
+          } else if (key === "removedImages") {
+            // Send removed image URLs as JSON string
+            if (value.length > 0) {
+              dataToSend.append("removedImages", JSON.stringify(value));
+            }
+          } else if (key === "appliances" || key === "amenities") {
+            // Send arrays as JSON strings or individual items
+            value.forEach((item) => dataToSend.append(key, item));
           } else {
             value.forEach((item) => dataToSend.append(key, item));
           }
@@ -135,7 +183,9 @@ export default function LandlordDashboardEditProperties() {
       navigate(`/property/${data.property.slug}`); // Navigate back to the property details page
     } catch (error) {
       console.error("Error updating property:", error);
-      toast.error("Failed to update property.");
+      const errorMessage =
+        error.response?.data?.message || "Failed to update property.";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -188,7 +238,8 @@ export default function LandlordDashboardEditProperties() {
         {/* Form Footer */}
         <div className="my-10 pr-5 h-fit flex gap-x-3 justify-end md:pr-0">
           <button
-            type="submit"
+            type="button"
+            onClick={handleCancel}
             className="border-[0.5px] rounded-md bg-white font-bold px-7 py-[10px] text-black"
           >
             Cancel

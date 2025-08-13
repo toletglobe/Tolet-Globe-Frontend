@@ -84,7 +84,8 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
     ? properties
     : [properties]; // Ensure properties is an array
 
-  let norm = normalizedProperties[0].properties || normalizedProperties;
+  // Use normalizedProperties directly since it's already an array of properties
+  let norm = normalizedProperties;
 
   const authState = useSelector((state) => state.auth);
   const navigate = useNavigate();
