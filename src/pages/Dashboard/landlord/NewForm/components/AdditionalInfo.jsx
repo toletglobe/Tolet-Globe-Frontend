@@ -83,12 +83,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
   ];
 
   const ownerLocationOptions = [
-    { value: "Same location as property", label: "Same location as property" },
+    { value: "Lives in Same property", label: "Lives in Same property" },
     {
-      value: "Same City Different Location",
-      label: "Same City Different Location",
+      value: "Lives in Same City",
+      label: "Lives in Same City",
     },
-    { value: "Different City", label: "Different City" },
+    { value: "Lives in Different City", label: "Lives in Different City" },
   ];
 
   const appliancesOptions = [
