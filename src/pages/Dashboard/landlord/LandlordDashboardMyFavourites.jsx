@@ -151,9 +151,9 @@ export default function MyProperties() {
     removeFromFavorites(propertyId);
   };
 
-  const handleImageError = (e) => {
-      e.target.src = defaultHouse; // Replace with your fallback image path
-    };
+  //const handleImageError = (e) => {
+    //  e.target.src = defaultHouse; // Replace with your fallback image path
+   // };
   
 
   return (
@@ -168,18 +168,17 @@ export default function MyProperties() {
             {/* THIS CODE WILL ALSO GENERATE FAVARIOUT CARDS AND ALSO SHOW ONLY 3 CARDS IN THE STARTING NO MATTER HOW MAY PROPRTIES ARE ADDED AS FAVRIOUTES */}
             {/* SLICE METHOD ALONG WITH THE MAP METHOD IS USED IN THE CHAINING  AND THE REST OF THE CODE IS SAME*/}
             {/* VIEW ALL BUTTON ADDED,  ICONS MADE AS PER FIGMA*/}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 min-h-screen">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-4 min-h-screen">
               {favouriteProperties.slice(0, showCount).map((property) => (
                 <div
                   key={property._id}
-                  className="bg-black p-4 rounded-md hover:cursor-pointer relative"
+                  className="bg-black p-2 rounded-md hover:cursor-pointer relative"
                 >
                   <img
-                    src={property.images[0]}
+                    src={property.images[0]? property.images[0] : defaultHouse}
                     alt="Property"
                     className="h-[200px] w-full object-cover rounded-md mb-4"
                     onClick={() => navigate(`/property/${property.slug}`)}
-                    onError={handleImageError}
                   />
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold">

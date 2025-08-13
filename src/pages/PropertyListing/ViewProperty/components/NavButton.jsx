@@ -7,7 +7,7 @@ const NavButton = ({
   property,
 }) => {
   return (
-    <div className="hidden md:flex lg:flex flex-wrap gap-4 justify-between pt-10 pb-4 sm:items-start">
+    <div className="hidden md:flex lg:flex flex-wrap gap-24 justify-center pt-10 pb-4 sm:items-start">
       <button
         className={`${buttonClasses} ${
           selectedButton === "Features"
