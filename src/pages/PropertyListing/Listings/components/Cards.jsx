@@ -10,7 +10,7 @@ import { CiHeart, CiShare2 } from "react-icons/ci";
 import { IoAdd, IoBedOutline, IoRemove } from "react-icons/io5";
 import { LuBath } from "react-icons/lu";
 import { PiGridFour } from "react-icons/pi";
-import { FaRegImage, FaVideo,  FaRegCopy } from "react-icons/fa6";
+import { FaRegImage, FaVideo, FaRegCopy } from "react-icons/fa6";
 import { MdOutlineMyLocation } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 
@@ -309,7 +309,6 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                     )}
                   </Popup>
 
-
                   {/* SHORTLIST FOR VISIT */}
                   <Popup
                     trigger={
@@ -383,10 +382,24 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 <div className="card-price font-poppins text-xs lg:text-base font-normal text-[#808080] -mt-1 lg:mt-0">
                   RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                 </div>
-                <div className="card-text font-poppins py-3 lg:text-lg text-xs font-semibold text-[#505050]">
-                  {property.type}, {property.floor}
-                </div>
-              </div>
+                {/* If property.preference is "Bachelors" then render property.bachelors in a () */}
+                {property.preference === "Bachelors" && property.ownerLocation && (
+                  <div className="card-text font-poppins py-3 lg:text-lg text-xs font-semibold text-[#505050]">
+                    Owner {property.ownerLocation.toLowerCase()}, {property.preference}({property.bachelors})
+                  </div>
+                )}
+                {/* If property.preference is "Family" then render property.family in a () */}
+                {property.preference === "Family" && property.ownerLocation && (
+                  <div className="card-text font-poppins py-3 lg:text-lg text-xs font-semibold text-[#505050]">
+                    {property.ownerLocation}, {property.preference}
+                  </div>
+                )}
+                {!property.ownerLocation && (
+                  <div className="card-text font-poppins py-3 lg:text-lg text-xs font-semibold text-[#505050]">
+                    {property.type}, {property.floor}
+                  </div>
+                )}
+              </div>  
               <ul className="card-list custom-card-list pb-3 lg:py-2 ">
                 <li className="bed card-item flex items-center text-base">
                   <IoBedOutline className="text-lg lg:text-3xl" />
