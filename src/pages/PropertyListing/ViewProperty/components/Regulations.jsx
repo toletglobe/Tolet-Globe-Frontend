@@ -1,4 +1,3 @@
-//
 import React from "react";
 import { BsPeopleFill } from "react-icons/bs";
 import { MdPets } from "react-icons/md";
@@ -15,6 +14,11 @@ const Regulations = ({ selectComp, property }) => {
         return "Boys/Girls";
     }
   };
+
+  // Check if both bachelors and family are not allowed
+  const bothNotAllowed = property.preference !== "Bachelors" && 
+                         property.preference !== "Family" && 
+                         property.preference !== "Both";
 
   return (
     <div
@@ -34,8 +38,8 @@ const Regulations = ({ selectComp, property }) => {
             <BsPeopleFill className="h-5 w-5 mr-2 text-black bg-white" />
             <p className="inline font-normal text-sm md:text-md lg:text-lg">
               Bachelors Allowed -{" "}
-              {property.preference === "Bachelors" ||
-              property.preference === "Both"
+              {bothNotAllowed ? "Yes" : 
+                (property.preference === "Bachelors" || property.preference === "Both")
                 ? "Yes"
                 : "No"}
             </p>
@@ -55,8 +59,8 @@ const Regulations = ({ selectComp, property }) => {
             <BsPeopleFill className="h-5 w-5 mr-2 text-black bg-white" />
             <p className="inline font-normal text-sm md:text-md lg:text-lg">
               Families Allowed -{" "}
-              {property.preference === "Family" ||
-              property.preference === "Both"
+              {bothNotAllowed ? "Yes" : 
+                (property.preference === "Family" || property.preference === "Both")
                 ? "Yes"
                 : "No"}
             </p>
