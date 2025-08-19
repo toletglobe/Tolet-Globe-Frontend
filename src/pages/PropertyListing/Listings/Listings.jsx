@@ -119,6 +119,30 @@ const Listing = () => {
   // Extract query string from the URL
   const queryString = location.search;
 
+  // Add with other refs
+const circleRef = useRef(null);
+
+// Add with other utility functions
+const createCircle = (center, radiusInMeters) => {
+  if (circleRef.current) {
+    circleRef.current.setMap(null);
+  }
+
+  if (!mapInstance || !center) return;
+
+  circleRef.current = new window.google.maps.Circle({
+    strokeColor: "#6CC1B6",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#6CC1B6",
+    fillOpacity: 0.2,
+    map: mapInstance,
+    center,
+    radius: radiusInMeters,
+    clickable: false
+  });
+};
+
   // Decode the query string
   const params = new URLSearchParams(queryString);
   const residential = params.get("residential"); // Example: Get the value of 'param1'
@@ -242,6 +266,14 @@ const Listing = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+  return () => {
+    if (circleRef.current) {
+      circleRef.current.setMap(null);
+    }
+  };
+}, []);
 
   useEffect(() => {
     const fetchFavouriteProperties = async () => {
@@ -831,7 +863,20 @@ const Listing = () => {
 
     return sortedProperties;
   };
-
+const handleLocalitySelect = (locality) => {
+  setSelectedLocality(locality);
+  
+  if (city && localityCoordinates[city]?.[locality]) {
+    const newCenter = localityCoordinates[city][locality];
+    setMapCenter(newCenter);
+    
+    if (mapInstance) {
+      createCircle(newCenter, 2000); // 2km radius
+      mapInstance.setZoom(14); // Zoom in more when locality is selected
+      mapInstance.panTo(newCenter);
+    }
+  }
+};
   const handleSortClick = (sortType, label) => {
     const queryParams = new URLSearchParams(location.search);
     queryParams.set("sort", sortType);
@@ -845,11 +890,6 @@ const Listing = () => {
       setProperties(sortedProperties);
     }
   };
-
-  const handleLocalitySelect = (locality) => {
-    setSelectedLocality(locality); // Update selected locality
-  };
-
   // Add this function to handle search
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
@@ -1377,16 +1417,22 @@ const Listing = () => {
 
         {/* Pin Location on Map */}
         <div className="w-full h-[400px] rounded-md border-[1.5px] border-[#C8C8C8]">
+          {" "}
           <Map
             defaultZoom={11}
-            minZoom={10}
-            maxZoom={14}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
             onLoad={(map) => setMapInstance(map)}
+            // options={{
+            //   minZoom: 15,
+            //   maxZoom: 15.5
+            // }}
           >
             <PoiMarkers pois={availableProperties} />
           </Map>
+          {/* {hovered && (
+            <p className="mt-2 text-[#C8C8C8] text-sm">Selected coordinates:</p>
+          )} */}
         </div>
 
         <div className="pt-3">
