@@ -1,4 +1,3 @@
-import React from "react";
 import Slider from "react-slick";
 import Popup from "reactjs-popup";
 import { useSelector } from "react-redux";
@@ -195,7 +194,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
         {norm.map((property) => (
           <li
             key={property._id}
-            className="property-card rounded-[8px] overflow-hidden shadow-lg border border-gray-200 bg-white lg:p-4 p-2.5 "
+            className="property-card rounded-[8px] overflow-hidden shadow-lg border border-gray-200 bg-white lg:p-4 p-2.5 flex flex-col h-full" // Added flex and h-full
           >
             <figure className="card-banner relative aspect-w-2 h-[180px] lg:h-[260px] overflow-hidden w-full">
               {property.images?.length > 1 ? (
@@ -248,7 +247,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 </div>
               </div>
             </figure>
-            <div className="card-content lg:p-1 sm:p-1">
+            <div className="card-content lg:p-1 sm:p-1 flex flex-col flex-grow"> {/* Added flex properties */}
               <div className="name_icon flex justify-between pt-2 ">
                 <h3 className="card-title lg:text-xl text-[14px] lg:font-semibold font-medium font-poppins ">
                   <a href="#">
@@ -378,7 +377,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 </div>
               </div>
 
-              <div className="card-details flex flex-col items-center">
+              <div className="card-details flex flex-col items-center flex-grow"> {/* Added flex-grow */}
                 <div className="card-price font-poppins text-xs lg:text-base font-normal text-[#808080] -mt-1 lg:mt-0">
                   RS. {parseInt(property.rent, 10).toLocaleString("en-IN")}
                 </div>
@@ -396,7 +395,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 )}
                 {!property.ownerLocation && (
                   <div className="card-text font-poppins py-3 lg:text-lg text-xs font-semibold text-[#505050]">
-                    {property.type}, {property.floor}
+                    {property.type ? property.type : "NA" }, {property.floor ? property.floor : "NA" }
                   </div>
                 )}
               </div>  
@@ -418,7 +417,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                 </li>
               </ul>
             </div>
-            <div className="card-footer pt-3 lg:pt-3 flex justify-between border-t-2 ">
+            <div className="card-footer pt-3 lg:pt-3 flex justify-between border-t-2 mt-auto"> {/* Added mt-auto */}
               <div className="card-author flex items-center gap-1">
                 <figure className="author-avatar lg:w-8 lg:h-8 w-6 h-6 overflow-hidden rounded-full">
                   <img
