@@ -262,30 +262,30 @@
 /* -------------------Hand CSS ------------------ */
 .Twall-1 {
   position: absolute;
-  height: 110px;
-  width: 60px;
+  height: 100px;
+  width: 40px;
   opacity: 0.08;
   transform: translate3d(10vw, 90vh, 0px) rotate(90deg);
   transition: all 2s ease-in-out;
 }
 .scrolled .Twall-1 {
   position: absolute;
-  height: 110px;
-  width: 180px;
+  height: 100px;
+  width: 100px;
   opacity: 0;
   transform: translate3d(105px, 40px, 0);
 }
 .wall-1 {
   position: absolute;
   height: 20px;
-  width: 80px;
+  width: 60px;
   opacity: 1;
   transform: translate3d(-450px, 191px, 0px) rotate(20deg);
   transition: all 2s ease-in-out;
 }
 .scrolled .wall-1 {
-  height: 110px;
-  width: 170px;
+  height: 90px;
+  width: 100px;
   opacity: 1;
   right: 25.4rem;
   top: 7rem;
