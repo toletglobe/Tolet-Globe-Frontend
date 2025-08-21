@@ -202,7 +202,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
                   {property.images.map((photo, index) => (
                     <div key={index}>
                       <img
-                        src={photo}
+                        src={photo || "https://www.toletglobe.in/assets/defaultHouse-DGzmkHRH.png"}
                         alt={property.propertyType}
                         className="w-full h-[180px] lg:h-[260px] object-cover"
                         onError={handleImageError}
@@ -213,7 +213,7 @@ const Cards = ({ properties, favouriteList, setFavouriteList }) => {
               ) : (
                 <div className="relative">
                   <img
-                    src={property.images[0]}
+                    src={property.images[0] || "https://www.toletglobe.in/assets/defaultHouse-DGzmkHRH.png"}
                     alt={property.propertyType}
                     className="w-full h-[180px] lg:h-[262px] object-cover"
                     onError={handleImageError}
