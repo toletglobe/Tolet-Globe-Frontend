@@ -41,7 +41,7 @@ const PropertyDetails = ({ property }) => {
     }
   };
 
-  const buttonClasses = "text-white font-semibold text-xl";
+  const buttonClasses = "text-white font-semibold text-2xl tracking-widest";
 
   return (
     <>

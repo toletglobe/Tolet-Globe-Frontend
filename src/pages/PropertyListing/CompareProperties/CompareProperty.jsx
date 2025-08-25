@@ -159,7 +159,7 @@ export default function CompareProperty({
     {
       key: "propertyType",
       label: "Property Type",
-      icon: <RiBuilding2Line className="text-xl text-black" />,
+      icon: <RiBuilding2Line className="text-xl text-black"  />,
     },
     {
       key: "preference",
@@ -186,8 +186,8 @@ export default function CompareProperty({
 
   return (
     <>
-      <div className="flex flex-col  xl:pt-6 xl:pb-24  lg:px-6 space-y-4">
-        <div className="w-full flex flex-nowrap justify-between items-center pt-10 px-2 sm:px-6">
+      <div className="flex flex-col  xl:pt-6 xl:pb-24  lg:px-32 space-y-4">
+        <div className="w-full flex flex-nowrap justify-center items-center pt-12 px-2 sm:px-6">
           <h4
             className="text-xl sm:text-3xl lg:text-5xl font-bold flex-shrink w-auto "
             style={{
@@ -199,7 +199,7 @@ export default function CompareProperty({
           >
             Compare with similar properties
           </h4>
-          <div className="text-sm sm:text-lg text-white font-bold ml-4">
+          {/*<div className="text-sm sm:text-lg text-white font-bold ml-4">
             <button
               className="bg-teal-500 px-3 py-1 sm:px-6 sm:py-2 rounded-md whitespace-nowrap"
               onClick={() => {
@@ -216,13 +216,13 @@ export default function CompareProperty({
             >
               Proceed To Visit
             </button>
-          </div>
+          </div>*/}
         </div>
 
         {/* Property Cards */}
         <div className="w-full lg:max-w-8xl flex justify-center items-center justify-items-start ">
           {/* Flex container for small screens and grid for large screens */}
-          <div className="w-full flex flex-col lg:flex-row justify-between items-start sm:items-center gap-4 lg:gap-4 pt-10 px-2 sm:px-6 xl:px-20">
+          <div className="w-full flex flex-col lg:flex-row justify-center items-start sm:items-center gap-4 lg:gap-4 pt-10 px-2 sm:px-6 xl:px-20">
             {compareProperty.map((property, index) => (
               <div
                 key={index}
@@ -458,7 +458,7 @@ export default function CompareProperty({
           </div>
 
           {/* Comparison Table */}
-          <div className="bg-white pt-8 lg:mr-16 overflow-x-auto">
+          <div className="bg-white pt-8 lg:mr-24 overflow-x-auto">
             <table className="min-w-full bg-white overflow-hidden space-y-2">
               {filteredProperties.map(({ key, label, icon }) => (
                 <React.Fragment key={key}>
@@ -473,14 +473,14 @@ export default function CompareProperty({
                         </div>
                       </div>
                     </th>
-                    <div className="flex flex-1 ">
+                    <div className="flex justify-center items-center lg:px-2">
                       {compareProperty.map((property, index) => (
                         <td
                           key={index}
-                          className=" px-3 lg:px-0 flex-1 flex justify-center items-center"
+                          className=" px-3 lg:px-0"
                         >
-                          <div className="py-2 lg:px-6 text-[10.8px] lg:text-xl font-medium text-center text-black w-full">
-                            {property[key]}
+                          <div className="py-2 lg:px-1 text-[10.8px] lg:text-xl font-medium text-center text-black w-full">
+                            {compareProperty.length-1 === index?property[key]:property[key]+" /"}
                           </div>
                         </td>
                       ))}

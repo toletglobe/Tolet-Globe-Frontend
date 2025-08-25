@@ -25,7 +25,9 @@ const ItemTypes = {
   COMPARE_BUTTON: "compareButton",
 };
 
-const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
+
+const PropertyBrief = ({ property }) => {
+
   const navigate = useNavigate();
   const [{ compareProperty }, dispatch] = useStateValue();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,7 +52,6 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
   };
 
   useEffect(() => {
-    console.log("User data", authState?.userData)
     const fetchFavouriteProperties = async () => {
       try {
         if (!authState?.userData?.id) {
@@ -131,8 +132,6 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
       (item) => item.slug === property.slug
     );
 
-    // if(property.availabilityStatus !== "Available") return toast.error("This property is already rented out")
-    // if(property.availabilityStatus === "NA") return toast.error("This property is Not Available")
 
     if (alreadyInCompare) {
       setErrorMessage("This property is already in the compare list!");
@@ -531,12 +530,12 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
 
       {property.images.length > 0 ? (
         <div className="relative">
-          <div className="hidden lg:flex  gap-2 h-[500px]">
-            <div className="w-1/2">
+          <div className="hidden lg:flex gap-2 lg:w-[74vw] lg:ml-[18rem] h-[500px]">
+            <div className="w-1/2 lg:w-[30vw]">
               <img
                 src={property.images[0]}
                 alt={property.propertyType}
-                className="w-full h-full object-cover rounded-lg cursor-pointer"
+                className="w-full h-full object-cover lg:rounded-none rounded-lg cursor-pointer"
                 onClick={() => openModal(property.images[0], 0)}
                 onError={handleImageError}
               />
@@ -548,13 +547,13 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
                   <img
                     src={image}
                     alt={`${property.propertyType} ${index + 2}`}
-                    className="w-full h-[246px] object-cover rounded-lg cursor-pointer"
+                    className="w-full h-[246px] object-cover lg:rounded-none rounded-lg cursor-pointer"
                     onClick={() => openModal(image, index + 1)}
                     onError={handleImageError}
                   />
                   {index === 3 && property.images.length > 5 && (
                     <div
-                      className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center cursor-pointer rounded-lg"
+                      className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center cursor-pointer lg:rounded-none rounded-lg"
                       onClick={() => openModal(image, index + 1)}
                     >
                       <span className="text-white text-lg font-medium items-center justify-center">
@@ -568,7 +567,7 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
           </div>
 
           <div className="lg:hidden">
-            <div className="w-full mb-2">
+            <div className="w-ful mb-2">
               <img
                 src={property.images[0]}
                 alt={property.propertyType}
@@ -690,8 +689,8 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
         </DndProvider>
       )}
 
-      <div className="md:flex justify-between pt-8">
-        <div className="lg:w-[40%]">
+      <div className="md:flex justify-center gap-64 pt-16">
+        <div className="lg:w-[30%]">
           <h1 className="text-left text-white lg:text-5xl">
             {property?.propertyType} 
             <span>
@@ -704,7 +703,7 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
           </h1>
           <p className="text-gray-400 block lg:text-2xl lg:py-4">
             {/* <span className="blur-sm">,{property?.area}</span>,{property?.area}, */}
-           <span> {isOwnerOrAdmin ? property?.address : `---------` } </span>,{property?.area},{property?.locality},
+            <span>---------</span>,{property?.area},{property?.locality},
             {property?.city}
           </p>
 
@@ -715,13 +714,13 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
             </p>
           </div>
 
-          <div className="border border-gray-600 rounded-lg p-1 sm:p-1 mb-8 mt-2 flex flex-row lg:flex-row justify-evenly items-center gap-2 lg:gap-4 w-full">
+          <div className="border border-gray-600 rounded-lg p-1 lg:p-4 sm:p-1 mb-8 mt-2 flex flex-row lg:flex-row justify-evenly items-center gap-2 lg:gap-0 lg:w-96 w-full">
             {/* Monthly Rent Section */}
             <div className="text-center w-full sm:w-auto flex flex-col items-center justify-center gap-1">
-              <p className="text-gray-400 lg:text-2xl text-[0.8rem] sm:text-base">
+              <p className="text-gray-400 lg:text-lg text-[0.8rem] sm:text-base">
                 Monthly Rent
               </p>
-              <h3 className="text-white text-md lg:text-2xl font-bold">
+              <h3 className="text-white text-md lg:text-2xl font-normal">
                 Rs. {property?.rent}
               </h3>
             </div>
@@ -732,7 +731,7 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
             {/* Floor Section */}
             <div className="text-center w-full sm:w-auto flex flex-col items-center justify-center gap-1">
               <p className="text-gray-400 text-xs sm:text-base">Floor</p>
-              <h3 className="text-white text-md lg:text-2xl font-bold">
+              <h3 className="text-white text-md lg:text-2xl font-normal">
                 {property?.floor}
               </h3>
             </div>
@@ -743,13 +742,13 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
             {/* BHK Section */}
             <div className="text-center w-full sm:w-auto flex flex-col items-center justify-center gap-1">
               <p className="text-gray-400 text-xs sm:text-base">Bhk</p>
-              <h3 className="text-white text-md lg:text-2xl font-bold">
+              <h3 className="text-white text-md lg:text-2xl font-normal">
                 {property?.bhk} Bhk
               </h3>
             </div>
           </div>
         </div>
-        <div className="lg:w-[30%] bg-white rounded-lg p-3 mb-2">
+        <div className="lg:w-[25%] bg-white rounded-lg p-3 mb-2">
           <div className="flex justify-between items-center mb-4 lg:mb-8">
             <p className="text-black text-lg font-semibold">Request a visit</p>
             <div className="flex gap-3 justify-center items-center ">
@@ -874,42 +873,26 @@ const PropertyBrief = ({ property , isOwnerOrAdmin , fetchProperty}) => {
                 {property?.firstName} {property?.lastName}
               </p>
               <p className="text-gray-500 font-normal lg:text-xl">
-               {isOwnerOrAdmin ? property.ownersContactNumber : `+${maskPhoneNumber(property?.ownersContactNumber)}` }
+                +{maskPhoneNumber(property?.ownersContactNumber)}
               </p>
             </div>
           </div>
 
-        {isOwnerOrAdmin ? (
           <button
             className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
             style={{ backgroundColor: "#3B9D94" }}
-            onClick={() => changeAvailibilityStatus(property._id)}
+            onClick={() => addToCompare(property)}
+
           >
             <img
               src={fav}
               alt="favorite"
               className="hidden md:block lg:block h-6 w-5"
             />
-            {property.availabilityStatus === "Available" 
-              ? "Mark as Rented Out" 
-              : "Mark as Available"}
+
+            Add To Visit
           </button>
-        ) : (
-          <button
-            className="w-full py-3 px-4 rounded-lg flex items-center justify-center md:gap-[2rem] lg:gap-[2rem] text-black font-semibold lg:text-xl"
-            style={{ backgroundColor: "#3B9D94" }}
-            onClick={() => addToCompare(property)}
-          >
-    <img
-      src={fav}
-      alt="favorite"
-      className="hidden md:block lg:block h-6 w-5"
-    />
-    {property.availabilityStatus === "Available" 
-      ? "Proceed To Visit" 
-      : "Property Not Available"}
-  </button>
-)}
+
         </div>
       </div>
 
