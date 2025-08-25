@@ -89,6 +89,9 @@ export default function LandlordDashboardAddProperties() {
         key === "removedImages" ||
         key === "appliances" ||
         key === "amenities"
+        // Skips making coupon mandatory
+        // key === "coupon" || // Add this line
+        // key === "couponStatus" // Add this line
       ) {
         continue;
       }
