@@ -68,6 +68,7 @@ export default function LandlordDashboardEditProperties() {
       setLoading(true);
       try {
         const { data } = await API.get(`/property/${id}`);
+        console.log(data);
         setFormData(data); // Pre-fill the form with fetched property data
       } catch (error) {
         console.error("Error fetching property details:", error);
