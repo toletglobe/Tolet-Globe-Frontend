@@ -161,7 +161,12 @@ const Form = ({ formData, setFormData }) => {
     }
 
     let position;
-    if (formData.city && formData.locality) {
+    if (formData.latitude && formData.longitude) {
+      position = {
+        lat: Number(formData.latitude),
+        lng: Number(formData.longitude),
+      };
+    } else if (formData.city && formData.locality) {
       position = localityCoordinates?.[formData.city]?.[formData.locality];
     } else if (formData.city) {
       position = cityCoordinates?.[formData.city];

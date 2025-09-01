@@ -26,6 +26,7 @@ import Cards from "./components/Cards";
 import LoginPopup from "./components/LoginPopup/LoginPopup"; // Import the LoginPopup component
 
 import "./listings.css";
+import PoiMarkers from "./PoiMarkers";
 
 import { API } from "../../../config/axios";
 
@@ -758,41 +759,6 @@ const Listing = () => {
     return propertyData;
   };
 
-  const PoiMarkers = (locs) => {
-    console.log("Google api key", import.meta.env.VITE_GOOGLE_MAPS_ID);
-    console.log("Locs", locs);
-
-    // Filter available properties
-    const availableProperties = locs.pois.filter(
-      (loc) => loc.property.availabilityStatus.toLowerCase() === "available"
-    );
-
-    return (
-      <>
-        {availableProperties.map((loc) => (
-          <Marker
-            key={loc.key}
-            position={loc.location}
-            onClick={() => window.open(`/property/${loc.key}`, "_blank")}
-            onMouseOver={() => console.log("Marker hovered:", loc.key)}
-            // Custom marker icon (optional)
-            icon={{
-              url:
-                "data:image/svg+xml;base64," +
-                btoa(`
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="8" fill="red" stroke="black" stroke-width="2"/>
-                  <circle cx="12" cy="12" r="4" fill="white"/>
-                </svg>
-              `),
-              scaledSize: new window.google.maps.Size(24, 24),
-            }}
-          />
-        ))}
-      </>
-    );
-  };
-
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cityParam = params.get("city");
@@ -802,10 +768,18 @@ const Listing = () => {
 
     fetchAndFilterProperties(
       cityParam || city,
-      areaParam.length > 0 ? areaParam : [],
-      localityParam || ""
+      areaParam.length > 0 ? areaParam : selectedArea,
+      localityParam || selectedLocality
     );
+    //setting area params
+    if (areaParam.length > 0) {
+      setSelectedArea(areaParam);
+    }
 
+    //setting locality params
+    if (localityParam) {
+      setSelectedLocality(localityParam);
+    }
     // Set the selected sort based on URL parameter
     if (sortParam) {
       const sortLabels = {
@@ -916,6 +890,12 @@ const Listing = () => {
   const handleSearchSelection = (value, type) => {
     const queryParams = new URLSearchParams(location.search);
 
+    // To trigger immediate search
+    fetchAndFilterProperties(
+      city,
+      type === "area" ? currentAreas : selectedArea,
+      type === "locality" ? value : selectedLocality
+    );
     if (type === "locality") {
       handleLocalitySelect(value);
       queryParams.set("locality", value);
@@ -1414,7 +1394,7 @@ const Listing = () => {
           <Map
             defaultZoom={11}
             minZoom={10}
-            maxZoom={14}
+            maxZoom={13}
             defaultCenter={mapCenter}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
             onLoad={(map) => setMapInstance(map)}

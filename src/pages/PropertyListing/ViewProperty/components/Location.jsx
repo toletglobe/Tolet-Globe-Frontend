@@ -42,8 +42,25 @@ const Location = ({ property, selectComp }) => {
 
     const newMap = new google.maps.Map(mapRef.current, {
       center: propertyLocation,
-      zoom: 12,
-      mapId: import.meta.env.VITE_GOOGLE_MAPS_ID, // Ensure mapId is passed
+
+      zoom: 12.5, // Increased zoom level for closer view
+      minZoom: 12.5, // Minimum zoom level - prevents zooming out too far
+      maxZoom: 13, // Maximum zoom level
+      mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
+      // Disable some controls for better user experience
+      zoomControl: true, // Keep zoom control but restrict levels
+      mapTypeControl: false, // Disable map type switching
+      streetViewControl: false, // Disable street view
+      fullscreenControl: false, // Disable fullscreen
+      // Restrict map interaction
+      gestureHandling: "cooperative", // Requires ctrl+scroll to zoom
+    });
+
+    // Add zoom change listener to enforce minimum zoom
+    newMap.addListener("zoom_changed", () => {
+      if (newMap.getZoom() < 12.5) {
+        newMap.setZoom(12.5);
+      }
     });
 
     // Create a DOM element for the marker content

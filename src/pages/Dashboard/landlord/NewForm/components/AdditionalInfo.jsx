@@ -83,12 +83,12 @@ const AdditionalInfo = ({ formData, setFormData }) => {
   ];
 
   const ownerLocationOptions = [
-    { value: "Lives in Same property", label: "Lives in Same property" },
+    { value: "Lives in same property", label: "Lives in same property" },
     {
-      value: "Lives in Same City",
-      label: "Lives in Same City",
+      value: "Lives in different property",
+      label: "Lives in different property",
     },
-    { value: "Lives in Different City", label: "Lives in Different City" },
+    { value: "Lives in different city", label: "Lives in different city" },
   ];
 
   const appliancesOptions = [
@@ -382,7 +382,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Appliances */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Appliances<span className="text-red-600">*</span>
+                Appliances
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -407,7 +407,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Amenities */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Amenities<span className="text-red-600">*</span>
+                Amenities
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -435,7 +435,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
           <div className=" mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                About the Flat<span className="text-red-600">*</span>
+                About the Flat
               </label>
               <textarea
                 className="bg-black min-[320px]:max-md:w-[100%] w-[100%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
@@ -658,7 +658,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Appliances */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Appliances<span className="text-red-600">*</span>
+                Appliances
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -683,7 +683,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Amenities */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Amenities<span className="text-red-600">*</span>
+                Amenities
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -711,7 +711,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
           <div className=" mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                About the Flat<span className="text-red-600">*</span>
+                About the Flat
               </label>
               <textarea
                 className="bg-black min-[320px]:max-md:w-[100%] w-[100%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
@@ -835,7 +835,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Appliances */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Appliances<span className="text-red-600">*</span>
+                Appliances
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -860,7 +860,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Amenities */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Amenities<span className="text-red-600">*</span>
+                Amenities
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -1088,7 +1088,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Appliances */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Appliances<span className="text-red-600">*</span>
+                Appliances
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -1113,7 +1113,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Amenities */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Amenities<span className="text-red-600">*</span>
+                Amenities
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -1141,7 +1141,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
           <div className=" mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                About the property<span className="text-red-600">*</span>
+                About the property
               </label>
               <textarea
                 className="bg-black min-[320px]:max-md:w-[100%] w-[100%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
@@ -1291,7 +1291,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Appliances */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Appliances<span className="text-red-600">*</span>
+                Appliances
               </label>
               <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -1316,7 +1316,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
             {/* Amenities */}
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                Amenities<span className="text-red-600">*</span>
+                Amenities
               </label>
               <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
                 <Select
@@ -1344,7 +1344,7 @@ const AdditionalInfo = ({ formData, setFormData }) => {
           <div className=" mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
             <div>
               <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-                About the property<span className="text-red-600">*</span>
+                About the property
               </label>
               <textarea
                 className="bg-black min-[320px]:max-md:w-[100%] w-[100%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
