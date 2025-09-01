@@ -232,7 +232,7 @@ export default function LandlordDashboardAddProperties() {
     <>
       {/* Form */}
 
-      <div className="w-full px-3">
+      <div className="w-full">
         {/* Form-Container */}
         <form
           encType="multipart/form-data"

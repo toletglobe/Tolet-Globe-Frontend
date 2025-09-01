@@ -168,15 +168,22 @@ const Pricing = () => {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (
-  <div
-    key={plan.id}
-    className="bg-[#1a1f2e] rounded-2xl p-8 relative shadow-xl"
-  >
-    {plan.badge && (
-      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#38f8cf] text-white text-xs font-bold px-4 py-1 rounded-full shadow-md z-10">
-        {plan.badge}
-      </div>
-    )}
+
+            <div
+              key={plan.id}
+              className="bg-[#1a1f2e] rounded-2xl p-8 relative"
+            >
+              {plan.badge && (
+                <div className={plan.badgeStyle}>{plan.badge}</div>
+              )}
+              <h2 className="text-2xl font-bold mb-2">{plan.title}</h2>
+              <div className="flex flex-col items-center justify-center mb-4">
+                <span className="text-5xl font-bold text-yellow-400">{plan.price}</span>
+                <span className="text-gray-400 text-lg -mt-1">{plan.period}</span>
+              </div>
+
+              <p className="text-gray-400 mb-6">{plan.description}</p>
+
 
     <h2 className="text-2xl font-bold mb-2 text-white">{plan.title}</h2>
 
