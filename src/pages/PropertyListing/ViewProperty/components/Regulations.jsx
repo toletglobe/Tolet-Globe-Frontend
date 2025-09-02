@@ -1,23 +1,26 @@
-//
+// Import React
 import React from "react";
-import { BsPeopleFill } from "react-icons/bs";
-import { MdPets } from "react-icons/md";
-import { PiStudentBold } from "react-icons/pi";
 
-const Regulations = ({ selectComp, property }) => {
-  const getPreferenceText = () => {
-    switch (property.bachelors) {
-      case "Boys":
-        return "Boys";
-      case "Girls":
-        return "Girls";
-      default:
-        return "Boys/Girls";
-    }
-  };
+// Import icons from react-icons
+import { BsPeopleFill } from "react-icons/bs";   // People icon
+import { MdPets } from "react-icons/md";        // Pets icon
+import { PiStudentBold } from "react-icons/pi"; // Student icon
 
+// Example component
+const Regulations = () => {
   return (
-    <div
+    <div style={{ padding: "20px", fontSize: "20px" }}>
+      <h2>Property Regulations</h2>
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        <li><BsPeopleFill /> Family Allowed</li>
+        <li><MdPets /> Pets Allowed</li>
+        <li><PiStudentBold /> Students Allowed</li>
+      </ul>
+    </div>
+  );
+};
+
+
       className={`pb-4 ${
         selectComp > 4 ||
         ["Office", "Shop", "Warehouse"].includes(property.propertyType)
