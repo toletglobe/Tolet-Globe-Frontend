@@ -1,24 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "../../../../../config/loadGoogleMaps";
 import Select from "react-select";
-import areas from "../../../../PropertyListing/Listings/areas";
 import CreatableSelect from "react-select/creatable";
+import { toast } from "react-toastify";
+import areas from "../../../../PropertyListing/Listings/areas";
 
-const Form = ({ formData, setFormData }) => {
-  const optionRenderFun = (value) => (
-    <option key={value} value={value}>
-      {value}
-    </option>
-  );
-
+const Form = ({ formData, setFormData, setIsMarkerMoved, isMarkerMoved }) => {
   const cityOptions = ["Lucknow", "Ayodhya", "Vellore", "Kota"];
-
   const spaceTypeOptions = ["Residential", "Commercial"];
-
-  const residentialOptions = ["House", "Flat", "PG"];
-
-  const commercialOptions = ["Office", "Shop", "Warehouse"];
-
   const allOptions = ["House", "Flat", "PG", "Office", "Shop", "Warehouse"];
 
   const cityLocalityData = {
@@ -131,6 +120,8 @@ const Form = ({ formData, setFormData }) => {
   const [areaSearch, setAreaSearch] = useState("");
   const [filteredAreas, setFilteredAreas] = useState([]);
   const [showAreaDropdown, setShowAreaDropdown] = useState(false);
+    
+
 
   useEffect(() => {
     loadGoogleMaps()
@@ -144,9 +135,10 @@ const Form = ({ formData, setFormData }) => {
   }, []);
 
   useEffect(() => {
-    if (isLoading || !mapRef.current) return;
+    if (isLoading || !mapRef.current || map) {
+      return;
+    }
 
-    // If Google Maps failed to load
     if (
       typeof window.google === "undefined" ||
       !window.google.maps ||
@@ -154,10 +146,52 @@ const Form = ({ formData, setFormData }) => {
       !window.google.maps.marker ||
       !window.google.maps.marker.AdvancedMarkerElement
     ) {
-      console.warn(
-        "Google Maps API not available or AdvancedMarkerElement unsupported"
-      );
-      return; //  do nothing, skip map
+      console.warn("Google Maps API not available or AdvancedMarkerElement unsupported");
+      return;
+    }
+
+    const initialPosition = cityCoordinates["Lucknow"];
+    setFormData((prev) => ({
+      ...prev,
+      latitude: initialPosition.lat,
+      longitude: initialPosition.lng,
+    }));
+
+    const newMap = new window.google.maps.Map(mapRef.current, {
+      center: initialPosition,
+      zoom: 13,
+      mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
+    });
+    setMap(newMap);
+
+    try {
+      const AdvancedMarker = window.google.maps.marker.AdvancedMarkerElement;
+      const newMarker = new AdvancedMarker({
+        map: newMap,
+        position: initialPosition,
+        gmpDraggable: true,
+      });
+
+      newMarker.addListener("dragend", () => {
+        const pos = newMarker.position;
+        if (pos?.lat && pos?.lng) {
+          setFormData((prev) => ({
+            ...prev,
+            latitude: pos.lat,
+            longitude: pos.lng,
+          }));
+          setIsMarkerMoved(true);
+        }
+      });
+      setMarker(newMarker);
+    } catch (err) {
+      console.warn("Marker failed to initialize:", err);
+    }
+  }, [isLoading, mapRef, map, setFormData, setIsMarkerMoved]);
+
+  useEffect(() => {
+    if (!map || !marker) {
+      return;
     }
 
     let position;
@@ -179,54 +213,22 @@ const Form = ({ formData, setFormData }) => {
       return;
     }
 
-    // Initialize map
-    if (!map) {
-      const newMap = new window.google.maps.Map(mapRef.current, {
-        center: position,
-        zoom: formData.locality ? 15 : 13,
-        mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
-      });
-
-      setMap(newMap);
-
-      try {
-        const AdvancedMarker = window.google.maps.marker.AdvancedMarkerElement;
-        const newMarker = new AdvancedMarker({
-          map: newMap,
-          position: position,
-          gmpDraggable: true,
-        });
-
-        newMarker.addListener("dragend", () => {
-          const pos = newMarker.position;
-          if (pos?.lat && pos?.lng) {
-            setFormData((prev) => ({
-              ...prev,
-              latitude: pos.lat,
-              longitude: pos.lng,
-            }));
-          }
-        });
-
-        setMarker(newMarker);
-      } catch (err) {
-        console.warn("Marker failed to initialize:", err);
-      }
-    } else {
-      map.setCenter(position);
-      map.setZoom(formData.locality ? 15 : 13);
-      if (marker?.setPosition) {
-        marker.setPosition(position);
-      }
+    map.setCenter(position);
+    map.setZoom(formData.locality ? 15 : 13);
+    if (marker?.setPosition) {
+      marker.setPosition(position);
     }
 
-    // Ensure lat/lng always gets updated in formData
+    setIsMarkerMoved(false);
     setFormData((prev) => ({
       ...prev,
       latitude: position.lat,
       longitude: position.lng,
     }));
-  }, [formData.city, formData.locality, isLoading]);
+
+  }, [formData.city, formData.locality, map, marker, setIsMarkerMoved, setFormData]);
+
+  
 
   const handleCityChange = (selectedOption) => {
     const selectedCity = selectedOption.value;
@@ -237,46 +239,58 @@ const Form = ({ formData, setFormData }) => {
       city: selectedCity,
       locality: "",
       pincode: "",
-      latitude: cityPosition.lat, // Reset coordinates to city center
+      latitude: cityPosition.lat,
       longitude: cityPosition.lng,
     }));
-
-    // for Debugging
-    console.log("Formdata:", formData);
-
-    // Update map and marker position immediately
-    if (map && marker) {
-      map.setCenter(cityPosition);
-      map.setZoom(13);
-      marker.position = cityPosition;
-    }
   };
 
+  const markerRef = useRef(null);
+
+
+
   const handleLocalityChange = (selectedOption) => {
-    const selectedLocality = selectedOption.value;
+    const selectedLocality = selectedOption?.value || "";
     const selectedCity = formData.city;
-    const localityIndex =
-      cityLocalityData[selectedCity].localities.indexOf(selectedLocality);
-    const correspondingPincode =
-      cityLocalityData[selectedCity].pincodes[localityIndex];
-    const localityPosition =
-      localityCoordinates[selectedCity][selectedLocality];
+    if (!selectedCity) {
+      return;
+    }
 
-    setFormData((prev) => ({
-      ...prev,
-      locality: selectedLocality,
-      pincode: correspondingPincode,
-      latitude: localityPosition.lat, // Update coordinates to locality center
-      longitude: localityPosition.lng,
-    }));
+     
 
-    // for Debugging
-    console.log("Formdata:", formData);
 
-    if (map && marker) {
-      map.setCenter(localityPosition);
-      map.setZoom(13);
-      marker.position = localityPosition; // Update to use localityPosition
+    if (!selectedLocality) {
+      setFormData((prev) => ({
+        ...prev,
+        locality: "",
+        pincode: "",
+        latitude: cityCoordinates[selectedCity]?.lat,
+        longitude: cityCoordinates[selectedCity]?.lng,
+      }));
+    } else {
+      const localityIndex = cityLocalityData[selectedCity].localities.indexOf(selectedLocality);
+      const correspondingPincode = cityLocalityData[selectedCity].pincodes[localityIndex];
+      const localityPosition = localityCoordinates[selectedCity]?.[selectedLocality];
+
+      setFormData((prev) => ({
+        ...prev,
+        locality: selectedLocality,
+        pincode: correspondingPincode,
+        latitude: localityPosition?.lat,
+        longitude: localityPosition?.lng,
+      }));
+
+      // Directly call toast here after state update
+      // Encapsulate in a setTimeout to ensure it runs after any potential microtasks/rendering
+      setTimeout(() => {
+        toast.info("Remember to move the map marker to the precise location!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }, 0);
     }
   };
 
@@ -292,38 +306,21 @@ const Form = ({ formData, setFormData }) => {
     );
   };
 
-  const handleImageSubmit = (e) => {
-    const existingImages = formData.images || [];
-    const newFiles = Array.from(e.target.files);
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
 
-    if (existingImages.length + newFiles.length > 5) {
-      alert("You can upload a maximum of 5 images.");
+    if (!isMarkerMoved) {
+      toast.error("Please move the map marker to the correct location before submitting.");
       return;
     }
 
-    setFormData((prev) => ({
-      ...prev,
-      images: [...existingImages, ...newFiles],
-    }));
-    // for Debugging
-    // console.log("Formdata:", formData);
-    e.target.value = "";
+    console.log("Form is valid. Submitting data:", formData);
   };
 
-  const removeImage = (index) => {
-    const updatedImages = [...(formData.images || [])];
-    updatedImages.splice(index, 1);
-    setFormData((prev) => ({
-      ...prev,
-      images: updatedImages,
-    }));
-    // for Debugging
-    // console.log("Formdata:", formData);
-  };
   const customSelectStyles = {
     control: (base) => ({
       ...base,
-      backgroundColor: "none",
+      backgroundColor: "black",
       color: "white",
       height: "3.5rem",
       borderRadius: "0.375rem",
@@ -333,11 +330,11 @@ const Form = ({ formData, setFormData }) => {
     }),
     input: (base) => ({
       ...base,
-      color: "white", // ✅ Entered text color
+      color: "white",
     }),
     placeholder: (base) => ({
       ...base,
-      color: "none",
+      color: "#C8C8C8",
     }),
     singleValue: (base) => ({
       ...base,
@@ -354,10 +351,10 @@ const Form = ({ formData, setFormData }) => {
     option: (base, state) => ({
       ...base,
       backgroundColor: state.isSelected
-        ? "none" // selected
+        ? "black"
         : state.isFocused
-        ? "none" // hover (Tailwind gray-600)
-        : "none",
+        ? "#2D2D2D"
+        : "black",
       color: "white",
       padding: "12px 16px",
       cursor: "pointer",
@@ -365,13 +362,13 @@ const Form = ({ formData, setFormData }) => {
         ? "5px solid #C8C8C8"
         : state.isFocused
         ? "5px solid #C8C8C8"
-        : "none", // selected
+        : "none",
       borderBottom: "2.5px solid #C8C8C8",
     }),
   };
 
   return (
-    <>
+    <form onSubmit={handleFormSubmit}>
       <div className="sm:my-5 mt-7 mb-8 flex flex-col gap-2 md:pr-0">
         <h1 className="ml-4 text-[#FFFFFF] text-xl md:text-[25px] leading-10 font-bold text-left whitespace-nowrap">
           Property Details
@@ -382,18 +379,16 @@ const Form = ({ formData, setFormData }) => {
         {/* First Name */}
         <div>
           <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            First Name<span className="text-red-600">*</span>
+            First Name <span className="text-red-600">*</span>
           </label>
           <input
             type="text"
             placeholder="Enter first name"
             required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
             value={formData.firstName}
             onChange={(e) => {
               setFormData({ ...formData, firstName: e.target.value });
-              // for Debugging
-              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -406,12 +401,10 @@ const Form = ({ formData, setFormData }) => {
           <input
             type="text"
             placeholder="Enter last name"
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
             value={formData.lastName}
             onChange={(e) => {
               setFormData({ ...formData, lastName: e.target.value });
-              // for Debugging
-              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -431,17 +424,13 @@ const Form = ({ formData, setFormData }) => {
             className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
             value={formData.ownersContactNumber}
             onChange={(e) => {
-              // Remove non-digit characters in real-time
               const digitsOnly = e.target.value.replace(/\D/g, "");
               setFormData({
                 ...formData,
                 ownersContactNumber: digitsOnly,
               });
-              // for Debugging
-              console.log("Formdata:", formData);
             }}
             onKeyDown={(e) => {
-              // Allow only numbers and essential keys
               const allowedKeys = [
                 "Backspace",
                 "Tab",
@@ -474,17 +463,13 @@ const Form = ({ formData, setFormData }) => {
                 : formData.ownersAlternateContactNumber
             }
             onChange={(e) => {
-              // Sanitize input to allow only digits
               const digitsOnly = e.target.value.replace(/\D/g, "");
               setFormData({
                 ...formData,
                 ownersAlternateContactNumber: digitsOnly,
               });
-              // for Debugging
-              console.log("Formdata:", formData);
             }}
             onKeyDown={(e) => {
-              // Block non-digit key entries
               const allowedKeys = [
                 "Backspace",
                 "Tab",
@@ -509,12 +494,10 @@ const Form = ({ formData, setFormData }) => {
             type="text"
             placeholder="Enter full address"
             required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
             value={formData.address}
             onChange={(e) => {
               setFormData({ ...formData, address: e.target.value });
-              // for Debugging
-              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -553,10 +536,7 @@ const Form = ({ formData, setFormData }) => {
                 : null
             }
             onChange={(selectedOption) => {
-              setFormData((prev) => ({
-                ...prev,
-                locality: selectedOption?.value || "",
-              }));
+              handleLocalityChange(selectedOption);
             }}
             options={
               formData.city
@@ -580,14 +560,13 @@ const Form = ({ formData, setFormData }) => {
             type="text"
             placeholder="Type to search area"
             required
-            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
+            className="bg-black w-[100%] h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
             value={formData.area || areaSearch}
             onChange={(e) => {
               const searchValue = e.target.value;
               setAreaSearch(searchValue);
               setShowAreaDropdown(true);
 
-              // Filter areas based on search input
               const filtered = areas.filter((area) =>
                 area.toLowerCase().includes(searchValue.toLowerCase())
               );
@@ -600,21 +579,16 @@ const Form = ({ formData, setFormData }) => {
               }
             }}
           />
-
-          {/* Dropdown for areas */}
-          {showAreaDropdown && filteredAreas.length > 0 && (
+          {filteredAreas.length > 0 && showAreaDropdown && (
             <div className="z-10 w-full mt-1 max-h-60 overflow-y-auto bg-black border border-[#C8C8C8] rounded-md">
               {filteredAreas.map((area, index) => (
                 <div
                   key={index}
-                  // className="px-4 py-2 cursor-pointer hover:bg-gray-800 text-[#C8C8C8]"
                   className="bg-black text-white w-full h-14 p-3 border-b-2 border-[#C8C8C8] placeholder:text-[#C8C8C8] hover:border-l-4 hover:border-[#C8C8C8] focus:ring-0"
                   onClick={() => {
                     setAreaSearch(area);
                     setFormData({ ...formData, area: area });
                     setShowAreaDropdown(false);
-                    // for Debugging
-                    console.log("Formdata:", formData);
                   }}
                 >
                   {area}
@@ -633,15 +607,13 @@ const Form = ({ formData, setFormData }) => {
             required
             type="text"
             placeholder="Enter Nearest Landmark"
-            className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base"
+            className="bg-black px-3 py-3 w-full h-14 rounded-[4px] border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-base text-white"
             value={formData.nearestLandmark}
             onChange={(e) => {
               setFormData({
                 ...formData,
                 nearestLandmark: e.target.value,
               });
-              // for Debugging
-              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -691,7 +663,6 @@ const Form = ({ formData, setFormData }) => {
             }
             onChange={(selectedOption) => {
               setFormData({ ...formData, propertyType: selectedOption.value });
-              console.log("Formdata:", formData);
             }}
             options={allOptions.map((opt) => ({
               label: opt,
@@ -716,7 +687,6 @@ const Form = ({ formData, setFormData }) => {
             }
             onChange={(selectedOption) => {
               setFormData({ ...formData, spaceType: selectedOption.value });
-              console.log("Formdata:", formData);
             }}
             options={spaceTypeOptions.map((opt) => ({
               label: opt,
@@ -725,9 +695,7 @@ const Form = ({ formData, setFormData }) => {
           />
         </div>
       </div>
-
-      {/* Coupon */}
-    </>
+    </form>
   );
 };
 

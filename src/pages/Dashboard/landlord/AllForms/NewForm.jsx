@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "../../../../config/loadGoogleMaps";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { IoClose } from "react-icons/io5";
 import areas from "../../../../pages/PropertyListing/Listings/areas";
 
@@ -14,13 +14,9 @@ const Form = ({ formData, setFormData }) => {
   );
 
   const cityOptions = ["Lucknow", "Ayodhya", "Vellore", "Kota"];
-
   const spaceTypeOptions = ["Residential", "Commercial"];
-
   const residentialOptions = ["House", "Flat", "PG"];
-
   const commercialOptions = ["Office", "Shop", "Warehouse"];
-
   const allOptions = [
     "House",
     "Flat",
@@ -28,7 +24,6 @@ const Form = ({ formData, setFormData }) => {
     "Office",
     "Shop",
     "Warehouse",
-    // "NA",
   ];
 
   const cityLocalityData = {
@@ -153,83 +148,80 @@ const Form = ({ formData, setFormData }) => {
       });
   }, []);
 
-useEffect(() => {
-  if (isLoading || !mapRef.current) return;
+  useEffect(() => {
+    if (isLoading || !mapRef.current) return;
 
-  // If Google Maps failed to load
-  if (
-    typeof window.google === "undefined" ||
-    !window.google.maps ||
-    !window.google.maps.Map ||
-    !window.google.maps.marker ||
-    !window.google.maps.marker.AdvancedMarkerElement
-  ) {
-    console.warn("Google Maps API not available or AdvancedMarkerElement unsupported");
-    return; // ❗ do nothing, skip map
-  }
+    if (
+      typeof window.google === "undefined" ||
+      !window.google.maps ||
+      !window.google.maps.Map ||
+      !window.google.maps.marker ||
+      !window.google.maps.marker.AdvancedMarkerElement
+    ) {
+      console.warn("Google Maps API not available or AdvancedMarkerElement unsupported");
+      return;
+    }
 
-  let position;
-  if (formData.city && formData.locality) {
-    position = localityCoordinates?.[formData.city]?.[formData.locality];
-  } else if (formData.city) {
-    position = cityCoordinates?.[formData.city];
-  } else {
-    position = cityCoordinates["Lucknow"];
-  }
+    let position;
+    if (formData.city && formData.locality) {
+      position = localityCoordinates?.[formData.city]?.[formData.locality];
+    } else if (formData.city) {
+      position = cityCoordinates?.[formData.city];
+    } else {
+      position = cityCoordinates["Lucknow"];
+    }
 
-  if (!position || !position.lat || !position.lng) {
-    console.warn("Invalid position fallback:", position);
-    return;
-  }
+    if (!position || !position.lat || !position.lng) {
+      console.warn("Invalid position fallback:", position);
+      return;
+    }
 
-  // Initialize map
-  if (!map) {
-    const newMap = new window.google.maps.Map(mapRef.current, {
-      center: position,
-      zoom: formData.locality ? 15 : 13,
-      mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
-    });
-
-    setMap(newMap);
-
-    try {
-      const AdvancedMarker = window.google.maps.marker.AdvancedMarkerElement;
-      const newMarker = new AdvancedMarker({
-        map: newMap,
-        position: position,
-        gmpDraggable: true,
+    if (!map) {
+      const newMap = new window.google.maps.Map(mapRef.current, {
+        center: position,
+        zoom: formData.locality ? 15 : 13,
+        mapId: import.meta.env.VITE_GOOGLE_MAPS_ID,
       });
 
-      newMarker.addListener("dragend", () => {
-        const pos = newMarker.position;
-        if (pos?.lat && pos?.lng) {
-          setFormData((prev) => ({
-            ...prev,
-            latitude: pos.lat,
-            longitude: pos.lng,
-          }));
-        }
-      });
+      setMap(newMap);
 
-      setMarker(newMarker);
-    } catch (err) {
-      console.warn("Marker failed to initialize:", err);
-    }
-  } else {
-    map.setCenter(position);
-    map.setZoom(formData.locality ? 15 : 13);
-    if (marker?.setPosition) {
-      marker.setPosition(position);
-    }
-  }
+      try {
+        const AdvancedMarker = window.google.maps.marker.AdvancedMarkerElement;
+        const newMarker = new AdvancedMarker({
+          map: newMap,
+          position: position,
+          gmpDraggable: true,
+        });
 
-  // Ensure lat/lng always gets updated in formData
-  setFormData((prev) => ({
-    ...prev,
-    latitude: position.lat,
-    longitude: position.lng,
-  }));
-}, [formData.city, formData.locality, isLoading]);
+        newMarker.addListener("dragend", () => {
+          const pos = newMarker.position;
+          if (pos?.lat && pos?.lng) {
+            setFormData((prev) => ({
+              ...prev,
+              latitude: pos.lat,
+              longitude: pos.lng,
+            }));
+          }
+        });
+
+        setMarker(newMarker);
+      } catch (err) {
+        console.warn("Marker failed to initialize:", err);
+      }
+    } else {
+      map.setCenter(position);
+      map.setZoom(formData.locality ? 15 : 13);
+      if (marker?.setPosition) {
+        marker.setPosition(position);
+      }
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      latitude: position.lat,
+      longitude: position.lng,
+    }));
+  }, [formData.city, formData.locality, isLoading]);
 
 
   const handleCityChange = (e) => {
@@ -241,14 +233,10 @@ useEffect(() => {
       city: selectedCity,
       locality: "",
       pincode: "",
-      latitude: cityPosition.lat, // Reset coordinates to city center
+      latitude: cityPosition.lat,
       longitude: cityPosition.lng,
     });
 
-    // for Debugging
-    // console.log("Formdata:", formData);
-
-    // Update map and marker position immediately
     if (map && marker) {
       map.setCenter(cityPosition);
       map.setZoom(13);
@@ -271,7 +259,6 @@ useEffect(() => {
     });
   };
 
-  // Add this function after other handler functions
   const determineSubscriptionPlan = (rentAmount) => {
     const rent = Number(rentAmount);
     if (rent <= 6000) return 299;
@@ -280,9 +267,6 @@ useEffect(() => {
     if (rent <= 50000) return 999;
     return 1499;
   };
-
-  // for Debugging
-  // console.log("Formdata:", formData);
 
   const renderMap = () => {
     if (isLoading) return <div>Loading map...</div>;
@@ -309,8 +293,6 @@ useEffect(() => {
       ...prev,
       images: [...existingImages, ...newFiles],
     }));
-    // for Debugging
-    // console.log("Formdata:", formData);
     e.target.value = "";
   };
 
@@ -337,49 +319,77 @@ useEffect(() => {
       ...prev,
       images: updatedImages,
     }));
-    // for Debugging
-    // console.log("Formdata:", formData);
   };
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      backgroundColor: "#000000",
-      color: "#FFFFFF",
-      borderColor: "#C8C8C8",
-      padding: "6px",
-      minHeight: "3.5rem",
-      boxShadow: state.isFocused ? "0 0 0 1px #C8C8C8" : "none",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected
-        ? "#1F1F1F"
-        : state.isFocused
-        ? "#333333"
-        : "#000000",
-      color: "#FFFFFF",
-    }),
-    multiValue: (styles) => ({
-      ...styles,
-      backgroundColor: "#FFFFFF",
-      color: "#1F1F1F",
-    }),
-    input: (styles) => ({
-      ...styles,
-      color: "#FFFFFF",
-    }),
-    placeholder: (styles) => ({
-      ...styles,
-      color: "#7D7D7D",
-    }),
-    singleValue: (styles) => ({
-      ...styles,
-      color: "#FFFFFF",
-    }),
+  
+  // **PROFESSIONAL COMMENT:** We are now passing the `className` prop directly to the component, which is a more idiomatic way to apply Tailwind styles in React.
+  const MultiValueContainer = (props) => {
+    return (
+      <div className="flex flex-wrap gap-2 py-1">
+        <components.MultiValueContainer {...props}>
+          {props.children}
+        </components.MultiValueContainer>
+      </div>
+    );
   };
 
+  const customStyles = {
+  // Styles the main container of the select field
+  control: (provided) => ({
+    ...provided,
+    backgroundColor: "#000",
+    color: "#fff",
+    borderColor: "#C8C8C8",
+    padding: "6px",
+    minHeight: "3.5rem",
+    // This style is important for the main control container
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+  }),
+
+  // Styles the container that holds the selected options (the tags)
+  valueContainer: (provided) => ({
+    ...provided,
+    // This is the key change. The `!important` rule overrides the default inline styles of the library.
+    flexWrap: "wrap !important",
+    maxHeight: "6rem",
+    overflowY: "auto",
+    padding: "0 6px",
+    alignItems: "flex-start",
+  }),
+  
+  // Styles each individual tag/selected option
+  multiValue: (provided) => ({
+    ...provided,
+    backgroundColor: "rgb(209 213 219)",
+    color: "#000",
+    borderRadius: "4px",
+    // Adding margin here provides spacing between the tags
+    margin: "4px 4px 4px 0",
+  }),
+
+  // Styles the text inside the tag
+  multiValueLabel: (provided) => ({
+    ...provided,
+    color: "#000",
+  }),
+  
+  // Styles the 'x' button to remove a tag
+  multiValueRemove: (provided) => ({
+    ...provided,
+    color: "#000",
+    "&:hover": {
+      backgroundColor: "rgb(156 163 175)",
+      color: "#000",
+    },
+  }),
+  
+  // Styles the dropdown menu
+  menuPortal: (base) => ({
+    ...base,
+    zIndex: 9999,
+  }),
+};
   const appliancesOptions = [
-    // { value: "NA", label: "NA" },
     { value: "Refrigerator", label: "Refrigerator" },
     { value: "Washing Machine", label: "Washing Machine" },
     { value: "Air Conditioner", label: "Air Conditioner" },
@@ -394,12 +404,9 @@ useEffect(() => {
     setFormData((formData) => {
       return { ...formData, appliances: selectedOptions };
     });
-    // for Debugging
-    // console.log("Formdata:", formData);
   };
 
   const amenitiesOptions = [
-    // { value: "NA", label: "NA" },
     { value: "Lift", label: "Lift" },
     { value: "Parking", label: "Parking" },
     { value: "Power Backup", label: "Power Backup" },
@@ -414,8 +421,6 @@ useEffect(() => {
     setFormData((formData) => {
       return { ...formData, amenities: selectedOptions };
     });
-    // for Debugging
-    // console.log("Formdata:", formData);
   };
 
   return (
@@ -434,8 +439,6 @@ useEffect(() => {
             value={formData.firstName}
             onChange={(e) => {
               setFormData({ ...formData, firstName: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -452,8 +455,6 @@ useEffect(() => {
             value={formData.lastName}
             onChange={(e) => {
               setFormData({ ...formData, lastName: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -473,7 +474,6 @@ useEffect(() => {
             className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] text-white"
             value={formData.ownersContactNumber}
             onChange={(e) => {
-              // Remove non-digit characters in real-time
               const digitsOnly = e.target.value.replace(/\D/g, "");
               setFormData({
                 ...formData,
@@ -481,7 +481,6 @@ useEffect(() => {
               });
             }}
             onKeyDown={(e) => {
-              // Allow only numbers and essential keys
               const allowedKeys = [
                 "Backspace",
                 "Tab",
@@ -510,16 +509,13 @@ useEffect(() => {
             className="bg-black w-full h-14 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8] placeholder:text-[14px] !placeholder:text-[8px] sm:placeholder:text-base text-white"
             value={formData.ownersAlternateContactNumber}
             onChange={(e) => {
-              // Sanitize input to allow only digits
               const digitsOnly = e.target.value.replace(/\D/g, "");
               setFormData({
                 ...formData,
                 ownersAlternateContactNumber: digitsOnly,
               });
-              console.log("Formdata:", formData);
             }}
             onKeyDown={(e) => {
-              // Block non-digit key entries
               const allowedKeys = [
                 "Backspace",
                 "Tab",
@@ -548,8 +544,6 @@ useEffect(() => {
             value={formData.address}
             onChange={(e) => {
               setFormData({ ...formData, address: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -610,7 +604,6 @@ useEffect(() => {
               setAreaSearch(searchValue);
               setShowAreaDropdown(true);
 
-              // Filter areas based on search input
               const filtered = areas.filter((area) =>
                 area.toLowerCase().includes(searchValue.toLowerCase())
               );
@@ -635,8 +628,6 @@ useEffect(() => {
                     setAreaSearch(area);
                     setFormData({ ...formData, area: area });
                     setShowAreaDropdown(false);
-                    // for Debugging
-                    // console.log("Formdata:", formData);
                   }}
                 >
                   {area}
@@ -696,7 +687,6 @@ useEffect(() => {
         </div>
 
         {/* Square Feet Area */}
-        {/* <div className="w-full h-fit flex flex-col gap-3 items-start"> */}
         <div className="w-full h-fit flex flex-col gap-3 items-start">
           <label className="text-[#FFFFFF] text-base font-medium">
             Square Feet Area<span className="text-red-600">*</span>
@@ -714,7 +704,6 @@ useEffect(() => {
             }}
           />
         </div>
-        {/* </div> */}
 
         {/* Space Type */}
         <div>
@@ -727,8 +716,6 @@ useEffect(() => {
             value={formData.spaceType}
             onChange={(e) => {
               setFormData({ ...formData, spaceType: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -749,14 +736,11 @@ useEffect(() => {
             value={formData.propertyType}
             onChange={(e) => {
               setFormData({ ...formData, propertyType: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
               Select property type
             </option>
-
             {formData.spaceType === "Commercial"
               ? commercialOptions.map(optionRenderFun)
               : formData.spaceType === "Residential"
@@ -776,8 +760,6 @@ useEffect(() => {
             value={formData.preference}
             onChange={(e) => {
               setFormData({ ...formData, preference: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -786,7 +768,6 @@ useEffect(() => {
             <option value="Bachelors">Bachelors</option>
             <option value="Family">Family</option>
             <option value="Any">Any</option>
-            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -802,8 +783,6 @@ useEffect(() => {
             value={formData.bachelors}
             onChange={(e) => {
               setFormData({ ...formData, bachelors: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -812,7 +791,6 @@ useEffect(() => {
             <option value="Boys">Boys</option>
             <option value="Girls">Girls</option>
             <option value="Any">Any</option>
-            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -827,8 +805,6 @@ useEffect(() => {
             value={formData.type}
             onChange={(e) => {
               setFormData({ ...formData, type: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -837,7 +813,6 @@ useEffect(() => {
             <option value="Not Furnished">Not Furnished</option>
             <option value="Semi Furnished">Semi Furnished</option>
             <option value="Fully Furnished">Fully Furnished</option>
-            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -852,8 +827,6 @@ useEffect(() => {
             value={formData.bhk}
             onChange={(e) => {
               setFormData({ ...formData, bhk: e.target.value });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -864,7 +837,6 @@ useEffect(() => {
             <option value="3">3 BHK</option>
             <option value="4">4 BHK</option>
             <option value="5">5 BHK</option>
-            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
@@ -883,11 +855,9 @@ useEffect(() => {
             value={formData.floor}
             onChange={(e) => {
               const val = e.target.value;
-              // Ensure only positive integers or empty string
               if (val === "" || /^[0-9]+$/.test(val)) {
                 setFormData({ ...formData, floor: val });
               }
-              console.log("Formdata:", formData);
             }}
           />
         </div>
@@ -906,8 +876,6 @@ useEffect(() => {
                 ...formData,
                 typeOfWashroom: e.target.value,
               });
-              // for Debugging
-              // console.log("Formdata:", formData);
             }}
           >
             <option value="" disabled>
@@ -916,215 +884,47 @@ useEffect(() => {
             <option value="Western">Western</option>
             <option value="Indian">Indian</option>
             <option value="Both">Both</option>
-            {/* <option value="NA">NA</option> */}
           </select>
         </div>
 
-        {/* Appliances */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start ">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Appliances<span className="text-red-600">*</span>
-          </label>
-          <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
-            <Select
-              styles={customStyles}
-              placeholder={
-                <div className="text-white  text-[18px] leading-[23px] font-normal">
-                  Choose your Appliances
-                </div>
-              }
-              value={formData.appliances}
-              options={appliancesOptions}
-              onChange={handleOnChangeAppliances}
-              isMulti={true}
-            />
-          </div>
+       {/* Appliances */}
+<div className="w-full h-fit flex flex-col gap-3 items-start">
+  <label className="text-[#FFFFFF] text-base font-medium">
+    Appliances<span className="text-red-600">*</span>
+  </label>
+  <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal flex flex-wrap gap-2">
+    <Select
+      styles={customStyles}
+      placeholder={<div className="text-white text-[18px]">Choose your App</div>}
+      value={formData.appliances}
+      options={appliancesOptions}
+      onChange={handleOnChangeAppliances}
+      isMulti={true}
+    />
+  </div>
+</div>
+
+{/* Amenities */}
+<div className="w-full h-fit flex flex-col gap-3 items-start">
+  <label className="text-[#FFFFFF] text-base font-medium">
+    Amenities<span className="text-red-600">*</span>
+  </label>
+  <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal flex flex-wrap gap-2">
+    <Select
+      styles={customStyles}
+      className="w-full"
+      placeholder={
+        <div className="text-white text-[18px] leading-[23px] font-normal">
+          Choose your Amenities
         </div>
-
-        {/* Amenities */}
-        <div className="w-full h-fit flex flex-col gap-3 items-start">
-          <label className="text-[#FFFFFF] text-base font-medium">
-            Amenities<span className="text-red-600">*</span>
-          </label>
-          <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
-            <Select
-              styles={customStyles}
-              className="text-black"
-              placeholder={
-                <div className="text-white text-[18px] leading-[23px] font-normal">
-                  Choose your Amenities
-                </div>
-              }
-              value={formData.amenities}
-              options={amenitiesOptions}
-              onChange={handleOnChangeAmenities}
-              isMulti={true}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* About Property */}
-      <div className=" mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
-        <div>
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            About the property<span className="text-red-600">*</span>
-          </label>
-          <textarea
-            className="bg-black min-[320px]:max-md:w-[100%] w-[100%] h-36 p-3 rounded-md border-[1.5px] border-[#C8C8C8] placeholder:text-[#C8C8C8]"
-            value={formData.aboutTheProperty}
-            onChange={(e) => {
-              setFormData((formData) => {
-                return { ...formData, aboutTheProperty: e.target.value };
-              });
-              // for Debugging
-              // console.log("Formdata:", formData);
-            }}
-          ></textarea>
-        </div>
-      </div>
-
-      {/* Rent & Security Fields */}
-      <div className="grid gap-y-12 mt-10 px-5 h-fit md:pr-0 md:grid-cols-2 md:gap-x-7 max-sm:gap-y-6 max-sm:mt-6 max-sm:px-2">
-        <div className="flex-1">
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Security Amount (If Applicable)
-          </label>
-          <input
-            required
-            type="number"
-            min="0"
-            step="1"
-            placeholder="Enter security amount"
-            className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] 
-             [&::-webkit-outer-spin-button]:appearance-none 
-             [&::-webkit-inner-spin-button]:appearance-none 
-             appearance-none"
-            value={formData.security || ""}
-            onChange={(e) => {
-              const val = e.target.value;
-              if (val === "" || /^[0-9]+$/.test(val)) {
-                setFormData((prev) => ({ ...prev, security: val }));
-              }
-            }}
-          />
-        </div>
-        <div className="flex-1 mt-10 md:mt-0">
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Rent Amount <span className="text-red-800">*</span>
-          </label>
-          <input
-            type="number"
-            placeholder="Enter rent amount"
-            required
-            className="mt-2 bg-black w-full h-14 p-3 rounded-md border border-[#C8C8C8] placeholder:text-[#C8C8C8] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none appearance-none"
-            value={formData.rent || ""}
-            onChange={(e) => {
-              const rentValue = e.target.value;
-              const subscriptionAmount = determineSubscriptionPlan(rentValue);
-              setFormData((prev) => ({
-                ...prev,
-                rent: rentValue,
-                subscriptionPlan: subscriptionAmount,
-              }));
-            }}
-          />
-        </div>
-      </div>
-      {/* Subscription Cards */}
-      <div>
-        <Pricing formData={formData} />
-      </div>
-
-      {/* Image Upload Section */}
-      <div className="mt-10 px-5 h-fit md:pr-0 max-sm:mt-6 max-sm:px-2">
-        {/* Image Upload Section */}
-        <div className="mt-16">
-          <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-            Property image<span className="text-red-600">*</span>
-          </label>
-          <p className="text-sm mb-4">
-            Note: Your first image will be the cover image of your property
-          </p>
-
-          <div className="flex flex-col md:flex-row gap-6 max-w-full">
-            {/* Left - Big First Image */}
-            <div className="flex-shrink-0 flex-1 md:flex-none md:w-[376px]">
-              <div className="relative">
-                {formData.images?.[0] instanceof File ?  (
-                  <img
-                    src={URL.createObjectURL(formData.images[0])}
-                    alt="uploaded-0"
-                    className="rounded-lg object-cover w-full h-70"
-                  />
-                ) : (
-                  <div className="border-2 border-dashed border-[#C8C8C8] rounded-lg py-10 flex flex-col items-center">
-                    <label className="cursor-pointer rounded-md text-yellow-600 font-bold px-4 py-6 h-[185px] flex items-center justify-center w-full">
-                      + Upload cover image 
-                      <input
-                        type="file"
-                        hidden
-                        multiple
-                        accept="image/*"
-                        onChange={e => handleImageSubmit(e, 0)}
-                      />
-                    </label>
-                  </div>
-                )}
-                {formData.images?.length > 0 && (
-                  <button
-                    onClick={() => removeImage(0)}
-                    className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
-                    aria-label="Remove image"
-                  >
-                    <IoClose size={16} color="white" />
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Right - Grid of Remaining Images */}
-            <div className="flex-1 grid grid-cols-2 md:grid-cols-2 gap-4 max-w-[300px] flex-shrink-0">
-              {Array.from({ length: 4 }, (_, idx) => (
-                <div key={idx} className="relative group">
-                  {formData.images?.[idx + 1] && formData.images?.[0] instanceof File ? (
-                    <img
-                      src={URL.createObjectURL(formData.images[idx + 1])}
-                      alt={`uploaded-${idx + 1}`}
-                      className="rounded-lg object-cover w-full h-32"
-                    />
-                  ) : (
-                    <div className="border-2 border-dashed border-[#C8C8C8] rounded-lg h-32 flex items-center justify-center">
-                      <label className="cursor-pointer text-yellow-600 font-bold">
-                        + Add More
-                        <input
-                          type="file"
-                          hidden
-                          multiple
-                          accept="image/*"
-                          onChange={e => handleImageSubmit(e, idx + 1)}
-                        />
-                      </label>
-                    </div>
-                  )}
-                  {formData.images?.[idx + 1] && (
-                    <button
-                      onClick={() => removeImage(idx + 1)}
-                      className="absolute top-1 right-1 bg-black bg-opacity-60 rounded-full p-1 hover:bg-opacity-80 transition"
-                      aria-label="Remove image"
-                    >
-                      <IoClose size={16} color="white" />
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-400">
-            Uploaded {formData.images?.length || 0}/5 images
-          </p>
-        </div>
+      }
+      value={formData.amenities}
+      options={amenitiesOptions}
+      onChange={handleOnChangeAmenities}
+      isMulti={true}
+    />
+  </div>
+</div>
       </div>
     </>
   );

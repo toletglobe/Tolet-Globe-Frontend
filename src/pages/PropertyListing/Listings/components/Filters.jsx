@@ -21,19 +21,6 @@ const Filters = ({
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const countAppliedFilters = (filters) => {
-  //     return Object.values(filters).reduce((count, filterValue) => {
-  //       if (Array.isArray(filterValue)) {
-  //         return count + (filterValue.length > 0 ? 1 : 0);
-  //       } else {
-  //         return count + (filterValue ? 1 : 0);
-  //       }
-  //     }, 0);
-  //   };
-  //   const totalFilters = countAppliedFilters(filters);
-  //   updateFilterCount(totalFilters);
-  // }, [filters, updateFilterCount]);
   const [pendingFilters, setPendingFilters] = useState(filters);
 
   const handlePendingFilterChange = (key, value) => {
@@ -54,20 +41,46 @@ const Filters = ({
     });
   };
 
-  const seeResults = async () => {
+  const seeResults = () => {
+    setFilters(pendingFilters);
+    const queryParams = new URLSearchParams();
+
+    if (pendingFilters.bhk.length > 0) {
+      queryParams.set("bhk", pendingFilters.bhk.join(","));
+    }
+    if (pendingFilters.houseType.length > 0) {
+      queryParams.set("houseType", pendingFilters.houseType.join(","));
+    }
+    if (pendingFilters.preferenceHousing) {
+      queryParams.set("preferenceHousing", pendingFilters.preferenceHousing);
+    }
+    if (pendingFilters.genderPreference) {
+      queryParams.set("genderPreference", pendingFilters.genderPreference);
+    }
+
+    if (selectedCategory === "House") {
+      queryParams.set("residential", "House");
+      queryParams.delete("commercial");
+    } else if (selectedCategory === "Flats") {
+      queryParams.set("residential", "Flat");
+      queryParams.delete("commercial");
+    } else if (selectedCategory === "PG") {
+      queryParams.set("residential", "PG");
+      queryParams.delete("commercial");
+    }
+
+    navigate(`?${queryParams.toString()}`);
     setCurrentPage(1);
     fetchAndFilterProperties(city, selectedArea, selectedLocality);
     SetIsOpen(false);
   };
 
   const handleCategoryClick = (category) => {
-    // Just toggle the subfilter view for PG, Flats, House
     if (["PG", "Flats", "House"].includes(category)) {
       setSelectedCategory(selectedCategory === category ? null : category);
       return;
     }
 
-    // For other categories (Office, Shops, Warehouse), apply filters immediately
     setSelectedCategory(null);
 
     const queryParams = new URLSearchParams();
@@ -83,13 +96,10 @@ const Filters = ({
       queryParams.delete("residential");
     }
 
-    // Always clear gender preference when switching
     queryParams.delete("genderPreference");
 
-    // Navigate to update the URL
     navigate(`?${queryParams.toString()}`);
 
-    // Reset filters (since these categories don't have subfilters)
     setFilters({
       bhk: [],
       residential: [],
@@ -99,7 +109,6 @@ const Filters = ({
       houseType: [],
     });
 
-    // Optionally trigger result fetch for these direct categories
     setCurrentPage(1);
     fetchAndFilterProperties(city, selectedArea, selectedLocality);
     SetIsOpen(false);
@@ -111,14 +120,13 @@ const Filters = ({
         className={`${
           isOpen ? "block" : "hidden"
         }w-full lg:w-fit  lg:bg-white  bg-[#232323] p-4 lg:p-1 top-full left-0 mt-1 
- shadow-sm lg:rounded-xl`}
+shadow-sm lg:rounded-xl`}
       >
         <div className="lg:hidden flex justify-between gap-1 pb-4">
           <p className="text-xl">Select Our Service</p>
-          {/* Close Button for Small Screens */}
           <button
             className="relative  right-2 text-white text-xl lg:hidden"
-            onClick={(e) => SetIsOpen(false)}
+            onClick={() => SetIsOpen(false)}
           >
             ✖
           </button>
@@ -155,7 +163,7 @@ const Filters = ({
           ))}
         </div>
       </div>
-
+      {/* --- */}
       {selectedCategory === "House" && (
         <div className=" w-full lg:bg-white bg-[#232323]  pt-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl ">
           <div className="flex flex-col flex-wrap gap-5 lg:gap-4">
@@ -257,31 +265,7 @@ const Filters = ({
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  setFilters(pendingFilters);
-                  let queryParams = new URLSearchParams();
-                  queryParams.set("residential", "House");
-                  queryParams.delete("commercial");
-
-                  if (filters.bhk.length > 0)
-                    queryParams.set("bhk", filters.bhk.join(","));
-                  if (filters.houseType.length > 0)
-                    queryParams.set("houseType", filters.houseType.join(","));
-                  if (filters.preferenceHousing)
-                    queryParams.set(
-                      "preferenceHousing",
-                      filters.preferenceHousing
-                    );
-
-                  navigate(`?${queryParams.toString()}`);
-                  setCurrentPage(1);
-                  fetchAndFilterProperties(
-                    city,
-                    selectedArea,
-                    selectedLocality
-                  );
-                  SetIsOpen(false);
-                }}
+                onClick={seeResults}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
               >
                 Done
@@ -290,7 +274,7 @@ const Filters = ({
           </div>
         </div>
       )}
-
+      {/* --- */}
       {selectedCategory === "Flats" && (
         <div className="w-full lg:bg-white bg-[#232323]  py-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl">
           <div className="flex flex-col lg:gap-4 gap-5 ">
@@ -391,31 +375,7 @@ const Filters = ({
                 Clear
               </button>
               <button
-                onClick={() => {
-                  setFilters(pendingFilters);
-                  let queryParams = new URLSearchParams();
-                  queryParams.set("residential", "Flat");
-                  queryParams.delete("commercial");
-
-                  if (filters.bhk.length > 0)
-                    queryParams.set("bhk", filters.bhk.join(","));
-                  if (filters.houseType.length > 0)
-                    queryParams.set("houseType", filters.houseType.join(","));
-                  if (filters.preferenceHousing)
-                    queryParams.set(
-                      "preferenceHousing",
-                      filters.preferenceHousing
-                    );
-
-                  navigate(`?${queryParams.toString()}`);
-                  setCurrentPage(1);
-                  fetchAndFilterProperties(
-                    city,
-                    selectedArea,
-                    selectedLocality
-                  );
-                  SetIsOpen(false);
-                }}
+                onClick={seeResults}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
               >
                 Done
@@ -424,7 +384,7 @@ const Filters = ({
           </div>
         </div>
       )}
-
+      {/* --- */}
       {selectedCategory === "PG" && (
         <div className="w-full lg:bg-white bg-[#232323]  py-2 shadow-md sm:ml-4 lg:ml-8 lg:my-2 lg:rounded-xl">
           <div className="flex flex-col gap-4">
@@ -464,27 +424,7 @@ const Filters = ({
                 Clear
               </button>
               <button
-                onClick={() => {
-                  setFilters(pendingFilters);
-                  // When Done is clicked, apply the PG filter and gender preference
-                  let queryParams = new URLSearchParams();
-                  queryParams.set("residential", "PG");
-                  queryParams.delete("commercial");
-                  if (filters.genderPreference) {
-                    queryParams.set(
-                      "genderPreference",
-                      filters.genderPreference
-                    );
-                  }
-                  navigate(`?${queryParams.toString()}`);
-                  setCurrentPage(1);
-                  fetchAndFilterProperties(
-                    city,
-                    selectedArea,
-                    selectedLocality
-                  );
-                  SetIsOpen(false);
-                }}
+                onClick={seeResults}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
               >
                 Done

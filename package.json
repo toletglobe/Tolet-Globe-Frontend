@@ -50,7 +50,7 @@
     "react-select": "^5.10.1",
     "react-slick": "^0.30.2",
     "react-spinners": "^0.14.1",
-    "react-toastify": "^10.0.5",
+    "react-toastify": "^10.0.6",
     "reactjs-popup": "^2.0.6",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
