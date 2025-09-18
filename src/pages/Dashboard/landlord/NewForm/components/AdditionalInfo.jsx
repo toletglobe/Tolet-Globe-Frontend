@@ -1,6 +1,6 @@
 import Select from "react-select";
 import Pricing from "../PricngCard";
-import { useState,useRef,useLayoutEffect } from "react";
+import { useState } from "react";
 
 const MAX_VISIBLE = 3; // show only 3 chips at a time
 const CustomMultiValueContainer = (props) => {
@@ -35,6 +35,7 @@ const CustomMultiValueContainer = (props) => {
 
 const AdditionalInfo = ({ formData, setFormData }) => {
   const { propertyType } = formData;
+
   const [applianceIndex, setApplianceIndex] = useState(0);
   const [amenitiesIndex, setAmenitiesIndex] = useState(0);
   
@@ -106,8 +107,7 @@ const customSelectStyles = {
   }),
 };
 
- 
-  
+
   const preferenceOptions = [
     { value: "Bachelors", label: "Bachelors" },
     { value: "Family", label: "Family" },
@@ -141,12 +141,12 @@ const customSelectStyles = {
   ];
 
   const ownerLocationOptions = [
-    { value: "Lives in same property", label: "Lives in same property" },
+    { value: "Owner Lives in same property", label: "Owner Lives in same property" },
     {
-      value: "Lives in different property",
-      label: "Lives in different property",
+      value: "Owner Lives in different property",
+      label: "Owner Lives in different property",
     },
-    { value: "Lives in different city", label: "Lives in different city" },
+    { value: "Owner Lives in different city", label: "Owner Lives in different city" },
   ];
 
   const appliancesOptions = [
@@ -436,9 +436,7 @@ const customSelectStyles = {
                 options={washroomOptions}
               />
             </div>
-
-            
-          {/* Appliances */}
+ {/* Appliances */}
 <div>
   <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
     Appliances
@@ -767,111 +765,57 @@ const customSelectStyles = {
                 options={washroomOptions}
               />
             </div>
- {/* Appliances */}
-{/* Appliances */}
-<div>
-  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-    Appliances
-  </label>
-  <div className="mt-5 flex items-center">
-    <button
-      className="text-white text-3xl p-2 z-10"
-      onClick={() =>
-        setApplianceIndex((prev) => Math.max(0, prev - 1)) // scroll left
-      }
-    >
-      &lt;
-    </button>
-    <div className="flex-1">
-      <Select
-        styles={customSelectStyles}
-        placeholder={"Choose your Appliances"}
-        value={
-          formData.appliances && Array.isArray(formData.appliances)
-            ? formData.appliances
-                .map((item) => appliancesOptions.find((opt) => opt.value === item))
-                .filter(Boolean)
-            : []
-        }
-        options={appliancesOptions}
-        onChange={handleAppliancesChangeCarousel}
-        isMulti
-        components={{ MultiValueContainer: CustomMultiValueContainer }}
-        startIndex={applianceIndex} // 👈 window start
-        onRemove={(option) => {
-          const newVals = formData.appliances.filter((a) => a !== option.value);
-          setFormData({ ...formData, appliances: newVals });
-        }}
-      />
-    </div>
-    <button
-      className="text-white text-3xl p-2 z-10"
-      onClick={() =>
-        setApplianceIndex((prev) =>
-          Math.min(
-            Math.max(0, (formData.appliances?.length || 0) - MAX_VISIBLE),
-            prev + 1
-          )
-        ) // scroll right
-      }
-    >
-      &gt;
-    </button>
-  </div>
-</div>
 
-{/* Amenities */}
-<div>
-  <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
-    Amenities
-  </label>
-  <div className="mt-5 flex items-center">
-    <button
-      className="text-white text-3xl p-2 z-10"
-      onClick={() =>
-        setAmenitiesIndex((prev) => Math.max(0, prev - 1))
-      }
-    >
-      &lt;
-    </button>
-    <div className="flex-1">
-      <Select
-        styles={customSelectStyles}
-        placeholder={"Choose your Amenities"}
-        value={
-          formData.amenities && Array.isArray(formData.amenities)
-            ? formData.amenities
-                .map((item) => amenitiesOptions.find((opt) => opt.value === item))
-                .filter(Boolean)
-            : []
-        }
-        options={amenitiesOptions}
-        onChange={handleAmenitiesChangeCarousel}
-        isMulti
-        components={{ MultiValueContainer: CustomMultiValueContainer }}
-        startIndex={amenitiesIndex}
-        onRemove={(option) => {
-          const newVals = formData.amenities.filter((a) => a !== option.value);
-          setFormData({ ...formData, amenities: newVals });
-        }}
-      />
-    </div>
-    <button
-      className="text-white text-3xl p-2 z-10"
-      onClick={() =>
-        setAmenitiesIndex((prev) =>
-          Math.min(
-            Math.max(0, (formData.amenities?.length || 0) - MAX_VISIBLE),
-            prev + 1
-          )
-        )
-      }
-    >
-      &gt;
-    </button>
-  </div>
-</div>
+            {/* Appliances */}
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                Appliances
+              </label>
+              <div className="mt-5 w-[100%]  text-[#000000] text-[16px] leading-[24px] font-normal">
+                <Select
+                  styles={customSelectStyles}
+                  placeholder={"Choose your Appliances"}
+                  value={
+                    formData.appliances && Array.isArray(formData.appliances)
+                      ? formData.appliances
+                          .map((item) =>
+                            appliancesOptions.find((opt) => opt.value === item)
+                          )
+                          .filter(Boolean)
+                      : []
+                  }
+                  options={appliancesOptions}
+                  onChange={handleOnChangeAppliances}
+                  isMulti={true}
+                />
+              </div>
+            </div>
 
+            {/* Amenities */}
+            <div>
+              <label className="block mb-2 text-[#FFFFFF] text-base font-medium">
+                Amenities
+              </label>
+              <div className="mt-5 w-[100%] text-[#000000] text-[16px] leading-[24px] font-normal">
+                <Select
+                  styles={customSelectStyles}
+                  className="text-black"
+                  placeholder={"Choose your Amenities"}
+                  value={
+                    formData.amenities && Array.isArray(formData.amenities)
+                      ? formData.amenities
+                          .map((item) =>
+                            amenitiesOptions.find((opt) => opt.value === item)
+                          )
+                          .filter(Boolean)
+                      : []
+                  }
+                  options={amenitiesOptions}
+                  onChange={handleOnChangeAmenities}
+                  isMulti={true}
+                />
+              </div>
+            </div>
           </div>
 
           {/* About Property */}
