@@ -433,7 +433,7 @@ const Filters = ({
                 Preference
               </h3>
               <div className="flex flex-row gap-4 px-4">
-                {["Girls", "Boys", "Any"].map((gender) => (
+                {["Girls", "Boys", "Any", "Family", "Bachelors"].map((gender) => (
                   <label
                     key={gender}
                     className="flex items-center gap-2 cursor-pointer"
