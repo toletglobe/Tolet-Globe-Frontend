@@ -1,3 +1,4 @@
+
 import React from "react";
 // Icons
 import Bedrooms from "./assets/Features/Bedrooms.svg";
@@ -5,6 +6,12 @@ import Bathrooms from "./assets/Features/Bathrooms.svg";
 import Parking from "./assets/Features/Parking.svg";
 import SqFt from "./assets/Features/SqFt.svg";
 import Appliances from "./assets/Features/Appliances.svg";
+
+const locationLabels = {
+  same_property: "Lives on property",
+  same_city: "Lives in same city",
+  different_city: "Lives in different city"
+};
 
 const Features = ({ selectComp, property }) => {
   // Helper function to check if a value should be displayed
@@ -46,6 +53,15 @@ const Features = ({ selectComp, property }) => {
             </p>
           </div>
         )}
+
+                {shouldDisplay(property.ownerLocation) && (
+  <div className="border flex justify-between rounded-lg border-black p-2 w-full sm:w-fit items-center px-3 py-1">
+    <img src={Bedrooms} className="h-6 w-6 mr-4 my-auto" />
+    <p className="inline font-normal text-sm md:text-md lg:text-lg">
+      {locationLabels[property.ownerLocation] || "Unknown location"}
+    </p>
+  </div>
+)}
 
         {shouldDisplay(property.carParking) && (
           <div className="border flex justify-between rounded-lg border-black p-2 w-full sm:w-fit items-center px-3 py-1">
